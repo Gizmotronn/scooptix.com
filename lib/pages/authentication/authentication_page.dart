@@ -113,7 +113,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                       color: Color(0xFFf8f8f8),
@@ -344,69 +346,138 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                             SizedBox(
                               height: elementSpacing,
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
-                                  child: ReactiveTextField(
-                                    formControlName: 'dobDay',
-                                    keyboardType: TextInputType.number,
-                                    validationMessages: (control) => {
-                                      ValidationMessage.required: 'Please provide a day',
-                                      ValidationMessage.max: 'Please provide a valid day',
-                                    },
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: "DD",
-                                      labelText: 'Day',
+                            ResponsiveBuilder(builder: (context, constraints) {
+                              if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                                  constraints.deviceScreenType == DeviceScreenType.watch) {
+                                return Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding),
+                                      child: ReactiveTextField(
+                                        formControlName: 'dobDay',
+                                        keyboardType: TextInputType.number,
+                                        validationMessages: (control) => {
+                                          ValidationMessage.required: 'Please provide a day',
+                                          ValidationMessage.max: 'Please provide a valid day',
+                                        },
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "DD",
+                                          labelText: 'Day',
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
-                                  child: ReactiveTextField(
-                                    formControlName: 'dobMonth',
-                                    validationMessages: (control) => {
-                                      ValidationMessage.required: 'Please provide a month',
-                                      ValidationMessage.max: 'Please provide a valid month',
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: "MM",
-                                      labelText: 'Month',
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding),
+                                      child: ReactiveTextField(
+                                        formControlName: 'dobMonth',
+                                        validationMessages: (control) => {
+                                          ValidationMessage.required: 'Please provide a month',
+                                          ValidationMessage.max: 'Please provide a valid month',
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "MM",
+                                          labelText: 'Month',
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
-                                  child: ReactiveTextField(
-                                    formControlName: 'dobYear',
-                                    validationMessages: (control) => {
-                                      ValidationMessage.required: 'Please provide a year',
-                                      ValidationMessage.max: 'Please provide a valid year',
-                                      ValidationMessage.min: 'Please provide a valid year',
-                                    },
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                    ],
-                                    decoration: InputDecoration(
-                                      border: OutlineInputBorder(),
-                                      hintText: "YYYY",
-                                      labelText: 'Year',
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding),
+                                      child: ReactiveTextField(
+                                        formControlName: 'dobYear',
+                                        validationMessages: (control) => {
+                                          ValidationMessage.required: 'Please provide a year',
+                                          ValidationMessage.max: 'Please provide a valid year',
+                                          ValidationMessage.min: 'Please provide a valid year',
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "YYYY",
+                                          labelText: 'Year',
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                                  ],
+                                );
+                              } else {
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
+                                      child: ReactiveTextField(
+                                        formControlName: 'dobDay',
+                                        keyboardType: TextInputType.number,
+                                        validationMessages: (control) => {
+                                          ValidationMessage.required: 'Please provide a day',
+                                          ValidationMessage.max: 'Please provide a valid day',
+                                        },
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "DD",
+                                          labelText: 'Day',
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
+                                      child: ReactiveTextField(
+                                        formControlName: 'dobMonth',
+                                        validationMessages: (control) => {
+                                          ValidationMessage.required: 'Please provide a month',
+                                          ValidationMessage.max: 'Please provide a valid month',
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "MM",
+                                          labelText: 'Month',
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
+                                      child: ReactiveTextField(
+                                        formControlName: 'dobYear',
+                                        validationMessages: (control) => {
+                                          ValidationMessage.required: 'Please provide a year',
+                                          ValidationMessage.max: 'Please provide a valid year',
+                                          ValidationMessage.min: 'Please provide a valid year',
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                        ],
+                                        decoration: InputDecoration(
+                                          border: OutlineInputBorder(),
+                                          hintText: "YYYY",
+                                          labelText: 'Year',
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }),
                             SizedBox(
                               height: elementSpacing * 2,
                             ),
@@ -417,34 +488,68 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                             SizedBox(
                               height: elementSpacing,
                             ),
-                            Row(
-                              children: [
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
-                                  child: ReactiveRadioListTile(
-                                    title: Text('Female'),
-                                    value: 0,
-                                    formControlName: 'gender',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
-                                  child: ReactiveRadioListTile(
-                                    title: Text('Male'),
-                                    value: 1,
-                                    formControlName: 'gender',
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
-                                  child: ReactiveRadioListTile(
-                                    title: Text('Other'),
-                                    value: 2,
-                                    formControlName: 'gender',
-                                  ),
-                                ),
-                              ],
-                            ),
+                            ResponsiveBuilder(builder: (context, constraints) {
+                              if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                                  constraints.deviceScreenType == DeviceScreenType.watch) {
+                                return Column(
+                                  children: [
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2),
+                                      child: ReactiveRadioListTile(
+                                        title: Text('Female'),
+                                        value: 0,
+                                        formControlName: 'gender',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding),
+                                      child: ReactiveRadioListTile(
+                                        title: Text('Male'),
+                                        value: 1,
+                                        formControlName: 'gender',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2),
+                                      child: ReactiveRadioListTile(
+                                        title: Text('Other'),
+                                        value: 2,
+                                        formControlName: 'gender',
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Row(
+                                  children: [
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
+                                      child: ReactiveRadioListTile(
+                                        title: Text('Female'),
+                                        value: 0,
+                                        formControlName: 'gender',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
+                                      child: ReactiveRadioListTile(
+                                        title: Text('Male'),
+                                        value: 1,
+                                        formControlName: 'gender',
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (MyTheme.maxWidth - cardPadding * 2 - 30) / 3,
+                                      child: ReactiveRadioListTile(
+                                        title: Text('Other'),
+                                        value: 2,
+                                        formControlName: 'gender',
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }),
                           ],
                         )),
                   ),
@@ -530,7 +635,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
           ),
         ),
         onPressed: () {
-          if (form.valid && _pwController.text.length >= 8) {
+          if (form.valid && (state is StateNewSSOUser || _pwController.text.length >= 8)) {
             try {
               if (state is StateNewSSOUser) {
                 _emailController.text = state.email;
@@ -594,13 +699,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 labelStyle: MyTheme.mainTT.bodyText2,
                 suffixIcon: state is StateLoadingUserData
                     ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
-                      )
+                  padding: const EdgeInsets.all(8.0),
+                  child: CircularProgressIndicator(),
+                )
                     : Container(
-                        height: 0,
-                        width: 0,
-                      )),
+                  height: 0,
+                  width: 0,
+                )),
             autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
             validator: (v) => val.Validator.validateEmail(_emailController.text),
           ),
@@ -674,19 +779,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               borderRadius: BorderRadius.all(Radius.circular(10)),
               child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
                   loadStateChanged: (ExtendedImageState state) {
-                switch (state.extendedImageLoadState) {
-                  case LoadState.loading:
-                    return Container(
-                      color: Colors.white,
-                    );
-                  case LoadState.completed:
-                    return state.completedWidget;
-                  default:
-                    return Container(
-                      color: Colors.white,
-                    );
-                }
-              }),
+                    switch (state.extendedImageLoadState) {
+                      case LoadState.loading:
+                        return Container(
+                          color: Colors.white,
+                        );
+                      case LoadState.completed:
+                        return state.completedWidget;
+                      default:
+                        return Container(
+                          color: Colors.white,
+                        );
+                    }
+                  }),
             ),
           ).appolloCard,
         ),
@@ -715,19 +820,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             borderRadius: BorderRadius.all(Radius.circular(10)),
             child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
                 loadStateChanged: (ExtendedImageState state) {
-              switch (state.extendedImageLoadState) {
-                case LoadState.loading:
-                  return Container(
-                    color: Colors.white,
-                  );
-                case LoadState.completed:
-                  return state.completedWidget;
-                default:
-                  return Container(
-                    color: Colors.white,
-                  );
-              }
-            }),
+                  switch (state.extendedImageLoadState) {
+                    case LoadState.loading:
+                      return Container(
+                        color: Colors.white,
+                      );
+                    case LoadState.completed:
+                      return state.completedWidget;
+                    default:
+                      return Container(
+                        color: Colors.white,
+                      );
+                  }
+                }),
           ),
         ),
         SizedBox(
