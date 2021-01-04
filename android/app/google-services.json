@@ -1,0 +1,143 @@
+{
+  "project_info": {
+    "project_number": "325355278765",
+    "firebase_url": "https://appollo-devops.firebaseio.com",
+    "project_id": "appollo-devops",
+    "storage_bucket": "appollo-devops.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325355278765:android:739d39c540eeb40fdb9124",
+        "android_client_info": {
+          "package_name": "com.example.webapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325355278765-t612nkgvdssouvlbn002qfbmj3g7jh4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYOq-PQx9-43VIq37UblH7ekW-C4XutcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325355278765-t612nkgvdssouvlbn002qfbmj3g7jh4g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "325355278765-sg9snnnsg7a91rlrm59cgod2e54o1nvs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appollogroup.appollo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325355278765:android:0fd0d29f726b6039db9124",
+        "android_client_info": {
+          "package_name": "dev.database_editor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325355278765-t612nkgvdssouvlbn002qfbmj3g7jh4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYOq-PQx9-43VIq37UblH7ekW-C4XutcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325355278765-t612nkgvdssouvlbn002qfbmj3g7jh4g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "325355278765-sg9snnnsg7a91rlrm59cgod2e54o1nvs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appollogroup.appollo"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325355278765:android:34c550ba9c7b6428",
+        "android_client_info": {
+          "package_name": "live.appollo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325355278765-uq7jpi3ek3j2ad44d8bv8i4i9keal8vj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "live.appollo",
+            "certificate_hash": "e83f9ae332700c91fc8293b9435f11192e07aa64"
+          }
+        },
+        {
+          "client_id": "325355278765-gf380di109trg4qoekj46hscukk19p3s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "live.appollo",
+            "certificate_hash": "31b750713213b960b50e8ecd5e4133ab49031057"
+          }
+        },
+        {
+          "client_id": "325355278765-pvpf06m2gn0d63nrrg2d0d54utj5cm5e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "live.appollo",
+            "certificate_hash": "cee765bc4874341578c9351b4a01050f1e538b81"
+          }
+        },
+        {
+          "client_id": "325355278765-t612nkgvdssouvlbn002qfbmj3g7jh4g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYOq-PQx9-43VIq37UblH7ekW-C4XutcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325355278765-t612nkgvdssouvlbn002qfbmj3g7jh4g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "325355278765-sg9snnnsg7a91rlrm59cgod2e54o1nvs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.appollogroup.appollo"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
