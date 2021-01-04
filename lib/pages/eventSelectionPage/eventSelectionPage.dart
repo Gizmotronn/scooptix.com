@@ -20,7 +20,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
     Intl.defaultLocale = 'en_AU';
     initializeDateFormatting('en_AU', null);
     final uri = Uri.parse(window.location.href);
-    String uuid = "7af533e8-22eb-4a52-bbec-896f89ed4092";
+    String uuid = "f09dfcbe-431c-4c95-bc92-c8fba56ed94a";
     if (uri.queryParameters.containsKey("id")) {
       uuid = uri.queryParameters["id"];
     }

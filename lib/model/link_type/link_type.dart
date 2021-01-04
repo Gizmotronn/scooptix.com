@@ -4,7 +4,7 @@ enum LinkTypes { Promoter, BirthdayList, Ticket }
 
 extension InvitationTypeExtension on LinkTypes {
   String toDBString() {
-    return this.toString().split(".")[0].toLowerCase();
+    return this.toString().split(".")[1].toLowerCase();
   }
 
   String toDisplayString() {

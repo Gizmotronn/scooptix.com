@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:webapp/model/event.dart';
+import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/repositories/user_repository.dart';
@@ -85,7 +86,10 @@ class EventsRepository {
               ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
           case LinkTypes.BirthdayList:
-            // TODO: Handle this case.
+            linkType = BirthdayList()
+              ..uuid = uuid
+              ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
+              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
           case LinkTypes.Ticket:
             // TODO: Handle this case.
