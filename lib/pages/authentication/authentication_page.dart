@@ -113,6 +113,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               child: SingleChildScrollView(
                 child: Column(
                   children: [
+                    SizedBox(height: 20,),
                     Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                       color: Color(0xFFf8f8f8),
