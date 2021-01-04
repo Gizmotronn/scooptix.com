@@ -70,7 +70,12 @@ class UserRepository {
   }
 
   Future<Promoter> loadPromoter(String uid) async {
-    DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('promoters').doc(uid).get();
-    return Promoter.fromMap(userSnapshot.id, userSnapshot.data());
+    DocumentSnapshot promoterSnapshot = await FirebaseFirestore.instance.collection('promoters').doc(uid).get();
+    if (promoterSnapshot.exists) {
+      return Promoter.fromMap(promoterSnapshot.id, promoterSnapshot.data());
+    } else {
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      return Promoter.fromMap(userSnapshot.id, userSnapshot.data());
+    }
   }
 }
