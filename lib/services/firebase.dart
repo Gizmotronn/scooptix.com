@@ -16,7 +16,7 @@ class FBServices {
   auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
   Future<bool> isEmailInUse(String email) async {
-    if (!email.contains("@") || email.split(".").length != 2 || email.split(".")[1].length < 2) {
+    if (!email.contains("@") || email.split(".").length < 2) {
       return null;
     }
     try {
