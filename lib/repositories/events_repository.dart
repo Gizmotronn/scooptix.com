@@ -95,7 +95,6 @@ class EventsRepository {
             // TODO: Handle this case.
             break;
         }
-
         return linkType;
       } else {
         return null;

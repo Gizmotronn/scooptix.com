@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:webapp/model/event.dart';
 import 'package:webapp/model/link_type/invitation.dart';
+import 'package:webapp/model/link_type/link_type.dart';
+import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/ticket.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:http/http.dart' as http;
@@ -45,6 +47,8 @@ class TicketRepository {
     }
   }
 
+  /// Creates a tickets for the user and stores it in the user's 'ticket' subcollection and in the ticketevent's 'tickets' subcollection
+  /// Calls a cloud function to handle the confirmation email.
   acceptInvitation(Invitation invitation) async {
     try {
       Ticket ticket = Ticket()
@@ -91,6 +95,8 @@ class TicketRepository {
         "venuename": invitation.event.venueName,
       });
 
+      incrementPromoterLinkOpenedAcceptedCounter(invitation);
+
       http.Response response;
       try {
         response = await http.post("https://appollo-devops.web.app/ticketConfirmation", body: {
@@ -108,6 +114,34 @@ class TicketRepository {
     } catch (e) {
       print(e);
       return null;
+    }
+  }
+
+  incrementPromoterLinkOpenedCounter(LinkType linkType) async {
+    try {
+      if (linkType is PromoterInvite) {
+        FirebaseFirestore.instance.collection("promoters").doc(linkType.promoter.docId).set({
+          "events": {
+            linkType.event.docID: {"linkOpened": FieldValue.increment(1)}
+          }
+        }, SetOptions(merge: true));
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  incrementPromoterLinkOpenedAcceptedCounter(LinkType linkType) async {
+    try {
+      if (linkType is PromoterInvite) {
+        FirebaseFirestore.instance.collection("promoters").doc(linkType.promoter.docId).set({
+          "events": {
+            linkType.event.docID: {"acceptedInvites": FieldValue.increment(1)}
+          }
+        }, SetOptions(merge: true));
+      }
+    } catch (e) {
+      print(e);
     }
   }
 }

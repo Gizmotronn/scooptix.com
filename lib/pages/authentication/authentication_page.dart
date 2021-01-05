@@ -16,6 +16,7 @@ import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/accept_invitation/accept_invitation_page.dart';
+import 'package:webapp/repositories/ticket_repository.dart';
 import 'package:webapp/services/string_formatter.dart';
 import 'package:webapp/services/validator.dart' as val;
 import 'package:webapp/utilities/alertGenerator.dart';
@@ -69,6 +70,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     });
 
     signUpBloc = AuthenticationBloc(widget.linkType);
+    TicketRepository.instance.incrementPromoterLinkOpenedCounter(widget.linkType);
     super.initState();
   }
 
@@ -699,13 +701,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 labelStyle: MyTheme.mainTT.bodyText2,
                 suffixIcon: state is StateLoadingUserData
                     ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircularProgressIndicator(),
-                )
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircularProgressIndicator(),
+                      )
                     : Container(
-                  height: 0,
-                  width: 0,
-                )),
+                        height: 0,
+                        width: 0,
+                      )),
             autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
             validator: (v) => val.Validator.validateEmail(_emailController.text),
           ),
@@ -779,19 +781,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               borderRadius: BorderRadius.all(Radius.circular(10)),
               child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
                   loadStateChanged: (ExtendedImageState state) {
-                    switch (state.extendedImageLoadState) {
-                      case LoadState.loading:
-                        return Container(
-                          color: Colors.white,
-                        );
-                      case LoadState.completed:
-                        return state.completedWidget;
-                      default:
-                        return Container(
-                          color: Colors.white,
-                        );
-                    }
-                  }),
+                switch (state.extendedImageLoadState) {
+                  case LoadState.loading:
+                    return Container(
+                      color: Colors.white,
+                    );
+                  case LoadState.completed:
+                    return state.completedWidget;
+                  default:
+                    return Container(
+                      color: Colors.white,
+                    );
+                }
+              }),
             ),
           ).appolloCard,
         ),
@@ -820,19 +822,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             borderRadius: BorderRadius.all(Radius.circular(10)),
             child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
                 loadStateChanged: (ExtendedImageState state) {
-                  switch (state.extendedImageLoadState) {
-                    case LoadState.loading:
-                      return Container(
-                        color: Colors.white,
-                      );
-                    case LoadState.completed:
-                      return state.completedWidget;
-                    default:
-                      return Container(
-                        color: Colors.white,
-                      );
-                  }
-                }),
+              switch (state.extendedImageLoadState) {
+                case LoadState.loading:
+                  return Container(
+                    color: Colors.white,
+                  );
+                case LoadState.completed:
+                  return state.completedWidget;
+                default:
+                  return Container(
+                    color: Colors.white,
+                  );
+              }
+            }),
           ),
         ),
         SizedBox(
