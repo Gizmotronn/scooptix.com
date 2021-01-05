@@ -27,11 +27,11 @@ class EventsRepository {
     print(id);
     DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
     // DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
-    QuerySnapshot ticketReleasesSnapshot =
+    /* QuerySnapshot ticketReleasesSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("ticket_releases").get();
     QuerySnapshot releaseManagerSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get();
-
+*/
     Event event = Event.fromMap(eventSnapshot.id, eventSnapshot.data());
 
     /*ticketReleasesSnapshot.docs.forEach((element) {

@@ -28,7 +28,12 @@ class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationS
     yield StateLoading(message: "Fetching your invitation data, this won't take long ...");
     Ticket ticket = await TicketRepository.instance.loadTicket(uid, event);
     if (ticket == null) {
-      yield StateInvitationPending();
+      bool ticketsLeft = await TicketRepository.instance.freeTicketsLeft(event.docID);
+      if (ticketsLeft) {
+        yield StateInvitationPending();
+      } else {
+        yield StateNoTicketsLeft();
+      }
     } else {
       yield StateTicketAlreadyIssued(ticket);
     }

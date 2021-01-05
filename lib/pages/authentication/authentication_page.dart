@@ -115,9 +115,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: 20,
-                    ),
+                    ResponsiveBuilder(builder: (context, constraints) {
+                      if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                          constraints.deviceScreenType == DeviceScreenType.watch) {
+                        return Container();
+                      } else {
+                        return SizedBox(
+                          height: 20,
+                        );
+                      }
+                    }),
                     Card(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
                       color: Color(0xFFf8f8f8),
@@ -938,7 +945,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                           WebsafeSvg.asset(
                             "assets/icons/google.svg",
                             height: 18,
-                            width: 8,
+                            width: 18,
                           ),
                           SizedBox(
                             width: 12,

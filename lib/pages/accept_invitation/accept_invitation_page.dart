@@ -44,7 +44,7 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    AutoSizeText("Planning to attend? Press the button below and we'll put you on the guestlist",
+                    AutoSizeText("Planning to attend? Press the button below and we'll put you on the guest list",
                         style: MyTheme.mainTT.subtitle1),
                     SizedBox(
                       height: 12,
@@ -74,7 +74,7 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    AutoSizeText("You're on the guestlist!", style: MyTheme.mainTT.subtitle1),
+                    AutoSizeText("You're on the guest list!", style: MyTheme.mainTT.subtitle1),
                     SizedBox(
                       height: 12,
                     ),
@@ -93,14 +93,14 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                 child: Column(
                   children: [
                     AutoSizeText(
-                      "You're already on the guestlist!",
+                      "You're already on the guest list!",
                       style: MyTheme.mainTT.subtitle1,
                     ),
                     SizedBox(
                       height: 12,
                     ),
                     AutoSizeText(
-                        "Seems like you're already on the guestlist. Your ticket was sent to ${UserRepository.instance.currentUser.email}, on ${DateFormat.yMd().format(state.ticket.dateIssued)} ${DateFormat.Hm().format(state.ticket.dateIssued)}, please make sure to check your spam folder."),
+                        "Seems like you're already on the guest list. Your ticket was sent to ${UserRepository.instance.currentUser.email}, on ${DateFormat.yMd().format(state.ticket.dateIssued)} ${DateFormat.Hm().format(state.ticket.dateIssued)}, please make sure to check your spam folder."),
                   ],
                 ),
               )).appolloCard,
@@ -118,7 +118,24 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                       height: 12,
                     ),
                     AutoSizeText(
-                        "Something went wrong on our end. Please reload the page an try again. If this continues to happen, please contact us: contact@appollo.io"),
+                        "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io"),
+                  ],
+                ),
+              )).appolloCard,
+            );
+          } else if (state is StateNoTicketsLeft) {
+            return SizedBox(
+              width: MyTheme.maxWidth,
+              child: Card(
+                  child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    AutoSizeText("It looks like there are no more tickets left."),
                   ],
                 ),
               )).appolloCard,

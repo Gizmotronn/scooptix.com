@@ -95,7 +95,8 @@ class TicketRepository {
         "venuename": invitation.event.venueName,
       });
 
-      incrementPromoterLinkOpenedAcceptedCounter(invitation);
+      incrementPromoterLinkAcceptedCounter(invitation);
+      incrementFreeTicketCounter(invitation.event.docID);
 
       http.Response response;
       try {
@@ -117,6 +118,45 @@ class TicketRepository {
     }
   }
 
+  /// Checks if there are still free tickets left for the given event.
+  /// Will always return true if the event has unlimited free tickets.
+  Future<bool> freeTicketsLeft(String eventId) async {
+    try {
+      // There should only ever be 1 release for free events
+      QuerySnapshot releaseSnapshot = await FirebaseFirestore.instance
+          .collection("ticketevents")
+          .doc(eventId)
+          .collection("ticket_releases")
+          .limit(1)
+          .get();
+      // If there are 0, this event offers unlimited free tickets
+      if (releaseSnapshot.size == 0) {
+        return true;
+      } else if (releaseSnapshot.docs[0].data()["tickets_bought"] < releaseSnapshot.docs[0].data()["max_tickets"]) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  /// Increments the bought_ticket counter for free events
+  Future<void> incrementFreeTicketCounter(String eventId) async {
+    QuerySnapshot releaseSnapshot = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(eventId)
+        .collection("ticket_releases")
+        .limit(1)
+        .get();
+    // If this event offers unlimited free tickets, there won't be a ticket_release
+    if (releaseSnapshot.size == 1) {
+      releaseSnapshot.docs[0].reference.set({"tickets_bought": FieldValue.increment(1)}, SetOptions(merge: true));
+    }
+  }
+
   incrementPromoterLinkOpenedCounter(LinkType linkType) async {
     try {
       if (linkType is PromoterInvite) {
@@ -131,7 +171,7 @@ class TicketRepository {
     }
   }
 
-  incrementPromoterLinkOpenedAcceptedCounter(LinkType linkType) async {
+  incrementPromoterLinkAcceptedCounter(LinkType linkType) async {
     try {
       if (linkType is PromoterInvite) {
         FirebaseFirestore.instance.collection("promoters").doc(linkType.promoter.docId).set({
