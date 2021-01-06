@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:webapp/model/user.dart';
 
 class FBServices {
   static FBServices _instance;
@@ -34,21 +35,33 @@ class FBServices {
   }
 
   Future<String> createNewUser(
-      String email, String password, String firstName, String lastName, DateTime dob, int gender, String uid) async {
+      String email, String password, String firstName, String lastName, DateTime dob, Gender gender, String uid) async {
     try {
       if (uid == null) {
         auth.UserCredential authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
         auth.User fbuser = authResult.user;
 
-        await FirebaseFirestore.instance.collection('users').doc(fbuser.uid).set(
-            {'firstname': firstName, 'lastname': lastName, 'email': email, 'role': "1", 'dob': dob, 'gender': gender});
+        await FirebaseFirestore.instance.collection('users').doc(fbuser.uid).set({
+          'firstname': firstName,
+          'lastname': lastName,
+          'email': email,
+          'role': "1",
+          'dob': dob,
+          'gender': gender.toDBString()
+        });
 
         fbuser.sendEmailVerification();
 
         return fbuser.uid;
       } else {
-        await FirebaseFirestore.instance.collection('users').doc(uid).set(
-            {'firstname': firstName, 'lastname': lastName, 'email': email, 'role': "1", 'dob': dob, 'gender': gender});
+        await FirebaseFirestore.instance.collection('users').doc(uid).set({
+          'firstname': firstName,
+          'lastname': lastName,
+          'email': email,
+          'role': "1",
+          'dob': dob,
+          'gender': gender.toDBString()
+        });
         return uid;
       }
     } catch (e) {

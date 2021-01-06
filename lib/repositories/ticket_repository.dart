@@ -5,6 +5,7 @@ import 'package:webapp/model/link_type/invitation.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/ticket.dart';
+import 'package:webapp/model/user.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:http/http.dart' as http;
 
@@ -72,6 +73,8 @@ class TicketRepository {
         "useremail": UserRepository.instance.currentUser.email,
         "firstname": UserRepository.instance.currentUser.firstname,
         "lastname": UserRepository.instance.currentUser.lastname,
+        "dob": UserRepository.instance.currentUser.dob,
+        "gender": UserRepository.instance.currentUser.gender.toDBString(),
         "promoter": invitation.promoter.docId,
         "onWaitList": false,
         "venuename": invitation.event.venueName,

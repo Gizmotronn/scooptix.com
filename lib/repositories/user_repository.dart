@@ -22,7 +22,7 @@ class UserRepository {
 
   User currentUser;
 
-  Future<User> createUser(String email, String password, String firstName, String lastName, DateTime dob, int gender,
+  Future<User> createUser(String email, String password, String firstName, String lastName, DateTime dob, Gender gender,
       {String uid}) async {
     String id = await FBServices.instance.createNewUser(email, password, firstName, lastName, dob, gender, uid);
     if (id == null) {
@@ -58,7 +58,16 @@ class UserRepository {
           userSnapshot.data().containsKey("profileimage") ? userSnapshot.data()["profileimage"] : "";
       currentUser.phone = userSnapshot.data()["phone"];
       currentUser.role = userSnapshot.data()["role"];
-      currentUser.gender = userSnapshot.data()["gender"];
+      try {
+        currentUser.gender =
+            Gender.values.firstWhere((element) => element.toDBString() == userSnapshot.data()["gender"]);
+      } catch (_) {
+        try {
+          currentUser.gender = Gender.values[userSnapshot.data()["gender"]];
+        } catch (_) {
+          currentUser.gender = Gender.Unknown;
+        }
+      }
 
       return currentUser;
     }

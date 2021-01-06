@@ -1,3 +1,15 @@
+enum Gender { Female, Male, Other, Unknown }
+
+extension GenderExtension on Gender {
+  String toDBString() {
+    return this.toString().split(".")[1].toLowerCase();
+  }
+
+  String toDisplayString() {
+    return this.toString().split(".")[1];
+  }
+}
+
 class User {
   String firebaseUserID = "";
   String firstname;
@@ -6,7 +18,7 @@ class User {
   bool receiveEmails;
   DateTime dob;
   String phone;
-  int gender;
+  Gender gender;
   Map<String, dynamic> userSettings = Map<String, dynamic>();
   List<String> favourites = List<String>();
   String role;
@@ -33,6 +45,6 @@ class User {
     dob = DateTime.now();
     phone = "";
     role = "";
-    gender = -1;
+    gender = Gender.Unknown;
   }
 }

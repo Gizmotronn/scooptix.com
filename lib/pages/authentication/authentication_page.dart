@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'dart:html' as js;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
@@ -651,8 +652,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               }
               DateTime dob = DateTime(
                   form.controls["dobYear"].value, form.controls["dobMonth"].value, form.controls["dobDay"].value);
-              signUpBloc.add(EventCreateNewUserAndBirthdayList(_emailController.text, _pwController.text,
-                  form.controls["fname"].value, form.controls["lname"].value, dob, form.controls["gender"].value));
+              signUpBloc.add(EventCreateNewUser(_emailController.text, _pwController.text, form.controls["fname"].value,
+                  form.controls["lname"].value, dob, form.controls["gender"].value));
             } catch (_) {}
           } else {
             form.markAllAsTouched();
@@ -886,6 +887,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   }
 
   _buildSSO(AuthenticationState state, Size screenSize) {
+    if ((js.window.navigator.userAgent.contains("iPhone") && !js.window.navigator.userAgent.contains("Safari")) ||
+        js.window.navigator.userAgent.contains("wv")) {
+      return Container();
+    }
     if (state is StateLoadingSSO) {
       return SizedBox(
         height: 180,

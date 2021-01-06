@@ -34,7 +34,7 @@ class EventSignUpPressed extends AuthenticationEvent {
   const EventSignUpPressed(this.firstName, this.lastName, this.email, this.pw);
 }
 
-class EventCreateNewUserAndBirthdayList extends AuthenticationEvent {
+class EventCreateNewUser extends AuthenticationEvent {
   final String email;
   final String pw;
   final String firstName;
@@ -42,5 +42,5 @@ class EventCreateNewUserAndBirthdayList extends AuthenticationEvent {
   final DateTime dob;
   final int gender;
 
-  const EventCreateNewUserAndBirthdayList(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender);
+  const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender);
 }

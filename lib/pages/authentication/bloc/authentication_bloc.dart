@@ -28,7 +28,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield* _checkUserStatus(event.email);
     } else if (event is EventLoginPressed) {
       yield* _loginExistingUser(event.email, event.pw);
-    } else if (event is EventCreateNewUserAndBirthdayList) {
+    } else if (event is EventCreateNewUser) {
       yield* _createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender,
           state is StateNewSSOUser ? (state as StateNewSSOUser).uid : null);
     } else if (event is EventChangeEmail) {
@@ -74,7 +74,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield StateNewUserEmail();
     } else {
       yield StateLoadingCreateUser();
-      user = await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
+      user = await UserRepository.instance.createUser(
+          email, pw, firstName, lastName, dob, gender >= 0 && gender <= 3 ? Gender.values[gender] : Gender.Unknown,
+          uid: uid);
       if (user == null) {
         // Notify UI about error and revert to previous state
         yield StateErrorSignUp(SignUpError.Unknown);
