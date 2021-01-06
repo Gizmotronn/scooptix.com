@@ -657,8 +657,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             } catch (_) {}
           } else {
             form.markAllAsTouched();
-            _validatePW = true;
-          }
+            setState(() {
+              _validatePW = true;
+            });          }
         },
       );
     }
