@@ -26,16 +26,20 @@ class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationS
 
   Stream<AcceptInvitationState> _checkInvitationStatus(String uid, Event event) async* {
     yield StateLoading(message: "Fetching your invitation data, this won't take long ...");
-    Ticket ticket = await TicketRepository.instance.loadTicket(uid, event);
-    if (ticket == null) {
-      bool ticketsLeft = await TicketRepository.instance.freeTicketsLeft(event.docID);
-      if (ticketsLeft) {
-        yield StateInvitationPending();
-      } else {
-        yield StateNoTicketsLeft();
-      }
+    if(!DateTime.now().difference(event.date.subtract(Duration(hours: event.cutoffTimeOffset))).isNegative){
+      yield StatePastCutoffTime();
     } else {
-      yield StateTicketAlreadyIssued(ticket);
+      Ticket ticket = await TicketRepository.instance.loadTicket(uid, event);
+      if (ticket == null) {
+        bool ticketsLeft = await TicketRepository.instance.freeTicketsLeft(event.docID);
+        if (ticketsLeft) {
+          yield StateInvitationPending();
+        } else {
+          yield StateNoTicketsLeft();
+        }
+      } else {
+        yield StateTicketAlreadyIssued(ticket);
+      }
     }
   }
 

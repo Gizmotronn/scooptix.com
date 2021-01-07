@@ -19,6 +19,8 @@ class StateInvitationPending extends AcceptInvitationState {}
 
 class StateNoTicketsLeft extends AcceptInvitationState {}
 
+class StatePastCutoffTime extends AcceptInvitationState {}
+
 class StateInvitationAccepted extends AcceptInvitationState {}
 
 class StateTicketAlreadyIssued extends AcceptInvitationState {

@@ -659,7 +659,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             form.markAllAsTouched();
             setState(() {
               _validatePW = true;
-            });          }
+            });
+          }
         },
       );
     }
@@ -1264,7 +1265,31 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               validator: (v) => val.Validator.validatePassword(v),
               autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
               onFieldSubmitted: (v) {
-                signUpBloc.add(EventLoginPressed(_emailController.text, _pwController.text));
+                if (state is StateExistingUserEmail) {
+                  signUpBloc.add(EventLoginPressed(_emailController.text, _pwController.text));
+                } else {
+                  if (form.valid && (state is StateNewSSOUser || _pwController.text.length >= 8)) {
+                    try {
+                      if (state is StateNewSSOUser) {
+                        _emailController.text = state.email;
+                      }
+                      DateTime dob = DateTime(form.controls["dobYear"].value, form.controls["dobMonth"].value,
+                          form.controls["dobDay"].value);
+                      signUpBloc.add(EventCreateNewUser(
+                          _emailController.text,
+                          _pwController.text,
+                          form.controls["fname"].value,
+                          form.controls["lname"].value,
+                          dob,
+                          form.controls["gender"].value));
+                    } catch (_) {}
+                  } else {
+                    form.markAllAsTouched();
+                    setState(() {
+                      _validatePW = true;
+                    });
+                  }
+                }
               },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
