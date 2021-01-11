@@ -71,7 +71,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     });
 
     signUpBloc = AuthenticationBloc(widget.linkType);
-    TicketRepository.instance.incrementPromoterLinkOpenedCounter(widget.linkType);
+    TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
     super.initState();
   }
 
