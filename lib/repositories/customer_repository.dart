@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/invitation.dart';
+import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
 import 'package:webapp/repositories/user_repository.dart';
 
@@ -44,26 +45,26 @@ class CustomerRepository {
     }
   }
 
-  Future<void> addCustomerAttendingAction(Invitation invitation) async {
+  Future<void> addCustomerAttendingAction(LinkType linkType) async {
     try {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection("organizers")
-          .doc(invitation.event.organizer)
+          .doc(linkType.event.organizer)
           .collection("customers")
           .doc(UserRepository.instance.currentUser.firebaseUserID)
           .get();
       DocumentReference userRef;
       if (!userSnapshot.exists) {
-        userRef = await createCustomer(invitation.event.organizer);
+        userRef = await createCustomer(linkType.event.organizer);
       } else {
         userRef = userSnapshot.reference;
       }
 
       String action;
 
-      if (invitation is BirthdayList) {
+      if (linkType is BirthdayList) {
         action = "bday_invite_accepted";
-      } else if (invitation is AdvertisementInvite) {
+      } else if (linkType is AdvertisementInvite) {
         action = "advertisement_invite_accepted";
       } else {
         action = "promoter_invite_accepted";
@@ -71,7 +72,7 @@ class CustomerRepository {
 
       userRef
           .collection("actions")
-          .add({"event": invitation.event.docID, "date": DateTime.now(), "action": action, "uuid": invitation.uuid});
+          .add({"event": linkType.event.docID, "date": DateTime.now(), "action": action, "uuid": linkType.uuid});
     } catch (e) {
       print(e);
     }

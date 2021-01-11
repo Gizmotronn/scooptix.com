@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:webapp/model/event.dart';
+import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
@@ -95,7 +96,10 @@ class EventsRepository {
             // TODO: Handle this case.
             break;
           case LinkTypes.Advertisement:
-            // TODO: Handle this case.
+            linkType = AdvertisementInvite()
+              ..uuid = uuid
+              ..advertisementId = uuidMapSnapshot.docs[0].data()["advertisement_id"]
+              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
         }
         return linkType;
