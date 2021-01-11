@@ -128,34 +128,35 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
               width: MyTheme.maxWidth,
               child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        AutoSizeText("It looks like there are no more tickets left."),
-                      ],
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
+                    SizedBox(
+                      height: 12,
                     ),
-                  )).appolloCard,
+                    AutoSizeText("It looks like there are no more tickets left."),
+                  ],
+                ),
+              )).appolloCard,
             );
           } else if (state is StatePastCutoffTime) {
             return SizedBox(
               width: MyTheme.maxWidth,
               child: Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        AutoSizeText("Looks like it's past the cutoff time for this event, no more invitations can be accepted."),
-                      ],
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
+                    SizedBox(
+                      height: 12,
                     ),
-                  )).appolloCard,
+                    AutoSizeText(
+                        "Looks like it's past the cutoff time for this event, no more invitations can be accepted."),
+                  ],
+                ),
+              )).appolloCard,
             );
           } else {
             return SizedBox(

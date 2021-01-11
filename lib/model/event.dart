@@ -12,6 +12,7 @@ class Event {
   String venueName = "";
   String ticketLink;
   String promoter;
+  String organizer;
   String contactEmail;
   String repetitionId;
   DateTime date;
@@ -52,6 +53,9 @@ class Event {
       }
       if (data.containsKey("promoter")) {
         event.promoter = data["promoter"];
+      }
+      if (data.containsKey("organizer_id")) {
+        event.organizer = data["organizer_id"];
       }
       if (data.containsKey("issignedup")) {
         event.isSignedUp = data["issignedup"];
