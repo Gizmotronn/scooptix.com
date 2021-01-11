@@ -94,6 +94,9 @@ class EventsRepository {
           case LinkTypes.Ticket:
             // TODO: Handle this case.
             break;
+          case LinkTypes.Advertisement:
+            // TODO: Handle this case.
+            break;
         }
         return linkType;
       } else {
