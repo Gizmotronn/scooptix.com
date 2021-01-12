@@ -73,6 +73,11 @@ class CustomerRepository {
       userRef
           .collection("actions")
           .add({"event": linkType.event.docID, "date": DateTime.now(), "action": action, "uuid": linkType.uuid});
+
+      userRef.set({
+        "last_action": DateTime.now(),
+        "events": FieldValue.arrayUnion([linkType.event.docID])
+      }, SetOptions(merge: true));
     } catch (e) {
       print(e);
     }
