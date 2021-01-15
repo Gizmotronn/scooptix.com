@@ -17,6 +17,7 @@ import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/accept_invitation/accept_invitation_page.dart';
+import 'package:webapp/pages/payment/payment_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
 import 'package:webapp/services/string_formatter.dart';
 import 'package:webapp/services/validator.dart' as val;
@@ -72,6 +73,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
 
     signUpBloc = AuthenticationBloc(widget.linkType);
     TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
+    signUpBloc.add(EventLoginPressed("alexanderschneider@gmx.com", "asdasdasd"));
     super.initState();
   }
 
@@ -236,7 +238,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                               cubit: signUpBloc,
                               builder: (c, state) {
                                 if (state is StateLoggedIn) {
-                                  return AcceptInvitationPage(widget.linkType).paddingTop(20);
+                                  return Column(
+                                    children: [
+                                      _buildFreeTicketCard(),
+                                      _buildPaymentCard(),
+                                    ],
+                                  );
                                 } else {
                                   return Container();
                                 }
@@ -1402,6 +1409,22 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
       );
     } else {
       return AutoSizeText("");
+    }
+  }
+
+  Widget _buildFreeTicketCard() {
+    if(widget.linkType.event.getReleasesWithFreeTickets().length != 0) {
+      return FreeTicketPage(widget.linkType).paddingTop(20);
+    } else{
+      return Container();
+    }
+  }
+
+  Widget _buildPaymentCard() {
+    if(widget.linkType.event.getReleasesWithPaidTickets().length != 0) {
+      return PaymentPage(widget.linkType.event).paddingTop(20);
+    } else{
+      return Container();
     }
   }
 }

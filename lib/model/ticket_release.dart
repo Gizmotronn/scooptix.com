@@ -6,6 +6,8 @@ class TicketRelease {
   String description = "";
   DateTime entryStart;
   DateTime entryEnd;
+  DateTime availableFrom;
+  DateTime availableUntil;
   int maxTickets = 0;
   int ticketsBought = 0;
   List<TicketType> ticketTypes = [];
@@ -28,6 +30,12 @@ class TicketRelease {
       }
       if (data.containsKey("entry_end")) {
         release.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
+      }
+      if (data.containsKey("available_from")) {
+        release.availableFrom = DateTime.fromMillisecondsSinceEpoch(data["available_from"].millisecondsSinceEpoch);
+      }
+      if (data.containsKey("available_until")) {
+        release.availableUntil = DateTime.fromMillisecondsSinceEpoch(data["available_until"].millisecondsSinceEpoch);
       }
       if (data.containsKey("max_tickets")) {
         release.maxTickets = data["max_tickets"];

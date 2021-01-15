@@ -25,9 +25,36 @@ class Event {
   bool newQPassesAllowed = false;
   bool allowsBirthdaySignUps = false;
   List<TicketRelease> releases = [];
+  List<TicketRelease> activeReleases = [];
   List<ReleaseManager> releaseManagers = [];
   int cutoffTimeOffset = 0;
   String invitationMessage = "";
+
+  List<TicketRelease> getReleasesWithFreeTickets() {
+    List<TicketRelease> releases = [];
+    activeReleases.forEach((release) {
+      for (int i = 0; i < release.ticketTypes.length; i++) {
+        if (release.ticketTypes[i].price == 0) {
+          releases.add(release);
+          break;
+        }
+      }
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getReleasesWithPaidTickets() {
+    List<TicketRelease> releases = [];
+    activeReleases.forEach((release) {
+      for (int i = 0; i < release.ticketTypes.length; i++) {
+        if (release.ticketTypes[i].price != 0) {
+          releases.add(release);
+          break;
+        }
+      }
+    });
+    return releases;
+  }
 
   factory Event.fromMap(String docId, Map<String, dynamic> data) {
     try {

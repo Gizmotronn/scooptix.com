@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
-import 'package:webapp/model/link_type/invitation.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
 import 'package:webapp/repositories/user_repository.dart';

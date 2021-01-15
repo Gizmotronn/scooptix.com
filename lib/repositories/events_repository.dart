@@ -4,6 +4,8 @@ import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
+import 'package:webapp/model/release_manager.dart';
+import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/repositories/user_repository.dart';
 
 class EventsRepository {
@@ -28,23 +30,32 @@ class EventsRepository {
     print(id);
     DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
     // DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
-    /* QuerySnapshot ticketReleasesSnapshot =
+     QuerySnapshot ticketReleasesSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("ticket_releases").get();
     QuerySnapshot releaseManagerSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get();
-*/
+
     Event event = Event.fromMap(eventSnapshot.id, eventSnapshot.data());
 
-    /*ticketReleasesSnapshot.docs.forEach((element) {
+    ticketReleasesSnapshot.docs.forEach((element) {
       event.releases.add(TicketRelease.fromMap(element.id, element.data()));
     });
+
+    event.releases.forEach((TicketRelease tr) {
+      if(tr.maxTickets > tr.ticketsBought
+      && tr.availableFrom.isBefore(DateTime.now())
+      && tr.availableUntil.isAfter(DateTime.now())){
+        event.activeReleases.add(tr);
+      }
+    });
+
     releaseManagerSnapshot.docs.forEach((element) {
       ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
       rm.releaseIds.forEach((id) {
         rm.releases.add(event.releases.firstWhere((release) => release.docId == id));
       });
       event.releaseManagers.add(rm);
-    });*/
+    });
 
     return event;
   }
