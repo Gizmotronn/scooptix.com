@@ -4,6 +4,7 @@ import 'dart:html' as js;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +19,7 @@ import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/accept_invitation/accept_invitation_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
+import 'package:webapp/services/firebase.dart';
 import 'package:webapp/services/string_formatter.dart';
 import 'package:webapp/services/validator.dart' as val;
 import 'package:webapp/utilities/alertGenerator.dart';
@@ -1299,6 +1301,37 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               ),
             ),
           ),
+          state is StateExistingUserEmail
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: elementSpacing,
+                      ),
+                      InkWell(
+                          onTap: () {
+                            if (_emailController.text != "") {
+                              AlertGenerator.showAlertWithChoice(
+                                      context: context,
+                                      title: "Reset your password",
+                                      content:
+                                          "Need to reset your password? We'll send out an email to ${_emailController.text} with further instructions",
+                                      buttonText1: "Reset",
+                                      buttonText2: "Cancel")
+                                  .then((value) {
+                                if (value != null && value) {
+                                  FBServices.instance.resetPassword(_emailController.text);
+                                }
+                              });
+                            }
+                          },
+                          child: Text("FORGOT PASSWORD?")),
+                    ],
+                  ),
+                )
+              : Container()
         ],
       );
     }

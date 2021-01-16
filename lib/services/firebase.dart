@@ -34,6 +34,10 @@ class FBServices {
     }
   }
 
+  Future<void> resetPassword(String email) async {
+    await _auth.sendPasswordResetEmail(email: email);
+  }
+
   Future<String> createNewUser(
       String email, String password, String firstName, String lastName, DateTime dob, Gender gender, String uid) async {
     try {
