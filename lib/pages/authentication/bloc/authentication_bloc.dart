@@ -39,6 +39,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield* _signInWithFacebook();
     } else if (event is EventAppleSignIn) {
       yield* _signInWithApple();
+    } else if (event is EventPageLoad) {
+      yield* _signInCurrentUser();
+    } else if (event is EventLogout) {
+      yield* _logout();
     }
   }
 
@@ -192,5 +196,27 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield StateInitial();
         break;
     }
+  }
+
+  Stream<AuthenticationState> _signInCurrentUser() async* {
+    auth.User fbUser = auth.FirebaseAuth.instance.currentUser;
+    if (fbUser == null) {
+      print("no current user");
+      fbUser = await auth.FirebaseAuth.instance.authStateChanges().first;
+    }
+    if (fbUser == null) {
+      print("no state change user");
+      yield StateInitial();
+    } else {
+      await UserRepository.instance.getUser(fbUser.uid);
+
+      yield StateLoggedIn(
+          fbUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+    }
+  }
+
+  Stream<AuthenticationState> _logout() async* {
+    await auth.FirebaseAuth.instance.signOut();
+    yield StateInitial();
   }
 }

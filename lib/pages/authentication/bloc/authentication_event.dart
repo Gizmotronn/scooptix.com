@@ -15,6 +15,10 @@ class EventFacebookSignIn extends AuthenticationEvent {}
 
 class EventAppleSignIn extends AuthenticationEvent {}
 
+class EventPageLoad extends AuthenticationEvent {}
+
+class EventLogout extends AuthenticationEvent {}
+
 class EventEmailProvided extends AuthenticationEvent {
   final String email;
   const EventEmailProvided(this.email);

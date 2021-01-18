@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
 import 'dart:html' as js;
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,6 +71,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     });
 
     signUpBloc = AuthenticationBloc(widget.linkType);
+    signUpBloc.add(EventPageLoad());
     TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
     super.initState();
   }
@@ -732,6 +731,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         child: InkWell(
           onTap: () {
             if (state is StateExistingUserEmail || state is StateNewUserEmail) {
+              lastEmailChange = DateTime.now();
               signUpBloc.add(EventChangeEmail());
             }
           },
@@ -1218,16 +1218,42 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Column(
           children: [
-            ListTile(
-              subtitle: AutoSizeText(
-                "${state.firstName} ${state.lastName}",
-                style: MyTheme.mainTT.subtitle1,
+            SizedBox(
+              width: MyTheme.maxWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: MyTheme.maxWidth / 2,
+                    child: ListTile(
+                      subtitle: AutoSizeText(
+                        "${state.firstName} ${state.lastName}",
+                        style: MyTheme.mainTT.subtitle1,
+                      ),
+                      title: AutoSizeText(
+                        "You are logged in as",
+                        style: MyTheme.mainTT.bodyText1,
+                      ),
+                      contentPadding: EdgeInsets.all(0),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: RaisedButton(
+                      onPressed: () {
+                        _emailController.text = "";
+                        _pwController.text = "";
+                        signUpBloc.add(EventLogout());
+                      },
+                      child: Text(
+                        "Logout",
+                        style: MyTheme.mainTT.button,
+                      ),
+                    ),
+                  )
+                ],
               ),
-              title: AutoSizeText(
-                "You are logged in as",
-                style: MyTheme.mainTT.bodyText1,
-              ),
-              contentPadding: EdgeInsets.all(0),
             ),
             ListTile(
               subtitle: AutoSizeText(
