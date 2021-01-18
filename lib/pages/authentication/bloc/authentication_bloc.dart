@@ -9,6 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
 import 'package:webapp/repositories/user_repository.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 import 'package:webapp/services/firebase.dart';
 
 part 'authentication_event.dart';
@@ -116,6 +117,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
           yield StateLoggedIn(gUser.email, user.firstname, user.lastname);
         }
       } else {
+        BugsnagNotifier.instance.notify("Error signing in with Google.", StackTrace.empty);
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
       }
@@ -144,11 +146,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
           yield StateLoggedIn(fbUser.email, user.firstname, user.lastname);
         }
       } else {
+        BugsnagNotifier.instance.notify("Error signing in with Apple.", StackTrace.empty);
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
 
       yield StateErrorSignUp(SignUpError.UserCancelled);
       yield StateInitial();
@@ -192,6 +196,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       case FacebookLoginStatus.error:
         print('Something went wrong with the login process.\n'
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
+        BugsnagNotifier.instance
+            .notify("Error signing in with Facebook. Facebook error: ${result.errorMessage}", StackTrace.empty);
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
         break;

@@ -1,4 +1,5 @@
 import 'package:webapp/model/ticket_type.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class TicketRelease {
   String docId = "";
@@ -44,8 +45,9 @@ class TicketRelease {
           release.ticketTypes.add(tt);
         });
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
     }
 
     return release;

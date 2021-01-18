@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
-import 'package:webapp/model/link_type/invitation.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
 import 'package:webapp/repositories/user_repository.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class CustomerRepository {
   static CustomerRepository _instance;
@@ -39,8 +39,9 @@ class CustomerRepository {
       });
 
       return userRef;
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }
@@ -78,8 +79,9 @@ class CustomerRepository {
         "last_action": DateTime.now(),
         "events": FieldValue.arrayUnion([linkType.event.docID])
       }, SetOptions(merge: true));
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
     }
   }
 }

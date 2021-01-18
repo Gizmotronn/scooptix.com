@@ -1,4 +1,5 @@
 import 'package:webapp/model/ticket_release.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class ReleaseManager {
   String docId;
@@ -41,8 +42,9 @@ class ReleaseManager {
       if (data.containsKey("entry_end")) {
         rm.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
     }
     return rm;
   }

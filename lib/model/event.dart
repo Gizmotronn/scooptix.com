@@ -1,5 +1,6 @@
 import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class Event {
   Event._internal();
@@ -103,8 +104,9 @@ class Event {
       event.docID = docId;
 
       return event;
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }

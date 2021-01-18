@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:webapp/pages/authentication/authentication_page.dart';
 import 'package:webapp/pages/error_page.dart';
 import 'package:webapp/repositories/events_repository.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class EventSelectionPage extends StatefulWidget {
   const EventSelectionPage({Key key}) : super(key: key);
@@ -24,6 +25,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
     if (uri.queryParameters.containsKey("id")) {
       uuid = uri.queryParameters["id"];
     }
+
     EventsRepository.instance.loadLinkType(uuid).then((value) {
       if (value == null) {
         String message = "Invalid link. Please make sure you have copied the entire link.";
@@ -31,6 +33,8 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
           message =
               "There is no event associated with the provided id $uuid. Please make sure you have copied the correct link";
         }
+        BugsnagNotifier.instance.notify("Invalid UUID, provided UUID: $uuid", StackTrace.empty);
+
         Navigator.push(context, MaterialPageRoute(builder: (context) => ErrorPage(message)));
       } else
         Navigator.push(context, MaterialPageRoute(builder: (context) => AuthenticationPage(value)));

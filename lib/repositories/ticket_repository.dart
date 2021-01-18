@@ -9,6 +9,7 @@ import 'package:webapp/model/ticket.dart';
 import 'package:webapp/model/user.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:http/http.dart' as http;
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class TicketRepository {
   static TicketRepository _instance;
@@ -42,8 +43,9 @@ class TicketRepository {
           ..event = event
           ..dateIssued =
               DateTime.fromMillisecondsSinceEpoch(ticketSnapshot.docs[0].data()["requesttime"].millisecondsSinceEpoch);
-      } catch (e) {
+      } catch (e, s) {
         print(e);
+        BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       }
       return ticket;
     }
@@ -118,7 +120,8 @@ class TicketRepository {
       }
 
       return ticket;
-    } catch (e) {
+    } catch (e, s) {
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       print(e);
       return null;
     }
@@ -143,8 +146,9 @@ class TicketRepository {
       } else {
         return false;
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return false;
     }
   }
@@ -179,8 +183,9 @@ class TicketRepository {
             .doc(linkType.advertisementId)
             .set({"visits": FieldValue.increment(1)}, SetOptions(merge: true));
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
     }
   }
 
@@ -200,8 +205,9 @@ class TicketRepository {
             .doc(linkType.advertisementId)
             .set({"completed": FieldValue.increment(1)}, SetOptions(merge: true));
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
     }
   }
 }

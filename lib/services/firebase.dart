@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:webapp/model/user.dart';
 
+import 'bugsnag_wrapper.dart';
+
 class FBServices {
   static FBServices _instance;
 
@@ -68,9 +70,10 @@ class FBServices {
         });
         return uid;
       }
-    } catch (e) {
+    } catch (e, s) {
       print("Error during signup");
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }
@@ -79,8 +82,9 @@ class FBServices {
     try {
       auth.UserCredential authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       return authResult.user;
-    } catch (e) {
+    } catch (e, s) {
       print(e.message);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }

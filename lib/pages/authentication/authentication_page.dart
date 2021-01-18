@@ -880,7 +880,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     if (widget.linkType.event.invitationMessage != "") {
       widgets.add(AutoSizeText(
         widget.linkType.event.invitationMessage,
-        maxLines: 2,
+        maxLines: 3,
       ));
     }
     return Column(

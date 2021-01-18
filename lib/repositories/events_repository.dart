@@ -5,6 +5,7 @@ import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/repositories/user_repository.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class EventsRepository {
   static EventsRepository _instance;
@@ -106,8 +107,9 @@ class EventsRepository {
       } else {
         return null;
       }
-    } catch (e) {
+    } catch (e, s) {
       print(e);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }
