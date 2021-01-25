@@ -7,6 +7,9 @@ abstract class PaymentEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class EventCancelPayment extends PaymentEvent {}
+
+class EventChangePaymentMethod extends PaymentEvent {}
 
 class EventConfirmSetupIntent extends PaymentEvent {
   final PaymentMethod paymentMethod;
@@ -20,11 +23,17 @@ class EventConfirmPayment extends PaymentEvent {
   const EventConfirmPayment(this.clientSecret, this.paymentMethodId);
 }
 
-class EventRequestPI extends PaymentEvent {
-  final String eventId;
-  final String ticketId;
+class EventRequestPI extends PaymentEvent {}
+
+class EventStartPaymentProcess extends PaymentEvent {
+  final TicketRelease release;
   final int quantity;
-  const EventRequestPI(this.eventId, this.ticketId, this.quantity);
+
+  const EventStartPaymentProcess(this.release, this.quantity);
 }
 
-class EventGetSetupIntent extends PaymentEvent {}
+class EventLoadAvailableReleases extends PaymentEvent {
+  final Event event;
+
+  const EventLoadAvailableReleases(this.event);
+}

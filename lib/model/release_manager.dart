@@ -8,13 +8,16 @@ class ReleaseManager {
   int index;
   List<String> releaseIds = [];
   List<TicketRelease> releases = [];
+  List<TicketRelease> activeReleases = [];
+  bool absorbFees;
+  bool autoRelease;
 
   ReleaseManager._();
 
   TicketRelease getActiveRelease() {
     for (int i = 0; i < releaseIds.length; i++) {
       TicketRelease release = releases.firstWhere((tr) => tr.docId == releaseIds[i]);
-      if (release.maxTickets > release.ticketsBought) {
+      if (release.releaseStart.isBefore(DateTime.now()) && release.releaseEnd.isAfter(DateTime.now()) && release.maxTickets > release.ticketsBought) {
         return release;
       }
     }

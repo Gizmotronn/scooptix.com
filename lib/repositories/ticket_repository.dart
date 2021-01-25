@@ -27,6 +27,7 @@ class TicketRepository {
     _instance = null;
   }
 
+
   Future<List<Ticket>> loadTickets(String uid, Event event) async {
     List<Ticket> tickets = [];
     QuerySnapshot ticketSnapshot = await FirebaseFirestore.instance
@@ -46,7 +47,7 @@ class TicketRepository {
             ..dateIssued =
             DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
           try{
-            ticket.release = event.releases.firstWhere((element) => element.docId == ticketDoc.data()["ticket_release_id"]);
+            ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
           } catch(_){}
 
           tickets.add(ticket);

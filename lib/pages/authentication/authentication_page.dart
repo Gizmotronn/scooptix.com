@@ -14,8 +14,6 @@ import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
-import 'package:webapp/model/release_manager.dart';
-import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/accept_invitation/accept_invitation_page.dart';
 import 'package:webapp/pages/payment/payment_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
@@ -579,31 +577,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
-  Widget _buildTicketSales(StateLoggedIn state, Size screenSize) {
-    return Container(
-      constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
-      child: Card(
-        child: Padding(
-          padding: EdgeInsets.all(cardPadding),
-          child: Column(
-            children: [
-              SizedBox(
-                height: elementSpacing,
-              ),
-              AutoSizeText(
-                "Please select which tickets you would like to buy.",
-                style: MyTheme.mainTT.headline6,
-              ),
-              SizedBox(
-                height: elementSpacing,
-              ),
-              _buildTicketReleases(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildLoginAndSignUpButton(AuthenticationState state, Size screenSize) {
     if (state is StateLoadingSSO || state is StateLoggedIn || state is StateLoadingCreateUser) {
@@ -1307,80 +1280,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             ),
           ),
         ],
-      );
-    }
-  }
-
-  Widget _buildTicketReleases() {
-    List<Widget> widgets = [];
-    if (widget.linkType.event.releaseManagers.length > 0) {
-      widgets.add(
-        DropdownButtonFormField(
-          decoration: InputDecoration.collapsed(hintText: ""),
-          value: releaseManagerSelected,
-          items: widget.linkType.event.releaseManagers.map((ReleaseManager value) {
-            return new DropdownMenuItem<int>(
-              value: value.index,
-              child: Builder(
-                builder: (context) {
-                  return Text(value.name);
-                },
-              ),
-            );
-          }).toList(),
-          onChanged: (value) {
-            setState(() {
-              releaseManagerSelected = value;
-            });
-          },
-        ),
-      );
-
-      TicketRelease tr = widget.linkType.event.releaseManagers[releaseManagerSelected].getActiveRelease();
-      if (tr != null) {
-        tr.ticketTypes.forEach((ticketType) {
-          widgets.add(
-            Column(
-              children: [
-                AutoSizeText("${tr.description}"),
-                Row(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                      width: 150,
-                      child: TextField(
-                        decoration: new InputDecoration(labelText: "Number of tickets"),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ], // Only numbers can be entered
-                      ),
-                    ),
-                    AutoSizeText(" x ${ticketType.name}"),
-                    Expanded(
-                        child: Align(
-                            alignment: Alignment.centerRight,
-                            child: AutoSizeText("\$${(ticketType.price / 100).toStringAsFixed(2)}")))
-                  ],
-                ),
-              ],
-            ),
-          );
-        });
-      } else {
-        widgets.add(AutoSizeText("Sold Out"));
-      }
-
-      return Column(
-        children: widgets,
-      );
-    } else {
-      widget.linkType.event.releases.forEach((release) {
-        widgets.add(Text(release.name));
-      });
-
-      return Column(
-        children: widgets,
       );
     }
   }

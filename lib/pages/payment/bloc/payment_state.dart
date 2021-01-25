@@ -6,10 +6,21 @@ abstract class PaymentState extends Equatable {
   List<Object> get props => [];
 }
 
-class StateInitial extends PaymentState {
-}
+class StateInitial extends PaymentState {}
 
-class StateLoading extends PaymentState {
+
+class StateLoading extends PaymentState {}
+
+class StateLoadingPaymentMethod extends PaymentState {}
+
+class StateLoadingPaymentIntent extends PaymentState {}
+
+class StateNoTicketsAvailable extends PaymentState {}
+
+class StateReleasesLoaded extends PaymentState {
+  final List<TicketRelease> releases;
+
+  const StateReleasesLoaded(this.releases);
 }
 
 class StateFinalizePayment extends PaymentState {
@@ -17,7 +28,8 @@ class StateFinalizePayment extends PaymentState {
   final int price;
   final String clientSecret;
   final String paymentMethodId;
-  const StateFinalizePayment(this.last4, this.price, this.clientSecret, this.paymentMethodId);
+  final int quantity;
+  const StateFinalizePayment(this.last4, this.price, this.clientSecret, this.paymentMethodId, this.quantity);
 }
 
 class PaymentCompletedState extends PaymentState {
@@ -28,13 +40,6 @@ class PaymentCompletedState extends PaymentState {
 class StatePaymentError extends PaymentState {
   final String message;
   const StatePaymentError(this.message);
-}
-
-class SetupIntentConfirmedState extends PaymentState {
-  final String last4;
-  const SetupIntentConfirmedState(
-      this.last4,
-      );
 }
 
 class StateSIRequiresPaymentMethod extends PaymentState {

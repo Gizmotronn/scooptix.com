@@ -32,7 +32,7 @@ class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationS
       yield StatePastCutoffTime();
     } else {
       List<Ticket> tickets = await TicketRepository.instance.loadTickets(uid, event);
-      List<Ticket> freeTickets = tickets.where((element) => element.release.ticketTypes.where((ticketType) => ticketType.price == 0).length > 0).toList();
+      List<Ticket> freeTickets = tickets.where((element) => element.release.price == 0).toList();
 
       // If the current user does not yet have a free ticket
       if (freeTickets.length == 0) {

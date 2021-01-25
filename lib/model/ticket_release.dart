@@ -1,16 +1,14 @@
-import 'package:webapp/model/ticket_type.dart';
-
 class TicketRelease {
   String docId = "";
   String name = "";
   String description = "";
   DateTime entryStart;
   DateTime entryEnd;
-  DateTime availableFrom;
-  DateTime availableUntil;
+  DateTime releaseStart;
+  DateTime releaseEnd;
   int maxTickets = 0;
   int ticketsBought = 0;
-  List<TicketType> ticketTypes = [];
+  int price;
 
   TicketRelease._();
 
@@ -31,11 +29,11 @@ class TicketRelease {
       if (data.containsKey("entry_end")) {
         release.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
       }
-      if (data.containsKey("available_from")) {
-        release.availableFrom = DateTime.fromMillisecondsSinceEpoch(data["available_from"].millisecondsSinceEpoch);
+      if (data.containsKey("release_start")) {
+        release.releaseStart = DateTime.fromMillisecondsSinceEpoch(data["release_start"].millisecondsSinceEpoch);
       }
-      if (data.containsKey("available_until")) {
-        release.availableUntil = DateTime.fromMillisecondsSinceEpoch(data["available_until"].millisecondsSinceEpoch);
+      if (data.containsKey("release_end")) {
+        release.releaseEnd = DateTime.fromMillisecondsSinceEpoch(data["release_end"].millisecondsSinceEpoch);
       }
       if (data.containsKey("max_tickets")) {
         release.maxTickets = data["max_tickets"];
@@ -43,14 +41,8 @@ class TicketRelease {
       if (data.containsKey("tickets_bought")) {
         release.ticketsBought = data["tickets_bought"];
       }
-      if (data.containsKey("ticket_types")) {
-        data["ticket_types"].forEach((key, value) {
-          TicketType tt = TicketType()
-            ..name = key
-            ..ticketsBought = value["tickets_bought"]
-            ..price = value["price"];
-          release.ticketTypes.add(tt);
-        });
+      if (data.containsKey("price")) {
+        release.price = data["price"];
       }
     } catch (e) {
       print(e);
