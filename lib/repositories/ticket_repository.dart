@@ -117,6 +117,7 @@ class TicketRepository {
         print(response.body);
       } on SocketException catch (ex) {
         print(ex);
+        BugsnagNotifier.instance.notify(ex, StackTrace.empty, severity: ErrorSeverity.error);
       }
 
       return ticket;

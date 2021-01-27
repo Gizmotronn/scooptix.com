@@ -6,6 +6,7 @@ import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/pages/accept_invitation/bloc/accept_invitation_bloc.dart';
 import 'package:webapp/repositories/user_repository.dart';
+import 'package:webapp/utilities/alertGenerator.dart';
 
 class AcceptInvitationPage extends StatefulWidget {
   final LinkType linkType;
@@ -54,10 +55,24 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                       height: 40,
                       child: RaisedButton(
                         onPressed: () {
-                          bloc.add(EventAcceptInvitation(widget.linkType));
+                          if (widget.linkType.event.ticketCheckoutMessage != null) {
+                            AlertGenerator.showAlertWithChoice(
+                                    context: context,
+                                    title: "Please note",
+                                    content: widget.linkType.event.ticketCheckoutMessage,
+                                    buttonText1: "I Understand",
+                                    buttonText2: "Cancel")
+                                .then((value) {
+                              if (value != null && value) {
+                                bloc.add(EventAcceptInvitation(widget.linkType));
+                              }
+                            });
+                          } else {
+                            bloc.add(EventAcceptInvitation(widget.linkType));
+                          }
                         },
                         child: Text(
-                          "Attend",
+                          "Get Ticket",
                           style: MyTheme.mainTT.button,
                         ),
                       ),

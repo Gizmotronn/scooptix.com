@@ -30,8 +30,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else if (event is EventLoginPressed) {
       yield* _loginExistingUser(event.email, event.pw);
     } else if (event is EventCreateNewUser) {
-      yield* _createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender,
-          state is StateNewSSOUser ? (state as StateNewSSOUser).uid : null);
+      yield* _createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, event.uid);
     } else if (event is EventChangeEmail) {
       yield StateInitial();
     } else if (event is EventGoogleSignIn) {
@@ -44,9 +43,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield* _signInCurrentUser();
     } else if (event is EventLogout) {
       yield* _logout();
+    } else if (event is EventEmailsConfirmed) {
+      yield StateNewUserEmailsConfirmed();
+    } else if (event is EventPasswordsConfirmed) {
+      yield StatePasswordsConfirmed(null);
+    } else if (event is EventSSOEmailsConfirmed) {
+      // SSO doesn't require a password so go straight to the PWConfirmed state
+      yield StatePasswordsConfirmed(event.uid);
     }
   }
 
+  /// Checks whether the entered email address is new or from an existing user
   Stream<AuthenticationState> _checkUserStatus(String email) async* {
     yield StateLoadingUserData();
     bool isInUse = await FBServices.instance.isEmailInUse(email);
@@ -61,16 +68,19 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Stream<AuthenticationState> _loginExistingUser(String email, String pw) async* {
     yield StateLoadingLogin();
-    auth.User fbuser = await FBServices.instance.logIn(email, pw);
-    if (fbuser == null) {
+    auth.User fbUser = await FBServices.instance.logIn(email, pw);
+    if (fbUser == null) {
       yield StateLoginFailed();
     } else {
-      user = await UserRepository.instance.getUser(fbuser.uid);
+      user = await UserRepository.instance.getUser(fbUser.uid);
 
       yield StateLoggedIn(email, user.firstname, user.lastname);
     }
   }
 
+  /// Creates a new user, used by email / password as well as SSO signups.
+  /// For email / password uid should be null
+  /// For SSO password should be empty and uid should be the uid returned by the SSO
   Stream<AuthenticationState> _createUser(
       String email, String pw, String firstName, String lastName, DateTime dob, int gender, String uid) async* {
     if (uid == null && pw.length < 8) {
@@ -85,7 +95,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       if (user == null) {
         // Notify UI about error and revert to previous state
         yield StateErrorSignUp(SignUpError.Unknown);
-        yield StateNewUserEmail();
+        yield StatePasswordsConfirmed(uid);
       } else {
         yield StateLoggedIn(user.email, user.firstname, user.lastname);
       }
@@ -159,7 +169,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       }
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.info);
 
       yield StateErrorSignUp(SignUpError.UserCancelled);
       yield StateInitial();
@@ -211,6 +221,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
+  /// Tries to login a previously logged in user.
   Stream<AuthenticationState> _signInCurrentUser() async* {
     auth.User fbUser = auth.FirebaseAuth.instance.currentUser;
     if (fbUser == null) {
@@ -221,15 +232,25 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       print("no state change user");
       yield StateInitial();
     } else {
-      await UserRepository.instance.getUser(fbUser.uid);
+      user = await UserRepository.instance.getUser(fbUser.uid);
 
-      yield StateLoggedIn(
-          fbUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+      // Using SSO it's possible the user has an auth account but no user document
+      if (user == null) {
+        String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
+        String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
+            ? fbUser.displayName.split(" ")[1]
+            : "";
+        yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
+      } else {
+        yield StateLoggedIn(
+            fbUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+      }
     }
   }
 
   Stream<AuthenticationState> _logout() async* {
     await auth.FirebaseAuth.instance.signOut();
+    user = null;
     yield StateInitial();
   }
 }

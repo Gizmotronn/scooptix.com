@@ -34,6 +34,15 @@ class StateExistingUserEmail extends AuthenticationState {}
 
 class StateNewUserEmail extends AuthenticationState {}
 
+class StateNewUserEmailsConfirmed extends AuthenticationState {}
+
+class StatePasswordsConfirmed extends AuthenticationState {
+  // Used for SSO, should be null for other authentication
+  final String uid;
+
+  const StatePasswordsConfirmed(this.uid);
+}
+
 class StateLoginFailed extends StateExistingUserEmail {}
 
 class StateLoggedIn extends AuthenticationState {

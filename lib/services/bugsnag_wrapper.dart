@@ -210,7 +210,7 @@ class BugsnagNotifier {
         body: jsonEncode(requestBody),
       );
 
-      if (!response.body.toLowerCase().contains('ok')) {
+      if (response.body != null && !response.body.toLowerCase().contains('ok')) {
         throw Exception('Bugsnag did not accept error request format.');
       }
     } catch (error, stackTrace) {
