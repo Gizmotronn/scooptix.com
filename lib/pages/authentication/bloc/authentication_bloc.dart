@@ -107,7 +107,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     GoogleSignIn _googleSignIn = GoogleSignIn();
     try {
       GoogleSignInAccount gUser = await _googleSignIn.signInSilently();
-      if(gUser == null) {
+      if (gUser == null) {
         gUser = await _googleSignIn.signIn();
       }
       GoogleSignInAuthentication googleAuth = await gUser.authentication;
@@ -135,7 +135,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield StateInitial();
       }
     } catch (e, s) {
-      if(retry){
+      if (retry) {
         yield* _signInWithGoogle(retry: false);
       } else {
         BugsnagNotifier.instance.notify(e, s);

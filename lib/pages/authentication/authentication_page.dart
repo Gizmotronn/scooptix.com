@@ -136,7 +136,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                               style: MyTheme.mainTT.headline5,
                             ),
                             SizedBox(
-                              height: 30,
+                              height: 26,
                             ),
                             _buildWhyAreYouHere(),
                             SizedBox(
@@ -196,30 +196,23 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   } else {
                                     return Column(
                                       children: [
-                                        Column(
-                                          children: [
-                                            AnimatedSize(
-                                              vsync: this,
-                                              duration: Duration(milliseconds: animationTime),
-                                              child: Container(
-                                                constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
-                                                child: Card(
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(cardPadding),
-                                                    child: Column(
-                                                      children: [
-                                                        _buildEmailAndPWFields(state, screenSize),
-                                                        SizedBox(
-                                                          height: elementSpacing,
-                                                        ),
-                                                        _buildSSO(state, screenSize),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ).appolloCard,
+                                        AnimatedSize(
+                                          vsync: this,
+                                          duration: Duration(milliseconds: animationTime),
+                                          child: Container(
+                                            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
+                                            child: Card(
+                                              child: Padding(
+                                                padding: EdgeInsets.all(cardPadding),
+                                                child: Column(
+                                                  children: [
+                                                    _buildEmailAndPWFields(state, screenSize),
+                                                    _buildSSO(state, screenSize),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ).appolloCard,
+                                          ),
                                         ),
                                       ],
                                     );
@@ -643,15 +636,30 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     }
     // Email exists
     else if (state is StateExistingUserEmail) {
-      return RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-          child: Text("Login", style: MyTheme.mainTT.button),
-        ),
-        onPressed: () {
-          signUpBloc.add(EventLoginPressed(_emailController.text, _pwController.text));
-        },
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Back", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              signUpBloc.add(EventChangeEmail());
+            },
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Login", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              signUpBloc.add(EventLoginPressed(_emailController.text, _pwController.text));
+            },
+          ),
+        ],
       );
     } else if (state is StateNewUserEmailsConfirmed) {
       return Row(
@@ -664,7 +672,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               child: Text("Back", style: MyTheme.mainTT.button),
             ),
             onPressed: () {
-              signUpBloc.add(EventEmailProvided(_emailController.text));
+              signUpBloc.add(EventChangeEmail());
             },
           ),
           RaisedButton(
@@ -749,7 +757,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
               child: Text(
-                "Continue to your ticket",
+                "Get Ticket",
                 style: MyTheme.mainTT.button,
               ),
             ),
@@ -794,7 +802,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
       text = "Please confirm your email address";
     } else if (state is StateNewUserEmailsConfirmed) {
-      text = "Create and confirm a password you can easily remember (at least 8 characters)";
+      text = "Create and confirm a password you can easily remember";
     } else {
       text = "To get your ticket, let's start with your email address";
     }
@@ -888,6 +896,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             child: Focus(
               child: TextFormField(
                 autofillHints: [AutofillHints.email],
+                autofocus: true,
                 controller: _confirmEmailController,
                 onFieldSubmitted: (v) {
                   if (_emailController.text == _confirmEmailController.text) {
@@ -990,7 +999,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
           width: constraints.localWidgetSize.width / 2 - elementSpacing / 2,
           height: MyTheme.maxWidth / 4,
           child: Card(
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0), child: _buildEventInfoText()),
+            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 12.0), child: _buildEventInfoText()),
           ).appolloCard,
         ),
       ],
@@ -1002,36 +1011,39 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     return Column(
       children: [
         Container(
-          width: constraints.localWidgetSize.width - 4,
-          height: MyTheme.maxWidth / 4,
-          child: ClipRRect(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-            child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
-                loadStateChanged: (ExtendedImageState state) {
-              switch (state.extendedImageLoadState) {
-                case LoadState.loading:
-                  return Container(
-                    color: Colors.white,
-                  );
-                case LoadState.completed:
-                  return state.completedWidget;
-                default:
-                  return Container(
-                    color: Colors.white,
-                  );
-              }
-            }),
+          width: constraints.localWidgetSize.width - 12,
+          child: AspectRatio(
+            aspectRatio: 1.9,
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
+                  loadStateChanged: (ExtendedImageState state) {
+                switch (state.extendedImageLoadState) {
+                  case LoadState.loading:
+                    return Container(
+                      color: Colors.white,
+                    );
+                  case LoadState.completed:
+                    return state.completedWidget;
+                  default:
+                    return Container(
+                      color: Colors.white,
+                    );
+                }
+              }),
+            ),
           ),
         ),
         SizedBox(
           height: elementSpacing,
         ),
         Container(
-          decoration: ShapeDecoration(
-              color: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10)))),
           width: constraints.localWidgetSize.width - 4,
-          height: MyTheme.maxWidth / 4,
-          child: Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0), child: _buildEventInfoText()),
+          child: Card(
+              child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: _buildEventInfoText(),
+          )).appolloCard,
         ),
       ],
     );
@@ -1040,22 +1052,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   Widget _buildEventInfoText() {
     List<Widget> widgets = List<Widget>();
     widgets.add(
-      AutoSizeText("Date: " + DateFormat.yMd().format(widget.linkType.event.date), maxLines: 1),
+      AutoSizeText("Date: " + DateFormat.yMd().format(widget.linkType.event.date), maxLines: 1).paddingBottom(8),
     );
     widgets.add(
-      AutoSizeText("Start: " + DateFormat.jm().format(widget.linkType.event.date), maxLines: 1),
+      AutoSizeText("Start: " + DateFormat.jm().format(widget.linkType.event.date), maxLines: 1).paddingBottom(8),
     );
-    widgets.add(
-      AutoSizeText(
-        "This invitation is valid until until ${StringFormatter.getDateTime(widget.linkType.event.date.subtract(Duration(hours: widget.linkType.event.cutoffTimeOffset)), showSeconds: false)}",
-        maxLines: 2,
-      ),
-    );
+    widgets.add(AutoSizeText(
+      "This invitation is valid until until ${StringFormatter.getDateTime(widget.linkType.event.date.subtract(Duration(hours: widget.linkType.event.cutoffTimeOffset)), showSeconds: false)}",
+      maxLines: 2,
+    ));
     if (widget.linkType.event.invitationMessage != "") {
       widgets.add(AutoSizeText(
         widget.linkType.event.invitationMessage,
         maxLines: 3,
-      ));
+      ).paddingTop(8));
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -1064,7 +1074,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
-  _buildSSO(AuthenticationState state, Size screenSize) {
+  Widget _buildSSO(AuthenticationState state, Size screenSize) {
     if ((js.window.navigator.userAgent.contains("iPhone") && !js.window.navigator.userAgent.contains("Safari")) ||
         js.window.navigator.userAgent.contains("wv")) {
       return Container();
@@ -1080,7 +1090,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             AutoSizeText("Can't see any popup? Please make sure your browser isn't blocking it."),
           ],
         ),
-      );
+      ).paddingTop(elementSpacing);
     } else if (state is StateLoadingCreateUser) {
       return SizedBox(
         height: 180,
@@ -1091,7 +1101,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             AutoSizeText("Setting up your account ..."),
           ],
         ),
-      );
+      ).paddingTop(elementSpacing);
     } else if (state is StateInitial) {
       return Column(
         children: [
@@ -1354,11 +1364,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             }
           }),
         ],
-      );
+      ).paddingTop(elementSpacing);
     } else {
-      return Container(
-        height: 0,
-      );
+      return SizedBox.shrink();
     }
   }
 
@@ -1384,6 +1392,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
       return Container(
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ResponsiveBuilder(builder: (context, constraints) {
               if (constraints.deviceScreenType == DeviceScreenType.mobile ||
@@ -1391,17 +1400,15 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 return SizedBox(
                   width: constraints.screenSize.width,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      ListTile(
-                        subtitle: AutoSizeText(
-                          "${state.firstName} ${state.lastName}",
-                          style: MyTheme.mainTT.subtitle1,
-                        ),
-                        title: AutoSizeText(
-                          "You are logged in as",
-                          style: MyTheme.mainTT.bodyText1,
-                        ),
-                        contentPadding: EdgeInsets.all(0),
+                      AutoSizeText(
+                        "You are logged in as",
+                        style: MyTheme.mainTT.subtitle2,
+                      ),
+                      AutoSizeText(
+                        "${state.firstName} ${state.lastName}",
+                        style: MyTheme.mainTT.bodyText2,
                       ),
                     ],
                   ),
@@ -1414,21 +1421,20 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                     children: [
                       SizedBox(
                         width: MyTheme.maxWidth / 2,
-                        child: ListTile(
-                          subtitle: AutoSizeText(
-                            "${state.firstName} ${state.lastName}",
-                            style: MyTheme.mainTT.subtitle1,
-                          ),
-                          title: AutoSizeText(
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          AutoSizeText(
                             "You are logged in as",
-                            style: MyTheme.mainTT.bodyText1,
+                            style: MyTheme.mainTT.subtitle2,
                           ),
-                          contentPadding: EdgeInsets.all(0),
-                        ),
+                          AutoSizeText(
+                            "${state.firstName} ${state.lastName}",
+                            style: MyTheme.mainTT.bodyText2,
+                          ),
+                        ]),
                       ),
                       SizedBox(
-                        width: 120,
-                        height: 40,
+                        width: 106,
+                        height: 34,
                         child: RaisedButton(
                           onPressed: () {
                             clearData();
@@ -1445,19 +1451,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 );
               }
             }),
-            ListTile(
-              subtitle: AutoSizeText(
-                state.email,
-                style: MyTheme.mainTT.subtitle1,
-              ),
-              title: AutoSizeText(
-                "Email",
-                style: MyTheme.mainTT.bodyText1,
-              ),
-              contentPadding: EdgeInsets.all(0),
-            ),
             SizedBox(
-              height: 12,
+              height: elementSpacing,
+            ),
+            AutoSizeText(
+              "Email",
+              style: MyTheme.mainTT.subtitle2,
+            ),
+            AutoSizeText(
+              state.email,
+              style: MyTheme.mainTT.bodyText2,
             ),
             ResponsiveBuilder(builder: (context, constraints) {
               if (constraints.deviceScreenType == DeviceScreenType.mobile ||
@@ -1465,8 +1468,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 return Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
-                    width: 120,
-                    height: 40,
+                    width: 106,
+                    height: 34,
                     child: RaisedButton(
                       onPressed: () {
                         clearData();
@@ -1478,7 +1481,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                       ),
                     ),
                   ),
-                );
+                ).paddingTop(elementSpacing);
               } else {
                 return Container();
               }
@@ -1513,6 +1516,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             child: TextFormField(
               autofillHints: [AutofillHints.password],
               controller: _pwController,
+              autofocus: true,
               obscureText: true,
               validator: (v) => val.Validator.validatePassword(v),
               autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
@@ -1716,10 +1720,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
       return Column(
         children: [
           AutoSizeText(
-            "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their guest list.",
-            style: MyTheme.mainTT.subtitle2, textAlign: TextAlign.center,
+            "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their guest list. Follow the instructions below to claim your ticket!",
+            style: MyTheme.mainTT.subtitle2,
+            textAlign: TextAlign.center,
           ),
-          AutoSizeText("Follow the instructions below to claim your ticket!", textAlign: TextAlign.center, style: MyTheme.mainTT.subtitle2)
         ],
       );
     } else if (widget.linkType is BirthdayList) {
@@ -1727,9 +1731,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
       return Column(
         children: [
           AutoSizeText(
-              "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their birthday party.",
-              style: MyTheme.mainTT.subtitle2, textAlign: TextAlign.center),
-          AutoSizeText("Follow the instructions below to claim your ticket!", textAlign: TextAlign.center, style: MyTheme.mainTT.subtitle2)
+              "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their birthday party. Follow the instructions below to claim your ticket!",
+              style: MyTheme.mainTT.subtitle2,
+              textAlign: TextAlign.center),
         ],
       );
     } else {
