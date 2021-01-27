@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:ui';
 import 'dart:html' as js;
 import 'package:auto_size_text/auto_size_text.dart';
@@ -50,26 +49,24 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
 
   // Not using a reactive form for the login since we're using custom logic for the email field.
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _confirmEmailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
+  final TextEditingController _confirmPwController = TextEditingController();
   bool _validatePW = false;
-  DateTime lastEmailChange = DateTime.now();
-  Timer autoCheckEmailTimer;
-  String lastEmailChecked = "";
 
   int releaseManagerSelected = 0;
 
+  clearData() {
+    _emailController.clear();
+    _confirmEmailController.clear();
+    _pwController.clear();
+    _confirmPwController.clear();
+    _validatePW = false;
+    form.reset();
+  }
+
   @override
   void initState() {
-    autoCheckEmailTimer = Timer.periodic(Duration(milliseconds: 500), (timer) {
-      if (signUpBloc.state is StateInitial &&
-          _emailController.text != "" &&
-          lastEmailChecked != _emailController.text &&
-          DateTime.now().difference(lastEmailChange).inSeconds > 4) {
-        lastEmailChecked = _emailController.text;
-        signUpBloc.add(EventEmailProvided(_emailController.text));
-      }
-    });
-
     signUpBloc = AuthenticationBloc(widget.linkType);
     signUpBloc.add(EventPageLoad());
     TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
@@ -174,6 +171,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                         content: text,
                                         buttonText: "Ok",
                                         popTwice: false);
+                                  } else if (state is StateLoginFailed) {
+                                    AlertGenerator.showAlert(
+                                        context: context,
+                                        title: "Wrong Password",
+                                        content: "Your password is incorrect, please try again.",
+                                        buttonText: "Ok",
+                                        popTwice: false);
+                                  } else if (state is StateNewSSOUser) {
+                                    _emailController.text = state.email;
+                                    form.controls["fname"].value = state.firstName;
+                                    form.controls["lname"].value = state.lastName;
                                   }
                                 },
                                 buildWhen: (c, state) {
@@ -183,36 +191,39 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   return true;
                                 },
                                 builder: (c, state) {
-                                  print(state);
-                                  return Column(
-                                    children: [
-                                      Column(
-                                        children: [
-                                          AnimatedSize(
-                                            vsync: this,
-                                            duration: Duration(milliseconds: animationTime),
-                                            child: Container(
-                                              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
-                                              child: Card(
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(cardPadding),
-                                                  child: Column(
-                                                    children: [
-                                                      _buildEmailPWLogin(state, screenSize),
-                                                      SizedBox(
-                                                        height: elementSpacing,
-                                                      ),
-                                                      _buildSSO(state, screenSize),
-                                                    ],
+                                  if (state is StatePasswordsConfirmed) {
+                                    return SizedBox.shrink();
+                                  } else {
+                                    return Column(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            AnimatedSize(
+                                              vsync: this,
+                                              duration: Duration(milliseconds: animationTime),
+                                              child: Container(
+                                                constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
+                                                child: Card(
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(cardPadding),
+                                                    child: Column(
+                                                      children: [
+                                                        _buildEmailAndPWFields(state, screenSize),
+                                                        SizedBox(
+                                                          height: elementSpacing,
+                                                        ),
+                                                        _buildSSO(state, screenSize),
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                              ).appolloCard,
+                                                ).appolloCard,
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  );
+                                          ],
+                                        ),
+                                      ],
+                                    );
+                                  }
                                 }),
                             BlocConsumer<AuthenticationBloc, AuthenticationState>(
                                 cubit: signUpBloc,
@@ -224,7 +235,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   return true;
                                 },
                                 builder: (c, state) {
-                                  if (state is StateNewUserEmail || state is StateNewSSOUser) {
+                                  print(state);
+                                  if (state is StatePasswordsConfirmed) {
                                     return _buildNewUser(screenSize);
                                   } else {
                                     return Container(
@@ -254,7 +266,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   return true;
                                 },
                                 builder: (c, state) {
-                                  if (state is StateInitial || state is StateLoggedIn || state is StateLoadingSSO) {
+                                  if (state is StateLoggedIn || state is StateLoadingSSO) {
                                     return Container();
                                   } else {
                                     return Column(
@@ -267,7 +279,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                           padding: const EdgeInsets.only(right: 4.0),
                                           child: Align(
                                               alignment: Alignment.centerRight,
-                                              child: _buildLoginAndSignUpButton(state, screenSize)),
+                                              child: _buildMainButtons(state, screenSize)),
                                         ),
                                       ],
                                     );
@@ -291,6 +303,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
+  /// Input fields required for sign up
   Widget _buildNewUser(Size screenSize) {
     return SizedBox(
       width: screenSize.width,
@@ -311,7 +324,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                         child: Column(
                           children: [
                             AutoSizeText(
-                              "Some information about yourself",
+                              "Finally provide some info about yourself",
                               style: MyTheme.mainTT.headline6,
                             ),
                             SizedBox(
@@ -335,7 +348,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   labelText: "First Name"),
                             ),
                             SizedBox(
-                              height: elementSpacing,
+                              height: 8,
                             ),
                             ReactiveTextField(
                               formControlName: 'lname',
@@ -383,6 +396,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                       ),
                                     ),
                                     SizedBox(
+                                      height: 8,
+                                    ),
+                                    SizedBox(
                                       width: (MyTheme.maxWidth - cardPadding),
                                       child: ReactiveTextField(
                                         formControlName: 'dobMonth',
@@ -400,6 +416,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                           labelText: 'Month',
                                         ),
                                       ),
+                                    ),
+                                    SizedBox(
+                                      height: 8,
                                     ),
                                     SizedBox(
                                       width: (MyTheme.maxWidth - cardPadding),
@@ -599,12 +618,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
-  Widget _buildLoginAndSignUpButton(AuthenticationState state, Size screenSize) {
-    if (state is StateLoadingSSO || state is StateLoggedIn || state is StateLoadingCreateUser) {
-      return Container(
-        height: 0,
-      );
-    } else if (state is StateLoadingLogin) {
+  /// Creates the buttons at the bottom allowing user to proceed or return to previous states
+  Widget _buildMainButtons(AuthenticationState state, Size screenSize) {
+    if (state is StateLoadingLogin) {
       return RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Padding(
@@ -634,76 +650,175 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
           signUpBloc.add(EventLoginPressed(_emailController.text, _pwController.text));
         },
       );
+    } else if (state is StateNewUserEmailsConfirmed) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Back", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              signUpBloc.add(EventEmailProvided(_emailController.text));
+            },
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Next", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              if (_pwController.text.length >= 8 && _pwController.text == _confirmPwController.text) {
+                signUpBloc.add(EventPasswordsConfirmed());
+              } else {
+                setState(() {
+                  _validatePW = true;
+                });
+              }
+            },
+          ),
+        ],
+      );
       // User is logged in
-    } else {
+    } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Back", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              signUpBloc.add(EventChangeEmail());
+            },
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Next", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              if (_emailController.text == _confirmEmailController.text) {
+                if (state is StateNewSSOUser) {
+                  print(state.uid);
+                  signUpBloc.add(EventSSOEmailsConfirmed(state.uid));
+                } else {
+                  signUpBloc.add(EventEmailsConfirmed());
+                }
+              }
+            },
+          ),
+        ],
+      );
+    } else if (state is StateInitial) {
       return RaisedButton(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-          child: Text(
-            "Continue to your ticket",
-            style: MyTheme.mainTT.button,
-          ),
+          child: Text("Next", style: MyTheme.mainTT.button),
         ),
         onPressed: () {
-          if (form.valid && (state is StateNewSSOUser || _pwController.text.length >= 8)) {
-            try {
-              if (state is StateNewSSOUser) {
-                _emailController.text = state.email;
-              }
-              DateTime dob = DateTime(
-                  form.controls["dobYear"].value, form.controls["dobMonth"].value, form.controls["dobDay"].value);
-              signUpBloc.add(EventCreateNewUser(_emailController.text, _pwController.text, form.controls["fname"].value,
-                  form.controls["lname"].value, dob, form.controls["gender"].value));
-            } catch (_) {}
-          } else {
-            form.markAllAsTouched();
-            setState(() {
-              _validatePW = true;
-            });
-          }
+          signUpBloc.add(EventEmailProvided(_emailController.text));
         },
+      );
+    } else if (state is StatePasswordsConfirmed) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text("Back", style: MyTheme.mainTT.button),
+            ),
+            onPressed: () {
+              signUpBloc.add(EventEmailsConfirmed());
+            },
+          ),
+          RaisedButton(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+              child: Text(
+                "Continue to your ticket",
+                style: MyTheme.mainTT.button,
+              ),
+            ),
+            onPressed: () {
+              if (form.valid) {
+                try {
+                  DateTime dob = DateTime(
+                      form.controls["dobYear"].value, form.controls["dobMonth"].value, form.controls["dobDay"].value);
+                  signUpBloc.add(EventCreateNewUser(
+                      _emailController.text,
+                      _pwController.text,
+                      form.controls["fname"].value,
+                      form.controls["lname"].value,
+                      dob,
+                      form.controls["gender"].value,
+                      state.uid));
+                } catch (_) {}
+              } else {
+                form.markAllAsTouched();
+                setState(() {
+                  _validatePW = true;
+                });
+              }
+            },
+          ),
+        ],
+      );
+    } else {
+      return Container(
+        height: 0,
       );
     }
   }
 
-  _buildHeadline(AuthenticationState state, Size screenSize) {
+  /// Returns info about the users next action
+  Widget _buildHeadline(AuthenticationState state, Size screenSize) {
     String text = "";
     if (state is StateLoginFailed) {
       text = "Password doesn't match, please try again";
     } else if (state is StateExistingUserEmail) {
-      text = "Welcome back! Please enter your password to login.";
+      text = "Welcome back! Please enter your password to login";
+    } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+      text = "Please confirm your email address";
+    } else if (state is StateNewUserEmailsConfirmed) {
+      text = "Create and confirm a password you can easily remember (at least 8 characters)";
     } else {
-      text = "Sign Up or Log In to accept your invitation";
+      text = "To get your ticket, let's start with your email address";
     }
     return SizedBox(
       width: MyTheme.maxWidth,
       child: AutoSizeText(
         text,
-        style: MyTheme.mainTT.subtitle2
+        style: MyTheme.mainTT.headline6
             .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloBlack),
         minFontSize: 12,
       ),
     );
   }
 
-  /// Returns a label containing the user's email if the user has already provided their email, otherwise returns a TextInputField
+  /// Returns a single TextInputField initially.
+  /// Returns 2 TextInputFields when an unused email was provided for email confirmation
   _buildEmailField(AuthenticationState state, Size screenSize) {
     if (state is StateInitial)
       return Container(
         key: ValueKey(1),
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Focus(
-          onFocusChange: (hasFocus) {
-            if (!hasFocus) {
-              signUpBloc.add(EventEmailProvided(_emailController.text));
-            }
-          },
           child: TextFormField(
             autofillHints: [AutofillHints.email],
             controller: _emailController,
-            onChanged: (v) {
-              lastEmailChange = DateTime.now();
+            onFieldSubmitted: (v) {
+              signUpBloc.add(EventEmailProvided(_emailController.text));
             },
             decoration: InputDecoration(
                 enabledBorder: OutlineInputBorder(),
@@ -724,32 +839,86 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
           ),
         ),
       );
-    else {
-      return Container(
-        key: ValueKey(2),
-        constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-        child: InkWell(
-          onTap: () {
-            if (state is StateExistingUserEmail || state is StateNewUserEmail) {
-              lastEmailChange = DateTime.now();
-              signUpBloc.add(EventChangeEmail());
-            }
-          },
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: ListTile(
-                subtitle: AutoSizeText(
-                  _emailController.text,
-                  style: MyTheme.mainTT.subtitle1,
-                ),
-                title: AutoSizeText(
-                  "Email (tap to change)",
-                  style: MyTheme.mainTT.bodyText1,
-                ),
-                contentPadding: EdgeInsets.all(0),
-              )),
-        ),
+    // Prompt confirm email
+    else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+      return Column(
+        children: [
+          Container(
+            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+            child: Focus(
+              child: TextFormField(
+                autofillHints: [AutofillHints.email],
+                controller: _emailController,
+                onFieldSubmitted: (v) {
+                  if (_emailController.text == _confirmEmailController.text) {
+                    if (state is StateNewSSOUser) {
+                      signUpBloc.add(EventSSOEmailsConfirmed(state.uid));
+                    } else {
+                      signUpBloc.add(EventEmailsConfirmed());
+                    }
+                  }
+                },
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(),
+                    border: OutlineInputBorder(),
+                    labelText: "Email Address",
+                    labelStyle: MyTheme.mainTT.bodyText2,
+                    suffixIcon: state is StateLoadingUserData
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(
+                            height: 0,
+                            width: 0,
+                          )),
+                autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
+                validator: (v) => val.Validator.validateEmail(_emailController.text),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          Container(
+            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+            child: Focus(
+              child: TextFormField(
+                autofillHints: [AutofillHints.email],
+                controller: _confirmEmailController,
+                onFieldSubmitted: (v) {
+                  if (_emailController.text == _confirmEmailController.text) {
+                    if (state is StateNewSSOUser) {
+                      signUpBloc.add(EventSSOEmailsConfirmed(state.uid));
+                    } else {
+                      signUpBloc.add(EventEmailsConfirmed());
+                    }
+                  }
+                },
+                decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(),
+                    border: OutlineInputBorder(),
+                    labelText: "Confirm Email Address",
+                    labelStyle: MyTheme.mainTT.bodyText2,
+                    suffixIcon: state is StateLoadingUserData
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircularProgressIndicator(),
+                          )
+                        : Container(
+                            height: 0,
+                            width: 0,
+                          )),
+                autovalidateMode: AutovalidateMode.always,
+                validator: (v) =>
+                    _confirmEmailController.text == _emailController.text ? null : "Please make sure your emails match",
+              ),
+            ),
+          )
+        ],
       );
+    } else {
+      return SizedBox.shrink();
     }
   }
 
@@ -780,6 +949,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
+  // Desktop
   _buildEventInfoHorizontal(Size screenSize, SizingInformation constraints) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -824,6 +994,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
+  // Mobile
   _buildEventInfoVertical(Size screenSize, SizingInformation constraints) {
     return Column(
       children: [
@@ -1188,73 +1359,89 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     }
   }
 
-  _buildEmailPWLogin(AuthenticationState state, Size screenSize) {
+  /// Builds TextInputFields for the initial email fields as well as email and password confirmation
+  _buildEmailAndPWFields(AuthenticationState state, Size screenSize) {
     if (state is StateLoadingSSO || state is StateLoadingCreateUser) {
       return Container();
-    } else if (state is StateNewSSOUser) {
-      return Container(
-        constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-        child: InkWell(
-          onTap: () {
-            signUpBloc.add(EventChangeEmail());
-          },
-          child: Align(
-              alignment: Alignment.centerLeft,
-              child: ListTile(
-                subtitle: AutoSizeText(
-                  state.email,
-                  style: MyTheme.mainTT.subtitle1,
-                ),
-                title: AutoSizeText(
-                  "Email",
-                  style: MyTheme.mainTT.bodyText1,
-                ),
-                contentPadding: EdgeInsets.all(0),
-              )),
-        ),
+    } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildHeadline(state, screenSize),
+          SizedBox(
+            height: elementSpacing,
+          ),
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: animationTime),
+            child: _buildEmailField(state, screenSize),
+          ),
+        ],
       );
     } else if (state is StateLoggedIn) {
       return Container(
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Column(
           children: [
-            SizedBox(
-              width: MyTheme.maxWidth,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: MyTheme.maxWidth / 2,
-                    child: ListTile(
-                      subtitle: AutoSizeText(
-                        "${state.firstName} ${state.lastName}",
-                        style: MyTheme.mainTT.subtitle1,
+            ResponsiveBuilder(builder: (context, constraints) {
+              if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                  constraints.deviceScreenType == DeviceScreenType.watch) {
+                return SizedBox(
+                  width: constraints.screenSize.width,
+                  child: Column(
+                    children: [
+                      ListTile(
+                        subtitle: AutoSizeText(
+                          "${state.firstName} ${state.lastName}",
+                          style: MyTheme.mainTT.subtitle1,
+                        ),
+                        title: AutoSizeText(
+                          "You are logged in as",
+                          style: MyTheme.mainTT.bodyText1,
+                        ),
+                        contentPadding: EdgeInsets.all(0),
                       ),
-                      title: AutoSizeText(
-                        "You are logged in as",
-                        style: MyTheme.mainTT.bodyText1,
-                      ),
-                      contentPadding: EdgeInsets.all(0),
-                    ),
+                    ],
                   ),
-                  SizedBox(
-                    width: 120,
-                    height: 40,
-                    child: RaisedButton(
-                      onPressed: () {
-                        _emailController.text = "";
-                        _pwController.text = "";
-                        signUpBloc.add(EventLogout());
-                      },
-                      child: Text(
-                        "Logout",
-                        style: MyTheme.mainTT.button,
+                );
+              } else {
+                return SizedBox(
+                  width: MyTheme.maxWidth,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: MyTheme.maxWidth / 2,
+                        child: ListTile(
+                          subtitle: AutoSizeText(
+                            "${state.firstName} ${state.lastName}",
+                            style: MyTheme.mainTT.subtitle1,
+                          ),
+                          title: AutoSizeText(
+                            "You are logged in as",
+                            style: MyTheme.mainTT.bodyText1,
+                          ),
+                          contentPadding: EdgeInsets.all(0),
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                      SizedBox(
+                        width: 120,
+                        height: 40,
+                        child: RaisedButton(
+                          onPressed: () {
+                            clearData();
+                            signUpBloc.add(EventLogout());
+                          },
+                          child: Text(
+                            "Logout",
+                            style: MyTheme.mainTT.button,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              }
+            }),
             ListTile(
               subtitle: AutoSizeText(
                 state.email,
@@ -1266,8 +1453,113 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               ),
               contentPadding: EdgeInsets.all(0),
             ),
+            SizedBox(
+              height: 12,
+            ),
+            ResponsiveBuilder(builder: (context, constraints) {
+              if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                  constraints.deviceScreenType == DeviceScreenType.watch) {
+                return Align(
+                  alignment: Alignment.centerLeft,
+                  child: SizedBox(
+                    width: 120,
+                    height: 40,
+                    child: RaisedButton(
+                      onPressed: () {
+                        clearData();
+                        signUpBloc.add(EventLogout());
+                      },
+                      child: Text(
+                        "Logout",
+                        style: MyTheme.mainTT.button,
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Container();
+              }
+            })
           ],
         ),
+      );
+    } else if (state is StateInitial) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildHeadline(state, screenSize),
+          SizedBox(
+            height: elementSpacing,
+          ),
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: animationTime),
+            child: _buildEmailField(state, screenSize),
+          ),
+        ],
+      );
+    } else if (state is StateNewUserEmailsConfirmed) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          _buildHeadline(state, screenSize),
+          SizedBox(
+            height: elementSpacing,
+          ),
+          Container(
+            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+            child: TextFormField(
+              autofillHints: [AutofillHints.password],
+              controller: _pwController,
+              obscureText: true,
+              validator: (v) => val.Validator.validatePassword(v),
+              autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
+              onFieldSubmitted: (v) {
+                if (_pwController.text.length >= 8 && _confirmPwController.text == _pwController.text) {
+                  signUpBloc.add(EventPasswordsConfirmed());
+                } else {
+                  setState(() {
+                    _validatePW = true;
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(),
+                labelText: "Password",
+                labelStyle: MyTheme.mainTT.bodyText2,
+              ),
+            ),
+          ),
+          SizedBox(
+            height: elementSpacing,
+          ),
+          Container(
+            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+            child: TextFormField(
+              autofillHints: [AutofillHints.password],
+              controller: _confirmPwController,
+              obscureText: true,
+              validator: (v) =>
+                  _confirmPwController.text == _pwController.text ? null : "Please make sure your passwords match",
+              autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
+              onFieldSubmitted: (v) {
+                if (_pwController.text.length >= 8 && _confirmPwController.text == _pwController.text) {
+                  signUpBloc.add(EventPasswordsConfirmed());
+                } else {
+                  setState(() {
+                    _validatePW = true;
+                  });
+                }
+              },
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(),
+                labelText: "Confirm Password",
+                labelStyle: MyTheme.mainTT.bodyText2,
+              ),
+            ),
+          ),
+        ],
       );
     } else {
       return Column(
@@ -1295,28 +1587,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               onFieldSubmitted: (v) {
                 if (state is StateExistingUserEmail) {
                   signUpBloc.add(EventLoginPressed(_emailController.text, _pwController.text));
-                } else {
-                  if (form.valid && (state is StateNewSSOUser || _pwController.text.length >= 8)) {
-                    try {
-                      if (state is StateNewSSOUser) {
-                        _emailController.text = state.email;
-                      }
-                      DateTime dob = DateTime(form.controls["dobYear"].value, form.controls["dobMonth"].value,
-                          form.controls["dobDay"].value);
-                      signUpBloc.add(EventCreateNewUser(
-                          _emailController.text,
-                          _pwController.text,
-                          form.controls["fname"].value,
-                          form.controls["lname"].value,
-                          dob,
-                          form.controls["gender"].value));
-                    } catch (_) {}
-                  } else {
-                    form.markAllAsTouched();
-                    setState(() {
-                      _validatePW = true;
-                    });
-                  }
                 }
               },
               decoration: InputDecoration(

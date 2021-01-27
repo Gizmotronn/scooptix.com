@@ -16,6 +16,7 @@ void main() {
 
   FlutterError.onError = (FlutterErrorDetails details) {
     BugsnagNotifier.instance.notify(details.exception, details.stack);
+    BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);
   };
 
   runZonedGuarded(() {

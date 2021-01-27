@@ -9,6 +9,16 @@ abstract class AuthenticationEvent extends Equatable {
 
 class EventChangeEmail extends AuthenticationEvent {}
 
+class EventEmailsConfirmed extends AuthenticationEvent {}
+
+class EventSSOEmailsConfirmed extends AuthenticationEvent {
+  final String uid;
+
+  const EventSSOEmailsConfirmed(this.uid);
+}
+
+class EventPasswordsConfirmed extends AuthenticationEvent {}
+
 class EventGoogleSignIn extends AuthenticationEvent {}
 
 class EventFacebookSignIn extends AuthenticationEvent {}
@@ -45,6 +55,7 @@ class EventCreateNewUser extends AuthenticationEvent {
   final String lastName;
   final DateTime dob;
   final int gender;
+  final String uid;
 
-  const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender);
+  const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender, this.uid);
 }
