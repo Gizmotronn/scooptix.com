@@ -281,6 +281,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                       height: 16,
                     ),
                     _buildPoweredByAppollo(),
+                    SizedBox(
+                      height: 100,
+                    ),
                   ],
                 ),
               ),
@@ -1444,9 +1447,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         children: [
           AutoSizeText(
             "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their guest list.",
-            style: MyTheme.mainTT.subtitle2,
+            style: MyTheme.mainTT.subtitle2, textAlign: TextAlign.center,
           ),
-          AutoSizeText("Follow the instructions below to claim your ticket!", style: MyTheme.mainTT.subtitle2)
+          AutoSizeText("Follow the instructions below to claim your ticket!", textAlign: TextAlign.center, style: MyTheme.mainTT.subtitle2)
         ],
       );
     } else if (widget.linkType is BirthdayList) {
@@ -1455,8 +1458,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         children: [
           AutoSizeText(
               "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their birthday party.",
-              style: MyTheme.mainTT.subtitle2),
-          AutoSizeText("Follow the instructions below to claim your ticket!", style: MyTheme.mainTT.subtitle2)
+              style: MyTheme.mainTT.subtitle2, textAlign: TextAlign.center),
+          AutoSizeText("Follow the instructions below to claim your ticket!", textAlign: TextAlign.center, style: MyTheme.mainTT.subtitle2)
         ],
       );
     } else {

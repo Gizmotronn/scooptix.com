@@ -92,11 +92,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  Stream<AuthenticationState> _signInWithGoogle() async* {
+  Stream<AuthenticationState> _signInWithGoogle({bool retry = true}) async* {
     yield StateLoadingSSO();
     GoogleSignIn _googleSignIn = GoogleSignIn();
     try {
-      GoogleSignInAccount gUser = await _googleSignIn.signIn();
+      GoogleSignInAccount gUser = await _googleSignIn.signInSilently();
+      if(gUser == null) {
+        gUser = await _googleSignIn.signIn();
+      }
       GoogleSignInAuthentication googleAuth = await gUser.authentication;
       final auth.AuthCredential credential = auth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -121,10 +124,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
       }
-    } catch (error) {
-      print(error);
-      yield StateErrorSignUp(SignUpError.UserCancelled);
-      yield StateInitial();
+    } catch (e, s) {
+      if(retry){
+        yield* _signInWithGoogle(retry: false);
+      } else {
+        BugsnagNotifier.instance.notify(e, s);
+        yield StateErrorSignUp(SignUpError.UserCancelled);
+        yield StateInitial();
+      }
     }
   }
 
