@@ -29,6 +29,7 @@ class Event {
   List<ReleaseManager> releaseManagers = [];
   int cutoffTimeOffset = 0;
   String invitationMessage = "";
+  String ticketCheckoutMessage = "";
 
   factory Event.fromMap(String docId, Map<String, dynamic> data) {
     try {
@@ -89,6 +90,9 @@ class Event {
       }
       if (data.containsKey("invitation_message")) {
         event.invitationMessage = data["invitation_message"];
+      }
+      if (data.containsKey("ticket_checkout_message")) {
+        event.ticketCheckoutMessage = data["ticket_checkout_message"];
       }
       if (data.containsKey("images")) {
         data["images"].forEach((s) {

@@ -84,7 +84,7 @@ class FBServices {
       return authResult.user;
     } catch (e, s) {
       print(e.message);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.info);
       return null;
     }
   }

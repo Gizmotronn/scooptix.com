@@ -24,6 +24,7 @@ class UserRepository {
 
   Future<User> createUser(String email, String password, String firstName, String lastName, DateTime dob, Gender gender,
       {String uid}) async {
+    print(uid);
     String id = await FBServices.instance.createNewUser(email, password, firstName, lastName, dob, gender, uid);
     if (id == null) {
       return null;
