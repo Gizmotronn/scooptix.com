@@ -9,6 +9,7 @@ class Event {
   String name;
   String description;
   String coverImageURL;
+  String address;
   String venue;
   String venueName = "";
   String ticketLink;
@@ -29,7 +30,7 @@ class Event {
   List<ReleaseManager> releaseManagers = [];
   int cutoffTimeOffset = 0;
   String invitationMessage = "";
-  String ticketCheckoutMessage = "";
+  String ticketCheckoutMessage;
 
   factory Event.fromMap(String docId, Map<String, dynamic> data) {
     try {
@@ -43,6 +44,9 @@ class Event {
       }
       if (data.containsKey("coverimage")) {
         event.coverImageURL = data["coverimage"];
+      }
+      if (data.containsKey("address")) {
+        event.address = data["address"];
       }
       if (data.containsKey("venue")) {
         event.venue = data["venue"];

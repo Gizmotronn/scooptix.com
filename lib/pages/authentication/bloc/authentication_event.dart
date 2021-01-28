@@ -54,7 +54,7 @@ class EventCreateNewUser extends AuthenticationEvent {
   final String firstName;
   final String lastName;
   final DateTime dob;
-  final int gender;
+  final Gender gender;
   final String uid;
 
   const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender, this.uid);

@@ -11,6 +11,7 @@ class AlertGenerator {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        backgroundColor: MyTheme.theme.backgroundColor,
         title: Text(title, style: MyTheme.mainTT.headline5),
         content: Text(content, style: MyTheme.mainTT.bodyText2),
         actions: <Widget>[
@@ -43,6 +44,7 @@ class AlertGenerator {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
+        backgroundColor: MyTheme.theme.backgroundColor,
         title: Text(title, style: MyTheme.mainTT.headline5),
         content: Text(content, style: MyTheme.mainTT.bodyText2),
         actions: <Widget>[

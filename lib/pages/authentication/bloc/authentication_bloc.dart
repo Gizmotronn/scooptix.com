@@ -82,16 +82,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   /// For email / password uid should be null
   /// For SSO password should be empty and uid should be the uid returned by the SSO
   Stream<AuthenticationState> _createUser(
-      String email, String pw, String firstName, String lastName, DateTime dob, int gender, String uid) async* {
+      String email, String pw, String firstName, String lastName, DateTime dob, Gender gender, String uid) async* {
     if (uid == null && pw.length < 8) {
       // Notify UI about error and revert to previous state
       yield StateErrorSignUp(SignUpError.Password);
       yield StateNewUserEmail();
     } else {
       yield StateLoadingCreateUser();
-      user = await UserRepository.instance.createUser(
-          email, pw, firstName, lastName, dob, gender >= 0 && gender <= 3 ? Gender.values[gender] : Gender.Unknown,
-          uid: uid);
+      user = await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
       if (user == null) {
         // Notify UI about error and revert to previous state
         yield StateErrorSignUp(SignUpError.Unknown);
