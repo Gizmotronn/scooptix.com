@@ -104,10 +104,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     yield StateLoadingSSO();
     GoogleSignIn _googleSignIn = GoogleSignIn();
     try {
-      GoogleSignInAccount gUser = await _googleSignIn.signInSilently();
-      if (gUser == null) {
-        gUser = await _googleSignIn.signIn();
-      }
+      GoogleSignInAccount gUser = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth = await gUser.authentication;
       final auth.AuthCredential credential = auth.GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
