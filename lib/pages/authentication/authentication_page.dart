@@ -852,7 +852,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloPurple)),
             ),
             onPressed: () {
-              signUpBloc.add(EventEmailsConfirmed());
+              signUpBloc.add(EventChangeEmail());
             },
           ),
           RaisedButton(
