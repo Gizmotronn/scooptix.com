@@ -21,7 +21,11 @@ class StateNoTicketsLeft extends AcceptInvitationState {}
 
 class StatePastCutoffTime extends AcceptInvitationState {}
 
-class StateInvitationAccepted extends AcceptInvitationState {}
+class StateInvitationAccepted extends AcceptInvitationState {
+  final Ticket ticket;
+
+  const StateInvitationAccepted(this.ticket);
+}
 
 class StateTicketAlreadyIssued extends AcceptInvitationState {
   final Ticket ticket;

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/pages/accept_invitation/bloc/accept_invitation_bloc.dart';
@@ -95,6 +96,20 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                     ),
                     AutoSizeText(
                         "We've sent your ticket to ${UserRepository.instance.currentUser.email}, make sure to check your spam folder and please have this ticket ready to show at the door."),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    AutoSizeText("Already at the door? Use the QR Code below."),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    QrImage(
+                      backgroundColor: MyTheme.appolloWhite,
+                      data: '${state.ticket.event.docID} ${state.ticket.docId}',
+                      version: QrVersions.auto,
+                      size: 290,
+                      gapless: true,
+                    )
                   ],
                 ),
               )).appolloCard,
@@ -116,6 +131,20 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                     ),
                     AutoSizeText(
                         "Seems like you're already on the guest list. Your ticket was sent to ${UserRepository.instance.currentUser.email}, on ${DateFormat.yMd().format(state.ticket.dateIssued)} ${DateFormat.Hm().format(state.ticket.dateIssued)}, please make sure to check your spam folder."),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    AutoSizeText("Already at the door? Use the QR Code below."),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    QrImage(
+                      backgroundColor: MyTheme.appolloWhite,
+                      data: '${state.ticket.event.docID} ${state.ticket.docId}',
+                      version: QrVersions.auto,
+                      size: 290,
+                      gapless: true,
+                    )
                   ],
                 ),
               )).appolloCard,

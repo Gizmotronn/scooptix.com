@@ -51,7 +51,7 @@ class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationS
     if (ticket == null) {
       yield StateError();
     } else {
-      yield StateInvitationAccepted();
+      yield StateInvitationAccepted(ticket);
     }
   }
 }

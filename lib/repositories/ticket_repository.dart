@@ -120,6 +120,7 @@ class TicketRepository {
         BugsnagNotifier.instance.notify(ex, StackTrace.empty, severity: ErrorSeverity.error);
       }
 
+      ticket.docId = ticketDoc.id;
       return ticket;
     } catch (e, s) {
       BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
