@@ -232,7 +232,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                       String text =
                                           "We couldn't create an account for you, please make sure your password is at least 8 characters long";
                                       if (state.error == SignUpError.UserCancelled) {
-                                        text = "Login Cancelled";
+                                        text = "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
                                       } else {
                                         text = "An error occurred during the signup process, please try again";
                                       }
