@@ -26,11 +26,44 @@ class Event {
   bool newPriorityPassesAllowed = false;
   bool newQPassesAllowed = false;
   bool allowsBirthdaySignUps = false;
-  List<TicketRelease> releases = [];
   List<ReleaseManager> releaseManagers = [];
   int cutoffTimeOffset = 0;
   String invitationMessage = "";
   String ticketCheckoutMessage;
+
+  TicketRelease getRelease(String releaseId) {
+    releaseManagers.forEach((manager) {
+      try{
+        TicketRelease tr = manager.releases.firstWhere((element) => element.docId == releaseId);
+        return tr;
+      } catch (_){}
+    });
+    return null;
+  }
+
+  List<TicketRelease> getReleasesWithSingleTicketRestriction() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      manager.releases.forEach((release) {
+        if (release.singleTicketRestriction) {
+          releases.add(release);
+        }
+      });
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getReleasesWithoutRestriction() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      manager.releases.forEach((release) {
+        if (!release.singleTicketRestriction) {
+          releases.add(release);
+        }
+      });
+    });
+    return releases;
+  }
 
   factory Event.fromMap(String docId, Map<String, dynamic> data) {
     try {

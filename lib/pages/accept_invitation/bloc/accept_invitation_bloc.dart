@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:webapp/model/event.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/ticket.dart';
+import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/repositories/customer_repository.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
 
@@ -30,28 +31,44 @@ class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationS
     if (!DateTime.now().difference(event.date.subtract(Duration(hours: event.cutoffTimeOffset))).isNegative) {
       yield StatePastCutoffTime();
     } else {
-      Ticket ticket = await TicketRepository.instance.loadTicket(uid, event);
-      if (ticket == null) {
-        bool ticketsLeft = await TicketRepository.instance.freeTicketsLeft(event.docID);
-        if (ticketsLeft) {
-          yield StateInvitationPending();
-        } else {
+
+      List<TicketRelease> releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
+      List<Ticket> tickets = await TicketRepository.instance.loadTickets(uid, event);
+      List<Ticket> restrictedTickets = tickets.where((element) => element.release.singleTicketRestriction).toList();
+
+      // If the current user does not yet have a free ticket
+      if (restrictedTickets.length == 0) {
+
+        // If there is a release with free tickets
+        if(releasesWithSingleTicketRestriction.length == 0){
           yield StateNoTicketsLeft();
+        } else {
+          try{
+            TicketRelease tr = releasesWithSingleTicketRestriction.firstWhere((element) => element.ticketsLeft() > 0);
+            yield StateInvitationPending(tr);
+          } catch(_) {
+            yield StateNoTicketsLeft();
+          }
         }
       } else {
-        yield StateTicketAlreadyIssued(ticket);
+        yield StateTicketAlreadyIssued(restrictedTickets[0]);
       }
     }
   }
 
   Stream<AcceptInvitationState> _acceptInvitation(LinkType linkType) async* {
     yield StateLoading(message: "Putting your name on the guestlist ...");
-    Ticket ticket = await TicketRepository.instance.acceptInvitation(linkType);
-    CustomerRepository.instance.addCustomerAttendingAction(linkType);
-    if (ticket == null) {
+    List<TicketRelease> freeTicketRelease = linkType.event.getReleasesWithSingleTicketRestriction();
+    if(freeTicketRelease.length == 0){
       yield StateError();
     } else {
-      yield StateInvitationAccepted(ticket);
+      Ticket ticket = await TicketRepository.instance.acceptInvitation(linkType, freeTicketRelease[0]);
+      CustomerRepository.instance.addCustomerAttendingAction(linkType);
+      if (ticket == null) {
+        yield StateError();
+      } else {
+        yield StateInvitationAccepted(ticket);
+      }
     }
   }
 }

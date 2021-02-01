@@ -9,16 +9,16 @@ import 'package:webapp/pages/accept_invitation/bloc/accept_invitation_bloc.dart'
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:webapp/utilities/alertGenerator.dart';
 
-class AcceptInvitationPage extends StatefulWidget {
+class FreeTicketPage extends StatefulWidget {
   final LinkType linkType;
 
-  const AcceptInvitationPage(this.linkType, {Key key}) : super(key: key);
+  const FreeTicketPage(this.linkType, {Key key}) : super(key: key);
 
   @override
-  _AcceptInvitationPageState createState() => _AcceptInvitationPageState();
+  _FreeTicketPageState createState() => _FreeTicketPageState();
 }
 
-class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
+class _FreeTicketPageState extends State<FreeTicketPage> {
   AcceptInvitationBloc bloc = AcceptInvitationBloc();
 
   @override
@@ -46,8 +46,18 @@ class _AcceptInvitationPageState extends State<AcceptInvitationPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    AutoSizeText("Planning to attend? Press the button below and we'll put you on the guest list",
+                    AutoSizeText("This event offers a free ticket!",
                         style: MyTheme.mainTT.subtitle1),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    AutoSizeText(state.release.name,
+                        style: MyTheme.mainTT.headline6),
+                    SizedBox(
+                      height: 18,
+                    ),
+                    AutoSizeText("Planning to attend? Press the button below and we'll put you on the guest list",
+                        style: MyTheme.mainTT.bodyText1),
                     SizedBox(
                       height: 12,
                     ),

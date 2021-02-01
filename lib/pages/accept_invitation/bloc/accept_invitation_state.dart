@@ -15,7 +15,11 @@ class StateLoading extends AcceptInvitationState {
 
 class StateError extends AcceptInvitationState {}
 
-class StateInvitationPending extends AcceptInvitationState {}
+class StateInvitationPending extends AcceptInvitationState {
+  final TicketRelease release;
+
+  StateInvitationPending(this.release);
+}
 
 class StateNoTicketsLeft extends AcceptInvitationState {}
 

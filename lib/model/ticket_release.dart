@@ -1,4 +1,3 @@
-import 'package:webapp/model/ticket_type.dart';
 import 'package:webapp/services/bugsnag_wrapper.dart';
 
 class TicketRelease {
@@ -7,9 +6,16 @@ class TicketRelease {
   String description = "";
   DateTime entryStart;
   DateTime entryEnd;
+  DateTime releaseStart;
+  DateTime releaseEnd;
   int maxTickets = 0;
   int ticketsBought = 0;
-  List<TicketType> ticketTypes = [];
+  int price;
+  bool singleTicketRestriction = false;
+
+  int ticketsLeft(){
+    return maxTickets - ticketsBought;
+  }
 
   TicketRelease._();
 
@@ -30,20 +36,23 @@ class TicketRelease {
       if (data.containsKey("entry_end")) {
         release.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
       }
+      if (data.containsKey("release_start")) {
+        release.releaseStart = DateTime.fromMillisecondsSinceEpoch(data["release_start"].millisecondsSinceEpoch);
+      }
+      if (data.containsKey("release_end")) {
+        release.releaseEnd = DateTime.fromMillisecondsSinceEpoch(data["release_end"].millisecondsSinceEpoch);
+      }
       if (data.containsKey("max_tickets")) {
         release.maxTickets = data["max_tickets"];
       }
       if (data.containsKey("tickets_bought")) {
         release.ticketsBought = data["tickets_bought"];
       }
-      if (data.containsKey("ticket_types")) {
-        data["ticket_types"].forEach((key, value) {
-          TicketType tt = TicketType()
-            ..name = key
-            ..ticketsBought = value["tickets_bought"]
-            ..price = value["price"];
-          release.ticketTypes.add(tt);
-        });
+      if (data.containsKey("price")) {
+        release.price = data["price"];
+      }
+      if (data.containsKey("single_ticket_restriction")) {
+        release.singleTicketRestriction = data["single_ticket_restriction"];
       }
     } catch (e, s) {
       print(e);

@@ -37,8 +37,8 @@ extension AppolloCard on Card {
   Card get appolloCard {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          side: BorderSide(color: Color(0xFF707070).withAlpha(80), width: 1)),
+          borderRadius: BorderRadius.all(Radius.circular(6)),
+          side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1)),
       elevation: 8,
       color: Colors.grey[800].withAlpha(100),
       shadowColor: Colors.transparent,

@@ -9,11 +9,13 @@ import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:webapp/UI/theme.dart';
+import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/user.dart';
 import 'package:webapp/pages/accept_invitation/accept_invitation_page.dart';
+import 'package:webapp/pages/payment/payment_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
 import 'package:webapp/services/firebase.dart';
 import 'package:webapp/services/validator.dart' as val;
@@ -115,6 +117,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                   padding: EdgeInsets.all(cardPadding),
                   child: Column(
                     children: [
+                      _buildWhyAreYouHere(),
                       Card(
                         color: Colors.grey[900].withAlpha(150),
                         shape: RoundedRectangleBorder(
@@ -184,18 +187,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                                           ],
                                                         ),
                                                       ),
-                                                    ).paddingTop(26)
+                                                    ).paddingTop(elementSpacing)
                                                   : SizedBox.shrink(),
                                               SizedBox(
-                                                height: 26,
+                                                height: elementSpacing,
                                               ),
                                               Card(
-                                                child: Column(
-                                                  children: [
-                                                    _buildWhyAreYouHere().paddingAll(cardPadding),
-                                                    _buildEventInfoVertical(screenSize, constraints),
-                                                  ],
-                                                ),
+                                                child: _buildEventInfoVertical(screenSize, constraints),
                                               ).appolloCard,
                                               SizedBox(
                                                 height: elementSpacing,
@@ -211,11 +209,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                               style: MyTheme.mainTT.headline5,
                                             ),
                                             SizedBox(
-                                              height: 26,
-                                            ),
-                                            _buildWhyAreYouHere(),
-                                            SizedBox(
-                                              height: 20,
+                                              height: elementSpacing,
                                             ),
                                             _buildEventInfoHorizontal(screenSize, constraints)
                                           ],
@@ -232,7 +226,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                       String text =
                                           "We couldn't create an account for you, please make sure your password is at least 8 characters long";
                                       if (state.error == SignUpError.UserCancelled) {
-                                        text = "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
+                                        text =
+                                            "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
                                       } else {
                                         text = "An error occurred during the signup process, please try again";
                                       }
@@ -328,7 +323,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                 cubit: signUpBloc,
                                 builder: (c, state) {
                                   if (state is StateLoggedIn) {
-                                    return AcceptInvitationPage(widget.linkType);
+                                    return Column(
+                                      children: [
+                                        _buildFreeTicketCard(),
+                                        _buildPaymentCard(),
+                                      ],
+                                    );
                                   } else {
                                     return Container();
                                   }
@@ -899,8 +899,24 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     } else if (state is StateNewUserEmailsConfirmed) {
       text = "Create and confirm a password you can easily remember";
     } else {
-      text = "To get your ticket, let's start with your email address";
-    }
+      return SizedBox(
+        width: MyTheme.maxWidth,
+        child: Column(
+          children: [
+            AutoSizeText(
+              "Let's start with your email address",
+              style: MyTheme.mainTT.subtitle1
+                  .copyWith(color: MyTheme.appolloGreen),
+            ).paddingBottom(8),
+            AutoSizeText(
+              "Let's start with your email address",
+              style: MyTheme.mainTT.subtitle1
+                  .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite),
+              minFontSize: 12,
+            ),
+          ],
+        ),
+      );    }
     return SizedBox(
       width: MyTheme.maxWidth,
       child: AutoSizeText(
@@ -1059,7 +1075,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
           child: Card(
             color: Colors.transparent,
             child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(6)),
               child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
                   loadStateChanged: (ExtendedImageState state) {
                 switch (state.extendedImageLoadState) {
@@ -1469,29 +1485,53 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   }
 
   Widget _buildWhyAreYouHere() {
+    if (widget.linkType is AdvertisementInvite) {
+      return AutoSizeText("");
+    }
+
+    String text = "";
+
     if (widget.linkType is PromoterInvite) {
       PromoterInvite invitation = widget.linkType;
-      return Column(
-        children: [
-          AutoSizeText(
-            "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their guest list.\nFollow the instructions below to claim your ticket!",
-            style: MyTheme.mainTT.bodyText1,
-            textAlign: TextAlign.center,
-          ),
-        ],
-      );
+      text =
+          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to an event.\nFollow the instructions below to accept your invite!";
     } else if (widget.linkType is BirthdayList) {
       BirthdayList invitation = widget.linkType;
-      return Column(
-        children: [
-          AutoSizeText(
-              "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to join their birthday party.\nFollow the instructions below to accept your invite!",
+      text =
+          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to their birthday party.\nFollow the instructions below to accept your invite!";
+    }
+
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+      color: MyTheme.appolloGreen,
+      child: Padding(
+        padding: EdgeInsets.all(cardPadding),
+        child: Column(
+          children: [
+            AutoSizeText(
+              text,
               style: MyTheme.mainTT.bodyText1,
-              textAlign: TextAlign.center),
-        ],
-      );
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFreeTicketCard() {
+    if (widget.linkType.event.getReleasesWithSingleTicketRestriction().length != 0) {
+      return FreeTicketPage(widget.linkType).paddingTop(20);
     } else {
-      return AutoSizeText("");
+      return Container();
+    }
+  }
+
+  Widget _buildPaymentCard() {
+    if (widget.linkType.event.getReleasesWithoutRestriction().length != 0) {
+      return PaymentPage(widget.linkType.event).paddingTop(20);
+    } else {
+      return Container();
     }
   }
 }
