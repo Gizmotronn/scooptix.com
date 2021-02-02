@@ -7,6 +7,7 @@ import 'package:webapp/model/event.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/payment/bloc/payment_bloc.dart';
 import 'package:webapp/UI/theme.dart';
+import 'package:webapp/repositories/payment_repository.dart';
 
 class PaymentPage extends StatefulWidget {
   final Event event;
@@ -19,11 +20,13 @@ class PaymentPage extends StatefulWidget {
 
 class _PaymentPageState extends State<PaymentPage> {
   PaymentBloc bloc;
-  int quantityValue = 0;
+  TicketRelease selectedRelease;
   TextEditingController _ccnumberController = TextEditingController();
   TextEditingController _monthController = TextEditingController();
   TextEditingController _yearController = TextEditingController();
   TextEditingController _cvcController = TextEditingController();
+
+  bool _termsConditions = false;
 
   @override
   void initState() {
@@ -47,18 +50,13 @@ class _PaymentPageState extends State<PaymentPage> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              Text(
-                "Secure your ticket by following the instructions below",
-                style: MyTheme.mainTT.subtitle1,
-              ),
-              SizedBox(
-                height: 30,
-              ),
               BlocBuilder<PaymentBloc, PaymentState>(
                 cubit: bloc,
                 builder: (c, state) {
                   if (state is StatePaymentError) {
                     return Text(state.message);
+                  } else if(state is PaymentCompletedState){
+                    return Text("Done");
                   } else if (state is StateFinalizePayment) {
                     return Column(
                       children: [
@@ -105,69 +103,91 @@ class _PaymentPageState extends State<PaymentPage> {
                         )
                       ],
                     );
-                  } else if (state is StateSIRequiresPaymentMethod) {
+                  } else if (state is StateAddPaymentMethod) {
                     return SizedBox(
                       width: MyTheme.maxWidth - 40,
                       child: Column(
                         children: [
                           Align(
-                              alignment:Alignment.centerLeft,
-                              child: Text("Credit or Debit Card")),
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Add a Payment Method",
+                                style: MyTheme.mainTT.headline6,
+                              )),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                "Card Details",
+                                style: MyTheme.mainTT.headline6,
+                              )),
                           SizedBox(
                             height: 24,
                           ),
                           SizedBox(
-                            width: MyTheme.maxWidth - 40,
+                            width: MyTheme.maxWidth,
+                            child: TextFormField(
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(16)
+                              ],
+                              controller: _ccnumberController,
+                              decoration: InputDecoration(border: OutlineInputBorder(), hintText: "Credit Card Number"),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 24,
+                          ),
+                          SizedBox(
+                            width: MyTheme.maxWidth,
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: (MyTheme.maxWidth - 40) * 0.7 - 10,
-                                  child: TextFormField(
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(16)
+                                  width: MyTheme.maxWidth * 0.55 - 28,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: MyTheme.maxWidth * 0.25 - 14,
+                                        child: TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.digitsOnly,
+                                            LengthLimitingTextInputFormatter(2)
+                                          ],
+                                          controller: _monthController,
+                                          decoration: InputDecoration(border: OutlineInputBorder(), hintText: "MM"),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: MyTheme.maxWidth * 0.05,
+                                        child: Center(child: Text("/")),
+                                      ),
+                                      SizedBox(
+                                        width: MyTheme.maxWidth * 0.25 - 14,
+                                        child: TextFormField(
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.digitsOnly,
+                                            LengthLimitingTextInputFormatter(2)
+                                          ],
+                                          controller: _yearController,
+                                          decoration: InputDecoration(border: OutlineInputBorder(), hintText: "YY"),
+                                        ),
+                                      ),
                                     ],
-                                    controller: _ccnumberController,
-                                    decoration:
-                                        InputDecoration.collapsed(hintText: "Credit Card Number"),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: (MyTheme.maxWidth - 40) * 0.08 - 10,
-                                  child: TextFormField(
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(2)
-                                    ],
-                                    controller: _monthController,
-                                    decoration:
-                                    InputDecoration.collapsed(hintText: "MM"),
-                                  ),
-                                ),
-                                SizedBox(width: (MyTheme.maxWidth - 40) * 0.04,
-                                child: Text("/"),),
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - 40) * 0.08 - 10,
-                                  child: TextFormField(
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(2)
-                                    ],
-                                    controller: _yearController,
-                                    decoration:
-                                    InputDecoration.collapsed(hintText: "YY"),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: (MyTheme.maxWidth - 40) * 0.1 - 10,
+                                  width: MyTheme.maxWidth * 0.4 - 28,
                                   child: TextFormField(
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                       LengthLimitingTextInputFormatter(3)
                                     ],
                                     controller: _cvcController,
-                                    decoration: InputDecoration.collapsed(hintText: "CVC"),
+                                    decoration: InputDecoration(border: OutlineInputBorder(), hintText: "CVC"),
                                   ),
                                 ),
                               ],
@@ -179,7 +199,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               alignment: Alignment.centerRight,
                               child: RaisedButton(
                                 onPressed: () async {
-                                  if(_ccnumberController.text.length == 16 && _monthController.text.length > 0 && _yearController.text.length > 0 && _cvcController.text.length == 3) {
+                                  if (_ccnumberController.text.length == 16 &&
+                                      _monthController.text.length > 0 &&
+                                      _yearController.text.length > 0 &&
+                                      _cvcController.text.length == 3) {
                                     StripeCard card = StripeCard(
                                         number: _ccnumberController.text,
                                         cvc: _cvcController.text,
@@ -187,11 +210,11 @@ class _PaymentPageState extends State<PaymentPage> {
                                         expMonth: int.tryParse(_monthController.text),
                                         expYear: int.tryParse(_yearController.text));
                                     Map<String, dynamic> data =
-                                    await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                        await Stripe.instance.api.createPaymentMethodFromCard(card);
                                     PaymentMethod pm =
-                                    PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                        PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                     print(pm.id);
-                                    bloc.add(EventConfirmSetupIntent(pm, state.setupIntentId));
+                                    bloc.add(EventConfirmSetupIntent(pm));
                                   }
                                 },
                                 child: Text(
@@ -204,8 +227,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         ],
                       ),
                     );
-                  } else if (state is StateReleasesLoaded) {
-                    return _buildTicketOverview(state.releases);
+                  } else if (state is StatePaymentRequired) {
+                    return _buildTicketOverview(state);
                   } else if (state is StateNoTicketsAvailable) {
                     return Text("Sorry, there are no more tickets available");
                   } else if (state is StateLoadingPaymentMethod) {
@@ -242,47 +265,139 @@ class _PaymentPageState extends State<PaymentPage> {
     );
   }
 
-  Widget _buildTicketOverview(List<TicketRelease> releases) {
-    List<Widget> ticketWidgets = [];
-    releases.forEach((release) {
-      ticketWidgets.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  Widget _buildTicketOverview(StatePaymentRequired state) {
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text(
+        "Your Order",
+        style: MyTheme.mainTT.headline6,
+      ).paddingBottom(20),
+      SizedBox(
+        width: MyTheme.maxWidth,
+        child: DropdownButtonFormField(
+          isDense: true,
+          decoration: InputDecoration(hintText: 'Choose your ticket'),
+          items: state.releases
+              .map((e) => DropdownMenuItem(
+                    value: e,
+                    child: Text("${e.name} - \$${(e.price / 100).toStringAsFixed(2)}"),
+                  ))
+              .toList(),
+          value: selectedRelease,
+          onChanged: (TicketRelease value) {
+            setState(() {
+              selectedRelease = value;
+            });
+          },
+        ),
+      ).paddingBottom(12),
+      Divider(
+        height: 1.5,
+      ).paddingBottom(8),
+      if (selectedRelease != null)
+        Column(
           children: [
-            Text("${release.name} - \$${(release.price / 100).toStringAsFixed(2)}"),
             SizedBox(
-              width: 80,
-              child: DropdownButtonFormField(
-                itemHeight: kMinInteractiveDimension,
-                decoration: InputDecoration.collapsed(hintText: 'Number of tickets'),
-                isDense: true,
-                items: [0, 1]
-                    .map((e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.toString()),
-                        ))
-                    .toList(),
-                value: quantityValue,
-                onChanged: (int value) {
-                  setState(() {
-                    quantityValue = value;
-                  });
-                },
+              width: MyTheme.maxWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(selectedRelease.name),
+                  SizedBox(
+                      width: 70,
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text("\$${(selectedRelease.price / 100).toStringAsFixed(2)}")))
+                ],
               ),
-            ),
+            ).paddingBottom(8),
+            SizedBox(
+              width: MyTheme.maxWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("Booking Fee"),
+                  SizedBox(width: 70, child: Align(alignment: Alignment.centerRight, child: Text("\$1.00")))
+                ],
+              ),
+            ).paddingBottom(8),
+            SizedBox(
+              width: MyTheme.maxWidth,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text("Total"),
+                  SizedBox(
+                      width: 70,
+                      child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text("\$${((selectedRelease.price + 100) / 100).toStringAsFixed(2)}")))
+                ],
+              ),
+            ).paddingBottom(8),
           ],
         ),
-      );
-    });
-
-    ticketWidgets.add(
+      SizedBox(
+          width: MyTheme.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("I accept the terms & conditions"),
+              Checkbox(
+                value: _termsConditions,
+                onChanged: (v) {
+                  setState(() {
+                    _termsConditions = v;
+                  });
+                },
+              )
+            ],
+          )),
+      Text(
+        "Payment Method",
+        style: MyTheme.mainTT.headline6,
+      ).paddingBottom(20),
+      SizedBox(
+        width: MyTheme.maxWidth,
+        child: PaymentRepository.instance.last4 != null
+            ? DropdownButtonFormField(
+          value: 1,
+                items: [
+                  DropdownMenuItem(
+                    child: Text("Use saved card ending in ${PaymentRepository.instance.last4}"),
+                    value: 1,
+                  ),
+                  DropdownMenuItem(
+                    child: Text("Add Payment Method"),
+                    value: 0,
+                  ),
+                ],
+                onChanged: (value) {
+                  if(value == 0){
+                    bloc.add(EventAddPaymentMethod());
+                  }
+                },
+              )
+            : DropdownButtonFormField(
+                items: [
+                  DropdownMenuItem(
+                    child: Text("Add Payment Method"),
+                    value: 0,
+                  ),
+                ],
+                onChanged: (value) {
+                  if(value == 0){
+                    bloc.add(EventAddPaymentMethod());
+                  }
+                },
+              ),
+      ),
       Padding(
         padding: const EdgeInsets.only(top: 30.0),
         child: Align(
           alignment: Alignment.centerRight,
           child: RaisedButton(
             onPressed: () {
-              bloc.add(EventStartPaymentProcess(releases[0], 1));
+              bloc.add(EventRequestPI(selectedRelease, 1));
             },
             child: Text(
               "Proceed to payment",
@@ -291,8 +406,6 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         ),
       ),
-    );
-
-    return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: ticketWidgets);
+    ]);
   }
 }

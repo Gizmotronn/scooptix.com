@@ -44,11 +44,10 @@ class Event {
   List<TicketRelease> getReleasesWithSingleTicketRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-      manager.releases.forEach((release) {
-        if (release.singleTicketRestriction) {
-          releases.add(release);
+      print("releases ${manager.getActiveRelease().name}");
+        if (manager.getActiveRelease().singleTicketRestriction) {
+          releases.add(manager.getActiveRelease());
         }
-      });
     });
     return releases;
   }
@@ -56,11 +55,9 @@ class Event {
   List<TicketRelease> getReleasesWithoutRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-      manager.releases.forEach((release) {
-        if (!release.singleTicketRestriction) {
-          releases.add(release);
+        if (!manager.getActiveRelease().singleTicketRestriction) {
+          releases.add(manager.getActiveRelease());
         }
-      });
     });
     return releases;
   }

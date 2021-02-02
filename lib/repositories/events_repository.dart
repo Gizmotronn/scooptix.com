@@ -39,17 +39,9 @@ class EventsRepository {
 
     await Future.wait(releaseManagerSnapshot.docs.map((element) async {
       ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
-      rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.releaseIds));
-      rm.releases.forEach((TicketRelease tr) {
-        if(tr.maxTickets > tr.ticketsBought
-            && tr.releaseStart.isBefore(DateTime.now())
-            && tr.releaseEnd.isAfter(DateTime.now())){
-          rm.activeReleases.add(tr);
-        }
-      });
+      rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
       event.releaseManagers.add(rm);
     }));
-
 
     return event;
   }
@@ -72,22 +64,18 @@ class EventsRepository {
     return events;
   }
 
-
-  /// Loads all TicketReleases for given releaseIds. Should be used to load releases for ReleaseManagers
-  Future<List<TicketRelease>> loadReleasesForManager(String eventId, List<String> releaseIds) async {
-    List<DocumentSnapshot> releaseSnapshots = [];
-
-    await Future.wait(releaseIds.map((releaseId) async {
-      releaseSnapshots.add(await FirebaseFirestore.instance
-          .collection("ticketevents")
-          .doc(eventId)
-          .collection("ticket_releases")
-          .doc(releaseId)
-          .get());
-    }));
+  /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers
+  Future<List<TicketRelease>> loadReleasesForManager(String eventId, String rmId) async {
+    QuerySnapshot releaseSnapshots = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(eventId)
+        .collection("release_managers")
+        .doc(rmId)
+        .collection("ticket_releases")
+        .get();
 
     List<TicketRelease> ticketReleases = [];
-    releaseSnapshots.forEach((releaseDoc) {
+    releaseSnapshots.docs.forEach((releaseDoc) {
       TicketRelease release = TicketRelease.fromMap(releaseDoc.id, releaseDoc.data());
       if (release != null) {
         ticketReleases.add(release);

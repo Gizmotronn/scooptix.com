@@ -8,14 +8,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/user.dart';
-import 'package:webapp/pages/accept_invitation/accept_invitation_page.dart';
-import 'package:webapp/pages/payment/payment_page.dart';
+import 'package:webapp/pages/accept_invitation/ticket_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
 import 'package:webapp/services/firebase.dart';
 import 'package:webapp/services/validator.dart' as val;
@@ -34,17 +34,10 @@ class AuthenticationPage extends StatefulWidget {
 class _AuthenticationPageState extends State<AuthenticationPage> with TickerProviderStateMixin {
   AuthenticationBloc signUpBloc;
 
-  final form = FormGroup({
-    'fname': FormControl(validators: [Validators.required]),
-    'lname': FormControl(validators: [Validators.required]),
-    'dobDay': FormControl<int>(validators: [Validators.required, Validators.max(31)]),
-    'dobMonth': FormControl<int>(validators: [Validators.required, Validators.max(12)]),
-    'dobYear': FormControl<int>(validators: [Validators.required, Validators.max(2009), Validators.min(1900)]),
-    'gender': FormControl<Gender>(validators: [Validators.required], value: Gender.Female),
-  });
+  FormGroup form;
 
   final double elementSpacing = 16.0;
-  final double cardPadding = 20;
+  double cardPadding = 20;
   final int animationTime = 400;
 
   // Not using a reactive form for the login since we're using custom logic for the email field.
@@ -53,6 +46,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   final TextEditingController _pwController = TextEditingController();
   final TextEditingController _confirmPwController = TextEditingController();
   bool _validatePW = false;
+  bool _termsAccepted = false;
 
   int releaseManagerSelected = 0;
 
@@ -62,11 +56,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     _pwController.clear();
     _confirmPwController.clear();
     _validatePW = false;
+    _termsAccepted = false;
     form.reset();
   }
 
   @override
   void initState() {
+    form = FormGroup({
+      'fname': FormControl(validators: [Validators.required]),
+      'lname': FormControl(validators: [Validators.required]),
+      'dobDay': FormControl<int>(validators: [Validators.required, Validators.max(31)]),
+      'dobMonth': FormControl<int>(validators: [Validators.required, Validators.max(12)]),
+      'dobYear': FormControl<int>(validators: [Validators.required, Validators.max(2009), Validators.min(1900)]),
+      'gender': FormControl<Gender>(validators: [Validators.required], value: Gender.Female),
+      'terms': FormControl<bool>(validators: [Validators.equals(true)], value: _termsAccepted),
+    });
     signUpBloc = AuthenticationBloc(widget.linkType);
     signUpBloc.add(EventPageLoad());
     TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
@@ -83,6 +87,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     MyTheme.maxWidth = screenSize.width < 800 ? screenSize.width : 800;
+    cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
     return Scaffold(
       body: Stack(
         children: [
@@ -111,259 +116,184 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8 + 44),
+              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(cardPadding),
+                  padding: EdgeInsets.all(cardPadding - 4),
                   child: Column(
                     children: [
-                      _buildWhyAreYouHere(),
-                      Card(
-                        color: Colors.grey[900].withAlpha(150),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10)),
-                            side: BorderSide(color: Color(0xFF707070).withAlpha(90), width: 1)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(22.0),
-                          child: Column(
-                            children: [
-                              BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                  cubit: signUpBloc,
-                                  builder: (c, state) {
-                                    return ResponsiveBuilder(builder: (context, constraints) {
-                                      if ((constraints.deviceScreenType == DeviceScreenType.mobile ||
+                      Column(
+                        children: [
+                          // Add some top padding if we show the appbar
+                          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                              cubit: signUpBloc,
+                              builder: (c, state) {
+                                return ResponsiveBuilder(builder: (context, constraints) {
+                                  if (state is StateLoggedIn &&
+                                      (constraints.deviceScreenType == DeviceScreenType.mobile ||
                                           constraints.deviceScreenType == DeviceScreenType.watch)) {
-                                        if (state is StateNewUserEmail ||
-                                            state is StateNewUserEmailsConfirmed ||
-                                            state is StatePasswordsConfirmed) {
-                                          return SizedBox.shrink();
-                                        } else {
-                                          return Column(
-                                            children: [
-                                              AutoSizeText(
-                                                widget.linkType.event.name,
-                                                style: MyTheme.mainTT.headline5,
-                                              ),
-                                              state is StateLoggedIn
-                                                  ? SizedBox(
-                                                      width: constraints.screenSize.width,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                                        child: Row(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                          children: [
-                                                            SizedBox(
-                                                              width: MyTheme.maxWidth - 16 - 106 - 52 - 12 - 40,
-                                                              child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    AutoSizeText(
-                                                                      "${state.firstName} ${state.lastName}",
-                                                                      style: MyTheme.mainTT.bodyText1,
-                                                                    ),
-                                                                    AutoSizeText(
-                                                                      state.email,
-                                                                      style: MyTheme.mainTT.bodyText2,
-                                                                    ),
-                                                                  ]),
-                                                            ),
-                                                            SizedBox(
-                                                              width: 12,
-                                                            ),
-                                                            SizedBox(
-                                                              width: 106,
-                                                              height: 34,
-                                                              child: RaisedButton(
-                                                                onPressed: () {
-                                                                  clearData();
-                                                                  signUpBloc.add(EventLogout());
-                                                                },
-                                                                child: Text(
-                                                                  "Logout",
-                                                                  style: MyTheme.mainTT.button,
-                                                                ),
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ).paddingTop(elementSpacing)
-                                                  : SizedBox.shrink(),
-                                              SizedBox(
-                                                height: elementSpacing,
-                                              ),
-                                              Card(
-                                                child: _buildEventInfoVertical(screenSize, constraints),
-                                              ).appolloCard,
-                                              SizedBox(
-                                                height: elementSpacing,
-                                              ),
-                                            ],
-                                          );
-                                        }
-                                      } else {
-                                        return Column(
-                                          children: [
-                                            AutoSizeText(
-                                              widget.linkType.event.name,
-                                              style: MyTheme.mainTT.headline5,
-                                            ),
-                                            SizedBox(
-                                              height: elementSpacing,
-                                            ),
-                                            _buildEventInfoHorizontal(screenSize, constraints)
-                                          ],
-                                        );
-                                      }
-                                    });
-                                  }),
+                                    return SizedBox(height: 66);
+                                  } else {
+                                    return SizedBox.shrink();
+                                  }
+                                });
+                              }),
 
-                              // Builds the login functionality
-                              BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                                  cubit: signUpBloc,
-                                  listener: (c, state) {
-                                    if (state is StateErrorSignUp) {
-                                      String text =
-                                          "We couldn't create an account for you, please make sure your password is at least 8 characters long";
-                                      if (state.error == SignUpError.UserCancelled) {
-                                        text =
-                                            "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
-                                      } else {
-                                        text = "An error occurred during the signup process, please try again";
-                                      }
-                                      AlertGenerator.showAlert(
-                                          context: context,
-                                          title: "Error",
-                                          content: text,
-                                          buttonText: "Ok",
-                                          popTwice: false);
-                                    } else if (state is StateLoginFailed) {
-                                      AlertGenerator.showAlert(
-                                          context: context,
-                                          title: "Wrong Password",
-                                          content: "Your password is incorrect, please try again.",
-                                          buttonText: "Ok",
-                                          popTwice: false);
-                                    } else if (state is StateNewSSOUser) {
-                                      _emailController.text = state.email;
-                                      form.controls["fname"].value = state.firstName;
-                                      form.controls["lname"].value = state.lastName;
-                                    }
-                                  },
-                                  buildWhen: (c, state) {
-                                    if (state is StateErrorSignUp) {
-                                      return false;
-                                    }
-                                    return true;
-                                  },
-                                  builder: (c, state) {
-                                    if (state is StatePasswordsConfirmed ||
-                                        (state is StateLoggedIn &&
-                                            (getDeviceType(screenSize) == DeviceScreenType.mobile ||
-                                                getDeviceType(screenSize) == DeviceScreenType.watch))) {
+                          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                              cubit: signUpBloc,
+                              builder: (c, state) {
+                                return ResponsiveBuilder(builder: (context, constraints) {
+                                  if ((constraints.deviceScreenType == DeviceScreenType.mobile ||
+                                      constraints.deviceScreenType == DeviceScreenType.watch)) {
+                                    if (state is StateNewUserEmail ||
+                                        state is StateNewUserEmailsConfirmed ||
+                                        state is StatePasswordsConfirmed) {
                                       return SizedBox.shrink();
                                     } else {
                                       return Column(
                                         children: [
-                                          AnimatedSize(
-                                            vsync: this,
-                                            duration: Duration(milliseconds: animationTime),
-                                            child: Container(
-                                              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
-                                              child: Card(
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(cardPadding),
-                                                  child: Column(
-                                                    children: [
-                                                      _buildEmailAndPWFields(state, screenSize),
-                                                      _buildSSO(state, screenSize),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ).appolloCard,
-                                            ),
-                                          ),
+                                          _buildWhyAreYouHere(state),
+                                          Card(
+                                            child: _buildEventInfoVertical(screenSize, constraints),
+                                          ).appolloCard,
                                         ],
-                                      )
-                                          .paddingTop(getValueForScreenType(
-                                              context: context,
-                                              desktop: elementSpacing,
-                                              tablet: elementSpacing,
-                                              mobile: 0,
-                                              watch: 0))
-                                          .paddingBottom(getValueForScreenType(
-                                              context: context,
-                                              desktop: state is StateLoggedIn ? elementSpacing : 0,
-                                              tablet: state is StateLoggedIn ? elementSpacing : 0,
-                                              mobile: 0,
-                                              watch: 0));
-                                    }
-                                  }),
-                              BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                                  cubit: signUpBloc,
-                                  listener: (c, state) {},
-                                  buildWhen: (c, state) {
-                                    if (state is StateErrorSignUp || state is StateLoadingLogin) {
-                                      return false;
-                                    }
-                                    return true;
-                                  },
-                                  builder: (c, state) {
-                                    print(state);
-                                    if (state is StatePasswordsConfirmed) {
-                                      return _buildNewUser(screenSize);
-                                    } else {
-                                      return Container(
-                                        height: 0,
-                                        width: 0,
                                       );
                                     }
-                                  }),
-                              BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                cubit: signUpBloc,
-                                builder: (c, state) {
-                                  if (state is StateLoggedIn) {
+                                  } else {
                                     return Column(
                                       children: [
-                                        _buildFreeTicketCard(),
-                                        _buildPaymentCard(),
+                                        AutoSizeText(
+                                          widget.linkType.event.name,
+                                          style: MyTheme.mainTT.headline5,
+                                        ),
+                                        SizedBox(
+                                          height: elementSpacing,
+                                        ),
+                                        _buildEventInfoHorizontal(screenSize, constraints)
                                       ],
                                     );
-                                  } else {
-                                    return Container();
                                   }
-                                },
-                              ),
-                              // Builds the CTA
-                              BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                                  cubit: signUpBloc,
-                                  listener: (c, state) {},
-                                  buildWhen: (c, state) {
-                                    if (state is StateErrorSignUp) {
-                                      return false;
-                                    }
-                                    return true;
-                                  },
-                                  builder: (c, state) {
-                                    if (state is StateLoggedIn || state is StateLoadingSSO) {
-                                      return Container();
-                                    } else {
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(right: 4.0),
-                                            child: Align(
-                                                alignment: Alignment.centerRight,
-                                                child: _buildMainButtons(state, screenSize)),
-                                          ).paddingTop(elementSpacing),
-                                        ],
-                                      );
-                                    }
-                                  }),
-                            ],
+                                });
+                              }),
+
+                          // Builds the login functionality
+                          BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                              cubit: signUpBloc,
+                              listener: (c, state) {
+                                if (state is StateErrorSignUp) {
+                                  String text =
+                                      "We couldn't create an account for you, please make sure your password is at least 8 characters long";
+                                  if (state.error == SignUpError.UserCancelled) {
+                                    text =
+                                        "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
+                                  } else {
+                                    text = "An error occurred during the signup process, please try again";
+                                  }
+                                  AlertGenerator.showAlert(
+                                      context: context,
+                                      title: "Error",
+                                      content: text,
+                                      buttonText: "Ok",
+                                      popTwice: false);
+                                } else if (state is StateLoginFailed) {
+                                  AlertGenerator.showAlert(
+                                      context: context,
+                                      title: "Wrong Password",
+                                      content: "Your password is incorrect, please try again.",
+                                      buttonText: "Ok",
+                                      popTwice: false);
+                                } else if (state is StateNewSSOUser) {
+                                  _emailController.text = state.email;
+                                  form.controls["fname"].value = state.firstName;
+                                  form.controls["lname"].value = state.lastName;
+                                }
+                              },
+                              buildWhen: (c, state) {
+                                if (state is StateErrorSignUp) {
+                                  return false;
+                                }
+                                return true;
+                              },
+                              builder: (c, state) {
+                                if (state is StatePasswordsConfirmed ||
+                                    (state is StateLoggedIn &&
+                                        (getDeviceType(screenSize) == DeviceScreenType.mobile ||
+                                            getDeviceType(screenSize) == DeviceScreenType.watch))) {
+                                  return SizedBox.shrink();
+                                } else {
+                                  return Column(
+                                    children: [
+                                      AnimatedSize(
+                                        vsync: this,
+                                        duration: Duration(milliseconds: animationTime),
+                                        child: Container(
+                                          constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
+                                          child: Card(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(cardPadding),
+                                              child: Column(
+                                                children: [
+                                                  _buildEmailAndPWFields(state, screenSize),
+                                                  SizedBox(
+                                                    height: elementSpacing,
+                                                  ),
+                                                  SizedBox(
+                                                      width: MyTheme.maxWidth,
+                                                      child: _buildMainButtons(state, screenSize)),
+                                                  _buildSSO(state, screenSize),
+                                                ],
+                                              ),
+                                            ),
+                                          ).appolloCard,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                      .paddingTop(getValueForScreenType(
+                                          context: context,
+                                          desktop: elementSpacing,
+                                          tablet: elementSpacing,
+                                          mobile: 0,
+                                          watch: 0))
+                                      .paddingBottom(getValueForScreenType(
+                                          context: context,
+                                          desktop: state is StateLoggedIn ? elementSpacing : 0,
+                                          tablet: state is StateLoggedIn ? elementSpacing : 0,
+                                          mobile: 0,
+                                          watch: 0));
+                                }
+                              }),
+                          BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                              cubit: signUpBloc,
+                              listener: (c, state) {},
+                              buildWhen: (c, state) {
+                                if (state is StateErrorSignUp || state is StateLoadingLogin) {
+                                  return false;
+                                }
+                                return true;
+                              },
+                              builder: (c, state) {
+                                print(state);
+                                if (state is StatePasswordsConfirmed) {
+                                  return _buildNewUser(state, screenSize);
+                                } else {
+                                  return Container(
+                                    height: 0,
+                                    width: 0,
+                                  );
+                                }
+                              }),
+                          BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                            cubit: signUpBloc,
+                            builder: (c, state) {
+                              if (state is StateLoggedIn) {
+                                return TicketPage(widget.linkType);
+                              } else {
+                                return Container();
+                              }
+                            },
                           ),
-                        ),
+                        ],
                       ),
                       SizedBox(
                         height: 16,
@@ -378,13 +308,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               ),
             ),
           ),
+          _buildAppBar(screenSize),
         ],
       ),
     );
   }
 
   /// Input fields required for sign up
-  Widget _buildNewUser(Size screenSize) {
+  Widget _buildNewUser(AuthenticationState state, Size screenSize) {
     return SizedBox(
       width: screenSize.width,
       child: Column(
@@ -405,18 +336,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                         child: Column(
                           children: [
                             AutoSizeText(
-                              "Finally provide some info about yourself",
+                              "Tell us about yourself",
+                              textAlign: TextAlign.center,
                               style: MyTheme.mainTT.headline6,
                             ),
                             SizedBox(
-                              height: 8,
-                            ),
-                            AutoSizeText(
-                              "We require this information to issue your ticket. Please note that providing incorrect information might invalidate your ticket. We'll save this data for you, so you'll only have to provide it once.",
-                              style: MyTheme.mainTT.bodyText2,
-                            ),
-                            SizedBox(
-                              height: elementSpacing * 2,
+                              height: elementSpacing * 1.5,
                             ),
                             AutoSizeText(
                               "Name",
@@ -520,12 +445,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: (MyTheme.maxWidth - cardPadding * 6) + 8,
+                                      width: (MyTheme.maxWidth - cardPadding * 4) + 8,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                            width: (MyTheme.maxWidth - cardPadding * 6 - 30) / 3,
+                                            width: (MyTheme.maxWidth - cardPadding * 4 - 30) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobDay',
                                               keyboardType: TextInputType.number,
@@ -543,7 +468,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             ),
                                           ),
                                           SizedBox(
-                                            width: (MyTheme.maxWidth - cardPadding * 6 - 30) / 3,
+                                            width: (MyTheme.maxWidth - cardPadding * 4 - 30) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobMonth',
                                               validationMessages: (control) => {
@@ -561,7 +486,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             ),
                                           ),
                                           SizedBox(
-                                            width: (MyTheme.maxWidth - cardPadding * 6 - 30) / 3,
+                                            width: (MyTheme.maxWidth - cardPadding * 4 - 30) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobYear',
                                               validationMessages: (control) => {
@@ -691,6 +616,51 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                 );
                               }
                             }),
+                            SizedBox(
+                              height: elementSpacing * 2,
+                            ),
+                            AutoSizeText(
+                              "Terms & Conditions",
+                              style: MyTheme.mainTT.headline6,
+                            ),
+                            SizedBox(
+                              height: elementSpacing,
+                            ),
+                            AutoSizeText(
+                              "We require this information to issue your ticket. Please note that providing incorrect information may invalidate you ticket.\n\nWe’ll save this data for you so you’ll only need to provide it once. ",
+                              style: MyTheme.mainTT.caption,
+                            ),
+                            SizedBox(
+                              height: elementSpacing,
+                            ),
+                            SizedBox(
+                              width: MyTheme.maxWidth,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                      onTap: () async {
+                                        const url = 'https://appollo.io/terms-of-service.html';
+                                        if (await canLaunch(url)) {
+                                          await launch(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      },
+                                      child: Text(
+                                        "I accept the terms & conditions",
+                                        style: TextStyle().copyWith(decoration: TextDecoration.underline),
+                                      )),
+                                  ReactiveCheckbox(
+                                    formControlName: "terms",
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: elementSpacing * 1.5,
+                            ),
+                            _buildMainButtons(state, screenSize),
                           ],
                         )),
                   ),
@@ -707,6 +677,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   Widget _buildMainButtons(AuthenticationState state, Size screenSize) {
     if (state is StateLoadingLogin) {
       return RaisedButton(
+        color: MyTheme.appolloGreen,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -729,19 +700,21 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlineButton(
-            borderSide: BorderSide(color: MyTheme.appolloPurple, width: 5),
+            color: MyTheme.appolloGreen,
+            borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloPurple)),
+              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloGreen)),
             ),
             onPressed: () {
               signUpBloc.add(EventChangeEmail());
             },
           ),
           RaisedButton(
+            color: MyTheme.appolloGreen,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -758,17 +731,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlineButton(
-            borderSide: BorderSide(color: MyTheme.appolloPurple, width: 5),
+            color: MyTheme.appolloGreen,
+            borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloPurple)),
+              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloGreen)),
             ),
             onPressed: () {
               signUpBloc.add(EventChangeEmail());
             },
           ),
           RaisedButton(
+            color: MyTheme.appolloGreen,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -792,17 +767,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlineButton(
-            borderSide: BorderSide(color: MyTheme.appolloPurple, width: 5),
+            color: MyTheme.appolloGreen,
+            borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloPurple)),
+              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloGreen)),
             ),
             onPressed: () {
               signUpBloc.add(EventChangeEmail());
             },
           ),
           RaisedButton(
+            color: MyTheme.appolloGreen,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -823,6 +800,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
       );
     } else if (state is StateInitial) {
       return RaisedButton(
+        color: MyTheme.appolloGreen,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -837,17 +815,19 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           OutlineButton(
-            borderSide: BorderSide(color: MyTheme.appolloPurple, width: 5),
+            color: MyTheme.appolloGreen,
+            borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloPurple)),
+              child: Text("Back", style: MyTheme.mainTT.button.copyWith(color: MyTheme.appolloGreen)),
             ),
             onPressed: () {
               signUpBloc.add(EventChangeEmail());
             },
           ),
           RaisedButton(
+            color: MyTheme.appolloGreen,
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -875,6 +855,14 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 setState(() {
                   _validatePW = true;
                 });
+                if (!_termsAccepted) {
+                  AlertGenerator.showAlert(
+                      context: context,
+                      title: "Missing info",
+                      content: "Please accept our terms & conditions to sign up",
+                      buttonText: "Ok",
+                      popTwice: false);
+                }
               }
             },
           ),
@@ -904,26 +892,30 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         child: Column(
           children: [
             AutoSizeText(
-              "Let's start with your email address",
-              style: MyTheme.mainTT.subtitle1
-                  .copyWith(color: MyTheme.appolloGreen),
-            ).paddingBottom(8),
+              "Accept your invite",
+              style: MyTheme.mainTT.headline6.copyWith(color: MyTheme.appolloGreen),
+            ).paddingBottom(16),
             AutoSizeText(
               "Let's start with your email address",
-              style: MyTheme.mainTT.subtitle1
+              style: MyTheme.mainTT.subtitle2
                   .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite),
               minFontSize: 12,
             ),
           ],
         ),
-      );    }
+      );
+    }
     return SizedBox(
       width: MyTheme.maxWidth,
-      child: AutoSizeText(
-        text,
-        style: MyTheme.mainTT.subtitle1
-            .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite),
-        minFontSize: 12,
+      child: Align(
+        alignment: Alignment.center,
+        child: AutoSizeText(
+          text,
+          textAlign: TextAlign.center,
+          style: MyTheme.mainTT.headline6
+              .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite),
+          minFontSize: 12,
+        ),
       ),
     );
   }
@@ -1113,6 +1105,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   _buildEventInfoVertical(Size screenSize, SizingInformation constraints) {
     return Column(
       children: [
+        AutoSizeText(
+          widget.linkType.event.name,
+          style: MyTheme.mainTT.headline5,
+        ).paddingBottom(elementSpacing).paddingTop(elementSpacing),
         Container(
           width: constraints.localWidgetSize.width - 8,
           child: AspectRatio(
@@ -1133,14 +1129,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               }
             }),
           ),
-        ).paddingBottom(8),
-        Container(
-          width: constraints.localWidgetSize.width - 4,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: _buildEventInfoText(),
-          ),
         ),
+        _buildEventInfoText().paddingAll(cardPadding),
       ],
     );
   }
@@ -1148,21 +1138,64 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   Widget _buildEventInfoText() {
     List<Widget> widgets = List<Widget>();
     widgets.add(
-      AutoSizeText("Event details", style: MyTheme.mainTT.headline6).paddingBottom(8),
+      Align(
+          alignment: Alignment.center,
+          child: AutoSizeText("Event details", style: MyTheme.mainTT.headline6).paddingBottom(elementSpacing)),
     );
     widgets.add(
-      AutoSizeText("Date: " + DateFormat.yMd().format(widget.linkType.event.date), maxLines: 1).paddingBottom(8),
+      SizedBox(
+        width: MyTheme.maxWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            AutoSizeText(
+                "${DateFormat.MMMM().add_d().format(widget.linkType.event.date)}, ${DateFormat.y().format(widget.linkType.event.date)}",
+                maxLines: 1),
+            AutoSizeText(DateFormat.Hm().format(widget.linkType.event.date))
+          ],
+        ),
+      ).paddingBottom(8),
     );
-    widgets.add(
-      AutoSizeText("Start: " + DateFormat.jm().format(widget.linkType.event.date), maxLines: 1).paddingBottom(8),
-    );
+    if (widget.linkType.event.endTime != null) {
+      widgets.add(
+        SizedBox(
+          width: MyTheme.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AutoSizeText("${widget.linkType.event.date.difference(DateTime.now()).inDays} Days to go", maxLines: 1),
+              AutoSizeText(
+                  "(Duration ${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} hours)"),
+            ],
+          ),
+        ).paddingBottom(8),
+      );
+    }
     if (widget.linkType.event.address != null) {
       widgets.add(
-        AutoSizeText("Location: " + widget.linkType.event.address, maxLines: 1).paddingBottom(8),
+        SizedBox(
+          width: MyTheme.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AutoSizeText("Location: ", maxLines: 1),
+              AutoSizeText(widget.linkType.event.address, maxLines: 1),
+            ],
+          ),
+        ).paddingBottom(16),
       );
     } else {
       widgets.add(
-        AutoSizeText("Location: " + widget.linkType.event.venueName, maxLines: 1).paddingBottom(8),
+        SizedBox(
+          width: MyTheme.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AutoSizeText("Location: ", maxLines: 1),
+              AutoSizeText(widget.linkType.event.venueName, maxLines: 1),
+            ],
+          ),
+        ).paddingBottom(16),
       );
     }
     /* widgets.add(AutoSizeText(
@@ -1173,7 +1206,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
       widgets.add(AutoSizeText(
         "Conditions:",
         style: MyTheme.mainTT.subtitle2,
-      ));
+      ).paddingBottom(8));
       widgets.add(AutoSizeText(
         widget.linkType.event.invitationMessage,
         maxLines: 3,
@@ -1484,8 +1517,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     }
   }
 
-  Widget _buildWhyAreYouHere() {
-    if (widget.linkType is AdvertisementInvite) {
+  Widget _buildWhyAreYouHere(AuthenticationState state) {
+    if (widget.linkType is AdvertisementInvite || state is StateNewUserEmail || state is StateNewUserEmailsConfirmed) {
       return AutoSizeText("");
     }
 
@@ -1494,44 +1527,107 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     if (widget.linkType is PromoterInvite) {
       PromoterInvite invitation = widget.linkType;
       text =
-          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to an event.\nFollow the instructions below to accept your invite!";
+          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to an event.";
     } else if (widget.linkType is BirthdayList) {
       BirthdayList invitation = widget.linkType;
       text =
-          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to their birthday party.\nFollow the instructions below to accept your invite!";
+          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to their birthday party.";
     }
 
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-      color: MyTheme.appolloGreen,
-      child: Padding(
-        padding: EdgeInsets.all(cardPadding),
-        child: Column(
-          children: [
-            AutoSizeText(
-              text,
-              style: MyTheme.mainTT.bodyText1,
-              textAlign: TextAlign.center,
-            ),
-          ],
+    return SizedBox(
+      width: MyTheme.maxWidth,
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
+        color: MyTheme.appolloGreen,
+        child: Padding(
+          padding: EdgeInsets.all(cardPadding),
+          child: Column(
+            children: [
+              AutoSizeText(
+                text,
+                style: MyTheme.mainTT.bodyText2,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8,),
+              AutoSizeText(
+                "Follow the instructions below to accept your invite!",
+                style: MyTheme.mainTT.bodyText2,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Widget _buildFreeTicketCard() {
-    if (widget.linkType.event.getReleasesWithSingleTicketRestriction().length != 0) {
-      return FreeTicketPage(widget.linkType).paddingTop(20);
-    } else {
-      return Container();
-    }
-  }
 
-  Widget _buildPaymentCard() {
-    if (widget.linkType.event.getReleasesWithoutRestriction().length != 0) {
-      return PaymentPage(widget.linkType.event).paddingTop(20);
-    } else {
-      return Container();
-    }
+  Widget _buildAppBar(Size size) {
+    DeviceScreenType screenType = getDeviceType(size);
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        cubit: signUpBloc,
+        builder: (c, state) {
+          if (state is StateLoggedIn &&
+              (screenType == DeviceScreenType.watch || screenType == DeviceScreenType.mobile)) {
+            return Container(
+              width: MyTheme.maxWidth,
+              height: 66,
+              color: Colors.grey[900].withAlpha(150),
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 40.0, sigmaY: 40.0),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: MyTheme.maxWidth / 1.7,
+                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              SizedBox(
+                                width: MyTheme.maxWidth / 1.7,
+                                child: AutoSizeText(
+                                  "${state.firstName} ${state.lastName}",
+                                  maxLines: 1,
+                                  style: MyTheme.mainTT.subtitle2,
+                                ),
+                              ),
+                              SizedBox(
+                                width: MyTheme.maxWidth / 1.7,
+                                child: AutoSizeText(
+                                  "${state.email}",
+                                  maxLines: 1,
+                                  style: MyTheme.mainTT.bodyText2,
+                                ),
+                              ),
+                            ]),
+                          ),
+                          SizedBox(
+                            width: 106,
+                            height: 34,
+                            child: RaisedButton(
+                              onPressed: () {
+                                clearData();
+                                signUpBloc.add(EventLogout());
+                              },
+                              child: Text(
+                                "Logout",
+                                style: MyTheme.mainTT.button,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          } else {
+            return SizedBox.shrink();
+          }
+        });
   }
 }

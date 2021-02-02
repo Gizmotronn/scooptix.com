@@ -1,4 +1,4 @@
-part of 'accept_invitation_bloc.dart';
+part of 'ticket_bloc.dart';
 
 abstract class AcceptInvitationState extends Equatable {
   const AcceptInvitationState();
@@ -15,11 +15,17 @@ class StateLoading extends AcceptInvitationState {
 
 class StateError extends AcceptInvitationState {}
 
-class StateInvitationPending extends AcceptInvitationState {
-  final TicketRelease release;
+class StateNoPaymentRequired extends AcceptInvitationState {
+  final List<TicketRelease> releases;
+  final String last4;
 
-  StateInvitationPending(this.release);
+  StateNoPaymentRequired(this.releases, this.last4);
 }
+
+class StatePaymentRequired extends AcceptInvitationState {
+  final List<TicketRelease> releases;
+
+  StatePaymentRequired(this.releases);}
 
 class StateNoTicketsLeft extends AcceptInvitationState {}
 

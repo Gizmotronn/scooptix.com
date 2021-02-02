@@ -17,16 +17,21 @@ class PaymentRepository {
 
   PaymentRepository._();
 
+  String clientSecret;
+  String paymentMethodId;
+  String last4;
+
+
   Future<Map<String, dynamic>> confirmPayment(String clientSecret, String paymentId) async {
     return await Stripe.instance.confirmPayment(clientSecret, paymentMethodId: paymentId);
   }
 
 
-  Future<http.Response> createPaymentIntent(String eventId, String ticketId, int quantity) async {
+  Future<http.Response> createPaymentIntent(String eventId, String managerId, String ticketId, int quantity) async {
     try {
       http.Response response = await http.post(
           "https://appollo-devops.web.app/createPITicketSale",
-          body: {"event": eventId, "ticket": ticketId, "quantity": quantity.toString(), "user": UserRepository.instance.currentUser.firebaseUserID});
+          body: {"event": eventId, "manager": managerId, "ticket": ticketId, "quantity": quantity.toString(), "user": UserRepository.instance.currentUser.firebaseUserID});
       return response;
     } on Exception catch (ex) {
       print(ex);

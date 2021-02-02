@@ -9,8 +9,8 @@ import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/repositories/customer_repository.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
 
-part 'accept_invitation_event.dart';
-part 'accept_invitation_state.dart';
+part 'ticket_event.dart';
+part 'ticket_state.dart';
 
 class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationState> {
   AcceptInvitationBloc() : super(StateLoading(message: "Fetching your invitation data, this won't take long ..."));
@@ -33,22 +33,23 @@ class AcceptInvitationBloc extends Bloc<AcceptInvitationEvent, AcceptInvitationS
     } else {
 
       List<TicketRelease> releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
+      List<TicketRelease> releasesWithRegularTickets = event.getReleasesWithoutRestriction();
       List<Ticket> tickets = await TicketRepository.instance.loadTickets(uid, event);
       List<Ticket> restrictedTickets = tickets.where((element) => element.release.singleTicketRestriction).toList();
 
-      // If the current user does not yet have a free ticket
+      // If the current user does not yet have a ticket
       if (restrictedTickets.length == 0) {
 
-        // If there is a release with free tickets
-        if(releasesWithSingleTicketRestriction.length == 0){
-          yield StateNoTicketsLeft();
-        } else {
-          try{
-            TicketRelease tr = releasesWithSingleTicketRestriction.firstWhere((element) => element.ticketsLeft() > 0);
-            yield StateInvitationPending(tr);
-          } catch(_) {
-            yield StateNoTicketsLeft();
+        // If there is a release with restricted tickets
+        if(releasesWithSingleTicketRestriction.any((element) => element.price > 0 || releasesWithRegularTickets.any((element) => element.price > 0))) {
+          if (releasesWithSingleTicketRestriction.length > 0) {
+            yield StatePaymentRequired(releasesWithSingleTicketRestriction);
+          } else {
+            yield StatePaymentRequired(releasesWithRegularTickets);
           }
+        }
+        else {
+          yield StateNoTicketsLeft();
         }
       } else {
         yield StateTicketAlreadyIssued(restrictedTickets[0]);

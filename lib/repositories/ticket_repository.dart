@@ -48,10 +48,18 @@ class TicketRepository {
             ..dateIssued =
             DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
           try{
+            print("option 1");
             ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
-          } catch(_){}
+            // From the old version, tickets won't have a ticket_release_id
+            // All our tickets should be single restricted so this should work until there are no more old tickets
+            if(ticket.release == null) {
+              ticket.release = event.getReleasesWithSingleTicketRestriction()[0];
+            }
+            tickets.add(ticket);
+          } catch(_){
 
-          tickets.add(ticket);
+          }
+
         } catch (e, s) {
           BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
           print(e);

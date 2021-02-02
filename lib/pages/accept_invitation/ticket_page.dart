@@ -5,20 +5,21 @@ import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/pages/accept_invitation/bloc/accept_invitation_bloc.dart';
+import 'package:webapp/pages/accept_invitation/bloc/ticket_bloc.dart';
+import 'package:webapp/pages/payment/payment_page.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:webapp/utilities/alertGenerator.dart';
 
-class FreeTicketPage extends StatefulWidget {
+class TicketPage extends StatefulWidget {
   final LinkType linkType;
 
-  const FreeTicketPage(this.linkType, {Key key}) : super(key: key);
+  const TicketPage(this.linkType, {Key key}) : super(key: key);
 
   @override
-  _FreeTicketPageState createState() => _FreeTicketPageState();
+  _TicketPageState createState() => _TicketPageState();
 }
 
-class _FreeTicketPageState extends State<FreeTicketPage> {
+class _TicketPageState extends State<TicketPage> {
   AcceptInvitationBloc bloc = AcceptInvitationBloc();
 
   @override
@@ -38,7 +39,8 @@ class _FreeTicketPageState extends State<FreeTicketPage> {
     return BlocBuilder<AcceptInvitationBloc, AcceptInvitationState>(
         cubit: bloc,
         builder: (c, state) {
-          if (state is StateInvitationPending) {
+          print(state);
+          if (state is StateNoPaymentRequired) {
             return SizedBox(
               width: MyTheme.maxWidth,
               child: Card(
@@ -46,25 +48,21 @@ class _FreeTicketPageState extends State<FreeTicketPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    AutoSizeText("This event offers a free ticket!",
+                    AutoSizeText("Accept your invitation",
                         style: MyTheme.mainTT.subtitle1),
                     SizedBox(
                       height: 18,
                     ),
-                    AutoSizeText(state.release.name,
+                    AutoSizeText(state.releases[0].name,
                         style: MyTheme.mainTT.headline6),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    AutoSizeText("Planning to attend? Press the button below and we'll put you on the guest list",
-                        style: MyTheme.mainTT.bodyText1),
                     SizedBox(
                       height: 12,
                     ),
                     SizedBox(
-                      width: 120,
-                      height: 40,
+                      width: MyTheme.maxWidth,
+                      height: 34,
                       child: RaisedButton(
+                        color: MyTheme.appolloGreen,
                         onPressed: () {
                           if (widget.linkType.event.ticketCheckoutMessage != null) {
                             AlertGenerator.showAlertWithChoice(
@@ -83,7 +81,7 @@ class _FreeTicketPageState extends State<FreeTicketPage> {
                           }
                         },
                         child: Text(
-                          "Get Ticket",
+                          "Accept Invitation",
                           style: MyTheme.mainTT.button,
                         ),
                       ),
@@ -212,6 +210,8 @@ class _FreeTicketPageState extends State<FreeTicketPage> {
                 ),
               )).appolloCard,
             );
+          } else if(state is StatePaymentRequired) {
+            return PaymentPage(widget.linkType.event);
           } else {
             return SizedBox(
               width: MyTheme.maxWidth,

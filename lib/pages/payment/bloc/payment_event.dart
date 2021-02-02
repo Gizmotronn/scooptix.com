@@ -11,10 +11,16 @@ class EventCancelPayment extends PaymentEvent {}
 
 class EventChangePaymentMethod extends PaymentEvent {}
 
+class EventAddPaymentMethod extends PaymentEvent {}
+
 class EventConfirmSetupIntent extends PaymentEvent {
   final PaymentMethod paymentMethod;
-  final String setupIntentId;
-  const EventConfirmSetupIntent(this.paymentMethod, this.setupIntentId);
+  const EventConfirmSetupIntent(this.paymentMethod);
+}
+
+class EventConfirmSingleUseIntent extends PaymentEvent {
+  final PaymentMethod paymentMethod;
+  const EventConfirmSingleUseIntent(this.paymentMethod);
 }
 
 class EventConfirmPayment extends PaymentEvent {
@@ -23,13 +29,11 @@ class EventConfirmPayment extends PaymentEvent {
   const EventConfirmPayment(this.clientSecret, this.paymentMethodId);
 }
 
-class EventRequestPI extends PaymentEvent {}
-
-class EventStartPaymentProcess extends PaymentEvent {
-  final TicketRelease release;
+class EventRequestPI extends PaymentEvent {
+  final TicketRelease selectedRelease;
   final int quantity;
 
-  const EventStartPaymentProcess(this.release, this.quantity);
+  const EventRequestPI(this.selectedRelease, this.quantity);
 }
 
 class EventLoadAvailableReleases extends PaymentEvent {

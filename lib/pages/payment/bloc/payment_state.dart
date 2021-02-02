@@ -17,10 +17,18 @@ class StateLoadingPaymentIntent extends PaymentState {}
 
 class StateNoTicketsAvailable extends PaymentState {}
 
-class StateReleasesLoaded extends PaymentState {
+class StateAddPaymentMethod extends PaymentState {}
+
+class StateNoPaymentRequired extends PaymentState {
   final List<TicketRelease> releases;
 
-  const StateReleasesLoaded(this.releases);
+  const StateNoPaymentRequired(this.releases);
+}
+
+class StatePaymentRequired extends PaymentState {
+  final List<TicketRelease> releases;
+
+  const StatePaymentRequired(this.releases);
 }
 
 class StateFinalizePayment extends PaymentState {

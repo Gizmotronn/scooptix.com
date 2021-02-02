@@ -1,4 +1,4 @@
-part of 'accept_invitation_bloc.dart';
+part of 'ticket_bloc.dart';
 
 abstract class AcceptInvitationEvent extends Equatable {
   const AcceptInvitationEvent();
