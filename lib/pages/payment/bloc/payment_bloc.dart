@@ -33,6 +33,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       yield* _getSetupIntent(true);
     } else if (event is EventAddPaymentMethod){
       yield StateAddPaymentMethod();
+    } else if(event is EventTicketSelected){
+      yield* _selectTicket(event.selectedRelease, event.availableReleases);
     }
   }
 
@@ -67,7 +69,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
       if (response.statusCode == 200) {
         PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-        yield* _confirmPayment();
+        yield* _confirmPayment(selectedRelease, quantity);
       } else {
         yield StatePaymentError("An unknown error occurred. Please try again.");
       }
@@ -77,8 +79,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _confirmPayment() async* {
-    yield StateLoading();
+  Stream<PaymentState> _confirmPayment(TicketRelease selectedRelease, int quantity) async* {
     String errorMessage = "An unknown error occurred. Please try again.";
     try {
       Map<String, dynamic> result =
@@ -87,8 +88,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (result == null) {
         yield StatePaymentError(errorMessage);
       } else if (result["status"] == "succeeded") {
-        yield PaymentCompletedState(
-            "We are processing your order and will send you a message as soon as your new subscription is active. This should not take more than a few minutes.");
+        yield StatePaymentCompleted(
+            "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.",selectedRelease, quantity);
       } else {
         yield StatePaymentError(errorMessage);
       }
@@ -119,11 +120,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     yield StateLoading();
     this.event = event;
 
-    List<TicketRelease> releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
-    List<TicketRelease> releasesWithRegularTickets = event.getReleasesWithoutRestriction();
+    List<TicketRelease> releases = event.getAllReleases();
 
-    if(releasesWithSingleTicketRestriction.any((element) => element.price > 0 || releasesWithRegularTickets.any((element) => element.price > 0))){
-      if(PaymentRepository.instance.paymentMethodId == null || PaymentRepository.instance.last4 == null) {
+    if (releases.any((element) => element.price > 0)) {
+      if (PaymentRepository.instance.paymentMethodId == null || PaymentRepository.instance.last4 == null) {
         http.Response response = await PaymentRepository.instance.getSetupIntent(false);
         try {
           if (response.statusCode == 200) {
@@ -139,18 +139,48 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         }
       }
 
-      if(releasesWithSingleTicketRestriction.length > 0 ){
-        yield StatePaymentRequired(releasesWithSingleTicketRestriction);
-      } else {
-        yield StatePaymentRequired(releasesWithRegularTickets);
+      if (releases.length > 0) {
+        if (releases[0].price > 0) {
+          if (releases[0].singleTicketRestriction) {
+            yield StatePaidTicketSelected(releases, releases[0]);
+          } else {
+            yield StatePaidTicketQuantitySelected(releases, releases[0]);
+          }
+        } else {
+          if (releases[0].singleTicketRestriction) {
+            yield StateFreeTicketSelected(releases, releases[0]);
+          } else {
+            // NOT IMPLEMENTED YET
+            // Not sure yet if this will be a feature yet
+            // yield StateFreeTicketQuantitySelected(releasesWithRegularTickets, releasesWithRegularTickets[0]);
+            yield StateFreeTicketSelected(releases, releases[0]);
+          }
+        }
       }
-
-    } else if(releasesWithSingleTicketRestriction.length > 0 ){
-      yield StateNoPaymentRequired(releasesWithSingleTicketRestriction);
-    } else if(releasesWithRegularTickets.length > 0){
-      yield StateNoPaymentRequired(releasesWithRegularTickets);
-    } else {
-      yield StateNoTicketsAvailable();
+      else {
+        yield StateNoTicketsAvailable();
+      }
     }
+  }
+
+  Stream<PaymentState> _selectTicket(TicketRelease selectedRelease, List<TicketRelease> availableReleases) async* {
+    yield StateUpdating();
+    if(selectedRelease.price == 0){
+      if(selectedRelease.singleTicketRestriction){
+        yield StateFreeTicketSelected(availableReleases, selectedRelease);
+      } else {
+        yield StateFreeTicketSelected(availableReleases, selectedRelease);
+        // NOT IMPLEMENTED YET
+        // Not sure yet if this will be a feature yet
+        // yield StateFreeTicketQuantitySelected(availableReleases, selectedRelease);
+      }
+    } else {
+      if(selectedRelease.singleTicketRestriction){
+        yield StatePaidTicketSelected(availableReleases, selectedRelease);
+      } else {
+        yield StatePaidTicketQuantitySelected(availableReleases, selectedRelease);
+      }
+    }
+
   }
 }

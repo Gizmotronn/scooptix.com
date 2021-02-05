@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webapp/UI/theme.dart';
 
 class AlertGenerator {
-  static showAlert(
+  static Future<void> showAlert(
       {@required BuildContext context,
       @required String title,
       @required String content,

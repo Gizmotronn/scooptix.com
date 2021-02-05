@@ -105,7 +105,8 @@ class EventsRepository {
               ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
           case LinkTypes.BirthdayList:
-            linkType = BirthdayList()
+          case LinkTypes.Booking:
+            linkType = Booking()
               ..uuid = uuid
               ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
               ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);

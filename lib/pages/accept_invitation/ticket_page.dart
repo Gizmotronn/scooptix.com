@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
-import 'package:qr_flutter/qr_flutter.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:webapp/UI/downloadAppollo.dart';
+import 'package:webapp/UI/eventInfo.dart';
+import 'package:webapp/UI/existingTicketsWidget.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/pages/accept_invitation/bloc/ticket_bloc.dart';
@@ -20,7 +22,7 @@ class TicketPage extends StatefulWidget {
 }
 
 class _TicketPageState extends State<TicketPage> {
-  AcceptInvitationBloc bloc = AcceptInvitationBloc();
+  TicketBloc bloc = TicketBloc();
 
   @override
   void initState() {
@@ -36,200 +38,237 @@ class _TicketPageState extends State<TicketPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AcceptInvitationBloc, AcceptInvitationState>(
-        cubit: bloc,
-        builder: (c, state) {
-          print(state);
-          if (state is StateNoPaymentRequired) {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    AutoSizeText("Accept your invitation",
-                        style: MyTheme.mainTT.subtitle1),
-                    SizedBox(
-                      height: 18,
-                    ),
-                    AutoSizeText(state.releases[0].name,
-                        style: MyTheme.mainTT.headline6),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    SizedBox(
-                      width: MyTheme.maxWidth,
-                      height: 34,
-                      child: RaisedButton(
-                        color: MyTheme.appolloGreen,
-                        onPressed: () {
-                          if (widget.linkType.event.ticketCheckoutMessage != null) {
-                            AlertGenerator.showAlertWithChoice(
-                                    context: context,
-                                    title: "Please note",
-                                    content: widget.linkType.event.ticketCheckoutMessage,
-                                    buttonText1: "I Understand",
-                                    buttonText2: "Cancel")
-                                .then((value) {
-                              if (value != null && value) {
-                                bloc.add(EventAcceptInvitation(widget.linkType));
-                              }
-                            });
-                          } else {
-                            bloc.add(EventAcceptInvitation(widget.linkType));
-                          }
-                        },
-                        child: Text(
-                          "Accept Invitation",
-                          style: MyTheme.mainTT.button,
-                        ),
+    return Padding(
+      padding: const EdgeInsets.all(4),
+      child: BlocBuilder<TicketBloc, TicketState>(
+          cubit: bloc,
+          builder: (c, state) {
+            print(state);
+            if (state is StateNoPaymentRequired) {
+              return Column(
+                children: [
+                  ResponsiveBuilder(builder: (context, constraints) {
+                    if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                        constraints.deviceScreenType == DeviceScreenType.watch) {
+                      return Card(child: EventInfoWidget(Axis.vertical, widget.linkType.event)).appolloCard;
+                    } else {
+                      return EventInfoWidget(Axis.horizontal, widget.linkType.event);
+                    }
+                  }),
+                  SizedBox(
+                    width: MyTheme.maxWidth,
+                    child: Card(
+                        child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          AutoSizeText("Accept your invitation", style: MyTheme.mainTT.subtitle1),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          AutoSizeText(state.releases[0].name, style: MyTheme.mainTT.headline6),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          SizedBox(
+                            width: MyTheme.maxWidth,
+                            height: 34,
+                            child: RaisedButton(
+                              color: MyTheme.appolloGreen,
+                              onPressed: () {
+                                if (widget.linkType.event.ticketCheckoutMessage != null) {
+                                  AlertGenerator.showAlertWithChoice(
+                                          context: context,
+                                          title: "Please note",
+                                          content: widget.linkType.event.ticketCheckoutMessage,
+                                          buttonText1: "I Understand",
+                                          buttonText2: "Cancel")
+                                      .then((value) {
+                                    if (value != null && value) {
+                                      bloc.add(EventAcceptInvitation(widget.linkType, state.selectedRelease));
+                                    }
+                                  });
+                                } else {
+                                  bloc.add(EventAcceptInvitation(widget.linkType, state.selectedRelease));
+                                }
+                              },
+                              child: Text(
+                                "Accept Invitation",
+                                style: MyTheme.mainTT.button,
+                              ),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              )).appolloCard,
-            );
-          } else if (state is StateInvitationAccepted) {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                    )).appolloCard,
+                  ),
+                ],
+              );
+            } else if (state is StateInvitationAccepted) {
+              return SizedBox(
+                width: MyTheme.maxWidth,
                 child: Column(
                   children: [
-                    AutoSizeText("You're on the guest list!", style: MyTheme.mainTT.subtitle1),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AutoSizeText(
-                        "We've sent your ticket to ${UserRepository.instance.currentUser.email}, make sure to check your spam folder and please have this ticket ready to show at the door."),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    AutoSizeText("Already at the door? Use the QR Code below."),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    QrImage(
-                      backgroundColor: MyTheme.appolloWhite,
-                      data: '${state.ticket.event.docID} ${state.ticket.docId}',
-                      version: QrVersions.auto,
-                      size: 290,
-                      gapless: true,
-                    )
+                    DownloadAppolloWidget(),
+                    ExistingTicketsWidget(state.tickets, widget.linkType),
+                    Card(
+                        child: EventInfoWidget(
+                      Axis.vertical,
+                      widget.linkType.event,
+                      showTitleAndImage: false,
+                    )).appolloCard
                   ],
                 ),
-              )).appolloCard,
-            );
-          } else if (state is StateTicketAlreadyIssued) {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
+              );
+            } else if (state is StateTicketAlreadyIssued) {
+              return SizedBox(
+                width: MyTheme.maxWidth,
                 child: Column(
                   children: [
-                    AutoSizeText(
-                      "You're already on the guest list!",
-                      style: MyTheme.mainTT.subtitle1,
-                    ),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AutoSizeText(
-                        "Seems like you're already on the guest list. Your ticket was sent to ${UserRepository.instance.currentUser.email}, on ${DateFormat.yMd().format(state.ticket.dateIssued)} ${DateFormat.Hm().format(state.ticket.dateIssued)}, please make sure to check your spam folder."),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    AutoSizeText("Already at the door? Use the QR Code below."),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    QrImage(
-                      backgroundColor: MyTheme.appolloWhite,
-                      data: '${state.ticket.event.docID} ${state.ticket.docId}',
-                      version: QrVersions.auto,
-                      size: 290,
-                      gapless: true,
-                    )
+                    ResponsiveBuilder(builder: (context, constraints) {
+                      if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                          constraints.deviceScreenType == DeviceScreenType.watch) {
+                        return Card(child: EventInfoWidget(Axis.vertical, widget.linkType.event)).appolloCard;
+                      } else {
+                        return EventInfoWidget(Axis.horizontal, widget.linkType.event);
+                      }
+                    }),
+                    ExistingTicketsWidget([state.ticket], widget.linkType),
+
                   ],
                 ),
-              )).appolloCard,
-            );
-          } else if (state is StateError) {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    AutoSizeText("Uh-oh", style: MyTheme.mainTT.subtitle1),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AutoSizeText(
-                        "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io"),
-                  ],
-                ),
-              )).appolloCard,
-            );
-          } else if (state is StateNoTicketsLeft) {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AutoSizeText("It looks like there are no more tickets left."),
-                  ],
-                ),
-              )).appolloCard,
-            );
-          } else if (state is StatePastCutoffTime) {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AutoSizeText(
-                        "Looks like it's past the cutoff time for this event, no more invitations can be accepted."),
-                  ],
-                ),
-              )).appolloCard,
-            );
-          } else if(state is StatePaymentRequired) {
-            return PaymentPage(widget.linkType.event);
-          } else {
-            return SizedBox(
-              width: MyTheme.maxWidth,
-              child: Card(
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    CircularProgressIndicator(),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    AutoSizeText("Fetching your invitation data, this won't take long ...")
-                  ],
-                ),
-              )).appolloCard,
-            );
-          }
-        });
+              );
+            } else if (state is StateError) {
+              return SizedBox(
+                width: MyTheme.maxWidth,
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      AutoSizeText("Uh-oh", style: MyTheme.mainTT.subtitle1),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      AutoSizeText(
+                          "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io"),
+                    ],
+                  ),
+                )).appolloCard,
+              );
+            } else if (state is StateNoTicketsLeft) {
+              return SizedBox(
+                width: MyTheme.maxWidth,
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      AutoSizeText("It looks like there are no more tickets left."),
+                    ],
+                  ),
+                )).appolloCard,
+              );
+            } else if (state is StatePastCutoffTime) {
+              return SizedBox(
+                width: MyTheme.maxWidth,
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      AutoSizeText("Oh no!", style: MyTheme.mainTT.subtitle1),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      AutoSizeText(
+                          "Looks like it's past the cutoff time for this event, no more invitations can be accepted."),
+                    ],
+                  ),
+                )).appolloCard,
+              );
+            } else if (state is StateWaitForPayment) {
+              return PaymentPage(widget.linkType, bloc);
+            } else if (state is StatePaymentRequired) {
+              return Column(
+                children: [
+                  ResponsiveBuilder(builder: (context, constraints) {
+                    if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                        constraints.deviceScreenType == DeviceScreenType.watch) {
+                      return Card(child: EventInfoWidget(Axis.vertical, widget.linkType.event)).appolloCard;
+                    } else {
+                      return EventInfoWidget(Axis.horizontal, widget.linkType.event);
+                    }
+                  }),
+                  SizedBox(
+                    width: MyTheme.maxWidth,
+                    child: Card(
+                        child: Padding(
+                      padding: EdgeInsets.all(MyTheme.cardPadding),
+                      child: Column(
+                        children: [
+                          AutoSizeText("Accept your invitation", style: MyTheme.mainTT.subtitle1),
+                          SizedBox(
+                            height: 18,
+                          ),
+                          SizedBox(
+                            width: MyTheme.maxWidth,
+                            height: 34,
+                            child: RaisedButton(
+                              color: MyTheme.appolloGreen,
+                              onPressed: () {
+                                if (widget.linkType.event.ticketCheckoutMessage != null) {
+                                  AlertGenerator.showAlertWithChoice(
+                                          context: context,
+                                          title: "Please note",
+                                          content: widget.linkType.event.ticketCheckoutMessage,
+                                          buttonText1: "I Understand",
+                                          buttonText2: "Cancel")
+                                      .then((value) {
+                                    if (value != null && value) {
+                                      bloc.add(EventGoToPayment(state.releases));
+                                    }
+                                  });
+                                } else {
+                                  bloc.add(EventGoToPayment(state.releases));
+                                }
+                              },
+                              child: Text(
+                                "Create Your Order",
+                                style: MyTheme.mainTT.button,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )).appolloCard,
+                  ),
+                  if (state.tickets.length > 0) ExistingTicketsWidget(state.tickets, widget.linkType),
+                ],
+              );
+            } else {
+              return SizedBox(
+                width: MyTheme.maxWidth,
+                child: Card(
+                    child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      CircularProgressIndicator(),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      AutoSizeText("Fetching your invitation data, this won't take long")
+                    ],
+                  ),
+                )).appolloCard,
+              );
+            }
+          }),
+    );
   }
 }

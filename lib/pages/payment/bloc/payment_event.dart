@@ -36,6 +36,13 @@ class EventRequestPI extends PaymentEvent {
   const EventRequestPI(this.selectedRelease, this.quantity);
 }
 
+class EventTicketSelected extends PaymentEvent {
+  final TicketRelease selectedRelease;
+  final List<TicketRelease> availableReleases;
+
+  const EventTicketSelected(this.availableReleases, this.selectedRelease);
+}
+
 class EventLoadAvailableReleases extends PaymentEvent {
   final Event event;
 

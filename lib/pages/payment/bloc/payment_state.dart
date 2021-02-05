@@ -8,7 +8,6 @@ abstract class PaymentState extends Equatable {
 
 class StateInitial extends PaymentState {}
 
-
 class StateLoading extends PaymentState {}
 
 class StateLoadingPaymentMethod extends PaymentState {}
@@ -19,16 +18,29 @@ class StateNoTicketsAvailable extends PaymentState {}
 
 class StateAddPaymentMethod extends PaymentState {}
 
-class StateNoPaymentRequired extends PaymentState {
-  final List<TicketRelease> releases;
+class StateUpdating extends PaymentState {}
 
-  const StateNoPaymentRequired(this.releases);
+class StatePaymentOptionAvailable extends PaymentState {
+  final List<TicketRelease> releases;
+  final TicketRelease selectedRelease;
+
+  const StatePaymentOptionAvailable(this.releases, this.selectedRelease);
 }
 
-class StatePaymentRequired extends PaymentState {
-  final List<TicketRelease> releases;
+class StateFreeTicketSelected extends StatePaymentOptionAvailable {
+  const StateFreeTicketSelected(releases, selectedRelease) : super(releases, selectedRelease);
+}
 
-  const StatePaymentRequired(this.releases);
+class StateFreeTicketQuantitySelected extends StatePaymentOptionAvailable {
+  const StateFreeTicketQuantitySelected(releases, selectedRelease) : super(releases, selectedRelease);
+}
+
+class StatePaidTicketSelected extends StatePaymentOptionAvailable {
+  const StatePaidTicketSelected(releases, selectedRelease) : super(releases, selectedRelease);
+}
+
+class StatePaidTicketQuantitySelected extends StatePaymentOptionAvailable {
+  const StatePaidTicketQuantitySelected(releases, selectedRelease) : super(releases, selectedRelease);
 }
 
 class StateFinalizePayment extends PaymentState {
@@ -40,9 +52,18 @@ class StateFinalizePayment extends PaymentState {
   const StateFinalizePayment(this.last4, this.price, this.clientSecret, this.paymentMethodId, this.quantity);
 }
 
-class PaymentCompletedState extends PaymentState {
+class StatePaymentCompleted extends PaymentState {
+  final TicketRelease release;
+  final int quantity;
   final String message;
-  const PaymentCompletedState(this.message);
+  const StatePaymentCompleted(this.message, this.release, this.quantity);
+}
+
+class StateFreeTicketIssued extends PaymentState {
+final TicketRelease release;
+final String message;
+
+const StateFreeTicketIssued(this.message, this.release);
 }
 
 class StatePaymentError extends PaymentState {

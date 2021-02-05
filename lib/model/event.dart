@@ -32,22 +32,31 @@ class Event {
   String ticketCheckoutMessage;
 
   TicketRelease getRelease(String releaseId) {
-    releaseManagers.forEach((manager) {
+    print(releaseId);
+    for(int i = 0; i <releaseManagers.length; i++){
       try{
-        TicketRelease tr = manager.releases.firstWhere((element) => element.docId == releaseId);
+        TicketRelease tr = releaseManagers[i].releases.firstWhere((element) => element.docId == releaseId);
+        print(tr);
         return tr;
       } catch (_){}
-    });
+    }
     return null;
   }
 
   List<TicketRelease> getReleasesWithSingleTicketRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-      print("releases ${manager.getActiveRelease().name}");
-        if (manager.getActiveRelease().singleTicketRestriction) {
-          releases.add(manager.getActiveRelease());
-        }
+      if (manager.getActiveRelease().singleTicketRestriction) {
+        releases.add(manager.getActiveRelease());
+      }
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getAllReleases() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+        releases.add(manager.getActiveRelease());
     });
     return releases;
   }

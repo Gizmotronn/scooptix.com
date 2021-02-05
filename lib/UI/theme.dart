@@ -37,9 +37,9 @@ extension AppolloCard on Card {
   Card get appolloCard {
     return Card(
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(6)),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
           side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1)),
-      elevation: 8,
+      elevation: 6,
       color: Colors.grey[800].withAlpha(100),
       shadowColor: Colors.transparent,
       child: this.child,
@@ -49,6 +49,8 @@ extension AppolloCard on Card {
 
 class MyTheme {
   static double maxWidth = 800.0;
+  static double elementSpacing = 20.0;
+  static double cardPadding = 20;
 
   static Color appolloPurple = Color(0xFF7367ED);
   static Color appolloYellow = Color(0xFFFBDB30);

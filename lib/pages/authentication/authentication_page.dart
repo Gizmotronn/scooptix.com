@@ -1,21 +1,21 @@
 import 'dart:ui';
 import 'dart:html' as js;
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webapp/UI/eventInfo.dart';
 import 'package:webapp/UI/theme.dart';
+import 'package:webapp/UI/whyAreYouHere.dart';
 import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 import 'package:webapp/model/user.dart';
-import 'package:webapp/pages/accept_invitation/ticket_page.dart';
+import 'package:webapp/pages/event_details/event_details_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
 import 'package:webapp/services/firebase.dart';
 import 'package:webapp/services/validator.dart' as val;
@@ -37,7 +37,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   FormGroup form;
 
   final double elementSpacing = 16.0;
-  double cardPadding = 20;
   final int animationTime = 400;
 
   // Not using a reactive form for the login since we're using custom logic for the email field.
@@ -87,7 +86,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     MyTheme.maxWidth = screenSize.width < 800 ? screenSize.width : 800;
-    cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
+    MyTheme.cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
     return Scaffold(
       body: Stack(
         children: [
@@ -119,7 +118,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.all(cardPadding - 4),
+                  padding: EdgeInsets.all(MyTheme.cardPadding - 4),
                   child: Column(
                     children: [
                       Column(
@@ -154,7 +153,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                         children: [
                                           _buildWhyAreYouHere(state),
                                           Card(
-                                            child: _buildEventInfoVertical(screenSize, constraints),
+                                            child: EventInfoWidget(Axis.vertical, widget.linkType.event),
                                           ).appolloCard,
                                         ],
                                       );
@@ -169,7 +168,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                         SizedBox(
                                           height: elementSpacing,
                                         ),
-                                        _buildEventInfoHorizontal(screenSize, constraints)
+                                        EventInfoWidget(Axis.horizontal, widget.linkType.event)
                                       ],
                                     );
                                   }
@@ -206,6 +205,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   _emailController.text = state.email;
                                   form.controls["fname"].value = state.firstName;
                                   form.controls["lname"].value = state.lastName;
+                                } else if (state is StateLoggedIn) {
+                                  Navigator.push(context,
+                                      MaterialPageRoute(builder: (context) => EventDetailsPage(widget.linkType))).then((value) {
+                                      signUpBloc.add(EventPageLoad());
+                                  });
                                 }
                               },
                               buildWhen: (c, state) {
@@ -230,7 +234,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                           constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
                                           child: Card(
                                             child: Padding(
-                                              padding: EdgeInsets.all(cardPadding),
+                                              padding: EdgeInsets.all(MyTheme.cardPadding),
                                               child: Column(
                                                 children: [
                                                   _buildEmailAndPWFields(state, screenSize),
@@ -283,16 +287,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   );
                                 }
                               }),
-                          BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                            cubit: signUpBloc,
-                            builder: (c, state) {
-                              if (state is StateLoggedIn) {
-                                return TicketPage(widget.linkType);
-                              } else {
-                                return Container();
-                              }
-                            },
-                          ),
                         ],
                       ),
                       SizedBox(
@@ -308,7 +302,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
               ),
             ),
           ),
-          _buildAppBar(screenSize),
         ],
       ),
     );
@@ -330,7 +323,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                 ),
                 Card(
                   child: Padding(
-                    padding: EdgeInsets.all(cardPadding),
+                    padding: EdgeInsets.all(MyTheme.cardPadding),
                     child: ReactiveForm(
                         formGroup: form,
                         child: Column(
@@ -376,12 +369,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                 );
                               } else {
                                 return SizedBox(
-                                  width: MyTheme.maxWidth - cardPadding * 4,
+                                  width: MyTheme.maxWidth - MyTheme.cardPadding * 4,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
                                       SizedBox(
-                                        width: (MyTheme.maxWidth - cardPadding * 4 - 26) / 2,
+                                        width: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 26) / 2,
                                         child: ReactiveTextField(
                                           formControlName: 'fname',
                                           validationMessages: (control) => {
@@ -391,7 +384,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                         ),
                                       ),
                                       SizedBox(
-                                        width: (MyTheme.maxWidth - cardPadding * 4 - 26) / 2,
+                                        width: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 26) / 2,
                                         child: ReactiveTextField(
                                           formControlName: 'lname',
                                           validationMessages: (control) => {
@@ -445,12 +438,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: (MyTheme.maxWidth - cardPadding * 4) + 8,
+                                      width: (MyTheme.maxWidth - MyTheme.cardPadding * 4) + 8,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                            width: (MyTheme.maxWidth - cardPadding * 4 - 30) / 3,
+                                            width: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobDay',
                                               keyboardType: TextInputType.number,
@@ -468,7 +461,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             ),
                                           ),
                                           SizedBox(
-                                            width: (MyTheme.maxWidth - cardPadding * 4 - 30) / 3,
+                                            width: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobMonth',
                                               validationMessages: (control) => {
@@ -486,7 +479,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             ),
                                           ),
                                           SizedBox(
-                                            width: (MyTheme.maxWidth - cardPadding * 4 - 30) / 3,
+                                            width: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobYear',
                                               validationMessages: (control) => {
@@ -518,7 +511,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                       height: elementSpacing,
                                     ),
                                     SizedBox(
-                                      width: (MyTheme.maxWidth - cardPadding * 4) + 8,
+                                      width: (MyTheme.maxWidth - MyTheme.cardPadding * 4) + 8,
                                       child: ReactiveDropdownField(
                                         formControlName: 'gender',
                                         decoration: InputDecoration(),
@@ -537,12 +530,12 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     SizedBox(
-                                      width: (MyTheme.maxWidth / 2 - cardPadding * 3) + 8,
+                                      width: (MyTheme.maxWidth / 2 - MyTheme.cardPadding * 3) + 8,
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           SizedBox(
-                                            width: (MyTheme.maxWidth / 2 - cardPadding * 3 - 26) / 3,
+                                            width: (MyTheme.maxWidth / 2 - MyTheme.cardPadding * 3 - 26) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobDay',
                                               keyboardType: TextInputType.number,
@@ -560,7 +553,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             ),
                                           ),
                                           SizedBox(
-                                            width: (MyTheme.maxWidth / 2 - cardPadding * 3 - 26) / 3,
+                                            width: (MyTheme.maxWidth / 2 - MyTheme.cardPadding * 3 - 26) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobMonth',
                                               validationMessages: (control) => {
@@ -578,7 +571,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             ),
                                           ),
                                           SizedBox(
-                                            width: (MyTheme.maxWidth / 2 - cardPadding * 3 - 26) / 3,
+                                            width: (MyTheme.maxWidth / 2 - MyTheme.cardPadding * 3 - 26) / 3,
                                             child: ReactiveTextField(
                                               formControlName: 'dobYear',
                                               validationMessages: (control) => {
@@ -600,7 +593,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                       ),
                                     ),
                                     SizedBox(
-                                      width: (MyTheme.maxWidth / 2 - cardPadding * 3) + 8,
+                                      width: (MyTheme.maxWidth / 2 - MyTheme.cardPadding * 3) + 8,
                                       child: ReactiveDropdownField(
                                         formControlName: 'gender',
                                         decoration: InputDecoration(),
@@ -788,7 +781,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             onPressed: () {
               if (_emailController.text == _confirmEmailController.text) {
                 if (state is StateNewSSOUser) {
-                  print(state.uid);
                   signUpBloc.add(EventSSOEmailsConfirmed(state.uid));
                 } else {
                   signUpBloc.add(EventEmailsConfirmed());
@@ -1055,170 +1047,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     );
   }
 
-  // Desktop
-  _buildEventInfoHorizontal(Size screenSize, SizingInformation constraints) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          constraints: BoxConstraints(maxWidth: MyTheme.maxWidth / 2 - elementSpacing / 2),
-          width: constraints.localWidgetSize.width / 2 - elementSpacing / 2,
-          height: MyTheme.maxWidth / 4,
-          child: Card(
-            color: Colors.transparent,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(6)),
-              child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
-                  loadStateChanged: (ExtendedImageState state) {
-                switch (state.extendedImageLoadState) {
-                  case LoadState.loading:
-                    return Container(
-                      color: Colors.white,
-                    );
-                  case LoadState.completed:
-                    return state.completedWidget;
-                  default:
-                    return Container(
-                      color: Colors.white,
-                    );
-                }
-              }),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: elementSpacing,
-        ),
-        Container(
-          constraints: BoxConstraints(maxWidth: MyTheme.maxWidth / 2 - elementSpacing / 2),
-          width: constraints.localWidgetSize.width / 2 - elementSpacing / 2,
-          height: MyTheme.maxWidth / 4,
-          child: Card(
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 12.0), child: _buildEventInfoText()),
-          ).appolloCard,
-        ),
-      ],
-    );
-  }
-
-  // Mobile
-  _buildEventInfoVertical(Size screenSize, SizingInformation constraints) {
-    return Column(
-      children: [
-        AutoSizeText(
-          widget.linkType.event.name,
-          style: MyTheme.mainTT.headline5,
-        ).paddingBottom(elementSpacing).paddingTop(elementSpacing),
-        Container(
-          width: constraints.localWidgetSize.width - 8,
-          child: AspectRatio(
-            aspectRatio: 2,
-            child: ExtendedImage.network(widget.linkType.event.coverImageURL, cache: true, fit: BoxFit.cover,
-                loadStateChanged: (ExtendedImageState state) {
-              switch (state.extendedImageLoadState) {
-                case LoadState.loading:
-                  return Container(
-                    color: Colors.white,
-                  );
-                case LoadState.completed:
-                  return state.completedWidget;
-                default:
-                  return Container(
-                    color: Colors.white,
-                  );
-              }
-            }),
-          ),
-        ),
-        _buildEventInfoText().paddingAll(cardPadding),
-      ],
-    );
-  }
-
-  Widget _buildEventInfoText() {
-    List<Widget> widgets = List<Widget>();
-    widgets.add(
-      Align(
-          alignment: Alignment.center,
-          child: AutoSizeText("Event details", style: MyTheme.mainTT.headline6).paddingBottom(elementSpacing)),
-    );
-    widgets.add(
-      SizedBox(
-        width: MyTheme.maxWidth,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            AutoSizeText(
-                "${DateFormat.MMMM().add_d().format(widget.linkType.event.date)}, ${DateFormat.y().format(widget.linkType.event.date)}",
-                maxLines: 1),
-            AutoSizeText(DateFormat.Hm().format(widget.linkType.event.date))
-          ],
-        ),
-      ).paddingBottom(8),
-    );
-    if (widget.linkType.event.endTime != null) {
-      widgets.add(
-        SizedBox(
-          width: MyTheme.maxWidth,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AutoSizeText("${widget.linkType.event.date.difference(DateTime.now()).inDays} Days to go", maxLines: 1),
-              AutoSizeText(
-                  "(Duration ${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} hours)"),
-            ],
-          ),
-        ).paddingBottom(8),
-      );
-    }
-    if (widget.linkType.event.address != null) {
-      widgets.add(
-        SizedBox(
-          width: MyTheme.maxWidth,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AutoSizeText("Location: ", maxLines: 1),
-              AutoSizeText(widget.linkType.event.address, maxLines: 1),
-            ],
-          ),
-        ).paddingBottom(16),
-      );
-    } else {
-      widgets.add(
-        SizedBox(
-          width: MyTheme.maxWidth,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AutoSizeText("Location: ", maxLines: 1),
-              AutoSizeText(widget.linkType.event.venueName, maxLines: 1),
-            ],
-          ),
-        ).paddingBottom(16),
-      );
-    }
-    /* widgets.add(AutoSizeText(
-      "This invitation is valid until ${StringFormatter.getDateTime(widget.linkType.event.date.subtract(Duration(hours: widget.linkType.event.cutoffTimeOffset)), showSeconds: false)}",
-      maxLines: 2,
-    ));*/
-    if (widget.linkType.event.invitationMessage != "") {
-      widgets.add(AutoSizeText(
-        "Conditions:",
-        style: MyTheme.mainTT.subtitle2,
-      ).paddingBottom(8));
-      widgets.add(AutoSizeText(
-        widget.linkType.event.invitationMessage,
-        maxLines: 3,
-      ).paddingBottom(8));
-    }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
-    );
-  }
-
   Widget _buildSSO(AuthenticationState state, Size screenSize) {
     if ((js.window.navigator.userAgent.contains("iPhone") && !js.window.navigator.userAgent.contains("Safari")) ||
         js.window.navigator.userAgent.contains("wv")) {
@@ -1317,7 +1145,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         ],
       );
     } else if (state is StateLoggedIn) {
-      return Container(
+      return Container();
+    /*  return Container(
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -1370,7 +1199,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
             ),
           ],
         ),
-      );
+      );*/
     } else if (state is StateInitial) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -1526,108 +1355,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
 
     if (widget.linkType is PromoterInvite) {
       PromoterInvite invitation = widget.linkType;
-      text =
-          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to an event.";
-    } else if (widget.linkType is BirthdayList) {
-      BirthdayList invitation = widget.linkType;
+      text = "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to an event.";
+    } else if (widget.linkType is Booking) {
+      Booking invitation = widget.linkType;
       text =
           "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to their birthday party.";
     }
 
-    return SizedBox(
-      width: MyTheme.maxWidth,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-        color: MyTheme.appolloGreen,
-        child: Padding(
-          padding: EdgeInsets.all(cardPadding),
-          child: Column(
-            children: [
-              AutoSizeText(
-                text,
-                style: MyTheme.mainTT.bodyText2,
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 8,),
-              AutoSizeText(
-                "Follow the instructions below to accept your invite!",
-                style: MyTheme.mainTT.bodyText2,
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-
-  Widget _buildAppBar(Size size) {
-    DeviceScreenType screenType = getDeviceType(size);
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        cubit: signUpBloc,
-        builder: (c, state) {
-          if (state is StateLoggedIn &&
-              (screenType == DeviceScreenType.watch || screenType == DeviceScreenType.mobile)) {
-            return Container(
-              width: MyTheme.maxWidth,
-              height: 66,
-              color: Colors.grey[900].withAlpha(150),
-              child: ClipRRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 40.0, sigmaY: 40.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: MyTheme.maxWidth / 1.7,
-                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              SizedBox(
-                                width: MyTheme.maxWidth / 1.7,
-                                child: AutoSizeText(
-                                  "${state.firstName} ${state.lastName}",
-                                  maxLines: 1,
-                                  style: MyTheme.mainTT.subtitle2,
-                                ),
-                              ),
-                              SizedBox(
-                                width: MyTheme.maxWidth / 1.7,
-                                child: AutoSizeText(
-                                  "${state.email}",
-                                  maxLines: 1,
-                                  style: MyTheme.mainTT.bodyText2,
-                                ),
-                              ),
-                            ]),
-                          ),
-                          SizedBox(
-                            width: 106,
-                            height: 34,
-                            child: RaisedButton(
-                              onPressed: () {
-                                clearData();
-                                signUpBloc.add(EventLogout());
-                              },
-                              child: Text(
-                                "Logout",
-                                style: MyTheme.mainTT.button,
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            );
-          } else {
-            return SizedBox.shrink();
-          }
-        });
+    return WhyAreYouHere(text);
   }
 }
