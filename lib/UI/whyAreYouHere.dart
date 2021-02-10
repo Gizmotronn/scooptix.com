@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:webapp/UI/theme.dart';
 
 class WhyAreYouHere extends StatelessWidget {
-
   final String text;
 
   const WhyAreYouHere(this.text, {Key key}) : super(key: key);
@@ -12,22 +11,25 @@ class WhyAreYouHere extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MyTheme.maxWidth,
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-        color: MyTheme.appolloGreen,
+      child: Container(
+        decoration: ShapeDecoration(
+            color: MyTheme.appolloGreen,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))),
         child: Padding(
           padding: EdgeInsets.all(8),
           child: Column(
             children: [
               AutoSizeText(
                 text,
-                style: MyTheme.mainTT.bodyText2,
+                style: MyTheme.lightTextTheme.bodyText2,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 8,),
+              SizedBox(
+                height: 8,
+              ),
               AutoSizeText(
                 "Follow the instructions below to accept your invite!",
-                style: MyTheme.mainTT.bodyText2,
+                style: MyTheme.lightTextTheme.bodyText2,
                 textAlign: TextAlign.center,
               ),
             ],

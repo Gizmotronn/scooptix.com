@@ -60,10 +60,10 @@ class StatePaymentCompleted extends PaymentState {
 }
 
 class StateFreeTicketIssued extends PaymentState {
-final TicketRelease release;
-final String message;
+  final TicketRelease release;
+  final String message;
 
-const StateFreeTicketIssued(this.message, this.release);
+  const StateFreeTicketIssued(this.message, this.release);
 }
 
 class StatePaymentError extends PaymentState {

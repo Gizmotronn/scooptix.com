@@ -7,7 +7,6 @@ abstract class TicketEvent extends Equatable {
   List<Object> get props => [];
 }
 
-
 class EventPaymentSuccessful extends TicketEvent {
   final LinkType linkType;
   final TicketRelease release;

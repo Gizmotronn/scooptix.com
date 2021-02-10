@@ -11,7 +11,7 @@ import 'package:webapp/repositories/user_repository.dart';
 class EventDetailsPage extends StatefulWidget {
   final LinkType linkType;
 
-  const EventDetailsPage( this.linkType, {Key key}) : super(key: key);
+  const EventDetailsPage(this.linkType, {Key key}) : super(key: key);
 
   @override
   _EventDetailsPageState createState() => _EventDetailsPageState();
@@ -25,32 +25,34 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(screenSize),
       body: Stack(
-        children: [Container(
-          width: screenSize.width,
-          height: screenSize.height,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: NetworkImage(widget.linkType.event.coverImageURL),
-              fit: BoxFit.cover,
+        children: [
+          Container(
+            width: screenSize.width,
+            height: screenSize.height,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(widget.linkType.event.coverImageURL),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),
+              child: Container(
+                width: screenSize.width,
+                height: screenSize.height,
+                decoration: BoxDecoration(color: Colors.grey[900].withOpacity(0.2)),
+              ),
             ),
           ),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),
-            child: Container(
-              width: screenSize.width,
-              height: screenSize.height,
-              decoration: BoxDecoration(color: Colors.grey[900].withOpacity(0.2)),
-            ),
-          ),
-        ),
-          SingleChildScrollView(child: TicketPage(widget.linkType).paddingTop(56)),
+          SingleChildScrollView(child: TicketPage(widget.linkType).paddingAll(8).paddingTop(56)),
         ],
       ),
     );
   }
 
   Widget _buildAppBar(Size size) {
-    return AppBar(titleSpacing: 0.0,
+    return AppBar(
+      titleSpacing: 0.0,
       automaticallyImplyLeading: false,
       backgroundColor: Colors.grey[900].withAlpha(150),
       title: Container(
@@ -75,7 +77,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                             child: AutoSizeText(
                               "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
                               maxLines: 1,
-                              style: MyTheme.mainTT.subtitle2,
+                              style: MyTheme.lightTextTheme.subtitle2,
                             ),
                           ),
                           SizedBox(
@@ -83,7 +85,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                             child: AutoSizeText(
                               "${UserRepository.instance.currentUser.email}",
                               maxLines: 1,
-                              style: MyTheme.mainTT.bodyText2,
+                              style: MyTheme.lightTextTheme.bodyText2,
                             ),
                           ),
                         ]),
@@ -99,7 +101,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                           },
                           child: Text(
                             "Logout",
-                            style: MyTheme.mainTT.button,
+                            style: MyTheme.lightTextTheme.button,
                           ),
                         ),
                       )

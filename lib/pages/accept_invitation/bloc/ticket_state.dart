@@ -37,7 +37,8 @@ class StatePaymentRequired extends StatePreviouslyBoughtTickets {
 class StateWaitForPayment extends TicketState {
   final List<TicketRelease> releases;
 
-  StateWaitForPayment(this.releases);}
+  StateWaitForPayment(this.releases);
+}
 
 class StateNoTicketsLeft extends TicketState {}
 

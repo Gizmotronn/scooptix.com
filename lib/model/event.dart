@@ -33,12 +33,12 @@ class Event {
 
   TicketRelease getRelease(String releaseId) {
     print(releaseId);
-    for(int i = 0; i <releaseManagers.length; i++){
-      try{
+    for (int i = 0; i < releaseManagers.length; i++) {
+      try {
         TicketRelease tr = releaseManagers[i].releases.firstWhere((element) => element.docId == releaseId);
         print(tr);
         return tr;
-      } catch (_){}
+      } catch (_) {}
     }
     return null;
   }
@@ -46,7 +46,8 @@ class Event {
   List<TicketRelease> getReleasesWithSingleTicketRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-      if (manager.getActiveRelease().singleTicketRestriction) {
+      TicketRelease release = manager.getActiveRelease();
+      if (release != null && release.singleTicketRestriction) {
         releases.add(manager.getActiveRelease());
       }
     });
@@ -56,7 +57,15 @@ class Event {
   List<TicketRelease> getAllReleases() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-        releases.add(manager.getActiveRelease());
+      releases.addAll(manager.releases);
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getActiveReleases() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      releases.add(manager.getActiveRelease());
     });
     return releases;
   }
@@ -64,9 +73,10 @@ class Event {
   List<TicketRelease> getReleasesWithoutRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-        if (!manager.getActiveRelease().singleTicketRestriction) {
-          releases.add(manager.getActiveRelease());
-        }
+      TicketRelease release = manager.getActiveRelease();
+      if (release != null && !release.singleTicketRestriction) {
+        releases.add(manager.getActiveRelease());
+      }
     });
     return releases;
   }

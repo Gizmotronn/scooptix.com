@@ -15,7 +15,9 @@ class ReleaseManager {
 
   TicketRelease getActiveRelease() {
     for (int i = 0; i < releases.length; i++) {
-      if (releases[i].releaseStart.isBefore(DateTime.now()) && releases[i].releaseEnd.isAfter(DateTime.now()) && releases[i].maxTickets > releases[i].ticketsBought) {
+      if (releases[i].releaseStart.isBefore(DateTime.now()) &&
+          releases[i].releaseEnd.isAfter(DateTime.now()) &&
+          releases[i].maxTickets > releases[i].ticketsBought) {
         return releases[i];
       }
     }

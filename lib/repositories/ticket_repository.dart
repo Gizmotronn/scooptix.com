@@ -28,7 +28,6 @@ class TicketRepository {
     _instance = null;
   }
 
-
   Future<List<Ticket>> loadTickets(String uid, Event event) async {
     List<Ticket> tickets = [];
     QuerySnapshot ticketSnapshot = await FirebaseFirestore.instance
@@ -47,23 +46,21 @@ class TicketRepository {
           ticket = Ticket()
             ..event = event
             ..docId = ticketDoc.id
-            ..dateIssued =
-            DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
-          try{
+            ..dateIssued = DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
+          try {
             print("option 1");
             ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
 
             tickets.add(ticket);
-          } catch(_){
+          } catch (_) {
             // From the old version, tickets won't have a ticket_release_id
             // All our tickets should be single restricted so this should work until there are no more old tickets
-            if(ticket.release == null) {
+            if (ticket.release == null) {
               print("get single release");
               ticket.release = event.getReleasesWithSingleTicketRestriction()[0];
             }
             tickets.add(ticket);
           }
-
         } catch (e, s) {
           BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
           print(e);
@@ -73,7 +70,6 @@ class TicketRepository {
     }
   }
 
-
   /// Paid ticket processing
   /// Creates tickets for the user and stores it in the user's 'ticket' subcollection and in the ticketevent's 'tickets' subcollection
   /// Calls a cloud function to handle the confirmation email.
@@ -81,7 +77,7 @@ class TicketRepository {
     try {
       List<String> ticketDocIds = [];
       List<Ticket> tickets = [];
-      for(int i = 0; i < quantity; i++) {
+      for (int i = 0; i < quantity; i++) {
         Ticket ticket = Ticket()
           ..dateIssued = DateTime.now()
           ..event = linkType.event;
@@ -327,6 +323,7 @@ class TicketRepository {
       BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
     }
   }
+
   incrementLinkTicketsBoughtCounter(LinkType linkType, int quantity) async {
     try {
       if (linkType is PromoterInvite) {
@@ -341,7 +338,8 @@ class TicketRepository {
             .doc(linkType.event.docID)
             .collection("advertisement_links")
             .doc(linkType.advertisementId)
-            .set({"completed": FieldValue.increment(1), "soldTickets": FieldValue.increment(quantity)}, SetOptions(merge: true));
+            .set({"completed": FieldValue.increment(1), "soldTickets": FieldValue.increment(quantity)},
+                SetOptions(merge: true));
       }
     } catch (e, s) {
       print(e);

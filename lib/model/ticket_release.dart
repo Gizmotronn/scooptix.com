@@ -13,7 +13,7 @@ class TicketRelease {
   int price;
   bool singleTicketRestriction = false;
 
-  int ticketsLeft(){
+  int ticketsLeft() {
     return maxTickets - ticketsBought;
   }
 

@@ -17,7 +17,7 @@ class StateLoadingUserData extends StateInitial {}
 
 class StateLoadingLogin extends StateExistingUserEmail {}
 
-class StateLoadingSSO extends StateExistingUserEmail {}
+class StateLoadingSSO extends AuthenticationState {}
 
 class StateLoadingCreateUser extends StateExistingUserEmail {}
 

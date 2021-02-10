@@ -5,8 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/event.dart';
 
-class EventInfoWidget extends StatelessWidget {
+import 'dateWidget.dart';
 
+class EventInfoWidget extends StatelessWidget {
   final Axis orientation;
   final Event event;
   final bool showTitleAndImage;
@@ -16,7 +17,7 @@ class EventInfoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    if(orientation == Axis.horizontal){
+    if (orientation == Axis.horizontal) {
       return _buildEventInfoHorizontal(screenSize);
     } else {
       return _buildEventInfoVertical(screenSize);
@@ -25,64 +26,19 @@ class EventInfoWidget extends StatelessWidget {
 
   // Desktop
   _buildEventInfoHorizontal(Size screenSize) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          constraints: BoxConstraints(maxWidth: MyTheme.maxWidth / 2 - MyTheme.elementSpacing / 2),
-          width: MyTheme.maxWidth / 2 - MyTheme.elementSpacing / 2,
-          height: MyTheme.maxWidth / 4,
-          child: Card(
-            color: Colors.transparent,
-            child: ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(6)),
-              child: ExtendedImage.network(event.coverImageURL ?? "", cache: true, fit: BoxFit.cover,
-                  loadStateChanged: (ExtendedImageState state) {
-                    switch (state.extendedImageLoadState) {
-                      case LoadState.loading:
-                        return Container(
-                          color: Colors.white,
-                        );
-                      case LoadState.completed:
-                        return state.completedWidget;
-                      default:
-                        return Container(
-                          color: Colors.white,
-                        );
-                    }
-                  }),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: MyTheme.elementSpacing,
-        ),
-        Container(
-          constraints: BoxConstraints(maxWidth: MyTheme.maxWidth / 2 - MyTheme.elementSpacing / 2),
-          width: MyTheme.maxWidth / 2 - MyTheme.elementSpacing / 2,
-          height: MyTheme.maxWidth / 4,
-          child: Card(
-            child: Padding(padding: const EdgeInsets.symmetric(horizontal: 12.0), child: _buildEventInfoText()),
-          ).appolloCard,
-        ),
-      ],
-    );
-  }
-
-  // Mobile
-  _buildEventInfoVertical(Size screenSize) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        if(showTitleAndImage) AutoSizeText(
-          event.name,
-          style: MyTheme.mainTT.headline5,
-        ).paddingBottom(MyTheme.cardPadding).paddingTop(MyTheme.cardPadding),
-        if(showTitleAndImage) Container(
-          width: MyTheme.maxWidth - 8,
+        Container(
+          width: MyTheme.maxWidth,
           child: AspectRatio(
-            aspectRatio: 2,
-            child: ExtendedImage.network(event.coverImageURL, cache: true, fit: BoxFit.cover,
-                loadStateChanged: (ExtendedImageState state) {
+            aspectRatio: 1.9,
+            child: Card(
+              color: Colors.transparent,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(6)),
+                child: ExtendedImage.network(event.coverImageURL ?? "", cache: true, fit: BoxFit.cover,
+                    loadStateChanged: (ExtendedImageState state) {
                   switch (state.extendedImageLoadState) {
                     case LoadState.loading:
                       return Container(
@@ -96,28 +52,141 @@ class EventInfoWidget extends StatelessWidget {
                       );
                   }
                 }),
+              ),
+            ),
           ),
         ),
-        _buildEventInfoText().paddingAll(8),
+        SizedBox(
+          height: MyTheme.elementSpacing,
+        ),
+        SizedBox(
+          width: MyTheme.maxWidth,
+          child: Container(
+            child: Padding(
+              padding: EdgeInsets.all(MyTheme.cardPadding),
+              child: Column(
+                children: [
+                  SizedBox(
+                    //width: MyTheme.maxWidth,
+                    height: 63,
+                    child: Row(
+                      children: [
+                        DateWidget(date: event.date).paddingRight(MyTheme.elementSpacing),
+                        SizedBox(
+                          height: 63,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AutoSizeText(
+                                "${DateFormat.EEEE().format(event.date)} at ${DateFormat.jm().format(event.date)}${event.endTime == null ? "" : " - " + DateFormat.jm().format(event.endTime)}",
+                                style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed),
+                              ),
+                              AutoSizeText(
+                                event.name,
+                                style: MyTheme.lightTextTheme.headline4,
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ).paddingBottom(MyTheme.elementSpacing),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                          width: MyTheme.maxWidth / 3 * 2 - (MyTheme.elementSpacing + MyTheme.cardPadding * 2 + 8) / 2,
+                          child: Container(child: _buildEventInfoText(orientation)).appolloCard),
+                      SizedBox(
+                        width: MyTheme.elementSpacing,
+                      ),
+                      SizedBox(
+                          width: MyTheme.maxWidth / 3 - (MyTheme.elementSpacing + MyTheme.cardPadding * 2 + 8) / 2,
+                          child: Container(
+                              child: Padding(
+                            padding: EdgeInsets.all(MyTheme.cardPadding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                AutoSizeText("Ticket Types", style: MyTheme.lightTextTheme.headline6),
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: List.generate(
+                                        event.getAllReleases().length,
+                                        (index) => AutoSizeText(
+                                                "\$${(event.getAllReleases()[index].price / 100).toStringAsFixed(2)} - ${event.getAllReleases()[index].name}")
+                                            .paddingTop(MyTheme.elementSpacing)),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )).appolloCard),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ).appolloCard,
+        ),
       ],
     );
   }
 
-  Widget _buildEventInfoText() {
+  // Mobile
+  _buildEventInfoVertical(Size screenSize) {
+    return Column(
+      children: [
+        if (showTitleAndImage)
+          AutoSizeText(
+            event.name,
+            style: MyTheme.lightTextTheme.headline5,
+          ).paddingBottom(MyTheme.cardPadding).paddingTop(MyTheme.cardPadding),
+        if (showTitleAndImage)
+          Container(
+            width: MyTheme.maxWidth - 8,
+            child: AspectRatio(
+              aspectRatio: 2,
+              child: ExtendedImage.network(event.coverImageURL, cache: true, fit: BoxFit.cover,
+                  loadStateChanged: (ExtendedImageState state) {
+                switch (state.extendedImageLoadState) {
+                  case LoadState.loading:
+                    return Container(
+                      color: Colors.white,
+                    );
+                  case LoadState.completed:
+                    return state.completedWidget;
+                  default:
+                    return Container(
+                      color: Colors.white,
+                    );
+                }
+              }),
+            ),
+          ),
+        _buildEventInfoText(orientation),
+      ],
+    );
+  }
+
+  Widget _buildEventInfoText(Axis orientation) {
     List<Widget> widgets = List<Widget>();
     widgets.add(
       Align(
-          alignment: Alignment.center,
-          child: AutoSizeText("Event details", style: MyTheme.mainTT.headline6).paddingBottom(MyTheme.elementSpacing)),
+          alignment: orientation == Axis.horizontal ? Alignment.centerLeft : Alignment.center,
+          child: AutoSizeText("Event details", style: MyTheme.lightTextTheme.headline6)
+              .paddingBottom(MyTheme.elementSpacing)),
     );
     widgets.add(
       SizedBox(
         width: MyTheme.maxWidth,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: orientation == Axis.horizontal ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
           children: [
-            AutoSizeText(
-                "${DateFormat.MMMM().add_d().format(event.date)}, ${DateFormat.y().format(event.date)}",
+            AutoSizeText("${DateFormat.MMMM().add_d().format(event.date)}, ${DateFormat.y().format(event.date)} ",
                 maxLines: 1),
             AutoSizeText(DateFormat.Hm().format(event.date))
           ],
@@ -129,11 +198,12 @@ class EventInfoWidget extends StatelessWidget {
         SizedBox(
           width: MyTheme.maxWidth,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+                orientation == Axis.horizontal ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
             children: [
-              AutoSizeText("${event.date.difference(DateTime.now()).inDays} Days to go", maxLines: 1),
-              AutoSizeText(
-                  "(Duration ${event.endTime.difference(event.date).inHours} hours)"),
+              AutoSizeText("${event.date.difference(DateTime.now()).inDays} Days to go ", maxLines: 1),
+              if (event.endTime != null)
+                AutoSizeText("(Duration ${event.endTime.difference(event.date).inHours} hours)"),
             ],
           ),
         ).paddingBottom(8),
@@ -144,20 +214,22 @@ class EventInfoWidget extends StatelessWidget {
         SizedBox(
           width: MyTheme.maxWidth,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+                orientation == Axis.horizontal ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeText("Location: ", maxLines: 1),
-              AutoSizeText(event.address, maxLines: 1),
+              Expanded(child: AutoSizeText(event.address, maxLines: 1)),
             ],
           ),
         ).paddingBottom(16),
       );
-    } else {
+    } else if (event.venueName != null) {
       widgets.add(
         SizedBox(
           width: MyTheme.maxWidth,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment:
+                orientation == Axis.horizontal ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeText("Location: ", maxLines: 1),
               AutoSizeText(event.venueName, maxLines: 1),
@@ -173,18 +245,26 @@ class EventInfoWidget extends StatelessWidget {
     if (event.invitationMessage != "") {
       widgets.add(AutoSizeText(
         "Conditions:",
-        style: MyTheme.mainTT.subtitle2,
+        style: MyTheme.lightTextTheme.subtitle2,
       ).paddingBottom(8));
       widgets.add(AutoSizeText(
         event.invitationMessage,
         maxLines: 3,
+      ));
+    }
+    if (orientation == Axis.horizontal && event.description != null) {
+      widgets.add(AutoSizeText(
+        event.description,
+        style: MyTheme.lightTextTheme.bodyText1,
       ).paddingBottom(8));
     }
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
+    return Padding(
+      padding: EdgeInsets.all(MyTheme.cardPadding),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: widgets,
+      ),
     );
   }
-
 }

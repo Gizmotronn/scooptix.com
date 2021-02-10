@@ -73,7 +73,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else {
       await UserRepository.instance.getUser(fbUser.uid);
 
-      yield StateLoggedIn(email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+      yield StateLoggedIn(
+          email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
     }
   }
 
@@ -94,7 +95,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StatePasswordsConfirmed(uid);
       } else {
-        yield StateLoggedIn(UserRepository.instance.currentUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+        yield StateLoggedIn(UserRepository.instance.currentUser.email, UserRepository.instance.currentUser.firstname,
+            UserRepository.instance.currentUser.lastname);
       }
     }
   }
@@ -121,7 +123,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
               : "";
           yield StateNewSSOUser(gUser.email, fbUser.uid, firstName, lastName);
         } else {
-          yield StateLoggedIn(gUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+          yield StateLoggedIn(
+              gUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
         }
       } else {
         BugsnagNotifier.instance.notify("Error signing in with Google.", StackTrace.empty);

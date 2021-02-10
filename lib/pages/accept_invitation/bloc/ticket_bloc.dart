@@ -23,9 +23,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       yield* _checkInvitationStatus(event.uid, event.event);
     } else if (event is EventAcceptInvitation) {
       yield* _acceptInvitation(event.linkType, event.release);
-    } else if(event is EventPaymentSuccessful){
+    } else if (event is EventPaymentSuccessful) {
       yield* _processTickets(event.linkType, event.release, event.quantity);
-    } else if(event is EventGoToPayment){
+    } else if (event is EventGoToPayment) {
       yield StateWaitForPayment(event.releases);
     }
   }
@@ -35,7 +35,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     if (!DateTime.now().difference(event.date.subtract(Duration(hours: event.cutoffTimeOffset))).isNegative) {
       yield StatePastCutoffTime();
     } else {
-
       List<TicketRelease> releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
       List<TicketRelease> releasesWithRegularTickets = event.getReleasesWithoutRestriction();
       List<Ticket> tickets = await TicketRepository.instance.loadTickets(uid, event);
@@ -43,25 +42,27 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
 
       print("tickets ${tickets.length}");
 
-      if(restrictedTickets.length > 0){
+      if (restrictedTickets.length > 0) {
         yield StateTicketAlreadyIssued(tickets[0]);
       }
       // If the current user does not yet have a ticket
       else {
-
-        // If there is a release with restricted tickets
-        if(releasesWithSingleTicketRestriction.any((element) => element.price > 0) || releasesWithRegularTickets.any((element) => element.price > 0)) {
+        if (releasesWithRegularTickets.length == 0 && releasesWithSingleTicketRestriction.length == 0) {
+          yield StateNoTicketsLeft();
+        } else if (releasesWithSingleTicketRestriction
+                .any((element) => element.price > 0) || // If there is a release with restricted tickets
+            releasesWithRegularTickets.any((element) => element.price > 0)) {
           if (releasesWithSingleTicketRestriction.length > 0) {
             yield StatePaymentRequired(releasesWithSingleTicketRestriction, tickets);
           } else {
             yield StatePaymentRequired(releasesWithRegularTickets, tickets);
           }
-        }
-        else {
+        } else {
           // For free, restricted tickets we're assuming that there's only a single ticket to choose from.
           // However if that changes, the StateNoPaymentRequired already provides the option to provide a different release
           if (releasesWithSingleTicketRestriction.length > 0) {
-            yield StateNoPaymentRequired(releasesWithSingleTicketRestriction, releasesWithSingleTicketRestriction[0], tickets);
+            yield StateNoPaymentRequired(
+                releasesWithSingleTicketRestriction, releasesWithSingleTicketRestriction[0], tickets);
           } else {
             yield StateNoPaymentRequired(releasesWithRegularTickets, releasesWithRegularTickets[0], tickets);
           }
@@ -80,7 +81,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     } else {
       yield StateInvitationAccepted([ticket]);
     }
-
   }
 
   Stream<TicketState> _processTickets(LinkType linkType, TicketRelease release, int quantity) async* {
@@ -93,6 +93,5 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     } else {
       yield StateInvitationAccepted(tickets);
     }
-
   }
 }
