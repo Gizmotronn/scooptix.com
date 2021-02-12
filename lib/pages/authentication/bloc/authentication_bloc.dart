@@ -8,6 +8,7 @@ import 'package:flutter_facebook_login_web/flutter_facebook_login_web.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
+import 'package:webapp/repositories/payment_repository.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:webapp/services/bugsnag_wrapper.dart';
 import 'package:webapp/services/firebase.dart';
@@ -19,7 +20,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   AuthenticationBloc(this.linkType) : super(StateInitial());
 
   final LinkType linkType;
-  User user;
 
   @override
   Stream<AuthenticationState> mapEventToState(
@@ -72,9 +72,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (fbUser == null) {
       yield StateLoginFailed();
     } else {
-      user = await UserRepository.instance.getUser(fbUser.uid);
+      await UserRepository.instance.getUser(fbUser.uid);
 
-      yield StateLoggedIn(email, user.firstname, user.lastname);
+      yield StateLoggedIn(
+          email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
     }
   }
 
@@ -89,13 +90,14 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       yield StateNewUserEmail();
     } else {
       yield StateLoadingCreateUser();
-      user = await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
-      if (user == null) {
+      await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
+      if (UserRepository.instance.currentUser == null) {
         // Notify UI about error and revert to previous state
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StatePasswordsConfirmed(uid);
       } else {
-        yield StateLoggedIn(user.email, user.firstname, user.lastname);
+        yield StateLoggedIn(UserRepository.instance.currentUser.email, UserRepository.instance.currentUser.firstname,
+            UserRepository.instance.currentUser.lastname);
       }
     }
   }
@@ -114,15 +116,16 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       auth.User fbUser = authResult.user;
       // If authentication was successful
       if (fbUser != null) {
-        this.user = await UserRepository.instance.getUser(fbUser.uid);
-        if (user == null) {
+        await UserRepository.instance.getUser(fbUser.uid);
+        if (UserRepository.instance.currentUser == null) {
           String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
           String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
               ? fbUser.displayName.split(" ")[1]
               : "";
           yield StateNewSSOUser(gUser.email, fbUser.uid, firstName, lastName);
         } else {
-          yield StateLoggedIn(gUser.email, user.firstname, user.lastname);
+          yield StateLoggedIn(
+              gUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
         }
       } else {
         BugsnagNotifier.instance.notify("Error signing in with Google.", StackTrace.empty);
@@ -227,10 +230,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       print("no state change user");
       yield StateInitial();
     } else {
-      user = await UserRepository.instance.getUser(fbUser.uid);
+      await UserRepository.instance.getUser(fbUser.uid);
 
       // Using SSO it's possible the user has an auth account but no user document
-      if (user == null) {
+      if (UserRepository.instance.currentUser == null) {
         String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
         String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
             ? fbUser.displayName.split(" ")[1]
@@ -245,7 +248,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   Stream<AuthenticationState> _logout() async* {
     await auth.FirebaseAuth.instance.signOut();
-    user = null;
+    UserRepository.instance.dispose();
+    PaymentRepository.instance.dispose();
     yield StateInitial();
   }
 }

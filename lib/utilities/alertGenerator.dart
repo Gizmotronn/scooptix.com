@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webapp/UI/theme.dart';
 
 class AlertGenerator {
-  static showAlert(
+  static Future<void> showAlert(
       {@required BuildContext context,
       @required String title,
       @required String content,
@@ -12,14 +12,14 @@ class AlertGenerator {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: MyTheme.theme.backgroundColor,
-        title: Text(title, style: MyTheme.mainTT.headline5),
-        content: Text(content, style: MyTheme.mainTT.bodyText2),
+        title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.lightTextTheme.headline5)),
+        content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.lightTextTheme.bodyText2)),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           new FlatButton(
             child: new Text(
               buttonText,
-              style: MyTheme.mainTT.bodyText2,
+              style: MyTheme.lightTextTheme.bodyText2,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -45,14 +45,14 @@ class AlertGenerator {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: MyTheme.theme.backgroundColor,
-        title: Text(title, style: MyTheme.mainTT.headline5),
-        content: Text(content, style: MyTheme.mainTT.bodyText2),
+        title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.lightTextTheme.headline5)),
+        content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.lightTextTheme.bodyText2)),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           FlatButton(
             child: Text(
               buttonText1,
-              style: MyTheme.mainTT.bodyText2,
+              style: MyTheme.lightTextTheme.subtitle2,
             ),
             onPressed: () {
               response = true;
@@ -60,7 +60,7 @@ class AlertGenerator {
             },
           ),
           FlatButton(
-            child: Text(buttonText2, style: MyTheme.mainTT.bodyText2),
+            child: Text(buttonText2, style: MyTheme.lightTextTheme.bodyText2),
             onPressed: () {
               response = false;
               Navigator.pop(context);

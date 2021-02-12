@@ -26,11 +26,60 @@ class Event {
   bool newPriorityPassesAllowed = false;
   bool newQPassesAllowed = false;
   bool allowsBirthdaySignUps = false;
-  List<TicketRelease> releases = [];
   List<ReleaseManager> releaseManagers = [];
   int cutoffTimeOffset = 0;
   String invitationMessage = "";
   String ticketCheckoutMessage;
+
+  TicketRelease getRelease(String releaseId) {
+    print(releaseId);
+    for (int i = 0; i < releaseManagers.length; i++) {
+      try {
+        TicketRelease tr = releaseManagers[i].releases.firstWhere((element) => element.docId == releaseId);
+        print(tr);
+        return tr;
+      } catch (_) {}
+    }
+    return null;
+  }
+
+  List<TicketRelease> getReleasesWithSingleTicketRestriction() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      TicketRelease release = manager.getActiveRelease();
+      if (release != null && release.singleTicketRestriction) {
+        releases.add(manager.getActiveRelease());
+      }
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getAllReleases() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      releases.addAll(manager.releases);
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getActiveReleases() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      releases.add(manager.getActiveRelease());
+    });
+    return releases;
+  }
+
+  List<TicketRelease> getReleasesWithoutRestriction() {
+    List<TicketRelease> releases = [];
+    releaseManagers.forEach((manager) {
+      TicketRelease release = manager.getActiveRelease();
+      if (release != null && !release.singleTicketRestriction) {
+        releases.add(manager.getActiveRelease());
+      }
+    });
+    return releases;
+  }
 
   factory Event.fromMap(String docId, Map<String, dynamic> data) {
     try {

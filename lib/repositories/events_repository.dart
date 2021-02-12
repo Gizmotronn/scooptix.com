@@ -4,6 +4,8 @@ import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
+import 'package:webapp/model/release_manager.dart';
+import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:webapp/services/bugsnag_wrapper.dart';
 
@@ -29,23 +31,17 @@ class EventsRepository {
     print(id);
     DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
     // DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
-    /* QuerySnapshot ticketReleasesSnapshot =
-        await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("ticket_releases").get();
+
     QuerySnapshot releaseManagerSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get();
-*/
+
     Event event = Event.fromMap(eventSnapshot.id, eventSnapshot.data());
 
-    /*ticketReleasesSnapshot.docs.forEach((element) {
-      event.releases.add(TicketRelease.fromMap(element.id, element.data()));
-    });
-    releaseManagerSnapshot.docs.forEach((element) {
+    await Future.wait(releaseManagerSnapshot.docs.map((element) async {
       ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
-      rm.releaseIds.forEach((id) {
-        rm.releases.add(event.releases.firstWhere((release) => release.docId == id));
-      });
+      rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
       event.releaseManagers.add(rm);
-    });*/
+    }));
 
     return event;
   }
@@ -68,6 +64,27 @@ class EventsRepository {
     return events;
   }
 
+  /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers
+  Future<List<TicketRelease>> loadReleasesForManager(String eventId, String rmId) async {
+    QuerySnapshot releaseSnapshots = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(eventId)
+        .collection("release_managers")
+        .doc(rmId)
+        .collection("ticket_releases")
+        .get();
+
+    List<TicketRelease> ticketReleases = [];
+    releaseSnapshots.docs.forEach((releaseDoc) {
+      TicketRelease release = TicketRelease.fromMap(releaseDoc.id, releaseDoc.data());
+      if (release != null) {
+        ticketReleases.add(release);
+      }
+    });
+
+    return ticketReleases;
+  }
+
   Future<LinkType> loadLinkType(String uuid) async {
     try {
       QuerySnapshot uuidMapSnapshot =
@@ -88,7 +105,8 @@ class EventsRepository {
               ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
           case LinkTypes.BirthdayList:
-            linkType = BirthdayList()
+          case LinkTypes.Booking:
+            linkType = Booking()
               ..uuid = uuid
               ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
               ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);

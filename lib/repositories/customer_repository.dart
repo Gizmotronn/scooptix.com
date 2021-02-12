@@ -63,7 +63,7 @@ class CustomerRepository {
 
       String action;
 
-      if (linkType is BirthdayList) {
+      if (linkType is Booking) {
         action = "bday_invite_accepted";
       } else if (linkType is AdvertisementInvite) {
         action = "advertisement_invite_accepted";

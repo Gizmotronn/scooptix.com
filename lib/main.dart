@@ -15,15 +15,19 @@ void main() {
   BugsnagNotifier.instance.init('1f1b3215263ed87f7e83c4927e7ba05b');
 
   FlutterError.onError = (FlutterErrorDetails details) {
-    BugsnagNotifier.instance.notify(details.exception, details.stack);
-    BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);
+    print(details.exception);
+    print(details.stack);
+    //  BugsnagNotifier.instance.notify(details.exception, details.stack);
+    //  BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);
   };
 
   runZonedGuarded(() {
     runApp(MyApp());
   }, (error, stackTrace) {
     print('runZonedGuarded: Caught error in my root zone.');
-    BugsnagNotifier.instance.notify(error, stackTrace);
+    print(error);
+    print(stackTrace);
+    //  BugsnagNotifier.instance.notify(error, stackTrace);
   });
 }
 

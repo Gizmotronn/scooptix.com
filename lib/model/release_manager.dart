@@ -7,16 +7,18 @@ class ReleaseManager {
   DateTime entryStart;
   DateTime entryEnd;
   int index;
-  List<String> releaseIds = [];
   List<TicketRelease> releases = [];
+  bool absorbFees;
+  bool autoRelease;
 
   ReleaseManager._();
 
   TicketRelease getActiveRelease() {
-    for (int i = 0; i < releaseIds.length; i++) {
-      TicketRelease release = releases.firstWhere((tr) => tr.docId == releaseIds[i]);
-      if (release.maxTickets > release.ticketsBought) {
-        return release;
+    for (int i = 0; i < releases.length; i++) {
+      if (releases[i].releaseStart.isBefore(DateTime.now()) &&
+          releases[i].releaseEnd.isAfter(DateTime.now()) &&
+          releases[i].maxTickets > releases[i].ticketsBought) {
+        return releases[i];
       }
     }
     return null;
@@ -32,9 +34,6 @@ class ReleaseManager {
       }
       if (data.containsKey("index")) {
         rm.index = data["index"];
-      }
-      if (data.containsKey("releases")) {
-        rm.releaseIds = data["releases"].cast<String>().toList();
       }
       if (data.containsKey("entry_start")) {
         rm.entryStart = DateTime.fromMillisecondsSinceEpoch(data["entry_start"].millisecondsSinceEpoch);
