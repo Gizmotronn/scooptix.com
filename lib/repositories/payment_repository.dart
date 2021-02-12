@@ -17,23 +17,33 @@ class PaymentRepository {
     return _instance;
   }
 
+  dispose() {
+    clientSecret = null;
+    paymentMethodId = null;
+    last4 = null;
+    saveCreditCard = false;
+  }
+
   PaymentRepository._();
 
   String clientSecret;
   String paymentMethodId;
   String last4;
+  bool saveCreditCard = false;
 
   Future<Map<String, dynamic>> confirmPayment(String clientSecret, String paymentId) async {
     return await Stripe.instance.confirmPayment(clientSecret, paymentMethodId: paymentId);
   }
 
-  Future<http.Response> createPaymentIntent(String eventId, String managerId, String ticketId, int quantity) async {
+  Future<http.Response> createPaymentIntent(
+      String eventId, String managerId, String ticketReleaseId, int quantity) async {
     try {
       http.Response response = await http.post("https://appollo-devops.web.app/createPITicketSale", body: {
         "event": eventId,
         "manager": managerId,
-        "ticket": ticketId,
+        "ticketRelease": ticketReleaseId,
         "quantity": quantity.toString(),
+        "pmId": !PaymentRepository.instance.saveCreditCard ? PaymentRepository.instance.paymentMethodId : "",
         "user": UserRepository.instance.currentUser.firebaseUserID
       });
       return response;

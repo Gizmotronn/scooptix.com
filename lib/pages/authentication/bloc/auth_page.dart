@@ -53,8 +53,15 @@ class _AuthPageState extends State<AuthPage> {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+    return BlocConsumer<AuthenticationBloc, AuthenticationState>(
         cubit: widget.bloc,
+        listener: (c, state) {
+          if (state is StateNewSSOUser) {
+            _emailController.text = state.email;
+            form.controls["fname"].value = state.firstName;
+            form.controls["lname"].value = state.lastName;
+          }
+        },
         builder: (c, state) {
           if (state is StatePasswordsConfirmed) {
             return Column(
@@ -762,7 +769,10 @@ class _AuthPageState extends State<AuthPage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CircularProgressIndicator(),
-            AutoSizeText("Setting up your account ..."),
+            AutoSizeText(
+              "Setting up your account ...",
+              style: widget.textTheme.bodyText2,
+            ),
           ],
         ),
       ).paddingTop(MyTheme.elementSpacing);

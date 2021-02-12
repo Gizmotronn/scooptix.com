@@ -20,11 +20,7 @@ import 'package:webapp/model/user.dart';
 import 'package:webapp/pages/event_details/desktop_view_drawer.dart';
 import 'package:webapp/pages/event_details/event_details_page.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
-import 'package:webapp/services/firebase.dart';
-import 'package:webapp/services/validator.dart' as val;
 import 'package:webapp/utilities/alertGenerator.dart';
-import 'package:websafe_svg/websafe_svg.dart';
-import 'package:webapp/UI/theme.dart';
 
 import 'bloc/auth_page.dart';
 import 'bloc/authentication_bloc.dart';
@@ -39,41 +35,10 @@ class AuthenticationPage extends StatefulWidget {
 class _AuthenticationPageState extends State<AuthenticationPage> with TickerProviderStateMixin {
   AuthenticationBloc signUpBloc;
 
-  FormGroup form;
-
   final int animationTime = 400;
-
-  // Not using a reactive form for the login since we're using custom logic for the email field.
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _confirmEmailController = TextEditingController();
-  final TextEditingController _pwController = TextEditingController();
-  final TextEditingController _confirmPwController = TextEditingController();
-  bool _validatePW = false;
-  bool _termsAccepted = false;
-
-  int releaseManagerSelected = 0;
-
-  clearData() {
-    _emailController.clear();
-    _confirmEmailController.clear();
-    _pwController.clear();
-    _confirmPwController.clear();
-    _validatePW = false;
-    _termsAccepted = false;
-    form.reset();
-  }
 
   @override
   void initState() {
-    form = FormGroup({
-      'fname': FormControl(validators: [Validators.required]),
-      'lname': FormControl(validators: [Validators.required]),
-      'dobDay': FormControl<int>(validators: [Validators.required, Validators.max(31)]),
-      'dobMonth': FormControl<int>(validators: [Validators.required, Validators.max(12)]),
-      'dobYear': FormControl<int>(validators: [Validators.required, Validators.max(2009), Validators.min(1900)]),
-      'gender': FormControl<Gender>(validators: [Validators.required], value: Gender.Female),
-      'terms': FormControl<bool>(validators: [Validators.equals(true)], value: _termsAccepted),
-    });
     signUpBloc = AuthenticationBloc(widget.linkType);
     signUpBloc.add(EventPageLoad());
     TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
@@ -203,10 +168,6 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                       content: "Your password is incorrect, please try again.",
                                       buttonText: "Ok",
                                       popTwice: false);
-                                } else if (state is StateNewSSOUser) {
-                                  _emailController.text = state.email;
-                                  form.controls["fname"].value = state.firstName;
-                                  form.controls["lname"].value = state.lastName;
                                 } else if (state is StateLoggedIn &&
                                     (getDeviceType(screenSize) == DeviceScreenType.mobile ||
                                         getDeviceType(screenSize) == DeviceScreenType.watch)) {

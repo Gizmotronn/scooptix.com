@@ -15,7 +15,8 @@ class EventAddPaymentMethod extends PaymentEvent {}
 
 class EventConfirmSetupIntent extends PaymentEvent {
   final PaymentMethod paymentMethod;
-  const EventConfirmSetupIntent(this.paymentMethod);
+  final bool saveCreditCard;
+  const EventConfirmSetupIntent(this.paymentMethod, this.saveCreditCard);
 }
 
 class EventConfirmSingleUseIntent extends PaymentEvent {

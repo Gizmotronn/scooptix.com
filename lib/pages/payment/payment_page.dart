@@ -7,7 +7,7 @@ import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/ticket_release.dart';
-import 'package:webapp/pages/accept_invitation/bloc/ticket_bloc.dart' as ticket;
+import 'package:webapp/pages/ticket/bloc/ticket_bloc.dart' as ticket;
 import 'package:webapp/pages/payment/bloc/payment_bloc.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/repositories/payment_repository.dart';
@@ -36,6 +36,7 @@ class _PaymentPageState extends State<PaymentPage> {
   TextEditingController _cvcController = TextEditingController();
 
   bool _termsConditions = false;
+  bool _saveCreditCard = false;
   int selectedQuantity = 1;
 
   @override
@@ -74,7 +75,10 @@ class _PaymentPageState extends State<PaymentPage> {
             if (state is StatePaymentError) {
               return Text(state.message);
             } else if (state is StatePaymentCompleted) {
-              return Text("Payment Successful");
+              return Text(
+                "Payment Successful",
+                style: widget.textTheme.bodyText2,
+              );
             } else if (state is StateFinalizePayment) {
               return Column(
                 children: [
@@ -171,8 +175,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 SizedBox(
                                   width: getValueForScreenType(
                                       context: context,
-                                      desktop: widget.maxWidth * 0.25 - 14,
-                                      tablet: widget.maxWidth * 0.25 - 14,
+                                      desktop: widget.maxWidth * 0.25 - 18,
+                                      tablet: widget.maxWidth * 0.25 - 18,
                                       mobile: widget.maxWidth * 0.3 - 12,
                                       watch: widget.maxWidth * 0.3 - 12),
                                   child: TextFormField(
@@ -191,8 +195,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 SizedBox(
                                   width: getValueForScreenType(
                                       context: context,
-                                      desktop: widget.maxWidth * 0.25 - 14,
-                                      tablet: widget.maxWidth * 0.25 - 14,
+                                      desktop: widget.maxWidth * 0.25 - 18,
+                                      tablet: widget.maxWidth * 0.25 - 18,
                                       mobile: widget.maxWidth * 0.3 - 12,
                                       watch: widget.maxWidth * 0.3 - 12),
                                   child: TextFormField(
@@ -230,6 +234,25 @@ class _PaymentPageState extends State<PaymentPage> {
                         ],
                       ),
                     ).paddingBottom(MyTheme.elementSpacing),
+                    SizedBox(
+                      width: widget.maxWidth,
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: _saveCreditCard,
+                            onChanged: (v) {
+                              setState(() {
+                                _saveCreditCard = v;
+                              });
+                            },
+                          ).paddingRight(8).paddingLeft(4),
+                          Text(
+                            "Save my credit card details",
+                            style: widget.textTheme.bodyText2,
+                          ),
+                        ],
+                      ),
+                    ).paddingBottom(MyTheme.elementSpacing),
                     ResponsiveBuilder(builder: (context, constraints) {
                       if (constraints.deviceScreenType == DeviceScreenType.mobile ||
                           constraints.deviceScreenType == DeviceScreenType.watch) {
@@ -258,11 +281,11 @@ class _PaymentPageState extends State<PaymentPage> {
                                       PaymentMethod pm =
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                       print(pm.id);
-                                      bloc.add(EventConfirmSetupIntent(pm));
+                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
                                     }
                                   },
                                   child: Text(
-                                    "Save Credit Card",
+                                    "Use Credit Card",
                                     style: widget.textTheme.button,
                                   ),
                                 ),
@@ -326,11 +349,11 @@ class _PaymentPageState extends State<PaymentPage> {
                                       PaymentMethod pm =
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                       print(pm.id);
-                                      bloc.add(EventConfirmSetupIntent(pm));
+                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
                                     }
                                   },
                                   child: Text(
-                                    "Save Credit Card",
+                                    "Use Credit Card",
                                     style: widget.textTheme.button,
                                   ),
                                 ),
@@ -499,6 +522,7 @@ class _PaymentPageState extends State<PaymentPage> {
           _buildTAndC().paddingBottom(MyTheme.elementSpacing).paddingTop(8),
           SizedBox(
             width: widget.maxWidth,
+            height: 34,
             child: RaisedButton(
               color: MyTheme.appolloGreen,
               onPressed: () {
@@ -571,7 +595,10 @@ class _PaymentPageState extends State<PaymentPage> {
                     ],
                     onChanged: (value) {
                       if (value == 0) {
+                        _saveCreditCard = false;
                         bloc.add(EventAddPaymentMethod());
+                      } else {
+                        _saveCreditCard = true;
                       }
                     },
                   )

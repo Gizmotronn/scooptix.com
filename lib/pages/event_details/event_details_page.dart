@@ -5,7 +5,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/pages/accept_invitation/ticket_page.dart';
+import 'package:webapp/pages/ticket/ticket_page.dart';
 import 'package:webapp/repositories/user_repository.dart';
 
 class EventDetailsPage extends StatefulWidget {

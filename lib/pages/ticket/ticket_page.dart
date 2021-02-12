@@ -2,13 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:webapp/UI/downloadAppollo.dart';
 import 'package:webapp/UI/eventInfo.dart';
 import 'package:webapp/UI/existingTicketsWidget.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/pages/accept_invitation/bloc/ticket_bloc.dart';
+import 'package:webapp/pages/ticket/bloc/ticket_bloc.dart';
 import 'package:webapp/pages/payment/payment_page.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:webapp/utilities/alertGenerator.dart';
@@ -43,67 +41,7 @@ class _TicketPageState extends State<TicketPage> {
         cubit: bloc,
         builder: (c, state) {
           print(state);
-          if (state is StateNoPaymentRequired) {
-            return Column(
-              children: [
-                ResponsiveBuilder(builder: (context, constraints) {
-                  if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                      constraints.deviceScreenType == DeviceScreenType.watch) {
-                    return Container(child: EventInfoWidget(Axis.vertical, widget.linkType.event)).appolloCard;
-                  } else {
-                    return EventInfoWidget(Axis.horizontal, widget.linkType.event);
-                  }
-                }).paddingBottom(8),
-                SizedBox(
-                  width: MyTheme.maxWidth,
-                  child: Container(
-                      child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        AutoSizeText("Accept your invitation", style: MyTheme.lightTextTheme.subtitle1),
-                        SizedBox(
-                          height: 18,
-                        ),
-                        AutoSizeText(state.releases[0].name, style: MyTheme.lightTextTheme.headline6),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        SizedBox(
-                          width: MyTheme.maxWidth,
-                          height: 34,
-                          child: RaisedButton(
-                            color: MyTheme.appolloGreen,
-                            onPressed: () {
-                              if (widget.linkType.event.ticketCheckoutMessage != null) {
-                                AlertGenerator.showAlertWithChoice(
-                                        context: context,
-                                        title: "Please note",
-                                        content: widget.linkType.event.ticketCheckoutMessage,
-                                        buttonText1: "I Understand",
-                                        buttonText2: "Cancel")
-                                    .then((value) {
-                                  if (value != null && value) {
-                                    bloc.add(EventAcceptInvitation(widget.linkType, state.selectedRelease));
-                                  }
-                                });
-                              } else {
-                                bloc.add(EventAcceptInvitation(widget.linkType, state.selectedRelease));
-                              }
-                            },
-                            child: Text(
-                              "Accept Invitation",
-                              style: MyTheme.lightTextTheme.button,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  )).appolloCard,
-                ),
-              ],
-            );
-          } else if (state is StateInvitationAccepted) {
+          if (state is StateInvitationAccepted) {
             return SizedBox(
               width: MyTheme.maxWidth,
               child: ExistingTicketsWidget(state.tickets, widget.linkType),
@@ -133,12 +71,24 @@ class _TicketPageState extends State<TicketPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    AutoSizeText("Uh-oh", style: MyTheme.lightTextTheme.subtitle1),
+                    AutoSizeText("Uh-oh",
+                        style: getValueForScreenType(
+                            context: context,
+                            watch: MyTheme.lightTextTheme.subtitle1,
+                            mobile: MyTheme.lightTextTheme.subtitle1,
+                            tablet: MyTheme.darkTextTheme.subtitle1,
+                            desktop: MyTheme.darkTextTheme.subtitle1)),
                     SizedBox(
                       height: 12,
                     ),
                     AutoSizeText(
-                        "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io"),
+                        "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io",
+                        style: getValueForScreenType(
+                            context: context,
+                            watch: MyTheme.lightTextTheme.bodyText2,
+                            mobile: MyTheme.lightTextTheme.bodyText2,
+                            tablet: MyTheme.darkTextTheme.bodyText2,
+                            desktop: MyTheme.darkTextTheme.bodyText2)),
                   ],
                 ),
               )).appolloCard,
@@ -187,12 +137,24 @@ class _TicketPageState extends State<TicketPage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    AutoSizeText("Oh no!", style: MyTheme.lightTextTheme.subtitle1),
+                    AutoSizeText("Oh no!",
+                        style: getValueForScreenType(
+                            context: context,
+                            watch: MyTheme.lightTextTheme.subtitle1,
+                            mobile: MyTheme.lightTextTheme.subtitle1,
+                            tablet: MyTheme.darkTextTheme.subtitle1,
+                            desktop: MyTheme.darkTextTheme.subtitle1)),
                     SizedBox(
                       height: 12,
                     ),
                     AutoSizeText(
-                        "Looks like it's past the cutoff time for this event, no more invitations can be accepted."),
+                        "Looks like it's past the cutoff time for this event, no more invitations can be accepted.",
+                        style: getValueForScreenType(
+                            context: context,
+                            watch: MyTheme.lightTextTheme.bodyText2,
+                            mobile: MyTheme.lightTextTheme.bodyText2,
+                            tablet: MyTheme.darkTextTheme.bodyText2,
+                            desktop: MyTheme.darkTextTheme.bodyText2)),
                   ],
                 ),
               )).appolloCard,
@@ -256,7 +218,7 @@ class _TicketPageState extends State<TicketPage> {
                                       }
                                     },
                                     child: Text(
-                                      "Create Your Order",
+                                      "Get Your Ticket",
                                       style: MyTheme.lightTextTheme.button,
                                     ),
                                   ),
@@ -311,7 +273,7 @@ class _TicketPageState extends State<TicketPage> {
                                 }
                               },
                               child: Text(
-                                "Create Your Order",
+                                "Get Your Ticket",
                                 style: MyTheme.lightTextTheme.button,
                               ),
                             ),

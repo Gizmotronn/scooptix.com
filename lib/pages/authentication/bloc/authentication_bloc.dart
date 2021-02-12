@@ -8,6 +8,7 @@ import 'package:flutter_facebook_login_web/flutter_facebook_login_web.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
+import 'package:webapp/repositories/payment_repository.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:webapp/services/bugsnag_wrapper.dart';
 import 'package:webapp/services/firebase.dart';
@@ -248,6 +249,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   Stream<AuthenticationState> _logout() async* {
     await auth.FirebaseAuth.instance.signOut();
     UserRepository.instance.dispose();
+    PaymentRepository.instance.dispose();
     yield StateInitial();
   }
 }

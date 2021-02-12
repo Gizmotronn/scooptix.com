@@ -24,7 +24,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     if (event is EventLoadAvailableReleases) {
       yield* _loadReleases(event.event);
     } else if (event is EventConfirmSetupIntent) {
-      yield* _savePaymentMethod(event.paymentMethod);
+      yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard);
     } else if (event is EventRequestPI) {
       yield* _createPaymentIntent(event.selectedRelease, event.quantity);
     } else if (event is EventCancelPayment) {
@@ -93,6 +93,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.",
             selectedRelease,
             quantity);
+        PaymentRepository.instance.dispose();
       } else {
         yield StatePaymentError(errorMessage);
       }
@@ -102,21 +103,29 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _savePaymentMethod(PaymentMethod payment) async* {
+  Stream<PaymentState> _savePaymentMethod(PaymentMethod payment, bool saveCreditCard) async* {
     yield StateLoading();
-    http.Response response = await PaymentRepository.instance.getSetupIntent(true);
-    if (response.statusCode == 200) {
-      response =
-          await PaymentRepository.instance.confirmSetupIntent(payment.id, json.decode(response.body)["setupIntentId"]);
+    PaymentRepository.instance.saveCreditCard = saveCreditCard;
+    if (saveCreditCard) {
+      print("saving credit card");
+      http.Response response = await PaymentRepository.instance.getSetupIntent(true);
+      if (response.statusCode == 200) {
+        response = await PaymentRepository.instance
+            .confirmSetupIntent(payment.id, json.decode(response.body)["setupIntentId"]);
 
+        PaymentRepository.instance.paymentMethodId = payment.id;
+        PaymentRepository.instance.last4 = payment.last4;
+
+        if (response.statusCode == 200) {
+          yield* _loadReleases(this.event);
+        } else {
+          yield StatePaymentError("An unknown error occurred. Please try again.");
+        }
+      }
+    } else {
       PaymentRepository.instance.paymentMethodId = payment.id;
       PaymentRepository.instance.last4 = payment.last4;
-
-      if (response.statusCode == 200) {
-        yield* _loadReleases(this.event);
-      } else {
-        yield StatePaymentError("An unknown error occurred. Please try again.");
-      }
+      yield* _loadReleases(this.event);
     }
   }
 
@@ -142,27 +151,27 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           print(e);
         }
       }
+    }
 
-      if (releases.length > 0) {
-        if (releases[0].price > 0) {
-          if (releases[0].singleTicketRestriction) {
-            yield StatePaidTicketSelected(releases, releases[0]);
-          } else {
-            yield StatePaidTicketQuantitySelected(releases, releases[0]);
-          }
+    if (releases.length > 0) {
+      if (releases[0].price > 0) {
+        if (releases[0].singleTicketRestriction) {
+          yield StatePaidTicketSelected(releases, releases[0]);
         } else {
-          if (releases[0].singleTicketRestriction) {
-            yield StateFreeTicketSelected(releases, releases[0]);
-          } else {
-            // NOT IMPLEMENTED YET
-            // Not sure yet if this will be a feature yet
-            // yield StateFreeTicketQuantitySelected(releasesWithRegularTickets, releasesWithRegularTickets[0]);
-            yield StateFreeTicketSelected(releases, releases[0]);
-          }
+          yield StatePaidTicketQuantitySelected(releases, releases[0]);
         }
       } else {
-        yield StateNoTicketsAvailable();
+        if (releases[0].singleTicketRestriction) {
+          yield StateFreeTicketSelected(releases, releases[0]);
+        } else {
+          // NOT IMPLEMENTED YET
+          // Not sure yet if this will be a feature yet
+          // yield StateFreeTicketQuantitySelected(releasesWithRegularTickets, releasesWithRegularTickets[0]);
+          yield StateFreeTicketSelected(releases, releases[0]);
+        }
       }
+    } else {
+      yield StateNoTicketsAvailable();
     }
   }
 

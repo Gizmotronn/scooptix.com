@@ -49,22 +49,11 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       else {
         if (releasesWithRegularTickets.length == 0 && releasesWithSingleTicketRestriction.length == 0) {
           yield StateNoTicketsLeft();
-        } else if (releasesWithSingleTicketRestriction
-                .any((element) => element.price > 0) || // If there is a release with restricted tickets
-            releasesWithRegularTickets.any((element) => element.price > 0)) {
+        } else {
           if (releasesWithSingleTicketRestriction.length > 0) {
             yield StatePaymentRequired(releasesWithSingleTicketRestriction, tickets);
           } else {
             yield StatePaymentRequired(releasesWithRegularTickets, tickets);
-          }
-        } else {
-          // For free, restricted tickets we're assuming that there's only a single ticket to choose from.
-          // However if that changes, the StateNoPaymentRequired already provides the option to provide a different release
-          if (releasesWithSingleTicketRestriction.length > 0) {
-            yield StateNoPaymentRequired(
-                releasesWithSingleTicketRestriction, releasesWithSingleTicketRestriction[0], tickets);
-          } else {
-            yield StateNoPaymentRequired(releasesWithRegularTickets, releasesWithRegularTickets[0], tickets);
           }
         }
       }

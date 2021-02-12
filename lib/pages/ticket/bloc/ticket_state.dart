@@ -21,13 +21,6 @@ class StatePreviouslyBoughtTickets extends TicketState {
   const StatePreviouslyBoughtTickets(this.tickets);
 }
 
-class StateNoPaymentRequired extends StatePreviouslyBoughtTickets {
-  final List<TicketRelease> releases;
-  final TicketRelease selectedRelease;
-
-  StateNoPaymentRequired(this.releases, this.selectedRelease, tickets) : super(tickets);
-}
-
 class StatePaymentRequired extends StatePreviouslyBoughtTickets {
   final List<TicketRelease> releases;
 

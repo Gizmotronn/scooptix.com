@@ -37,7 +37,7 @@ extension AppolloCard on Container {
   Container get appolloCard {
     return Container(
       decoration: ShapeDecoration(
-          color: Colors.grey[800].withAlpha(140),
+          color: Colors.grey[800].withAlpha(150),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1))),
