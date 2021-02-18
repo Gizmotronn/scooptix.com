@@ -10,8 +10,9 @@ import 'package:webapp/repositories/user_repository.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final LinkType linkType;
+  final bool forwardToPayment;
 
-  const EventDetailsPage(this.linkType, {Key key}) : super(key: key);
+  const EventDetailsPage(this.linkType, {Key key, @required this.forwardToPayment}) : super(key: key);
 
   @override
   _EventDetailsPageState createState() => _EventDetailsPageState();
@@ -44,7 +45,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ),
             ),
           ),
-          SingleChildScrollView(child: TicketPage(widget.linkType).paddingAll(8).paddingTop(56)),
+          SingleChildScrollView(
+              child:
+                  TicketPage(widget.linkType, forwardToPayment: widget.forwardToPayment).paddingAll(8).paddingTop(56)),
         ],
       ),
     );
@@ -54,7 +57,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
     return AppBar(
       titleSpacing: 0.0,
       automaticallyImplyLeading: false,
-      backgroundColor: Colors.grey[900].withAlpha(150),
+      backgroundColor: Colors.grey[900].withAlpha(160),
       title: Container(
         width: MyTheme.maxWidth,
         child: ClipRRect(

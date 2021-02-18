@@ -3,7 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:webapp/pages/authentication/authentication_page.dart';
+import 'package:webapp/pages/authentication/landing_page.dart';
 import 'package:webapp/pages/error_page.dart';
 import 'package:webapp/repositories/events_repository.dart';
 import 'package:webapp/services/bugsnag_wrapper.dart';
@@ -21,7 +21,7 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
     Intl.defaultLocale = 'en_AU';
     initializeDateFormatting('en_AU', null);
     final uri = Uri.parse(window.location.href);
-    String uuid = "f09dfcbe-431c-4c95-bc92-c8fba56ed94a";
+    String uuid = "2857e5e5-cfdc-45e3-a4ea-f48160abe949";
     if (uri.queryParameters.containsKey("id")) {
       uuid = uri.queryParameters["id"];
     }

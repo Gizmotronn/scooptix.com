@@ -5,7 +5,9 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:webapp/model/discount.dart';
 import 'package:webapp/model/link_type/link_type.dart';
+import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/ticket/bloc/ticket_bloc.dart' as ticket;
 import 'package:webapp/pages/payment/bloc/payment_bloc.dart';
@@ -34,15 +36,31 @@ class _PaymentPageState extends State<PaymentPage> {
   TextEditingController _monthController = TextEditingController();
   TextEditingController _yearController = TextEditingController();
   TextEditingController _cvcController = TextEditingController();
+  TextEditingController _discountController = TextEditingController();
+  FocusNode focusMonth = FocusNode();
+  FocusNode focusYear = FocusNode();
+  FocusNode focusCVC = FocusNode();
 
   bool _termsConditions = false;
   bool _saveCreditCard = false;
   int selectedQuantity = 1;
+  ReleaseManager selectedManager;
+  Discount discount;
 
   @override
   void initState() {
     bloc = PaymentBloc();
     bloc.add(EventLoadAvailableReleases(widget.linkType.event));
+    Future.delayed(Duration(milliseconds: 1)).then((value) {
+      if (widget.linkType.event.ticketCheckoutMessage != null) {
+        AlertGenerator.showAlert(
+            context: context,
+            title: "Please note",
+            content: widget.linkType.event.ticketCheckoutMessage,
+            buttonText: "I Understand",
+            popTwice: false);
+      }
+    });
     super.initState();
   }
 
@@ -57,6 +75,7 @@ class _PaymentPageState extends State<PaymentPage> {
     Column data = Column(
       children: [
         BlocConsumer<PaymentBloc, PaymentState>(
+          cubit: bloc,
           listener: (c, state) {
             if (state is StatePaymentCompleted) {
               AlertGenerator.showAlert(
@@ -66,14 +85,50 @@ class _PaymentPageState extends State<PaymentPage> {
                       buttonText: "Ok",
                       popTwice: false)
                   .then((_) {
-                widget.ticketBloc.add(ticket.EventPaymentSuccessful(widget.linkType, state.release, state.quantity));
+                widget.ticketBloc.add(ticket.EventPaymentSuccessful(
+                    widget.linkType, selectedManager.getActiveRelease(), selectedQuantity, discount));
               });
+            } else if (state is StateDiscountCodeInvalid) {
+              AlertGenerator.showAlert(
+                  context: context,
+                  title: "Invalid code",
+                  content: "Sorry, this code does not exist",
+                  buttonText: "Ok",
+                  popTwice: false);
+            } else if (state is StatePaymentOptionAvailable) {
+              if (state.discount != null) {
+                discount = state.discount;
+              }
+              if (selectedManager == null) {
+                selectedManager = state.managers[0];
+              }
             }
           },
-          cubit: bloc,
+          buildWhen: (c, state) {
+            if (state is StateDiscountCodeLoading || state is StateDiscountCodeInvalid) {
+              return false;
+            } else {
+              return true;
+            }
+          },
           builder: (c, state) {
             if (state is StatePaymentError) {
-              return Text(state.message);
+              return Column(
+                children: [
+                  Text(state.message, style: widget.textTheme.bodyText2).paddingBottom(MyTheme.elementSpacing),
+                  SizedBox(
+                    height: 34,
+                    width: widget.maxWidth,
+                    child: RaisedButton(
+                      color: MyTheme.appolloGreen,
+                      onPressed: () {
+                        bloc.add(EventCancelPayment());
+                      },
+                      child: Text("Go back", style: widget.textTheme.bodyText2),
+                    ),
+                  )
+                ],
+              );
             } else if (state is StatePaymentCompleted) {
               return Text(
                 "Payment Successful",
@@ -88,7 +143,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     height: 8,
                   ),
                   Text(
-                    "You are buying ${state.quantity} ticket(s) and will be charged \$${(state.price / 100).toStringAsFixed(2)}",
+                    "You are buying ${selectedQuantity} ticket(s) and will be charged \$${(state.price / 100).toStringAsFixed(2)}",
                     style: widget.textTheme.bodyText2,
                   ),
                   SizedBox(
@@ -147,6 +202,11 @@ class _PaymentPageState extends State<PaymentPage> {
                       child: TextFormField(
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
                         controller: _ccnumberController,
+                        onChanged: (v) {
+                          if (v.length == 16) {
+                            focusMonth.requestFocus();
+                          }
+                        },
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             isDense: true,
@@ -184,7 +244,13 @@ class _PaymentPageState extends State<PaymentPage> {
                                       FilteringTextInputFormatter.digitsOnly,
                                       LengthLimitingTextInputFormatter(2)
                                     ],
+                                    onChanged: (v) {
+                                      if (v.length == 2) {
+                                        focusYear.requestFocus();
+                                      }
+                                    },
                                     controller: _monthController,
+                                    focusNode: focusMonth,
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         isDense: true,
@@ -200,11 +266,17 @@ class _PaymentPageState extends State<PaymentPage> {
                                       mobile: widget.maxWidth * 0.3 - 12,
                                       watch: widget.maxWidth * 0.3 - 12),
                                   child: TextFormField(
+                                    onChanged: (v) {
+                                      if (v.length == 2) {
+                                        focusCVC.requestFocus();
+                                      }
+                                    },
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                       LengthLimitingTextInputFormatter(2)
                                     ],
                                     controller: _yearController,
+                                    focusNode: focusYear,
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         isDense: true,
@@ -223,6 +295,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 mobile: widget.maxWidth * 0.35 - 16,
                                 watch: widget.maxWidth * 0.35 - 16),
                             child: TextFormField(
+                              focusNode: focusCVC,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(3)
@@ -280,8 +353,15 @@ class _PaymentPageState extends State<PaymentPage> {
                                           await Stripe.instance.api.createPaymentMethodFromCard(card);
                                       PaymentMethod pm =
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                      print(pm.id);
                                       bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
+                                    } else {
+                                      AlertGenerator.showAlert(
+                                          context: context,
+                                          title: "Invalid details",
+                                          content:
+                                              "Your credit card details are not valid. Please make sure the provided data is correct",
+                                          buttonText: "Ok",
+                                          popTwice: false);
                                     }
                                   },
                                   child: Text(
@@ -350,6 +430,14 @@ class _PaymentPageState extends State<PaymentPage> {
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                       print(pm.id);
                                       bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
+                                    } else {
+                                      AlertGenerator.showAlert(
+                                          context: context,
+                                          title: "Invalid details",
+                                          content:
+                                              "Your credit card details are not valid. Please make sure the provided data is correct",
+                                          buttonText: "Ok",
+                                          popTwice: false);
                                     }
                                   },
                                   child: Text(
@@ -469,15 +557,18 @@ class _PaymentPageState extends State<PaymentPage> {
                       hintText: 'Choose your ticket',
                       isDense: true,
                     ),
-                    items: state.releases
+                    items: state.managers
                         .map((e) => DropdownMenuItem(
                               value: e,
-                              child: Text("${e.name} - \$${(e.price / 100).toStringAsFixed(2)}"),
+                              child: Text("${e.name} - \$${(e.getActiveRelease().price / 100).toStringAsFixed(2)}"),
                             ))
                         .toList(),
-                    value: state.selectedRelease,
-                    onChanged: (TicketRelease value) {
-                      bloc.add(EventTicketSelected(state.releases, value));
+                    value: selectedManager,
+                    onChanged: (ReleaseManager value) {
+                      setState(() {
+                        selectedManager = value;
+                      });
+                      bloc.add(EventTicketSelected(state.managers, value.getActiveRelease()));
                     },
                   ),
                 ).paddingBottom(12),
@@ -497,11 +588,21 @@ class _PaymentPageState extends State<PaymentPage> {
         ]);
   }
 
+  double _calculateDiscount(StatePaymentOptionAvailable state) {
+    if (discount == null) {
+      return 0.0;
+    } else if (discount.type == DiscountType.value) {
+      return discount.amount.toDouble() * selectedQuantity / 100;
+    } else {
+      return (selectedManager.getActiveRelease().price.toDouble() * selectedQuantity) * discount.amount / 100 / 100;
+    }
+  }
+
   double _calculateAppolloFees(StatePaymentOptionAvailable state) {
-    if (state.selectedRelease.price == 0) {
+    if (selectedManager.getActiveRelease().price == 0) {
       return 0.0;
     } else {
-      return (((state.selectedRelease.price * selectedQuantity + 300) / 100) * 0.05);
+      return (((selectedManager.getActiveRelease().price * selectedQuantity) / 100) * 0.05 + 0.3);
     }
   }
 
@@ -534,7 +635,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         buttonText: "Ok",
                         popTwice: false)
                     .then((_) {
-                  widget.ticketBloc.add(ticket.EventAcceptInvitation(widget.linkType, state.selectedRelease));
+                  widget.ticketBloc
+                      .add(ticket.EventAcceptInvitation(widget.linkType, selectedManager.getActiveRelease()));
                 });
               },
               child: Text(
@@ -585,7 +687,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     isDense: true,
                     items: [
                       DropdownMenuItem(
-                        child: Text("Use saved card ending in ${PaymentRepository.instance.last4}"),
+                        child: Text("Use your card ending in ${PaymentRepository.instance.last4}"),
                         value: 1,
                       ),
                       DropdownMenuItem(
@@ -668,7 +770,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 buttonText2: "Cancel")
                             .then((value) {
                           if (value != null && value) {
-                            bloc.add(EventRequestPI(state.selectedRelease, 1));
+                            bloc.add(EventRequestPI(selectedManager.getActiveRelease(), 1, discount));
                           }
                         });
                       }
@@ -717,6 +819,60 @@ class _PaymentPageState extends State<PaymentPage> {
               },
             ),
           ).paddingBottom(12),
+          BlocConsumer<PaymentBloc, PaymentState>(
+              cubit: bloc,
+              listener: (c, state) {},
+              buildWhen: (c, state) {
+                if (state is StateDiscountCodeInvalid) {
+                  return false;
+                }
+                return true;
+              },
+              builder: (context, state) {
+                if (state is StatePaymentOptionAvailable || state is StateDiscountCodeLoading) {
+                  return SizedBox(
+                    height: 50,
+                    width: widget.maxWidth,
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      children: [
+                        Flexible(
+                          flex: 3,
+                          child: SizedBox(
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  border: OutlineInputBorder(), hintText: "Discount Code", isDense: true),
+                              controller: _discountController,
+                            ),
+                          ).paddingRight(8),
+                        ),
+                        Expanded(
+                          child: SizedBox(
+                            height: 46,
+                            child: FlatButton(
+                              color: MyTheme.appolloGreen,
+                              onPressed: () {
+                                if (state is StatePaymentOptionAvailable && _discountController.text != "") {
+                                  bloc.add(
+                                      EventApplyDiscount(_discountController.text, selectedManager.getActiveRelease()));
+                                }
+                              },
+                              child: state is StateDiscountCodeLoading
+                                  ? CircularProgressIndicator()
+                                  : Text(
+                                      "Apply",
+                                      style: widget.textTheme.button,
+                                    ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ).paddingBottom(8);
+                } else {
+                  return SizedBox.shrink();
+                }
+              }),
           Divider(
             color: getValueForScreenType(
                 context: context,
@@ -748,7 +904,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     value: 1,
                     items: [
                       DropdownMenuItem(
-                        child: Text("Use saved card ending in ${PaymentRepository.instance.last4}"),
+                        child: Text("Use your card ending in ${PaymentRepository.instance.last4}"),
                         value: 1,
                       ),
                       DropdownMenuItem(
@@ -820,7 +976,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           buttonText2: "Cancel")
                       .then((value) {
                     if (value != null && value) {
-                      bloc.add(EventRequestPI(state.selectedRelease, selectedQuantity));
+                      bloc.add(EventRequestPI(selectedManager.getActiveRelease(), selectedQuantity, discount));
                     }
                   });
                 } else {
@@ -853,16 +1009,36 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(state.selectedRelease.name, style: widget.textTheme.bodyText2),
+              Text(selectedManager.name, style: widget.textTheme.bodyText2),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${(state.selectedRelease.price * selectedQuantity / 100).toStringAsFixed(2)}",
+                      child: Text(
+                          "\$${(selectedManager.getActiveRelease().price * selectedQuantity / 100).toStringAsFixed(2)}",
                           style: widget.textTheme.bodyText2)))
             ],
           ),
         ).paddingBottom(8),
+        if (discount != null && discount.enoughLeft(selectedQuantity))
+          SizedBox(
+            width: widget.maxWidth,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(
+                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $selectedQuantity" : discount.amount.toString() + "%"})",
+                  style: widget.textTheme.bodyText2,
+                ),
+                SizedBox(
+                    width: 70,
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text("-\$${_calculateDiscount(state).toStringAsFixed(2)}",
+                            style: widget.textTheme.bodyText2)))
+              ],
+            ),
+          ).paddingBottom(8),
         SizedBox(
           width: widget.maxWidth,
           child: Row(
@@ -892,7 +1068,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                          "\$${(state.selectedRelease.price * selectedQuantity / 100 + _calculateAppolloFees(state)).toStringAsFixed(2)}",
+                          "\$${(selectedManager.getActiveRelease().price * selectedQuantity / 100 - _calculateDiscount(state) + _calculateAppolloFees(state)).toStringAsFixed(2)}",
                           style: widget.textTheme.bodyText2)))
             ],
           ),

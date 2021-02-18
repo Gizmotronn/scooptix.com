@@ -42,12 +42,13 @@ class UserRepository {
 
   /// Retrieve user data from the database
   Future<User> getUser(uid) async {
-    currentUser = User();
+    currentUser = null;
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
     if (!userSnapshot.exists) {
       return null;
     } else {
+      currentUser = User();
       currentUser.firebaseUserID = userSnapshot.id;
       currentUser.firstname = userSnapshot.data()["firstname"];
       currentUser.lastname = userSnapshot.data()["lastname"];

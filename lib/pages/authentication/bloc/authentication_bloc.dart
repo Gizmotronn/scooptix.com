@@ -240,7 +240,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
             : "";
         yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
       } else {
-        yield StateLoggedIn(
+        yield StateAutoLoggedIn(
             fbUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
       }
     }

@@ -45,12 +45,18 @@ class StatePasswordsConfirmed extends AuthenticationState {
 
 class StateLoginFailed extends StateExistingUserEmail {}
 
+/// Use this for loggin in users with new or existing accounts
 class StateLoggedIn extends AuthenticationState {
   final String email;
   final String firstName;
   final String lastName;
 
   StateLoggedIn(this.email, this.firstName, this.lastName);
+}
+
+/// Use this for logging in users with saved sessions
+class StateAutoLoggedIn extends StateLoggedIn {
+  StateAutoLoggedIn(email, firstName, lastName) : super(email, firstName, lastName);
 }
 
 class StateErrorSignUp extends AuthenticationState {

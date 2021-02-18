@@ -54,6 +54,16 @@ class Event {
     return releases;
   }
 
+  List<ReleaseManager> getManagersWithActiveReleases() {
+    List<ReleaseManager> activeManagers = [];
+    this.releaseManagers.forEach((element) {
+      if (element.getActiveRelease() != null) {
+        activeManagers.add(element);
+      }
+    });
+    return activeManagers;
+  }
+
   List<TicketRelease> getAllReleases() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {

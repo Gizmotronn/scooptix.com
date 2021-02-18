@@ -33,19 +33,27 @@ class EventConfirmPayment extends PaymentEvent {
 class EventRequestPI extends PaymentEvent {
   final TicketRelease selectedRelease;
   final int quantity;
+  final Discount discount;
 
-  const EventRequestPI(this.selectedRelease, this.quantity);
+  const EventRequestPI(this.selectedRelease, this.quantity, this.discount);
 }
 
 class EventTicketSelected extends PaymentEvent {
   final TicketRelease selectedRelease;
-  final List<TicketRelease> availableReleases;
+  final List<ReleaseManager> managers;
 
-  const EventTicketSelected(this.availableReleases, this.selectedRelease);
+  const EventTicketSelected(this.managers, this.selectedRelease);
 }
 
 class EventLoadAvailableReleases extends PaymentEvent {
   final Event event;
 
   const EventLoadAvailableReleases(this.event);
+}
+
+class EventApplyDiscount extends PaymentEvent {
+  final String code;
+  final TicketRelease selectedRelease;
+
+  const EventApplyDiscount(this.code, this.selectedRelease);
 }

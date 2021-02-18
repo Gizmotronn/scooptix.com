@@ -4,9 +4,12 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
+import 'package:webapp/model/discount.dart';
 import 'package:webapp/model/event.dart';
+import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/repositories/payment_repository.dart';
+import 'package:webapp/repositories/ticket_repository.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
@@ -15,18 +18,18 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   PaymentBloc() : super(StateInitial());
 
   Event event;
-  List<TicketRelease> availableReleases = [];
 
   @override
   Stream<PaymentState> mapEventToState(
     PaymentEvent event,
   ) async* {
     if (event is EventLoadAvailableReleases) {
+      PaymentRepository.instance.dispose();
       yield* _loadReleases(event.event);
     } else if (event is EventConfirmSetupIntent) {
       yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard);
     } else if (event is EventRequestPI) {
-      yield* _createPaymentIntent(event.selectedRelease, event.quantity);
+      yield* _createPaymentIntent(event.selectedRelease, event.quantity, event.discount);
     } else if (event is EventCancelPayment) {
       yield* _loadReleases(this.event);
     } else if (event is EventChangePaymentMethod) {
@@ -34,7 +37,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     } else if (event is EventAddPaymentMethod) {
       yield StateAddPaymentMethod();
     } else if (event is EventTicketSelected) {
-      yield* _selectTicket(event.selectedRelease, event.availableReleases);
+      yield* _selectTicket(event.selectedRelease, event.managers);
+    } else if (event is EventApplyDiscount) {
+      yield* _applyDiscount(event.code, event.selectedRelease);
     }
   }
 
@@ -59,18 +64,23 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _createPaymentIntent(TicketRelease selectedRelease, int quantity) async* {
+  Stream<PaymentState> _createPaymentIntent(TicketRelease selectedRelease, int quantity, Discount discount) async* {
     yield StateLoadingPaymentIntent();
     try {
       http.Response response = await PaymentRepository.instance.createPaymentIntent(
           event.docID,
           event.releaseManagers.firstWhere((element) => element.releases.contains(selectedRelease)).docId,
           selectedRelease.docId,
-          quantity);
+          quantity,
+          discount);
 
-      if (response.statusCode == 200) {
-        PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-        yield* _confirmPayment(selectedRelease, quantity);
+      if (response != null) {
+        if (response.statusCode == 200) {
+          PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
+          yield* _confirmPayment(selectedRelease, quantity);
+        } else {
+          yield StatePaymentError("An unknown error occurred. Please try again.");
+        }
       } else {
         yield StatePaymentError("An unknown error occurred. Please try again.");
       }
@@ -85,7 +95,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     try {
       Map<String, dynamic> result = await PaymentRepository.instance
           .confirmPayment(PaymentRepository.instance.clientSecret, PaymentRepository.instance.paymentMethodId);
-      print(result);
       if (result == null) {
         yield StatePaymentError(errorMessage);
       } else if (result["status"] == "succeeded") {
@@ -95,11 +104,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             quantity);
         PaymentRepository.instance.dispose();
       } else {
-        yield StatePaymentError(errorMessage);
+        yield StatePaymentError(result.toString());
       }
     } catch (e) {
       print(e);
-      yield StatePaymentError(errorMessage);
+      yield StatePaymentError(e.toString());
     }
   }
 
@@ -113,11 +122,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         response = await PaymentRepository.instance
             .confirmSetupIntent(payment.id, json.decode(response.body)["setupIntentId"]);
 
-        PaymentRepository.instance.paymentMethodId = payment.id;
-        PaymentRepository.instance.last4 = payment.last4;
-
-        if (response.statusCode == 200) {
-          yield* _loadReleases(this.event);
+        if (response != null) {
+          if (response.statusCode == 200) {
+            PaymentRepository.instance.paymentMethodId = payment.id;
+            PaymentRepository.instance.last4 = payment.last4;
+            yield* _loadReleases(this.event);
+          } else {
+            yield StatePaymentError(response.toString());
+          }
         } else {
           yield StatePaymentError("An unknown error occurred. Please try again.");
         }
@@ -125,6 +137,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     } else {
       PaymentRepository.instance.paymentMethodId = payment.id;
       PaymentRepository.instance.last4 = payment.last4;
+      print(PaymentRepository.instance.last4);
       yield* _loadReleases(this.event);
     }
   }
@@ -133,14 +146,15 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     yield StateLoading();
     this.event = event;
 
-    List<TicketRelease> releases = event.getAllReleases();
+    List<ReleaseManager> managers = event.getManagersWithActiveReleases();
 
-    if (releases.any((element) => element.price > 0)) {
+    if (managers.any((element) => element.getActiveRelease().price > 0)) {
       if (PaymentRepository.instance.paymentMethodId == null || PaymentRepository.instance.last4 == null) {
         http.Response response = await PaymentRepository.instance.getSetupIntent(false);
         try {
           if (response.statusCode == 200) {
             if (json.decode(response.body)["requiresConfirmation"] == false) {
+              print(json.decode(response.body)["paymentMethod"]);
               PaymentRepository.instance.paymentMethodId = json.decode(response.body)["paymentMethod"];
               PaymentRepository.instance.last4 = json.decode(response.body)["last4"];
             }
@@ -153,21 +167,21 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       }
     }
 
-    if (releases.length > 0) {
-      if (releases[0].price > 0) {
-        if (releases[0].singleTicketRestriction) {
-          yield StatePaidTicketSelected(releases, releases[0]);
+    if (managers.length > 0) {
+      if (managers[0].getActiveRelease().price > 0) {
+        if (managers[0].getActiveRelease().singleTicketRestriction) {
+          yield StatePaidTicketSelected(managers);
         } else {
-          yield StatePaidTicketQuantitySelected(releases, releases[0]);
+          yield StatePaidTicketQuantitySelected(managers);
         }
       } else {
-        if (releases[0].singleTicketRestriction) {
-          yield StateFreeTicketSelected(releases, releases[0]);
+        if (managers[0].getActiveRelease().singleTicketRestriction) {
+          yield StateFreeTicketSelected(managers);
         } else {
           // NOT IMPLEMENTED YET
           // Not sure yet if this will be a feature yet
           // yield StateFreeTicketQuantitySelected(releasesWithRegularTickets, releasesWithRegularTickets[0]);
-          yield StateFreeTicketSelected(releases, releases[0]);
+          yield StateFreeTicketSelected(managers);
         }
       }
     } else {
@@ -175,23 +189,36 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _selectTicket(TicketRelease selectedRelease, List<TicketRelease> availableReleases) async* {
+  Stream<PaymentState> _selectTicket(TicketRelease selectedRelease, List<ReleaseManager> managers) async* {
     yield StateUpdating();
     if (selectedRelease.price == 0) {
       if (selectedRelease.singleTicketRestriction) {
-        yield StateFreeTicketSelected(availableReleases, selectedRelease);
+        yield StateFreeTicketSelected(managers);
       } else {
-        yield StateFreeTicketSelected(availableReleases, selectedRelease);
+        yield StateFreeTicketSelected(managers);
         // NOT IMPLEMENTED YET
         // Not sure yet if this will be a feature yet
         // yield StateFreeTicketQuantitySelected(availableReleases, selectedRelease);
       }
     } else {
       if (selectedRelease.singleTicketRestriction) {
-        yield StatePaidTicketSelected(availableReleases, selectedRelease);
+        yield StatePaidTicketSelected(managers);
       } else {
-        yield StatePaidTicketQuantitySelected(availableReleases, selectedRelease);
+        yield StatePaidTicketQuantitySelected(managers);
       }
+    }
+  }
+
+  Stream<PaymentState> _applyDiscount(String code, TicketRelease selectedRelease) async* {
+    yield StateDiscountCodeLoading();
+    Discount discount = await TicketRepository.instance.loadDiscount(this.event, code);
+    if (discount == null) {
+      yield StateDiscountCodeInvalid();
+    }
+    if (selectedRelease.singleTicketRestriction) {
+      yield StatePaidTicketSelected(event.getAllReleases(), discount: discount);
+    } else {
+      yield StatePaidTicketQuantitySelected(event.getAllReleases(), discount: discount);
     }
   }
 }

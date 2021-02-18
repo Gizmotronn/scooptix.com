@@ -12,7 +12,7 @@ import 'dart:html' as js;
 import 'package:webapp/services/validator.dart' as val;
 import 'package:websafe_svg/websafe_svg.dart';
 
-import 'authentication_bloc.dart';
+import 'bloc/authentication_bloc.dart';
 
 class AuthPage extends StatefulWidget {
   final AuthenticationBloc bloc;
