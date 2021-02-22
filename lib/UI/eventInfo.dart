@@ -178,6 +178,7 @@ class EventInfoWidget extends StatelessWidget {
           AutoSizeText(
             linkType.event.name,
             style: MyTheme.lightTextTheme.headline5,
+            textAlign: TextAlign.center,
           ).paddingBottom(MyTheme.cardPadding).paddingTop(MyTheme.cardPadding),
         if (showTitleAndImage)
           Container(
