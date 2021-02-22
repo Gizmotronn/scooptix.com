@@ -2,6 +2,9 @@ enum Gender { Female, Male, Other, Unknown }
 
 extension GenderExtension on Gender {
   String toDBString() {
+    if (this == null) {
+      return "unknown";
+    }
     return this.toString().split(".")[1].toLowerCase();
   }
 

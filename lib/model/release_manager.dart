@@ -11,6 +11,7 @@ class ReleaseManager {
   List<TicketRelease> releases = [];
   bool absorbFees = false;
   bool autoRelease = false;
+  bool singleTicketRestriction = false;
 
   ReleaseManager._();
 
@@ -54,6 +55,9 @@ class ReleaseManager {
       }
       if (data.containsKey("entry_end")) {
         rm.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
+      }
+      if (data.containsKey("single_ticket_restriction")) {
+        rm.singleTicketRestriction = data["single_ticket_restriction"];
       }
     } catch (e, s) {
       print(e);

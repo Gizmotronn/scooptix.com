@@ -254,7 +254,7 @@ class TicketRepository {
       ticket.release = release;
       return ticket;
     } catch (e, s) {
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("acceptInvitation\n" + e, s, severity: ErrorSeverity.error);
       print(e);
       return null;
     }

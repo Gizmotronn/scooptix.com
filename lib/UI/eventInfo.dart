@@ -249,11 +249,12 @@ class EventInfoWidget extends StatelessWidget {
         SizedBox(
           width: MyTheme.maxWidth,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment:
                 orientation == Axis.horizontal ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeText("Location: ", maxLines: 1),
-              Expanded(child: AutoSizeText(linkType.event.address, maxLines: 1)),
+              Expanded(child: AutoSizeText(linkType.event.address, maxLines: 2)),
             ],
           ),
         ).paddingBottom(16),
@@ -263,11 +264,12 @@ class EventInfoWidget extends StatelessWidget {
         SizedBox(
           width: MyTheme.maxWidth,
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             mainAxisAlignment:
                 orientation == Axis.horizontal ? MainAxisAlignment.start : MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeText("Location: ", maxLines: 1),
-              AutoSizeText(linkType.event.venueName, maxLines: 1),
+              Expanded(child: AutoSizeText(linkType.event.venueName, maxLines: 2)),
             ],
           ),
         ).paddingBottom(16),

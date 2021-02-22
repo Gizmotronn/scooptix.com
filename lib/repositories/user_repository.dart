@@ -17,6 +17,7 @@ class UserRepository {
   UserRepository._();
 
   dispose() {
+    currentUser = null;
     _instance = null;
   }
 
@@ -35,7 +36,7 @@ class UserRepository {
         ..lastname = lastName
         ..email = email
         ..dob = dob
-        ..gender = gender;
+        ..gender = gender ?? Gender.Unknown;
       return currentUser;
     }
   }

@@ -17,6 +17,7 @@ void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     print(details.exception);
     print(details.stack);
+    print(details.summary);
     //  BugsnagNotifier.instance.notify(details.exception, details.stack);
     //  BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);
   };

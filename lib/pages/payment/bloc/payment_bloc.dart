@@ -10,6 +10,7 @@ import 'package:webapp/model/release_manager.dart';
 import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/repositories/payment_repository.dart';
 import 'package:webapp/repositories/ticket_repository.dart';
+import 'package:webapp/services/bugsnag_wrapper.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
@@ -169,13 +170,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
     if (managers.length > 0) {
       if (managers[0].getActiveRelease().price > 0) {
-        if (managers[0].getActiveRelease().singleTicketRestriction) {
+        if (managers[0].singleTicketRestriction) {
           yield StatePaidTicketSelected(managers);
         } else {
           yield StatePaidTicketQuantitySelected(managers);
         }
       } else {
-        if (managers[0].getActiveRelease().singleTicketRestriction) {
+        if (managers[0].singleTicketRestriction) {
           yield StateFreeTicketSelected(managers);
         } else {
           // NOT IMPLEMENTED YET
@@ -192,19 +193,20 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   Stream<PaymentState> _selectTicket(TicketRelease selectedRelease, List<ReleaseManager> managers) async* {
     yield StateUpdating();
     if (selectedRelease.price == 0) {
-      if (selectedRelease.singleTicketRestriction) {
-        yield StateFreeTicketSelected(managers);
-      } else {
-        yield StateFreeTicketSelected(managers);
-        // NOT IMPLEMENTED YET
-        // Not sure yet if this will be a feature yet
-        // yield StateFreeTicketQuantitySelected(availableReleases, selectedRelease);
-      }
+      yield StateFreeTicketSelected(managers);
+      // NOT IMPLEMENTED YET
+      // Not sure yet if this will be a feature yet
+      // yield StateFreeTicketQuantitySelected(availableReleases, selectedRelease);
     } else {
-      if (selectedRelease.singleTicketRestriction) {
+      try {
+        if (managers.firstWhere((element) => element.releases.contains(selectedRelease)).singleTicketRestriction) {
+          yield StatePaidTicketSelected(managers);
+        } else {
+          yield StatePaidTicketQuantitySelected(managers);
+        }
+      } catch (e, s) {
+        BugsnagNotifier.instance.notify(e, s);
         yield StatePaidTicketSelected(managers);
-      } else {
-        yield StatePaidTicketQuantitySelected(managers);
       }
     }
   }
@@ -215,10 +217,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     if (discount == null) {
       yield StateDiscountCodeInvalid();
     }
-    if (selectedRelease.singleTicketRestriction) {
-      yield StatePaidTicketSelected(event.getAllReleases(), discount: discount);
+    if (this
+        .event
+        .releaseManagers
+        .firstWhere((element) => element.releases.contains(selectedRelease))
+        .singleTicketRestriction) {
+      yield StatePaidTicketSelected(event.getManagersWithActiveReleases(), discount: discount);
     } else {
-      yield StatePaidTicketQuantitySelected(event.getAllReleases(), discount: discount);
+      yield StatePaidTicketQuantitySelected(event.getManagersWithActiveReleases(), discount: discount);
     }
   }
 }

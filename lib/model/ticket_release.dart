@@ -11,7 +11,6 @@ class TicketRelease {
   int maxTickets = 0;
   int ticketsBought = 0;
   int price;
-  bool singleTicketRestriction = false;
 
   int ticketsLeft() {
     return maxTickets - ticketsBought;
@@ -50,9 +49,6 @@ class TicketRelease {
       }
       if (data.containsKey("price")) {
         release.price = data["price"];
-      }
-      if (data.containsKey("single_ticket_restriction")) {
-        release.singleTicketRestriction = data["single_ticket_restriction"];
       }
     } catch (e, s) {
       print(e);

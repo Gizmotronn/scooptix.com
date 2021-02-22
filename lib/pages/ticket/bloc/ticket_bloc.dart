@@ -39,7 +39,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       List<TicketRelease> releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
       List<TicketRelease> releasesWithRegularTickets = event.getReleasesWithoutRestriction();
       List<Ticket> tickets = await TicketRepository.instance.loadTickets(uid, event);
-      List<Ticket> restrictedTickets = tickets.where((element) => element.release.singleTicketRestriction).toList();
+      List<Ticket> restrictedTickets = tickets
+          .where((t) => releasesWithSingleTicketRestriction.any((element) => t.release.docId == element.docId))
+          .toList();
 
       print("tickets ${tickets.length}");
 
@@ -70,7 +72,7 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
   }
 
   Stream<TicketState> _acceptInvitation(LinkType linkType, TicketRelease release) async* {
-    yield StateLoading(message: "Processing your ticke ...");
+    yield StateLoading(message: "Processing your ticket ...");
 
     Ticket ticket = await TicketRepository.instance.acceptInvitation(linkType, release);
     CustomerRepository.instance.addCustomerAttendingAction(linkType);

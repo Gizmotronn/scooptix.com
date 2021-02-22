@@ -30,13 +30,17 @@ class EventsRepository {
   Future<Event> loadEventById(String id) async {
     print(id);
     DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
-    // DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
+    DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
 
     QuerySnapshot releaseManagerSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get();
 
     Event event = Event.fromMap(eventSnapshot.id, eventSnapshot.data());
 
+    if (event != null) {
+      event.feePercent =
+          ticketEventSnapshot.data().containsKey("fee_percent") ? ticketEventSnapshot.data()["fee_percent"] : 10.0;
+    }
     await Future.wait(releaseManagerSnapshot.docs.map((element) async {
       ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
       rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
@@ -44,24 +48,6 @@ class EventsRepository {
     }));
 
     return event;
-  }
-
-  Future<List<Event>> loadFutureEventsWithBDaySignUps() async {
-    if (events.length == 0) {
-      QuerySnapshot eventSnapshot = await FirebaseFirestore.instance
-          .collection("events")
-          .where("date", isGreaterThan: DateTime.now())
-          .where("allowsbirthdaysignups", isEqualTo: true)
-          .get();
-      eventSnapshot.docs.forEach((eventDoc) {
-        Event event = Event.fromMap(eventDoc.id, eventDoc.data());
-        if (event != null) {
-          events.add(event);
-        }
-      });
-    }
-
-    return events;
   }
 
   /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers

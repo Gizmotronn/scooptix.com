@@ -8,7 +8,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webapp/model/discount.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/release_manager.dart';
-import 'package:webapp/model/ticket_release.dart';
 import 'package:webapp/pages/ticket/bloc/ticket_bloc.dart' as ticket;
 import 'package:webapp/pages/payment/bloc/payment_bloc.dart';
 import 'package:webapp/UI/theme.dart';
@@ -46,6 +45,7 @@ class _PaymentPageState extends State<PaymentPage> {
   int selectedQuantity = 1;
   ReleaseManager selectedManager;
   Discount discount;
+  bool validateCC = false;
 
   @override
   void initState() {
@@ -200,6 +200,8 @@ class _PaymentPageState extends State<PaymentPage> {
                     SizedBox(
                       width: widget.maxWidth,
                       child: TextFormField(
+                        validator: (v) => v.length != 16 ? "Please enter a valid credit card number" : null,
+                        autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
                         controller: _ccnumberController,
                         onChanged: (v) {
@@ -251,6 +253,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                     },
                                     controller: _monthController,
                                     focusNode: focusMonth,
+                                    validator: (v) =>
+                                        int.tryParse(v) < 1 || int.tryParse(v) > 12 ? "Invalid month" : null,
+                                    autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         isDense: true,
@@ -277,6 +282,9 @@ class _PaymentPageState extends State<PaymentPage> {
                                     ],
                                     controller: _yearController,
                                     focusNode: focusYear,
+                                    autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
+                                    validator: (v) =>
+                                        int.tryParse(v) < 20 || int.tryParse(v) > 99 ? "Invalid year" : null,
                                     decoration: InputDecoration(
                                         border: OutlineInputBorder(),
                                         isDense: true,
@@ -298,9 +306,11 @@ class _PaymentPageState extends State<PaymentPage> {
                               focusNode: focusCVC,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(3)
+                                LengthLimitingTextInputFormatter(4)
                               ],
                               controller: _cvcController,
+                              validator: (v) => v.length < 3 || v.length > 4 ? "Please enter a valid CVC number" : null,
+                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
                               decoration: InputDecoration(border: OutlineInputBorder(), isDense: true, hintText: "CVC"),
                             ),
                           ),
@@ -339,10 +349,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 child: RaisedButton(
                                   color: MyTheme.appolloGreen,
                                   onPressed: () async {
-                                    if (_ccnumberController.text.length == 16 &&
-                                        _monthController.text.length > 0 &&
-                                        _yearController.text.length > 0 &&
-                                        _cvcController.text.length == 3) {
+                                    try {
                                       StripeCard card = StripeCard(
                                           number: _ccnumberController.text,
                                           cvc: _cvcController.text,
@@ -354,14 +361,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                       PaymentMethod pm =
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                       bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
-                                    } else {
-                                      AlertGenerator.showAlert(
-                                          context: context,
-                                          title: "Invalid details",
-                                          content:
-                                              "Your credit card details are not valid. Please make sure the provided data is correct",
-                                          buttonText: "Ok",
-                                          popTwice: false);
+                                    } catch (_) {
+                                      setState(() {
+                                        validateCC = true;
+                                      });
                                     }
                                   },
                                   child: Text(
@@ -414,10 +417,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 child: RaisedButton(
                                   color: MyTheme.appolloGreen,
                                   onPressed: () async {
-                                    if (_ccnumberController.text.length == 16 &&
-                                        _monthController.text.length > 0 &&
-                                        _yearController.text.length > 0 &&
-                                        _cvcController.text.length == 3) {
+                                    try {
                                       StripeCard card = StripeCard(
                                           number: _ccnumberController.text,
                                           cvc: _cvcController.text,
@@ -430,14 +430,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                       print(pm.id);
                                       bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
-                                    } else {
-                                      AlertGenerator.showAlert(
-                                          context: context,
-                                          title: "Invalid details",
-                                          content:
-                                              "Your credit card details are not valid. Please make sure the provided data is correct",
-                                          buttonText: "Ok",
-                                          popTwice: false);
+                                    } catch (_) {
+                                      setState(() {
+                                        validateCC = true;
+                                      });
                                     }
                                   },
                                   child: Text(
@@ -602,7 +598,13 @@ class _PaymentPageState extends State<PaymentPage> {
     if (selectedManager.getActiveRelease().price == 0) {
       return 0.0;
     } else {
-      return (((selectedManager.getActiveRelease().price * selectedQuantity) / 100) * 0.05 + 0.3);
+      double fee = (((selectedManager.getActiveRelease().price * selectedQuantity) / 100) *
+          widget.linkType.event.feePercent /
+          100);
+      if (fee < 1.0) {
+        fee = 1.0;
+      }
+      return fee;
     }
   }
 
@@ -627,17 +629,26 @@ class _PaymentPageState extends State<PaymentPage> {
             child: RaisedButton(
               color: MyTheme.appolloGreen,
               onPressed: () {
-                AlertGenerator.showAlert(
-                        context: context,
-                        title: "Ticket Issued",
-                        content:
-                            "We have issued your ticket and sent it to ${UserRepository.instance.currentUser.email}",
-                        buttonText: "Ok",
-                        popTwice: false)
-                    .then((_) {
-                  widget.ticketBloc
-                      .add(ticket.EventAcceptInvitation(widget.linkType, selectedManager.getActiveRelease()));
-                });
+                if (!_termsConditions) {
+                  AlertGenerator.showAlert(
+                      context: context,
+                      title: "Please accept our T & C",
+                      content: "To proceed with your purchase, you have to agree to our terms and conditions",
+                      buttonText: "Ok",
+                      popTwice: false);
+                } else {
+                  AlertGenerator.showAlert(
+                          context: context,
+                          title: "Ticket Sent",
+                          content:
+                              "We have issued your ticket and sent it to ${UserRepository.instance.currentUser.email}",
+                          buttonText: "Ok",
+                          popTwice: false)
+                      .then((_) {
+                    widget.ticketBloc
+                        .add(ticket.EventAcceptInvitation(widget.linkType, selectedManager.getActiveRelease()));
+                  });
+                }
               },
               child: Text(
                 "Proceed to your ticket",
@@ -750,31 +761,36 @@ class _PaymentPageState extends State<PaymentPage> {
             height: 38,
             child: RaisedButton(
               color: MyTheme.appolloGreen,
-              onPressed: !_termsConditions
-                  ? null
-                  : () {
-                      if (PaymentRepository.instance.last4 == null) {
-                        AlertGenerator.showAlert(
-                            context: context,
-                            title: "Missing payment method",
-                            content: "Please provide a valid payment method",
-                            buttonText: "Ok",
-                            popTwice: false);
-                      } else {
-                        AlertGenerator.showAlertWithChoice(
-                                context: context,
-                                title: "Confirm Payment",
-                                content:
-                                    "Please confirm your payment with your credit card ending in ${PaymentRepository.instance.last4}",
-                                buttonText1: "Confirm",
-                                buttonText2: "Cancel")
-                            .then((value) {
-                          if (value != null && value) {
-                            bloc.add(EventRequestPI(selectedManager.getActiveRelease(), 1, discount));
-                          }
-                        });
-                      }
-                    },
+              onPressed: () {
+                if (!_termsConditions) {
+                  AlertGenerator.showAlert(
+                      context: context,
+                      title: "Please accept our T & C",
+                      content: "To proceed with your purchase, you have to agree to our terms and conditions",
+                      buttonText: "Ok",
+                      popTwice: false);
+                } else if (PaymentRepository.instance.last4 == null) {
+                  AlertGenerator.showAlert(
+                      context: context,
+                      title: "Missing payment method",
+                      content: "Please provide a valid payment method",
+                      buttonText: "Ok",
+                      popTwice: false);
+                } else {
+                  AlertGenerator.showAlertWithChoice(
+                          context: context,
+                          title: "Confirm Payment",
+                          content:
+                              "Please confirm your payment with your credit card ending in ${PaymentRepository.instance.last4}",
+                          buttonText1: "Confirm",
+                          buttonText2: "Cancel")
+                      .then((value) {
+                    if (value != null && value) {
+                      bloc.add(EventRequestPI(selectedManager.getActiveRelease(), 1, discount));
+                    }
+                  });
+                }
+              },
               child: Text(
                 "Proceed to payment",
                 style: widget.textTheme.button,
