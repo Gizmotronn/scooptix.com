@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:webapp/model/discount.dart';
 import 'package:webapp/model/event.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/ticket.dart';
@@ -20,17 +21,17 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     TicketEvent event,
   ) async* {
     if (event is EventCheckInvitationStatus) {
-      yield* _checkInvitationStatus(event.uid, event.event);
+      yield* _checkInvitationStatus(event.uid, event.event, event.forwardToPayment);
     } else if (event is EventAcceptInvitation) {
       yield* _acceptInvitation(event.linkType, event.release);
     } else if (event is EventPaymentSuccessful) {
-      yield* _processTickets(event.linkType, event.release, event.quantity);
+      yield* _processTickets(event.linkType, event.release, event.quantity, event.discount);
     } else if (event is EventGoToPayment) {
       yield StateWaitForPayment(event.releases);
     }
   }
 
-  Stream<TicketState> _checkInvitationStatus(String uid, Event event) async* {
+  Stream<TicketState> _checkInvitationStatus(String uid, Event event, bool forwardToPayment) async* {
     yield StateLoading(message: "Fetching your invitation data, this won't take long");
     if (!DateTime.now().difference(event.date.subtract(Duration(hours: event.cutoffTimeOffset))).isNegative) {
       yield StatePastCutoffTime();
@@ -38,7 +39,9 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
       List<TicketRelease> releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
       List<TicketRelease> releasesWithRegularTickets = event.getReleasesWithoutRestriction();
       List<Ticket> tickets = await TicketRepository.instance.loadTickets(uid, event);
-      List<Ticket> restrictedTickets = tickets.where((element) => element.release.singleTicketRestriction).toList();
+      List<Ticket> restrictedTickets = tickets
+          .where((t) => releasesWithSingleTicketRestriction.any((element) => t.release.docId == element.docId))
+          .toList();
 
       print("tickets ${tickets.length}");
 
@@ -51,9 +54,17 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
           yield StateNoTicketsLeft();
         } else {
           if (releasesWithSingleTicketRestriction.length > 0) {
-            yield StatePaymentRequired(releasesWithSingleTicketRestriction, tickets);
+            if (forwardToPayment) {
+              yield StateWaitForPayment(releasesWithSingleTicketRestriction);
+            } else {
+              yield StatePaymentRequired(releasesWithSingleTicketRestriction, tickets);
+            }
           } else {
-            yield StatePaymentRequired(releasesWithRegularTickets, tickets);
+            if (forwardToPayment) {
+              yield StateWaitForPayment(releasesWithRegularTickets);
+            } else {
+              yield StatePaymentRequired(releasesWithRegularTickets, tickets);
+            }
           }
         }
       }
@@ -61,7 +72,7 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
   }
 
   Stream<TicketState> _acceptInvitation(LinkType linkType, TicketRelease release) async* {
-    yield StateLoading(message: "Processing your ticke ...");
+    yield StateLoading(message: "Processing your ticket ...");
 
     Ticket ticket = await TicketRepository.instance.acceptInvitation(linkType, release);
     CustomerRepository.instance.addCustomerAttendingAction(linkType);
@@ -72,10 +83,11 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     }
   }
 
-  Stream<TicketState> _processTickets(LinkType linkType, TicketRelease release, int quantity) async* {
+  Stream<TicketState> _processTickets(
+      LinkType linkType, TicketRelease release, int quantity, Discount discount) async* {
     yield StateLoading(message: "Processing your tickets ...");
 
-    List<Ticket> tickets = await TicketRepository.instance.issueTickets(linkType, release, quantity);
+    List<Ticket> tickets = await TicketRepository.instance.issueTickets(linkType, release, quantity, discount);
     CustomerRepository.instance.addCustomerAttendingAction(linkType);
     if (tickets.isEmpty) {
       yield StateError();

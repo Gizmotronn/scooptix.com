@@ -30,6 +30,7 @@ class Event {
   int cutoffTimeOffset = 0;
   String invitationMessage = "";
   String ticketCheckoutMessage;
+  double feePercent = 10.0;
 
   TicketRelease getRelease(String releaseId) {
     print(releaseId);
@@ -46,12 +47,21 @@ class Event {
   List<TicketRelease> getReleasesWithSingleTicketRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-      TicketRelease release = manager.getActiveRelease();
-      if (release != null && release.singleTicketRestriction) {
+      if (manager.singleTicketRestriction) {
         releases.add(manager.getActiveRelease());
       }
     });
     return releases;
+  }
+
+  List<ReleaseManager> getManagersWithActiveReleases() {
+    List<ReleaseManager> activeManagers = [];
+    this.releaseManagers.forEach((element) {
+      if (element.getActiveRelease() != null) {
+        activeManagers.add(element);
+      }
+    });
+    return activeManagers;
   }
 
   List<TicketRelease> getAllReleases() {
@@ -73,8 +83,7 @@ class Event {
   List<TicketRelease> getReleasesWithoutRestriction() {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
-      TicketRelease release = manager.getActiveRelease();
-      if (release != null && !release.singleTicketRestriction) {
+      if (!manager.singleTicketRestriction) {
         releases.add(manager.getActiveRelease());
       }
     });

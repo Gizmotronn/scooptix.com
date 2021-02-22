@@ -7,8 +7,8 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/user.dart';
+import 'package:webapp/pages/authentication/auth_page.dart';
 import 'package:webapp/pages/ticket/ticket_page.dart';
-import 'package:webapp/pages/authentication/bloc/auth_page.dart';
 import 'package:webapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -147,54 +147,65 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                               widget.linkType.event.name,
                               style: MyTheme.darkTextTheme.subtitle2,
                             ).paddingBottom(8),
-                            Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      "Date:",
-                                      style: MyTheme.darkTextTheme.subtitle2,
-                                    ).paddingBottom(8),
-                                    Text(
-                                      "Duration:",
-                                      style: MyTheme.darkTextTheme.subtitle2,
-                                    ).paddingBottom(8),
-                                    Text(
-                                      "Location:",
-                                      style: MyTheme.darkTextTheme.subtitle2,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: MyTheme.elementSpacing,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      DateFormat.yMMMMd().format(widget.linkType.event.date),
-                                      style: MyTheme.darkTextTheme.bodyText2,
-                                    ).paddingBottom(8),
-                                    if (widget.linkType.event.endTime != null)
+                            SizedBox(
+                              width: MyTheme.drawerSize,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
                                       Text(
-                                        "${DateFormat.jm().format(widget.linkType.event.date)} - ${DateFormat.jm().format(widget.linkType.event.endTime)} (${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} Hours)",
-                                        style: MyTheme.darkTextTheme.bodyText2,
+                                        "Date:",
+                                        style: MyTheme.darkTextTheme.subtitle2,
                                       ).paddingBottom(8),
-                                    if (widget.linkType.event.endTime == null)
                                       Text(
-                                        "${DateFormat.jm().format(widget.linkType.event.date)} ",
-                                        style: MyTheme.darkTextTheme.bodyText2,
+                                        "Duration:",
+                                        style: MyTheme.darkTextTheme.subtitle2,
                                       ).paddingBottom(8),
-                                    Text(
-                                      widget.linkType.event.address ?? widget.linkType.event.venueName,
-                                      style: MyTheme.darkTextTheme.bodyText2,
+                                      Text(
+                                        "Location:",
+                                        style: MyTheme.darkTextTheme.subtitle2,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: MyTheme.elementSpacing,
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        AutoSizeText(
+                                          DateFormat.yMMMMd().format(widget.linkType.event.date),
+                                          style: MyTheme.darkTextTheme.bodyText2,
+                                        ).paddingBottom(8),
+                                        if (widget.linkType.event.endTime != null)
+                                          AutoSizeText(
+                                            "${DateFormat.jm().format(widget.linkType.event.date)} - ${DateFormat.jm().format(widget.linkType.event.endTime)} (${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} Hours)",
+                                            style: MyTheme.darkTextTheme.bodyText2,
+                                          ).paddingBottom(8),
+                                        if (widget.linkType.event.endTime == null)
+                                          AutoSizeText(
+                                            "${DateFormat.jm().format(widget.linkType.event.date)} ",
+                                            style: MyTheme.darkTextTheme.bodyText2,
+                                          ).paddingBottom(8),
+                                        AutoSizeText(
+                                          widget.linkType.event.address ?? widget.linkType.event.venueName,
+                                          style: MyTheme.darkTextTheme.bodyText2,
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                )
-                              ],
-                            ).paddingBottom(MyTheme.elementSpacing * 2),
-                            TicketPage(widget.linkType),
+                                  )
+                                ],
+                              ).paddingBottom(MyTheme.elementSpacing * 2),
+                            ),
+                            TicketPage(
+                              widget.linkType,
+                              forwardToPayment: true,
+                            ),
                           ],
                         );
                       } else {

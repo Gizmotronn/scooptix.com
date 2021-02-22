@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:webapp/model/discount.dart';
 import 'package:webapp/model/event.dart';
 import 'package:webapp/model/link_type/advertisementInvite.dart';
 import 'package:webapp/model/link_type/invitation.dart';
@@ -26,6 +27,20 @@ class TicketRepository {
 
   dispose() {
     _instance = null;
+  }
+
+  Future<Discount> loadDiscount(Event event, String code) async {
+    QuerySnapshot discountSnapshot = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(event.docID)
+        .collection("discounts")
+        .where("code", isEqualTo: code)
+        .get();
+    if (discountSnapshot.size == 0) {
+      return null;
+    } else {
+      return Discount.fromMap(discountSnapshot.docs[0].id, discountSnapshot.docs[0].data());
+    }
   }
 
   Future<List<Ticket>> loadTickets(String uid, Event event) async {
@@ -73,7 +88,7 @@ class TicketRepository {
   /// Paid ticket processing
   /// Creates tickets for the user and stores it in the user's 'ticket' subcollection and in the ticketevent's 'tickets' subcollection
   /// Calls a cloud function to handle the confirmation email.
-  Future<List<Ticket>> issueTickets(LinkType linkType, TicketRelease release, int quantity) async {
+  Future<List<Ticket>> issueTickets(LinkType linkType, TicketRelease release, int quantity, Discount discount) async {
     try {
       List<String> ticketDocIds = [];
       List<Ticket> tickets = [];
@@ -104,6 +119,7 @@ class TicketRepository {
           "gender": UserRepository.instance.currentUser.gender.toDBString(),
           if (linkType is Invitation) "promoter": linkType.promoter.docId,
           if (linkType is AdvertisementInvite) "advertisement_id": linkType.advertisementId,
+          if (discount != null) "discount_id": discount.docId,
           "onWaitList": false,
           "venuename": linkType.event.venueName,
           "ticket_release_id": release.docId
@@ -135,6 +151,10 @@ class TicketRepository {
         tickets.add(ticket);
       }
       incrementLinkTicketsBoughtCounter(linkType, quantity);
+      incrementTicketCounter(linkType.event, release, quantity);
+      if (discount != null) {
+        incrementDiscountCounter(linkType.event, discount, quantity);
+      }
 
       http.Response response;
       try {
@@ -214,7 +234,7 @@ class TicketRepository {
       });
 
       incrementLinkAcceptedCounter(linkType);
-      incrementFreeTicketCounter(linkType.event.docID, release);
+      incrementTicketCounter(linkType.event, release, 1);
 
       http.Response response;
       try {
@@ -234,49 +254,39 @@ class TicketRepository {
       ticket.release = release;
       return ticket;
     } catch (e, s) {
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("acceptInvitation\n" + e, s, severity: ErrorSeverity.error);
       print(e);
       return null;
     }
   }
 
-  /// Checks if there are still free tickets left for the given event.
-  /// Will always return true if the event has unlimited free tickets.
-  Future<bool> ticketsLeft(String eventId, TicketRelease release) async {
-    try {
-      // There should only ever be 1 release for free events
-      DocumentSnapshot releaseSnapshot = await FirebaseFirestore.instance
-          .collection("ticketevents")
-          .doc(eventId)
-          .collection("ticket_releases")
-          .doc(release.docId)
-          .get();
-      // If there are 0, this event offers unlimited free tickets
-      if (releaseSnapshot.exists) {
-        return true;
-      } else if (releaseSnapshot.data()["tickets_bought"] < releaseSnapshot.data()["max_tickets"]) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e, s) {
-      print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
-      return false;
-    }
-  }
-
-  /// Increments the bought_ticket counter for free events
-  Future<void> incrementFreeTicketCounter(String eventId, TicketRelease release) async {
+  /// Increments the bought_ticket counter for releases
+  Future<void> incrementTicketCounter(Event event, TicketRelease release, int quantity) async {
     DocumentSnapshot releaseSnapshot = await FirebaseFirestore.instance
         .collection("ticketevents")
-        .doc(eventId)
+        .doc(event.docID)
+        .collection("release_managers")
+        .doc(event.releaseManagers.firstWhere((element) => element.releases.contains(release)).docId)
         .collection("ticket_releases")
         .doc(release.docId)
         .get();
     // If this event offers unlimited free tickets, there won't be a ticket_release
     if (releaseSnapshot.exists) {
-      releaseSnapshot.reference.set({"tickets_bought": FieldValue.increment(1)}, SetOptions(merge: true));
+      releaseSnapshot.reference.set({"tickets_bought": FieldValue.increment(quantity)}, SetOptions(merge: true));
+    }
+  }
+
+  /// Increments the used counter for discounts
+  Future<void> incrementDiscountCounter(Event event, Discount discount, int quantity) async {
+    DocumentSnapshot releaseSnapshot = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(event.docID)
+        .collection("discounts")
+        .doc(discount.docId)
+        .get();
+    // If this event offers unlimited free tickets, there won't be a ticket_release
+    if (releaseSnapshot.exists) {
+      releaseSnapshot.reference.set({"times_used": FieldValue.increment(quantity)}, SetOptions(merge: true));
     }
   }
 

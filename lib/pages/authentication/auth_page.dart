@@ -12,7 +12,7 @@ import 'dart:html' as js;
 import 'package:webapp/services/validator.dart' as val;
 import 'package:websafe_svg/websafe_svg.dart';
 
-import 'authentication_bloc.dart';
+import 'bloc/authentication_bloc.dart';
 
 class AuthPage extends StatefulWidget {
   final AuthenticationBloc bloc;
@@ -796,7 +796,7 @@ class _AuthPageState extends State<AuthPage> {
                 onTap: () {
                   widget.bloc.add(EventGoogleSignIn());
                 },
-                child: WebsafeSvg.asset("assets/icons/google_icon.svg", height: 70, width: 70),
+                child: WebsafeSvg.asset("icons/google_icon.svg", height: 70, width: 70),
               ),
               SizedBox(
                 width: 12,
@@ -805,7 +805,7 @@ class _AuthPageState extends State<AuthPage> {
                 onTap: () {
                   widget.bloc.add(EventFacebookSignIn());
                 },
-                child: WebsafeSvg.asset("assets/icons/facebook_icon.svg", height: 70, width: 70),
+                child: WebsafeSvg.asset("icons/facebook_icon.svg", height: 70, width: 70),
               ),
               SizedBox(
                 width: 12,
@@ -815,7 +815,7 @@ class _AuthPageState extends State<AuthPage> {
                   widget.bloc.add(EventAppleSignIn());
                 },
                 child: Container(
-                    child: WebsafeSvg.asset("assets/icons/apple_icon.svg",
+                    child: WebsafeSvg.asset("icons/apple_icon.svg",
                         color: widget.textTheme.bodyText2.color, height: 70, width: 70)),
               ),
             ],

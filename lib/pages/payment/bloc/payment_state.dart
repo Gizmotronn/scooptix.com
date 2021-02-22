@@ -21,26 +21,26 @@ class StateAddPaymentMethod extends PaymentState {}
 class StateUpdating extends PaymentState {}
 
 class StatePaymentOptionAvailable extends PaymentState {
-  final List<TicketRelease> releases;
-  final TicketRelease selectedRelease;
+  final List<ReleaseManager> managers;
+  final Discount discount;
 
-  const StatePaymentOptionAvailable(this.releases, this.selectedRelease);
+  const StatePaymentOptionAvailable(this.managers, this.discount);
 }
 
 class StateFreeTicketSelected extends StatePaymentOptionAvailable {
-  const StateFreeTicketSelected(releases, selectedRelease) : super(releases, selectedRelease);
+  const StateFreeTicketSelected(releases, {discount}) : super(releases, discount);
 }
 
 class StateFreeTicketQuantitySelected extends StatePaymentOptionAvailable {
-  const StateFreeTicketQuantitySelected(releases, selectedRelease) : super(releases, selectedRelease);
+  const StateFreeTicketQuantitySelected(releases, {discount}) : super(releases, discount);
 }
 
 class StatePaidTicketSelected extends StatePaymentOptionAvailable {
-  const StatePaidTicketSelected(releases, selectedRelease) : super(releases, selectedRelease);
+  const StatePaidTicketSelected(releases, {discount}) : super(releases, discount);
 }
 
 class StatePaidTicketQuantitySelected extends StatePaymentOptionAvailable {
-  const StatePaidTicketQuantitySelected(releases, selectedRelease) : super(releases, selectedRelease);
+  const StatePaidTicketQuantitySelected(releases, {discount}) : super(releases, discount);
 }
 
 class StateFinalizePayment extends PaymentState {
@@ -75,3 +75,7 @@ class StateSIRequiresPaymentMethod extends PaymentState {
   final String setupIntentId;
   const StateSIRequiresPaymentMethod(this.setupIntentId);
 }
+
+class StateDiscountCodeInvalid extends PaymentState {}
+
+class StateDiscountCodeLoading extends PaymentState {}

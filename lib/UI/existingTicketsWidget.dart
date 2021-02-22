@@ -8,7 +8,6 @@ import 'package:webapp/model/link_type/invitation.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/ticket.dart';
 import 'package:webapp/repositories/user_repository.dart';
-import 'eventInfo.dart';
 import 'theme.dart';
 
 class ExistingTicketsWidget extends StatefulWidget {
@@ -76,7 +75,7 @@ class _ExistingTicketsWidgetState extends State<ExistingTicketsWidget> {
                             ).paddingBottom(MyTheme.elementSpacing)
                           ],
                         ).paddingTop(16),
-                      ).appolloCard;
+                      ).appolloCard.paddingBottom(8);
                     }),
               ],
             ),

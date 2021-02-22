@@ -37,7 +37,7 @@ extension AppolloCard on Container {
   Container get appolloCard {
     return Container(
       decoration: ShapeDecoration(
-          color: Colors.grey[800].withAlpha(150),
+          color: Colors.grey[800].withAlpha(160),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
               side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1))),
@@ -47,7 +47,7 @@ extension AppolloCard on Container {
 }
 
 class MyTheme {
-  static double maxWidth = 800.0;
+  static double maxWidth = 1050.0;
   static double elementSpacing = 20.0;
   static double cardPadding = 20;
   static double drawerSize = 500;
