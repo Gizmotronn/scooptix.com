@@ -292,7 +292,7 @@ class EventInfoWidget extends StatelessWidget {
     }
     if (orientation == Axis.horizontal && linkType.event.description != null) {
       widgets.add(AutoSizeText(
-        linkType.event.description,
+        linkType.event.description.replaceAll("\\n", "\n"),
         style: MyTheme.lightTextTheme.bodyText1,
       ).paddingBottom(8));
     }

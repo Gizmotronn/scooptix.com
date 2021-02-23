@@ -18,17 +18,17 @@ void main() {
     /*print(details.exception);
     print(details.stack);
     print(details.summary);*/
-      BugsnagNotifier.instance.notify(details.exception, details.stack);
-      BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);
+    BugsnagNotifier.instance.notify(details.exception, details.stack);
+    BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);
   };
 
   runZonedGuarded(() {
     runApp(MyApp());
   }, (error, stackTrace) {
-   /* print('runZonedGuarded: Caught error in my root zone.');
+    /* print('runZonedGuarded: Caught error in my root zone.');
     print(error);
     print(stackTrace);*/
-      BugsnagNotifier.instance.notify(error, stackTrace);
+    BugsnagNotifier.instance.notify(error, stackTrace);
   });
 }
 
