@@ -2,14 +2,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:webapp/UI/downloadAppollo.dart';
+import 'package:webapp/UI/event_details/downloadAppollo.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/invitation.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/ticket.dart';
 import 'package:webapp/repositories/user_repository.dart';
-import 'theme.dart';
+import '../theme.dart';
 
+/// Displays a message that the user already has tickets for this event
+/// If on mobile view, also displays QR codes for those tickets
 class ExistingTicketsWidget extends StatefulWidget {
   final List<Ticket> ticket;
   final LinkType linkType;

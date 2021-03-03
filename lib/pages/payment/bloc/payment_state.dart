@@ -43,15 +43,6 @@ class StatePaidTicketQuantitySelected extends StatePaymentOptionAvailable {
   const StatePaidTicketQuantitySelected(releases, {discount}) : super(releases, discount);
 }
 
-class StateFinalizePayment extends PaymentState {
-  final String last4;
-  final int price;
-  final String clientSecret;
-  final String paymentMethodId;
-  final int quantity;
-  const StateFinalizePayment(this.last4, this.price, this.clientSecret, this.paymentMethodId, this.quantity);
-}
-
 class StatePaymentCompleted extends PaymentState {
   final TicketRelease release;
   final int quantity;

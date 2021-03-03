@@ -11,20 +11,19 @@ import 'package:webapp/utilities/alertGenerator.dart';
 import 'dart:html' as js;
 import 'package:webapp/services/validator.dart' as val;
 import 'package:websafe_svg/websafe_svg.dart';
-
 import 'bloc/authentication_bloc.dart';
 
-class AuthPage extends StatefulWidget {
+class LoginAndSignupPage extends StatefulWidget {
   final AuthenticationBloc bloc;
   final TextTheme textTheme;
 
-  const AuthPage({Key key, @required this.bloc, @required this.textTheme}) : super(key: key);
+  const LoginAndSignupPage({Key key, @required this.bloc, @required this.textTheme}) : super(key: key);
 
   @override
-  _AuthPageState createState() => _AuthPageState();
+  _LoginAndSignupPageState createState() => _LoginAndSignupPageState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
   FormGroup form;
   final int animationTime = 400;
 
@@ -996,9 +995,3 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 }
-
-/*
-return ResponsiveBuilder(builder: (context, constraints) {
-        if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-            constraints.deviceScreenType == DeviceScreenType.watch) {} else {}});
- */

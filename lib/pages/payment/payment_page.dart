@@ -134,55 +134,6 @@ class _PaymentPageState extends State<PaymentPage> {
                 "Payment Successful",
                 style: widget.textTheme.bodyText2,
               );
-            } else if (state is StateFinalizePayment) {
-              return Column(
-                children: [
-                  Text("Please confirm this payment with your credit card ending in ${state.last4}",
-                      style: widget.textTheme.bodyText2),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    "You are buying ${selectedQuantity} ticket(s) and will be charged \$${(state.price / 100).toStringAsFixed(2)}",
-                    style: widget.textTheme.bodyText2,
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RaisedButton(
-                        onPressed: () {
-                          bloc.add(EventCancelPayment());
-                        },
-                        child: Text(
-                          "Cancel",
-                          style: widget.textTheme.button,
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          bloc.add(EventChangePaymentMethod());
-                        },
-                        child: Text(
-                          "Change Payment Method",
-                          style: widget.textTheme.button,
-                        ),
-                      ),
-                      RaisedButton(
-                        onPressed: () {
-                          bloc.add(EventConfirmPayment(state.clientSecret, state.paymentMethodId));
-                        },
-                        child: Text(
-                          "Pay",
-                          style: widget.textTheme.button,
-                        ),
-                      ),
-                    ],
-                  )
-                ],
-              );
             } else if (state is StateAddPaymentMethod) {
               return SizedBox(
                 width: widget.maxWidth,
@@ -459,7 +410,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 children: [
                   Text("Fetching payment methods", style: widget.textTheme.bodyText2),
                   SizedBox(
-                    height: 8,
+                    height: MyTheme.elementSpacing,
                   ),
                   CircularProgressIndicator(),
                 ],
@@ -472,9 +423,12 @@ class _PaymentPageState extends State<PaymentPage> {
                     style: widget.textTheme.bodyText2,
                   ),
                   SizedBox(
-                    height: 8,
+                    height: MyTheme.elementSpacing,
                   ),
                   CircularProgressIndicator(),
+                  SizedBox(
+                    height: MyTheme.elementSpacing,
+                  ),
                 ],
               );
             } else {
@@ -485,7 +439,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     style: widget.textTheme.bodyText2,
                   ),
                   SizedBox(
-                    height: 8,
+                    height: MyTheme.elementSpacing,
                   ),
                   CircularProgressIndicator(),
                 ],
@@ -694,8 +648,6 @@ class _PaymentPageState extends State<PaymentPage> {
                         desktop: MyTheme.appolloBlack),
                     decoration: InputDecoration(isDense: true),
                     value: 1,
-                    itemHeight: 50,
-                    isDense: true,
                     items: [
                       DropdownMenuItem(
                         child: Text("Use your card ending in ${PaymentRepository.instance.last4}"),
@@ -777,22 +729,11 @@ class _PaymentPageState extends State<PaymentPage> {
                       buttonText: "Ok",
                       popTwice: false);
                 } else {
-                  AlertGenerator.showAlertWithChoice(
-                          context: context,
-                          title: "Confirm Payment",
-                          content:
-                              "Please confirm your payment with your credit card ending in ${PaymentRepository.instance.last4}",
-                          buttonText1: "Confirm",
-                          buttonText2: "Cancel")
-                      .then((value) {
-                    if (value != null && value) {
-                      bloc.add(EventRequestPI(selectedManager.getActiveRelease(), 1, discount));
-                    }
-                  });
+                  bloc.add(EventRequestPI(selectedManager.getActiveRelease(), 1, discount));
                 }
               },
               child: Text(
-                "Proceed to payment",
+                "Complete Purchase",
                 style: widget.textTheme.button,
               ),
             ),
@@ -983,18 +924,7 @@ class _PaymentPageState extends State<PaymentPage> {
               color: MyTheme.appolloGreen,
               onPressed: () {
                 if (_termsConditions) {
-                  AlertGenerator.showAlertWithChoice(
-                          context: context,
-                          title: "Confirm Payment",
-                          content:
-                              "Please confirm your payment with your credit card ending in ${PaymentRepository.instance.last4}",
-                          buttonText1: "Confirm",
-                          buttonText2: "Cancel")
-                      .then((value) {
-                    if (value != null && value) {
-                      bloc.add(EventRequestPI(selectedManager.getActiveRelease(), selectedQuantity, discount));
-                    }
-                  });
+                  bloc.add(EventRequestPI(selectedManager.getActiveRelease(), selectedQuantity, discount));
                 } else {
                   AlertGenerator.showAlert(
                       context: context,
@@ -1005,7 +935,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 }
               },
               child: Text(
-                "Proceed to payment",
+                "Complete Purchase",
                 style: widget.textTheme.button,
               ),
             ),

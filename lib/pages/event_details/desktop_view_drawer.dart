@@ -3,16 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/user.dart';
-import 'package:webapp/pages/authentication/auth_page.dart';
+import 'package:webapp/pages/authentication/login_and_signup_page.dart';
 import 'package:webapp/pages/ticket/ticket_page.dart';
 import 'package:webapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:webapp/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
+/// In the desktop view, most of the functionality is displayed in the end drawer.
 class DesktopViewDrawer extends StatefulWidget {
   final AuthenticationBloc bloc;
   final LinkType linkType;
@@ -24,23 +23,7 @@ class DesktopViewDrawer extends StatefulWidget {
 }
 
 class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
-  bool _termsAccepted = false;
-  FormGroup form;
   final double drawerWidth = 500;
-
-  @override
-  void initState() {
-    form = FormGroup({
-      'fname': FormControl(validators: [Validators.required]),
-      'lname': FormControl(validators: [Validators.required]),
-      'dobDay': FormControl<int>(validators: [Validators.required, Validators.max(31)]),
-      'dobMonth': FormControl<int>(validators: [Validators.required, Validators.max(12)]),
-      'dobYear': FormControl<int>(validators: [Validators.required, Validators.max(2009), Validators.min(1900)]),
-      'gender': FormControl<Gender>(validators: [Validators.required], value: Gender.Female),
-      'terms': FormControl<bool>(validators: [Validators.equals(true)], value: _termsAccepted),
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -211,7 +194,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                       } else {
                         return SizedBox(
                           width: MyTheme.drawerSize,
-                          child: AuthPage(
+                          child: LoginAndSignupPage(
                             textTheme: MyTheme.darkTextTheme,
                             bloc: widget.bloc,
                           ),

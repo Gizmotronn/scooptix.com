@@ -10,6 +10,7 @@ import 'package:webapp/repositories/user_repository.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final LinkType linkType;
+  // If a user logs in manually or creates a new account, they won't have to press "Get my Ticket", but are instead directly taken to the checkout page
   final bool forwardToPayment;
 
   const EventDetailsPage(this.linkType, {Key key, @required this.forwardToPayment}) : super(key: key);

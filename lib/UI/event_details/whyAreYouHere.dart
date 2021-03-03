@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:webapp/UI/theme.dart';
 
-class WhyAreYouHere extends StatelessWidget {
+/// Displays a card telling the user who invited them to this event if an invitation link was used.
+class WhyAreYouHereWidget extends StatelessWidget {
   final String text;
 
-  const WhyAreYouHere(this.text, {Key key}) : super(key: key);
+  const WhyAreYouHereWidget(this.text, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

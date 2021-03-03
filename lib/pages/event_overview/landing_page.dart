@@ -3,29 +3,31 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:webapp/pages/authentication/landing_page.dart';
+import 'package:webapp/pages/authentication/authentication_page.dart';
 import 'package:webapp/pages/error_page.dart';
 import 'package:webapp/repositories/events_repository.dart';
 import 'package:webapp/services/bugsnag_wrapper.dart';
 
-class EventSelectionPage extends StatefulWidget {
-  const EventSelectionPage({Key key}) : super(key: key);
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key key}) : super(key: key);
 
   @override
-  _EventSelectionPageState createState() => _EventSelectionPageState();
+  _LandingPageState createState() => _LandingPageState();
 }
 
-class _EventSelectionPageState extends State<EventSelectionPage> {
+class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
     Intl.defaultLocale = 'en_AU';
     initializeDateFormatting('en_AU', null);
     final uri = Uri.parse(window.location.href);
-    String uuid = "2857e5e5-cfdc-45e3-a4ea-f48160abe949";
+    //String uuid = ""; // Use this for normal functionality
+    String uuid = "jAPHBX"; // Takes you to a test event
     if (uri.queryParameters.containsKey("id")) {
       uuid = uri.queryParameters["id"];
     }
 
+    // If an event link was used, load this event and forward the user to the event details page.
     EventsRepository.instance.loadLinkType(uuid).then((value) {
       if (value == null) {
         String message = "Invalid link. Please make sure you have copied the entire link.";
@@ -39,6 +41,9 @@ class _EventSelectionPageState extends State<EventSelectionPage> {
       } else
         Navigator.push(context, MaterialPageRoute(builder: (context) => AuthenticationPage(value)));
     });
+
+    // Currently if no id is provided with the link, the above code shows an error message. Instead the event overview page should be shown.
+
     super.initState();
   }
 
