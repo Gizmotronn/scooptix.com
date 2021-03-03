@@ -56,105 +56,204 @@ class MyTheme {
   static Color appolloYellow = Color(0xFFFBDB30);
   static Color appolloOrange = Color(0xFFFB8F30);
   static Color appolloBlue = Color(0xFF3059FB);
+  static Color appolloLightBlue = Color(0xFF21C0E1);
   static Color appolloGreen = Color(0xFF29C66F);
   static Color appolloRed = Color(0xFFEA5454);
-  static Color appolloWhite = Color(0xFFf2f2f2);
-  static Color appolloBlack = Color(0xFF2C2C2C);
-  static Color appolloGrey = Color(0xFF8C8C8C);
+  static Color appolloDarkRed = Color(0xFFFF535E);
+  static Color appolloPink = Color(0xFFED67DE);
+  static Color appolloBlack = Color(0xFF2c2c2c);
+  static Color appolloTeal = Color(0xFF1CD5D0);
+  static Color appolloGrey = Color(0xFF707070);
+  static Color appolloTextFieldFill = Color(0xFFEFF2F7);
+  static Color appolloWhite = Color(0xFFFFFFFF);
+  static Color appolloDimGrey = Color(0xFFCDD3E1);
+  static Color appolloLightGrey = Color(0xFFEFF2F7);
 
   static TextTheme lightTextTheme = TextTheme(
-      bodyText1:
-          TextStyle(fontFamily: "montserrat", fontSize: 16.0, letterSpacing: 0.5, color: appolloWhite).withZoomFix,
-      bodyText2:
-          TextStyle(fontFamily: "montserrat", fontSize: 14.0, letterSpacing: 0.25, color: appolloWhite).withZoomFix,
+      bodyText1: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 12.8, // 16
+              letterSpacing: 0.5,
+              color: appolloBlack,
+              fontWeight: FontWeight.w400)
+          .withZoomFix,
+      bodyText2: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 12.8, // 16
+              letterSpacing: 0.25,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix,
       subtitle1: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 18.0,
-              letterSpacing: 0,
+              fontSize: 14.4, // 18
+              letterSpacing: 0.15,
               color: appolloWhite,
               fontWeight: FontWeight.w300)
           .withZoomFix,
       subtitle2: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 14.0,
-              letterSpacing: 0.25,
+              fontSize: 11.2, // 14
+              letterSpacing: 0.1,
               color: appolloWhite,
-              fontWeight: FontWeight.w600)
+              fontWeight: FontWeight.w500)
           .withZoomFix,
       headline1: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 96.0,
-              letterSpacing: -1.5,
+              fontSize: 38.4, // 48
+              letterSpacing: -1.0,
               color: appolloWhite,
-              fontWeight: FontWeight.w300)
+              fontWeight: FontWeight.w400)
           .withZoomFix,
       headline2: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 60.0,
+              fontSize: 25.6, // 32
               letterSpacing: -0.5,
               color: appolloWhite,
-              fontWeight: FontWeight.w300)
+              fontWeight: FontWeight.w500)
           .withZoomFix,
-      headline3: TextStyle(fontFamily: "montserrat", fontSize: 48.0, letterSpacing: 0, color: appolloWhite).withZoomFix,
+      headline3: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 19.2,
+              letterSpacing: 0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w500) // 24
+          .withZoomFix,
       headline4: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 32.0,
+              fontSize: 19.2,
+              letterSpacing: 0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 24
+      headline5: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 16.0,
+              letterSpacing: 0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 20
+      headline6: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 14.4,
               letterSpacing: 0.25,
               color: appolloWhite,
               fontWeight: FontWeight.w600)
-          .withZoomFix,
-      headline5: TextStyle(fontFamily: "montserrat", fontSize: 24.0, letterSpacing: 0, color: appolloWhite, fontWeight: FontWeight.w600).withZoomFix,
-      headline6: TextStyle(fontFamily: "montserrat", fontSize: 20.0, letterSpacing: 0.25, color: appolloWhite, fontWeight: FontWeight.w600).withZoomFix,
-      caption: TextStyle(fontFamily: "montserrat", fontSize: 12.0, letterSpacing: 0.4, color: appolloWhite).withZoomFix,
-      button: TextStyle(fontFamily: "montserrat", fontSize: 14.0, letterSpacing: 1.25, color: Colors.white, fontWeight: FontWeight.w600).withZoomFix,
-      overline: TextStyle(fontFamily: "montserrat", fontSize: 12.0, letterSpacing: 2, color: appolloWhite).withZoomFix);
+          .withZoomFix, // 16
+      caption: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 10.8,
+              letterSpacing: 0.4,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 12
+      button: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 14,
+              letterSpacing: 1.25,
+              color: Colors.white,
+              fontWeight: FontWeight.w300)
+          .withZoomFix, // 14
+      overline: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 10.8,
+              letterSpacing: 2,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix);
 
   static TextTheme darkTextTheme = TextTheme(
-      bodyText1:
-          TextStyle(fontFamily: "montserrat", fontSize: 16.0, letterSpacing: 0.5, color: appolloBlack).withZoomFix,
-      bodyText2:
-          TextStyle(fontFamily: "montserrat", fontSize: 14.0, letterSpacing: 0.25, color: appolloBlack).withZoomFix,
+      bodyText1: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 12.8, // 16
+              letterSpacing: 0.5,
+              color: appolloBlack,
+              fontWeight: FontWeight.w400)
+          .withZoomFix,
+      bodyText2: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 12.8, // 16
+              letterSpacing: 0.25,
+              color: appolloBlack,
+              fontWeight: FontWeight.w400)
+          .withZoomFix,
       subtitle1: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 18.0,
-              letterSpacing: 0,
+              fontSize: 14.4, // 18
+              letterSpacing: 0.15,
               color: appolloBlack,
               fontWeight: FontWeight.w300)
           .withZoomFix,
       subtitle2: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 14.0,
-              letterSpacing: 0.25,
+              fontSize: 11.2, // 14
+              letterSpacing: 0.1,
               color: appolloBlack,
-              fontWeight: FontWeight.w600)
+              fontWeight: FontWeight.w500)
           .withZoomFix,
       headline1: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 96.0,
-              letterSpacing: -1.5,
+              fontSize: 38.4, // 48
+              letterSpacing: -1.0,
               color: appolloBlack,
-              fontWeight: FontWeight.w300)
+              fontWeight: FontWeight.w400)
           .withZoomFix,
       headline2: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 60.0,
+              fontSize: 25.6, // 32
               letterSpacing: -0.5,
-              color: appolloBlack,
-              fontWeight: FontWeight.w300)
+              color: appolloGrey,
+              fontWeight: FontWeight.w500)
           .withZoomFix,
-      headline3: TextStyle(fontFamily: "montserrat", fontSize: 48.0, letterSpacing: 0, color: appolloBlack).withZoomFix,
+      headline3: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 19.2,
+              letterSpacing: 0,
+              color: appolloBlack,
+              fontWeight: FontWeight.w500) // 24
+          .withZoomFix,
       headline4: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 32.0,
+              fontSize: 19.2,
+              letterSpacing: 0,
+              color: appolloGrey,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 24
+      headline5: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 16.0,
+              letterSpacing: 0,
+              color: appolloBlack,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 20
+      headline6: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 14.4,
               letterSpacing: 0.25,
               color: appolloBlack,
               fontWeight: FontWeight.w600)
-          .withZoomFix,
-      headline5: TextStyle(fontFamily: "montserrat", fontSize: 24.0, letterSpacing: 0, color: appolloBlack, fontWeight: FontWeight.w600).withZoomFix,
-      headline6: TextStyle(fontFamily: "montserrat", fontSize: 20.0, letterSpacing: 0.25, color: appolloBlack, fontWeight: FontWeight.w600).withZoomFix,
-      caption: TextStyle(fontFamily: "montserrat", fontSize: 12.0, letterSpacing: 0.4, color: appolloBlack).withZoomFix,
-      button: TextStyle(fontFamily: "montserrat", fontSize: 14.0, letterSpacing: 1.25, color: Colors.white, fontWeight: FontWeight.w600).withZoomFix,
-      overline: TextStyle(fontFamily: "montserrat", fontSize: 12.0, letterSpacing: 2, color: appolloBlack).withZoomFix);
+          .withZoomFix, // 16
+      caption: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 10.8,
+              letterSpacing: 0.4,
+              color: appolloBlack,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 12
+      button: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 14,
+              letterSpacing: 1.25,
+              color: Colors.white,
+              fontWeight: FontWeight.w300)
+          .withZoomFix, // 14
+      overline: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 10.8,
+              letterSpacing: 2,
+              color: appolloBlack,
+              fontWeight: FontWeight.w400)
+          .withZoomFix);
 
   static ThemeData theme = ThemeData(
       backgroundColor: Color(0xff2c2c2c),

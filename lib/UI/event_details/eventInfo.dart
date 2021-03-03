@@ -3,13 +3,15 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:webapp/UI/theme.dart';
-import 'package:webapp/UI/whyAreYouHere.dart';
 import 'package:webapp/model/link_type/birthdayList.dart';
 import 'package:webapp/model/link_type/link_type.dart';
 import 'package:webapp/model/link_type/promoterInvite.dart';
 
 import 'dateWidget.dart';
+import 'whyAreYouHere.dart';
 
+/// Displays general event info
+/// Use Axis.horizontal for desktop and Axis.vertical for mobile.
 class EventInfoWidget extends StatelessWidget {
   final Axis orientation;
   final LinkType linkType;
@@ -63,11 +65,11 @@ class EventInfoWidget extends StatelessWidget {
           height: MyTheme.elementSpacing,
         ),
         if (linkType is PromoterInvite)
-          WhyAreYouHere(
+          WhyAreYouHereWidget(
                   "${(linkType as PromoterInvite).promoter.firstName} ${(linkType as PromoterInvite).promoter.lastName} has invited you to an event.")
               .paddingBottom(MyTheme.elementSpacing),
         if (linkType is Booking)
-          WhyAreYouHere(
+          WhyAreYouHereWidget(
                   "${(linkType as Booking).promoter.firstName} ${(linkType as Booking).promoter.lastName} has invited you to their birthday party.")
               .paddingBottom(MyTheme.elementSpacing),
         SizedBox(

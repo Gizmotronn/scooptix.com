@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webapp/UI/theme.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
+/// Provides a direct link to the app in the stores
 class DownloadAppolloWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

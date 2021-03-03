@@ -270,7 +270,6 @@ class TicketRepository {
         .collection("ticket_releases")
         .doc(release.docId)
         .get();
-    // If this event offers unlimited free tickets, there won't be a ticket_release
     if (releaseSnapshot.exists) {
       releaseSnapshot.reference.set({"tickets_bought": FieldValue.increment(quantity)}, SetOptions(merge: true));
     }
