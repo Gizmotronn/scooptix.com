@@ -2,10 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:webapp/UI/theme.dart';
-import 'package:webapp/model/link_type/birthdayList.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/link_type/promoterInvite.dart';
+import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/model/link_type/birthdayList.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/link_type/promoterInvite.dart';
 
 import 'dateWidget.dart';
 import 'whyAreYouHere.dart';

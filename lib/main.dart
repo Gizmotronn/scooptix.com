@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:webapp/UI/theme.dart';
-import 'package:webapp/pages/event_overview/landing_page.dart';
+import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/pages//landing_page/landing_page.dart';
 
 import 'services/bugsnag_wrapper.dart';
 

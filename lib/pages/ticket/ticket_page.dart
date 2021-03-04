@@ -2,13 +2,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:webapp/UI/event_details/eventInfo.dart';
-import 'package:webapp/UI/event_details/existingTicketsWidget.dart';
-import 'package:webapp/UI/theme.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/pages/ticket/bloc/ticket_bloc.dart';
-import 'package:webapp/pages/payment/payment_page.dart';
-import 'package:webapp/repositories/user_repository.dart';
+import 'package:ticketapp/UI/event_details/eventInfo.dart';
+import 'package:ticketapp/UI/event_details/existingTicketsWidget.dart';
+import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart';
+import 'package:ticketapp/pages/payment/payment_page.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 
 class TicketPage extends StatefulWidget {
   final LinkType linkType;

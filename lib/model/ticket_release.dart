@@ -1,4 +1,4 @@
-import 'package:webapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class TicketRelease {
   String docId = "";

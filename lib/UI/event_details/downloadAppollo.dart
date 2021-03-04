@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_install_app_plugin/flutter_install_app_plugin.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webapp/UI/theme.dart';
+import 'package:ticketapp/UI/theme.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 /// Provides a direct link to the app in the stores

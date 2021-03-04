@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:webapp/UI/theme.dart';
+import 'package:ticketapp/UI/theme.dart';
 
 /// Displays a card telling the user who invited them to this event if an invitation link was used.
 class WhyAreYouHereWidget extends StatelessWidget {

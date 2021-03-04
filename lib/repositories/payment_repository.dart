@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:stripe_sdk/stripe_sdk.dart';
-import 'package:webapp/model/discount.dart';
-import 'package:webapp/repositories/user_repository.dart';
+import 'package:ticketapp/model/discount.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 
 enum PaymentType { FashionItemSale, DesignerSubscription }
 

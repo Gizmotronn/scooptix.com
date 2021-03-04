@@ -1,4 +1,4 @@
-import 'package:webapp/model/event.dart';
+import 'package:ticketapp/model/event.dart';
 
 enum LinkTypes { Promoter, Booking, BirthdayList, Advertisement, Ticket }
 

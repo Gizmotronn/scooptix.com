@@ -1,5 +1,5 @@
-import 'package:webapp/model/event.dart';
-import 'package:webapp/model/ticket_release.dart';
+import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/ticket_release.dart';
 
 class Ticket {
   String docId;

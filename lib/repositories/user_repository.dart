@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:webapp/model/organizer.dart';
-import 'package:webapp/model/promoter.dart';
-import 'package:webapp/model/user.dart';
-import 'package:webapp/services/firebase.dart';
+import 'package:ticketapp/model/organizer.dart';
+import 'package:ticketapp/model/promoter.dart';
+import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/services/firebase.dart';
 
 class UserRepository {
   static UserRepository _instance;

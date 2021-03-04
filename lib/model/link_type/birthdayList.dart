@@ -1,4 +1,4 @@
-import 'package:webapp/model/link_type/invitation.dart';
+import 'package:ticketapp/model/link_type/invitation.dart';
 
 class Booking extends Invitation {
   @override

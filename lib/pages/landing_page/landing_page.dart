@@ -3,10 +3,11 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:webapp/pages/authentication/authentication_page.dart';
-import 'package:webapp/pages/error_page.dart';
-import 'package:webapp/repositories/events_repository.dart';
-import 'package:webapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/error_page.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/UI/theme.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({Key key}) : super(key: key);
@@ -50,7 +51,11 @@ class _LandingPageState extends State<LandingPage> {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(),
+      child: Column(
+        children: [
+          CircularProgressIndicator().paddingBottom(8),
+        ],
+      ),
     );
   }
 }

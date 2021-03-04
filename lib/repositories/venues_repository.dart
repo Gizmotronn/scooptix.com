@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:webapp/model/venue.dart';
+import 'package:ticketapp/model/venue.dart';
 
 class VenuesRepository {
   static VenuesRepository _instance;

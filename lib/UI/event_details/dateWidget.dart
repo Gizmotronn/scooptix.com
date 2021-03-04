@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:webapp/UI/theme.dart';
+import 'package:ticketapp/UI/theme.dart';
 
 class DateWidget extends StatelessWidget {
   final DateTime date;

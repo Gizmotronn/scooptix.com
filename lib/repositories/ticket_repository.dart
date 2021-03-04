@@ -1,17 +1,17 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:webapp/model/discount.dart';
-import 'package:webapp/model/event.dart';
-import 'package:webapp/model/link_type/advertisementInvite.dart';
-import 'package:webapp/model/link_type/invitation.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/link_type/promoterInvite.dart';
-import 'package:webapp/model/ticket.dart';
-import 'package:webapp/model/ticket_release.dart';
-import 'package:webapp/model/user.dart';
-import 'package:webapp/repositories/user_repository.dart';
+import 'package:ticketapp/model/discount.dart';
+import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/link_type/advertisementInvite.dart';
+import 'package:ticketapp/model/link_type/invitation.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/link_type/promoterInvite.dart';
+import 'package:ticketapp/model/ticket.dart';
+import 'package:ticketapp/model/ticket_release.dart';
+import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:http/http.dart' as http;
-import 'package:webapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class TicketRepository {
   static TicketRepository _instance;

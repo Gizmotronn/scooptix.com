@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:webapp/UI/theme.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/pages/authentication/login_and_signup_page.dart';
-import 'package:webapp/pages/ticket/ticket_page.dart';
-import 'package:webapp/pages/authentication/bloc/authentication_bloc.dart';
-import 'package:webapp/repositories/user_repository.dart';
+import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/pages/authentication/login_and_signup_page.dart';
+import 'package:ticketapp/pages/ticket/ticket_page.dart';
+import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.

@@ -1,6 +1,6 @@
 // 0-17 are bars
 // 20-22 are clubs
-import 'package:webapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 enum VenueType {
   Bar,

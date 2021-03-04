@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
 
-String notifierName = 'Appollo organizer webapp';
+String notifierName = 'Appollo ticketing';
 String notifierVersion = '0.0.1';
 String notifierUrl = 'https://appollo.io/dashboard';
 

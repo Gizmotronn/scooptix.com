@@ -1,4 +1,4 @@
-import 'package:webapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
 
 class AdvertisementInvite extends LinkType {
   String organizerId;

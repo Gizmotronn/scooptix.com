@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:webapp/UI/theme.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/pages/ticket/ticket_page.dart';
-import 'package:webapp/repositories/user_repository.dart';
+import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/pages/ticket/ticket_page.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 
 class EventDetailsPage extends StatefulWidget {
   final LinkType linkType;

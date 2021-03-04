@@ -6,12 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:flutter_facebook_login_web/flutter_facebook_login_web.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/user.dart';
-import 'package:webapp/repositories/payment_repository.dart';
-import 'package:webapp/repositories/user_repository.dart';
-import 'package:webapp/services/bugsnag_wrapper.dart';
-import 'package:webapp/services/firebase.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/repositories/payment_repository.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/services/firebase.dart';
 
 part 'authentication_event.dart';
 part 'authentication_state.dart';

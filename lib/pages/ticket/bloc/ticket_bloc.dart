@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:webapp/model/discount.dart';
-import 'package:webapp/model/event.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/ticket.dart';
-import 'package:webapp/model/ticket_release.dart';
-import 'package:webapp/repositories/customer_repository.dart';
-import 'package:webapp/repositories/ticket_repository.dart';
+import 'package:ticketapp/model/discount.dart';
+import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/ticket.dart';
+import 'package:ticketapp/model/ticket_release.dart';
+import 'package:ticketapp/repositories/customer_repository.dart';
+import 'package:ticketapp/repositories/ticket_repository.dart';
 
 part 'ticket_event.dart';
 part 'ticket_state.dart';

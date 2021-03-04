@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webapp/model/user.dart';
-import 'package:webapp/utilities/alertGenerator.dart';
+import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/utilities/alertGenerator.dart';
 
 import '../theme.dart';
 

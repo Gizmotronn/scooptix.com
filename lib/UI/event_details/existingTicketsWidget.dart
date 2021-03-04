@@ -2,12 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:webapp/UI/event_details/downloadAppollo.dart';
-import 'package:webapp/model/link_type/birthdayList.dart';
-import 'package:webapp/model/link_type/invitation.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/ticket.dart';
-import 'package:webapp/repositories/user_repository.dart';
+import 'package:ticketapp/UI/event_details/downloadAppollo.dart';
+import 'package:ticketapp/model/link_type/birthdayList.dart';
+import 'package:ticketapp/model/link_type/invitation.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/ticket.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import '../theme.dart';
 
 /// Displays a message that the user already has tickets for this event

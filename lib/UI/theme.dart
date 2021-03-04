@@ -74,7 +74,7 @@ class MyTheme {
               fontFamily: "montserrat",
               fontSize: 12.8, // 16
               letterSpacing: 0.5,
-              color: appolloBlack,
+              color: appolloWhite,
               fontWeight: FontWeight.w400)
           .withZoomFix,
       bodyText2: TextStyle(
@@ -151,7 +151,7 @@ class MyTheme {
               fontFamily: "montserrat",
               fontSize: 14,
               letterSpacing: 1.25,
-              color: Colors.white,
+              color: appolloWhite,
               fontWeight: FontWeight.w300)
           .withZoomFix, // 14
       overline: TextStyle(
@@ -244,7 +244,7 @@ class MyTheme {
               fontFamily: "montserrat",
               fontSize: 14,
               letterSpacing: 1.25,
-              color: Colors.white,
+              color: appolloWhite,
               fontWeight: FontWeight.w300)
           .withZoomFix, // 14
       overline: TextStyle(

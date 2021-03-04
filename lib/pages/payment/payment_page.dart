@@ -5,15 +5,15 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:webapp/model/discount.dart';
-import 'package:webapp/model/link_type/link_type.dart';
-import 'package:webapp/model/release_manager.dart';
-import 'package:webapp/pages/ticket/bloc/ticket_bloc.dart' as ticket;
-import 'package:webapp/pages/payment/bloc/payment_bloc.dart';
-import 'package:webapp/UI/theme.dart';
-import 'package:webapp/repositories/payment_repository.dart';
-import 'package:webapp/repositories/user_repository.dart';
-import 'package:webapp/utilities/alertGenerator.dart';
+import 'package:ticketapp/model/discount.dart';
+import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/release_manager.dart';
+import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart' as ticket;
+import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
+import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/repositories/payment_repository.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/utilities/alertGenerator.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 class PaymentPage extends StatefulWidget {
