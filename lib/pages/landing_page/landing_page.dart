@@ -3,9 +3,7 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
-import 'package:ticketapp/pages/error_page.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
@@ -40,7 +38,7 @@ class _LandingPageState extends State<LandingPage> {
           message =
               "There is no event associated with the provided id $uuid. Please make sure you have copied the correct link";
         }
-        preloadEventsAndNavigate();
+        _preloadEventsAndNavigate();
         BugsnagNotifier.instance
             .notify("Invalid UUID, provided UUID: $uuid", StackTrace.empty);
       } else
@@ -53,11 +51,12 @@ class _LandingPageState extends State<LandingPage> {
     super.initState();
   }
 
-  void preloadEventsAndNavigate() async {
-    // final events = await EventsRepository.instance.loadUpcomingEvents();
-    // print(events.length);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => EventOverviewPage(events: [])));
+  void _preloadEventsAndNavigate() async {
+    final events = await EventsRepository.instance.loadUpcomingEvents();
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => EventOverviewPage(events: events)));
   }
 
   @override

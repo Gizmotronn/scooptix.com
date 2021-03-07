@@ -28,42 +28,40 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),
-      child: ResponsiveBuilder(builder: (context, SizingInformation sizes) {
-        return Container(
-          width: sizes.isDesktop ? 600 : 450,
-          decoration: BoxDecoration(
-              color: MyTheme.appolloWhite,
-              border: Border.all(width: 0.5, color: MyTheme.appolloGrey),
-              borderRadius: BorderRadius.circular(12)),
-          child: Center(
-            child: AspectRatio(
-              aspectRatio: 1.9,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _cardContent(context),
-                  _cardImage(),
-                ],
-              ),
+    return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
+      return Container(
+        width: sizes.isDesktop ? 600 : 450,
+        decoration: BoxDecoration(
+            color: MyTheme.appolloWhite,
+            border: Border.all(width: 0.5, color: MyTheme.appolloGrey),
+            borderRadius: BorderRadius.circular(6)),
+        child: Center(
+          child: AspectRatio(
+            aspectRatio: 1.9,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _cardContent(context, sizes),
+                VerticalDivider(
+                    color: MyTheme.appolloGrey.withOpacity(.8), width: 0.4),
+                _cardImage(),
+              ],
             ),
           ),
-        );
-      }),
-    );
+        ),
+      ).paddingAll(12);
+    });
   }
 
-  Widget _cardContent(context) {
+  Widget _cardContent(context, SizingInformation sizes) {
     return Flexible(
       flex: 4,
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+            topLeft: Radius.circular(6), bottomLeft: Radius.circular(6)),
         child: Container(
           decoration: BoxDecoration(
             color: MyTheme.appolloWhite,
-            border: Border.all(width: 0.5, color: MyTheme.appolloGrey),
           ),
           child: Container(
             child: Column(
@@ -83,37 +81,36 @@ class EventCard extends StatelessWidget {
                   eventAddress ?? '',
                   textAlign: TextAlign.center,
                   maxLines: 2,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline5
-                      .copyWith(color: MyTheme.appolloGrey),
+                  style: Theme.of(context).textTheme.headline5.copyWith(
+                      color: MyTheme.appolloGrey,
+                      fontSize: sizes.isDesktop ? null : 12),
                 ).paddingBottom(4),
                 AutoSizeText(
                   eventTime ?? '',
                   textAlign: TextAlign.center,
-                  // maxLines: 2,
-                  group: AutoSizeGroup(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: MyTheme.appolloGrey),
-                ).paddingBottom(16),
+                  maxLines: 2,
+                  style: Theme.of(context).textTheme.headline3.copyWith(
+                      color: MyTheme.appolloGrey,
+                      fontSize: sizes.isDesktop ? null : 12),
+                ).paddingBottom(10),
                 AppolloButton.smallButton(
                     color: Colors.transparent,
                     child: AutoSizeText('View Event',
+                        maxLines: 2,
                         style: Theme.of(context)
                             .textTheme
                             .button
                             .copyWith(color: MyTheme.appolloPurple)),
-                    onTap: () {}),
+                    onTap: onTapViewEvent),
                 Container(
-                        child: AppolloButton.smallButton(
-                            child: AutoSizeText(
-                              'Get Your Ticket',
-                              style: Theme.of(context).textTheme.button,
-                            ),
-                            onTap: () {}))
-                    .paddingTop(8),
+                  child: AppolloButton.smallButton(
+                      child: AutoSizeText(
+                        'Get Your Ticket',
+                        style: Theme.of(context).textTheme.button,
+                        maxLines: 2,
+                      ),
+                      onTap: onTapGetEventTicket),
+                ).paddingTop(8),
               ],
             ),
           ).paddingAll(MyTheme.cardPadding),
@@ -127,7 +124,7 @@ class EventCard extends StatelessWidget {
       flex: 6,
       child: ClipRRect(
         borderRadius: BorderRadius.only(
-            topRight: Radius.circular(12), bottomRight: Radius.circular(12)),
+            topRight: Radius.circular(6), bottomRight: Radius.circular(6)),
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
