@@ -34,28 +34,8 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
       body: NestedScrollView(
         body: Row(
           children: [
-            Expanded(
-                flex: 2,
-                child: SingleChildScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  child: Container(
-                    height: screenSize.height,
-                    child: Column(children: [
-                      SizedBox(height: kToolbarHeight * 2),
-                      _sideNav(),
-                    ]),
-                  ),
-                )),
-            Expanded(
-              flex: 8,
-              child: SingleChildScrollView(
-                  child: Column(
-                children: [
-                  SizedBox(height: kToolbarHeight * 2),
-                  AppolloEvents(events: widget.events),
-                ],
-              )),
-            ),
+            _sideNav(screenSize),
+            _buildEvents(),
           ],
         ),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -78,6 +58,19 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
           ];
         },
       ),
+    );
+  }
+
+  Widget _buildEvents() {
+    return Expanded(
+      flex: 8,
+      child: SingleChildScrollView(
+          child: Column(
+        children: [
+          SizedBox(height: kToolbarHeight * 2),
+          AppolloEvents(events: widget.events),
+        ],
+      )),
     );
   }
 
@@ -119,36 +112,44 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
       width: MediaQuery.of(context).size.width,
       color: MyTheme.appolloWhite,
       child: Center(
-        child: AutoSizeText(
-          'Appollo NavBar Titles and options here',
-          style: Theme.of(context)
-              .textTheme
-              .headline3
-              .copyWith(color: Colors.black),
+          child: AutoSizeText(
+        'Appollo NavBar Titles and options here',
+        style:
+            Theme.of(context).textTheme.headline3.copyWith(color: Colors.black),
+      )),
+    );
+  }
+
+  _sideNav(Size screenSize) {
+    return Expanded(
+      flex: 2,
+      child: SingleChildScrollView(
+        physics: NeverScrollableScrollPhysics(),
+        child: Container(
+          height: screenSize.height,
+          child: Container(
+            child: Column(
+              children: List.generate(
+                _sideMenu.length,
+                (index) => SideButton(
+                  title: _sideMenu[index].title,
+                  isTap: _sideMenu[index].isTap,
+                  onTap: () {
+                    setState(() {
+                      for (var i = 0; i < _sideMenu.length; i++) {
+                        _sideMenu[i].isTap = false;
+                      }
+                      _sideMenu[index].isTap = true;
+                    });
+                  },
+                ).paddingAll(8),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
-
-  _sideNav() => Container(
-        child: Column(
-          children: List.generate(
-            _sideMenu.length,
-            (index) => SideButton(
-              title: _sideMenu[index].title,
-              isTap: _sideMenu[index].isTap,
-              onTap: () {
-                setState(() {
-                  for (var i = 0; i < _sideMenu.length; i++) {
-                    _sideMenu[i].isTap = false;
-                  }
-                  _sideMenu[index].isTap = true;
-                });
-              },
-            ).paddingAll(8),
-          ),
-        ),
-      );
 }
 
 class Menu {
