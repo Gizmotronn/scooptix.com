@@ -7,6 +7,8 @@ import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/app_bars/persistent_app_bar.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:websafe_svg/websafe_svg.dart';
 
 class EventOverviewPage extends StatefulWidget {
   final List<Event> events;
@@ -169,7 +171,7 @@ class OverViewTopNavBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           _appolloLogo(),
-          _appolloSearchBar(),
+          _appolloSearchBar(context),
         ],
       ),
     ).paddingHorizontal(32).paddingTop(12).paddingBottom(32);
@@ -179,23 +181,34 @@ class OverViewTopNavBar extends StatelessWidget {
       style: MyTheme.lightTextTheme.subtitle1.copyWith(
           fontFamily: "cocon",
           color: Colors.white,
-          fontSize: 30,
+          fontSize: 25,
           shadows: [
             BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)
           ]));
 
-  _appolloSearchBar() => Container();
+  _appolloSearchBar(context) => Container(
+        child: _buildSearch(context),
+      );
 
-  Widget _buildSearch() {
+  Widget _buildSearch(BuildContext context) {
     return Container(
       height: 30,
+      width: 500,
+      decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: MyTheme.appolloPurple.withOpacity(.7),
+                width: 0.5,
+              ),
+              borderRadius: BorderRadius.circular(200)),
+          color: Theme.of(context).canvasColor.withOpacity(.5)),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            height: 22,
-            child: SVGicon(SVGAssets.searchOutline, color: Colors.white),
-          ),
+              height: 22,
+              child: WebsafeSvg.asset(AppolloSvgIcon.searchOutline,
+                  color: MyTheme.appolloWhite)),
           Container(
             child: Expanded(
               child: TextField(
@@ -203,18 +216,17 @@ class OverViewTopNavBar extends StatelessWidget {
                   filled: true,
                   fillColor: Colors.transparent,
                   contentPadding: const EdgeInsets.only(bottom: 14, left: 12),
-                  border: InputBorder.none,
                   focusedBorder: InputBorder.none,
-                  hintText: 'Search',
+                  hintText: 'Search Events',
                   enabledBorder: InputBorder.none,
                   errorBorder: InputBorder.none,
                   disabledBorder: InputBorder.none,
                 ),
-              ),
+              ).paddingBottom(8),
             ),
           ),
         ],
-      ),
+      ).paddingHorizontal(4),
     );
   }
 }
