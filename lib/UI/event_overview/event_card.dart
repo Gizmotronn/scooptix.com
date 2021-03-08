@@ -67,7 +67,9 @@ class EventCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   style: Theme.of(context).textTheme.headline2.copyWith(
-                      color: MyTheme.appolloPurple, letterSpacing: 1.5),
+                      color: MyTheme.appolloPurple,
+                      letterSpacing: 1.5,
+                      fontSize: sizes.isDesktop ? null : 18),
                 ).paddingBottom(8),
                 Icon(Icons.place, color: MyTheme.appolloPurple)
                     .paddingBottom(4),

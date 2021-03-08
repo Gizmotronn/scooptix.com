@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:ticketapp/UI/event_overview/even_top_nav.dart';
 import 'package:ticketapp/UI/event_overview/event_list.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
@@ -124,30 +127,31 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
   _sideNav(Size screenSize) {
     return Expanded(
       flex: 2,
-      child: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Container(
-          height: screenSize.height,
-          child: Container(
-            child: Column(
-              children: List.generate(
-                _sideMenu.length,
-                (index) => SideButton(
-                  title: _sideMenu[index].title,
-                  isTap: _sideMenu[index].isTap,
-                  onTap: () {
-                    setState(() {
-                      for (var i = 0; i < _sideMenu.length; i++) {
-                        _sideMenu[i].isTap = false;
-                      }
-                      _sideMenu[index].isTap = true;
-                    });
-                  },
-                ).paddingAll(8),
+      child: Wrap(
+        children: [
+          Container(
+            height: screenSize.height,
+            child: Container(
+              child: Column(
+                children: List.generate(
+                  _sideMenu.length,
+                  (index) => SideButton(
+                    title: _sideMenu[index].title,
+                    isTap: _sideMenu[index].isTap,
+                    onTap: () {
+                      setState(() {
+                        for (var i = 0; i < _sideMenu.length; i++) {
+                          _sideMenu[i].isTap = false;
+                        }
+                        _sideMenu[index].isTap = true;
+                      });
+                    },
+                  ).paddingAll(8),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -157,76 +161,4 @@ class Menu {
   String title;
   bool isTap;
   Menu(this.title, this.isTap);
-}
-
-class OverViewTopNavBar extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-
-    return Container(
-      width: screenSize.width,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _appolloLogo(),
-          _appolloSearchBar(context),
-        ],
-      ),
-    ).paddingHorizontal(32).paddingTop(12).paddingBottom(32);
-  }
-
-  _appolloLogo() => Text("appollo",
-      style: MyTheme.lightTextTheme.subtitle1.copyWith(
-          fontFamily: "cocon",
-          color: Colors.white,
-          fontSize: 25,
-          shadows: [
-            BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)
-          ]));
-
-  _appolloSearchBar(context) => Container(
-        child: _buildSearch(context),
-      );
-
-  Widget _buildSearch(BuildContext context) {
-    return Container(
-      height: 30,
-      width: 500,
-      decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-              side: BorderSide(
-                color: MyTheme.appolloPurple.withOpacity(.7),
-                width: 0.5,
-              ),
-              borderRadius: BorderRadius.circular(200)),
-          color: Theme.of(context).canvasColor.withOpacity(.5)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-              height: 22,
-              child: WebsafeSvg.asset(AppolloSvgIcon.searchOutline,
-                  color: MyTheme.appolloWhite)),
-          Container(
-            child: Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.transparent,
-                  contentPadding: const EdgeInsets.only(bottom: 14, left: 12),
-                  focusedBorder: InputBorder.none,
-                  hintText: 'Search Events',
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                ),
-              ).paddingBottom(8),
-            ),
-          ),
-        ],
-      ).paddingHorizontal(4),
-    );
-  }
 }

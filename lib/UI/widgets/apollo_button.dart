@@ -25,7 +25,8 @@ class AppolloButton {
 
   static smallButton(
           {@required Widget child,
-          double labelSize,
+          double width,
+          double height,
           Color color,
           @required Function onTap,
           bool fill = true,
@@ -33,10 +34,10 @@ class AppolloButton {
       ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
           constraints: BoxConstraints(
-            minHeight: size.isDesktop ? 40 : 25,
-            maxHeight: size.isDesktop ? 40 : 25,
-            minWidth: 130,
-            maxWidth: 200,
+            minHeight: height ?? size.isDesktop ? 40 : 25,
+            maxHeight: height ?? size.isDesktop ? 40 : 25,
+            minWidth: width ?? 130,
+            maxWidth: width ?? 200,
           ),
           child: FlatButton(
             color: fill
@@ -45,7 +46,8 @@ class AppolloButton {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
               side: BorderSide(
-                  color: MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+                  color: color ?? MyTheme.theme.buttonColor,
+                  width: border ? 1.3 : 0),
             ),
             onPressed: onTap,
             child: Padding(

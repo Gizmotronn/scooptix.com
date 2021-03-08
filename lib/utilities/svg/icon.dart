@@ -7,4 +7,6 @@ class AppolloSvgIcon {
   static String listOutline = 'icons/list-outline.svg';
   static String arrowBackOutline = 'icons/arrow-back-outline.svg';
   static String alertTriangleOutline = 'icons/alert-triangle-outline.svg';
+  static String arrowdown = 'icons/arrow-ios-downward-outline.svg';
+  static String arrowup = 'icons/arrow-ios-upward-outline.svg';
 }
