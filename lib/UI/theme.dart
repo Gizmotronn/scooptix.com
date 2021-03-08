@@ -32,11 +32,11 @@ extension WidgetPaddingX on Widget {
         child: this,
       );
   Widget paddingHorizontal(double padding) => Padding(
-        padding: EdgeInsets.symmetric(horizontal: padding),
+        padding: EdgeInsets.symmetric(vertical:0,horizontal: padding),
         child: this,
       );
   Widget paddingVertical(double padding) => Padding(
-        padding: EdgeInsets.symmetric(vertical: padding),
+        padding: EdgeInsets.symmetric(horizontal:0,vertical: padding),
         child: this,
       );
 }

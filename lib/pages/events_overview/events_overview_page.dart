@@ -49,7 +49,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
                   appbarHeight: screenSize.height * 0.6,
                   shrinkChild: Container(
                     height: screenSize.height * 0.5,
-                    child: _eventOverview(),
+                    child: _eventOverview(screenSize),
                   ),
                   child: _eventOverViewNavBar(),
                 ),
@@ -74,27 +74,26 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
     );
   }
 
-  _eventOverview() => Container(
+  _eventOverview(Size screenSize) => Container(
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
           image: DecorationImage(
             image: ExtendedImage.network(
-              'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
+              'https://media.istockphoto.com/vectors/abstract-pop-art-line-and-dots-color-pattern-background-vector-liquid-vector-id1017781486?k=6&m=1017781486&s=612x612&w=0&h=nz4YljNqJ0xjxcdVVJge3dW3cqNakWjG7u2oFqW4tjs=',
               cache: true,
             ).image,
             fit: BoxFit.cover,
           ),
         ),
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: screenSize.height * 0.6,
         child: Column(
           children: [
-            _topBar(),
+            OverViewTopNavBar(),
             _eventHappening(),
           ],
         ),
       );
 
-  Widget _topBar() => Container();
   Widget _eventHappening() => Container(
         height: 200,
         width: 600,
@@ -156,4 +155,66 @@ class Menu {
   String title;
   bool isTap;
   Menu(this.title, this.isTap);
+}
+
+class OverViewTopNavBar extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
+    return Container(
+      width: screenSize.width,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _appolloLogo(),
+          _appolloSearchBar(),
+        ],
+      ),
+    ).paddingHorizontal(32).paddingTop(12).paddingBottom(32);
+  }
+
+  _appolloLogo() => Text("appollo",
+      style: MyTheme.lightTextTheme.subtitle1.copyWith(
+          fontFamily: "cocon",
+          color: Colors.white,
+          fontSize: 30,
+          shadows: [
+            BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)
+          ]));
+
+  _appolloSearchBar() => Container();
+
+  Widget _buildSearch() {
+    return Container(
+      height: 30,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: 22,
+            child: SVGicon(SVGAssets.searchOutline, color: Colors.white),
+          ),
+          Container(
+            child: Expanded(
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.transparent,
+                  contentPadding: const EdgeInsets.only(bottom: 14, left: 12),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  hintText: 'Search',
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
