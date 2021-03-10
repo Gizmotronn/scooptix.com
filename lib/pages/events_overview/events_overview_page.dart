@@ -8,10 +8,9 @@ import 'package:ticketapp/UI/event_overview/even_top_nav.dart';
 import 'package:ticketapp/UI/event_overview/event_list.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/app_bars/persistent_app_bar.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 class EventOverviewPage extends StatefulWidget {
   final List<Event> events;
@@ -94,19 +93,8 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
         child: Column(
           children: [
             OverViewTopNavBar(),
-            _eventHappening(),
+            FeaturedEvent(),
           ],
-        ),
-      );
-
-  Widget _eventHappening() => Container(
-        height: 200,
-        width: 600,
-        decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor.withOpacity(.4),
-          border:
-              Border.all(width: 0.5, color: MyTheme.appolloGrey.withAlpha(140)),
-          borderRadius: BorderRadius.circular(12),
         ),
       );
 
@@ -154,6 +142,80 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
         ],
       ),
     );
+  }
+}
+
+class FeaturedEvent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 16,
+            sigmaY: 16,
+          ),
+          child: Container(
+              height: 300,
+              width: MediaQuery.of(context).size.width * 0.6,
+              decoration: BoxDecoration(
+                color: Theme.of(context).canvasColor.withOpacity(.4),
+                border: Border.all(
+                  width: 0.5,
+                  color: MyTheme.appolloWhite.withOpacity(.4),
+                ),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AutoSizeText('Humble ─  ',
+                                style: Theme.of(context).textTheme.headline1),
+                            Expanded(
+                              child: AutoSizeText('90 ABERDEEN ST. NBR',
+                                  style: Theme.of(context).textTheme.caption),
+                            ),
+                          ],
+                        ).paddingBottom(4),
+                        AutoSizeText('Every Saturday Night.',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline1
+                                    .copyWith(fontWeight: FontWeight.bold))
+                            .paddingBottom(8),
+                        AutoSizeText(
+                          'Every Sat - Till\' Phase 5 Door from 6pm doors',
+                          style: Theme.of(context)
+                              .textTheme
+                              .button
+                              .copyWith(fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                        child: AppolloButton.mediumButton(
+                            border: false,
+                            color: MyTheme.appolloYellow,
+                            child: Text('GET YOUR TICKETS',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .button
+                                    .copyWith(color: MyTheme.appolloBlack)),
+                            onTap: () {})),
+                  )
+                ],
+              ).paddingAll(16)),
+        ));
   }
 }
 
