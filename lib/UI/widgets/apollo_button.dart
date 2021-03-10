@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
@@ -143,4 +144,60 @@ class AppolloButton {
           ),
         ),
       );
+}
+
+class HoverAppolloButton extends StatefulWidget {
+  final String title;
+  final Color hoverColor;
+  final Color color;
+  final bool fill;
+
+  const HoverAppolloButton(
+      {Key key,
+      this.title,
+      @required this.hoverColor,
+      this.color,
+      this.fill = false})
+      : super(key: key);
+
+  @override
+  _HoverAppolloButtonState createState() => _HoverAppolloButtonState();
+}
+
+class _HoverAppolloButtonState extends State<HoverAppolloButton> {
+  bool isHover = false;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {},
+      onHover: (v) => setState(() => isHover = v),
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: 45,
+          maxHeight: 45,
+          minWidth: 150,
+          maxWidth: 250,
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(5.0),
+            border:
+                Border.all(color: isHover ? Colors.transparent : widget.color),
+            color: widget.fill
+                ? widget.color
+                : isHover
+                    ? widget.hoverColor
+                    : Colors.transparent,
+          ),
+          child: Center(
+            child: AutoSizeText(widget.title ?? '',
+                style: Theme.of(context).textTheme.button.copyWith(
+                      color:
+                          isHover ? MyTheme.appolloWhite : MyTheme.appolloGrey,
+                    )),
+          ),
+        ),
+      ),
+    );
+  }
 }

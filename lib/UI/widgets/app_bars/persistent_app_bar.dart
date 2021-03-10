@@ -21,14 +21,14 @@ class AppolloPersistentAppBar extends SliverPersistentHeaderDelegate {
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
     final firstBarOffset = (-shrinkOffset * 0.01) - shrinkOffset;
-    final secondBarOffset = (-shrinkOffset * 0.01) - shrinkOffset;
+    final secondBarOffset = (-shrinkOffset * 1) + shrinkOffset;
     return Container(
       color: Colors.white,
       child: Stack(
         fit: StackFit.expand,
         children: [
           Positioned(
-            bottom: secondBarOffset < -1.00 ? 1 : secondBarOffset,
+            bottom: secondBarOffset,
             child: Container(
               width: MediaQuery.of(context).size.width,
               child: Wrap(
@@ -54,7 +54,7 @@ class AppolloPersistentAppBar extends SliverPersistentHeaderDelegate {
   double get maxExtent => appbarHeight;
 
   @override
-  double get minExtent => 60;
+  double get minExtent => 55;
 
   @override
   FloatingHeaderSnapConfiguration get snapConfiguration => snap;

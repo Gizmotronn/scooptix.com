@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/apollo_button.dart';
@@ -7,8 +8,15 @@ import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
-class OverViewTopNavBar extends StatelessWidget {
+class OverViewTopNavBar extends StatefulWidget {
+  @override
+  _OverViewTopNavBarState createState() => _OverViewTopNavBarState();
+}
+
+class _OverViewTopNavBarState extends State<OverViewTopNavBar> {
+  bool isHoverSearchBar = false;
   final List<String> createEventOptions = ['Overview', 'Pricing', 'Blog'];
+
   final List<String> helpOptions = [
     'How do I connect event organizers',
     'Cost for creating event with us',
@@ -26,7 +34,7 @@ class OverViewTopNavBar extends StatelessWidget {
         children: [
           _appolloLogo(),
           Expanded(
-            child: _appolloSearchBar(context).paddingHorizontal(18),
+            child: _appolloSearchBar(context, screenSize).paddingHorizontal(18),
           ),
           Container(
             child: Row(children: [
@@ -37,53 +45,112 @@ class OverViewTopNavBar extends StatelessWidget {
           ),
         ],
       ),
-    ).paddingHorizontal(50).paddingTop(12).paddingBottom(32);
+    ).paddingHorizontal(50).paddingTop(8).paddingBottom(8);
   }
 
-  Widget _appolloSearchBar(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(200),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(
-          sigmaX: 10,
-          sigmaY: 10,
-        ),
-        child: Container(
-          height: 30,
-          decoration: ShapeDecoration(
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: MyTheme.appolloPurple.withOpacity(.7),
-                    width: 0.5,
-                  ),
-                  borderRadius: BorderRadius.circular(200)),
-              color: Theme.of(context).canvasColor.withOpacity(.5)),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                  height: 22,
-                  child: WebsafeSvg.asset(AppolloSvgIcon.searchOutline,
-                      color: MyTheme.appolloWhite)),
-              Container(
-                child: Expanded(
-                  child: TextField(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      contentPadding:
-                          const EdgeInsets.only(bottom: 14, left: 12),
-                      focusedBorder: InputBorder.none,
-                      hintText: 'Search Events',
-                      enabledBorder: InputBorder.none,
-                      errorBorder: InputBorder.none,
-                      disabledBorder: InputBorder.none,
+  Widget _appolloSearchBar(BuildContext context, Size screenSize) {
+    return InkWell(
+      onTap: () {},
+      onHover: (v) {
+        setState(() => isHoverSearchBar = v);
+      },
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: 10,
+            sigmaY: 10,
+          ),
+          child: Container(
+            height: 30,
+            decoration: ShapeDecoration(
+                shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      color: MyTheme.appolloWhite.withOpacity(.4),
+                      width: 0.5,
                     ),
-                  ).paddingBottom(8),
+                    borderRadius: BorderRadius.circular(4)),
+                color: Theme.of(context).canvasColor.withOpacity(.5)),
+            child: Stack(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                        height: 22,
+                        child: WebsafeSvg.asset(AppolloSvgIcon.searchOutline,
+                            color: MyTheme.appolloWhite)),
+                    Container(
+                      child: Expanded(
+                        child: TextField(
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.transparent,
+                            contentPadding:
+                                const EdgeInsets.only(bottom: 14, left: 12),
+                            focusedBorder: InputBorder.none,
+                            hintText: 'Search Events',
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
+                        ).paddingBottom(8),
+                      ),
+                    ),
+                  ],
+                ).paddingHorizontal(4),
+                isHoverSearchBar ? _searchAction(context) : SizedBox(),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Align _searchAction(BuildContext context) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        height: 30,
+        width: 300,
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                height: 30,
+                color: MyTheme.appolloWhite.withAlpha(120),
+                child: Row(
+                  children: [
+                    Container(
+                            height: 16,
+                            child: WebsafeSvg.asset(AppolloSvgIcon.perthGps,
+                                color: MyTheme.appolloWhite))
+                        .paddingRight(4),
+                    AutoSizeText('Perth, Australie',
+                        style: Theme.of(context)
+                            .textTheme
+                            .button
+                            .copyWith(fontSize: 12)),
+                  ],
+                ).paddingHorizontal(8),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: 30,
+                color: MyTheme.appolloGreen,
+                child: Center(
+                  child: AutoSizeText('Search',
+                          style: Theme.of(context)
+                              .textTheme
+                              .button
+                              .copyWith(fontSize: 12))
+                      .paddingHorizontal(8),
                 ),
               ),
-            ],
-          ).paddingHorizontal(4),
+            ),
+          ],
         ),
       ),
     );

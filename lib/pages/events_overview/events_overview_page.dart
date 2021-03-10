@@ -30,118 +30,181 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
     Menu('Saturday', false),
     Menu('Sunday', false),
   ];
+
+  List<Menu> _menu = [
+    Menu('All', true),
+    Menu('From', false),
+    Menu('For me', false),
+    Menu('Today', false),
+    Menu('This Weekend', false),
+    Menu('This Week', false),
+    Menu('Music', false),
+  ];
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: MyTheme.appolloLightGrey,
-      body: NestedScrollView(
-        body: Row(
+      backgroundColor: MyTheme.appolloWhite,
+      body: Container(
+        color: MyTheme.appolloPurple.withAlpha(20),
+        width: screenSize.width,
+        height: screenSize.height,
+        child: Stack(
           children: [
-            _sideNav(screenSize),
-            _buildEvents(),
-          ],
-        ),
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverPersistentHeader(
-                floating: true,
-                pinned: true,
-                delegate: AppolloPersistentAppBar(
-                  appbarHeight: screenSize.height * 0.6,
-                  shrinkChild: Container(
-                    height: screenSize.height * 0.5,
-                    child: _eventOverview(screenSize),
+            Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Container(
+                      child: Column(
+                        children: [
+                          _eventOverview(screenSize),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // _sideNav(screenSize),
+                              _buildEvents(),
+                            ],
+                          ),
+                          Container(
+                            width: screenSize.width,
+                            height: screenSize.height * 0.3,
+                            color: MyTheme.appolloBlack,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: _eventOverViewNavBar(),
+                ),
+              ],
+            ),
+            ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: 16,
+                  sigmaY: 16,
+                ),
+                child: Container(
+                  height: 80,
+                  color: MyTheme.appolloBlack.withAlpha(160),
+                  width: screenSize.width,
+                  child: OverViewTopNavBar(),
                 ),
               ),
             ),
-          ];
-        },
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildEvents() {
-    return Expanded(
-      flex: 8,
-      child: SingleChildScrollView(
-          child: Column(
-        children: [
-          SizedBox(height: kToolbarHeight * 2),
-          AppolloEvents(events: widget.events),
-        ],
-      )),
+    return Column(
+      children: [
+        SizedBox(height: kToolbarHeight),
+        AppolloEvents(events: widget.events),
+      ],
     );
   }
 
-  _eventOverview(Size screenSize) => Container(
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: ExtendedImage.network(
-              'https://media.istockphoto.com/vectors/abstract-pop-art-line-and-dots-color-pattern-background-vector-liquid-vector-id1017781486?k=6&m=1017781486&s=612x612&w=0&h=nz4YljNqJ0xjxcdVVJge3dW3cqNakWjG7u2oFqW4tjs=',
-              cache: true,
-            ).image,
-            fit: BoxFit.cover,
+  _eventOverview(Size screenSize) => Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: ExtendedImage.network(
+                  'https://media.istockphoto.com/vectors/abstract-pop-art-line-and-dots-color-pattern-background-vector-liquid-vector-id1017781486?k=6&m=1017781486&s=612x612&w=0&h=nz4YljNqJ0xjxcdVVJge3dW3cqNakWjG7u2oFqW4tjs=',
+                  cache: true,
+                ).image,
+                fit: BoxFit.cover,
+              ),
+            ),
+            height: screenSize.height * 0.55,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: kToolbarHeight + 20),
+                FeaturedEvent(),
+              ],
+            ),
           ),
-        ),
-        height: screenSize.height * 0.6,
-        child: Column(
-          children: [
-            OverViewTopNavBar(),
-            FeaturedEvent(),
-          ],
-        ),
+          _eventOverViewNavBar(),
+        ],
       );
 
   Widget _eventOverViewNavBar() {
     return Container(
-      height: 100,
-      width: MediaQuery.of(context).size.width,
-      color: MyTheme.appolloWhite,
-      child: Center(
-          child: AutoSizeText(
-        'Appollo NavBar Titles and options here',
-        style:
-            Theme.of(context).textTheme.headline3.copyWith(color: Colors.black),
-      )),
-    );
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        color: MyTheme.appolloBlack,
+        child: Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: List.generate(
+                    _menu.length,
+                    (index) => InkWell(
+                          onTap: () {},
+                          child: Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                AutoSizeText(_menu[index].title,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .caption
+                                        .copyWith(
+                                            fontSize: 12,
+                                            color: _menu[index].isTap
+                                                ? MyTheme.appolloGreen
+                                                : MyTheme.appolloWhite)),
+                                Container(
+                                  height: 1.5,
+                                  width: 20,
+                                  color: _menu[index].isTap
+                                      ? MyTheme.appolloGreen
+                                      : Colors.transparent,
+                                )
+                              ],
+                            ),
+                          ),
+                        ))),
+          ),
+        ));
   }
 
   _sideNav(Size screenSize) {
-    return Expanded(
-      flex: 2,
-      child: Wrap(
-        children: [
-          Container(
-            height: screenSize.height,
-            child: Container(
-              child: Column(
-                children: List.generate(
-                  _sideMenu.length,
-                  (index) => SideButton(
-                    title: _sideMenu[index].title,
-                    isTap: _sideMenu[index].isTap,
-                    onTap: () {
-                      setState(() {
-                        for (var i = 0; i < _sideMenu.length; i++) {
-                          _sideMenu[i].isTap = false;
-                        }
-                        _sideMenu[index].isTap = true;
-                      });
-                    },
-                  ).paddingAll(8),
-                ),
+    return Wrap(
+      children: [
+        Container(
+          height: screenSize.height,
+          child: Container(
+            child: Column(
+              children: List.generate(
+                _sideMenu.length,
+                (index) => SideButton(
+                  title: _sideMenu[index].title,
+                  isTap: _sideMenu[index].isTap,
+                  onTap: () {
+                    setState(() {
+                      for (var i = 0; i < _sideMenu.length; i++) {
+                        _sideMenu[i].isTap = false;
+                      }
+                      _sideMenu[index].isTap = true;
+                    });
+                  },
+                ).paddingAll(8),
               ),
             ),
           ),
-        ],
-      ),
-    );
+        ),
+      ],
+    ).paddingTop(32);
   }
 }
 
