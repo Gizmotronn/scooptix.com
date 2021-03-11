@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_overview/event_card.dart';
+import 'package:ticketapp/UI/widgets/cards/event_card.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/apollo_button.dart';
+import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/model/event.dart';
 
 class AppolloEvents extends StatelessWidget {
