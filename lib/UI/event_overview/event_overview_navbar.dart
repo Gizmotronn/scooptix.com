@@ -37,7 +37,16 @@ class _EventOverviewNavigationBarState
               _menu.length,
               (index) => NavbarButton(
                   title: _menu[index].title,
-                  onTap: () {},
+                  onTap: () {
+                    for (var i = 0; i < _menu.length; i++) {
+                      setState(() {
+                        _menu[i].isTap = false;
+                      });
+                    }
+                    setState(() {
+                      _menu[index].isTap = true;
+                    });
+                  },
                   isTap: _menu[index].isTap),
             ),
           ),
