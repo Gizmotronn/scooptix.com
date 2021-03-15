@@ -1,21 +1,24 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
+import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
-class FeaturedEvents extends StatelessWidget {
+class FeaturedEvents extends StatefulWidget {
   final List<Event> events;
 
-  const FeaturedEvents({
-    Key key,
-    @required this.events,
-  }) : super(key: key);
+  const FeaturedEvents({Key key, @required this.events}) : super(key: key);
 
+  @override
+  _FeaturedEventsState createState() => _FeaturedEventsState();
+}
+
+class _FeaturedEventsState extends State<FeaturedEvents> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -29,80 +32,152 @@ class FeaturedEvents extends StatelessWidget {
               height: kToolbarHeight + 20,
             ),
             Container(
-              width: screenSize.width * 0.8,
-              child: Stack(
-                children: [
-                  EventFeatures(events: events),
-                  Positioned(
-                      right: 50,
-                      top: 50,
-                      child: FeaturedEventText(event: events[0])),
-                ],
-              ),
-            ),
+                width: screenSize.width * 0.8,
+                child: EventFeatures(events: widget.events)),
           ],
-        ),
+        )
       ],
     );
   }
 }
 
-class EventFeatures extends StatelessWidget {
+class EventFeatures extends StatefulWidget {
   final List<Event> events;
+  const EventFeatures({Key key, @required this.events}) : super(key: key);
 
-  const EventFeatures({
-    Key key,
-    @required this.events,
-  }) : super(key: key);
+  @override
+  _EventFeaturesState createState() => _EventFeaturesState();
+}
+
+class _EventFeaturesState extends State<EventFeatures>
+    with SingleTickerProviderStateMixin {
+  GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
+
+  AnimationController _controller;
+  Animation<double> _fadeAnimation;
+  Animation<double> _scaleAnimation;
+
+  List<Event> events = [];
+  Event event;
+
+  int count = 0;
+  double position = -300;
+
+  @override
+  void initState() {
+    widget.events.forEach((e) {
+      if (events.length < 4) {
+        events.add(e);
+      }
+    });
+
+    _controller =
+        AnimationController(vsync: this, duration: MyTheme.animationDuration);
+    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
+    _animateCard();
+    super.initState();
+  }
+
+  Future<void> _animateCard() async {
+    await Future.delayed(MyTheme.animationDuration);
+    _controller.forward();
+    setState(() {
+      position = -300;
+    });
+
+    await Future.delayed(MyTheme.animationDuration);
+
+    setState(() {
+      count++;
+      event = events[count];
+    });
+    _list.currentState.removeItem(
+        count, (_, animation) => _buildItem(context, count, animation),
+        duration: MyTheme.animationDuration);
+    events.removeAt(count);
+    events.insert(0, event);
+    _list.currentState.insertItem(0);
+    if (count >= 3) {
+      setState(() {
+        count = 0;
+      });
+    }
+    _controller.reverse();
+    setState(() {
+      position = 30;
+    });
+    await Future.delayed(Duration(seconds: 8));
+    _animateCard();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
-      width: MediaQuery.of(context).size.width * 0.55,
-      child: Row(
-        children: [
-          _inComingEvents(),
-          _heroEvent(),
-        ],
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          height: 300,
+          width: MediaQuery.of(context).size.width * 0.55,
+          child: Row(
+            children: [
+              Expanded(flex: 2, child: _inComingEvents()),
+              Expanded(flex: 7, child: _heroEvent()),
+            ],
+          ),
+        ).paddingAll(16),
+        _buildFeaturedText(),
+      ],
+    );
+  }
+
+  Widget _buildFeaturedText() {
+    return AnimatedPositioned(
+      duration: MyTheme.animationDuration,
+      right: position,
+      top: 50,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: FeaturedEventText(event: event),
       ),
-    ).paddingAll(16);
+    );
   }
 
   Widget _inComingEvents() => Container(
-        child: Column(
-          children: List.generate(
-            4,
-            (index) => ExpandImageCard(imageUrl: events[index].coverImageURL),
-          ),
+        child: AnimatedList(
+          key: _list,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          initialItemCount: events.length,
+          itemBuilder: (context, index, animation) =>
+              _buildItem(context, index, animation),
         ),
       ).paddingRight(4);
-  Widget _heroEvent() => Container(
-        child: ExpandImageCard(imageUrl: events[0].coverImageURL),
+
+  Widget _heroEvent() => Builder(
+        builder: (context) {
+          return FadeTransition(
+            opacity: _fadeAnimation,
+            child: ScaleTransition(
+              scale: _scaleAnimation,
+              child: Container(
+                child: ExpandImageCard(imageUrl: event?.coverImageURL),
+              ),
+            ),
+          );
+        },
       );
-}
 
-class ExpandImageCard extends StatelessWidget {
-  const ExpandImageCard({
-    Key key,
-    @required this.imageUrl,
-  }) : super(key: key);
-
-  final String imageUrl;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
+    return FadeTransition(
+      opacity: animation,
       child: Container(
-        width: 150,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-                fit: BoxFit.cover,
-                image: ExtendedImage.network(imageUrl ??
-                        'https://media.istockphoto.com/vectors/abstract-pop-art-line-and-dots-color-pattern-background-vector-liquid-vector-id1017781486?k=6&m=1017781486&s=612x612&w=0&h=nz4YljNqJ0xjxcdVVJge3dW3cqNakWjG7u2oFqW4tjs=')
-                    .image)),
-      ).paddingAll(4),
+        height: 75,
+        child: ExpandImageCard(
+          imageUrl: events[index].coverImageURL,
+        ),
+      ),
     );
   }
 }
@@ -124,11 +199,7 @@ class FeaturedEventText extends StatelessWidget {
           height: 225,
           width: 400,
           decoration: BoxDecoration(
-            color: MyTheme.appolloWhite.withOpacity(.1),
-            border: Border.all(
-              width: 0.5,
-              color: MyTheme.appolloWhite.withOpacity(.4),
-            ),
+            color: MyTheme.appolloDimGrey.withOpacity(.2),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
@@ -136,57 +207,63 @@ class FeaturedEventText extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    AutoSizeText(
-                      fullDate(event.date) ?? '',
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: MyTheme.appolloRed,
-                          letterSpacing: 1.5,
-                          fontSize: 12),
-                    ).paddingBottom(8),
-                    AutoSizeText(
-                      event.name ?? '',
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: MyTheme.appolloWhite),
-                    ).paddingBottom(4),
-                  ],
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AutoSizeText(
-                      """Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.""",
-                      textAlign: TextAlign.start,
-                      maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(color: MyTheme.appolloWhite, fontSize: 14),
-                    ).paddingBottom(8),
-                    AppolloButton.wideButton(
-                        heightMax: 40,
-                        heightMin: 35,
-                        color: MyTheme.appolloGreen,
-                        child: AutoSizeText('Get Your Ticket',
-                            maxLines: 2,
-                            style: Theme.of(context).textTheme.button),
-                        onTap: () {}),
-                  ],
-                ),
+                _buildDateName(context),
+                _buildDescriptionNButton(context),
               ],
             ),
           ).paddingAll(16),
         ),
       ),
+    );
+  }
+
+  Widget _buildDescriptionNButton(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        AutoSizeText(
+          """Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.""",
+          textAlign: TextAlign.start,
+          maxLines: 2,
+          style: Theme.of(context)
+              .textTheme
+              .caption
+              .copyWith(color: MyTheme.appolloWhite, fontSize: 14),
+        ).paddingBottom(8),
+        AppolloButton.wideButton(
+            heightMax: 40,
+            heightMin: 35,
+            color: MyTheme.appolloGreen,
+            child: AutoSizeText('Get Your Ticket',
+                maxLines: 2, style: Theme.of(context).textTheme.button),
+            onTap: () {}),
+      ],
+    );
+  }
+
+  Widget _buildDateName(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AutoSizeText(
+          //TODO To avoid null value I added [DateTime.now()] should be remove.
+          fullDate(event?.date ?? DateTime.now()),
+          textAlign: TextAlign.start,
+          maxLines: 2,
+          style: Theme.of(context).textTheme.headline6.copyWith(
+              color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
+        ).paddingBottom(8),
+        AutoSizeText(
+          event?.name ?? '',
+          textAlign: TextAlign.start,
+          maxLines: 2,
+          style: Theme.of(context)
+              .textTheme
+              .headline3
+              .copyWith(color: MyTheme.appolloWhite),
+        ).paddingBottom(4),
+      ],
     );
   }
 }

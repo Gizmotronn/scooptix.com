@@ -218,7 +218,7 @@ class EventCard2 extends StatelessWidget {
                     AutoSizeText(
                       event.name ?? '',
                       textAlign: TextAlign.start,
-                      maxLines: 2,
+                      maxLines: 1,
                       style: Theme.of(context).textTheme.headline5.copyWith(
                           color: MyTheme.appolloGrey,
                           fontSize: sizes.isDesktop ? null : 14),

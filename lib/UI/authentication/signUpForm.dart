@@ -13,7 +13,8 @@ class SignUpForm extends StatefulWidget {
   final FormGroup form;
   final TextTheme textTheme;
 
-  const SignUpForm({Key key, @required this.form, @required this.textTheme}) : super(key: key);
+  const SignUpForm({Key key, @required this.form, @required this.textTheme})
+      : super(key: key);
 
   @override
   _SignUpFormState createState() => _SignUpFormState();
@@ -101,8 +102,14 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
-                            watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
+                            mobile: (MyTheme.maxWidth -
+                                    MyTheme.cardPadding * 4 -
+                                    30) /
+                                3,
+                            watch: (MyTheme.maxWidth -
+                                    MyTheme.cardPadding * 4 -
+                                    30) /
+                                3),
                         child: ReactiveTextField(
                           formControlName: 'dobDay',
                           keyboardType: TextInputType.number,
@@ -124,13 +131,21 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
-                            watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
+                            mobile: (MyTheme.maxWidth -
+                                    MyTheme.cardPadding * 4 -
+                                    30) /
+                                3,
+                            watch: (MyTheme.maxWidth -
+                                    MyTheme.cardPadding * 4 -
+                                    30) /
+                                3),
                         child: ReactiveTextField(
                           formControlName: 'dobMonth',
                           validationMessages: (control) => {
-                            ValidationMessage.required: 'Please provide a month',
-                            ValidationMessage.max: 'Please provide a valid month',
+                            ValidationMessage.required:
+                                'Please provide a month',
+                            ValidationMessage.max:
+                                'Please provide a valid month',
                           },
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -147,14 +162,22 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
-                            watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
+                            mobile: (MyTheme.maxWidth -
+                                    MyTheme.cardPadding * 4 -
+                                    30) /
+                                3,
+                            watch: (MyTheme.maxWidth -
+                                    MyTheme.cardPadding * 4 -
+                                    30) /
+                                3),
                         child: ReactiveTextField(
                           formControlName: 'dobYear',
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a year',
-                            ValidationMessage.max: 'Please provide a valid year',
-                            ValidationMessage.min: 'Please provide a valid year',
+                            ValidationMessage.max:
+                                'Please provide a valid year',
+                            ValidationMessage.min:
+                                'Please provide a valid year',
                           },
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -228,12 +251,14 @@ class _SignUpFormState extends State<SignUpForm> {
                         AlertGenerator.showAlertWithChoice(
                                 context: context,
                                 title: "View Terms & Conditions",
-                                content: "The Terms & Conditions will be shown on a new page, do you want to continue?",
+                                content:
+                                    "The Terms & Conditions will be shown on a new page, do you want to continue?",
                                 buttonText1: "Show T&C",
                                 buttonText2: "Cancel")
                             .then((value) async {
                           if (value != null && value) {
-                            const url = 'https://appollo.io/terms-of-service.html';
+                            const url =
+                                'https://appollo.io/terms-of-service.html';
                             if (await canLaunch(url)) {
                               await launch(url);
                             } else {
@@ -244,7 +269,8 @@ class _SignUpFormState extends State<SignUpForm> {
                       },
                       child: Text(
                         "I accept the terms & conditions",
-                        style: widget.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
+                        style: widget.textTheme.bodyText2
+                            .copyWith(decoration: TextDecoration.underline),
                       )),
                 ],
               ),
