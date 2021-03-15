@@ -153,13 +153,21 @@ class HoverAppolloButton extends StatefulWidget {
   final Color hoverColor;
   final Color color;
   final bool fill;
+  final double minHeight;
+  final double maxHeight;
+  final double minWidth;
+  final double maxWidth;
 
   const HoverAppolloButton(
       {Key key,
       this.title,
       @required this.hoverColor,
       this.color,
-      this.fill = false})
+      this.fill = false,
+      this.minHeight,
+      this.maxHeight,
+      this.minWidth,
+      this.maxWidth})
       : super(key: key);
 
   @override
@@ -175,10 +183,10 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
       onHover: (v) => setState(() => isHover = v),
       child: ConstrainedBox(
         constraints: BoxConstraints(
-          minHeight: 45,
-          maxHeight: 45,
-          minWidth: 150,
-          maxWidth: 250,
+          minHeight: widget.minHeight ?? 45,
+          maxHeight: widget.maxHeight ?? 45,
+          minWidth: widget.minWidth ?? 150,
+          maxWidth: widget.maxWidth ?? 250,
         ),
         child: Container(
           decoration: BoxDecoration(
@@ -192,11 +200,12 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
                     : Colors.transparent,
           ),
           child: Center(
-            child: AutoSizeText(widget.title ?? '',
-                style: Theme.of(context).textTheme.button.copyWith(
-                      color:
-                          isHover ? MyTheme.appolloWhite : MyTheme.appolloGrey,
-                    )),
+            child: AutoSizeText(
+              widget.title ?? '',
+              style: Theme.of(context).textTheme.button.copyWith(
+                    color: isHover ? MyTheme.appolloWhite : widget.color,
+                  ),
+            ),
           ),
         ),
       ),

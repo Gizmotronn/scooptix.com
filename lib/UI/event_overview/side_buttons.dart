@@ -21,35 +21,12 @@ class SideButton extends StatelessWidget {
       child: Container(
         width: 115,
         height: 35,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              height: 35,
-              width: 3,
-              decoration: BoxDecoration(
-                color: isTap ? MyTheme.appolloPurple : MyTheme.appolloGrey,
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-            SizedBox(width: 10),
-            AutoSizeText(
-              title ?? '',
-              style: Theme.of(context).textTheme.button.copyWith(
-                  color: isTap ? MyTheme.appolloPurple : MyTheme.appolloGrey),
-            ),
-          ],
-        ),
-        decoration: BoxDecoration(
-          color: MyTheme.appolloWhite,
-          boxShadow: [
-            BoxShadow(
-              color: isTap ? MyTheme.appolloDimGrey : Colors.transparent,
-              spreadRadius: 3.0,
-              blurRadius: 5.0,
-            )
-          ],
-          borderRadius: BorderRadius.circular(6),
+        child: Center(
+          child: AutoSizeText(
+            title ?? '',
+            style: Theme.of(context).textTheme.button.copyWith(
+                color: isTap ? MyTheme.appolloGreen : MyTheme.appolloGrey),
+          ),
         ),
       ),
     );
