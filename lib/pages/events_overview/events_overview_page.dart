@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
+import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
 
@@ -19,6 +19,9 @@ class EventOverviewPage extends StatelessWidget {
         child: Stack(
           children: [
             EventOverviewHome(events: events),
+
+            /// TODO More Events page with fliters and map
+            // MoreEventsFliterMapPage(events: events),
             EventOverviewAppbar(),
           ],
         ),
