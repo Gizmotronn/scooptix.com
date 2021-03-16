@@ -24,3 +24,19 @@ class WhiteCard extends StatelessWidget {
         child: child ?? SizedBox());
   }
 }
+
+class WhiteCardWithNoElevation extends StatelessWidget {
+  final Widget child;
+
+  const WhiteCardWithNoElevation({Key key, this.child}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: MyTheme.appolloWhite,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: child,
+    );
+  }
+}

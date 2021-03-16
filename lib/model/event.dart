@@ -36,7 +36,9 @@ class Event {
     print(releaseId);
     for (int i = 0; i < releaseManagers.length; i++) {
       try {
-        TicketRelease tr = releaseManagers[i].releases.firstWhere((element) => element.docId == releaseId);
+        TicketRelease tr = releaseManagers[i]
+            .releases
+            .firstWhere((element) => element.docId == releaseId);
         print(tr);
         return tr;
       } catch (_) {}
@@ -162,10 +164,12 @@ class Event {
         });
       }
       if (data.containsKey("date")) {
-        event.date = DateTime.fromMillisecondsSinceEpoch(data["date"].millisecondsSinceEpoch);
+        event.date = DateTime.fromMillisecondsSinceEpoch(
+            data["date"].millisecondsSinceEpoch);
       }
       if (data.containsKey("enddate")) {
-        event.endTime = DateTime.fromMillisecondsSinceEpoch(data["enddate"].millisecondsSinceEpoch);
+        event.endTime = DateTime.fromMillisecondsSinceEpoch(
+            data["enddate"].millisecondsSinceEpoch);
       }
       event.docID = docId;
 

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/widgets/buttons/navbutton.dart';
+import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import '../theme.dart';
 import 'event_overview_home.dart';
 
 class EventOverviewNavigationBar extends StatefulWidget {
+  final EventsOverviewBloc bloc;
+
+  const EventOverviewNavigationBar({Key key, this.bloc}) : super(key: key);
   @override
   _EventOverviewNavigationBarState createState() =>
       _EventOverviewNavigationBarState();
@@ -18,8 +23,16 @@ class _EventOverviewNavigationBarState
     Menu('Today', false),
     Menu('This Weekend', false),
     Menu('This Week', false),
-    Menu('Music', false),
+    Menu('Upcoming', false),
   ];
+
+  @override
+  void initState() {
+    if (widget.bloc != null) {
+      widget.bloc.add(TabberNavEvent(index: 0, title: 'All'));
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +56,13 @@ class _EventOverviewNavigationBarState
                         _menu[i].isTap = false;
                       });
                     }
+
                     setState(() {
                       _menu[index].isTap = true;
                     });
+
+                    widget.bloc.add(TabberNavEvent(
+                        index: index, title: _menu[index].title));
                   },
                   isTap: _menu[index].isTap),
             ),

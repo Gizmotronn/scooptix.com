@@ -1,14 +1,20 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:ticketapp/UI/event_overview/event_list.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_navbar.dart';
 import 'package:ticketapp/UI/event_overview/featured_events.dart';
-import 'package:ticketapp/UI/event_overview/side_buttons.dart';
+import 'package:ticketapp/UI/event_overview/tabs/all_events.dart';
+import 'package:ticketapp/UI/event_overview/tabs/for_me.dart';
+import 'package:ticketapp/UI/event_overview/tabs/free_events.dart';
+import 'package:ticketapp/UI/event_overview/tabs/this_week.dart';
+import 'package:ticketapp/UI/event_overview/tabs/this_weekend.dart';
+import 'package:ticketapp/UI/event_overview/tabs/today_events.dart';
+import 'package:ticketapp/UI/event_overview/tabs/upcoming_event.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/cards/white_card.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewHome extends StatefulWidget {
   final List<Event> events;
@@ -23,21 +29,13 @@ class EventOverviewHome extends StatefulWidget {
 }
 
 class _EventOverviewHomeState extends State<EventOverviewHome> {
-  List<Menu> _daysMenu = [
-    Menu('Monday', true),
-    Menu('Tuesday', false),
-    Menu('Wednesday', false),
-    Menu('Thursday', false),
-    Menu('Friday', false),
-    Menu('Saturday', false),
-    Menu('Sunday', false),
-  ];
+  EventsOverviewBloc bloc = EventsOverviewBloc();
 
-  List<Menu> _weekendMenu = [
-    Menu('Friday', false),
-    Menu('Saturday', false),
-    Menu('Sunday', false),
-  ];
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +49,9 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
               child: Column(
                 children: [
                   _eventOverview(screenSize),
+                  SizedBox(height: kToolbarHeight),
                   _buildBody(screenSize),
+                  SizedBox(height: kToolbarHeight),
                   EventOverviewFooter(),
                 ],
               ),
@@ -63,25 +63,30 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   }
 
   Widget _buildBody(screenSize) {
-    return Column(
-      children: [
-        _buildEvents(screenSize),
-      ],
-    );
-  }
-
-  Widget _buildEvents(screenSize) {
-    return Column(
-      children: [
-        SizedBox(height: kToolbarHeight),
-
-        ///Weekdays tabs
-        // _daysNav(screenSize),
-        // _weekendNav(screenSize),
-        EventsForMe(),
-        AppolloEvents(events: widget.events),
-        SizedBox(height: kToolbarHeight),
-      ],
+    return BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
+      cubit: bloc,
+      builder: (context, state) {
+        print(state);
+        if (state is AllEventsState) {
+          return AllEvents(
+              events: state.allEvents, upcomingEvents: state.upcomingEvents);
+        } else if (state is FreeEventsState) {
+          return FreeEvents(events: state.freeEvents);
+        } else if (state is ForMeEventsState) {
+          return EventsForMe();
+        } else if (state is TodayEventsState) {
+          return TodayEvents(events: state.todayEvents);
+        } else if (state is ThisWeekEventsState) {
+          return ThisWeek(events: state.thisWeekEvents);
+        } else if (state is ThisWeekendEventsState) {
+          return ThisWeekend(events: state.weekendEvents);
+        } else if (state is UpcomingEventsState) {
+          return UpcomingEvents(events: state.upcomingEvents);
+        }
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 
@@ -92,70 +97,10 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FeaturedEvents(events: widget.events),
-            EventOverviewNavigationBar()
+            EventOverviewNavigationBar(bloc: bloc)
           ],
         ),
       );
-
-  Widget _daysNav(Size screenSize) {
-    return SizedBox(
-      width: screenSize.width * 0.8,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          WhiteCard(
-            child: Row(
-              children: List.generate(
-                _daysMenu.length,
-                (index) => SideButton(
-                  title: _daysMenu[index].title,
-                  isTap: _daysMenu[index].isTap,
-                  onTap: () {
-                    setState(() {
-                      for (var i = 0; i < _daysMenu.length; i++) {
-                        _daysMenu[i].isTap = false;
-                      }
-                      _daysMenu[index].isTap = true;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _weekendNav(Size screenSize) {
-    return SizedBox(
-      width: screenSize.width * 0.8,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          WhiteCard(
-            child: Row(
-              children: List.generate(
-                _weekendMenu.length,
-                (index) => SideButton(
-                  title: _weekendMenu[index].title,
-                  isTap: _weekendMenu[index].isTap,
-                  onTap: () {
-                    setState(() {
-                      for (var i = 0; i < _weekendMenu.length; i++) {
-                        _weekendMenu[i].isTap = false;
-                      }
-                      _weekendMenu[index].isTap = true;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ).paddingTop(8);
-  }
 }
 
 class Menu {
