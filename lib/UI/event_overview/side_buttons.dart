@@ -19,14 +19,14 @@ class SideButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 115,
+        width: 130,
         height: 35,
         child: Center(
           child: AutoSizeText(
             title ?? '',
             style: Theme.of(context).textTheme.button.copyWith(
                 color: isTap ? MyTheme.appolloGreen : MyTheme.appolloGrey),
-          ),
+          ).paddingHorizontal(8),
         ),
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
@@ -20,19 +21,32 @@ class ThisWeek extends StatefulWidget {
 }
 
 class _ThisWeekState extends State<ThisWeek> {
-  List<Menu> _daysMenu = [
-    Menu('Monday', true),
-    Menu('Tuesday', false),
-    Menu('Wednesday', false),
-    Menu('Thursday', false),
-    Menu('Friday', false),
-    Menu('Saturday', false),
-    Menu('Sunday', false),
-  ];
+  List<Menu> _daysMenu = [];
+  @override
+  void initState() {
+    final now = DateTime.now();
+    final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
+    _daysMenu = List.generate(7, (index) => index)
+        .map(
+          (value) => Menu(
+              "${DateFormat(DateFormat.WEEKDAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}",
+              DateFormat(DateFormat.DAY, 'en_US')
+                  .format(firstDayOfWeek.add(Duration(days: value)))
+                  .contains(DateFormat(DateFormat.DAY, 'en_US')
+                      .format(DateTime.now())),
+              subtitle:
+                  ' ${DateFormat(DateFormat.DAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}',
+              fullDate:
+                  ' ${DateFormat('d MMM y', 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}'),
+        )
+        .toList();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+
     return Container(
       width: screenSize.width * 0.8,
       child: Column(
@@ -57,7 +71,8 @@ class _ThisWeekState extends State<ThisWeek> {
                         child: Column(
                           children: [
                             _eventTags(context,
-                                tag: "${_daysMenu[index].title}'s Event"),
+                                tag:
+                                    "${_daysMenu[index].title}'s Events | ${_daysMenu[index].fullDate}"),
                             AppolloEvents(
                               events: widget.events
                                   .where((event) => fullDate(event.date)
@@ -106,7 +121,7 @@ class _ThisWeekState extends State<ThisWeek> {
         children: List.generate(
           _daysMenu.length,
           (index) => SideButton(
-            title: _daysMenu[index].title,
+            title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
             isTap: _daysMenu[index].isTap,
             onTap: () {
               setState(() {

@@ -97,6 +97,9 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
 
 class Menu {
   String title;
+  String subtitle;
+  String fullDate;
+
   bool isTap;
-  Menu(this.title, this.isTap);
+  Menu(this.title, this.isTap, {this.subtitle, this.fullDate});
 }

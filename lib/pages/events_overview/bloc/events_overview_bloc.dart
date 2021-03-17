@@ -65,7 +65,7 @@ class EventsOverviewBloc
 
       yield ThisWeekendEventsState(EventsRepository.instance.events
           .where((event) =>
-              event.date.isAfter(DateTime.now().add(Duration(days: 3))))
+              event.date.isBefore(DateTime.now().add(Duration(days: 14))))
           .toList());
     } else if (event.index == 5) {
       yield LoadingEventsState();
