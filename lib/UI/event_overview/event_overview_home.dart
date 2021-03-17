@@ -48,10 +48,8 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
             child: Container(
               child: Column(
                 children: [
-                  _eventOverview(screenSize),
-                  SizedBox(height: kToolbarHeight),
-                  _buildBody(screenSize),
-                  SizedBox(height: kToolbarHeight),
+                  _eventOverview(screenSize).paddingBottom(16),
+                  _buildBody(screenSize).paddingBottom(16),
                   EventOverviewFooter(),
                 ],
               ),
@@ -90,7 +88,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
     );
   }
 
-  _eventOverview(Size screenSize) => Container(
+  Widget _eventOverview(Size screenSize) => Container(
         color: MyTheme.appolloBlack,
         width: screenSize.width,
         child: Column(

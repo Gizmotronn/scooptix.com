@@ -30,9 +30,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: kToolbarHeight + 20,
-            ),
+            SizedBox(height: kToolbarHeight + 20),
             Container(
                 width: screenSize.width * 0.8,
                 child: EventFeatures(events: widget.events)),
@@ -125,7 +123,7 @@ class _EventFeaturesState extends State<EventFeatures>
       clipBehavior: Clip.none,
       children: [
         Container(
-          height: 300,
+          height: MediaQuery.of(context).size.height * 0.4,
           width: MediaQuery.of(context).size.width * 0.55,
           child: Row(
             children: [
@@ -143,7 +141,7 @@ class _EventFeaturesState extends State<EventFeatures>
     return AnimatedPositioned(
       duration: MyTheme.animationDuration,
       right: position,
-      top: 50,
+      top: 70,
       child: FadeTransition(
         opacity: _fadeAnimation,
         child: FeaturedEventText(event: event),
@@ -181,7 +179,7 @@ class _EventFeaturesState extends State<EventFeatures>
     return FadeTransition(
       opacity: animation,
       child: Container(
-        height: 75,
+        height: 83,
         child: ExpandImageCard(
           imageUrl: events[index].coverImageURL,
         ),
@@ -207,7 +205,7 @@ class FeaturedEventText extends StatelessWidget {
           height: 225,
           width: 400,
           decoration: BoxDecoration(
-            color: MyTheme.appolloDimGrey.withOpacity(.2),
+            color: MyTheme.appolloGrey.withOpacity(.4),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
@@ -273,7 +271,7 @@ class FeaturedEventText extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline3
-              .copyWith(color: MyTheme.appolloGreen),
+              .copyWith(color: MyTheme.appolloWhite),
         ).paddingBottom(4),
       ],
     );

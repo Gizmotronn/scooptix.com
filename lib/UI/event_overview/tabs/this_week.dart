@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/white_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
@@ -58,10 +59,17 @@ class _ThisWeekState extends State<ThisWeek> {
                             _eventTags(context,
                                 tag: "${_daysMenu[index].title}'s Event"),
                             AppolloEvents(
-                                events: widget.events
-                                    .where((event) => fullDate(event.date)
-                                        .contains(_daysMenu[index].title))
-                                    .toList()),
+                              events: widget.events
+                                  .where((event) => fullDate(event.date)
+                                      .contains(_daysMenu[index].title))
+                                  .toList(),
+                            ),
+                            HoverAppolloButton(
+                              title: 'See More Events',
+                              color: MyTheme.appolloGreen,
+                              hoverColor: MyTheme.appolloGreen,
+                              fill: false,
+                            ).paddingBottom(16),
                           ],
                         ),
                       ),

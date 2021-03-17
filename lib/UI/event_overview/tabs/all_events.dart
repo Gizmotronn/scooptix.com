@@ -61,11 +61,11 @@ class AllEvents extends StatelessWidget {
                     ),
                   ]),
             ),
-            AutoSizeText(events.length.toString() ?? '',
+            AutoSizeText("${events.length.toString()} Events",
                 style: Theme.of(context)
                     .textTheme
                     .headline3
-                    .copyWith(color: MyTheme.appolloLightGrey)),
+                    .copyWith(color: MyTheme.appolloDimGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);
