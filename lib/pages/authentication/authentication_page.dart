@@ -31,7 +31,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
 
   @override
   void initState() {
-    signUpBloc = AuthenticationBloc(widget.linkType);
+    signUpBloc = AuthenticationBloc();
     signUpBloc.add(EventPageLoad());
     TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
     super.initState();

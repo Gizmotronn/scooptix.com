@@ -137,7 +137,7 @@ class EventsRepository {
         QuerySnapshot releaseManagerSnapshot =
             await FirebaseFirestore.instance.collection("ticketevents").doc(e.id).collection("release_managers").get();
 
-        if (event != null) {
+        if (ticketEventSnapshot.exists) {
           event.feePercent =
               ticketEventSnapshot.data().containsKey("fee_percent") ? ticketEventSnapshot.data()["fee_percent"] : 10.0;
         }

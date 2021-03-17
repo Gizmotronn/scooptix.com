@@ -17,9 +17,7 @@ part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc(this.linkType) : super(StateInitial());
-
-  final LinkType linkType;
+  AuthenticationBloc() : super(StateInitial());
 
   @override
   Stream<AuthenticationState> mapEventToState(
