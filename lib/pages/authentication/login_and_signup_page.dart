@@ -587,6 +587,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     InkWell(
                         onTap: () {
                           Navigator.pop(context);
+                          widget.bloc.add(OnTapCloseSignEvent());
                         },
                         child: Icon(
                           Icons.close,

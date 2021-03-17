@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/widgets/buttons/navbutton.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import '../theme.dart';

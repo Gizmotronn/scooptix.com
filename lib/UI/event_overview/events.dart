@@ -15,7 +15,6 @@ class AppolloEvents extends StatelessWidget {
       child: Wrap(
         spacing: 0,
         runSpacing: 0,
-        alignment: WrapAlignment.spaceEvenly,
         children: List.generate(events.length, (index) {
           return EventCard(
             event: events[index],

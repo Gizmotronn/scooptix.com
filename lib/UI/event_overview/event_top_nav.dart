@@ -3,12 +3,16 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
+import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
+import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
 class EventOverviewAppbar extends StatefulWidget {
+  final AuthenticationBloc bloc;
+
+  const EventOverviewAppbar({Key key, this.bloc}) : super(key: key);
   @override
   _EventOverviewAppbarState createState() => _EventOverviewAppbarState();
 }
@@ -77,10 +81,10 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
                       color: MyTheme.appolloWhite.withOpacity(.4),
-                      width: 0.5,
+                      width: 0.2,
                     ),
-                    borderRadius: BorderRadius.circular(4)),
-                color: Theme.of(context).canvasColor.withOpacity(.5)),
+                    borderRadius: BorderRadius.circular(2)),
+                color: MyTheme.appolloGrey.withOpacity(.5)),
             child: Stack(
               children: [
                 Row(
@@ -253,17 +257,17 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         ),
       ));
 
-  Widget _signInButton(context) => AppolloButton.smallButton(
-      width: 100,
-      color: MyTheme.appolloYellow,
-      fill: false,
-      border: true,
-      child: Center(
-        child: Text(
-          'Sign In',
-          style: Theme.of(context).textTheme.button.copyWith(
-              fontWeight: FontWeight.w500, color: MyTheme.appolloYellow),
+  Widget _signInButton(context) => Center(
+        child: InkWell(
+          onTap: () {
+            widget.bloc.add(OnTapSignEvent());
+            Scaffold.of(context).openEndDrawer();
+          },
+          child: Text(
+            'Sign In',
+            style: Theme.of(context).textTheme.button.copyWith(
+                fontWeight: FontWeight.w500, color: MyTheme.appolloWhite),
+          ),
         ),
-      ),
-      onTap: () {});
+      );
 }

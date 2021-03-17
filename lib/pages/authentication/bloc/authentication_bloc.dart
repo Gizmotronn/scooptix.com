@@ -16,7 +16,8 @@ import 'package:ticketapp/services/firebase.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc(this.linkType) : super(StateInitial());
 
   final LinkType linkType;
@@ -30,7 +31,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else if (event is EventLoginPressed) {
       yield* _loginExistingUser(event.email, event.pw);
     } else if (event is EventCreateNewUser) {
-      yield* _createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, event.uid);
+      yield* _createUser(event.email, event.pw, event.firstName, event.lastName,
+          event.dob, event.gender, event.uid);
     } else if (event is EventChangeEmail) {
       yield StateInitial();
     } else if (event is EventGoogleSignIn) {
@@ -50,6 +52,10 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else if (event is EventSSOEmailsConfirmed) {
       // SSO doesn't require a password so go straight to the PWConfirmed state
       yield StatePasswordsConfirmed(event.uid);
+    } else if (event is OnTapCloseSignEvent) {
+      yield StateInitial();
+    } else if (event is OnTapSignEvent) {
+      yield SignInState();
     }
   }
 
@@ -66,7 +72,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     }
   }
 
-  Stream<AuthenticationState> _loginExistingUser(String email, String pw) async* {
+  Stream<AuthenticationState> _loginExistingUser(
+      String email, String pw) async* {
     yield StateLoadingLogin();
     auth.User fbUser = await FBServices.instance.logIn(email, pw);
     if (fbUser == null) {
@@ -74,8 +81,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else {
       await UserRepository.instance.getUser(fbUser.uid);
 
-      yield StateLoggedIn(
-          email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+      yield StateLoggedIn(email, UserRepository.instance.currentUser.firstname,
+          UserRepository.instance.currentUser.lastname);
     }
   }
 
@@ -83,20 +90,29 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   /// For email / password uid should be null
   /// For SSO password should be empty and uid should be the uid returned by the SSO
   Stream<AuthenticationState> _createUser(
-      String email, String pw, String firstName, String lastName, DateTime dob, Gender gender, String uid) async* {
+      String email,
+      String pw,
+      String firstName,
+      String lastName,
+      DateTime dob,
+      Gender gender,
+      String uid) async* {
     if (uid == null && pw.length < 8) {
       // Notify UI about error and revert to previous state
       yield StateErrorSignUp(SignUpError.Password);
       yield StateNewUserEmail();
     } else {
       yield StateLoadingCreateUser();
-      await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
+      await UserRepository.instance
+          .createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
       if (UserRepository.instance.currentUser == null) {
         // Notify UI about error and revert to previous state
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StatePasswordsConfirmed(uid);
       } else {
-        yield StateLoggedIn(UserRepository.instance.currentUser.email, UserRepository.instance.currentUser.firstname,
+        yield StateLoggedIn(
+            UserRepository.instance.currentUser.email,
+            UserRepository.instance.currentUser.firstname,
             UserRepository.instance.currentUser.lastname);
       }
     }
@@ -112,23 +128,30 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      auth.UserCredential authResult = await auth.FirebaseAuth.instance.signInWithCredential(credential);
+      auth.UserCredential authResult =
+          await auth.FirebaseAuth.instance.signInWithCredential(credential);
       auth.User fbUser = authResult.user;
       // If authentication was successful
       if (fbUser != null) {
         await UserRepository.instance.getUser(fbUser.uid);
         if (UserRepository.instance.currentUser == null) {
-          String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
-          String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
+          String firstName = fbUser.displayName != null
+              ? fbUser.displayName.split(" ")[0]
+              : "";
+          String lastName = fbUser.displayName != null &&
+                  fbUser.displayName.split(" ").length > 1
               ? fbUser.displayName.split(" ")[1]
               : "";
           yield StateNewSSOUser(gUser.email, fbUser.uid, firstName, lastName);
         } else {
           yield StateLoggedIn(
-              gUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+              gUser.email,
+              UserRepository.instance.currentUser.firstname,
+              UserRepository.instance.currentUser.lastname);
         }
       } else {
-        BugsnagNotifier.instance.notify("Error signing in with Google.", StackTrace.empty);
+        BugsnagNotifier.instance
+            .notify("Error signing in with Google.", StackTrace.empty);
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
       }
@@ -146,13 +169,17 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   Stream<AuthenticationState> _signInWithApple() async* {
     yield StateLoadingSSO();
     try {
-      auth.User fbUser = await FirebaseAuthOAuth().openSignInFlow("apple.com", ["email"]);
+      auth.User fbUser =
+          await FirebaseAuthOAuth().openSignInFlow("apple.com", ["email"]);
       if (fbUser != null) {
         User user = await UserRepository.instance.getUser(fbUser.uid);
         // New user
         if (user == null) {
-          String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
-          String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
+          String firstName = fbUser.displayName != null
+              ? fbUser.displayName.split(" ")[0]
+              : "";
+          String lastName = fbUser.displayName != null &&
+                  fbUser.displayName.split(" ").length > 1
               ? fbUser.displayName.split(" ")[1]
               : "";
           yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
@@ -161,7 +188,8 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
           yield StateLoggedIn(fbUser.email, user.firstname, user.lastname);
         }
       } else {
-        BugsnagNotifier.instance.notify("Error signing in with Apple.", StackTrace.empty);
+        BugsnagNotifier.instance
+            .notify("Error signing in with Apple.", StackTrace.empty);
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
       }
@@ -177,20 +205,26 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   Stream<AuthenticationState> _signInWithFacebook() async* {
     yield StateLoadingSSO();
     final facebookSignIn = FacebookLoginWeb();
-    final FacebookLoginResult result = await facebookSignIn.logIn(['email', 'public_profile']);
+    final FacebookLoginResult result =
+        await facebookSignIn.logIn(['email', 'public_profile']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        auth.User fbUser = await FBServices.instance.signInWithFacebook(result.accessToken.token);
+        auth.User fbUser = await FBServices.instance
+            .signInWithFacebook(result.accessToken.token);
         if (fbUser != null) {
           User user = await UserRepository.instance.getUser(fbUser.uid);
           // New user
           if (user == null) {
-            String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
-            String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
+            String firstName = fbUser.displayName != null
+                ? fbUser.displayName.split(" ")[0]
+                : "";
+            String lastName = fbUser.displayName != null &&
+                    fbUser.displayName.split(" ").length > 1
                 ? fbUser.displayName.split(" ")[1]
                 : "";
-            yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
+            yield StateNewSSOUser(
+                fbUser.email, fbUser.uid, firstName, lastName);
           } else {
             // Existing User
 
@@ -211,8 +245,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       case FacebookLoginStatus.error:
         print('Something went wrong with the login process.\n'
             'Here\'s the error Facebook gave us: ${result.errorMessage}');
-        BugsnagNotifier.instance
-            .notify("Error signing in with Facebook. Facebook error: ${result.errorMessage}", StackTrace.empty);
+        BugsnagNotifier.instance.notify(
+            "Error signing in with Facebook. Facebook error: ${result.errorMessage}",
+            StackTrace.empty);
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
         break;
@@ -234,14 +269,18 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
       // Using SSO it's possible the user has an auth account but no user document
       if (UserRepository.instance.currentUser == null) {
-        String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
-        String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
+        String firstName =
+            fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
+        String lastName = fbUser.displayName != null &&
+                fbUser.displayName.split(" ").length > 1
             ? fbUser.displayName.split(" ")[1]
             : "";
         yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
       } else {
         yield StateAutoLoggedIn(
-            fbUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+            fbUser.email,
+            UserRepository.instance.currentUser.firstname,
+            UserRepository.instance.currentUser.lastname);
       }
     }
   }

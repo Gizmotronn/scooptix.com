@@ -18,10 +18,12 @@ import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewHome extends StatefulWidget {
   final List<Event> events;
+  final EventsOverviewBloc bloc;
 
   const EventOverviewHome({
     Key key,
     this.events,
+    this.bloc,
   }) : super(key: key);
 
   @override
@@ -29,14 +31,6 @@ class EventOverviewHome extends StatefulWidget {
 }
 
 class _EventOverviewHomeState extends State<EventOverviewHome> {
-  EventsOverviewBloc bloc = EventsOverviewBloc();
-
-  @override
-  void dispose() {
-    bloc.close();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -62,7 +56,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
 
   Widget _buildBody(screenSize) {
     return BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
-      cubit: bloc,
+      cubit: widget.bloc,
       builder: (context, state) {
         print(state);
         if (state is AllEventsState) {
@@ -95,7 +89,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FeaturedEvents(events: widget.events),
-            EventOverviewNavigationBar(bloc: bloc)
+            EventOverviewNavigationBar(bloc: widget.bloc)
           ],
         ),
       );

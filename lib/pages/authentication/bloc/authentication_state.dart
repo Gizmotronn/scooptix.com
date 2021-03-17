@@ -56,11 +56,16 @@ class StateLoggedIn extends AuthenticationState {
 
 /// Use this for logging in users with saved sessions
 class StateAutoLoggedIn extends StateLoggedIn {
-  StateAutoLoggedIn(email, firstName, lastName) : super(email, firstName, lastName);
+  StateAutoLoggedIn(email, firstName, lastName)
+      : super(email, firstName, lastName);
 }
 
 class StateErrorSignUp extends AuthenticationState {
   final SignUpError error;
 
   const StateErrorSignUp(this.error);
+}
+
+class SignInState extends AuthenticationState {
+  const SignInState();
 }
