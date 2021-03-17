@@ -7,6 +7,8 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/link_type/overview.dart';
+import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
 class FeaturedEvents extends StatefulWidget {
@@ -243,7 +245,11 @@ class FeaturedEventText extends StatelessWidget {
             color: MyTheme.appolloGreen,
             child: AutoSizeText('Get Your Ticket',
                 maxLines: 2, style: Theme.of(context).textTheme.button),
-            onTap: () {}),
+            onTap: () {
+              final overviewLinkType = OverviewLinkType(event);
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => AuthenticationPage(overviewLinkType)));
+            }),
       ],
     );
   }
@@ -267,7 +273,7 @@ class FeaturedEventText extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .headline3
-              .copyWith(color: MyTheme.appolloWhite),
+              .copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(4),
       ],
     );

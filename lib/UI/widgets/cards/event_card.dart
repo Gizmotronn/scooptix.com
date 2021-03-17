@@ -5,6 +5,8 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/link_type/overview.dart';
+import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
 import '../../theme.dart';
@@ -114,7 +116,12 @@ class EventCard extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: CardButton(
                     title: 'View Event',
-                    onTap: () {},
+                    onTap: () {
+                      final overviewLinkType = OverviewLinkType(event);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) =>
+                              AuthenticationPage(overviewLinkType)));
+                    },
                   ),
                 ),
               ],
@@ -241,7 +248,12 @@ class EventCard2 extends StatelessWidget {
                         flex: 6,
                         child: CardButton(
                           title: 'View Event',
-                          onTap: () {},
+                          onTap: () {
+                            final overviewLinkType = OverviewLinkType(event);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) =>
+                                    AuthenticationPage(overviewLinkType)));
+                          },
                           borderRadius: BorderRadius.only(
                               bottomRight: Radius.circular(12)),
                         ),
