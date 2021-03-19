@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
+import 'package:ticketapp/UI/widgets/cards/no_events.dart';
 import 'package:ticketapp/UI/widgets/cards/white_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
@@ -53,6 +54,10 @@ class _ThisWeekendState extends State<ThisWeekend> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    if (widget.events.isEmpty) {
+      return NoEvents();
+    }
+
     return Container(
       width: screenSize.width * 0.8,
       child: Column(

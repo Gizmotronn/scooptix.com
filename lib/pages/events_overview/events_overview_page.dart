@@ -6,7 +6,6 @@ import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/pages/event_details/desktop_view_drawer.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';

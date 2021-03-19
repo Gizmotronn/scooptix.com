@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
+import 'package:ticketapp/UI/widgets/cards/no_events.dart';
 import 'package:ticketapp/UI/widgets/cards/white_card.dart';
 import 'package:ticketapp/model/event.dart';
 
@@ -14,6 +15,10 @@ class FreeEvents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    if (events.isEmpty) {
+      return NoEvents();
+    }
+
     return Container(
       width: screenSize.width * 0.8,
       child: Column(

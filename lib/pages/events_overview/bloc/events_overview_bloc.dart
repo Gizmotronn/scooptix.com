@@ -49,7 +49,7 @@ class EventsOverviewBloc
         List<TicketRelease> release = event.getAllReleases();
 
         release.forEach((r) {
-          if (r.price <= 0) {
+          if (r.price == 0) {
             events.add(event);
           }
         });

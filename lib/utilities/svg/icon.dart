@@ -15,4 +15,5 @@ class AppolloSvgIcon {
   static String person = 'icons/person.svg';
   static String calender = 'icons/calender.svg';
   static String calenderOutline = 'icons/calender_outline.svg';
+  static String noEvent = 'icons/no_events.svg';
 }

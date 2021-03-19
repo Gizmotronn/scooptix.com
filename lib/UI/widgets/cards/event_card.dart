@@ -15,11 +15,7 @@ import '../buttons/card_button.dart';
 class EventCard extends StatelessWidget {
   final Event event;
 
-  const EventCard({
-    Key key,
-    this.event,
-  }) : super(key: key);
-
+  const EventCard({Key key, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
@@ -66,7 +62,7 @@ class EventCard extends StatelessWidget {
 
     event.getTicketReleases().forEach((releases) {
       prices.add(releases?.price);
-      if (releases?.ticketsLeft() == null || releases.ticketsLeft() < 1) {
+      if (releases?.ticketsLeft() == null || releases.ticketsLeft() <= 0) {
         isSoldOut = true;
       }
     });

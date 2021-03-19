@@ -57,12 +57,6 @@ class _WhiteCardWithNoElevationState extends State<WhiteCardWithNoElevation> {
 
   @override
   Widget build(BuildContext context) {
-    final keyContext = widgetKey.currentContext;
-    if (keyContext != null) {
-      // widget is visible
-      final box = keyContext.findRenderObject() as RenderBox;
-      final pos = box.localToGlobal(Offset.zero);
-    }
     return Container(
       key: widgetKey,
       decoration: BoxDecoration(

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';
 import 'package:ticketapp/UI/theme.dart';

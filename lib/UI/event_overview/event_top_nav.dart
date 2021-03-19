@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
-import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 import 'package:websafe_svg/websafe_svg.dart';
 
