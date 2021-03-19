@@ -13,8 +13,10 @@ import '../event_overview_home.dart';
 
 class ThisWeekend extends StatefulWidget {
   final List<Event> events;
+  final ScrollController scrollController;
 
-  const ThisWeekend({Key key, this.events}) : super(key: key);
+  const ThisWeekend({Key key, this.events, this.scrollController})
+      : super(key: key);
 
   @override
   _ThisWeekendState createState() => _ThisWeekendState();
@@ -30,7 +32,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
   @override
   void initState() {
     final now = DateTime.now();
-    final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 3));
+    final firstDayOfWeek = now.subtract(Duration(days: now.weekday - 5));
     _weekendMenu = List.generate(3, (index) => index)
         .map(
           (value) => Menu(
@@ -122,6 +124,11 @@ class _ThisWeekendState extends State<ThisWeekend> {
                     }
                     _weekendMenu[index].isTap = true;
                   });
+
+                  widget.scrollController.animateTo(
+                      widget.scrollController.position.maxScrollExtent,
+                      curve: Curves.linear,
+                      duration: Duration(milliseconds: 300));
                 },
               ),
             ),

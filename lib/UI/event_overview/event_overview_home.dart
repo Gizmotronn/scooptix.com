@@ -39,6 +39,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
       children: [
         Expanded(
           child: SingleChildScrollView(
+            controller: widget.bloc.scrollController,
             child: Container(
               child: Column(
                 children: [
@@ -69,9 +70,13 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         } else if (state is TodayEventsState) {
           return TodayEvents(events: state.todayEvents);
         } else if (state is ThisWeekEventsState) {
-          return ThisWeek(events: state.thisWeekEvents);
+          return ThisWeek(
+              events: state.thisWeekEvents,
+              scrollController: widget.bloc.scrollController);
         } else if (state is ThisWeekendEventsState) {
-          return ThisWeekend(events: state.weekendEvents);
+          return ThisWeekend(
+              events: state.weekendEvents,
+              scrollController: widget.bloc.scrollController);
         } else if (state is UpcomingEventsState) {
           return UpcomingEvents(events: state.upcomingEvents);
         }
@@ -99,7 +104,8 @@ class Menu {
   String title;
   String subtitle;
   String fullDate;
+  double pixel;
 
   bool isTap;
-  Menu(this.title, this.isTap, {this.subtitle, this.fullDate});
+  Menu(this.title, this.isTap, {this.subtitle, this.fullDate, this.pixel});
 }

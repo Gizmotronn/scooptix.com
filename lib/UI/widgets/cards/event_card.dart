@@ -53,10 +53,37 @@ class EventCard extends StatelessWidget {
               ),
             ),
           ).paddingAll(12),
-          _buildTag(context, tag: 'Free', isSoldOut: false)
+          _tag(context)
         ],
       );
     });
+  }
+
+  Widget _tag(BuildContext context) {
+    List prices = [];
+
+    bool isSoldOut = false;
+
+    event.getTicketReleases().forEach((releases) {
+      prices.add(releases?.price);
+      if (releases?.ticketsLeft() == null || releases.ticketsLeft() < 1) {
+        isSoldOut = true;
+      }
+    });
+    prices.sort((a, b) => a.compareTo(b));
+
+    int minPrice = prices?.first == null ? 0 : prices.first;
+    int maxPrice = prices?.last == null ? 0 : prices.last;
+
+    bool checkSamePrice = minPrice == maxPrice;
+
+    return _buildTag(
+      context,
+      tag: maxPrice < 1
+          ? "Free"
+          : (checkSamePrice ? "\$$maxPrice" : "\$$minPrice - \$$maxPrice"),
+      isSoldOut: isSoldOut,
+    );
   }
 
   Widget _buildTag(BuildContext context, {String tag, bool isSoldOut = false}) {

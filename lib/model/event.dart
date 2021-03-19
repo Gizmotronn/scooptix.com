@@ -32,6 +32,36 @@ class Event {
   String ticketCheckoutMessage;
   double feePercent = 10.0;
 
+  List<TicketRelease> getTicketReleases() {
+    List<TicketRelease> release = [];
+    for (int i = 0; i < releaseManagers.length; i++) {
+      release.add(releaseManagers[i].getActiveRelease());
+    }
+    return release;
+  }
+
+  // bool getFreeTicket() {
+  //   List<int> price = [];
+  //   for (int i = 0; i < releaseManagers.length; i++) {
+  //     List<TicketRelease> releases = releaseManagers[i].releases;
+
+  //     for (int index = 0; index < releases.length; index++) {
+  //      release = releases[index].ticketsLeft();
+
+  //   }
+  //   }
+  //   return release;
+  // }
+
+  bool isTicketSoldOut() {
+    bool isSoldOut = false;
+    for (int i = 0; i < releaseManagers.length; i++) {
+      ReleaseManager manager = releaseManagers[i];
+      isSoldOut = manager.releases[0].ticketsLeft() < 1 ? true : false;
+    }
+    return isSoldOut;
+  }
+
   TicketRelease getRelease(String releaseId) {
     print(releaseId);
     for (int i = 0; i < releaseManagers.length; i++) {

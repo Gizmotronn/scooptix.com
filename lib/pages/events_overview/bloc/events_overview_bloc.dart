@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
@@ -14,9 +15,14 @@ class EventsOverviewBloc
     extends Bloc<EventsOverviewEvent, EventsOverviewState> {
   Event selectedEvent;
 
+  ScrollController _scrollcontroller = ScrollController();
+
+  ScrollController get scrollController => _scrollcontroller;
+
   EventsOverviewBloc() : super(LoadingEventsState());
   @override
   Future<void> close() {
+    _scrollcontroller.dispose();
     EventsRepository.instance.dispose();
     return super.close();
   }
@@ -58,21 +64,21 @@ class EventsOverviewBloc
     } else if (event.index == 3) {
       yield LoadingEventsState();
       yield TodayEventsState(EventsRepository.instance.events
-          .where((event) => event.date == DateTime.now())
+          .where((event) => event.date.day == DateTime.now().day)
           .toList());
     } else if (event.index == 4) {
       yield LoadingEventsState();
 
       yield ThisWeekendEventsState(EventsRepository.instance.events
           .where((event) =>
-              event.date.isBefore(DateTime.now().add(Duration(days: 14))))
+              event.date.isBefore(DateTime.now().add(Duration(days: 7))))
           .toList());
     } else if (event.index == 5) {
       yield LoadingEventsState();
 
       yield ThisWeekEventsState(EventsRepository.instance.events
           .where((event) =>
-              event.date.isBefore(DateTime.now().add(Duration(days: 7))))
+              event.date.isBefore(DateTime.now().add(Duration(days: 14))))
           .toList());
     } else if (event.index == 6) {
       yield LoadingEventsState();

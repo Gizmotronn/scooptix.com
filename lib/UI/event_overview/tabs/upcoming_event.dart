@@ -29,8 +29,7 @@ class UpcomingEvents extends StatelessWidget {
                 AppolloEvents(events: events),
               ],
             ),
-          ),
-          const SizedBox(height: kToolbarHeight),
+          ).paddingBottom(16),
           HoverAppolloButton(
             title: 'See More Events',
             color: MyTheme.appolloGreen,

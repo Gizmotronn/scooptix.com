@@ -25,7 +25,11 @@ class SideButton extends StatelessWidget {
           child: AutoSizeText(
             title ?? '',
             style: Theme.of(context).textTheme.button.copyWith(
-                color: isTap ? MyTheme.appolloGreen : MyTheme.appolloGrey),
+                color: isTap
+                    ? MyTheme.appolloGreen
+                    : onTap == null
+                        ? MyTheme.appolloDimGrey
+                        : MyTheme.appolloGrey),
           ).paddingHorizontal(8),
         ),
       ),

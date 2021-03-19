@@ -13,8 +13,10 @@ import '../event_overview_home.dart';
 
 class ThisWeek extends StatefulWidget {
   final List<Event> events;
+  final ScrollController scrollController;
 
-  const ThisWeek({Key key, this.events}) : super(key: key);
+  const ThisWeek({Key key, this.events, this.scrollController})
+      : super(key: key);
 
   @override
   _ThisWeekState createState() => _ThisWeekState();
@@ -68,6 +70,11 @@ class _ThisWeekState extends State<ThisWeek> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       WhiteCardWithNoElevation(
+                        boxHeight: (v) {
+                          setState(() {
+                            _daysMenu[index].pixel = v;
+                          });
+                        },
                         child: Column(
                           children: [
                             _eventTags(context,
@@ -123,14 +130,25 @@ class _ThisWeekState extends State<ThisWeek> {
           (index) => SideButton(
             title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
             isTap: _daysMenu[index].isTap,
-            onTap: () {
-              setState(() {
-                for (var i = 0; i < _daysMenu.length; i++) {
-                  _daysMenu[i].isTap = false;
-                }
-                _daysMenu[index].isTap = true;
-              });
-            },
+            onTap: widget.events
+                    .where((event) =>
+                        fullDate(event.date).contains(_daysMenu[index].title))
+                    .toList()
+                    .isEmpty
+                ? null
+                : () async {
+                    setState(() {
+                      for (var i = 0; i < _daysMenu.length; i++) {
+                        _daysMenu[i].isTap = false;
+                      }
+                      _daysMenu[index].isTap = true;
+                    });
+
+                    await widget.scrollController.animateTo(
+                        _daysMenu[index].pixel + 50,
+                        curve: Curves.linear,
+                        duration: Duration(milliseconds: 300));
+                  },
           ),
         ),
       ),

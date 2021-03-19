@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 import '../../theme.dart';
 
@@ -25,18 +26,50 @@ class WhiteCard extends StatelessWidget {
   }
 }
 
-class WhiteCardWithNoElevation extends StatelessWidget {
+class WhiteCardWithNoElevation extends StatefulWidget {
   final Widget child;
+  final Function(double pixel) boxHeight;
 
-  const WhiteCardWithNoElevation({Key key, this.child}) : super(key: key);
+  const WhiteCardWithNoElevation({Key key, this.child, this.boxHeight})
+      : super(key: key);
+
+  @override
+  _WhiteCardWithNoElevationState createState() =>
+      _WhiteCardWithNoElevationState();
+}
+
+class _WhiteCardWithNoElevationState extends State<WhiteCardWithNoElevation> {
+  GlobalKey widgetKey = GlobalKey();
+
+  double height = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.boxHeight != null) {
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        final box = widgetKey.currentContext.findRenderObject() as RenderBox;
+        height = box.size.height;
+        widget.boxHeight(height);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final keyContext = widgetKey.currentContext;
+    if (keyContext != null) {
+      // widget is visible
+      final box = keyContext.findRenderObject() as RenderBox;
+      final pos = box.localToGlobal(Offset.zero);
+    }
     return Container(
+      key: widgetKey,
       decoration: BoxDecoration(
         color: MyTheme.appolloWhite,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: child,
+      child: widget.child,
     );
   }
 }
