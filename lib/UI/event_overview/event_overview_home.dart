@@ -93,7 +93,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            FeaturedEvents(events: widget.events),
+            FeaturedEvents(),
             EventOverviewNavigationBar(bloc: widget.bloc)
           ],
         ),

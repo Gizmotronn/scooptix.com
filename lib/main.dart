@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/pages//landing_page/landing_page.dart';
+import 'package:ticketapp/services/navigator_services.dart';
+import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 
 import 'services/bugsnag_wrapper.dart';
 
@@ -37,7 +39,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'appollo - Patron Engagement Technologies',
       theme: MyTheme.theme,
-      home: LandingPage(),
+      navigatorKey: NavigationService.navigatorKey,
+      onGenerateRoute: GeneratedRoute.onGenerateRoute,
+      initialRoute: LandingPage.routeName,
+      builder: (context, child) => Scaffold(body: child),
     );
   }
 }

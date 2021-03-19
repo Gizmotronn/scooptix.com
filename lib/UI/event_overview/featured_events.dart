@@ -9,18 +9,24 @@ import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
 class FeaturedEvents extends StatefulWidget {
-  final List<Event> events;
-
-  const FeaturedEvents({Key key, @required this.events}) : super(key: key);
-
   @override
   _FeaturedEventsState createState() => _FeaturedEventsState();
 }
 
 class _FeaturedEventsState extends State<FeaturedEvents> {
+  List<Event> events = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    events = EventsRepository.instance.events;
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -33,7 +39,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
             SizedBox(height: kToolbarHeight + 20),
             Container(
                 width: screenSize.width * 0.8,
-                child: EventFeatures(events: widget.events)),
+                child: EventFeatures(events: events)),
           ],
         )
       ],

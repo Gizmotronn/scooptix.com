@@ -11,6 +11,8 @@ import 'package:ticketapp/pages/event_details/desktop_view_drawer.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewPage extends StatefulWidget {
+  static const String routeName = '/events';
+
   final List<Event> events;
   const EventOverviewPage({Key key, this.events}) : super(key: key);
 

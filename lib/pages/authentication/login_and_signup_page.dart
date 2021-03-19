@@ -14,6 +14,8 @@ import 'package:websafe_svg/websafe_svg.dart';
 import 'bloc/authentication_bloc.dart';
 
 class LoginAndSignupPage extends StatefulWidget {
+  static const String routeName = '/loginSignUp';
+
   final AuthenticationBloc bloc;
   final TextTheme textTheme;
 

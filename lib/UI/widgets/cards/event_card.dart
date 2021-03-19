@@ -7,6 +7,8 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/event_details/event_detail_page.dart';
+import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
 import '../../theme.dart';
@@ -18,6 +20,7 @@ class EventCard extends StatelessWidget {
   const EventCard({Key key, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    print(event.docID);
     return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
       return Stack(
         children: [
@@ -141,9 +144,10 @@ class EventCard extends StatelessWidget {
                     title: 'View Event',
                     onTap: () {
                       final overviewLinkType = OverviewLinkType(event);
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) =>
-                              AuthenticationPage(overviewLinkType)));
+                      // NavigationService.navigateTo(EventDetail.routeName);
+                      NavigationService.navigateTo(EventDetail.routeName,
+                          arg: overviewLinkType.event.docID,
+                          queryParams: {'id': overviewLinkType.event.docID});
                     },
                   ),
                 ),

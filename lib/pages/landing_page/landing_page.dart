@@ -8,8 +8,11 @@ import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/services/navigator_services.dart';
 
 class LandingPage extends StatefulWidget {
+  static const String routeName = '/landing';
+
   const LandingPage({Key key}) : super(key: key);
 
   @override
@@ -42,8 +45,9 @@ class _LandingPageState extends State<LandingPage> {
         BugsnagNotifier.instance
             .notify("Invalid UUID, provided UUID: $uuid", StackTrace.empty);
       } else
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => AuthenticationPage(value)));
+        NavigationService.navigateTo(AuthenticationPage.routeName, arg: value);
+      // Navigator.push(context,
+      //     MaterialPageRoute(builder: (context) => AuthenticationPage(value)));
     });
 
     // Currently if no id is provided with the link, the above code shows an error message. Instead the event overview page should be shown.
@@ -53,10 +57,7 @@ class _LandingPageState extends State<LandingPage> {
 
   void _preloadEventsAndNavigate() async {
     final events = await EventsRepository.instance.loadUpcomingEvents();
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => EventOverviewPage(events: events)));
+    NavigationService.navigateTo(EventOverviewPage.routeName, arg: events);
   }
 
   @override
