@@ -31,6 +31,14 @@ extension WidgetPaddingX on Widget {
         padding: EdgeInsets.all(padding),
         child: this,
       );
+  Widget paddingHorizontal(double padding) => Padding(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: padding),
+        child: this,
+      );
+  Widget paddingVertical(double padding) => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: padding),
+        child: this,
+      );
 }
 
 extension AppolloCard on Container {
@@ -40,7 +48,8 @@ extension AppolloCard on Container {
           color: Colors.grey[800].withAlpha(160),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1))),
+              side: BorderSide(
+                  color: Color(0xFF707070).withAlpha(100), width: 1))),
       child: this.child,
     );
   }
@@ -51,6 +60,8 @@ class MyTheme {
   static double elementSpacing = 20.0;
   static double cardPadding = 20;
   static double drawerSize = 500;
+
+  static Duration animationDuration = Duration(milliseconds: 300);
 
   static Color appolloPurple = Color(0xFF7367ED);
   static Color appolloYellow = Color(0xFFFBDB30);
@@ -266,7 +277,8 @@ class MyTheme {
           fillColor: Colors.grey[800].withAlpha(50),
           filled: true,
           border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80)))),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80)))),
       primaryIconTheme: IconThemeData(color: MyTheme.appolloPurple),
       navigationRailTheme: NavigationRailThemeData(
           selectedIconTheme: IconThemeData(color: Colors.white),
