@@ -21,13 +21,15 @@ class EventDetailBackground extends StatelessWidget {
         width: screenSize.width,
         height: screenSize.height,
         decoration: BoxDecoration(
-          image: DecorationImage(
-              image: ExtendedImage.network(
-                coverImageURL,
-                cache: true,
-              ).image,
-              fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken)),
+          image: coverImageURL == null
+              ? null
+              : DecorationImage(
+                  image: ExtendedImage.network(
+                    coverImageURL,
+                    cache: true,
+                  ).image,
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken)),
         ),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),

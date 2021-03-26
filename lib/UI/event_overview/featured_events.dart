@@ -11,6 +11,7 @@ import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEvents extends StatefulWidget {
   @override
@@ -37,9 +38,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: kToolbarHeight + 20),
-            Container(
-                width: screenSize.width * 0.8,
-                child: EventFeatures(events: events)),
+            Container(width: screenSize.width * 0.8, child: EventFeatures(events: events)),
           ],
         )
       ],
@@ -55,8 +54,7 @@ class EventFeatures extends StatefulWidget {
   _EventFeaturesState createState() => _EventFeaturesState();
 }
 
-class _EventFeaturesState extends State<EventFeatures>
-    with SingleTickerProviderStateMixin {
+class _EventFeaturesState extends State<EventFeatures> with SingleTickerProviderStateMixin {
   GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
 
   AnimationController _controller;
@@ -69,6 +67,10 @@ class _EventFeaturesState extends State<EventFeatures>
   int count = 0;
   double position = -300;
 
+  int visibilityPercentage = 0;
+
+  Timer _timer;
+
   @override
   void initState() {
     widget.events.forEach((e) {
@@ -77,69 +79,76 @@ class _EventFeaturesState extends State<EventFeatures>
       }
     });
 
-    _controller =
-        AnimationController(vsync: this, duration: MyTheme.animationDuration);
+    _controller = AnimationController(vsync: this, duration: MyTheme.animationDuration);
     _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
-    _animateCard();
+    _animatedCard();
     super.initState();
   }
 
-  Future<void> _animateCard() async {
-    await Future.delayed(MyTheme.animationDuration);
-    _controller.forward();
-    setState(() {
-      position = -300;
-    });
-
-    await Future.delayed(MyTheme.animationDuration);
-
-    setState(() {
-      count++;
-      event = events[count];
-    });
-    _list.currentState.removeItem(
-        count, (_, animation) => _buildItem(context, count, animation),
-        duration: MyTheme.animationDuration);
-    events.removeAt(count);
-    events.insert(0, event);
-    _list.currentState.insertItem(0);
-    if (count >= 3) {
+  _animatedCard() {
+    _timer = Timer.periodic(Duration(seconds: 8), (timer) async {
+      await Future.delayed(MyTheme.animationDuration);
+      _controller.forward();
+      setState(() => position = -300);
+      await Future.delayed(MyTheme.animationDuration);
       setState(() {
-        count = 0;
+        count++;
+        event = events[count];
       });
-    }
-    _controller.reverse();
-    setState(() {
-      position = 30;
+      _list.currentState.removeItem(count, (_, animation) => _buildItem(context, count, animation),
+          duration: MyTheme.animationDuration);
+      events.removeAt(count);
+      events.insert(0, event);
+      _list.currentState.insertItem(0);
+      if (count >= 3) {
+        setState(() => count = 0);
+      }
+      _controller.reverse();
+      setState(() => position = 30);
+      if (visibilityPercentage < 30) {
+        _timer?.cancel();
+        timer?.cancel();
+      }
     });
-    await Future.delayed(Duration(seconds: 8));
-    _animateCard();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          height: MediaQuery.of(context).size.height * 0.4,
-          width: MediaQuery.of(context).size.width * 0.55,
-          child: Row(
-            children: [
-              Expanded(flex: 2, child: _inComingEvents()),
-              Expanded(flex: 7, child: _heroEvent()),
-            ],
-          ),
-        ).paddingAll(16),
-        _buildFeaturedText(),
-      ],
+    return VisibilityDetector(
+      onVisibilityChanged: (VisibilityInfo info) {
+        var visiblePercentage = info.visibleFraction * 100;
+        setState(() {
+          visibilityPercentage = visiblePercentage.toInt();
+        });
+        if (visibilityPercentage > 25) {
+          _animatedCard();
+        }
+      },
+      key: ValueKey('visible-key'),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: MediaQuery.of(context).size.width * 0.55,
+            child: Row(
+              children: [
+                Expanded(flex: 2, child: _inComingEvents()),
+                Expanded(flex: 7, child: _heroEvent()),
+              ],
+            ),
+          ).paddingAll(16),
+          _buildFeaturedText(),
+        ],
+      ),
     );
   }
 
@@ -161,8 +170,7 @@ class _EventFeaturesState extends State<EventFeatures>
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           initialItemCount: events.length,
-          itemBuilder: (context, index, animation) =>
-              _buildItem(context, index, animation),
+          itemBuilder: (context, index, animation) => _buildItem(context, index, animation),
         ),
       ).paddingRight(4);
 
@@ -180,8 +188,7 @@ class _EventFeaturesState extends State<EventFeatures>
         },
       );
 
-  Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
+  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
     return FadeTransition(
       opacity: animation,
       child: Container(
@@ -238,21 +245,16 @@ class FeaturedEventText extends StatelessWidget {
           """Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.""",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: Theme.of(context)
-              .textTheme
-              .caption
-              .copyWith(color: MyTheme.appolloWhite, fontSize: 14),
+          style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloWhite, fontSize: 14),
         ).paddingBottom(8),
         AppolloButton.wideButton(
             heightMax: 40,
             heightMin: 35,
             color: MyTheme.appolloGreen,
-            child: AutoSizeText('Get Your Ticket',
-                maxLines: 2, style: Theme.of(context).textTheme.button),
+            child: AutoSizeText('Get Your Ticket', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
               final overviewLinkType = OverviewLinkType(event);
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => AuthenticationPage(overviewLinkType)));
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],
     );
@@ -267,17 +269,16 @@ class FeaturedEventText extends StatelessWidget {
           fullDate(event?.date ?? DateTime.now()),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: Theme.of(context).textTheme.headline6.copyWith(
-              color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
+          style: Theme.of(context)
+              .textTheme
+              .headline6
+              .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
         ).paddingBottom(8),
         AutoSizeText(
           event?.name ?? '',
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: Theme.of(context)
-              .textTheme
-              .headline3
-              .copyWith(color: MyTheme.appolloWhite),
+          style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite),
         ).paddingBottom(4),
       ],
     );

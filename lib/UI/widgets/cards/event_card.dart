@@ -20,7 +20,6 @@ class EventCard extends StatelessWidget {
   const EventCard({Key key, this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print(event.docID);
     return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
       return Stack(
         children: [
