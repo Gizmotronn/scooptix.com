@@ -40,6 +40,7 @@ class _EventDetailState extends State<EventDetail> with TickerProviderStateMixin
 
   @override
   void initState() {
+    signUpBloc = AuthenticationBloc(null);
     getEvent();
     super.initState();
   }

@@ -17,29 +17,29 @@ class EventDetailBackground extends StatelessWidget {
     return Positioned(
       width: screenSize.width * 1.01,
       height: screenSize.height * 1.01,
-      child: Container(
-        width: screenSize.width,
-        height: screenSize.height,
-        decoration: BoxDecoration(
-          image: coverImageURL == null
-              ? null
-              : DecorationImage(
-                  image: ExtendedImage.network(
-                    coverImageURL,
-                    cache: true,
-                  ).image,
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken)),
-        ),
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),
-          child: Container(
-            width: screenSize.width,
-            height: screenSize.height,
-            decoration: BoxDecoration(color: Colors.grey[900].withOpacity(0.2)),
-          ),
-        ),
-      ),
+      child: coverImageURL == null
+          ? SizedBox()
+          : Container(
+              width: screenSize.width,
+              height: screenSize.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                    image: ExtendedImage.network(
+                      coverImageURL,
+                      cache: true,
+                    ).image,
+                    fit: BoxFit.cover,
+                    colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken)),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),
+                child: Container(
+                  width: screenSize.width,
+                  height: screenSize.height,
+                  decoration: BoxDecoration(color: Colors.grey[900].withOpacity(0.2)),
+                ),
+              ),
+            ),
     );
   }
 }

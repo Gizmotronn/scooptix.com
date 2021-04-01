@@ -9,15 +9,13 @@ class AppolloPopup extends StatelessWidget {
 
   final Widget child;
 
-  const AppolloPopup(
-      {Key key, this.item, this.onSelected, this.initialValue = '', this.child})
-      : super(key: key);
+  const AppolloPopup({Key key, this.item, this.onSelected, this.initialValue = '', this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
       child: child,
-      offset: Offset(0, 300),
+      // offset: Offset(0, 0),
       initialValue: initialValue,
       onSelected: onSelected,
       color: Theme.of(context).canvasColor.withOpacity(.7),
