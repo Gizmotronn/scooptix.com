@@ -35,17 +35,16 @@ class _LandingPageState extends State<LandingPage> {
     // If an event link was used, load this event and forward the user to the event details page.
     EventsRepository.instance.loadLinkType(uuid).then((value) {
       if (value == null) {
-        String message =
-            "Invalid link. Please make sure you have copied the entire link.";
+        String message = "Invalid link. Please make sure you have copied the entire link.";
         if (uuid != "") {
           message =
               "There is no event associated with the provided id $uuid. Please make sure you have copied the correct link";
         }
         _preloadEventsAndNavigate();
-        BugsnagNotifier.instance
-            .notify("Invalid UUID, provided UUID: $uuid", StackTrace.empty);
-      } else
-        NavigationService.navigateTo(AuthenticationPage.routeName, arg: value);
+        BugsnagNotifier.instance.notify("Invalid UUID, provided UUID: $uuid", StackTrace.empty);
+      } else {
+        // NavigationService.navigateTo(AuthenticationPage.routeName, arg: value);
+      }
       // Navigator.push(context,
       //     MaterialPageRoute(builder: (context) => AuthenticationPage(value)));
     });
@@ -57,7 +56,9 @@ class _LandingPageState extends State<LandingPage> {
 
   void _preloadEventsAndNavigate() async {
     final events = await EventsRepository.instance.loadUpcomingEvents();
-    NavigationService.navigateTo(EventOverviewPage.routeName, arg: events);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EventOverviewPage(events: events)));
+    // NavigationService.navigateTo(EventOverviewPage.routeName, arg: events);
   }
 
   @override

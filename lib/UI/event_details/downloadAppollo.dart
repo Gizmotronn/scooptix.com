@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_install_app_plugin/flutter_install_app_plugin.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 /// Provides a direct link to the app in the stores
 class DownloadAppolloWidget extends StatelessWidget {
@@ -73,7 +73,7 @@ class DownloadAppolloWidget extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: WebsafeSvg.asset("images/appstore.svg"),
+                          child: SvgIcon("images/appstore.svg"),
                         ),
                       ),
                       SizedBox(
@@ -87,7 +87,7 @@ class DownloadAppolloWidget extends StatelessWidget {
                               throw 'Could not launch $url';
                             }
                           },
-                          child: WebsafeSvg.asset("images/playstore.svg"),
+                          child: SvgIcon("images/playstore.svg"),
                         ),
                       ),
                     ],

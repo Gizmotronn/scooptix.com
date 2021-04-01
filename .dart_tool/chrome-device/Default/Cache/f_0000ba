@@ -1,0 +1,500 @@
+define(['dart_sdk', 'packages/ticketapp/repositories/ticket_repository.dart', 'packages/ticketapp/model/ticket_release.dart', 'packages/ticketapp/model/ticket.dart', 'packages/ticketapp/repositories/customer_repository.dart', 'packages/bloc/src/cubit.dart', 'packages/equatable/src/equatable_mixin.dart', 'packages/ticketapp/model/event.dart', 'packages/ticketapp/model/link_type/link_type.dart', 'packages/ticketapp/model/discount.dart'], (function load__packages__ticketapp__pages__ticket__bloc__ticket_bloc_dart(dart_sdk, packages__ticketapp__repositories__ticket_repository$46dart, packages__ticketapp__model__ticket_release$46dart, packages__ticketapp__model__ticket$46dart, packages__ticketapp__repositories__customer_repository$46dart, packages__bloc__src__cubit$46dart, packages__equatable__src__equatable_mixin$46dart, packages__ticketapp__model__event$46dart, packages__ticketapp__model__link_type__link_type$46dart, packages__ticketapp__model__discount$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const async = dart_sdk.async;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const ticket_repository = packages__ticketapp__repositories__ticket_repository$46dart.repositories__ticket_repository;
+  const ticket_release = packages__ticketapp__model__ticket_release$46dart.model__ticket_release;
+  const ticket = packages__ticketapp__model__ticket$46dart.model__ticket;
+  const customer_repository = packages__ticketapp__repositories__customer_repository$46dart.repositories__customer_repository;
+  const bloc = packages__bloc__src__cubit$46dart.src__bloc;
+  const equatable = packages__equatable__src__equatable_mixin$46dart.src__equatable;
+  const event = packages__ticketapp__model__event$46dart.model__event;
+  const link_type = packages__ticketapp__model__link_type__link_type$46dart.model__link_type__link_type;
+  const discount = packages__ticketapp__model__discount$46dart.model__discount;
+  var ticket_bloc = Object.create(dart.library);
+  var $any = dartx.any;
+  var $where = dartx.where;
+  var $toList = dartx.toList;
+  var $length = dartx.length;
+  var $_get = dartx._get;
+  var $isEmpty = dartx.isEmpty;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    TicketEventL: () => (T.TicketEventL = dart.constFn(dart.legacy(ticket_bloc.TicketEvent)))(),
+    EventCheckInvitationStatusL: () => (T.EventCheckInvitationStatusL = dart.constFn(dart.legacy(ticket_bloc.EventCheckInvitationStatus)))(),
+    EventAcceptInvitationL: () => (T.EventAcceptInvitationL = dart.constFn(dart.legacy(ticket_bloc.EventAcceptInvitation)))(),
+    EventPaymentSuccessfulL: () => (T.EventPaymentSuccessfulL = dart.constFn(dart.legacy(ticket_bloc.EventPaymentSuccessful)))(),
+    EventGoToPaymentL: () => (T.EventGoToPaymentL = dart.constFn(dart.legacy(ticket_bloc.EventGoToPayment)))(),
+    TicketStateL: () => (T.TicketStateL = dart.constFn(dart.legacy(ticket_bloc.TicketState)))(),
+    _AsyncStarImplOfTicketStateL: () => (T._AsyncStarImplOfTicketStateL = dart.constFn(async._AsyncStarImpl$(T.TicketStateL())))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    TicketReleaseL: () => (T.TicketReleaseL = dart.constFn(dart.legacy(ticket_release.TicketRelease)))(),
+    TicketReleaseLToboolL: () => (T.TicketReleaseLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.TicketReleaseL()])))(),
+    TicketL: () => (T.TicketL = dart.constFn(dart.legacy(ticket.Ticket)))(),
+    TicketLToboolL: () => (T.TicketLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.TicketL()])))(),
+    JSArrayOfTicketL: () => (T.JSArrayOfTicketL = dart.constFn(_interceptors.JSArray$(T.TicketL())))(),
+    ObjectL: () => (T.ObjectL = dart.constFn(dart.legacy(core.Object)))(),
+    JSArrayOfObjectL: () => (T.JSArrayOfObjectL = dart.constFn(_interceptors.JSArray$(T.ObjectL())))(),
+    ListOfTicketL: () => (T.ListOfTicketL = dart.constFn(core.List$(T.TicketL())))(),
+    ListLOfTicketL: () => (T.ListLOfTicketL = dart.constFn(dart.legacy(T.ListOfTicketL())))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  var C = [];
+  var I = ["package:ticketapp/pages/ticket/bloc/ticket_bloc.dart"];
+  var _checkInvitationStatus = dart.privateName(ticket_bloc, "_checkInvitationStatus");
+  var _acceptInvitation = dart.privateName(ticket_bloc, "_acceptInvitation");
+  var _processTickets = dart.privateName(ticket_bloc, "_processTickets");
+  ticket_bloc.TicketEvent = class TicketEvent extends equatable.Equatable {
+    get props() {
+      return T.JSArrayOfObjectL().of([]);
+    }
+  };
+  (ticket_bloc.TicketEvent.new = function() {
+    ticket_bloc.TicketEvent.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.TicketEvent.prototype;
+  dart.addTypeTests(ticket_bloc.TicketEvent);
+  dart.addTypeCaches(ticket_bloc.TicketEvent);
+  dart.setGetterSignature(ticket_bloc.TicketEvent, () => ({
+    __proto__: dart.getGetters(ticket_bloc.TicketEvent.__proto__),
+    props: dart.legacy(core.List$(dart.legacy(core.Object)))
+  }));
+  dart.setLibraryUri(ticket_bloc.TicketEvent, I[0]);
+  ticket_bloc.TicketState = class TicketState extends equatable.Equatable {
+    get props() {
+      return T.JSArrayOfObjectL().of([]);
+    }
+  };
+  (ticket_bloc.TicketState.new = function() {
+    ticket_bloc.TicketState.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.TicketState.prototype;
+  dart.addTypeTests(ticket_bloc.TicketState);
+  dart.addTypeCaches(ticket_bloc.TicketState);
+  dart.setGetterSignature(ticket_bloc.TicketState, () => ({
+    __proto__: dart.getGetters(ticket_bloc.TicketState.__proto__),
+    props: dart.legacy(core.List$(dart.legacy(core.Object)))
+  }));
+  dart.setLibraryUri(ticket_bloc.TicketState, I[0]);
+  ticket_bloc.TicketBloc = class TicketBloc extends bloc.Bloc$(dart.legacy(ticket_bloc.TicketEvent), dart.legacy(ticket_bloc.TicketState)) {
+    mapEventToState(event) {
+      T.TicketEventL().as(event);
+      return new (T._AsyncStarImplOfTicketStateL()).new((function* mapEventToState(stream) {
+        if (T.EventCheckInvitationStatusL().is(event)) {
+          if (stream.addStream(this[_checkInvitationStatus](event.uid, event.event, event.forwardToPayment))) return;
+          yield;
+        } else if (T.EventAcceptInvitationL().is(event)) {
+          if (stream.addStream(this[_acceptInvitation](event.linkType, event.release))) return;
+          yield;
+        } else if (T.EventPaymentSuccessfulL().is(event)) {
+          if (stream.addStream(this[_processTickets](event.linkType, event.release, event.quantity, event.discount))) return;
+          yield;
+        } else if (T.EventGoToPaymentL().is(event)) {
+          if (stream.add(new ticket_bloc.StateWaitForPayment.new(event.releases))) return;
+          yield;
+        }
+      }).bind(this)).stream;
+    }
+    [_checkInvitationStatus](uid, event, forwardToPayment) {
+      return new (T._AsyncStarImplOfTicketStateL()).new(function* _checkInvitationStatus(stream) {
+        if (stream.add(new ticket_bloc.StateLoading.new({message: "Fetching your invitation data, this won't take long"}))) return;
+        yield;
+        if (!dart.test(new core.DateTime.now().difference(event.date.subtract(new core.Duration.new({hours: event.cutoffTimeOffset}))).isNegative)) {
+          if (stream.add(new ticket_bloc.StatePastCutoffTime.new())) return;
+          yield;
+        } else {
+          let releasesWithSingleTicketRestriction = event.getReleasesWithSingleTicketRestriction();
+          let releasesWithRegularTickets = event.getReleasesWithoutRestriction();
+          let tickets = (yield ticket_repository.TicketRepository.instance.loadTickets(uid, event));
+          let restrictedTickets = tickets[$where](dart.fn(t => releasesWithSingleTicketRestriction[$any](dart.fn(element => t.release.docId == element.docId, T.TicketReleaseLToboolL())), T.TicketLToboolL()))[$toList]();
+          core.print("tickets " + dart.str(tickets[$length]));
+          if (dart.notNull(restrictedTickets[$length]) > 0) {
+            if (stream.add(new ticket_bloc.StateTicketAlreadyIssued.new(tickets[$_get](0)))) return;
+            yield;
+          } else {
+            if (releasesWithRegularTickets[$length] === 0 && releasesWithSingleTicketRestriction[$length] === 0) {
+              if (stream.add(new ticket_bloc.StateNoTicketsLeft.new())) return;
+              yield;
+            } else {
+              if (dart.notNull(releasesWithSingleTicketRestriction[$length]) > 0) {
+                if (dart.test(forwardToPayment)) {
+                  if (stream.add(new ticket_bloc.StateWaitForPayment.new(releasesWithSingleTicketRestriction))) return;
+                  yield;
+                } else {
+                  if (stream.add(new ticket_bloc.StatePaymentRequired.new(releasesWithSingleTicketRestriction, tickets))) return;
+                  yield;
+                }
+              } else {
+                if (dart.test(forwardToPayment)) {
+                  if (stream.add(new ticket_bloc.StateWaitForPayment.new(releasesWithRegularTickets))) return;
+                  yield;
+                } else {
+                  if (stream.add(new ticket_bloc.StatePaymentRequired.new(releasesWithRegularTickets, tickets))) return;
+                  yield;
+                }
+              }
+            }
+          }
+        }
+      }).stream;
+    }
+    [_acceptInvitation](linkType, release) {
+      return new (T._AsyncStarImplOfTicketStateL()).new(function* _acceptInvitation(stream) {
+        if (stream.add(new ticket_bloc.StateLoading.new({message: "Processing your ticket ..."}))) return;
+        yield;
+        let ticket = T.TicketL().as(yield ticket_repository.TicketRepository.instance.acceptInvitation(linkType, release));
+        customer_repository.CustomerRepository.instance.addCustomerAttendingAction(linkType);
+        if (ticket == null) {
+          if (stream.add(new ticket_bloc.StateError.new())) return;
+          yield;
+        } else {
+          if (stream.add(new ticket_bloc.StateInvitationAccepted.new(T.JSArrayOfTicketL().of([ticket])))) return;
+          yield;
+        }
+      }).stream;
+    }
+    [_processTickets](linkType, release, quantity, discount) {
+      return new (T._AsyncStarImplOfTicketStateL()).new(function* _processTickets(stream) {
+        if (stream.add(new ticket_bloc.StateLoading.new({message: "Processing your tickets ..."}))) return;
+        yield;
+        let tickets = (yield ticket_repository.TicketRepository.instance.issueTickets(linkType, release, quantity, discount));
+        customer_repository.CustomerRepository.instance.addCustomerAttendingAction(linkType);
+        if (dart.test(tickets[$isEmpty])) {
+          if (stream.add(new ticket_bloc.StateError.new())) return;
+          yield;
+        } else {
+          if (stream.add(new ticket_bloc.StateInvitationAccepted.new(tickets))) return;
+          yield;
+        }
+      }).stream;
+    }
+  };
+  (ticket_bloc.TicketBloc.new = function() {
+    ticket_bloc.TicketBloc.__proto__.new.call(this, new ticket_bloc.StateLoading.new({message: "Fetching your invitation data, this won't take long ..."}));
+    ;
+  }).prototype = ticket_bloc.TicketBloc.prototype;
+  dart.addTypeTests(ticket_bloc.TicketBloc);
+  dart.addTypeCaches(ticket_bloc.TicketBloc);
+  dart.setMethodSignature(ticket_bloc.TicketBloc, () => ({
+    __proto__: dart.getMethods(ticket_bloc.TicketBloc.__proto__),
+    mapEventToState: dart.fnType(dart.legacy(async.Stream$(dart.legacy(ticket_bloc.TicketState))), [dart.legacy(core.Object)]),
+    [_checkInvitationStatus]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(ticket_bloc.TicketState))), [dart.legacy(core.String), dart.legacy(event.Event), dart.legacy(core.bool)]),
+    [_acceptInvitation]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(ticket_bloc.TicketState))), [dart.legacy(link_type.LinkType), dart.legacy(ticket_release.TicketRelease)]),
+    [_processTickets]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(ticket_bloc.TicketState))), [dart.legacy(link_type.LinkType), dart.legacy(ticket_release.TicketRelease), dart.legacy(core.int), dart.legacy(discount.Discount)])
+  }));
+  dart.setLibraryUri(ticket_bloc.TicketBloc, I[0]);
+  var linkType$ = dart.privateName(ticket_bloc, "EventPaymentSuccessful.linkType");
+  var release$ = dart.privateName(ticket_bloc, "EventPaymentSuccessful.release");
+  var quantity$ = dart.privateName(ticket_bloc, "EventPaymentSuccessful.quantity");
+  var discount$ = dart.privateName(ticket_bloc, "EventPaymentSuccessful.discount");
+  ticket_bloc.EventPaymentSuccessful = class EventPaymentSuccessful extends ticket_bloc.TicketEvent {
+    get linkType() {
+      return this[linkType$];
+    }
+    set linkType(value) {
+      super.linkType = value;
+    }
+    get release() {
+      return this[release$];
+    }
+    set release(value) {
+      super.release = value;
+    }
+    get quantity() {
+      return this[quantity$];
+    }
+    set quantity(value) {
+      super.quantity = value;
+    }
+    get discount() {
+      return this[discount$];
+    }
+    set discount(value) {
+      super.discount = value;
+    }
+  };
+  (ticket_bloc.EventPaymentSuccessful.new = function(linkType, release, quantity, discount) {
+    this[linkType$] = linkType;
+    this[release$] = release;
+    this[quantity$] = quantity;
+    this[discount$] = discount;
+    ticket_bloc.EventPaymentSuccessful.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.EventPaymentSuccessful.prototype;
+  dart.addTypeTests(ticket_bloc.EventPaymentSuccessful);
+  dart.addTypeCaches(ticket_bloc.EventPaymentSuccessful);
+  dart.setLibraryUri(ticket_bloc.EventPaymentSuccessful, I[0]);
+  dart.setFieldSignature(ticket_bloc.EventPaymentSuccessful, () => ({
+    __proto__: dart.getFields(ticket_bloc.EventPaymentSuccessful.__proto__),
+    linkType: dart.finalFieldType(dart.legacy(link_type.LinkType)),
+    release: dart.finalFieldType(dart.legacy(ticket_release.TicketRelease)),
+    quantity: dart.finalFieldType(dart.legacy(core.int)),
+    discount: dart.finalFieldType(dart.legacy(discount.Discount))
+  }));
+  var uid$ = dart.privateName(ticket_bloc, "EventCheckInvitationStatus.uid");
+  var event$ = dart.privateName(ticket_bloc, "EventCheckInvitationStatus.event");
+  var forwardToPayment$ = dart.privateName(ticket_bloc, "EventCheckInvitationStatus.forwardToPayment");
+  ticket_bloc.EventCheckInvitationStatus = class EventCheckInvitationStatus extends ticket_bloc.TicketEvent {
+    get uid() {
+      return this[uid$];
+    }
+    set uid(value) {
+      super.uid = value;
+    }
+    get event() {
+      return this[event$];
+    }
+    set event(value) {
+      super.event = value;
+    }
+    get forwardToPayment() {
+      return this[forwardToPayment$];
+    }
+    set forwardToPayment(value) {
+      super.forwardToPayment = value;
+    }
+  };
+  (ticket_bloc.EventCheckInvitationStatus.new = function(uid, event, forwardToPayment) {
+    this[uid$] = uid;
+    this[event$] = event;
+    this[forwardToPayment$] = forwardToPayment;
+    ticket_bloc.EventCheckInvitationStatus.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.EventCheckInvitationStatus.prototype;
+  dart.addTypeTests(ticket_bloc.EventCheckInvitationStatus);
+  dart.addTypeCaches(ticket_bloc.EventCheckInvitationStatus);
+  dart.setLibraryUri(ticket_bloc.EventCheckInvitationStatus, I[0]);
+  dart.setFieldSignature(ticket_bloc.EventCheckInvitationStatus, () => ({
+    __proto__: dart.getFields(ticket_bloc.EventCheckInvitationStatus.__proto__),
+    uid: dart.finalFieldType(dart.legacy(core.String)),
+    event: dart.finalFieldType(dart.legacy(event.Event)),
+    forwardToPayment: dart.finalFieldType(dart.legacy(core.bool))
+  }));
+  var linkType$0 = dart.privateName(ticket_bloc, "EventAcceptInvitation.linkType");
+  var release$0 = dart.privateName(ticket_bloc, "EventAcceptInvitation.release");
+  ticket_bloc.EventAcceptInvitation = class EventAcceptInvitation extends ticket_bloc.TicketEvent {
+    get linkType() {
+      return this[linkType$0];
+    }
+    set linkType(value) {
+      super.linkType = value;
+    }
+    get release() {
+      return this[release$0];
+    }
+    set release(value) {
+      super.release = value;
+    }
+  };
+  (ticket_bloc.EventAcceptInvitation.new = function(linkType, release) {
+    this[linkType$0] = linkType;
+    this[release$0] = release;
+    ticket_bloc.EventAcceptInvitation.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.EventAcceptInvitation.prototype;
+  dart.addTypeTests(ticket_bloc.EventAcceptInvitation);
+  dart.addTypeCaches(ticket_bloc.EventAcceptInvitation);
+  dart.setLibraryUri(ticket_bloc.EventAcceptInvitation, I[0]);
+  dart.setFieldSignature(ticket_bloc.EventAcceptInvitation, () => ({
+    __proto__: dart.getFields(ticket_bloc.EventAcceptInvitation.__proto__),
+    linkType: dart.finalFieldType(dart.legacy(link_type.LinkType)),
+    release: dart.finalFieldType(dart.legacy(ticket_release.TicketRelease))
+  }));
+  var releases$ = dart.privateName(ticket_bloc, "EventGoToPayment.releases");
+  ticket_bloc.EventGoToPayment = class EventGoToPayment extends ticket_bloc.TicketEvent {
+    get releases() {
+      return this[releases$];
+    }
+    set releases(value) {
+      super.releases = value;
+    }
+  };
+  (ticket_bloc.EventGoToPayment.new = function(releases) {
+    this[releases$] = releases;
+    ticket_bloc.EventGoToPayment.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.EventGoToPayment.prototype;
+  dart.addTypeTests(ticket_bloc.EventGoToPayment);
+  dart.addTypeCaches(ticket_bloc.EventGoToPayment);
+  dart.setLibraryUri(ticket_bloc.EventGoToPayment, I[0]);
+  dart.setFieldSignature(ticket_bloc.EventGoToPayment, () => ({
+    __proto__: dart.getFields(ticket_bloc.EventGoToPayment.__proto__),
+    releases: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))))
+  }));
+  var message$ = dart.privateName(ticket_bloc, "StateLoading.message");
+  ticket_bloc.StateLoading = class StateLoading extends ticket_bloc.TicketState {
+    get message() {
+      return this[message$];
+    }
+    set message(value) {
+      super.message = value;
+    }
+  };
+  (ticket_bloc.StateLoading.new = function(opts) {
+    let message = opts && 'message' in opts ? opts.message : "Loading ...";
+    this[message$] = message;
+    ticket_bloc.StateLoading.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StateLoading.prototype;
+  dart.addTypeTests(ticket_bloc.StateLoading);
+  dart.addTypeCaches(ticket_bloc.StateLoading);
+  dart.setLibraryUri(ticket_bloc.StateLoading, I[0]);
+  dart.setFieldSignature(ticket_bloc.StateLoading, () => ({
+    __proto__: dart.getFields(ticket_bloc.StateLoading.__proto__),
+    message: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  ticket_bloc.StateError = class StateError extends ticket_bloc.TicketState {};
+  (ticket_bloc.StateError.new = function() {
+    ticket_bloc.StateError.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StateError.prototype;
+  dart.addTypeTests(ticket_bloc.StateError);
+  dart.addTypeCaches(ticket_bloc.StateError);
+  dart.setLibraryUri(ticket_bloc.StateError, I[0]);
+  var tickets$ = dart.privateName(ticket_bloc, "StatePreviouslyBoughtTickets.tickets");
+  ticket_bloc.StatePreviouslyBoughtTickets = class StatePreviouslyBoughtTickets extends ticket_bloc.TicketState {
+    get tickets() {
+      return this[tickets$];
+    }
+    set tickets(value) {
+      super.tickets = value;
+    }
+  };
+  (ticket_bloc.StatePreviouslyBoughtTickets.new = function(tickets) {
+    this[tickets$] = tickets;
+    ticket_bloc.StatePreviouslyBoughtTickets.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StatePreviouslyBoughtTickets.prototype;
+  dart.addTypeTests(ticket_bloc.StatePreviouslyBoughtTickets);
+  dart.addTypeCaches(ticket_bloc.StatePreviouslyBoughtTickets);
+  dart.setLibraryUri(ticket_bloc.StatePreviouslyBoughtTickets, I[0]);
+  dart.setFieldSignature(ticket_bloc.StatePreviouslyBoughtTickets, () => ({
+    __proto__: dart.getFields(ticket_bloc.StatePreviouslyBoughtTickets.__proto__),
+    tickets: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(ticket.Ticket))))
+  }));
+  var releases$0 = dart.privateName(ticket_bloc, "StatePaymentRequired.releases");
+  ticket_bloc.StatePaymentRequired = class StatePaymentRequired extends ticket_bloc.StatePreviouslyBoughtTickets {
+    get releases() {
+      return this[releases$0];
+    }
+    set releases(value) {
+      super.releases = value;
+    }
+  };
+  (ticket_bloc.StatePaymentRequired.new = function(releases, tickets) {
+    this[releases$0] = releases;
+    ticket_bloc.StatePaymentRequired.__proto__.new.call(this, T.ListLOfTicketL().as(tickets));
+    ;
+  }).prototype = ticket_bloc.StatePaymentRequired.prototype;
+  dart.addTypeTests(ticket_bloc.StatePaymentRequired);
+  dart.addTypeCaches(ticket_bloc.StatePaymentRequired);
+  dart.setLibraryUri(ticket_bloc.StatePaymentRequired, I[0]);
+  dart.setFieldSignature(ticket_bloc.StatePaymentRequired, () => ({
+    __proto__: dart.getFields(ticket_bloc.StatePaymentRequired.__proto__),
+    releases: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))))
+  }));
+  var releases$1 = dart.privateName(ticket_bloc, "StateWaitForPayment.releases");
+  ticket_bloc.StateWaitForPayment = class StateWaitForPayment extends ticket_bloc.TicketState {
+    get releases() {
+      return this[releases$1];
+    }
+    set releases(value) {
+      super.releases = value;
+    }
+  };
+  (ticket_bloc.StateWaitForPayment.new = function(releases) {
+    this[releases$1] = releases;
+    ticket_bloc.StateWaitForPayment.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StateWaitForPayment.prototype;
+  dart.addTypeTests(ticket_bloc.StateWaitForPayment);
+  dart.addTypeCaches(ticket_bloc.StateWaitForPayment);
+  dart.setLibraryUri(ticket_bloc.StateWaitForPayment, I[0]);
+  dart.setFieldSignature(ticket_bloc.StateWaitForPayment, () => ({
+    __proto__: dart.getFields(ticket_bloc.StateWaitForPayment.__proto__),
+    releases: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))))
+  }));
+  ticket_bloc.StateNoTicketsLeft = class StateNoTicketsLeft extends ticket_bloc.TicketState {};
+  (ticket_bloc.StateNoTicketsLeft.new = function() {
+    ticket_bloc.StateNoTicketsLeft.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StateNoTicketsLeft.prototype;
+  dart.addTypeTests(ticket_bloc.StateNoTicketsLeft);
+  dart.addTypeCaches(ticket_bloc.StateNoTicketsLeft);
+  dart.setLibraryUri(ticket_bloc.StateNoTicketsLeft, I[0]);
+  ticket_bloc.StatePastCutoffTime = class StatePastCutoffTime extends ticket_bloc.TicketState {};
+  (ticket_bloc.StatePastCutoffTime.new = function() {
+    ticket_bloc.StatePastCutoffTime.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StatePastCutoffTime.prototype;
+  dart.addTypeTests(ticket_bloc.StatePastCutoffTime);
+  dart.addTypeCaches(ticket_bloc.StatePastCutoffTime);
+  dart.setLibraryUri(ticket_bloc.StatePastCutoffTime, I[0]);
+  var tickets$0 = dart.privateName(ticket_bloc, "StateInvitationAccepted.tickets");
+  ticket_bloc.StateInvitationAccepted = class StateInvitationAccepted extends ticket_bloc.TicketState {
+    get tickets() {
+      return this[tickets$0];
+    }
+    set tickets(value) {
+      super.tickets = value;
+    }
+  };
+  (ticket_bloc.StateInvitationAccepted.new = function(tickets) {
+    this[tickets$0] = tickets;
+    ticket_bloc.StateInvitationAccepted.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StateInvitationAccepted.prototype;
+  dart.addTypeTests(ticket_bloc.StateInvitationAccepted);
+  dart.addTypeCaches(ticket_bloc.StateInvitationAccepted);
+  dart.setLibraryUri(ticket_bloc.StateInvitationAccepted, I[0]);
+  dart.setFieldSignature(ticket_bloc.StateInvitationAccepted, () => ({
+    __proto__: dart.getFields(ticket_bloc.StateInvitationAccepted.__proto__),
+    tickets: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(ticket.Ticket))))
+  }));
+  var ticket$ = dart.privateName(ticket_bloc, "StateTicketAlreadyIssued.ticket");
+  ticket_bloc.StateTicketAlreadyIssued = class StateTicketAlreadyIssued extends ticket_bloc.TicketState {
+    get ticket() {
+      return this[ticket$];
+    }
+    set ticket(value) {
+      super.ticket = value;
+    }
+  };
+  (ticket_bloc.StateTicketAlreadyIssued.new = function(ticket) {
+    this[ticket$] = ticket;
+    ticket_bloc.StateTicketAlreadyIssued.__proto__.new.call(this);
+    ;
+  }).prototype = ticket_bloc.StateTicketAlreadyIssued.prototype;
+  dart.addTypeTests(ticket_bloc.StateTicketAlreadyIssued);
+  dart.addTypeCaches(ticket_bloc.StateTicketAlreadyIssued);
+  dart.setLibraryUri(ticket_bloc.StateTicketAlreadyIssued, I[0]);
+  dart.setFieldSignature(ticket_bloc.StateTicketAlreadyIssued, () => ({
+    __proto__: dart.getFields(ticket_bloc.StateTicketAlreadyIssued.__proto__),
+    ticket: dart.finalFieldType(dart.legacy(ticket.Ticket))
+  }));
+  dart.trackLibraries("packages/ticketapp/pages/ticket/bloc/ticket_bloc.dart", {
+    "package:ticketapp/pages/ticket/bloc/ticket_bloc.dart": ticket_bloc
+  }, {
+    "package:ticketapp/pages/ticket/bloc/ticket_bloc.dart": ["ticket_event.dart", "ticket_state.dart"]
+  }, '{"version":3,"sourceRoot":"","sources":["ticket_event.dart","ticket_state.dart","ticket_bloc.dart"],"names":[],"mappings":"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","file":"../../../../../../../../packages/ticketapp/pages/ticket/bloc/ticket_bloc.dart.lib.js"}');
+  // Exports:
+  return {
+    pages__ticket__bloc__ticket_bloc: ticket_bloc
+  };
+}));
+
+//# sourceMappingURL=ticket_bloc.dart.lib.js.map

@@ -1,0 +1,761 @@
+define(['dart_sdk', 'packages/firebase_core_web/src/interop/app.dart', 'packages/firebase_core_web/src/interop/utils/js.dart', 'packages/firebase_core_web/src/interop/utils/utils.dart'], (function load__packages__firebase_storage_web__src__interop__storage_dart(dart_sdk, packages__firebase_core_web__src__interop__app$46dart, packages__firebase_core_web__src__interop__utils__js$46dart, packages__firebase_core_web__src__interop__utils__utils$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const async = dart_sdk.async;
+  const js = dart_sdk.js;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const app = packages__firebase_core_web__src__interop__app$46dart.src__interop__app;
+  const js$ = packages__firebase_core_web__src__interop__utils__js$46dart.src__interop__utils__js;
+  const utils = packages__firebase_core_web__src__interop__utils__utils$46dart.src__interop__utils__utils;
+  var storage = Object.create(dart.library);
+  var $toString = dartx.toString;
+  var $cast = dartx.cast;
+  var $map = dartx.map;
+  var $toList = dartx.toList;
+  dart._checkModuleNullSafetyMode(false);
+  var T$ = {
+    TaskStateL: () => (T$.TaskStateL = dart.constFn(dart.legacy(storage.TaskState)))(),
+    StorageL: () => (T$.StorageL = dart.constFn(dart.legacy(storage.Storage)))(),
+    ExpandoOfStorageL: () => (T$.ExpandoOfStorageL = dart.constFn(core.Expando$(T$.StorageL())))(),
+    StringL: () => (T$.StringL = dart.constFn(dart.legacy(core.String)))(),
+    UriL: () => (T$.UriL = dart.constFn(dart.legacy(core.Uri)))(),
+    FullMetadataL: () => (T$.FullMetadataL = dart.constFn(dart.legacy(storage.FullMetadata)))(),
+    dynamicToFullMetadataL: () => (T$.dynamicToFullMetadataL = dart.constFn(dart.fnType(T$.FullMetadataL(), [dart.dynamic])))(),
+    ListResultL: () => (T$.ListResultL = dart.constFn(dart.legacy(storage.ListResult)))(),
+    ListResultJsImplLToListResultL: () => (T$.ListResultJsImplLToListResultL = dart.constFn(dart.fnType(T$.ListResultL(), [dart.legacy(dart.anonymousJSType("ListResultJsImpl"))])))(),
+    StorageReferenceL: () => (T$.StorageReferenceL = dart.constFn(dart.legacy(storage.StorageReference)))(),
+    ExpandoOfStorageReferenceL: () => (T$.ExpandoOfStorageReferenceL = dart.constFn(core.Expando$(T$.StorageReferenceL())))(),
+    MapL: () => (T$.MapL = dart.constFn(dart.legacy(core.Map)))(),
+    ExpandoOfFullMetadataL: () => (T$.ExpandoOfFullMetadataL = dart.constFn(core.Expando$(T$.FullMetadataL())))(),
+    UploadTaskSnapshotL: () => (T$.UploadTaskSnapshotL = dart.constFn(dart.legacy(storage.UploadTaskSnapshot)))(),
+    UploadTaskSnapshotJsImplLToUploadTaskSnapshotL: () => (T$.UploadTaskSnapshotJsImplLToUploadTaskSnapshotL = dart.constFn(dart.fnType(T$.UploadTaskSnapshotL(), [dart.legacy(dart.anonymousJSType("UploadTaskSnapshotJsImpl"))])))(),
+    UploadTaskSnapshotJsImplLToNull: () => (T$.UploadTaskSnapshotJsImplLToNull = dart.constFn(dart.fnType(core.Null, [dart.legacy(dart.anonymousJSType("UploadTaskSnapshotJsImpl"))])))(),
+    UploadTaskSnapshotJsImplLToLNull: () => (T$.UploadTaskSnapshotJsImplLToLNull = dart.constFn(dart.legacy(T$.UploadTaskSnapshotJsImplLToNull())))(),
+    dynamicTovoid: () => (T$.dynamicTovoid = dart.constFn(dart.fnType(dart.void, [dart.dynamic])))(),
+    dynamicToLvoid: () => (T$.dynamicToLvoid = dart.constFn(dart.legacy(T$.dynamicTovoid())))(),
+    VoidToNull: () => (T$.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
+    VoidToLNull: () => (T$.VoidToLNull = dart.constFn(dart.legacy(T$.VoidToNull())))(),
+    VoidTovoid: () => (T$.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
+    StreamControllerOfUploadTaskSnapshotL: () => (T$.StreamControllerOfUploadTaskSnapshotL = dart.constFn(async.StreamController$(T$.UploadTaskSnapshotL())))(),
+    UploadTaskL: () => (T$.UploadTaskL = dart.constFn(dart.legacy(storage.UploadTask)))(),
+    ExpandoOfUploadTaskL: () => (T$.ExpandoOfUploadTaskL = dart.constFn(core.Expando$(T$.UploadTaskL())))(),
+    ExpandoOfUploadTaskSnapshotL: () => (T$.ExpandoOfUploadTaskSnapshotL = dart.constFn(core.Expando$(T$.UploadTaskSnapshotL())))(),
+    dynamicToStorageReferenceL: () => (T$.dynamicToStorageReferenceL = dart.constFn(dart.fnType(T$.StorageReferenceL(), [dart.dynamic])))(),
+    ExpandoOfListResultL: () => (T$.ExpandoOfListResultL = dart.constFn(core.Expando$(T$.ListResultL())))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T$);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: storage.TaskState.prototype,
+        [_name$]: "TaskState.RUNNING",
+        index: 0
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: storage.TaskState.prototype,
+        [_name$]: "TaskState.PAUSED",
+        index: 1
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: storage.TaskState.prototype,
+        [_name$]: "TaskState.SUCCESS",
+        index: 2
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: storage.TaskState.prototype,
+        [_name$]: "TaskState.CANCELED",
+        index: 3
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: storage.TaskState.prototype,
+        [_name$]: "TaskState.ERROR",
+        index: 4
+      });
+    },
+    get C5() {
+      return C[5] = dart.constList([C[0] || CT.C0, C[1] || CT.C1, C[2] || CT.C2, C[3] || CT.C3, C[4] || CT.C4], T$.TaskStateL());
+    },
+    get C6() {
+      return C[6] = dart.fn(storage.FullMetadata.getInstance, T$.dynamicToFullMetadataL());
+    },
+    get C7() {
+      return C[7] = dart.fn(storage.ListResult.getInstance, T$.ListResultJsImplLToListResultL());
+    },
+    get C8() {
+      return C[8] = dart.fn(storage.UploadTaskSnapshot.getInstance, T$.UploadTaskSnapshotJsImplLToUploadTaskSnapshotL());
+    }
+  }, false);
+  var C = Array(9).fill(void 0);
+  var I = ["package:firebase_storage_web/src/interop/storage.dart"];
+  var _name$ = dart.privateName(storage, "_name");
+  storage.TaskState = class TaskState extends core.Object {
+    toString() {
+      return this[_name$];
+    }
+  };
+  (storage.TaskState.new = function(index, _name) {
+    this.index = index;
+    this[_name$] = _name;
+    ;
+  }).prototype = storage.TaskState.prototype;
+  dart.addTypeTests(storage.TaskState);
+  dart.addTypeCaches(storage.TaskState);
+  dart.setMethodSignature(storage.TaskState, () => ({
+    __proto__: dart.getMethods(storage.TaskState.__proto__),
+    toString: dart.fnType(dart.legacy(core.String), []),
+    [$toString]: dart.fnType(dart.legacy(core.String), [])
+  }));
+  dart.setLibraryUri(storage.TaskState, I[0]);
+  dart.setFieldSignature(storage.TaskState, () => ({
+    __proto__: dart.getFields(storage.TaskState.__proto__),
+    index: dart.finalFieldType(dart.legacy(core.int)),
+    [_name$]: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  dart.defineExtensionMethods(storage.TaskState, ['toString']);
+  storage.TaskState.RUNNING = C[0] || CT.C0;
+  storage.TaskState.PAUSED = C[1] || CT.C1;
+  storage.TaskState.SUCCESS = C[2] || CT.C2;
+  storage.TaskState.CANCELED = C[3] || CT.C3;
+  storage.TaskState.ERROR = C[4] || CT.C4;
+  storage.TaskState.values = C[5] || CT.C5;
+  storage.Storage = class Storage extends js$.JsObjectWrapper$(dart.legacy(dart.lazyJSType(() => dart.global.firebase.storage.Storage, "firebase.storage.Storage"))) {
+    get app() {
+      return app.App.getInstance(this.jsObject.app);
+    }
+    get maxOperationRetryTime() {
+      return this.jsObject.maxOperationRetryTime;
+    }
+    get maxUploadRetryTime() {
+      return this.jsObject.maxUploadRetryTime;
+    }
+    static getInstance(jsObject) {
+      let t3, t2, t1, t0;
+      if (jsObject == null) {
+        return null;
+      }
+      t0 = storage.Storage._expando;
+      t1 = jsObject;
+      t2 = t0._get(t1);
+      return t2 == null ? (t3 = new storage.Storage._fromJsObject(jsObject), t0._set(t1, t3), t3) : t2;
+    }
+    ref(path = null) {
+      return storage.StorageReference.getInstance(this.jsObject.ref(path));
+    }
+    refFromURL(url) {
+      return storage.StorageReference.getInstance(this.jsObject.refFromURL(url));
+    }
+    setMaxOperationRetryTime(time) {
+      return this.jsObject.setMaxOperationRetryTime(time);
+    }
+    setMaxUploadRetryTime(time) {
+      return this.jsObject.setMaxUploadRetryTime(time);
+    }
+  };
+  (storage.Storage._fromJsObject = function(jsObject) {
+    storage.Storage.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.Storage.prototype;
+  dart.addTypeTests(storage.Storage);
+  dart.addTypeCaches(storage.Storage);
+  dart.setMethodSignature(storage.Storage, () => ({
+    __proto__: dart.getMethods(storage.Storage.__proto__),
+    ref: dart.fnType(dart.legacy(storage.StorageReference), [], [dart.legacy(core.String)]),
+    refFromURL: dart.fnType(dart.legacy(storage.StorageReference), [dart.legacy(core.String)]),
+    setMaxOperationRetryTime: dart.fnType(dart.void, [dart.legacy(core.int)]),
+    setMaxUploadRetryTime: dart.fnType(dart.void, [dart.legacy(core.int)])
+  }));
+  dart.setGetterSignature(storage.Storage, () => ({
+    __proto__: dart.getGetters(storage.Storage.__proto__),
+    app: dart.legacy(app.App),
+    maxOperationRetryTime: dart.legacy(core.int),
+    maxUploadRetryTime: dart.legacy(core.int)
+  }));
+  dart.setLibraryUri(storage.Storage, I[0]);
+  dart.defineLazy(storage.Storage, {
+    /*storage.Storage._expando*/get _expando() {
+      return new (T$.ExpandoOfStorageL()).new();
+    }
+  }, true);
+  storage.StorageReference = class StorageReference extends js$.JsObjectWrapper$(dart.legacy(dart.lazyJSType(() => dart.global.firebase.storage.Reference, "firebase.storage.Reference"))) {
+    get bucket() {
+      return this.jsObject.bucket;
+    }
+    get fullPath() {
+      return this.jsObject.fullPath;
+    }
+    get name() {
+      return this.jsObject.name;
+    }
+    get parent() {
+      return storage.StorageReference.getInstance(this.jsObject.parent);
+    }
+    get root() {
+      return storage.StorageReference.getInstance(this.jsObject.root);
+    }
+    get storage() {
+      return storage.Storage.getInstance(this.jsObject.storage);
+    }
+    static getInstance(jsObject) {
+      let t3, t2, t1, t0;
+      if (jsObject == null) {
+        return null;
+      }
+      t0 = storage.StorageReference._expando;
+      t1 = jsObject;
+      t2 = t0._get(t1);
+      return t2 == null ? (t3 = new storage.StorageReference._fromJsObject(jsObject), t0._set(t1, t3), t3) : t2;
+    }
+    child(path) {
+      return storage.StorageReference.getInstance(this.jsObject.child(path));
+    }
+    delete() {
+      return utils.handleThenable(dart.dynamic, this.jsObject.delete());
+    }
+    getDownloadURL() {
+      return async.async(T$.UriL(), (function* getDownloadURL() {
+        let uriString = (yield utils.handleThenable(T$.StringL(), this.jsObject.getDownloadURL()));
+        return core.Uri.parse(uriString);
+      }).bind(this));
+    }
+    getMetadata() {
+      return utils.handleThenable(dart.legacy(dart.anonymousJSType("FullMetadataJsImpl")), this.jsObject.getMetadata()).then(T$.FullMetadataL(), C[6] || CT.C6);
+    }
+    list(options) {
+      let t0;
+      return utils.handleThenable(dart.legacy(dart.anonymousJSType("ListResultJsImpl")), this.jsObject.list((t0 = options, t0 == null ? null : t0.jsObject))).then(T$.ListResultL(), C[7] || CT.C7);
+    }
+    listAll() {
+      return utils.handleThenable(dart.legacy(dart.anonymousJSType("ListResultJsImpl")), this.jsObject.listAll()).then(T$.ListResultL(), C[7] || CT.C7);
+    }
+    put(blob, metadata = null) {
+      let taskImpl = null;
+      if (metadata != null) {
+        taskImpl = this.jsObject.put(blob, metadata.jsObject);
+      } else {
+        taskImpl = this.jsObject.put(blob);
+      }
+      return storage.UploadTask.getInstance(taskImpl);
+    }
+    putString(data, format = null, metadata = null) {
+      let taskImpl = null;
+      if (metadata != null) {
+        taskImpl = this.jsObject.putString(data, format, metadata.jsObject);
+      } else if (format != null) {
+        taskImpl = this.jsObject.putString(data, format);
+      } else {
+        taskImpl = this.jsObject.putString(data);
+      }
+      return storage.UploadTask.getInstance(taskImpl);
+    }
+    toString() {
+      return dart.toString(this.jsObject);
+    }
+    updateMetadata(metadata) {
+      return utils.handleThenable(dart.legacy(dart.anonymousJSType("FullMetadataJsImpl")), this.jsObject.updateMetadata(metadata.jsObject)).then(T$.FullMetadataL(), C[6] || CT.C6);
+    }
+  };
+  (storage.StorageReference._fromJsObject = function(jsObject) {
+    storage.StorageReference.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.StorageReference.prototype;
+  dart.addTypeTests(storage.StorageReference);
+  dart.addTypeCaches(storage.StorageReference);
+  dart.setMethodSignature(storage.StorageReference, () => ({
+    __proto__: dart.getMethods(storage.StorageReference.__proto__),
+    child: dart.fnType(dart.legacy(storage.StorageReference), [dart.legacy(core.String)]),
+    delete: dart.fnType(dart.legacy(async.Future), []),
+    getDownloadURL: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.Uri))), []),
+    getMetadata: dart.fnType(dart.legacy(async.Future$(dart.legacy(storage.FullMetadata))), []),
+    list: dart.fnType(dart.legacy(async.Future$(dart.legacy(storage.ListResult))), [dart.legacy(storage.ListOptions)]),
+    listAll: dart.fnType(dart.legacy(async.Future$(dart.legacy(storage.ListResult))), []),
+    put: dart.fnType(dart.legacy(storage.UploadTask), [dart.dynamic], [dart.legacy(storage.UploadMetadata)]),
+    putString: dart.fnType(dart.legacy(storage.UploadTask), [dart.legacy(core.String)], [dart.legacy(core.String), dart.legacy(storage.UploadMetadata)]),
+    toString: dart.fnType(dart.legacy(core.String), []),
+    [$toString]: dart.fnType(dart.legacy(core.String), []),
+    updateMetadata: dart.fnType(dart.legacy(async.Future$(dart.legacy(storage.FullMetadata))), [dart.legacy(storage.SettableMetadata)])
+  }));
+  dart.setGetterSignature(storage.StorageReference, () => ({
+    __proto__: dart.getGetters(storage.StorageReference.__proto__),
+    bucket: dart.legacy(core.String),
+    fullPath: dart.legacy(core.String),
+    name: dart.legacy(core.String),
+    parent: dart.legacy(storage.StorageReference),
+    root: dart.legacy(storage.StorageReference),
+    storage: dart.legacy(storage.Storage)
+  }));
+  dart.setLibraryUri(storage.StorageReference, I[0]);
+  dart.defineExtensionMethods(storage.StorageReference, ['toString']);
+  dart.defineLazy(storage.StorageReference, {
+    /*storage.StorageReference._expando*/get _expando() {
+      return new (T$.ExpandoOfStorageReferenceL()).new();
+    }
+  }, true);
+  const _is__SettableMetadataBase_default = Symbol('_is__SettableMetadataBase_default');
+  storage._SettableMetadataBase$ = dart.generic(T => {
+    class _SettableMetadataBase extends js$.JsObjectWrapper$(dart.legacy(T)) {
+      get cacheControl() {
+        return this.jsObject.cacheControl;
+      }
+      set cacheControl(s) {
+        this.jsObject.cacheControl = s;
+      }
+      get contentDisposition() {
+        return this.jsObject.contentDisposition;
+      }
+      set contentDisposition(s) {
+        this.jsObject.contentDisposition = s;
+      }
+      get contentEncoding() {
+        return this.jsObject.contentEncoding;
+      }
+      set contentEncoding(s) {
+        this.jsObject.contentEncoding = s;
+      }
+      get contentLanguage() {
+        return this.jsObject.contentLanguage;
+      }
+      set contentLanguage(s) {
+        this.jsObject.contentLanguage = s;
+      }
+      get contentType() {
+        return this.jsObject.contentType;
+      }
+      set contentType(s) {
+        this.jsObject.contentType = s;
+      }
+      get customMetadata() {
+        let t0;
+        t0 = T$.MapL().as(utils.dartify(this.jsObject.customMetadata));
+        return t0 == null ? null : t0[$cast](T$.StringL(), T$.StringL());
+      }
+      set customMetadata(m) {
+        this.jsObject.customMetadata = utils.jsify(m);
+      }
+    }
+    (_SettableMetadataBase.fromJsObject = function(jsObject) {
+      _SettableMetadataBase.__proto__.fromJsObject.call(this, jsObject);
+      ;
+    }).prototype = _SettableMetadataBase.prototype;
+    dart.addTypeTests(_SettableMetadataBase);
+    _SettableMetadataBase.prototype[_is__SettableMetadataBase_default] = true;
+    dart.addTypeCaches(_SettableMetadataBase);
+    dart.setGetterSignature(_SettableMetadataBase, () => ({
+      __proto__: dart.getGetters(_SettableMetadataBase.__proto__),
+      cacheControl: dart.legacy(core.String),
+      contentDisposition: dart.legacy(core.String),
+      contentEncoding: dart.legacy(core.String),
+      contentLanguage: dart.legacy(core.String),
+      contentType: dart.legacy(core.String),
+      customMetadata: dart.legacy(core.Map$(dart.legacy(core.String), dart.legacy(core.String)))
+    }));
+    dart.setSetterSignature(_SettableMetadataBase, () => ({
+      __proto__: dart.getSetters(_SettableMetadataBase.__proto__),
+      cacheControl: dart.legacy(core.String),
+      contentDisposition: dart.legacy(core.String),
+      contentEncoding: dart.legacy(core.String),
+      contentLanguage: dart.legacy(core.String),
+      contentType: dart.legacy(core.String),
+      customMetadata: dart.legacy(core.Map$(dart.legacy(core.String), dart.legacy(core.String)))
+    }));
+    dart.setLibraryUri(_SettableMetadataBase, I[0]);
+    return _SettableMetadataBase;
+  });
+  storage._SettableMetadataBase = storage._SettableMetadataBase$();
+  dart.addTypeTests(storage._SettableMetadataBase, _is__SettableMetadataBase_default);
+  const _is__UploadMetadataBase_default = Symbol('_is__UploadMetadataBase_default');
+  storage._UploadMetadataBase$ = dart.generic(T => {
+    class _UploadMetadataBase extends storage._SettableMetadataBase$(dart.legacy(T)) {
+      get md5Hash() {
+        return this.jsObject.md5Hash;
+      }
+      set md5Hash(s) {
+        this.jsObject.md5Hash = s;
+      }
+    }
+    (_UploadMetadataBase.fromJsObject = function(jsObject) {
+      _UploadMetadataBase.__proto__.fromJsObject.call(this, jsObject);
+      ;
+    }).prototype = _UploadMetadataBase.prototype;
+    dart.addTypeTests(_UploadMetadataBase);
+    _UploadMetadataBase.prototype[_is__UploadMetadataBase_default] = true;
+    dart.addTypeCaches(_UploadMetadataBase);
+    dart.setGetterSignature(_UploadMetadataBase, () => ({
+      __proto__: dart.getGetters(_UploadMetadataBase.__proto__),
+      md5Hash: dart.legacy(core.String)
+    }));
+    dart.setSetterSignature(_UploadMetadataBase, () => ({
+      __proto__: dart.getSetters(_UploadMetadataBase.__proto__),
+      md5Hash: dart.legacy(core.String)
+    }));
+    dart.setLibraryUri(_UploadMetadataBase, I[0]);
+    return _UploadMetadataBase;
+  });
+  storage._UploadMetadataBase = storage._UploadMetadataBase$();
+  dart.addTypeTests(storage._UploadMetadataBase, _is__UploadMetadataBase_default);
+  storage.FullMetadata = class FullMetadata extends storage._UploadMetadataBase$(dart.legacy(dart.anonymousJSType("FullMetadataJsImpl"))) {
+    get bucket() {
+      return this.jsObject.bucket;
+    }
+    get fullPath() {
+      return this.jsObject.fullPath;
+    }
+    get generation() {
+      return this.jsObject.generation;
+    }
+    get metageneration() {
+      return this.jsObject.metageneration;
+    }
+    get name() {
+      return this.jsObject.name;
+    }
+    get size() {
+      return this.jsObject.size;
+    }
+    get timeCreated() {
+      return this.jsObject.timeCreated == null ? null : core.DateTime.parse(this.jsObject.timeCreated);
+    }
+    get updated() {
+      return this.jsObject.updated == null ? null : core.DateTime.parse(this.jsObject.updated);
+    }
+    static getInstance(jsObject) {
+      let t3, t2, t1, t0;
+      if (jsObject == null) {
+        return null;
+      }
+      t0 = storage.FullMetadata._expando;
+      t1 = jsObject;
+      t2 = t0._get(t1);
+      return t2 == null ? (t3 = new storage.FullMetadata._fromJsObject(jsObject), t0._set(t1, t3), t3) : t2;
+    }
+  };
+  (storage.FullMetadata._fromJsObject = function(jsObject) {
+    storage.FullMetadata.__proto__.fromJsObject.call(this, dart.legacy(dart.anonymousJSType("FullMetadataJsImpl")).as(jsObject));
+    ;
+  }).prototype = storage.FullMetadata.prototype;
+  dart.addTypeTests(storage.FullMetadata);
+  dart.addTypeCaches(storage.FullMetadata);
+  dart.setGetterSignature(storage.FullMetadata, () => ({
+    __proto__: dart.getGetters(storage.FullMetadata.__proto__),
+    bucket: dart.legacy(core.String),
+    fullPath: dart.legacy(core.String),
+    generation: dart.legacy(core.String),
+    metageneration: dart.legacy(core.String),
+    name: dart.legacy(core.String),
+    size: dart.legacy(core.int),
+    timeCreated: dart.legacy(core.DateTime),
+    updated: dart.legacy(core.DateTime)
+  }));
+  dart.setLibraryUri(storage.FullMetadata, I[0]);
+  dart.defineLazy(storage.FullMetadata, {
+    /*storage.FullMetadata._expando*/get _expando() {
+      return new (T$.ExpandoOfFullMetadataL()).new();
+    }
+  }, true);
+  storage.UploadMetadata = class UploadMetadata extends storage._UploadMetadataBase$(dart.legacy(dart.anonymousJSType("UploadMetadataJsImpl"))) {
+    static new(opts) {
+      let md5Hash = opts && 'md5Hash' in opts ? opts.md5Hash : null;
+      let cacheControl = opts && 'cacheControl' in opts ? opts.cacheControl : null;
+      let contentDisposition = opts && 'contentDisposition' in opts ? opts.contentDisposition : null;
+      let contentEncoding = opts && 'contentEncoding' in opts ? opts.contentEncoding : null;
+      let contentLanguage = opts && 'contentLanguage' in opts ? opts.contentLanguage : null;
+      let contentType = opts && 'contentType' in opts ? opts.contentType : null;
+      let customMetadata = opts && 'customMetadata' in opts ? opts.customMetadata : null;
+      return new storage.UploadMetadata.fromJsObject({md5Hash: md5Hash, cacheControl: cacheControl, contentDisposition: contentDisposition, contentEncoding: contentEncoding, contentLanguage: contentLanguage, contentType: contentType, customMetadata: customMetadata != null ? utils.jsify(customMetadata) : null});
+    }
+  };
+  (storage.UploadMetadata.fromJsObject = function(jsObject) {
+    storage.UploadMetadata.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.UploadMetadata.prototype;
+  dart.addTypeTests(storage.UploadMetadata);
+  dart.addTypeCaches(storage.UploadMetadata);
+  dart.setLibraryUri(storage.UploadMetadata, I[0]);
+  var _future = dart.privateName(storage, "_future");
+  var _onStateChangedUnsubscribe = dart.privateName(storage, "_onStateChangedUnsubscribe");
+  var _changeController = dart.privateName(storage, "_changeController");
+  storage.UploadTask = class UploadTask extends js$.JsObjectWrapper$(dart.legacy(dart.lazyJSType(() => dart.global.firebase.storage.UploadTask, "firebase.storage.UploadTask"))) {
+    get future() {
+      let t0;
+      t0 = this[_future];
+      return t0 == null ? this[_future] = utils.handleThenable(dart.legacy(dart.anonymousJSType("UploadTaskSnapshotJsImpl")), this.jsObject).then(T$.UploadTaskSnapshotL(), C[8] || CT.C8) : t0;
+    }
+    get snapshot() {
+      return storage.UploadTaskSnapshot.getInstance(this.jsObject.snapshot);
+    }
+    static getInstance(jsObject) {
+      let t3, t2, t1, t0;
+      if (jsObject == null) {
+        return null;
+      }
+      t0 = storage.UploadTask._expando;
+      t1 = jsObject;
+      t2 = t0._get(t1);
+      return t2 == null ? (t3 = new storage.UploadTask._fromJsObject(jsObject), t0._set(t1, t3), t3) : t2;
+    }
+    cancel() {
+      return this.jsObject.cancel();
+    }
+    get onStateChanged() {
+      if (this[_changeController] == null) {
+        let nextWrapper = js.allowInterop(T$.UploadTaskSnapshotJsImplLToLNull(), dart.fn(data => {
+          this[_changeController].add(storage.UploadTaskSnapshot.getInstance(data));
+        }, T$.UploadTaskSnapshotJsImplLToNull()));
+        let errorWrapper = js.allowInterop(T$.dynamicToLvoid(), dart.fn(e => this[_changeController].addError(e), T$.dynamicTovoid()));
+        let onCompletion = js.allowInterop(T$.VoidToLNull(), dart.fn(() => {
+          this[_changeController].close();
+        }, T$.VoidToNull()));
+        const startListen = () => {
+          this[_onStateChangedUnsubscribe] = this.jsObject.on(dart.global.firebase.storage.TaskEvent.STATE_CHANGED, dart.assertInterop(nextWrapper), dart.assertInterop(errorWrapper), dart.assertInterop(onCompletion));
+        };
+        dart.fn(startListen, T$.VoidTovoid());
+        const stopListen = () => {
+          this[_onStateChangedUnsubscribe]();
+        };
+        dart.fn(stopListen, T$.VoidTovoid());
+        this[_changeController] = T$.StreamControllerOfUploadTaskSnapshotL().broadcast({onListen: startListen, onCancel: stopListen, sync: true});
+      }
+      return this[_changeController].stream;
+    }
+    pause() {
+      return this.jsObject.pause();
+    }
+    resume() {
+      return this.jsObject.resume();
+    }
+  };
+  (storage.UploadTask._fromJsObject = function(jsObject) {
+    this[_future] = null;
+    this[_onStateChangedUnsubscribe] = null;
+    this[_changeController] = null;
+    storage.UploadTask.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.UploadTask.prototype;
+  dart.addTypeTests(storage.UploadTask);
+  dart.addTypeCaches(storage.UploadTask);
+  dart.setMethodSignature(storage.UploadTask, () => ({
+    __proto__: dart.getMethods(storage.UploadTask.__proto__),
+    cancel: dart.fnType(dart.legacy(core.bool), []),
+    pause: dart.fnType(dart.legacy(core.bool), []),
+    resume: dart.fnType(dart.legacy(core.bool), [])
+  }));
+  dart.setGetterSignature(storage.UploadTask, () => ({
+    __proto__: dart.getGetters(storage.UploadTask.__proto__),
+    future: dart.legacy(async.Future$(dart.legacy(storage.UploadTaskSnapshot))),
+    snapshot: dart.legacy(storage.UploadTaskSnapshot),
+    onStateChanged: dart.legacy(async.Stream$(dart.legacy(storage.UploadTaskSnapshot)))
+  }));
+  dart.setLibraryUri(storage.UploadTask, I[0]);
+  dart.setFieldSignature(storage.UploadTask, () => ({
+    __proto__: dart.getFields(storage.UploadTask.__proto__),
+    [_future]: dart.fieldType(dart.legacy(async.Future$(dart.legacy(storage.UploadTaskSnapshot)))),
+    [_onStateChangedUnsubscribe]: dart.fieldType(dart.legacy(dart.fnType(dart.dynamic, []))),
+    [_changeController]: dart.fieldType(dart.legacy(async.StreamController$(dart.legacy(storage.UploadTaskSnapshot))))
+  }));
+  dart.defineLazy(storage.UploadTask, {
+    /*storage.UploadTask._expando*/get _expando() {
+      return new (T$.ExpandoOfUploadTaskL()).new();
+    }
+  }, true);
+  storage.UploadTaskSnapshot = class UploadTaskSnapshot extends js$.JsObjectWrapper$(dart.legacy(dart.anonymousJSType("UploadTaskSnapshotJsImpl"))) {
+    get bytesTransferred() {
+      return this.jsObject.bytesTransferred;
+    }
+    get metadata() {
+      return storage.FullMetadata.getInstance(this.jsObject.metadata);
+    }
+    get ref() {
+      return storage.StorageReference.getInstance(this.jsObject.ref);
+    }
+    get state() {
+      switch (this.jsObject.state) {
+        case "running":
+        {
+          return storage.TaskState.RUNNING;
+        }
+        case "paused":
+        {
+          return storage.TaskState.PAUSED;
+        }
+        case "success":
+        {
+          return storage.TaskState.SUCCESS;
+        }
+        case "canceled":
+        {
+          return storage.TaskState.CANCELED;
+        }
+        case "error":
+        {
+          return storage.TaskState.ERROR;
+        }
+        default:
+        {
+          dart.throw(new core.UnsupportedError.new("Unknown state '" + dart.str(this.jsObject.state) + "' please file a bug."));
+        }
+      }
+    }
+    get task() {
+      return storage.UploadTask.getInstance(this.jsObject.task);
+    }
+    get totalBytes() {
+      return this.jsObject.totalBytes;
+    }
+    static getInstance(jsObject) {
+      let t3, t2, t1, t0;
+      if (jsObject == null) {
+        return null;
+      }
+      t0 = storage.UploadTaskSnapshot._expando;
+      t1 = jsObject;
+      t2 = t0._get(t1);
+      return t2 == null ? (t3 = new storage.UploadTaskSnapshot._fromJsObject(jsObject), t0._set(t1, t3), t3) : t2;
+    }
+  };
+  (storage.UploadTaskSnapshot._fromJsObject = function(jsObject) {
+    storage.UploadTaskSnapshot.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.UploadTaskSnapshot.prototype;
+  dart.addTypeTests(storage.UploadTaskSnapshot);
+  dart.addTypeCaches(storage.UploadTaskSnapshot);
+  dart.setGetterSignature(storage.UploadTaskSnapshot, () => ({
+    __proto__: dart.getGetters(storage.UploadTaskSnapshot.__proto__),
+    bytesTransferred: dart.legacy(core.int),
+    metadata: dart.legacy(storage.FullMetadata),
+    ref: dart.legacy(storage.StorageReference),
+    state: dart.legacy(storage.TaskState),
+    task: dart.legacy(storage.UploadTask),
+    totalBytes: dart.legacy(core.int)
+  }));
+  dart.setLibraryUri(storage.UploadTaskSnapshot, I[0]);
+  dart.defineLazy(storage.UploadTaskSnapshot, {
+    /*storage.UploadTaskSnapshot._expando*/get _expando() {
+      return new (T$.ExpandoOfUploadTaskSnapshotL()).new();
+    }
+  }, true);
+  storage.SettableMetadata = class SettableMetadata extends storage._SettableMetadataBase$(dart.legacy(dart.anonymousJSType("SettableMetadataJsImpl"))) {
+    static new(opts) {
+      let cacheControl = opts && 'cacheControl' in opts ? opts.cacheControl : null;
+      let contentDisposition = opts && 'contentDisposition' in opts ? opts.contentDisposition : null;
+      let contentEncoding = opts && 'contentEncoding' in opts ? opts.contentEncoding : null;
+      let contentLanguage = opts && 'contentLanguage' in opts ? opts.contentLanguage : null;
+      let contentType = opts && 'contentType' in opts ? opts.contentType : null;
+      let customMetadata = opts && 'customMetadata' in opts ? opts.customMetadata : null;
+      return new storage.SettableMetadata.fromJsObject({cacheControl: cacheControl, contentDisposition: contentDisposition, contentEncoding: contentEncoding, contentLanguage: contentLanguage, contentType: contentType, customMetadata: customMetadata != null ? utils.jsify(customMetadata) : null});
+    }
+  };
+  (storage.SettableMetadata.fromJsObject = function(jsObject) {
+    storage.SettableMetadata.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.SettableMetadata.prototype;
+  dart.addTypeTests(storage.SettableMetadata);
+  dart.addTypeCaches(storage.SettableMetadata);
+  dart.setLibraryUri(storage.SettableMetadata, I[0]);
+  storage.ListOptions = class ListOptions extends js$.JsObjectWrapper$(dart.legacy(dart.anonymousJSType("ListOptionsJsImpl"))) {
+    get maxResults() {
+      return this.jsObject.maxResults;
+    }
+    set maxResults(n) {
+      return this.jsObject.maxResults = n;
+    }
+    get pageToken() {
+      return this.jsObject.pageToken;
+    }
+    set pageToken(t) {
+      return this.jsObject.pageToken = t;
+    }
+    static new(opts) {
+      let maxResults = opts && 'maxResults' in opts ? opts.maxResults : null;
+      let pageToken = opts && 'pageToken' in opts ? opts.pageToken : null;
+      return new storage.ListOptions._fromJsObject({maxResults: maxResults, pageToken: pageToken});
+    }
+  };
+  (storage.ListOptions._fromJsObject = function(jsObject) {
+    storage.ListOptions.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.ListOptions.prototype;
+  dart.addTypeTests(storage.ListOptions);
+  dart.addTypeCaches(storage.ListOptions);
+  dart.setGetterSignature(storage.ListOptions, () => ({
+    __proto__: dart.getGetters(storage.ListOptions.__proto__),
+    maxResults: dart.legacy(core.int),
+    pageToken: dart.legacy(core.String)
+  }));
+  dart.setSetterSignature(storage.ListOptions, () => ({
+    __proto__: dart.getSetters(storage.ListOptions.__proto__),
+    maxResults: dart.legacy(core.int),
+    pageToken: dart.legacy(core.String)
+  }));
+  dart.setLibraryUri(storage.ListOptions, I[0]);
+  storage.ListResult = class ListResult extends js$.JsObjectWrapper$(dart.legacy(dart.anonymousJSType("ListResultJsImpl"))) {
+    get items() {
+      return this.jsObject.items[$map](T$.StorageReferenceL(), dart.fn(data => new storage.StorageReference._fromJsObject(dart.legacy(dart.lazyJSType(() => dart.global.firebase.storage.Reference, "firebase.storage.Reference")).as(data)), T$.dynamicToStorageReferenceL()))[$toList]();
+    }
+    get nextPageToken() {
+      return this.jsObject.nextPageToken;
+    }
+    get prefixes() {
+      return this.jsObject.prefixes[$map](T$.StorageReferenceL(), dart.fn(data => new storage.StorageReference._fromJsObject(dart.legacy(dart.lazyJSType(() => dart.global.firebase.storage.Reference, "firebase.storage.Reference")).as(data)), T$.dynamicToStorageReferenceL()))[$toList]();
+    }
+    static getInstance(jsObject) {
+      let t3, t2, t1, t0;
+      if (jsObject == null) {
+        return null;
+      }
+      t0 = storage.ListResult._expando;
+      t1 = jsObject;
+      t2 = t0._get(t1);
+      return t2 == null ? (t3 = new storage.ListResult._fromJsObject(jsObject), t0._set(t1, t3), t3) : t2;
+    }
+  };
+  (storage.ListResult._fromJsObject = function(jsObject) {
+    storage.ListResult.__proto__.fromJsObject.call(this, jsObject);
+    ;
+  }).prototype = storage.ListResult.prototype;
+  dart.addTypeTests(storage.ListResult);
+  dart.addTypeCaches(storage.ListResult);
+  dart.setGetterSignature(storage.ListResult, () => ({
+    __proto__: dart.getGetters(storage.ListResult.__proto__),
+    items: dart.legacy(core.List$(dart.legacy(storage.StorageReference))),
+    nextPageToken: dart.legacy(core.String),
+    prefixes: dart.legacy(core.List$(dart.legacy(storage.StorageReference)))
+  }));
+  dart.setLibraryUri(storage.ListResult, I[0]);
+  dart.defineLazy(storage.ListResult, {
+    /*storage.ListResult._expando*/get _expando() {
+      return new (T$.ExpandoOfListResultL()).new();
+    }
+  }, true);
+  storage.getStorageInstance = function getStorageInstance(app = null) {
+    return storage.Storage.getInstance(app != null ? dart.global.firebase.storage(app.jsObject) : dart.global.firebase.storage());
+  };
+  dart.trackLibraries("packages/firebase_storage_web/src/interop/storage.dart", {
+    "package:firebase_storage_web/src/interop/storage.dart": storage
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["storage.dart"],"names":[],"mappings":"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","file":"../../../../../../../../packages/firebase_storage_web/src/interop/storage.dart.lib.js"}');
+  // Exports:
+  return {
+    src__interop__storage: storage
+  };
+}));
+
+//# sourceMappingURL=storage.dart.lib.js.map

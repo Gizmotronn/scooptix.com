@@ -1,0 +1,313 @@
+define(['dart_sdk', 'packages/flutter/src/services/system_channels.dart', 'packages/flutter_facebook_login_web/src/clock.dart'], (function load__packages__flutter_facebook_login_web__flutter_facebook_login_web_dart(dart_sdk, packages__flutter__src__services__system_channels$46dart, packages__flutter_facebook_login_web__src__clock$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _js_helper = dart_sdk._js_helper;
+  const async = dart_sdk.async;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const platform_channel = packages__flutter__src__services__system_channels$46dart.src__services__platform_channel;
+  const message_codecs = packages__flutter__src__services__system_channels$46dart.src__services__message_codecs;
+  const clock = packages__flutter_facebook_login_web__src__clock$46dart.src__clock;
+  var flutter_facebook_login_web = Object.create(dart.library);
+  var $cast = dartx.cast;
+  var $_get = dartx._get;
+  var $toString = dartx.toString;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    MapL: () => (T.MapL = dart.constFn(dart.legacy(core.Map)))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    ListOfStringL: () => (T.ListOfStringL = dart.constFn(core.List$(T.StringL())))(),
+    ListLOfStringL: () => (T.ListLOfStringL = dart.constFn(dart.legacy(T.ListOfStringL())))(),
+    IdentityMapOfStringL$ListLOfStringL: () => (T.IdentityMapOfStringL$ListLOfStringL = dart.constFn(_js_helper.IdentityMap$(T.StringL(), T.ListLOfStringL())))(),
+    FacebookLoginResultL: () => (T.FacebookLoginResultL = dart.constFn(dart.legacy(flutter_facebook_login_web.FacebookLoginResult)))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    FacebookAccessTokenL: () => (T.FacebookAccessTokenL = dart.constFn(dart.legacy(flutter_facebook_login_web.FacebookAccessToken)))(),
+    MapOfStringL$dynamic: () => (T.MapOfStringL$dynamic = dart.constFn(core.Map$(T.StringL(), dart.dynamic)))(),
+    MapLOfStringL$dynamic: () => (T.MapLOfStringL$dynamic = dart.constFn(dart.legacy(T.MapOfStringL$dynamic())))(),
+    FacebookLoginStatusL: () => (T.FacebookLoginStatusL = dart.constFn(dart.legacy(flutter_facebook_login_web.FacebookLoginStatus)))(),
+    JSArrayOfStringL: () => (T.JSArrayOfStringL = dart.constFn(_interceptors.JSArray$(T.StringL())))(),
+    IdentityMapOfStringL$dynamic: () => (T.IdentityMapOfStringL$dynamic = dart.constFn(_js_helper.IdentityMap$(T.StringL(), dart.dynamic)))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: message_codecs.StandardMessageCodec.prototype
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: message_codecs.StandardMethodCodec.prototype,
+        [StandardMethodCodec_messageCodec]: C[2] || CT.C2
+      });
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: platform_channel.MethodChannel.prototype,
+        [MethodChannel__binaryMessenger]: null,
+        [MethodChannel_codec]: C[1] || CT.C1,
+        [MethodChannel_name]: "flutter_facebook_login_web"
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: flutter_facebook_login_web.FacebookLoginStatus.prototype,
+        [_name$]: "FacebookLoginStatus.loggedIn",
+        index: 0
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: flutter_facebook_login_web.FacebookLoginStatus.prototype,
+        [_name$]: "FacebookLoginStatus.cancelledByUser",
+        index: 1
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: flutter_facebook_login_web.FacebookLoginStatus.prototype,
+        [_name$]: "FacebookLoginStatus.error",
+        index: 2
+      });
+    },
+    get C6() {
+      return C[6] = dart.constList([C[3] || CT.C3, C[4] || CT.C4, C[5] || CT.C5], T.FacebookLoginStatusL());
+    }
+  }, false);
+  var C = Array(7).fill(void 0);
+  var I = ["package:flutter_facebook_login_web/flutter_facebook_login_web.dart"];
+  var MethodChannel__binaryMessenger = dart.privateName(platform_channel, "MethodChannel._binaryMessenger");
+  var StandardMethodCodec_messageCodec = dart.privateName(message_codecs, "StandardMethodCodec.messageCodec");
+  var MethodChannel_codec = dart.privateName(platform_channel, "MethodChannel.codec");
+  var MethodChannel_name = dart.privateName(platform_channel, "MethodChannel.name");
+  flutter_facebook_login_web.FacebookLoginWeb = class FacebookLoginWeb extends core.Object {
+    logIn(permissions) {
+      return async.async(T.FacebookLoginResultL(), function* logIn() {
+        let map = (yield flutter_facebook_login_web.FacebookLoginWeb._channel.invokeMethod(T.MapL(), "login", new (T.IdentityMapOfStringL$ListLOfStringL()).from(["permissions", permissions])));
+        return new flutter_facebook_login_web.FacebookLoginResult.__(map[$cast](T.StringL(), dart.dynamic));
+      });
+    }
+    testApi() {
+      return async.async(dart.dynamic, function* testApi() {
+        return yield flutter_facebook_login_web.FacebookLoginWeb._channel.invokeMethod(dart.dynamic, "testApi");
+      });
+    }
+    logOut() {
+      return async.async(dart.dynamic, function* logOut() {
+        return yield flutter_facebook_login_web.FacebookLoginWeb._channel.invokeMethod(dart.dynamic, "logout");
+      });
+    }
+    get isLoggedIn() {
+      return async.async(T.boolL(), (function* isLoggedIn() {
+        let t0, t0$;
+        t0$ = (t0 = (yield this.currentAccessToken), t0 == null ? null : t0.isValid());
+        return t0$ == null ? false : t0$;
+      }).bind(this));
+    }
+    get currentAccessToken() {
+      return async.async(T.FacebookAccessTokenL(), function* currentAccessToken() {
+        let accessToken = (yield flutter_facebook_login_web.FacebookLoginWeb._channel.invokeMethod(T.MapL(), "getCurrentAccessToken"));
+        if (accessToken == null) {
+          return null;
+        }
+        return new flutter_facebook_login_web.FacebookAccessToken.fromMap(accessToken[$cast](T.StringL(), dart.dynamic));
+      });
+    }
+  };
+  (flutter_facebook_login_web.FacebookLoginWeb.new = function() {
+    ;
+  }).prototype = flutter_facebook_login_web.FacebookLoginWeb.prototype;
+  dart.addTypeTests(flutter_facebook_login_web.FacebookLoginWeb);
+  dart.addTypeCaches(flutter_facebook_login_web.FacebookLoginWeb);
+  dart.setMethodSignature(flutter_facebook_login_web.FacebookLoginWeb, () => ({
+    __proto__: dart.getMethods(flutter_facebook_login_web.FacebookLoginWeb.__proto__),
+    logIn: dart.fnType(dart.legacy(async.Future$(dart.legacy(flutter_facebook_login_web.FacebookLoginResult))), [dart.legacy(core.List$(dart.legacy(core.String)))]),
+    testApi: dart.fnType(dart.legacy(async.Future), []),
+    logOut: dart.fnType(dart.legacy(async.Future), [])
+  }));
+  dart.setGetterSignature(flutter_facebook_login_web.FacebookLoginWeb, () => ({
+    __proto__: dart.getGetters(flutter_facebook_login_web.FacebookLoginWeb.__proto__),
+    isLoggedIn: dart.legacy(async.Future$(dart.legacy(core.bool))),
+    currentAccessToken: dart.legacy(async.Future$(dart.legacy(flutter_facebook_login_web.FacebookAccessToken)))
+  }));
+  dart.setLibraryUri(flutter_facebook_login_web.FacebookLoginWeb, I[0]);
+  dart.defineLazy(flutter_facebook_login_web.FacebookLoginWeb, {
+    /*flutter_facebook_login_web.FacebookLoginWeb._channel*/get _channel() {
+      return C[0] || CT.C0;
+    }
+  }, true);
+  var status = dart.privateName(flutter_facebook_login_web, "FacebookLoginResult.status");
+  var accessToken = dart.privateName(flutter_facebook_login_web, "FacebookLoginResult.accessToken");
+  var errorMessage = dart.privateName(flutter_facebook_login_web, "FacebookLoginResult.errorMessage");
+  flutter_facebook_login_web.FacebookLoginResult = class FacebookLoginResult extends core.Object {
+    get status() {
+      return this[status];
+    }
+    set status(value) {
+      super.status = value;
+    }
+    get accessToken() {
+      return this[accessToken];
+    }
+    set accessToken(value) {
+      super.accessToken = value;
+    }
+    get errorMessage() {
+      return this[errorMessage];
+    }
+    set errorMessage(value) {
+      super.errorMessage = value;
+    }
+    static _parseStatus(status) {
+      switch (status) {
+        case "connected":
+        {
+          return flutter_facebook_login_web.FacebookLoginStatus.loggedIn;
+        }
+        case "unknown":
+        {
+          return flutter_facebook_login_web.FacebookLoginStatus.cancelledByUser;
+        }
+        case "error":
+        {
+          return flutter_facebook_login_web.FacebookLoginStatus.error;
+        }
+      }
+      dart.throw(new core.StateError.new("Invalid status: " + dart.str(status)));
+    }
+  };
+  (flutter_facebook_login_web.FacebookLoginResult.__ = function(map) {
+    let t0;
+    this[status] = flutter_facebook_login_web.FacebookLoginResult._parseStatus(T.StringL().as(map[$_get]("status")));
+    this[accessToken] = map[$_get]("accessToken") != null ? new flutter_facebook_login_web.FacebookAccessToken.fromMap(T.MapLOfStringL$dynamic().as(dart.dgsend(map[$_get]("accessToken"), [T.StringL(), dart.dynamic], 'cast', []))) : null;
+    this[errorMessage] = T.StringL().as((t0 = map[$_get]("errorMessage"), t0 == null ? "" : t0));
+    ;
+  }).prototype = flutter_facebook_login_web.FacebookLoginResult.prototype;
+  dart.addTypeTests(flutter_facebook_login_web.FacebookLoginResult);
+  dart.addTypeCaches(flutter_facebook_login_web.FacebookLoginResult);
+  dart.setLibraryUri(flutter_facebook_login_web.FacebookLoginResult, I[0]);
+  dart.setFieldSignature(flutter_facebook_login_web.FacebookLoginResult, () => ({
+    __proto__: dart.getFields(flutter_facebook_login_web.FacebookLoginResult.__proto__),
+    status: dart.finalFieldType(dart.legacy(flutter_facebook_login_web.FacebookLoginStatus)),
+    accessToken: dart.finalFieldType(dart.legacy(flutter_facebook_login_web.FacebookAccessToken)),
+    errorMessage: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  var _name$ = dart.privateName(flutter_facebook_login_web, "_name");
+  flutter_facebook_login_web.FacebookLoginStatus = class FacebookLoginStatus extends core.Object {
+    toString() {
+      return this[_name$];
+    }
+  };
+  (flutter_facebook_login_web.FacebookLoginStatus.new = function(index, _name) {
+    this.index = index;
+    this[_name$] = _name;
+    ;
+  }).prototype = flutter_facebook_login_web.FacebookLoginStatus.prototype;
+  dart.addTypeTests(flutter_facebook_login_web.FacebookLoginStatus);
+  dart.addTypeCaches(flutter_facebook_login_web.FacebookLoginStatus);
+  dart.setMethodSignature(flutter_facebook_login_web.FacebookLoginStatus, () => ({
+    __proto__: dart.getMethods(flutter_facebook_login_web.FacebookLoginStatus.__proto__),
+    toString: dart.fnType(dart.legacy(core.String), []),
+    [$toString]: dart.fnType(dart.legacy(core.String), [])
+  }));
+  dart.setLibraryUri(flutter_facebook_login_web.FacebookLoginStatus, I[0]);
+  dart.setFieldSignature(flutter_facebook_login_web.FacebookLoginStatus, () => ({
+    __proto__: dart.getFields(flutter_facebook_login_web.FacebookLoginStatus.__proto__),
+    index: dart.finalFieldType(dart.legacy(core.int)),
+    [_name$]: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  dart.defineExtensionMethods(flutter_facebook_login_web.FacebookLoginStatus, ['toString']);
+  flutter_facebook_login_web.FacebookLoginStatus.loggedIn = C[3] || CT.C3;
+  flutter_facebook_login_web.FacebookLoginStatus.cancelledByUser = C[4] || CT.C4;
+  flutter_facebook_login_web.FacebookLoginStatus.error = C[5] || CT.C5;
+  flutter_facebook_login_web.FacebookLoginStatus.values = C[6] || CT.C6;
+  var token = dart.privateName(flutter_facebook_login_web, "FacebookAccessToken.token");
+  var userId = dart.privateName(flutter_facebook_login_web, "FacebookAccessToken.userId");
+  var expires = dart.privateName(flutter_facebook_login_web, "FacebookAccessToken.expires");
+  var permissions = dart.privateName(flutter_facebook_login_web, "FacebookAccessToken.permissions");
+  var declinedPermissions = dart.privateName(flutter_facebook_login_web, "FacebookAccessToken.declinedPermissions");
+  flutter_facebook_login_web.FacebookAccessToken = class FacebookAccessToken extends core.Object {
+    get token() {
+      return this[token];
+    }
+    set token(value) {
+      super.token = value;
+    }
+    get userId() {
+      return this[userId];
+    }
+    set userId(value) {
+      super.userId = value;
+    }
+    get expires() {
+      return this[expires];
+    }
+    set expires(value) {
+      super.expires = value;
+    }
+    get permissions() {
+      return this[permissions];
+    }
+    set permissions(value) {
+      super.permissions = value;
+    }
+    get declinedPermissions() {
+      return this[declinedPermissions];
+    }
+    set declinedPermissions(value) {
+      super.declinedPermissions = value;
+    }
+    isValid() {
+      return clock.Clock.now().isBefore(this.expires);
+    }
+    toMap() {
+      return new (T.IdentityMapOfStringL$dynamic()).from(["token", this.token, "userId", this.userId, "expires", this.expires.millisecondsSinceEpoch, "permissions", this.permissions, "declinedPermissions", this.declinedPermissions]);
+    }
+  };
+  (flutter_facebook_login_web.FacebookAccessToken.fromMap = function(map) {
+    this[token] = T.StringL().as(map[$_get]("token"));
+    this[userId] = T.StringL().as(map[$_get]("userId"));
+    this[expires] = new core.DateTime.fromMillisecondsSinceEpoch(core.int.as(map[$_get]("expires")), {isUtc: true});
+    this[permissions] = T.JSArrayOfStringL().of([]);
+    this[declinedPermissions] = T.JSArrayOfStringL().of([]);
+    ;
+  }).prototype = flutter_facebook_login_web.FacebookAccessToken.prototype;
+  dart.addTypeTests(flutter_facebook_login_web.FacebookAccessToken);
+  dart.addTypeCaches(flutter_facebook_login_web.FacebookAccessToken);
+  dart.setMethodSignature(flutter_facebook_login_web.FacebookAccessToken, () => ({
+    __proto__: dart.getMethods(flutter_facebook_login_web.FacebookAccessToken.__proto__),
+    isValid: dart.fnType(dart.legacy(core.bool), []),
+    toMap: dart.fnType(dart.legacy(core.Map$(dart.legacy(core.String), dart.dynamic)), [])
+  }));
+  dart.setLibraryUri(flutter_facebook_login_web.FacebookAccessToken, I[0]);
+  dart.setFieldSignature(flutter_facebook_login_web.FacebookAccessToken, () => ({
+    __proto__: dart.getFields(flutter_facebook_login_web.FacebookAccessToken.__proto__),
+    token: dart.finalFieldType(dart.legacy(core.String)),
+    userId: dart.finalFieldType(dart.legacy(core.String)),
+    expires: dart.finalFieldType(dart.legacy(core.DateTime)),
+    permissions: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(core.String)))),
+    declinedPermissions: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(core.String))))
+  }));
+  dart.trackLibraries("packages/flutter_facebook_login_web/flutter_facebook_login_web.dart", {
+    "package:flutter_facebook_login_web/flutter_facebook_login_web.dart": flutter_facebook_login_web
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["flutter_facebook_login_web.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;UAUiD;AAAd;AAC3B,mBAAM,MAAM,AAAS,4EAAa,SAAS,oDAC7C,eAAe,WAAW;AAG5B,cAA2B,uDAAE,AAAI,GAAD;MAClC;;;AAEc;AACZ,cAAO,OAAM,AAAS,gFAAa;MACrC;;;AAEa;AACX,cAAO,OAAM,AAAS,gFAAa;MACrC;;;AAO4B;;AAC1B,eAAgC,MAAxB,MAAM,uCAAkB,OAAG;cAAH,eAAgB;MAClD;;;AAEmD;AAC7C,2BAAc,MAAM,AAAS,4EAAa;AAE9C,YAAI,AAAY,WAAD;AACb,gBAAO;;AAET,cAA2B,4DAAQ,AAAY,WAAD;MAChD;;;;;EACF;;;;;;;;;;;;;;;;MApC6B,oDAAQ;;;;;;;;IAoDT;;;;;;IAOA;;;;;;IAMb;;;;;;wBAWkC;AAC7C,cAAQ,MAAM;;;AAEV,gBAA2B;;;;AAE3B,gBAA2B;;;;AAE3B,gBAA2B;;;AAGY,MAA3C,WAAM,wBAAW,AAAyB,8BAAP,MAAM;IAC3C;;gEApB2C;;IAC9B,eAAE,2EAAa,AAAG,GAAA,QAAC;IACd,oBAAE,AAAG,AAAgB,GAAhB,QAAC,yBACQ,wFACC,YAAnB,AAAG,GAAA,QAAC,6DAEN;yBACO,gBAAsB,KAApB,AAAG,GAAA,QAAC,iBAAD,aAAoB;;EAAE;;;;;;;;;;;;;;IA4BhD;;wEAXK;;;;EAWL;;;;;;;;;;;;;;;;;;;;;;;;;IASe;;;;;;IAGA;;;;;;IAGE;;;;;;IAOI;;;;;;IAOA;;;;;;;AAMD,YAAM,AAAM,4BAAS;IAAQ;;AAmB7C,YAAwB,8CACtB,SAAS,YACT,UAAU,aACV,WAAW,AAAQ,qCACnB,eAAe,kBACf,uBAAuB;IAE3B;;qEArBiD;kBACrC,eAAE,AAAG,GAAA,QAAC;mBACL,eAAE,AAAG,GAAA,QAAC;IACL,gBAAW,yDACjB,AAAG,GAAA,QAAC,qBACG;IAEG,oBAAE;IACM,4BAAE;;EAAE","file":"../../../../../../packages/flutter_facebook_login_web/flutter_facebook_login_web.dart.lib.js"}');
+  // Exports:
+  return {
+    flutter_facebook_login_web: flutter_facebook_login_web
+  };
+}));
+
+//# sourceMappingURL=flutter_facebook_login_web.dart.lib.js.map

@@ -1,0 +1,1617 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/ticketapp/model/event.dart', 'packages/ticketapp/repositories/events_repository.dart', 'packages/flutter/src/rendering/flex.dart', 'packages/flutter/src/widgets/animated_list.dart', 'packages/flutter/src/animation/animation_controller.dart', 'packages/ticketapp/UI/theme.dart', 'packages/flutter/src/animation/listener_helpers.dart', 'packages/visibility_detector/src/visibility_detector_controller.dart', 'packages/flutter/src/foundation/key.dart', 'packages/flutter/src/widgets/implicit_animations.dart', 'packages/ticketapp/UI/widgets/cards/image_card.dart', 'packages/flutter/src/painting/border_radius.dart', 'packages/flutter/src/painting/box_decoration.dart', 'packages/auto_size_text/auto_size_text.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/ticketapp/UI/widgets/buttons/apollo_button.dart', 'packages/ticketapp/model/link_type/overview.dart', 'packages/flutter/src/material/page.dart', 'packages/ticketapp/pages/authentication/authentication_page.dart', 'packages/ticketapp/utilities/format_date/full_date_time.dart'], (function load__packages__ticketapp__UI__event_overview__featured_events_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__ticketapp__model__event$46dart, packages__ticketapp__repositories__events_repository$46dart, packages__flutter__src__rendering__flex$46dart, packages__flutter__src__widgets__animated_list$46dart, packages__flutter__src__animation__animation_controller$46dart, packages__ticketapp__UI__theme$46dart, packages__flutter__src__animation__listener_helpers$46dart, packages__visibility_detector__src__visibility_detector_controller$46dart, packages__flutter__src__foundation__key$46dart, packages__flutter__src__widgets__implicit_animations$46dart, packages__ticketapp__UI__widgets__cards__image_card$46dart, packages__flutter__src__painting__border_radius$46dart, packages__flutter__src__painting__box_decoration$46dart, packages__auto_size_text__auto_size_text$46dart, packages__flutter__src__material__icon_button$46dart, packages__ticketapp__UI__widgets__buttons__apollo_button$46dart, packages__ticketapp__model__link_type__overview$46dart, packages__flutter__src__material__page$46dart, packages__ticketapp__pages__authentication__authentication_page$46dart, packages__ticketapp__utilities__format_date__full_date_time$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const async = dart_sdk.async;
+  const ui = dart_sdk.ui;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const transitions = packages__flutter__src__widgets__widget_span$46dart.src__widgets__transitions;
+  const scroll_physics = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_physics;
+  const ticker_provider = packages__flutter__src__widgets__widget_span$46dart.src__widgets__ticker_provider;
+  const navigator = packages__flutter__src__widgets__widget_span$46dart.src__widgets__navigator;
+  const event = packages__ticketapp__model__event$46dart.model__event;
+  const events_repository = packages__ticketapp__repositories__events_repository$46dart.repositories__events_repository;
+  const flex = packages__flutter__src__rendering__flex$46dart.src__rendering__flex;
+  const animated_list = packages__flutter__src__widgets__animated_list$46dart.src__widgets__animated_list;
+  const animation_controller = packages__flutter__src__animation__animation_controller$46dart.src__animation__animation_controller;
+  const theme = packages__ticketapp__UI__theme$46dart.UI__theme;
+  const tween = packages__flutter__src__animation__listener_helpers$46dart.src__animation__tween;
+  const animation = packages__flutter__src__animation__listener_helpers$46dart.src__animation__animation;
+  const visibility_detector = packages__visibility_detector__src__visibility_detector_controller$46dart.src__visibility_detector;
+  const key = packages__flutter__src__foundation__key$46dart.src__foundation__key;
+  const implicit_animations = packages__flutter__src__widgets__implicit_animations$46dart.src__widgets__implicit_animations;
+  const image_card = packages__ticketapp__UI__widgets__cards__image_card$46dart.UI__widgets__cards__image_card;
+  const border_radius = packages__flutter__src__painting__border_radius$46dart.src__painting__border_radius;
+  const box_decoration = packages__flutter__src__painting__box_decoration$46dart.src__painting__box_decoration;
+  const auto_size_text = packages__auto_size_text__auto_size_text$46dart.auto_size_text;
+  const theme$ = packages__flutter__src__material__icon_button$46dart.src__material__theme;
+  const apollo_button = packages__ticketapp__UI__widgets__buttons__apollo_button$46dart.UI__widgets__buttons__apollo_button;
+  const overview = packages__ticketapp__model__link_type__overview$46dart.model__link_type__overview;
+  const page = packages__flutter__src__material__page$46dart.src__material__page;
+  const authentication_page = packages__ticketapp__pages__authentication__authentication_page$46dart.pages__authentication__authentication_page;
+  const full_date_time = packages__ticketapp__utilities__format_date__full_date_time$46dart.utilities__format_date__full_date_time;
+  var featured_events = Object.create(dart.library);
+  var $length = dartx.length;
+  var $add = dartx.add;
+  var $forEach = dartx.forEach;
+  var $_get = dartx._get;
+  var $removeAt = dartx.removeAt;
+  var $insert = dartx.insert;
+  var $toInt = dartx.toInt;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    EventL: () => (T.EventL = dart.constFn(dart.legacy(event.Event)))(),
+    JSArrayOfEventL: () => (T.JSArrayOfEventL = dart.constFn(_interceptors.JSArray$(T.EventL())))(),
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))(),
+    AnimatedListStateL: () => (T.AnimatedListStateL = dart.constFn(dart.legacy(animated_list.AnimatedListState)))(),
+    GlobalKeyOfAnimatedListStateL: () => (T.GlobalKeyOfAnimatedListStateL = dart.constFn(framework.GlobalKey$(T.AnimatedListStateL())))(),
+    EventLToNull: () => (T.EventLToNull = dart.constFn(dart.fnType(core.Null, [T.EventL()])))(),
+    doubleL: () => (T.doubleL = dart.constFn(dart.legacy(core.double)))(),
+    TweenOfdoubleL: () => (T.TweenOfdoubleL = dart.constFn(tween.Tween$(T.doubleL())))(),
+    VoidTodoubleL: () => (T.VoidTodoubleL = dart.constFn(dart.fnType(T.doubleL(), [])))(),
+    VoidToNull: () => (T.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    AnimationOfdoubleL: () => (T.AnimationOfdoubleL = dart.constFn(animation.Animation$(T.doubleL())))(),
+    AnimationLOfdoubleL: () => (T.AnimationLOfdoubleL = dart.constFn(dart.legacy(T.AnimationOfdoubleL())))(),
+    BuildContextLAndAnimationLOfdoubleLToWidgetL: () => (T.BuildContextLAndAnimationLOfdoubleLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.AnimationLOfdoubleL()])))(),
+    intL: () => (T.intL = dart.constFn(dart.legacy(core.int)))(),
+    VoidTointL: () => (T.VoidTointL = dart.constFn(dart.fnType(T.intL(), [])))(),
+    FutureOfNull: () => (T.FutureOfNull = dart.constFn(async.Future$(core.Null)))(),
+    FutureLOfNull: () => (T.FutureLOfNull = dart.constFn(dart.legacy(T.FutureOfNull())))(),
+    TimerL: () => (T.TimerL = dart.constFn(dart.legacy(async.Timer)))(),
+    TimerLToFutureLOfNull: () => (T.TimerLToFutureLOfNull = dart.constFn(dart.fnType(T.FutureLOfNull(), [T.TimerL()])))(),
+    VisibilityInfoL: () => (T.VisibilityInfoL = dart.constFn(dart.legacy(visibility_detector.VisibilityInfo)))(),
+    VisibilityInfoLToNull: () => (T.VisibilityInfoLToNull = dart.constFn(dart.fnType(core.Null, [T.VisibilityInfoL()])))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    ValueKeyOfStringL: () => (T.ValueKeyOfStringL = dart.constFn(key.ValueKey$(T.StringL())))(),
+    BuildContextLAndintLAndAnimationLOfdoubleLToWidgetL: () => (T.BuildContextLAndintLAndAnimationLOfdoubleLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.intL(), T.AnimationLOfdoubleL()])))(),
+    FadeTransitionL: () => (T.FadeTransitionL = dart.constFn(dart.legacy(transitions.FadeTransition)))(),
+    BuildContextLToFadeTransitionL: () => (T.BuildContextLToFadeTransitionL = dart.constFn(dart.fnType(T.FadeTransitionL(), [T.BuildContextL()])))(),
+    AuthenticationPageL: () => (T.AuthenticationPageL = dart.constFn(dart.legacy(authentication_page.AuthenticationPage)))(),
+    BuildContextLToAuthenticationPageL: () => (T.BuildContextLToAuthenticationPageL = dart.constFn(dart.fnType(T.AuthenticationPageL(), [T.BuildContextL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 22,
+        [_Location_line]: 40,
+        [_Location_file]: null
+      });
+    },
+    get C1() {
+      return C[1] = dart.constList([C[2] || CT.C2], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 40,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 75,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C4() {
+      return C[4] = dart.constList([C[5] || CT.C5], T._LocationL());
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[4] || CT.C4,
+        [_Location_name]: null,
+        [_Location_column]: 61,
+        [_Location_line]: 41,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 23,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 54,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.constList([C[8] || CT.C8, C[9] || CT.C9], T._LocationL());
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[7] || CT.C7,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 41,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 11,
+        [_Location_line]: 38,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 11,
+        [_Location_line]: 39,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.constList([C[12] || CT.C12, C[13] || CT.C13], T._LocationL());
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[11] || CT.C11,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 37,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 7,
+        [_Location_line]: 35,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 7,
+        [_Location_line]: 36,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.constList([C[16] || CT.C16, C[17] || CT.C17], T._LocationL());
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[15] || CT.C15,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 34,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "flex",
+        [_Location_column]: 26,
+        [_Location_line]: 144,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 35,
+        [_Location_line]: 144,
+        [_Location_file]: null
+      });
+    },
+    get C19() {
+      return C[19] = dart.constList([C[20] || CT.C20, C[21] || CT.C21], T._LocationL());
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[19] || CT.C19,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 144,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C24() {
+      return C[24] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "flex",
+        [_Location_column]: 26,
+        [_Location_line]: 145,
+        [_Location_file]: null
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 35,
+        [_Location_line]: 145,
+        [_Location_file]: null
+      });
+    },
+    get C23() {
+      return C[23] = dart.constList([C[24] || CT.C24, C[25] || CT.C25], T._LocationL());
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[23] || CT.C23,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 145,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C28() {
+      return C[28] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 15,
+        [_Location_line]: 143,
+        [_Location_file]: null
+      });
+    },
+    get C27() {
+      return C[27] = dart.constList([C[28] || CT.C28], T._LocationL());
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[27] || CT.C27,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 142,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C31() {
+      return C[31] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 13,
+        [_Location_line]: 140,
+        [_Location_file]: null
+      });
+    },
+    get C32() {
+      return C[32] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 13,
+        [_Location_line]: 141,
+        [_Location_file]: null
+      });
+    },
+    get C33() {
+      return C[33] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 142,
+        [_Location_file]: null
+      });
+    },
+    get C30() {
+      return C[30] = dart.constList([C[31] || CT.C31, C[32] || CT.C32, C[33] || CT.C33], T._LocationL());
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[30] || CT.C30,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 139,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C36() {
+      return C[36] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "clipBehavior",
+        [_Location_column]: 9,
+        [_Location_line]: 137,
+        [_Location_file]: null
+      });
+    },
+    get C37() {
+      return C[37] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 138,
+        [_Location_file]: null
+      });
+    },
+    get C35() {
+      return C[35] = dart.constList([C[36] || CT.C36, C[37] || CT.C37], T._LocationL());
+    },
+    get C34() {
+      return C[34] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[35] || CT.C35,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 136,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C40() {
+      return C[40] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onVisibilityChanged",
+        [_Location_column]: 7,
+        [_Location_line]: 126,
+        [_Location_file]: null
+      });
+    },
+    get C41() {
+      return C[41] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "key",
+        [_Location_column]: 7,
+        [_Location_line]: 135,
+        [_Location_file]: null
+      });
+    },
+    get C42() {
+      return C[42] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 136,
+        [_Location_file]: null
+      });
+    },
+    get C39() {
+      return C[39] = dart.constList([C[40] || CT.C40, C[41] || CT.C41, C[42] || CT.C42], T._LocationL());
+    },
+    get C38() {
+      return C[38] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[39] || CT.C39,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 125,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C45() {
+      return C[45] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "event",
+        [_Location_column]: 34,
+        [_Location_line]: 162,
+        [_Location_file]: null
+      });
+    },
+    get C44() {
+      return C[44] = dart.constList([C[45] || CT.C45], T._LocationL());
+    },
+    get C43() {
+      return C[43] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[44] || CT.C44,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 162,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C48() {
+      return C[48] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "opacity",
+        [_Location_column]: 9,
+        [_Location_line]: 161,
+        [_Location_file]: null
+      });
+    },
+    get C49() {
+      return C[49] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 162,
+        [_Location_file]: null
+      });
+    },
+    get C47() {
+      return C[47] = dart.constList([C[48] || CT.C48, C[49] || CT.C49], T._LocationL());
+    },
+    get C46() {
+      return C[46] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[47] || CT.C47,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 160,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C52() {
+      return C[52] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "duration",
+        [_Location_column]: 7,
+        [_Location_line]: 157,
+        [_Location_file]: null
+      });
+    },
+    get C53() {
+      return C[53] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "right",
+        [_Location_column]: 7,
+        [_Location_line]: 158,
+        [_Location_file]: null
+      });
+    },
+    get C54() {
+      return C[54] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "top",
+        [_Location_column]: 7,
+        [_Location_line]: 159,
+        [_Location_file]: null
+      });
+    },
+    get C55() {
+      return C[55] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 160,
+        [_Location_file]: null
+      });
+    },
+    get C51() {
+      return C[51] = dart.constList([C[52] || CT.C52, C[53] || CT.C53, C[54] || CT.C54, C[55] || CT.C55], T._LocationL());
+    },
+    get C50() {
+      return C[50] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[51] || CT.C51,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 156,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C58() {
+      return C[58] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "key",
+        [_Location_column]: 11,
+        [_Location_line]: 169,
+        [_Location_file]: null
+      });
+    },
+    get C59() {
+      return C[59] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "shrinkWrap",
+        [_Location_column]: 11,
+        [_Location_line]: 170,
+        [_Location_file]: null
+      });
+    },
+    get C60() {
+      return C[60] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "physics",
+        [_Location_column]: 11,
+        [_Location_line]: 171,
+        [_Location_file]: null
+      });
+    },
+    get C61() {
+      return C[61] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "initialItemCount",
+        [_Location_column]: 11,
+        [_Location_line]: 172,
+        [_Location_file]: null
+      });
+    },
+    get C62() {
+      return C[62] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "itemBuilder",
+        [_Location_column]: 11,
+        [_Location_line]: 173,
+        [_Location_file]: null
+      });
+    },
+    get C57() {
+      return C[57] = dart.constList([C[58] || CT.C58, C[59] || CT.C59, C[60] || CT.C60, C[61] || CT.C61, C[62] || CT.C62], T._LocationL());
+    },
+    get C56() {
+      return C[56] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[57] || CT.C57,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 168,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C65() {
+      return C[65] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 168,
+        [_Location_file]: null
+      });
+    },
+    get C64() {
+      return C[64] = dart.constList([C[65] || CT.C65], T._LocationL());
+    },
+    get C63() {
+      return C[63] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[64] || CT.C64,
+        [_Location_name]: null,
+        [_Location_column]: 31,
+        [_Location_line]: 167,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C68() {
+      return C[68] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "imageUrl",
+        [_Location_column]: 40,
+        [_Location_line]: 184,
+        [_Location_file]: null
+      });
+    },
+    get C67() {
+      return C[67] = dart.constList([C[68] || CT.C68], T._LocationL());
+    },
+    get C66() {
+      return C[66] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[67] || CT.C67,
+        [_Location_name]: null,
+        [_Location_column]: 24,
+        [_Location_line]: 184,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C71() {
+      return C[71] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 17,
+        [_Location_line]: 184,
+        [_Location_file]: null
+      });
+    },
+    get C70() {
+      return C[70] = dart.constList([C[71] || CT.C71], T._LocationL());
+    },
+    get C69() {
+      return C[69] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[70] || CT.C70,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 183,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C74() {
+      return C[74] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "scale",
+        [_Location_column]: 15,
+        [_Location_line]: 182,
+        [_Location_file]: null
+      });
+    },
+    get C75() {
+      return C[75] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 15,
+        [_Location_line]: 183,
+        [_Location_file]: null
+      });
+    },
+    get C73() {
+      return C[73] = dart.constList([C[74] || CT.C74, C[75] || CT.C75], T._LocationL());
+    },
+    get C72() {
+      return C[72] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[73] || CT.C73,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 181,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C78() {
+      return C[78] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "opacity",
+        [_Location_column]: 13,
+        [_Location_line]: 180,
+        [_Location_file]: null
+      });
+    },
+    get C79() {
+      return C[79] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 181,
+        [_Location_file]: null
+      });
+    },
+    get C77() {
+      return C[77] = dart.constList([C[78] || CT.C78, C[79] || CT.C79], T._LocationL());
+    },
+    get C76() {
+      return C[76] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[77] || CT.C77,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 179,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C82() {
+      return C[82] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 9,
+        [_Location_line]: 178,
+        [_Location_file]: null
+      });
+    },
+    get C81() {
+      return C[81] = dart.constList([C[82] || CT.C82], T._LocationL());
+    },
+    get C80() {
+      return C[80] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[81] || CT.C81,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 177,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C85() {
+      return C[85] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "imageUrl",
+        [_Location_column]: 11,
+        [_Location_line]: 197,
+        [_Location_file]: null
+      });
+    },
+    get C84() {
+      return C[84] = dart.constList([C[85] || CT.C85], T._LocationL());
+    },
+    get C83() {
+      return C[83] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[84] || CT.C84,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 196,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C88() {
+      return C[88] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 9,
+        [_Location_line]: 195,
+        [_Location_file]: null
+      });
+    },
+    get C89() {
+      return C[89] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 196,
+        [_Location_file]: null
+      });
+    },
+    get C87() {
+      return C[87] = dart.constList([C[88] || CT.C88, C[89] || CT.C89], T._LocationL());
+    },
+    get C86() {
+      return C[86] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[87] || CT.C87,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 194,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C92() {
+      return C[92] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "opacity",
+        [_Location_column]: 7,
+        [_Location_line]: 193,
+        [_Location_file]: null
+      });
+    },
+    get C93() {
+      return C[93] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 194,
+        [_Location_file]: null
+      });
+    },
+    get C91() {
+      return C[91] = dart.constList([C[92] || CT.C92, C[93] || CT.C93], T._LocationL());
+    },
+    get C90() {
+      return C[90] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[91] || CT.C91,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 192,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C96() {
+      return C[96] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 15,
+        [_Location_line]: 226,
+        [_Location_file]: null
+      });
+    },
+    get C97() {
+      return C[97] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 15,
+        [_Location_line]: 227,
+        [_Location_file]: null
+      });
+    },
+    get C98() {
+      return C[98] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 15,
+        [_Location_line]: 228,
+        [_Location_file]: null
+      });
+    },
+    get C95() {
+      return C[95] = dart.constList([C[96] || CT.C96, C[97] || CT.C97, C[98] || CT.C98], T._LocationL());
+    },
+    get C94() {
+      return C[94] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[95] || CT.C95,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 225,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C101() {
+      return C[101] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 225,
+        [_Location_file]: null
+      });
+    },
+    get C100() {
+      return C[100] = dart.constList([C[101] || CT.C101], T._LocationL());
+    },
+    get C99() {
+      return C[99] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[100] || CT.C100,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 224,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C104() {
+      return C[104] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 11,
+        [_Location_line]: 218,
+        [_Location_file]: null
+      });
+    },
+    get C105() {
+      return C[105] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 11,
+        [_Location_line]: 219,
+        [_Location_file]: null
+      });
+    },
+    get C106() {
+      return C[106] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 11,
+        [_Location_line]: 220,
+        [_Location_file]: null
+      });
+    },
+    get C107() {
+      return C[107] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 224,
+        [_Location_file]: null
+      });
+    },
+    get C103() {
+      return C[103] = dart.constList([C[104] || CT.C104, C[105] || CT.C105, C[106] || CT.C106, C[107] || CT.C107], T._LocationL());
+    },
+    get C102() {
+      return C[102] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[103] || CT.C103,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 217,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C110() {
+      return C[110] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "filter",
+        [_Location_column]: 9,
+        [_Location_line]: 213,
+        [_Location_file]: null
+      });
+    },
+    get C111() {
+      return C[111] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 217,
+        [_Location_file]: null
+      });
+    },
+    get C109() {
+      return C[109] = dart.constList([C[110] || CT.C110, C[111] || CT.C111], T._LocationL());
+    },
+    get C108() {
+      return C[108] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[109] || CT.C109,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 212,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C114() {
+      return C[114] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "borderRadius",
+        [_Location_column]: 7,
+        [_Location_line]: 211,
+        [_Location_file]: null
+      });
+    },
+    get C115() {
+      return C[115] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 212,
+        [_Location_file]: null
+      });
+    },
+    get C113() {
+      return C[113] = dart.constList([C[114] || CT.C114, C[115] || CT.C115], T._LocationL());
+    },
+    get C112() {
+      return C[112] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[113] || CT.C113,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 210,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C118() {
+      return C[118] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 11,
+        [_Location_line]: 245,
+        [_Location_file]: null
+      });
+    },
+    get C119() {
+      return C[119] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textAlign",
+        [_Location_column]: 11,
+        [_Location_line]: 246,
+        [_Location_file]: null
+      });
+    },
+    get C120() {
+      return C[120] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "maxLines",
+        [_Location_column]: 11,
+        [_Location_line]: 247,
+        [_Location_file]: null
+      });
+    },
+    get C121() {
+      return C[121] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 11,
+        [_Location_line]: 248,
+        [_Location_file]: null
+      });
+    },
+    get C117() {
+      return C[117] = dart.constList([C[118] || CT.C118, C[119] || CT.C119, C[120] || CT.C120, C[121] || CT.C121], T._LocationL());
+    },
+    get C116() {
+      return C[116] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[117] || CT.C117,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 244,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C124() {
+      return C[124] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 33,
+        [_Location_line]: 254,
+        [_Location_file]: null
+      });
+    },
+    get C125() {
+      return C[125] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "maxLines",
+        [_Location_column]: 52,
+        [_Location_line]: 254,
+        [_Location_file]: null
+      });
+    },
+    get C126() {
+      return C[126] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 65,
+        [_Location_line]: 254,
+        [_Location_file]: null
+      });
+    },
+    get C123() {
+      return C[123] = dart.constList([C[124] || CT.C124, C[125] || CT.C125, C[126] || CT.C126], T._LocationL());
+    },
+    get C122() {
+      return C[122] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[123] || CT.C123,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 254,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C129() {
+      return C[129] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "linkType",
+        [_Location_column]: 95,
+        [_Location_line]: 257,
+        [_Location_file]: null
+      });
+    },
+    get C128() {
+      return C[128] = dart.constList([C[129] || CT.C129], T._LocationL());
+    },
+    get C127() {
+      return C[127] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[128] || CT.C128,
+        [_Location_name]: null,
+        [_Location_column]: 76,
+        [_Location_line]: 257,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C132() {
+      return C[132] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 7,
+        [_Location_line]: 241,
+        [_Location_file]: null
+      });
+    },
+    get C133() {
+      return C[133] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 7,
+        [_Location_line]: 242,
+        [_Location_file]: null
+      });
+    },
+    get C134() {
+      return C[134] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 7,
+        [_Location_line]: 243,
+        [_Location_file]: null
+      });
+    },
+    get C131() {
+      return C[131] = dart.constList([C[132] || CT.C132, C[133] || CT.C133, C[134] || CT.C134], T._LocationL());
+    },
+    get C130() {
+      return C[130] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[131] || CT.C131,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 240,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C137() {
+      return C[137] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 11,
+        [_Location_line]: 269,
+        [_Location_file]: null
+      });
+    },
+    get C138() {
+      return C[138] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textAlign",
+        [_Location_column]: 11,
+        [_Location_line]: 270,
+        [_Location_file]: null
+      });
+    },
+    get C139() {
+      return C[139] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "maxLines",
+        [_Location_column]: 11,
+        [_Location_line]: 271,
+        [_Location_file]: null
+      });
+    },
+    get C140() {
+      return C[140] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 11,
+        [_Location_line]: 272,
+        [_Location_file]: null
+      });
+    },
+    get C136() {
+      return C[136] = dart.constList([C[137] || CT.C137, C[138] || CT.C138, C[139] || CT.C139, C[140] || CT.C140], T._LocationL());
+    },
+    get C135() {
+      return C[135] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[136] || CT.C136,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 267,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C143() {
+      return C[143] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 23,
+        [_Location_line]: 278,
+        [_Location_file]: null
+      });
+    },
+    get C144() {
+      return C[144] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textAlign",
+        [_Location_column]: 11,
+        [_Location_line]: 279,
+        [_Location_file]: null
+      });
+    },
+    get C145() {
+      return C[145] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "maxLines",
+        [_Location_column]: 11,
+        [_Location_line]: 280,
+        [_Location_file]: null
+      });
+    },
+    get C146() {
+      return C[146] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 11,
+        [_Location_line]: 281,
+        [_Location_file]: null
+      });
+    },
+    get C142() {
+      return C[142] = dart.constList([C[143] || CT.C143, C[144] || CT.C144, C[145] || CT.C145, C[146] || CT.C146], T._LocationL());
+    },
+    get C141() {
+      return C[141] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[142] || CT.C142,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 277,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    },
+    get C149() {
+      return C[149] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 7,
+        [_Location_line]: 265,
+        [_Location_file]: null
+      });
+    },
+    get C150() {
+      return C[150] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 7,
+        [_Location_line]: 266,
+        [_Location_file]: null
+      });
+    },
+    get C148() {
+      return C[148] = dart.constList([C[149] || CT.C149, C[150] || CT.C150], T._LocationL());
+    },
+    get C147() {
+      return C[147] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[148] || CT.C148,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 264,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/featured_events.dart"
+      });
+    }
+  }, false);
+  var C = Array(151).fill(void 0);
+  var I = ["package:ticketapp/UI/event_overview/featured_events.dart"];
+  featured_events.FeaturedEvents = class FeaturedEvents extends framework.StatefulWidget {
+    createState() {
+      return new featured_events._FeaturedEventsState.new();
+    }
+  };
+  (featured_events.FeaturedEvents.new = function(opts) {
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    featured_events.FeaturedEvents.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = featured_events.FeaturedEvents.prototype;
+  dart.addTypeTests(featured_events.FeaturedEvents);
+  dart.addTypeCaches(featured_events.FeaturedEvents);
+  dart.setMethodSignature(featured_events.FeaturedEvents, () => ({
+    __proto__: dart.getMethods(featured_events.FeaturedEvents.__proto__),
+    createState: dart.fnType(dart.legacy(featured_events._FeaturedEventsState), [])
+  }));
+  dart.setLibraryUri(featured_events.FeaturedEvents, I[0]);
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  featured_events._FeaturedEventsState = class _FeaturedEventsState extends framework.State$(dart.legacy(featured_events.FeaturedEvents)) {
+    initState() {
+      super.initState();
+      this.events = events_repository.EventsRepository.instance.events;
+    }
+    build(context) {
+      let screenSize = media_query.MediaQuery.of(context).size;
+      return new basic.Row.new({mainAxisAlignment: flex.MainAxisAlignment.center, children: T.JSArrayOfWidgetL().of([new basic.Column.new({crossAxisAlignment: flex.CrossAxisAlignment.center, children: T.JSArrayOfWidgetL().of([new basic.SizedBox.new({height: 56 + 20, $creationLocationd_0dea112b090073317d4: C[0] || CT.C0}), new container.Container.new({width: dart.notNull(screenSize.width) * 0.8, child: new featured_events.EventFeatures.new({events: this.events, $creationLocationd_0dea112b090073317d4: C[3] || CT.C3}), $creationLocationd_0dea112b090073317d4: C[6] || CT.C6})]), $creationLocationd_0dea112b090073317d4: C[10] || CT.C10})]), $creationLocationd_0dea112b090073317d4: C[14] || CT.C14});
+    }
+  };
+  (featured_events._FeaturedEventsState.new = function() {
+    this.events = T.JSArrayOfEventL().of([]);
+    featured_events._FeaturedEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = featured_events._FeaturedEventsState.prototype;
+  dart.addTypeTests(featured_events._FeaturedEventsState);
+  dart.addTypeCaches(featured_events._FeaturedEventsState);
+  dart.setMethodSignature(featured_events._FeaturedEventsState, () => ({
+    __proto__: dart.getMethods(featured_events._FeaturedEventsState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(featured_events._FeaturedEventsState, I[0]);
+  dart.setFieldSignature(featured_events._FeaturedEventsState, () => ({
+    __proto__: dart.getFields(featured_events._FeaturedEventsState.__proto__),
+    events: dart.fieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  var events$ = dart.privateName(featured_events, "EventFeatures.events");
+  featured_events.EventFeatures = class EventFeatures extends framework.StatefulWidget {
+    get events() {
+      return this[events$];
+    }
+    set events(value) {
+      super.events = value;
+    }
+    createState() {
+      return new featured_events._EventFeaturesState.new();
+    }
+  };
+  (featured_events.EventFeatures.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let events = opts && 'events' in opts ? opts.events : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[events$] = events;
+    featured_events.EventFeatures.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = featured_events.EventFeatures.prototype;
+  dart.addTypeTests(featured_events.EventFeatures);
+  dart.addTypeCaches(featured_events.EventFeatures);
+  dart.setMethodSignature(featured_events.EventFeatures, () => ({
+    __proto__: dart.getMethods(featured_events.EventFeatures.__proto__),
+    createState: dart.fnType(dart.legacy(featured_events._EventFeaturesState), [])
+  }));
+  dart.setLibraryUri(featured_events.EventFeatures, I[0]);
+  dart.setFieldSignature(featured_events.EventFeatures, () => ({
+    __proto__: dart.getFields(featured_events.EventFeatures.__proto__),
+    events: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  var _list = dart.privateName(featured_events, "_list");
+  var _controller = dart.privateName(featured_events, "_controller");
+  var _fadeAnimation = dart.privateName(featured_events, "_fadeAnimation");
+  var _scaleAnimation = dart.privateName(featured_events, "_scaleAnimation");
+  var _timer = dart.privateName(featured_events, "_timer");
+  var _animatedCard = dart.privateName(featured_events, "_animatedCard");
+  var _buildItem = dart.privateName(featured_events, "_buildItem");
+  var _inComingEvents = dart.privateName(featured_events, "_inComingEvents");
+  var _heroEvent = dart.privateName(featured_events, "_heroEvent");
+  var _buildFeaturedText = dart.privateName(featured_events, "_buildFeaturedText");
+  const State_SingleTickerProviderStateMixin$36 = class State_SingleTickerProviderStateMixin extends framework.State$(dart.legacy(featured_events.EventFeatures)) {};
+  (State_SingleTickerProviderStateMixin$36.new = function() {
+    ticker_provider.SingleTickerProviderStateMixin$(dart.legacy(featured_events.EventFeatures))[dart.mixinNew].call(this);
+    State_SingleTickerProviderStateMixin$36.__proto__.new.call(this);
+  }).prototype = State_SingleTickerProviderStateMixin$36.prototype;
+  dart.applyMixin(State_SingleTickerProviderStateMixin$36, ticker_provider.SingleTickerProviderStateMixin$(dart.legacy(featured_events.EventFeatures)));
+  featured_events._EventFeaturesState = class _EventFeaturesState extends State_SingleTickerProviderStateMixin$36 {
+    initState() {
+      this.widget.events[$forEach](dart.fn(e => {
+        if (dart.notNull(this.events[$length]) < 4) {
+          this.events[$add](e);
+        }
+      }, T.EventLToNull()));
+      this[_controller] = new animation_controller.AnimationController.new({vsync: this, duration: theme.MyTheme.animationDuration});
+      this[_fadeAnimation] = new (T.TweenOfdoubleL()).new({begin: 1.0, end: 0.0}).animate(this[_controller]);
+      this[_scaleAnimation] = new (T.TweenOfdoubleL()).new({begin: 1.0, end: 0.9}).animate(this[_controller]);
+      this[_animatedCard]();
+      super.initState();
+    }
+    [_animatedCard]() {
+      this[_timer] = async.Timer.periodic(new core.Duration.new({seconds: 8}), dart.fn(timer => async.async(core.Null, (function*() {
+        let t0, t0$;
+        yield async.Future.delayed(new core.Duration.new({milliseconds: 300}));
+        this[_controller].forward();
+        this.setState(dart.fn(() => this.position = -300.0, T.VoidTodoubleL()));
+        yield async.Future.delayed(new core.Duration.new({milliseconds: 300}));
+        this.setState(dart.fn(() => {
+          this.count = dart.notNull(this.count) + 1;
+          this.event = this.events[$_get](this.count);
+        }, T.VoidToNull()));
+        this[_list].currentState.removeItem(this.count, dart.fn((_, animation) => this[_buildItem](this.context, this.count, animation), T.BuildContextLAndAnimationLOfdoubleLToWidgetL()), {duration: theme.MyTheme.animationDuration});
+        this.events[$removeAt](this.count);
+        this.events[$insert](0, this.event);
+        this[_list].currentState.insertItem(0);
+        if (dart.notNull(this.count) >= 3) {
+          this.setState(dart.fn(() => this.count = 0, T.VoidTointL()));
+        }
+        this[_controller].reverse();
+        this.setState(dart.fn(() => this.position = 30.0, T.VoidTodoubleL()));
+        if (dart.notNull(this.visibilityPercentage) < 30) {
+          t0 = this[_timer];
+          t0 == null ? null : t0.cancel();
+          t0$ = timer;
+          t0$ == null ? null : t0$.cancel();
+        }
+      }).bind(this)), T.TimerLToFutureLOfNull()));
+    }
+    dispose() {
+      this[_controller].dispose();
+      this[_timer].cancel();
+      super.dispose();
+    }
+    build(context) {
+      return new visibility_detector.VisibilityDetector.new({onVisibilityChanged: dart.fn(info => {
+          let visiblePercentage = dart.notNull(info.visibleFraction) * 100;
+          this.setState(dart.fn(() => {
+            this.visibilityPercentage = visiblePercentage[$toInt]();
+          }, T.VoidToNull()));
+          if (dart.notNull(this.visibilityPercentage) > 25) {
+            this[_animatedCard]();
+          }
+        }, T.VisibilityInfoLToNull()), key: new (T.ValueKeyOfStringL()).new("visible-key"), child: new basic.Stack.new({clipBehavior: ui.Clip.none, children: T.JSArrayOfWidgetL().of([theme['WidgetPaddingX|paddingAll'](new container.Container.new({height: dart.notNull(media_query.MediaQuery.of(context).size.height) * 0.4, width: dart.notNull(media_query.MediaQuery.of(context).size.width) * 0.55, child: new basic.Row.new({children: T.JSArrayOfWidgetL().of([new basic.Expanded.new({flex: 2, child: this[_inComingEvents](), $creationLocationd_0dea112b090073317d4: C[18] || CT.C18}), new basic.Expanded.new({flex: 7, child: this[_heroEvent](), $creationLocationd_0dea112b090073317d4: C[22] || CT.C22})]), $creationLocationd_0dea112b090073317d4: C[26] || CT.C26}), $creationLocationd_0dea112b090073317d4: C[29] || CT.C29}), 16.0), this[_buildFeaturedText]()]), $creationLocationd_0dea112b090073317d4: C[34] || CT.C34}), $creationLocationd_0dea112b090073317d4: C[38] || CT.C38});
+    }
+    [_buildFeaturedText]() {
+      return new implicit_animations.AnimatedPositioned.new({duration: theme.MyTheme.animationDuration, right: this.position, top: 70.0, child: new transitions.FadeTransition.new({opacity: this[_fadeAnimation], child: new featured_events.FeaturedEventText.new({event: this.event, $creationLocationd_0dea112b090073317d4: C[43] || CT.C43}), $creationLocationd_0dea112b090073317d4: C[46] || CT.C46}), $creationLocationd_0dea112b090073317d4: C[50] || CT.C50});
+    }
+    [_inComingEvents]() {
+      return theme['WidgetPaddingX|paddingRight'](new container.Container.new({child: new animated_list.AnimatedList.new({key: this[_list], shrinkWrap: true, physics: new scroll_physics.NeverScrollableScrollPhysics.new(), initialItemCount: this.events[$length], itemBuilder: dart.fn((context, index, animation) => this[_buildItem](context, index, animation), T.BuildContextLAndintLAndAnimationLOfdoubleLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[56] || CT.C56}), $creationLocationd_0dea112b090073317d4: C[63] || CT.C63}), 4.0);
+    }
+    [_heroEvent]() {
+      return new basic.Builder.new({builder: dart.fn(context => {
+          let t0;
+          return new transitions.FadeTransition.new({opacity: this[_fadeAnimation], child: new transitions.ScaleTransition.new({scale: this[_scaleAnimation], child: new container.Container.new({child: new image_card.ExpandImageCard.new({imageUrl: (t0 = this.event, t0 == null ? null : t0.coverImageURL), $creationLocationd_0dea112b090073317d4: C[66] || CT.C66}), $creationLocationd_0dea112b090073317d4: C[69] || CT.C69}), $creationLocationd_0dea112b090073317d4: C[72] || CT.C72}), $creationLocationd_0dea112b090073317d4: C[76] || CT.C76});
+        }, T.BuildContextLToFadeTransitionL()), $creationLocationd_0dea112b090073317d4: C[80] || CT.C80});
+    }
+    [_buildItem](context, index, animation) {
+      return new transitions.FadeTransition.new({opacity: animation, child: new container.Container.new({height: 82.0, child: new image_card.ExpandImageCard.new({imageUrl: this.events[$_get](index).coverImageURL, $creationLocationd_0dea112b090073317d4: C[83] || CT.C83}), $creationLocationd_0dea112b090073317d4: C[86] || CT.C86}), $creationLocationd_0dea112b090073317d4: C[90] || CT.C90});
+    }
+  };
+  (featured_events._EventFeaturesState.new = function() {
+    this[_list] = T.GlobalKeyOfAnimatedListStateL().new();
+    this[_controller] = null;
+    this[_fadeAnimation] = null;
+    this[_scaleAnimation] = null;
+    this.events = T.JSArrayOfEventL().of([]);
+    this.event = null;
+    this.count = 0;
+    this.position = -300.0;
+    this.visibilityPercentage = 0;
+    this[_timer] = null;
+    featured_events._EventFeaturesState.__proto__.new.call(this);
+    ;
+  }).prototype = featured_events._EventFeaturesState.prototype;
+  dart.addTypeTests(featured_events._EventFeaturesState);
+  dart.addTypeCaches(featured_events._EventFeaturesState);
+  dart.setMethodSignature(featured_events._EventFeaturesState, () => ({
+    __proto__: dart.getMethods(featured_events._EventFeaturesState.__proto__),
+    [_animatedCard]: dart.fnType(dart.dynamic, []),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_buildFeaturedText]: dart.fnType(dart.legacy(framework.Widget), []),
+    [_inComingEvents]: dart.fnType(dart.legacy(framework.Widget), []),
+    [_heroEvent]: dart.fnType(dart.legacy(framework.Widget), []),
+    [_buildItem]: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext), dart.legacy(core.int), dart.legacy(animation.Animation$(dart.legacy(core.double)))])
+  }));
+  dart.setLibraryUri(featured_events._EventFeaturesState, I[0]);
+  dart.setFieldSignature(featured_events._EventFeaturesState, () => ({
+    __proto__: dart.getFields(featured_events._EventFeaturesState.__proto__),
+    [_list]: dart.fieldType(dart.legacy(framework.GlobalKey$(dart.legacy(animated_list.AnimatedListState)))),
+    [_controller]: dart.fieldType(dart.legacy(animation_controller.AnimationController)),
+    [_fadeAnimation]: dart.fieldType(dart.legacy(animation.Animation$(dart.legacy(core.double)))),
+    [_scaleAnimation]: dart.fieldType(dart.legacy(animation.Animation$(dart.legacy(core.double)))),
+    events: dart.fieldType(dart.legacy(core.List$(dart.legacy(event.Event)))),
+    event: dart.fieldType(dart.legacy(event.Event)),
+    count: dart.fieldType(dart.legacy(core.int)),
+    position: dart.fieldType(dart.legacy(core.double)),
+    visibilityPercentage: dart.fieldType(dart.legacy(core.int)),
+    [_timer]: dart.fieldType(dart.legacy(async.Timer))
+  }));
+  var event$ = dart.privateName(featured_events, "FeaturedEventText.event");
+  var _buildDateName = dart.privateName(featured_events, "_buildDateName");
+  var _buildDescriptionNButton = dart.privateName(featured_events, "_buildDescriptionNButton");
+  featured_events.FeaturedEventText = class FeaturedEventText extends framework.StatelessWidget {
+    get event() {
+      return this[event$];
+    }
+    set event(value) {
+      super.event = value;
+    }
+    build(context) {
+      return new basic.ClipRRect.new({borderRadius: new border_radius.BorderRadius.circular(8.0), child: new basic.BackdropFilter.new({filter: ui.ImageFilter.blur({sigmaX: 16.0, sigmaY: 16.0}), child: new container.Container.new({height: 225.0, width: 400.0, decoration: new box_decoration.BoxDecoration.new({color: theme.MyTheme.appolloGrey.withOpacity(0.4), borderRadius: new border_radius.BorderRadius.circular(12.0)}), child: theme['WidgetPaddingX|paddingAll'](new container.Container.new({child: new basic.Column.new({mainAxisAlignment: flex.MainAxisAlignment.spaceBetween, crossAxisAlignment: flex.CrossAxisAlignment.start, children: T.JSArrayOfWidgetL().of([this[_buildDateName](context), this[_buildDescriptionNButton](context)]), $creationLocationd_0dea112b090073317d4: C[94] || CT.C94}), $creationLocationd_0dea112b090073317d4: C[99] || CT.C99}), 16.0), $creationLocationd_0dea112b090073317d4: C[102] || CT.C102}), $creationLocationd_0dea112b090073317d4: C[108] || CT.C108}), $creationLocationd_0dea112b090073317d4: C[112] || CT.C112});
+    }
+    [_buildDescriptionNButton](context) {
+      return new basic.Column.new({crossAxisAlignment: flex.CrossAxisAlignment.stretch, mainAxisAlignment: flex.MainAxisAlignment.spaceBetween, children: T.JSArrayOfWidgetL().of([theme['WidgetPaddingX|paddingBottom'](new auto_size_text.AutoSizeText.new("Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.", {textAlign: ui.TextAlign.start, maxLines: 2, style: theme$.Theme.of(context).textTheme.caption.copyWith({color: theme.MyTheme.appolloWhite, fontSize: 14.0}), $creationLocationd_0dea112b090073317d4: C[116] || CT.C116}), 8.0), T.WidgetL().as(apollo_button.AppolloButton.wideButton({heightMax: 40.0, heightMin: 35.0, color: theme.MyTheme.appolloGreen, child: new auto_size_text.AutoSizeText.new("Get Your Ticket", {maxLines: 2, style: theme$.Theme.of(context).textTheme.button, $creationLocationd_0dea112b090073317d4: C[122] || CT.C122}), onTap: dart.fn(() => {
+              let overviewLinkType = new overview.OverviewLinkType.new(this.event);
+              navigator.Navigator.of(context).push(dart.dynamic, new page.MaterialPageRoute.new({builder: dart.fn(_ => new authentication_page.AuthenticationPage.new(overviewLinkType, {$creationLocationd_0dea112b090073317d4: C[127] || CT.C127}), T.BuildContextLToAuthenticationPageL())}));
+            }, T.VoidToNull())}))]), $creationLocationd_0dea112b090073317d4: C[130] || CT.C130});
+    }
+    [_buildDateName](context) {
+      let t0, t0$, t0$0, t0$1;
+      return new basic.Column.new({crossAxisAlignment: flex.CrossAxisAlignment.start, children: T.JSArrayOfWidgetL().of([theme['WidgetPaddingX|paddingBottom'](new auto_size_text.AutoSizeText.new(full_date_time.fullDate((t0$ = (t0 = this.event, t0 == null ? null : t0.date), t0$ == null ? new core.DateTime.now() : t0$)), {textAlign: ui.TextAlign.start, maxLines: 2, style: theme$.Theme.of(context).textTheme.headline6.copyWith({color: theme.MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12.0}), $creationLocationd_0dea112b090073317d4: C[135] || CT.C135}), 8.0), theme['WidgetPaddingX|paddingBottom'](new auto_size_text.AutoSizeText.new((t0$1 = (t0$0 = this.event, t0$0 == null ? null : t0$0.name), t0$1 == null ? "" : t0$1), {textAlign: ui.TextAlign.start, maxLines: 2, style: theme$.Theme.of(context).textTheme.headline3.copyWith({color: theme.MyTheme.appolloWhite}), $creationLocationd_0dea112b090073317d4: C[141] || CT.C141}), 4.0)]), $creationLocationd_0dea112b090073317d4: C[147] || CT.C147});
+    }
+  };
+  (featured_events.FeaturedEventText.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let event = opts && 'event' in opts ? opts.event : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[event$] = event;
+    featured_events.FeaturedEventText.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = featured_events.FeaturedEventText.prototype;
+  dart.addTypeTests(featured_events.FeaturedEventText);
+  dart.addTypeCaches(featured_events.FeaturedEventText);
+  dart.setMethodSignature(featured_events.FeaturedEventText, () => ({
+    __proto__: dart.getMethods(featured_events.FeaturedEventText.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_buildDescriptionNButton]: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_buildDateName]: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(featured_events.FeaturedEventText, I[0]);
+  dart.setFieldSignature(featured_events.FeaturedEventText, () => ({
+    __proto__: dart.getFields(featured_events.FeaturedEventText.__proto__),
+    event: dart.finalFieldType(dart.legacy(event.Event))
+  }));
+  dart.trackLibraries("packages/ticketapp/UI/event_overview/featured_events.dart", {
+    "package:ticketapp/UI/event_overview/featured_events.dart": featured_events
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["featured_events.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAiBwC;IAAsB;;;;;;EAC9D;;;;;;;;;;;;;;;AAOqB,MAAX;AAEmC,MAAzC,cAA0B,AAAS;IACrC;UAG0B;AAClB,uBAAwB,AAAY,0BAAT,OAAO;AACxC,YAAO,uCACgC,yCAC3B,yBACR,0CACyC,0CAC7B,yBACR,gCAAgC,KAAE,6DAClC,oCAAkC,aAAjB,AAAW,UAAD,UAAS,YAAY,+CAAsB;IAKhF;;;IAxBY,cAAS;;;EAyBvB;;;;;;;;;;;;;;IAGoB;;;;;;;AAImB;IAAqB;;;QAHjC;QAAoB;;;AAAW,iEAAW,GAAG;;EAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA6BnE,MAJF,AAAO,AAAO,6BAAQ,QAAC;AACrB,YAAkB,aAAd,AAAO,wBAAS;AACL,UAAb,AAAO,kBAAI,CAAC;;;AAImE,MAAnF,oBAAc,yDAA2B,gBAAwB;AACQ,MAAzE,uBAAiB,AAAoC,qCAAf,UAAU,cAAa;AACa,MAA1E,wBAAkB,AAAoC,qCAAf,UAAU,cAAa;AAC/C,MAAf;AACiB,MAAX;IACR;;AA0BI,MAvBF,eAAe,qBAAS,gCAAkB,KAAI,QAAC;;AACI,QAAjD,MAAa,qBAAQ,qCAAuB;AACvB,QAArB,AAAY;AACmB,QAA/B,cAAS,cAAM,gBAAW;AACuB,QAAjD,MAAa,qBAAQ,qCAAuB;AAI1C,QAHF,cAAS;AACA,UAAP,aAAK,aAAL,cAAK;AACgB,UAArB,aAAQ,AAAM,mBAAC;;AAGuB,QADxC,AAAM,AAAa,oCAAW,YAAO,SAAC,GAAG,cAAc,iBAAW,cAAS,YAAO,SAAS,iEACrE;AACA,QAAtB,AAAO,uBAAS;AACO,QAAvB,AAAO,qBAAO,GAAG;AACe,QAAhC,AAAM,AAAa,oCAAW;AAC9B,YAAU,aAAN,eAAS;AACc,UAAzB,cAAS,cAAM,aAAQ;;AAEJ,QAArB,AAAY;AACiB,QAA7B,cAAS,cAAM,gBAAW;AAC1B,YAAyB,aAArB,6BAAuB;AACT,eAAhB;8BAAQ;AACO,gBAAf,KAAK;wBAAL,OAAO;;MAEV;IACH;;AAIuB,MAArB,AAAY;AACG,MAAf,AAAO;AACQ,MAAT;IACR;UAG0B;AACxB,YAAO,sEACgB,QAAgB;AAC/B,kCAAyC,aAArB,AAAK,IAAD,oBAAmB;AAG7C,UAFF,cAAS;AACyC,YAAhD,4BAAuB,AAAkB,iBAAD;;AAE1C,cAAyB,aAArB,6BAAuB;AACV,YAAf;;4CAGC,gCAAS,uBACP,mCACc,wBACT,yBAUN,mCATF,qCAC6C,aAAxB,AAAY,AAAK,0BAAd,OAAO,iBAAgB,YACJ,aAAvB,AAAY,AAAK,0BAAd,OAAO,gBAAe,aACpC,6BACK,yBACR,8BAAe,UAAU,oFACzB,8BAAe,UAAU,uMAGlB,OACb;IAIR;;AAGE,YAAO,2DACa,wCACX,oBACF,aACE,6CACI,6BACF,kDAAyB;IAGtC;;AAE4B,YAQtB,sCARsB,oCACf,yCACA,yBACO,eACH,yEACS,AAAO,mCACZ,SAAC,SAAS,OAAO,cAAc,iBAAW,OAAO,EAAE,KAAK,EAAE,SAAS,mLAErE;IAAE;;AAEE,6CACR,QAAC;;AACR,gBAAO,8CACI,6BACF,4CACE,8BACA,oCACE,6EAA0B,OAAO;;IAKjD;iBAE0B,SAAa,OAAyB;AACnE,YAAO,8CACI,SAAS,SACX,qCACG,aACD,8CACK,AAAM,AAAQ,mBAAP,KAAK;IAI9B;;;IA/I6B,cAAQ;IAEjB;IACF;IACA;IAEN,cAAS;IACf;IAEF,aAAQ;IACL,gBAAW;IAEd,4BAAuB;IAErB;;;EAkIR;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAGc;;;;;;UAIc;AACxB,YAAO,wCACsB,wCAAS,aAC7B,sCACe,6BACV,cACA,eAEH,qCACG,cACD,mBACK,6CACK,AAAY,sCAAY,oBACZ,wCAAS,gBAWpC,mCATK,oCACE,yCACgC,yDACE,yCAC7B,yBACR,qBAAe,OAAO,GACtB,+BAAyB,OAAO,2HAGzB;IAIrB;+BAE6C;AAC3C,YAAO,2CACkC,oDACF,+CAC3B,yBAMN,sCALF,oCACE,+GACqB,8BACX,UACG,AAAY,AAAU,AAAQ,gBAA3B,OAAO,qCAA4C,sCAAwB,qEAC7E,qBACF,mDACC,iBACA,aACI,mCACR,oCAAa,8BAA6B,UAAgB,AAAY,AAAU,gBAAnB,OAAO,wFACpE;AACC,qCAAmB,kCAAiB;AACyD,cAAzF,AAAY,uBAAT,OAAO,qBAAO,yCAA2B,QAAC,KAAM,+CAAmB,gBAAgB;;IAI5G;qBAEmC;;AACjC,YAAO,2CACkC,yCAC7B,yBAUN,sCATF,oCAEE,yBAAqB,qCAAZ,OAAO,UAAP,cAAwB,6CACZ,8BACX,UACG,AACR,AACA,AACA,gBAHW,OAAO,uCAGM,yCAA2B,eAAe,qEACzD,MAMd,sCALF,qCACc,0CAAZ,OAAO,YAAP,eAAe,wBACM,8BACX,UACG,AAAY,AAAU,AAAU,gBAA7B,OAAO,uCAA8C,2FACvD;IAGtB;;;QA9E6B;QAAoB;;;AAAU,qEAAW,GAAG;;EAAC","file":"../../../../../../../packages/ticketapp/UI/event_overview/featured_events.dart.lib.js"}');
+  // Exports:
+  return {
+    UI__event_overview__featured_events: featured_events
+  };
+}));
+
+//# sourceMappingURL=featured_events.dart.lib.js.map

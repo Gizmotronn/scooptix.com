@@ -1,0 +1,377 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/ticketapp/repositories/events_repository.dart', 'packages/ticketapp/model/event.dart', 'packages/ticketapp/model/ticket_release.dart', 'packages/bloc/src/cubit.dart', 'packages/equatable/src/equatable_mixin.dart'], (function load__packages__ticketapp__pages__events_overview__bloc__events_overview_bloc_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__ticketapp__repositories__events_repository$46dart, packages__ticketapp__model__event$46dart, packages__ticketapp__model__ticket_release$46dart, packages__bloc__src__cubit$46dart, packages__equatable__src__equatable_mixin$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const async = dart_sdk.async;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const scroll_controller = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_controller;
+  const events_repository = packages__ticketapp__repositories__events_repository$46dart.repositories__events_repository;
+  const event = packages__ticketapp__model__event$46dart.model__event;
+  const ticket_release = packages__ticketapp__model__ticket_release$46dart.model__ticket_release;
+  const bloc = packages__bloc__src__cubit$46dart.src__bloc;
+  const equatable = packages__equatable__src__equatable_mixin$46dart.src__equatable;
+  var events_overview_bloc = Object.create(dart.library);
+  var $add = dartx.add;
+  var $forEach = dartx.forEach;
+  var $where = dartx.where;
+  var $toList = dartx.toList;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    EventsOverviewEventL: () => (T.EventsOverviewEventL = dart.constFn(dart.legacy(events_overview_bloc.EventsOverviewEvent)))(),
+    TabberNavEventL: () => (T.TabberNavEventL = dart.constFn(dart.legacy(events_overview_bloc.TabberNavEvent)))(),
+    EventsOverviewStateL: () => (T.EventsOverviewStateL = dart.constFn(dart.legacy(events_overview_bloc.EventsOverviewState)))(),
+    _AsyncStarImplOfEventsOverviewStateL: () => (T._AsyncStarImplOfEventsOverviewStateL = dart.constFn(async._AsyncStarImpl$(T.EventsOverviewStateL())))(),
+    EventL: () => (T.EventL = dart.constFn(dart.legacy(event.Event)))(),
+    JSArrayOfEventL: () => (T.JSArrayOfEventL = dart.constFn(_interceptors.JSArray$(T.EventL())))(),
+    TicketReleaseL: () => (T.TicketReleaseL = dart.constFn(dart.legacy(ticket_release.TicketRelease)))(),
+    TicketReleaseLToNull: () => (T.TicketReleaseLToNull = dart.constFn(dart.fnType(core.Null, [T.TicketReleaseL()])))(),
+    EventLToNull: () => (T.EventLToNull = dart.constFn(dart.fnType(core.Null, [T.EventL()])))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    EventLToboolL: () => (T.EventLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.EventL()])))(),
+    ObjectL: () => (T.ObjectL = dart.constFn(dart.legacy(core.Object)))(),
+    JSArrayOfObjectL: () => (T.JSArrayOfObjectL = dart.constFn(_interceptors.JSArray$(T.ObjectL())))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  var C = [];
+  var I = ["package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart"];
+  var selectedEvent = dart.privateName(events_overview_bloc, "EventsOverviewBloc.selectedEvent");
+  var _scrollcontroller = dart.privateName(events_overview_bloc, "_scrollcontroller");
+  var _handleSelectedTabEvent = dart.privateName(events_overview_bloc, "_handleSelectedTabEvent");
+  events_overview_bloc.EventsOverviewEvent = class EventsOverviewEvent extends equatable.Equatable {
+    get props() {
+      return T.JSArrayOfObjectL().of([]);
+    }
+  };
+  (events_overview_bloc.EventsOverviewEvent.new = function() {
+    events_overview_bloc.EventsOverviewEvent.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.EventsOverviewEvent.prototype;
+  dart.addTypeTests(events_overview_bloc.EventsOverviewEvent);
+  dart.addTypeCaches(events_overview_bloc.EventsOverviewEvent);
+  dart.setGetterSignature(events_overview_bloc.EventsOverviewEvent, () => ({
+    __proto__: dart.getGetters(events_overview_bloc.EventsOverviewEvent.__proto__),
+    props: dart.legacy(core.List$(dart.legacy(core.Object)))
+  }));
+  dart.setLibraryUri(events_overview_bloc.EventsOverviewEvent, I[0]);
+  events_overview_bloc.EventsOverviewState = class EventsOverviewState extends equatable.Equatable {
+    get props() {
+      return T.JSArrayOfObjectL().of([]);
+    }
+  };
+  (events_overview_bloc.EventsOverviewState.new = function() {
+    events_overview_bloc.EventsOverviewState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.EventsOverviewState.prototype;
+  dart.addTypeTests(events_overview_bloc.EventsOverviewState);
+  dart.addTypeCaches(events_overview_bloc.EventsOverviewState);
+  dart.setGetterSignature(events_overview_bloc.EventsOverviewState, () => ({
+    __proto__: dart.getGetters(events_overview_bloc.EventsOverviewState.__proto__),
+    props: dart.legacy(core.List$(dart.legacy(core.Object)))
+  }));
+  dart.setLibraryUri(events_overview_bloc.EventsOverviewState, I[0]);
+  events_overview_bloc.EventsOverviewBloc = class EventsOverviewBloc extends bloc.Bloc$(dart.legacy(events_overview_bloc.EventsOverviewEvent), dart.legacy(events_overview_bloc.EventsOverviewState)) {
+    get selectedEvent() {
+      return this[selectedEvent];
+    }
+    set selectedEvent(value) {
+      this[selectedEvent] = value;
+    }
+    get scrollController() {
+      return this[_scrollcontroller];
+    }
+    close() {
+      this[_scrollcontroller].dispose();
+      events_repository.EventsRepository.instance.dispose();
+      return super.close();
+    }
+    mapEventToState(event) {
+      T.EventsOverviewEventL().as(event);
+      return new (T._AsyncStarImplOfEventsOverviewStateL()).new((function* mapEventToState(stream) {
+        if (T.TabberNavEventL().is(event)) {
+          if (stream.addStream(this[_handleSelectedTabEvent](event))) return;
+          yield;
+        }
+      }).bind(this)).stream;
+    }
+    [_handleSelectedTabEvent](event) {
+      return new (T._AsyncStarImplOfEventsOverviewStateL()).new(function* _handleSelectedTabEvent(stream) {
+        if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+        yield;
+        if (event.index === 0) {
+          let upcomingEvents = (yield events_repository.EventsRepository.instance.loadUpcomingEvents());
+          if (stream.add(new events_overview_bloc.AllEventsState.new(events_repository.EventsRepository.instance.events, upcomingEvents))) return;
+          yield;
+        } else if (event.index === 1) {
+          let events = T.JSArrayOfEventL().of([]);
+          events_repository.EventsRepository.instance.events[$forEach](dart.fn(event => {
+            let release = event.getAllReleases();
+            release[$forEach](dart.fn(r => {
+              if (r.price === 0) {
+                events[$add](event);
+              }
+            }, T.TicketReleaseLToNull()));
+          }, T.EventLToNull()));
+          if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+          yield;
+          if (stream.add(new events_overview_bloc.FreeEventsState.new(events))) return;
+          yield;
+        } else if (event.index === 2) {
+          if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+          yield;
+          if (stream.add(new events_overview_bloc.ForMeEventsState.new())) return;
+          yield;
+        } else if (event.index === 3) {
+          if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+          yield;
+          if (stream.add(new events_overview_bloc.TodayEventsState.new(events_repository.EventsRepository.instance.events[$where](dart.fn(event => event.date.day == new core.DateTime.now().day, T.EventLToboolL()))[$toList]()))) return;
+          yield;
+        } else if (event.index === 4) {
+          if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+          yield;
+          if (stream.add(new events_overview_bloc.ThisWeekendEventsState.new(events_repository.EventsRepository.instance.events[$where](dart.fn(event => event.date.isBefore(new core.DateTime.now().add(new core.Duration.new({days: 7}))), T.EventLToboolL()))[$toList]()))) return;
+          yield;
+        } else if (event.index === 5) {
+          if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+          yield;
+          if (stream.add(new events_overview_bloc.ThisWeekEventsState.new(events_repository.EventsRepository.instance.events[$where](dart.fn(event => event.date.isBefore(new core.DateTime.now().add(new core.Duration.new({days: 14}))), T.EventLToboolL()))[$toList]()))) return;
+          yield;
+        } else if (event.index === 6) {
+          if (stream.add(new events_overview_bloc.LoadingEventsState.new())) return;
+          yield;
+          let events = (yield events_repository.EventsRepository.instance.loadUpcomingEvents());
+          if (stream.add(new events_overview_bloc.UpcomingEventsState.new(events))) return;
+          yield;
+        }
+      }).stream;
+    }
+  };
+  (events_overview_bloc.EventsOverviewBloc.new = function() {
+    this[selectedEvent] = null;
+    this[_scrollcontroller] = new scroll_controller.ScrollController.new();
+    events_overview_bloc.EventsOverviewBloc.__proto__.new.call(this, new events_overview_bloc.LoadingEventsState.new());
+    ;
+  }).prototype = events_overview_bloc.EventsOverviewBloc.prototype;
+  dart.addTypeTests(events_overview_bloc.EventsOverviewBloc);
+  dart.addTypeCaches(events_overview_bloc.EventsOverviewBloc);
+  dart.setMethodSignature(events_overview_bloc.EventsOverviewBloc, () => ({
+    __proto__: dart.getMethods(events_overview_bloc.EventsOverviewBloc.__proto__),
+    mapEventToState: dart.fnType(dart.legacy(async.Stream$(dart.legacy(events_overview_bloc.EventsOverviewState))), [dart.legacy(core.Object)]),
+    [_handleSelectedTabEvent]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(events_overview_bloc.EventsOverviewState))), [dart.legacy(events_overview_bloc.TabberNavEvent)])
+  }));
+  dart.setGetterSignature(events_overview_bloc.EventsOverviewBloc, () => ({
+    __proto__: dart.getGetters(events_overview_bloc.EventsOverviewBloc.__proto__),
+    scrollController: dart.legacy(scroll_controller.ScrollController)
+  }));
+  dart.setLibraryUri(events_overview_bloc.EventsOverviewBloc, I[0]);
+  dart.setFieldSignature(events_overview_bloc.EventsOverviewBloc, () => ({
+    __proto__: dart.getFields(events_overview_bloc.EventsOverviewBloc.__proto__),
+    selectedEvent: dart.fieldType(dart.legacy(event.Event)),
+    [_scrollcontroller]: dart.fieldType(dart.legacy(scroll_controller.ScrollController))
+  }));
+  var index$ = dart.privateName(events_overview_bloc, "TabberNavEvent.index");
+  var title$ = dart.privateName(events_overview_bloc, "TabberNavEvent.title");
+  events_overview_bloc.TabberNavEvent = class TabberNavEvent extends events_overview_bloc.EventsOverviewEvent {
+    get index() {
+      return this[index$];
+    }
+    set index(value) {
+      super.index = value;
+    }
+    get title() {
+      return this[title$];
+    }
+    set title(value) {
+      super.title = value;
+    }
+  };
+  (events_overview_bloc.TabberNavEvent.new = function(opts) {
+    let title = opts && 'title' in opts ? opts.title : null;
+    let index = opts && 'index' in opts ? opts.index : 0;
+    this[title$] = title;
+    this[index$] = index;
+    events_overview_bloc.TabberNavEvent.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.TabberNavEvent.prototype;
+  dart.addTypeTests(events_overview_bloc.TabberNavEvent);
+  dart.addTypeCaches(events_overview_bloc.TabberNavEvent);
+  dart.setLibraryUri(events_overview_bloc.TabberNavEvent, I[0]);
+  dart.setFieldSignature(events_overview_bloc.TabberNavEvent, () => ({
+    __proto__: dart.getFields(events_overview_bloc.TabberNavEvent.__proto__),
+    index: dart.finalFieldType(dart.legacy(core.int)),
+    title: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  events_overview_bloc.LoadingEventsState = class LoadingEventsState extends events_overview_bloc.EventsOverviewState {};
+  (events_overview_bloc.LoadingEventsState.new = function() {
+    events_overview_bloc.LoadingEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.LoadingEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.LoadingEventsState);
+  dart.addTypeCaches(events_overview_bloc.LoadingEventsState);
+  dart.setLibraryUri(events_overview_bloc.LoadingEventsState, I[0]);
+  var allEvents$ = dart.privateName(events_overview_bloc, "AllEventsState.allEvents");
+  var upcomingEvents$ = dart.privateName(events_overview_bloc, "AllEventsState.upcomingEvents");
+  events_overview_bloc.AllEventsState = class AllEventsState extends events_overview_bloc.EventsOverviewState {
+    get allEvents() {
+      return this[allEvents$];
+    }
+    set allEvents(value) {
+      super.allEvents = value;
+    }
+    get upcomingEvents() {
+      return this[upcomingEvents$];
+    }
+    set upcomingEvents(value) {
+      super.upcomingEvents = value;
+    }
+  };
+  (events_overview_bloc.AllEventsState.new = function(allEvents, upcomingEvents) {
+    this[allEvents$] = allEvents;
+    this[upcomingEvents$] = upcomingEvents;
+    events_overview_bloc.AllEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.AllEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.AllEventsState);
+  dart.addTypeCaches(events_overview_bloc.AllEventsState);
+  dart.setLibraryUri(events_overview_bloc.AllEventsState, I[0]);
+  dart.setFieldSignature(events_overview_bloc.AllEventsState, () => ({
+    __proto__: dart.getFields(events_overview_bloc.AllEventsState.__proto__),
+    allEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event)))),
+    upcomingEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  var freeEvents$ = dart.privateName(events_overview_bloc, "FreeEventsState.freeEvents");
+  events_overview_bloc.FreeEventsState = class FreeEventsState extends events_overview_bloc.EventsOverviewState {
+    get freeEvents() {
+      return this[freeEvents$];
+    }
+    set freeEvents(value) {
+      super.freeEvents = value;
+    }
+  };
+  (events_overview_bloc.FreeEventsState.new = function(freeEvents) {
+    this[freeEvents$] = freeEvents;
+    events_overview_bloc.FreeEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.FreeEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.FreeEventsState);
+  dart.addTypeCaches(events_overview_bloc.FreeEventsState);
+  dart.setLibraryUri(events_overview_bloc.FreeEventsState, I[0]);
+  dart.setFieldSignature(events_overview_bloc.FreeEventsState, () => ({
+    __proto__: dart.getFields(events_overview_bloc.FreeEventsState.__proto__),
+    freeEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  events_overview_bloc.ForMeEventsState = class ForMeEventsState extends events_overview_bloc.EventsOverviewState {};
+  (events_overview_bloc.ForMeEventsState.new = function() {
+    events_overview_bloc.ForMeEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.ForMeEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.ForMeEventsState);
+  dart.addTypeCaches(events_overview_bloc.ForMeEventsState);
+  dart.setLibraryUri(events_overview_bloc.ForMeEventsState, I[0]);
+  var todayEvents$ = dart.privateName(events_overview_bloc, "TodayEventsState.todayEvents");
+  events_overview_bloc.TodayEventsState = class TodayEventsState extends events_overview_bloc.EventsOverviewState {
+    get todayEvents() {
+      return this[todayEvents$];
+    }
+    set todayEvents(value) {
+      super.todayEvents = value;
+    }
+  };
+  (events_overview_bloc.TodayEventsState.new = function(todayEvents) {
+    this[todayEvents$] = todayEvents;
+    events_overview_bloc.TodayEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.TodayEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.TodayEventsState);
+  dart.addTypeCaches(events_overview_bloc.TodayEventsState);
+  dart.setLibraryUri(events_overview_bloc.TodayEventsState, I[0]);
+  dart.setFieldSignature(events_overview_bloc.TodayEventsState, () => ({
+    __proto__: dart.getFields(events_overview_bloc.TodayEventsState.__proto__),
+    todayEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  var weekendEvents$ = dart.privateName(events_overview_bloc, "ThisWeekendEventsState.weekendEvents");
+  events_overview_bloc.ThisWeekendEventsState = class ThisWeekendEventsState extends events_overview_bloc.EventsOverviewState {
+    get weekendEvents() {
+      return this[weekendEvents$];
+    }
+    set weekendEvents(value) {
+      super.weekendEvents = value;
+    }
+  };
+  (events_overview_bloc.ThisWeekendEventsState.new = function(weekendEvents) {
+    this[weekendEvents$] = weekendEvents;
+    events_overview_bloc.ThisWeekendEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.ThisWeekendEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.ThisWeekendEventsState);
+  dart.addTypeCaches(events_overview_bloc.ThisWeekendEventsState);
+  dart.setLibraryUri(events_overview_bloc.ThisWeekendEventsState, I[0]);
+  dart.setFieldSignature(events_overview_bloc.ThisWeekendEventsState, () => ({
+    __proto__: dart.getFields(events_overview_bloc.ThisWeekendEventsState.__proto__),
+    weekendEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  var thisWeekEvents$ = dart.privateName(events_overview_bloc, "ThisWeekEventsState.thisWeekEvents");
+  events_overview_bloc.ThisWeekEventsState = class ThisWeekEventsState extends events_overview_bloc.EventsOverviewState {
+    get thisWeekEvents() {
+      return this[thisWeekEvents$];
+    }
+    set thisWeekEvents(value) {
+      super.thisWeekEvents = value;
+    }
+  };
+  (events_overview_bloc.ThisWeekEventsState.new = function(thisWeekEvents) {
+    this[thisWeekEvents$] = thisWeekEvents;
+    events_overview_bloc.ThisWeekEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.ThisWeekEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.ThisWeekEventsState);
+  dart.addTypeCaches(events_overview_bloc.ThisWeekEventsState);
+  dart.setLibraryUri(events_overview_bloc.ThisWeekEventsState, I[0]);
+  dart.setFieldSignature(events_overview_bloc.ThisWeekEventsState, () => ({
+    __proto__: dart.getFields(events_overview_bloc.ThisWeekEventsState.__proto__),
+    thisWeekEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  var upcomingEvents$0 = dart.privateName(events_overview_bloc, "UpcomingEventsState.upcomingEvents");
+  events_overview_bloc.UpcomingEventsState = class UpcomingEventsState extends events_overview_bloc.EventsOverviewState {
+    get upcomingEvents() {
+      return this[upcomingEvents$0];
+    }
+    set upcomingEvents(value) {
+      super.upcomingEvents = value;
+    }
+  };
+  (events_overview_bloc.UpcomingEventsState.new = function(upcomingEvents) {
+    this[upcomingEvents$0] = upcomingEvents;
+    events_overview_bloc.UpcomingEventsState.__proto__.new.call(this);
+    ;
+  }).prototype = events_overview_bloc.UpcomingEventsState.prototype;
+  dart.addTypeTests(events_overview_bloc.UpcomingEventsState);
+  dart.addTypeCaches(events_overview_bloc.UpcomingEventsState);
+  dart.setLibraryUri(events_overview_bloc.UpcomingEventsState, I[0]);
+  dart.setFieldSignature(events_overview_bloc.UpcomingEventsState, () => ({
+    __proto__: dart.getFields(events_overview_bloc.UpcomingEventsState.__proto__),
+    upcomingEvents: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event))))
+  }));
+  dart.trackLibraries("packages/ticketapp/pages/events_overview/bloc/events_overview_bloc.dart", {
+    "package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart": events_overview_bloc
+  }, {
+    "package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart": ["events_overview_event.dart", "events_overview_state.dart"]
+  }, '{"version":3,"sourceRoot":"","sources":["events_overview_event.dart","events_overview_state.dart","events_overview_bloc.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAM4B;IAAE;;;AAFtB;;EAAqB;;;;;;;;;;ACGD;IAAE;;;AAHtB;;EAAqB;;;;;;;;;ICWrB;;;;;;;AAImC;IAAiB;;AAK7B,MAA3B,AAAkB;AACiB,MAAlB,AAAS;AAC1B,YAAa;IACf;;kCAIwB;AADmB;AAEzC,YAAU,uBAAN,KAAK;AACP,+BAAO,8BAAwB,KAAK;UAApC;;MAEJ;;8BAGmB;AADgC;AAEjD,uBAAM;QAAN;AACA,YAAI,AAAM,AAAM,KAAP,WAAU;AACL,gCACR,MAAuB,AAAS;AACpC,yBAAM,4CAAgC,AAAS,oDAAQ,cAAc;UAArE;cACK,KAAI,AAAM,AAAM,KAAP,WAAU;AACZ,uBAAS;AAUnB,UARe,AAAS,AAAO,6DAAQ,QAAC;AACpB,0BAAU,AAAM,KAAD;AAMjC,YAJF,AAAQ,OAAD,WAAS,QAAC;AACf,kBAAI,AAAE,AAAM,CAAP,WAAU;AACI,gBAAjB,AAAO,MAAD,OAAK,KAAK;;;;AAItB,yBAAM;UAAN;AAEA,yBAAM,6CAAgB,MAAM;UAA5B;cACK,KAAI,AAAM,AAAM,KAAP,WAAU;AACxB,yBAAM;UAAN;AAEA,yBAAM;UAAN;cACK,KAAI,AAAM,AAAM,KAAP,WAAU;AACxB,yBAAM;UAAN;AACA,yBAAM,8CAAkC,AAAS,AAC5C,AACA,2DADM,QAAC,SAAU,AAAM,AAAK,AAAI,KAAV,aAAsB,AAAM;UADvD;cAGK,KAAI,AAAM,AAAM,KAAP,WAAU;AACxB,yBAAM;UAAN;AAEA,yBAAM,oDAAwC,AAAS,AAClD,AAEA,2DAFM,QAAC,SACJ,AAAM,AAAK,KAAN,eAAwB,AAAM,4BAAI,6BAAe;UAF9D;cAIK,KAAI,AAAM,AAAM,KAAP,WAAU;AACxB,yBAAM;UAAN;AAEA,yBAAM,iDAAqC,AAAS,AAC/C,AAEA,2DAFM,QAAC,SACJ,AAAM,AAAK,KAAN,eAAwB,AAAM,4BAAI,6BAAe;UAF9D;cAIK,KAAI,AAAM,AAAM,KAAP,WAAU;AACxB,yBAAM;UAAN;AAEY,wBAAS,MAAuB,AAAS;AACrD,yBAAM,iDAAoB,MAAM;UAAhC;;MAEJ;;;;IAzEM;IAEW,0BAAoB;AAId,qEAAM;;EAAqB;;;;;;;;;;;;;;;;;;;;;IFXxC;;;;;;IACG;;;;;;;;QAEc;QAAY;IAAZ;IAAY;AAAjC;;EAA4C;;;;;;;;;;;ACF5C;;EAAoB;;;;;;;IAIR;;;;;;IACA;;;;;;;sDAEQ,WAAgB;IAAhB;IAAgB;AAApC;;EAAmD;;;;;;;;;;;IAIvC;;;;;;;;IACS;AAArB;;EAAgC;;;;;;;;;;AAIhC;;EAAkB;;;;;;IAIN;;;;;;;;IACU;AAAtB;;EAAkC;;;;;;;;;;IAItB;;;;;;;;IACgB;AAA5B;;EAA0C;;;;;;;;;;IAI9B;;;;;;;;IACa;AAAzB;;EAAwC;;;;;;;;;;IAI5B;;;;;;;;IACa;AAAzB;;EAAwC","file":"../../../../../../../../packages/ticketapp/pages/events_overview/bloc/events_overview_bloc.dart.lib.js"}');
+  // Exports:
+  return {
+    pages__events_overview__bloc__events_overview_bloc: events_overview_bloc
+  };
+}));
+
+//# sourceMappingURL=events_overview_bloc.dart.lib.js.map

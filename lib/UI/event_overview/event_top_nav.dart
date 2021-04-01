@@ -3,10 +3,10 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 class EventOverviewAppbar extends StatefulWidget {
   final AuthenticationBloc bloc;
@@ -45,8 +45,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
           children: [
             _appolloLogo(),
             Expanded(
-              child:
-                  _appolloSearchBar(context, screenSize).paddingHorizontal(18),
+              child: _appolloSearchBar(context, screenSize).paddingHorizontal(18),
             ),
             Container(
               child: Row(children: [
@@ -89,18 +88,14 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                        height: 22,
-                        child: WebsafeSvg.asset(AppolloSvgIcon.searchOutline,
-                            color: MyTheme.appolloWhite)),
+                    Container(height: 22, child: SvgIcon(AppolloSvgIcon.searchOutline, color: MyTheme.appolloWhite)),
                     Container(
                       child: Expanded(
                         child: TextField(
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.transparent,
-                            contentPadding:
-                                const EdgeInsets.only(bottom: 14, left: 12),
+                            contentPadding: const EdgeInsets.only(bottom: 14, left: 12),
                             focusedBorder: InputBorder.none,
                             hintText: 'Search Events',
                             enabledBorder: InputBorder.none,
@@ -135,16 +130,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 color: MyTheme.appolloWhite.withAlpha(120),
                 child: Row(
                   children: [
-                    Container(
-                            height: 16,
-                            child: WebsafeSvg.asset(AppolloSvgIcon.perthGps,
-                                color: MyTheme.appolloWhite))
+                    Container(height: 16, child: SvgIcon(AppolloSvgIcon.perthGps, color: MyTheme.appolloWhite))
                         .paddingRight(4),
-                    AutoSizeText('Perth, Australie',
-                        style: Theme.of(context)
-                            .textTheme
-                            .button
-                            .copyWith(fontSize: 12)),
+                    AutoSizeText('Perth, Australie', style: Theme.of(context).textTheme.button.copyWith(fontSize: 12)),
                   ],
                 ).paddingHorizontal(8),
               ),
@@ -154,11 +142,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 height: 30,
                 color: MyTheme.appolloGreen,
                 child: Center(
-                  child: AutoSizeText('Search',
-                          style: Theme.of(context)
-                              .textTheme
-                              .button
-                              .copyWith(fontSize: 12))
+                  child: AutoSizeText('Search', style: Theme.of(context).textTheme.button.copyWith(fontSize: 12))
                       .paddingHorizontal(8),
                 ),
               ),
@@ -174,9 +158,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
           fontFamily: "cocon",
           color: Colors.white,
           fontSize: 25,
-          shadows: [
-            BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)
-          ]));
+          shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]));
 
   Widget _appolloCreateEventDropDown(BuildContext context) => Container(
           child: AppolloPopup(
@@ -205,15 +187,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         child: PopupButton(
           title: Text(
             'Create Event',
-            style: Theme.of(context)
-                .textTheme
-                .button
-                .copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.w500),
           ),
-          icon: Container(
-              height: 20,
-              child: WebsafeSvg.asset(AppolloSvgIcon.arrowdown,
-                  color: MyTheme.appolloWhite)),
+          icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
         ),
       ));
 
@@ -244,15 +220,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         child: PopupButton(
           title: Text(
             'Help',
-            style: Theme.of(context)
-                .textTheme
-                .button
-                .copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.w500),
           ),
-          icon: Container(
-              height: 20,
-              child: WebsafeSvg.asset(AppolloSvgIcon.arrowdown,
-                  color: MyTheme.appolloWhite)),
+          icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
         ),
       ));
 
@@ -264,8 +234,8 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
           },
           child: Text(
             'Sign In',
-            style: Theme.of(context).textTheme.button.copyWith(
-                fontWeight: FontWeight.w500, color: MyTheme.appolloWhite),
+            style:
+                Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloWhite),
           ),
         ),
       );

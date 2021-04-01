@@ -1,0 +1,1464 @@
+define(['dart_sdk', 'packages/stripe_sdk/src/stripe.dart', 'packages/stripe_sdk/src/ui/widgets/card_form.dart', 'packages/flutter/src/widgets/widget_span.dart', 'packages/stripe_sdk/src/ui/models.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/flutter/src/widgets/icon.dart', 'packages/flutter/src/material/icons.dart', 'packages/stripe_sdk/src/ui/progress_bar.dart', 'packages/stripe_sdk/src/models/card.dart', 'packages/flutter/src/widgets/form.dart', 'packages/stripe_sdk/src/customer_session.dart', 'packages/flutter/src/foundation/change_notifier.dart', 'packages/flutter/src/material/page.dart', 'packages/flutter/src/material/progress_indicator.dart', 'packages/flutter/src/material/refresh_indicator.dart', 'packages/flutter/src/widgets/scroll_view.dart', 'packages/flutter_slidable/src/widgets/slidable_dismissal.dart', 'packages/flutter_slidable/src/widgets/slidable_action_pane.dart', 'packages/flutter_slidable/src/widgets/slide_action.dart', 'packages/flutter/src/material/colors.dart', 'packages/flutter/src/material/card.dart'], (function load__packages__stripe_sdk__src__ui__screens__add_payment_method_screen_dart(dart_sdk, packages__stripe_sdk__src__stripe$46dart, packages__stripe_sdk__src__ui__widgets__card_form$46dart, packages__flutter__src__widgets__widget_span$46dart, packages__stripe_sdk__src__ui__models$46dart, packages__flutter__src__material__icon_button$46dart, packages__flutter__src__widgets__icon$46dart, packages__flutter__src__material__icons$46dart, packages__stripe_sdk__src__ui__progress_bar$46dart, packages__stripe_sdk__src__models__card$46dart, packages__flutter__src__widgets__form$46dart, packages__stripe_sdk__src__customer_session$46dart, packages__flutter__src__foundation__change_notifier$46dart, packages__flutter__src__material__page$46dart, packages__flutter__src__material__progress_indicator$46dart, packages__flutter__src__material__refresh_indicator$46dart, packages__flutter__src__widgets__scroll_view$46dart, packages__flutter_slidable__src__widgets__slidable_dismissal$46dart, packages__flutter_slidable__src__widgets__slidable_action_pane$46dart, packages__flutter_slidable__src__widgets__slide_action$46dart, packages__flutter__src__material__colors$46dart, packages__flutter__src__material__card$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const async = dart_sdk.async;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const stripe$ = packages__stripe_sdk__src__stripe$46dart.src__stripe;
+  const card_form = packages__stripe_sdk__src__ui__widgets__card_form$46dart.src__ui__widgets__card_form;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const text = packages__flutter__src__widgets__widget_span$46dart.src__widgets__text;
+  const navigator = packages__flutter__src__widgets__widget_span$46dart.src__widgets__navigator;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const models = packages__stripe_sdk__src__ui__models$46dart.src__ui__models;
+  const scaffold = packages__flutter__src__material__icon_button$46dart.src__material__scaffold;
+  const app_bar = packages__flutter__src__material__icon_button$46dart.src__material__app_bar;
+  const icon_button = packages__flutter__src__material__icon_button$46dart.src__material__icon_button;
+  const dialog = packages__flutter__src__material__icon_button$46dart.src__material__dialog;
+  const flat_button = packages__flutter__src__material__icon_button$46dart.src__material__flat_button;
+  const snack_bar = packages__flutter__src__material__icon_button$46dart.src__material__snack_bar;
+  const list_tile = packages__flutter__src__material__icon_button$46dart.src__material__list_tile;
+  const icon = packages__flutter__src__widgets__icon$46dart.src__widgets__icon;
+  const icons = packages__flutter__src__material__icons$46dart.src__material__icons;
+  const progress_bar = packages__stripe_sdk__src__ui__progress_bar$46dart.src__ui__progress_bar;
+  const card = packages__stripe_sdk__src__models__card$46dart.src__models__card;
+  const form = packages__flutter__src__widgets__form$46dart.src__widgets__form;
+  const customer_session = packages__stripe_sdk__src__customer_session$46dart.src__customer_session;
+  const change_notifier = packages__flutter__src__foundation__change_notifier$46dart.src__foundation__change_notifier;
+  const page = packages__flutter__src__material__page$46dart.src__material__page;
+  const progress_indicator = packages__flutter__src__material__progress_indicator$46dart.src__material__progress_indicator;
+  const refresh_indicator = packages__flutter__src__material__refresh_indicator$46dart.src__material__refresh_indicator;
+  const scroll_view = packages__flutter__src__widgets__scroll_view$46dart.src__widgets__scroll_view;
+  const slidable = packages__flutter_slidable__src__widgets__slidable_dismissal$46dart.src__widgets__slidable;
+  const slidable_action_pane = packages__flutter_slidable__src__widgets__slidable_action_pane$46dart.src__widgets__slidable_action_pane;
+  const slide_action = packages__flutter_slidable__src__widgets__slide_action$46dart.src__widgets__slide_action;
+  const colors = packages__flutter__src__material__colors$46dart.src__material__colors;
+  const card$ = packages__flutter__src__material__card$46dart.src__material__card;
+  var add_payment_method_screen = Object.create(dart.library);
+  var payment_method_store = Object.create(dart.library);
+  var payment_methods_screen = Object.create(dart.library);
+  var $_get = dartx._get;
+  var $clear = dartx.clear;
+  var $isNotEmpty = dartx.isNotEmpty;
+  var $map = dartx.map;
+  var $toList = dartx.toList;
+  var $addAll = dartx.addAll;
+  var $isEmpty = dartx.isEmpty;
+  var $length = dartx.length;
+  var $toUpperCase = dartx.toUpperCase;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    MapOfStringL$dynamic: () => (T.MapOfStringL$dynamic = dart.constFn(core.Map$(T.StringL(), dart.dynamic)))(),
+    MapLOfStringL$dynamic: () => (T.MapLOfStringL$dynamic = dart.constFn(dart.legacy(T.MapOfStringL$dynamic())))(),
+    FutureOfNull: () => (T.FutureOfNull = dart.constFn(async.Future$(core.Null)))(),
+    FutureLOfNull: () => (T.FutureLOfNull = dart.constFn(dart.legacy(T.FutureOfNull())))(),
+    VoidToFutureLOfNull: () => (T.VoidToFutureLOfNull = dart.constFn(dart.fnType(T.FutureLOfNull(), [])))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))(),
+    PaymentMethodL: () => (T.PaymentMethodL = dart.constFn(dart.legacy(payment_methods_screen.PaymentMethod)))(),
+    JSArrayOfPaymentMethodL: () => (T.JSArrayOfPaymentMethodL = dart.constFn(_interceptors.JSArray$(T.PaymentMethodL())))(),
+    VoidTovoid: () => (T.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
+    FutureOfvoid: () => (T.FutureOfvoid = dart.constFn(async.Future$(dart.void)))(),
+    ListL: () => (T.ListL = dart.constFn(dart.legacy(core.List)))(),
+    dynamicToPaymentMethodL: () => (T.dynamicToPaymentMethodL = dart.constFn(dart.fnType(T.PaymentMethodL(), [dart.dynamic])))(),
+    MapLOfStringL$dynamicToNull: () => (T.MapLOfStringL$dynamicToNull = dart.constFn(dart.fnType(core.Null, [T.MapLOfStringL$dynamic()])))(),
+    AddPaymentMethodScreenL: () => (T.AddPaymentMethodScreenL = dart.constFn(dart.legacy(add_payment_method_screen.AddPaymentMethodScreen)))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    BuildContextLToAddPaymentMethodScreenL: () => (T.BuildContextLToAddPaymentMethodScreenL = dart.constFn(dart.fnType(T.AddPaymentMethodScreenL(), [T.BuildContextL()])))(),
+    ListOfPaymentMethodL: () => (T.ListOfPaymentMethodL = dart.constFn(core.List$(T.PaymentMethodL())))(),
+    ListLOfPaymentMethodL: () => (T.ListLOfPaymentMethodL = dart.constFn(dart.legacy(T.ListOfPaymentMethodL())))(),
+    VoidToListLOfPaymentMethodL: () => (T.VoidToListLOfPaymentMethodL = dart.constFn(dart.fnType(T.ListLOfPaymentMethodL(), [])))(),
+    FutureLOfvoid: () => (T.FutureLOfvoid = dart.constFn(dart.legacy(T.FutureOfvoid())))(),
+    VoidToFutureLOfvoid: () => (T.VoidToFutureLOfvoid = dart.constFn(dart.fnType(T.FutureLOfvoid(), [])))(),
+    ObjectL: () => (T.ObjectL = dart.constFn(dart.legacy(core.Object)))(),
+    AlertDialogL: () => (T.AlertDialogL = dart.constFn(dart.legacy(dialog.AlertDialog)))(),
+    BuildContextLToAlertDialogL: () => (T.BuildContextLToAlertDialogL = dart.constFn(dart.fnType(T.AlertDialogL(), [T.BuildContextL()])))(),
+    SlidableL: () => (T.SlidableL = dart.constFn(dart.legacy(slidable.Slidable)))(),
+    intL: () => (T.intL = dart.constFn(dart.legacy(core.int)))(),
+    BuildContextLAndintLToSlidableL: () => (T.BuildContextLAndintLToSlidableL = dart.constFn(dart.fnType(T.SlidableL(), [T.BuildContextL(), T.intL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C1() {
+      return C[1] = dart.constList([], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 86,
+        [_Location_line]: 51,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/add_payment_method_screen.dart"
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 23,
+        [_Location_line]: 76,
+        [_Location_file]: null
+      });
+    },
+    get C3() {
+      return C[3] = dart.constList([C[4] || CT.C4], T._LocationL());
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[3] || CT.C3,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 76,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/add_payment_method_screen.dart"
+      });
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 32,
+        [_Location_line]: 79,
+        [_Location_file]: null
+      });
+    },
+    get C6() {
+      return C[6] = dart.constList([C[7] || CT.C7], T._LocationL());
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[6] || CT.C6,
+        [_Location_name]: null,
+        [_Location_column]: 21,
+        [_Location_line]: 79,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/add_payment_method_screen.dart"
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 15,
+        [_Location_line]: 79,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onPressed",
+        [_Location_column]: 15,
+        [_Location_line]: 80,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.constList([C[10] || CT.C10, C[11] || CT.C11], T._LocationL());
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[9] || CT.C9,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 78,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/add_payment_method_screen.dart"
+      });
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 11,
+        [_Location_line]: 76,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "actions",
+        [_Location_column]: 11,
+        [_Location_line]: 77,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.constList([C[14] || CT.C14, C[15] || CT.C15], T._LocationL());
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[13] || CT.C13,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 75,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/add_payment_method_screen.dart"
+      });
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "appBar",
+        [_Location_column]: 9,
+        [_Location_line]: 75,
+        [_Location_file]: null
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "body",
+        [_Location_column]: 9,
+        [_Location_line]: 112,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.constList([C[18] || CT.C18, C[19] || CT.C19], T._LocationL());
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[17] || CT.C17,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 74,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/add_payment_method_screen.dart"
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 28,
+        [_Location_line]: 38,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.constList([C[22] || CT.C22], T._LocationL());
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[21] || CT.C21,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 38,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 30,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.constList([C[25] || CT.C25], T._LocationL());
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[24] || CT.C24,
+        [_Location_name]: null,
+        [_Location_column]: 19,
+        [_Location_line]: 41,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C28() {
+      return C[28] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "_createSetupIntent",
+        [_Location_column]: 38,
+        [_Location_line]: 49,
+        [_Location_file]: null
+      });
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "stripe",
+        [_Location_column]: 31,
+        [_Location_line]: 50,
+        [_Location_file]: null
+      });
+    },
+    get C27() {
+      return C[27] = dart.constList([C[28] || CT.C28, C[29] || CT.C29], T._LocationL());
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[27] || CT.C27,
+        [_Location_name]: null,
+        [_Location_column]: 50,
+        [_Location_line]: 48,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C32() {
+      return C[32] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 13,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C33() {
+      return C[33] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onPressed",
+        [_Location_column]: 13,
+        [_Location_line]: 42,
+        [_Location_file]: null
+      });
+    },
+    get C31() {
+      return C[31] = dart.constList([C[32] || CT.C32, C[33] || CT.C33], T._LocationL());
+    },
+    get C30() {
+      return C[30] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[31] || CT.C31,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 40,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C36() {
+      return C[36] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 9,
+        [_Location_line]: 38,
+        [_Location_file]: null
+      });
+    },
+    get C37() {
+      return C[37] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "actions",
+        [_Location_column]: 9,
+        [_Location_line]: 39,
+        [_Location_file]: null
+      });
+    },
+    get C35() {
+      return C[35] = dart.constList([C[36] || CT.C36, C[37] || CT.C37], T._LocationL());
+    },
+    get C34() {
+      return C[34] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[35] || CT.C35,
+        [_Location_name]: null,
+        [_Location_column]: 15,
+        [_Location_line]: 37,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C40() {
+      return C[40] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "paymentMethodStore",
+        [_Location_column]: 9,
+        [_Location_line]: 57,
+        [_Location_file]: null
+      });
+    },
+    get C39() {
+      return C[39] = dart.constList([C[40] || CT.C40], T._LocationL());
+    },
+    get C38() {
+      return C[38] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[39] || CT.C39,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 56,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C43() {
+      return C[43] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "appBar",
+        [_Location_column]: 7,
+        [_Location_line]: 37,
+        [_Location_file]: null
+      });
+    },
+    get C44() {
+      return C[44] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "body",
+        [_Location_column]: 7,
+        [_Location_line]: 56,
+        [_Location_file]: null
+      });
+    },
+    get C42() {
+      return C[42] = dart.constList([C[43] || CT.C43, C[44] || CT.C44], T._LocationL());
+    },
+    get C41() {
+      return C[41] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[42] || CT.C42,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 36,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C45() {
+      return C[45] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 101,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C48() {
+      return C[48] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 21,
+        [_Location_line]: 101,
+        [_Location_file]: null
+      });
+    },
+    get C47() {
+      return C[47] = dart.constList([C[48] || CT.C48], T._LocationL());
+    },
+    get C46() {
+      return C[46] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[47] || CT.C47,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 101,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C51() {
+      return C[51] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onRefresh",
+        [_Location_column]: 7,
+        [_Location_line]: 104,
+        [_Location_file]: null
+      });
+    },
+    get C52() {
+      return C[52] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 105,
+        [_Location_file]: null
+      });
+    },
+    get C50() {
+      return C[50] = dart.constList([C[51] || CT.C51, C[52] || CT.C52], T._LocationL());
+    },
+    get C49() {
+      return C[49] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[50] || CT.C50,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 103,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C53() {
+      return C[53] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 113,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C54() {
+      return C[54] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 27,
+        [_Location_line]: 120,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C57() {
+      return C[57] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 41,
+        [_Location_line]: 139,
+        [_Location_file]: null
+      });
+    },
+    get C56() {
+      return C[56] = dart.constList([C[57] || CT.C57], T._LocationL());
+    },
+    get C55() {
+      return C[55] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[56] || CT.C56,
+        [_Location_name]: null,
+        [_Location_column]: 36,
+        [_Location_line]: 139,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C60() {
+      return C[60] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 33,
+        [_Location_line]: 141,
+        [_Location_file]: null
+      });
+    },
+    get C59() {
+      return C[59] = dart.constList([C[60] || CT.C60], T._LocationL());
+    },
+    get C58() {
+      return C[58] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[59] || CT.C59,
+        [_Location_name]: null,
+        [_Location_column]: 38,
+        [_Location_line]: 140,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C63() {
+      return C[63] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 45,
+        [_Location_line]: 144,
+        [_Location_file]: null
+      });
+    },
+    get C62() {
+      return C[62] = dart.constList([C[63] || CT.C63], T._LocationL());
+    },
+    get C61() {
+      return C[61] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[62] || CT.C62,
+        [_Location_name]: null,
+        [_Location_column]: 40,
+        [_Location_line]: 144,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C66() {
+      return C[66] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 33,
+        [_Location_line]: 144,
+        [_Location_file]: null
+      });
+    },
+    get C67() {
+      return C[67] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onPressed",
+        [_Location_column]: 33,
+        [_Location_line]: 145,
+        [_Location_file]: null
+      });
+    },
+    get C65() {
+      return C[65] = dart.constList([C[66] || CT.C66, C[67] || CT.C67], T._LocationL());
+    },
+    get C64() {
+      return C[64] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[65] || CT.C65,
+        [_Location_name]: null,
+        [_Location_column]: 31,
+        [_Location_line]: 143,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C70() {
+      return C[70] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 47,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C69() {
+      return C[69] = dart.constList([C[70] || CT.C70], T._LocationL());
+    },
+    get C68() {
+      return C[68] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[69] || CT.C69,
+        [_Location_name]: null,
+        [_Location_column]: 42,
+        [_Location_line]: 148,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C73() {
+      return C[73] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 45,
+        [_Location_line]: 161,
+        [_Location_file]: null
+      });
+    },
+    get C72() {
+      return C[72] = dart.constList([C[73] || CT.C73], T._LocationL());
+    },
+    get C71() {
+      return C[71] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[72] || CT.C72,
+        [_Location_name]: null,
+        [_Location_column]: 50,
+        [_Location_line]: 160,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C76() {
+      return C[76] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "content",
+        [_Location_column]: 41,
+        [_Location_line]: 160,
+        [_Location_file]: null
+      });
+    },
+    get C75() {
+      return C[75] = dart.constList([C[76] || CT.C76], T._LocationL());
+    },
+    get C74() {
+      return C[74] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[75] || CT.C75,
+        [_Location_name]: null,
+        [_Location_column]: 57,
+        [_Location_line]: 159,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C79() {
+      return C[79] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 35,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C80() {
+      return C[80] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onPressed",
+        [_Location_column]: 35,
+        [_Location_line]: 149,
+        [_Location_file]: null
+      });
+    },
+    get C78() {
+      return C[78] = dart.constList([C[79] || CT.C79, C[80] || CT.C80], T._LocationL());
+    },
+    get C77() {
+      return C[77] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[78] || CT.C78,
+        [_Location_name]: null,
+        [_Location_column]: 31,
+        [_Location_line]: 147,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C83() {
+      return C[83] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 29,
+        [_Location_line]: 139,
+        [_Location_file]: null
+      });
+    },
+    get C84() {
+      return C[84] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "content",
+        [_Location_column]: 29,
+        [_Location_line]: 140,
+        [_Location_file]: null
+      });
+    },
+    get C85() {
+      return C[85] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "actions",
+        [_Location_column]: 29,
+        [_Location_line]: 142,
+        [_Location_file]: null
+      });
+    },
+    get C82() {
+      return C[82] = dart.constList([C[83] || CT.C83, C[84] || CT.C84, C[85] || CT.C85], T._LocationL());
+    },
+    get C81() {
+      return C[81] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[82] || CT.C82,
+        [_Location_name]: null,
+        [_Location_column]: 34,
+        [_Location_line]: 138,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C88() {
+      return C[88] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "caption",
+        [_Location_column]: 19,
+        [_Location_line]: 129,
+        [_Location_file]: null
+      });
+    },
+    get C89() {
+      return C[89] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 19,
+        [_Location_line]: 130,
+        [_Location_file]: null
+      });
+    },
+    get C90() {
+      return C[90] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "color",
+        [_Location_column]: 19,
+        [_Location_line]: 132,
+        [_Location_file]: null
+      });
+    },
+    get C91() {
+      return C[91] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onTap",
+        [_Location_column]: 19,
+        [_Location_line]: 134,
+        [_Location_file]: null
+      });
+    },
+    get C87() {
+      return C[87] = dart.constList([C[88] || CT.C88, C[89] || CT.C89, C[90] || CT.C90, C[91] || CT.C91], T._LocationL());
+    },
+    get C86() {
+      return C[86] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[87] || CT.C87,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 128,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C94() {
+      return C[94] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 64,
+        [_Location_line]: 175,
+        [_Location_file]: null
+      });
+    },
+    get C93() {
+      return C[93] = dart.constList([C[94] || CT.C94], T._LocationL());
+    },
+    get C92() {
+      return C[92] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[93] || CT.C93,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 175,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C97() {
+      return C[97] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 42,
+        [_Location_line]: 176,
+        [_Location_file]: null
+      });
+    },
+    get C96() {
+      return C[96] = dart.constList([C[97] || CT.C97], T._LocationL());
+    },
+    get C95() {
+      return C[95] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[96] || CT.C96,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 176,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C100() {
+      return C[100] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "icon",
+        [_Location_column]: 39,
+        [_Location_line]: 177,
+        [_Location_file]: null
+      });
+    },
+    get C99() {
+      return C[99] = dart.constList([C[100] || CT.C100], T._LocationL());
+    },
+    get C98() {
+      return C[98] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[99] || CT.C99,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 177,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C103() {
+      return C[103] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onLongPress",
+        [_Location_column]: 19,
+        [_Location_line]: 173,
+        [_Location_file]: null
+      });
+    },
+    get C104() {
+      return C[104] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "subtitle",
+        [_Location_column]: 19,
+        [_Location_line]: 175,
+        [_Location_file]: null
+      });
+    },
+    get C105() {
+      return C[105] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 19,
+        [_Location_line]: 176,
+        [_Location_file]: null
+      });
+    },
+    get C106() {
+      return C[106] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "leading",
+        [_Location_column]: 19,
+        [_Location_line]: 177,
+        [_Location_file]: null
+      });
+    },
+    get C102() {
+      return C[102] = dart.constList([C[103] || CT.C103, C[104] || CT.C104, C[105] || CT.C105, C[106] || CT.C106], T._LocationL());
+    },
+    get C101() {
+      return C[101] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[102] || CT.C102,
+        [_Location_name]: null,
+        [_Location_column]: 24,
+        [_Location_line]: 172,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C109() {
+      return C[109] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 17,
+        [_Location_line]: 172,
+        [_Location_file]: null
+      });
+    },
+    get C108() {
+      return C[108] = dart.constList([C[109] || CT.C109], T._LocationL());
+    },
+    get C107() {
+      return C[107] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[108] || CT.C108,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 171,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C112() {
+      return C[112] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "actionPane",
+        [_Location_column]: 15,
+        [_Location_line]: 120,
+        [_Location_file]: null
+      });
+    },
+    get C113() {
+      return C[113] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "actions",
+        [_Location_column]: 15,
+        [_Location_line]: 121,
+        [_Location_file]: null
+      });
+    },
+    get C114() {
+      return C[114] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 15,
+        [_Location_line]: 171,
+        [_Location_file]: null
+      });
+    },
+    get C111() {
+      return C[111] = dart.constList([C[112] || CT.C112, C[113] || CT.C113, C[114] || CT.C114], T._LocationL());
+    },
+    get C110() {
+      return C[110] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[111] || CT.C111,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 119,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    },
+    get C117() {
+      return C[117] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "itemCount",
+        [_Location_column]: 11,
+        [_Location_line]: 116,
+        [_Location_file]: null
+      });
+    },
+    get C118() {
+      return C[118] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "itemBuilder",
+        [_Location_column]: 11,
+        [_Location_line]: 117,
+        [_Location_file]: null
+      });
+    },
+    get C116() {
+      return C[116] = dart.constList([C[117] || CT.C117, C[118] || CT.C118], T._LocationL());
+    },
+    get C115() {
+      return C[115] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[116] || CT.C116,
+        [_Location_name]: null,
+        [_Location_column]: 23,
+        [_Location_line]: 115,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/screens/payment_methods_screen.dart"
+      });
+    }
+  }, false);
+  var C = Array(119).fill(void 0);
+  var I = [
+    "package:stripe_sdk/src/ui/screens/add_payment_method_screen.dart",
+    "package:stripe_sdk/src/ui/stores/payment_method_store.dart",
+    "package:stripe_sdk/src/ui/screens/payment_methods_screen.dart"
+  ];
+  var form$ = dart.privateName(add_payment_method_screen, "AddPaymentMethodScreen.form");
+  var _createSetupIntent$ = dart.privateName(add_payment_method_screen, "_createSetupIntent");
+  var _useSetupIntent = dart.privateName(add_payment_method_screen, "_useSetupIntent");
+  var _paymentMethodStore = dart.privateName(add_payment_method_screen, "_paymentMethodStore");
+  var _stripe = dart.privateName(add_payment_method_screen, "_stripe");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  add_payment_method_screen.AddPaymentMethodScreen = class AddPaymentMethodScreen extends framework.StatefulWidget {
+    get form() {
+      return this[form$];
+    }
+    set form(value) {
+      super.form = value;
+    }
+    createState() {
+      let t0;
+      return new add_payment_method_screen._AddPaymentMethodScreenState.new((t0 = this.form, t0 == null ? new card_form.CardForm.new({$creationLocationd_0dea112b090073317d4: C[0] || CT.C0}) : t0));
+    }
+  };
+  (add_payment_method_screen.AddPaymentMethodScreen.withSetupIntent = function(_createSetupIntent, opts) {
+    let t0, t0$;
+    let paymentMethodStore = opts && 'paymentMethodStore' in opts ? opts.paymentMethodStore : null;
+    let stripe = opts && 'stripe' in opts ? opts.stripe : null;
+    let form = opts && 'form' in opts ? opts.form : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[_createSetupIntent$] = _createSetupIntent;
+    this[form$] = form;
+    this[_useSetupIntent] = true;
+    this[_paymentMethodStore] = (t0 = paymentMethodStore, t0 == null ? payment_method_store.PaymentMethodStore.instance : t0);
+    this[_stripe] = (t0$ = stripe, t0$ == null ? stripe$.Stripe.instance : t0$);
+    add_payment_method_screen.AddPaymentMethodScreen.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = add_payment_method_screen.AddPaymentMethodScreen.prototype;
+  (add_payment_method_screen.AddPaymentMethodScreen.withoutSetupIntent = function(opts) {
+    let t0, t0$;
+    let paymentMethodStore = opts && 'paymentMethodStore' in opts ? opts.paymentMethodStore : null;
+    let stripe = opts && 'stripe' in opts ? opts.stripe : null;
+    let form = opts && 'form' in opts ? opts.form : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[form$] = form;
+    this[_useSetupIntent] = false;
+    this[_createSetupIntent$] = null;
+    this[_paymentMethodStore] = (t0 = paymentMethodStore, t0 == null ? payment_method_store.PaymentMethodStore.instance : t0);
+    this[_stripe] = (t0$ = stripe, t0$ == null ? stripe$.Stripe.instance : t0$);
+    add_payment_method_screen.AddPaymentMethodScreen.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = add_payment_method_screen.AddPaymentMethodScreen.prototype;
+  dart.addTypeTests(add_payment_method_screen.AddPaymentMethodScreen);
+  dart.addTypeCaches(add_payment_method_screen.AddPaymentMethodScreen);
+  dart.setMethodSignature(add_payment_method_screen.AddPaymentMethodScreen, () => ({
+    __proto__: dart.getMethods(add_payment_method_screen.AddPaymentMethodScreen.__proto__),
+    createState: dart.fnType(dart.legacy(add_payment_method_screen._AddPaymentMethodScreenState), [])
+  }));
+  dart.setLibraryUri(add_payment_method_screen.AddPaymentMethodScreen, I[0]);
+  dart.setFieldSignature(add_payment_method_screen.AddPaymentMethodScreen, () => ({
+    __proto__: dart.getFields(add_payment_method_screen.AddPaymentMethodScreen.__proto__),
+    [_stripe]: dart.finalFieldType(dart.legacy(stripe$.Stripe)),
+    [_createSetupIntent$]: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(async.Future$(dart.legacy(models.IntentResponse))), []))),
+    [_useSetupIntent]: dart.finalFieldType(dart.legacy(core.bool)),
+    [_paymentMethodStore]: dart.finalFieldType(dart.legacy(payment_method_store.PaymentMethodStore)),
+    form: dart.finalFieldType(dart.legacy(card_form.CardForm))
+  }));
+  var _form$ = dart.privateName(add_payment_method_screen, "_form");
+  var _cardData = dart.privateName(add_payment_method_screen, "_cardData");
+  var _formKey = dart.privateName(add_payment_method_screen, "_formKey");
+  add_payment_method_screen._AddPaymentMethodScreenState = class _AddPaymentMethodScreenState extends framework.State$(dart.legacy(add_payment_method_screen.AddPaymentMethodScreen)) {
+    initState() {
+      super.initState();
+      if (dart.test(this.widget[_useSetupIntent])) this.setupIntent = this.widget[_createSetupIntent$]();
+    }
+    build(context) {
+      return new scaffold.Scaffold.new({appBar: new app_bar.AppBar.new({title: new text.Text.new("Add payment method", {$creationLocationd_0dea112b090073317d4: C[2] || CT.C2}), actions: T.JSArrayOfWidgetL().of([new icon_button.IconButton.new({icon: new icon.Icon.new(icons.Icons.check, {$creationLocationd_0dea112b090073317d4: C[5] || CT.C5}), onPressed: dart.fn(() => async.async(core.Null, (function*() {
+                if (dart.test(this[_formKey].currentState.validate())) {
+                  this[_formKey].currentState.save();
+                  progress_bar.showProgressDialog(context);
+                  let paymentMethod = (yield this.widget[_stripe].api.createPaymentMethodFromCard(this[_cardData]));
+                  if (dart.test(this.widget[_useSetupIntent])) {
+                    let createSetupIntentResponse = (yield this.setupIntent);
+                    let setupIntent = (yield this.widget[_stripe].confirmSetupIntent(createSetupIntentResponse.clientSecret, T.StringL().as(paymentMethod[$_get]("id"))));
+                    progress_bar.hideProgressDialog(context);
+                    if (dart.equals(setupIntent[$_get]("status"), "succeeded")) {
+                      this.widget[_paymentMethodStore].refresh();
+                      navigator.Navigator.pop(T.boolL(), context, true);
+                      return;
+                    }
+                  } else {
+                    paymentMethod = T.MapLOfStringL$dynamic().as(yield this.widget[_paymentMethodStore].attachPaymentMethod(T.StringL().as(paymentMethod[$_get]("id"))));
+                    progress_bar.hideProgressDialog(context);
+                    navigator.Navigator.pop(T.boolL(), context, true);
+                    return;
+                  }
+                  navigator.Navigator.pop(T.boolL(), context, false);
+                }
+              }).bind(this)), T.VoidToFutureLOfNull()), $creationLocationd_0dea112b090073317d4: C[8] || CT.C8})]), $creationLocationd_0dea112b090073317d4: C[12] || CT.C12}), body: this[_form$], $creationLocationd_0dea112b090073317d4: C[16] || CT.C16});
+    }
+  };
+  (add_payment_method_screen._AddPaymentMethodScreenState.new = function(_form) {
+    this.setupIntent = null;
+    this[_form$] = _form;
+    this[_cardData] = _form.card;
+    this[_formKey] = _form.formKey;
+    add_payment_method_screen._AddPaymentMethodScreenState.__proto__.new.call(this);
+    ;
+  }).prototype = add_payment_method_screen._AddPaymentMethodScreenState.prototype;
+  dart.addTypeTests(add_payment_method_screen._AddPaymentMethodScreenState);
+  dart.addTypeCaches(add_payment_method_screen._AddPaymentMethodScreenState);
+  dart.setMethodSignature(add_payment_method_screen._AddPaymentMethodScreenState, () => ({
+    __proto__: dart.getMethods(add_payment_method_screen._AddPaymentMethodScreenState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(add_payment_method_screen._AddPaymentMethodScreenState, I[0]);
+  dart.setFieldSignature(add_payment_method_screen._AddPaymentMethodScreenState, () => ({
+    __proto__: dart.getFields(add_payment_method_screen._AddPaymentMethodScreenState.__proto__),
+    [_cardData]: dart.finalFieldType(dart.legacy(card.StripeCard)),
+    [_formKey]: dart.finalFieldType(dart.legacy(framework.GlobalKey$(dart.legacy(form.FormState)))),
+    [_form$]: dart.finalFieldType(dart.legacy(card_form.CardForm)),
+    setupIntent: dart.fieldType(dart.legacy(async.Future$(dart.legacy(models.IntentResponse))))
+  }));
+  var paymentMethods = dart.privateName(payment_method_store, "PaymentMethodStore.paymentMethods");
+  var _customerSession = dart.privateName(payment_method_store, "_customerSession");
+  payment_method_store.PaymentMethodStore = class PaymentMethodStore extends change_notifier.ChangeNotifier {
+    get paymentMethods() {
+      return this[paymentMethods];
+    }
+    set paymentMethods(value) {
+      super.paymentMethods = value;
+    }
+    static get instance() {
+      payment_method_store.PaymentMethodStore._instance == null ? payment_method_store.PaymentMethodStore._instance = new payment_method_store.PaymentMethodStore.new() : null;
+      return payment_method_store.PaymentMethodStore._instance;
+    }
+    addListener(listener) {
+      let isFirstListener = !dart.test(this.hasListeners);
+      super.addListener(listener);
+      if (isFirstListener) this.refresh();
+    }
+    attachPaymentMethod(paymentMethodId) {
+      let paymentMethodFuture = this[_customerSession].attachPaymentMethod(paymentMethodId);
+      this.refresh();
+      return paymentMethodFuture;
+    }
+    detachPaymentMethod(paymentMethodId) {
+      let paymentMethodFuture = this[_customerSession].detachPaymentMethod(paymentMethodId);
+      this.refresh();
+      return paymentMethodFuture;
+    }
+    refresh() {
+      if (!dart.test(this.hasListeners)) return T.FutureOfvoid().value();
+      let paymentMethodFuture = this[_customerSession].listPaymentMethods({limit: 100});
+      return paymentMethodFuture.then(dart.void, dart.fn(value => {
+        let t0;
+        let listData = T.ListL().as((t0 = value[$_get]("data"), t0 == null ? T.JSArrayOfPaymentMethodL().of([]) : t0));
+        this.paymentMethods[$clear]();
+        if (dart.test(listData[$isNotEmpty])) {
+          this.paymentMethods[$addAll](listData[$map](T.PaymentMethodL(), dart.fn(item => new payment_methods_screen.PaymentMethod.new(T.StringL().as(dart.dsend(item, '_get', ["id"])), T.StringL().as(dart.dsend(dart.dsend(item, '_get', ["card"]), '_get', ["last4"])), T.StringL().as(dart.dsend(dart.dsend(item, '_get', ["card"]), '_get', ["brand"]))), T.dynamicToPaymentMethodL()))[$toList]());
+        }
+        this.notifyListeners();
+      }, T.MapLOfStringL$dynamicToNull()));
+    }
+    dispose() {
+      this.paymentMethods[$clear]();
+      this.notifyListeners();
+      super.dispose();
+    }
+  };
+  (payment_method_store.PaymentMethodStore.new = function(opts) {
+    let t0;
+    let customerSession = opts && 'customerSession' in opts ? opts.customerSession : null;
+    this[paymentMethods] = T.JSArrayOfPaymentMethodL().of([]);
+    this[_customerSession] = (t0 = customerSession, t0 == null ? customer_session.CustomerSession.instance : t0);
+    payment_method_store.PaymentMethodStore.__proto__.new.call(this);
+    this[_customerSession].addListener(dart.fn(() => this.dispose(), T.VoidTovoid()));
+  }).prototype = payment_method_store.PaymentMethodStore.prototype;
+  dart.addTypeTests(payment_method_store.PaymentMethodStore);
+  dart.addTypeCaches(payment_method_store.PaymentMethodStore);
+  dart.setMethodSignature(payment_method_store.PaymentMethodStore, () => ({
+    __proto__: dart.getMethods(payment_method_store.PaymentMethodStore.__proto__),
+    addListener: dart.fnType(dart.void, [dart.legacy(dart.fnType(dart.void, []))]),
+    attachPaymentMethod: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.Map))), [dart.legacy(core.String)]),
+    detachPaymentMethod: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.Map))), [dart.legacy(core.String)]),
+    refresh: dart.fnType(dart.legacy(async.Future$(dart.void)), [])
+  }));
+  dart.setLibraryUri(payment_method_store.PaymentMethodStore, I[1]);
+  dart.setFieldSignature(payment_method_store.PaymentMethodStore, () => ({
+    __proto__: dart.getFields(payment_method_store.PaymentMethodStore.__proto__),
+    paymentMethods: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(payment_methods_screen.PaymentMethod)))),
+    [_customerSession]: dart.finalFieldType(dart.legacy(customer_session.CustomerSession))
+  }));
+  dart.defineLazy(payment_method_store.PaymentMethodStore, {
+    /*payment_method_store.PaymentMethodStore._instance*/get _instance() {
+      return null;
+    },
+    set _instance(_) {}
+  }, true);
+  var title$ = dart.privateName(payment_methods_screen, "PaymentMethodsScreen.title");
+  var createSetupIntent$ = dart.privateName(payment_methods_screen, "PaymentMethodsScreen.createSetupIntent");
+  var _paymentMethodStore$ = dart.privateName(payment_methods_screen, "_paymentMethodStore");
+  payment_methods_screen.PaymentMethodsScreen = class PaymentMethodsScreen extends framework.StatefulWidget {
+    get title() {
+      return this[title$];
+    }
+    set title(value) {
+      super.title = value;
+    }
+    get createSetupIntent() {
+      return this[createSetupIntent$];
+    }
+    set createSetupIntent(value) {
+      super.createSetupIntent = value;
+    }
+    createState() {
+      return new payment_methods_screen._PaymentMethodsScreenState.new();
+    }
+  };
+  (payment_methods_screen.PaymentMethodsScreen.new = function(opts) {
+    let t0;
+    let key = opts && 'key' in opts ? opts.key : null;
+    let createSetupIntent = opts && 'createSetupIntent' in opts ? opts.createSetupIntent : null;
+    let title = opts && 'title' in opts ? opts.title : "Payment Methods";
+    let paymentMethodStore = opts && 'paymentMethodStore' in opts ? opts.paymentMethodStore : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[createSetupIntent$] = createSetupIntent;
+    this[title$] = title;
+    this[_paymentMethodStore$] = (t0 = paymentMethodStore, t0 == null ? new payment_method_store.PaymentMethodStore.new() : t0);
+    payment_methods_screen.PaymentMethodsScreen.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = payment_methods_screen.PaymentMethodsScreen.prototype;
+  dart.addTypeTests(payment_methods_screen.PaymentMethodsScreen);
+  dart.addTypeCaches(payment_methods_screen.PaymentMethodsScreen);
+  dart.setMethodSignature(payment_methods_screen.PaymentMethodsScreen, () => ({
+    __proto__: dart.getMethods(payment_methods_screen.PaymentMethodsScreen.__proto__),
+    createState: dart.fnType(dart.legacy(payment_methods_screen._PaymentMethodsScreenState), [])
+  }));
+  dart.setLibraryUri(payment_methods_screen.PaymentMethodsScreen, I[2]);
+  dart.setFieldSignature(payment_methods_screen.PaymentMethodsScreen, () => ({
+    __proto__: dart.getFields(payment_methods_screen.PaymentMethodsScreen.__proto__),
+    title: dart.finalFieldType(dart.legacy(core.String)),
+    createSetupIntent: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(async.Future$(dart.legacy(models.IntentResponse))), []))),
+    [_paymentMethodStore$]: dart.finalFieldType(dart.legacy(payment_method_store.PaymentMethodStore))
+  }));
+  var _paymentMethodStoreListener = dart.privateName(payment_methods_screen, "_paymentMethodStoreListener");
+  payment_methods_screen._PaymentMethodsScreenState = class _PaymentMethodsScreenState extends framework.State$(dart.legacy(payment_methods_screen.PaymentMethodsScreen)) {
+    build(context) {
+      let stripe = stripe$.Stripe.instance;
+      return new scaffold.Scaffold.new({appBar: new app_bar.AppBar.new({title: new text.Text.new(this.widget.title, {$creationLocationd_0dea112b090073317d4: C[20] || CT.C20}), actions: T.JSArrayOfWidgetL().of([new icon_button.IconButton.new({icon: new icon.Icon.new(icons.Icons.add, {$creationLocationd_0dea112b090073317d4: C[23] || CT.C23}), onPressed: dart.fn(() => async.async(core.Null, (function*() {
+                let added = (yield navigator.Navigator.push(dart.dynamic, context, new page.MaterialPageRoute.new({builder: dart.fn(context => new add_payment_method_screen.AddPaymentMethodScreen.withSetupIntent(this.widget.createSetupIntent, {stripe: stripe, $creationLocationd_0dea112b090073317d4: C[26] || CT.C26}), T.BuildContextLToAddPaymentMethodScreenL())})));
+                if (dart.equals(added, true)) yield this.widget[_paymentMethodStore$].refresh();
+              }).bind(this)), T.VoidToFutureLOfNull()), $creationLocationd_0dea112b090073317d4: C[30] || CT.C30})]), $creationLocationd_0dea112b090073317d4: C[34] || CT.C34}), body: new payment_methods_screen.PaymentMethodsList.new({paymentMethodStore: this.widget[_paymentMethodStore$], $creationLocationd_0dea112b090073317d4: C[38] || CT.C38}), $creationLocationd_0dea112b090073317d4: C[41] || CT.C41});
+    }
+    initState() {
+      super.initState();
+      this.widget[_paymentMethodStore$].addListener(dart.bind(this, _paymentMethodStoreListener));
+    }
+    dispose() {
+      this.widget[_paymentMethodStore$].removeListener(dart.bind(this, _paymentMethodStoreListener));
+      super.dispose();
+    }
+    [_paymentMethodStoreListener]() {
+      if (dart.test(this.mounted)) {
+        this.setState(dart.fn(() => this.paymentMethods = this.widget[_paymentMethodStore$].paymentMethods, T.VoidToListLOfPaymentMethodL()));
+      }
+    }
+  };
+  (payment_methods_screen._PaymentMethodsScreenState.new = function() {
+    this.paymentMethods = null;
+    payment_methods_screen._PaymentMethodsScreenState.__proto__.new.call(this);
+    ;
+  }).prototype = payment_methods_screen._PaymentMethodsScreenState.prototype;
+  dart.addTypeTests(payment_methods_screen._PaymentMethodsScreenState);
+  dart.addTypeCaches(payment_methods_screen._PaymentMethodsScreenState);
+  dart.setMethodSignature(payment_methods_screen._PaymentMethodsScreenState, () => ({
+    __proto__: dart.getMethods(payment_methods_screen._PaymentMethodsScreenState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_paymentMethodStoreListener]: dart.fnType(dart.void, [])
+  }));
+  dart.setLibraryUri(payment_methods_screen._PaymentMethodsScreenState, I[2]);
+  dart.setFieldSignature(payment_methods_screen._PaymentMethodsScreenState, () => ({
+    __proto__: dart.getFields(payment_methods_screen._PaymentMethodsScreenState.__proto__),
+    paymentMethods: dart.fieldType(dart.legacy(core.List$(dart.legacy(payment_methods_screen.PaymentMethod))))
+  }));
+  var id$ = dart.privateName(payment_methods_screen, "PaymentMethod.id");
+  var last4$ = dart.privateName(payment_methods_screen, "PaymentMethod.last4");
+  var brand$ = dart.privateName(payment_methods_screen, "PaymentMethod.brand");
+  payment_methods_screen.PaymentMethod = class PaymentMethod extends core.Object {
+    get id() {
+      return this[id$];
+    }
+    set id(value) {
+      super.id = value;
+    }
+    get last4() {
+      return this[last4$];
+    }
+    set last4(value) {
+      super.last4 = value;
+    }
+    get brand() {
+      return this[brand$];
+    }
+    set brand(value) {
+      super.brand = value;
+    }
+  };
+  (payment_methods_screen.PaymentMethod.new = function(id, last4, brand) {
+    this[id$] = id;
+    this[last4$] = last4;
+    this[brand$] = brand;
+    ;
+  }).prototype = payment_methods_screen.PaymentMethod.prototype;
+  dart.addTypeTests(payment_methods_screen.PaymentMethod);
+  dart.addTypeCaches(payment_methods_screen.PaymentMethod);
+  dart.setLibraryUri(payment_methods_screen.PaymentMethod, I[2]);
+  dart.setFieldSignature(payment_methods_screen.PaymentMethod, () => ({
+    __proto__: dart.getFields(payment_methods_screen.PaymentMethod.__proto__),
+    id: dart.finalFieldType(dart.legacy(core.String)),
+    last4: dart.finalFieldType(dart.legacy(core.String)),
+    brand: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  var paymentMethodStore$ = dart.privateName(payment_methods_screen, "PaymentMethodsList.paymentMethodStore");
+  payment_methods_screen.PaymentMethodsList = class PaymentMethodsList extends framework.StatelessWidget {
+    get paymentMethodStore() {
+      return this[paymentMethodStore$];
+    }
+    set paymentMethodStore(value) {
+      super.paymentMethodStore = value;
+    }
+    build(context) {
+      let listData = this.paymentMethodStore.paymentMethods;
+      if (listData == null) {
+        return new basic.Center.new({child: new progress_indicator.CircularProgressIndicator.new({$creationLocationd_0dea112b090073317d4: C[45] || CT.C45}), $creationLocationd_0dea112b090073317d4: C[46] || CT.C46});
+      }
+      return new refresh_indicator.RefreshIndicator.new({onRefresh: dart.fn(() => this.paymentMethodStore.refresh(), T.VoidToFutureLOfvoid()), child: this.buildListView(listData, this.paymentMethodStore, context), $creationLocationd_0dea112b090073317d4: C[49] || CT.C49});
+    }
+    buildListView(listData, paymentMethods, rootContext) {
+      if (dart.test(listData[$isEmpty])) {
+        return new scroll_view.ListView.new({$creationLocationd_0dea112b090073317d4: C[53] || CT.C53});
+      } else {
+        return new scroll_view.ListView.builder({itemCount: listData[$length], itemBuilder: dart.fn((context, index) => {
+            let card = listData[$_get](index);
+            return new slidable.Slidable.new({actionPane: new slidable_action_pane.SlidableDrawerActionPane.new({$creationLocationd_0dea112b090073317d4: C[54] || CT.C54}), actions: T.JSArrayOfWidgetL().of([new slide_action.IconSlideAction.new({caption: "Delete", icon: icons.Icons.delete_forever, color: colors.Colors.red, onTap: dart.fn(() => async.async(core.Null, (function*() {
+                    yield dialog.showDialog(dart.dynamic, {context: rootContext, builder: dart.fn(context => new dialog.AlertDialog.new({title: new text.Text.new("Delete payment method", {$creationLocationd_0dea112b090073317d4: C[55] || CT.C55}), content: new text.Text.new("Are you sure you want to delete this payment method?", {$creationLocationd_0dea112b090073317d4: C[58] || CT.C58}), actions: T.JSArrayOfWidgetL().of([new flat_button.FlatButton.new({child: new text.Text.new("Cancel", {$creationLocationd_0dea112b090073317d4: C[61] || CT.C61}), onPressed: dart.fn(() => navigator.Navigator.pop(T.ObjectL(), rootContext), T.VoidTovoid()), $creationLocationd_0dea112b090073317d4: C[64] || CT.C64}), new flat_button.FlatButton.new({child: new text.Text.new("Delete", {$creationLocationd_0dea112b090073317d4: C[68] || CT.C68}), onPressed: dart.fn(() => async.async(core.Null, (function*() {
+                              navigator.Navigator.pop(T.ObjectL(), rootContext);
+                              progress_bar.showProgressDialog(rootContext);
+                              let result = (yield this.paymentMethodStore.detachPaymentMethod(card.id));
+                              progress_bar.hideProgressDialog(rootContext);
+                              if (result != null) {
+                                yield paymentMethods.refresh();
+                                scaffold.Scaffold.of(rootContext).showSnackBar(new snack_bar.SnackBar.new({content: new text.Text.new("Payment method successfully deleted.", {$creationLocationd_0dea112b090073317d4: C[71] || CT.C71}), $creationLocationd_0dea112b090073317d4: C[74] || CT.C74}));
+                              }
+                            }).bind(this)), T.VoidToFutureLOfNull()), $creationLocationd_0dea112b090073317d4: C[77] || CT.C77})]), $creationLocationd_0dea112b090073317d4: C[81] || CT.C81}), T.BuildContextLToAlertDialogL())});
+                  }).bind(this)), T.VoidToFutureLOfNull()), $creationLocationd_0dea112b090073317d4: C[86] || CT.C86})]), child: new card$.Card.new({child: new list_tile.ListTile.new({onLongPress: dart.fn(() => async.async(core.Null, function*() {
+                  }), T.VoidToFutureLOfNull()), subtitle: new text.Text.new("**** **** **** " + dart.str(card.last4), {$creationLocationd_0dea112b090073317d4: C[92] || CT.C92}), title: new text.Text.new(card.brand[$toUpperCase](), {$creationLocationd_0dea112b090073317d4: C[95] || CT.C95}), leading: new icon.Icon.new(icons.Icons.credit_card, {$creationLocationd_0dea112b090073317d4: C[98] || CT.C98}), $creationLocationd_0dea112b090073317d4: C[101] || CT.C101}), $creationLocationd_0dea112b090073317d4: C[107] || CT.C107}), $creationLocationd_0dea112b090073317d4: C[110] || CT.C110});
+          }, T.BuildContextLAndintLToSlidableL()), $creationLocationd_0dea112b090073317d4: C[115] || CT.C115});
+      }
+    }
+  };
+  (payment_methods_screen.PaymentMethodsList.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let paymentMethodStore = opts && 'paymentMethodStore' in opts ? opts.paymentMethodStore : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[paymentMethodStore$] = paymentMethodStore;
+    payment_methods_screen.PaymentMethodsList.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = payment_methods_screen.PaymentMethodsList.prototype;
+  dart.addTypeTests(payment_methods_screen.PaymentMethodsList);
+  dart.addTypeCaches(payment_methods_screen.PaymentMethodsList);
+  dart.setMethodSignature(payment_methods_screen.PaymentMethodsList, () => ({
+    __proto__: dart.getMethods(payment_methods_screen.PaymentMethodsList.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    buildListView: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(core.List$(dart.legacy(payment_methods_screen.PaymentMethod))), dart.legacy(payment_method_store.PaymentMethodStore), dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(payment_methods_screen.PaymentMethodsList, I[2]);
+  dart.setFieldSignature(payment_methods_screen.PaymentMethodsList, () => ({
+    __proto__: dart.getFields(payment_methods_screen.PaymentMethodsList.__proto__),
+    paymentMethodStore: dart.finalFieldType(dart.legacy(payment_method_store.PaymentMethodStore))
+  }));
+  dart.trackLibraries("packages/stripe_sdk/src/ui/screens/add_payment_method_screen.dart", {
+    "package:stripe_sdk/src/ui/screens/add_payment_method_screen.dart": add_payment_method_screen,
+    "package:stripe_sdk/src/ui/stores/payment_method_store.dart": payment_method_store,
+    "package:stripe_sdk/src/ui/screens/payment_methods_screen.dart": payment_methods_screen
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["add_payment_method_screen.dart","../stores/payment_method_store.dart","payment_methods_screen.dart"],"names":[],"mappings":"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","file":"../../../../../../../../../packages/stripe_sdk/src/ui/screens/add_payment_method_screen.dart.lib.js"}');
+  // Exports:
+  return {
+    src__ui__screens__add_payment_method_screen: add_payment_method_screen,
+    src__ui__stores__payment_method_store: payment_method_store,
+    src__ui__screens__payment_methods_screen: payment_methods_screen
+  };
+}));
+
+//# sourceMappingURL=add_payment_method_screen.dart.lib.js.map

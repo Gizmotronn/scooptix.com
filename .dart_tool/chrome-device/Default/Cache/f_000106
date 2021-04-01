@@ -1,0 +1,823 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/awesome_card/extra/card_type.dart', 'packages/flutter/src/animation/animation_controller.dart', 'packages/flutter/src/animation/tween_sequence.dart', 'packages/flutter/src/animation/listener_helpers.dart', 'packages/flutter/src/animation/curves.dart', 'packages/flutter/src/painting/edge_insets.dart', 'packages/flutter/src/painting/box_decoration.dart', 'packages/flutter/src/painting/box_shadow.dart', 'packages/flutter/src/material/colors.dart', 'packages/flutter/src/painting/border_radius.dart', 'packages/awesome_card/style/card_front_layout.dart', 'packages/awesome_card/extra/helper.dart', 'packages/awesome_card/style/card_back_layout.dart', 'packages/vector_math/vector_math_64.dart', 'packages/flutter/src/painting/alignment.dart'], (function load__packages__awesome_card__awesome_card_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__awesome_card__extra__card_type$46dart, packages__flutter__src__animation__animation_controller$46dart, packages__flutter__src__animation__tween_sequence$46dart, packages__flutter__src__animation__listener_helpers$46dart, packages__flutter__src__animation__curves$46dart, packages__flutter__src__painting__edge_insets$46dart, packages__flutter__src__painting__box_decoration$46dart, packages__flutter__src__painting__box_shadow$46dart, packages__flutter__src__material__colors$46dart, packages__flutter__src__painting__border_radius$46dart, packages__awesome_card__style__card_front_layout$46dart, packages__awesome_card__extra__helper$46dart, packages__awesome_card__style__card_back_layout$46dart, packages__vector_math__vector_math_64$46dart, packages__flutter__src__painting__alignment$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const ui = dart_sdk.ui;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const ticker_provider = packages__flutter__src__widgets__widget_span$46dart.src__widgets__ticker_provider;
+  const transitions = packages__flutter__src__widgets__widget_span$46dart.src__widgets__transitions;
+  const card_type = packages__awesome_card__extra__card_type$46dart.extra__card_type;
+  const animation_controller = packages__flutter__src__animation__animation_controller$46dart.src__animation__animation_controller;
+  const tween_sequence = packages__flutter__src__animation__tween_sequence$46dart.src__animation__tween_sequence;
+  const tween = packages__flutter__src__animation__listener_helpers$46dart.src__animation__tween;
+  const animation = packages__flutter__src__animation__listener_helpers$46dart.src__animation__animation;
+  const curves = packages__flutter__src__animation__curves$46dart.src__animation__curves;
+  const edge_insets = packages__flutter__src__painting__edge_insets$46dart.src__painting__edge_insets;
+  const box_decoration = packages__flutter__src__painting__box_decoration$46dart.src__painting__box_decoration;
+  const box_shadow = packages__flutter__src__painting__box_shadow$46dart.src__painting__box_shadow;
+  const colors = packages__flutter__src__material__colors$46dart.src__material__colors;
+  const border_radius = packages__flutter__src__painting__border_radius$46dart.src__painting__border_radius;
+  const card_front_layout = packages__awesome_card__style__card_front_layout$46dart.style__card_front_layout;
+  const helper = packages__awesome_card__extra__helper$46dart.extra__helper;
+  const card_back_layout = packages__awesome_card__style__card_back_layout$46dart.style__card_back_layout;
+  const vector_math_64 = packages__vector_math__vector_math_64$46dart.vector_math_64;
+  const alignment = packages__flutter__src__painting__alignment$46dart.src__painting__alignment;
+  var awesome_card = Object.create(dart.library);
+  var credit_card = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    doubleL: () => (T.doubleL = dart.constFn(dart.legacy(core.double)))(),
+    TweenSequenceOfdoubleL: () => (T.TweenSequenceOfdoubleL = dart.constFn(tween_sequence.TweenSequence$(T.doubleL())))(),
+    TweenSequenceItemOfdoubleL: () => (T.TweenSequenceItemOfdoubleL = dart.constFn(tween_sequence.TweenSequenceItem$(T.doubleL())))(),
+    TweenOfdoubleL: () => (T.TweenOfdoubleL = dart.constFn(tween.Tween$(T.doubleL())))(),
+    ConstantTweenOfdoubleL: () => (T.ConstantTweenOfdoubleL = dart.constFn(tween.ConstantTween$(T.doubleL())))(),
+    TweenSequenceItemLOfdoubleL: () => (T.TweenSequenceItemLOfdoubleL = dart.constFn(dart.legacy(T.TweenSequenceItemOfdoubleL())))(),
+    JSArrayOfTweenSequenceItemLOfdoubleL: () => (T.JSArrayOfTweenSequenceItemLOfdoubleL = dart.constFn(_interceptors.JSArray$(T.TweenSequenceItemLOfdoubleL())))(),
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))(),
+    BoxShadowL: () => (T.BoxShadowL = dart.constFn(dart.legacy(box_shadow.BoxShadow)))(),
+    JSArrayOfBoxShadowL: () => (T.JSArrayOfBoxShadowL = dart.constFn(_interceptors.JSArray$(T.BoxShadowL())))(),
+    TransformL: () => (T.TransformL = dart.constFn(dart.legacy(basic.Transform)))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    BuildContextLAndWidgetLToTransformL: () => (T.BuildContextLAndWidgetLToTransformL = dart.constFn(dart.fnType(T.TransformL(), [T.BuildContextL(), T.WidgetL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: ui.Color.prototype,
+        [Color_value]: 4294967295.0
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: ui.Color.prototype,
+        [Color_value]: 4278190080.0
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "animation",
+        [_Location_column]: 13,
+        [_Location_line]: 116,
+        [_Location_file]: null
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 117,
+        [_Location_file]: null
+      });
+    },
+    get C3() {
+      return C[3] = dart.constList([C[4] || CT.C4, C[5] || CT.C5], T._LocationL());
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[3] || CT.C3,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 115,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "animation",
+        [_Location_column]: 13,
+        [_Location_line]: 120,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 121,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.constList([C[8] || CT.C8, C[9] || CT.C9], T._LocationL());
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[7] || CT.C7,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 119,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 114,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.constList([C[12] || CT.C12], T._LocationL());
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[11] || CT.C11,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 113,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 113,
+        [_Location_file]: null
+      });
+    },
+    get C14() {
+      return C[14] = dart.constList([C[15] || CT.C15], T._LocationL());
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[14] || CT.C14,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 112,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 11,
+        [_Location_line]: 151,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.constList([C[18] || CT.C18], T._LocationL());
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[17] || CT.C17,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 150,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "borderRadius",
+        [_Location_column]: 9,
+        [_Location_line]: 149,
+        [_Location_file]: null
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 150,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.constList([C[21] || CT.C21, C[22] || CT.C22], T._LocationL());
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[20] || CT.C20,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 148,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "margin",
+        [_Location_column]: 7,
+        [_Location_line]: 130,
+        [_Location_file]: null
+      });
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 7,
+        [_Location_line]: 131,
+        [_Location_file]: null
+      });
+    },
+    get C27() {
+      return C[27] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 7,
+        [_Location_line]: 132,
+        [_Location_file]: null
+      });
+    },
+    get C28() {
+      return C[28] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 7,
+        [_Location_line]: 133,
+        [_Location_file]: null
+      });
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.constList([C[25] || CT.C25, C[26] || CT.C26, C[27] || CT.C27, C[28] || CT.C28, C[29] || CT.C29], T._LocationL());
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[24] || CT.C24,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 129,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C32() {
+      return C[32] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 11,
+        [_Location_line]: 197,
+        [_Location_file]: null
+      });
+    },
+    get C31() {
+      return C[31] = dart.constList([C[32] || CT.C32], T._LocationL());
+    },
+    get C30() {
+      return C[30] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[31] || CT.C31,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 196,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C35() {
+      return C[35] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "borderRadius",
+        [_Location_column]: 9,
+        [_Location_line]: 195,
+        [_Location_file]: null
+      });
+    },
+    get C36() {
+      return C[36] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 196,
+        [_Location_file]: null
+      });
+    },
+    get C34() {
+      return C[34] = dart.constList([C[35] || CT.C35, C[36] || CT.C36], T._LocationL());
+    },
+    get C33() {
+      return C[33] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[34] || CT.C34,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 194,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C39() {
+      return C[39] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "margin",
+        [_Location_column]: 7,
+        [_Location_line]: 176,
+        [_Location_file]: null
+      });
+    },
+    get C40() {
+      return C[40] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 7,
+        [_Location_line]: 177,
+        [_Location_file]: null
+      });
+    },
+    get C41() {
+      return C[41] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 7,
+        [_Location_line]: 178,
+        [_Location_file]: null
+      });
+    },
+    get C42() {
+      return C[42] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 7,
+        [_Location_line]: 179,
+        [_Location_file]: null
+      });
+    },
+    get C43() {
+      return C[43] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 194,
+        [_Location_file]: null
+      });
+    },
+    get C38() {
+      return C[38] = dart.constList([C[39] || CT.C39, C[40] || CT.C40, C[41] || CT.C41, C[42] || CT.C42, C[43] || CT.C43], T._LocationL());
+    },
+    get C37() {
+      return C[37] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[38] || CT.C38,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 175,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C46() {
+      return C[46] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "transform",
+        [_Location_column]: 11,
+        [_Location_line]: 228,
+        [_Location_file]: null
+      });
+    },
+    get C47() {
+      return C[47] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "alignment",
+        [_Location_column]: 11,
+        [_Location_line]: 231,
+        [_Location_file]: null
+      });
+    },
+    get C48() {
+      return C[48] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 232,
+        [_Location_file]: null
+      });
+    },
+    get C45() {
+      return C[45] = dart.constList([C[46] || CT.C46, C[47] || CT.C47, C[48] || CT.C48], T._LocationL());
+    },
+    get C44() {
+      return C[44] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[45] || CT.C45,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 227,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    },
+    get C51() {
+      return C[51] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "animation",
+        [_Location_column]: 7,
+        [_Location_line]: 225,
+        [_Location_file]: null
+      });
+    },
+    get C52() {
+      return C[52] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 7,
+        [_Location_line]: 226,
+        [_Location_file]: null
+      });
+    },
+    get C50() {
+      return C[50] = dart.constList([C[51] || CT.C51, C[52] || CT.C52], T._LocationL());
+    },
+    get C49() {
+      return C[49] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[50] || CT.C50,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 224,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart"
+      });
+    }
+  }, false);
+  var C = Array(53).fill(void 0);
+  var I = [
+    "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/awesome_card-1.1.0/lib/credit_card.dart",
+    "package:awesome_card/credit_card.dart"
+  ];
+  var cardNumber$ = dart.privateName(credit_card, "CreditCard.cardNumber");
+  var cardExpiry$ = dart.privateName(credit_card, "CreditCard.cardExpiry");
+  var cardHolderName$ = dart.privateName(credit_card, "CreditCard.cardHolderName");
+  var bankName$ = dart.privateName(credit_card, "CreditCard.bankName");
+  var cvv$ = dart.privateName(credit_card, "CreditCard.cvv");
+  var frontTextColor$ = dart.privateName(credit_card, "CreditCard.frontTextColor");
+  var backTextColor$ = dart.privateName(credit_card, "CreditCard.backTextColor");
+  var showBackSide$ = dart.privateName(credit_card, "CreditCard.showBackSide");
+  var frontBackground$ = dart.privateName(credit_card, "CreditCard.frontBackground");
+  var backBackground$ = dart.privateName(credit_card, "CreditCard.backBackground");
+  var frontLayout$ = dart.privateName(credit_card, "CreditCard.frontLayout");
+  var backLayout$ = dart.privateName(credit_card, "CreditCard.backLayout");
+  var showShadow$ = dart.privateName(credit_card, "CreditCard.showShadow");
+  var cardType$ = dart.privateName(credit_card, "CreditCard.cardType");
+  var width$ = dart.privateName(credit_card, "CreditCard.width");
+  var height$ = dart.privateName(credit_card, "CreditCard.height");
+  var Color_value = dart.privateName(ui, "Color.value");
+  credit_card.CreditCard = class CreditCard extends framework.StatefulWidget {
+    get cardNumber() {
+      return this[cardNumber$];
+    }
+    set cardNumber(value) {
+      super.cardNumber = value;
+    }
+    get cardExpiry() {
+      return this[cardExpiry$];
+    }
+    set cardExpiry(value) {
+      super.cardExpiry = value;
+    }
+    get cardHolderName() {
+      return this[cardHolderName$];
+    }
+    set cardHolderName(value) {
+      super.cardHolderName = value;
+    }
+    get bankName() {
+      return this[bankName$];
+    }
+    set bankName(value) {
+      super.bankName = value;
+    }
+    get cvv() {
+      return this[cvv$];
+    }
+    set cvv(value) {
+      super.cvv = value;
+    }
+    get frontTextColor() {
+      return this[frontTextColor$];
+    }
+    set frontTextColor(value) {
+      super.frontTextColor = value;
+    }
+    get backTextColor() {
+      return this[backTextColor$];
+    }
+    set backTextColor(value) {
+      super.backTextColor = value;
+    }
+    get showBackSide() {
+      return this[showBackSide$];
+    }
+    set showBackSide(value) {
+      super.showBackSide = value;
+    }
+    get frontBackground() {
+      return this[frontBackground$];
+    }
+    set frontBackground(value) {
+      super.frontBackground = value;
+    }
+    get backBackground() {
+      return this[backBackground$];
+    }
+    set backBackground(value) {
+      super.backBackground = value;
+    }
+    get frontLayout() {
+      return this[frontLayout$];
+    }
+    set frontLayout(value) {
+      super.frontLayout = value;
+    }
+    get backLayout() {
+      return this[backLayout$];
+    }
+    set backLayout(value) {
+      super.backLayout = value;
+    }
+    get showShadow() {
+      return this[showShadow$];
+    }
+    set showShadow(value) {
+      super.showShadow = value;
+    }
+    get cardType() {
+      return this[cardType$];
+    }
+    set cardType(value) {
+      super.cardType = value;
+    }
+    get width() {
+      return this[width$];
+    }
+    set width(value) {
+      super.width = value;
+    }
+    get height() {
+      return this[height$];
+    }
+    set height(value) {
+      super.height = value;
+    }
+    createState() {
+      return new credit_card._CreditCardState.new();
+    }
+  };
+  (credit_card.CreditCard.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let cardNumber = opts && 'cardNumber' in opts ? opts.cardNumber : null;
+    let cardExpiry = opts && 'cardExpiry' in opts ? opts.cardExpiry : null;
+    let cardHolderName = opts && 'cardHolderName' in opts ? opts.cardHolderName : null;
+    let bankName = opts && 'bankName' in opts ? opts.bankName : "";
+    let cvv = opts && 'cvv' in opts ? opts.cvv : null;
+    let showBackSide = opts && 'showBackSide' in opts ? opts.showBackSide : false;
+    let frontBackground = opts && 'frontBackground' in opts ? opts.frontBackground : null;
+    let backBackground = opts && 'backBackground' in opts ? opts.backBackground : null;
+    let cardType = opts && 'cardType' in opts ? opts.cardType : null;
+    let frontLayout = opts && 'frontLayout' in opts ? opts.frontLayout : null;
+    let backLayout = opts && 'backLayout' in opts ? opts.backLayout : null;
+    let frontTextColor = opts && 'frontTextColor' in opts ? opts.frontTextColor : C[0] || CT.C0;
+    let backTextColor = opts && 'backTextColor' in opts ? opts.backTextColor : C[1] || CT.C1;
+    let showShadow = opts && 'showShadow' in opts ? opts.showShadow : false;
+    let width = opts && 'width' in opts ? opts.width : null;
+    let height = opts && 'height' in opts ? opts.height : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[cardNumber$] = cardNumber;
+    this[cardExpiry$] = cardExpiry;
+    this[cardHolderName$] = cardHolderName;
+    this[bankName$] = bankName;
+    this[cvv$] = cvv;
+    this[showBackSide$] = showBackSide;
+    this[frontBackground$] = frontBackground;
+    this[backBackground$] = backBackground;
+    this[cardType$] = cardType;
+    this[frontLayout$] = frontLayout;
+    this[backLayout$] = backLayout;
+    this[frontTextColor$] = frontTextColor;
+    this[backTextColor$] = backTextColor;
+    this[showShadow$] = showShadow;
+    this[width$] = width;
+    this[height$] = height;
+    if (!(frontBackground != null)) dart.assertFailed(null, I[0], 44, 16, "frontBackground != null");
+    if (!(backBackground != null)) dart.assertFailed(null, I[0], 45, 16, "backBackground != null");
+    credit_card.CreditCard.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = credit_card.CreditCard.prototype;
+  dart.addTypeTests(credit_card.CreditCard);
+  dart.addTypeCaches(credit_card.CreditCard);
+  dart.setMethodSignature(credit_card.CreditCard, () => ({
+    __proto__: dart.getMethods(credit_card.CreditCard.__proto__),
+    createState: dart.fnType(dart.legacy(credit_card._CreditCardState), [])
+  }));
+  dart.setLibraryUri(credit_card.CreditCard, I[1]);
+  dart.setFieldSignature(credit_card.CreditCard, () => ({
+    __proto__: dart.getFields(credit_card.CreditCard.__proto__),
+    cardNumber: dart.finalFieldType(dart.legacy(core.String)),
+    cardExpiry: dart.finalFieldType(dart.legacy(core.String)),
+    cardHolderName: dart.finalFieldType(dart.legacy(core.String)),
+    bankName: dart.finalFieldType(dart.legacy(core.String)),
+    cvv: dart.finalFieldType(dart.legacy(core.String)),
+    frontTextColor: dart.finalFieldType(dart.legacy(ui.Color)),
+    backTextColor: dart.finalFieldType(dart.legacy(ui.Color)),
+    showBackSide: dart.finalFieldType(dart.legacy(core.bool)),
+    frontBackground: dart.finalFieldType(dart.legacy(framework.Widget)),
+    backBackground: dart.finalFieldType(dart.legacy(framework.Widget)),
+    frontLayout: dart.finalFieldType(dart.legacy(framework.Widget)),
+    backLayout: dart.finalFieldType(dart.legacy(framework.Widget)),
+    showShadow: dart.finalFieldType(dart.legacy(core.bool)),
+    cardType: dart.finalFieldType(dart.legacy(card_type.CardType)),
+    width: dart.finalFieldType(dart.legacy(core.double)),
+    height: dart.finalFieldType(dart.legacy(core.double))
+  }));
+  var _controller = dart.privateName(credit_card, "_controller");
+  var _moveToBack = dart.privateName(credit_card, "_moveToBack");
+  var _moveToFront = dart.privateName(credit_card, "_moveToFront");
+  var _buildFrontCard = dart.privateName(credit_card, "_buildFrontCard");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  var _buildBackCard = dart.privateName(credit_card, "_buildBackCard");
+  const State_SingleTickerProviderStateMixin$36 = class State_SingleTickerProviderStateMixin extends framework.State$(dart.legacy(credit_card.CreditCard)) {};
+  (State_SingleTickerProviderStateMixin$36.new = function() {
+    ticker_provider.SingleTickerProviderStateMixin$(dart.legacy(credit_card.CreditCard))[dart.mixinNew].call(this);
+    State_SingleTickerProviderStateMixin$36.__proto__.new.call(this);
+  }).prototype = State_SingleTickerProviderStateMixin$36.prototype;
+  dart.applyMixin(State_SingleTickerProviderStateMixin$36, ticker_provider.SingleTickerProviderStateMixin$(dart.legacy(credit_card.CreditCard)));
+  credit_card._CreditCardState = class _CreditCardState extends State_SingleTickerProviderStateMixin$36 {
+    initState() {
+      this[_controller] = new animation_controller.AnimationController.new({duration: new core.Duration.new({milliseconds: 1000}), vsync: this});
+      this[_moveToBack] = new (T.TweenSequenceOfdoubleL()).new(T.JSArrayOfTweenSequenceItemLOfdoubleL().of([new (T.TweenSequenceItemOfdoubleL()).new({tween: new (T.TweenOfdoubleL()).new({begin: 0.0, end: 3.141592653589793 / 2}).chain(new tween.CurveTween.new({curve: curves.Curves.easeInBack})), weight: 50.0}), new (T.TweenSequenceItemOfdoubleL()).new({tween: new (T.ConstantTweenOfdoubleL()).new(3.141592653589793 / 2), weight: 50.0})])).animate(this[_controller]);
+      this[_moveToFront] = new (T.TweenSequenceOfdoubleL()).new(T.JSArrayOfTweenSequenceItemLOfdoubleL().of([new (T.TweenSequenceItemOfdoubleL()).new({tween: new (T.ConstantTweenOfdoubleL()).new(3.141592653589793 / 2), weight: 50.0}), new (T.TweenSequenceItemOfdoubleL()).new({tween: new (T.TweenOfdoubleL()).new({begin: -3.141592653589793 / 2, end: 0.0}).chain(new tween.CurveTween.new({curve: curves.Curves.easeOutBack})), weight: 50.0})])).animate(this[_controller]);
+      super.initState();
+    }
+    dispose() {
+      this[_controller].dispose();
+      super.dispose();
+    }
+    build(context) {
+      this.widget.width == null ? this.cardWidth = dart.notNull(media_query.MediaQuery.of(context).size.width) - 40 : this.cardWidth = this.widget.width;
+      this.widget.height == null ? this.cardHeight = dart.notNull(this.cardWidth) / 2 + 10 : this.cardHeight = this.widget.height;
+      if (dart.test(this.widget.showBackSide)) {
+        this[_controller].forward().orCancel;
+      } else {
+        this[_controller].reverse().orCancel;
+      }
+      return new basic.Center.new({child: new basic.Stack.new({children: T.JSArrayOfWidgetL().of([new credit_card.AwesomeCard.new({animation: this[_moveToBack], child: this[_buildFrontCard](), $creationLocationd_0dea112b090073317d4: C[2] || CT.C2}), new credit_card.AwesomeCard.new({animation: this[_moveToFront], child: this[_buildBackCard](), $creationLocationd_0dea112b090073317d4: C[6] || CT.C6})]), $creationLocationd_0dea112b090073317d4: C[10] || CT.C10}), $creationLocationd_0dea112b090073317d4: C[13] || CT.C13});
+    }
+    [_buildFrontCard]() {
+      let t0;
+      return new container.Container.new({margin: new edge_insets.EdgeInsets.symmetric({horizontal: 20.0}), width: this.cardWidth, height: this.cardHeight, decoration: new box_decoration.BoxDecoration.new({boxShadow: dart.test(this.widget.showShadow) ? T.JSArrayOfBoxShadowL().of([new box_shadow.BoxShadow.new({color: colors.Colors.black, blurRadius: 12.0, spreadRadius: 0.2, offset: new ui.Offset.new(3.0, 3.0)})]) : T.JSArrayOfBoxShadowL().of([])}), child: new basic.ClipRRect.new({borderRadius: new border_radius.BorderRadius.circular(10.0), child: new basic.Stack.new({children: T.JSArrayOfWidgetL().of([this.widget.frontBackground, (t0 = this.widget.frontLayout, t0 == null ? new card_front_layout.CardFrontLayout.new({bankName: this.widget.bankName, cardNumber: this.widget.cardNumber, cardExpiry: this.widget.cardExpiry, cardHolderName: this.widget.cardHolderName, cardTypeIcon: helper.getCardTypeIcon({cardType: this.widget.cardType, cardNumber: this.widget.cardNumber}), cardHeight: this.cardHeight, cardWidth: this.cardWidth, textColor: this.widget.frontTextColor}).layout1() : t0)]), $creationLocationd_0dea112b090073317d4: C[16] || CT.C16}), $creationLocationd_0dea112b090073317d4: C[19] || CT.C19}), $creationLocationd_0dea112b090073317d4: C[23] || CT.C23});
+    }
+    [_buildBackCard]() {
+      let t0;
+      return new container.Container.new({margin: new edge_insets.EdgeInsets.symmetric({horizontal: 20.0}), width: this.cardWidth, height: this.cardHeight, decoration: new box_decoration.BoxDecoration.new({boxShadow: dart.test(this.widget.showShadow) ? T.JSArrayOfBoxShadowL().of([new box_shadow.BoxShadow.new({color: colors.Colors.black45, blurRadius: 12.0, spreadRadius: 0.2, offset: new ui.Offset.new(3.0, 3.0)})]) : T.JSArrayOfBoxShadowL().of([])}), child: new basic.ClipRRect.new({borderRadius: new border_radius.BorderRadius.circular(10.0), child: new basic.Stack.new({children: T.JSArrayOfWidgetL().of([this.widget.backBackground, (t0 = this.widget.backLayout, t0 == null ? new card_back_layout.CardBackLayout.new({cvv: this.widget.cvv, width: this.cardWidth, height: this.cardHeight, color: this.widget.backTextColor}).layout1() : t0)]), $creationLocationd_0dea112b090073317d4: C[30] || CT.C30}), $creationLocationd_0dea112b090073317d4: C[33] || CT.C33}), $creationLocationd_0dea112b090073317d4: C[37] || CT.C37});
+    }
+  };
+  (credit_card._CreditCardState.new = function() {
+    this.cardWidth = null;
+    this.cardHeight = null;
+    this[_controller] = null;
+    this[_moveToBack] = null;
+    this[_moveToFront] = null;
+    credit_card._CreditCardState.__proto__.new.call(this);
+    ;
+  }).prototype = credit_card._CreditCardState.prototype;
+  dart.addTypeTests(credit_card._CreditCardState);
+  dart.addTypeCaches(credit_card._CreditCardState);
+  dart.setMethodSignature(credit_card._CreditCardState, () => ({
+    __proto__: dart.getMethods(credit_card._CreditCardState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_buildFrontCard]: dart.fnType(dart.legacy(framework.Widget), []),
+    [_buildBackCard]: dart.fnType(dart.legacy(framework.Widget), [])
+  }));
+  dart.setLibraryUri(credit_card._CreditCardState, I[1]);
+  dart.setFieldSignature(credit_card._CreditCardState, () => ({
+    __proto__: dart.getFields(credit_card._CreditCardState.__proto__),
+    cardWidth: dart.fieldType(dart.legacy(core.double)),
+    cardHeight: dart.fieldType(dart.legacy(core.double)),
+    [_controller]: dart.fieldType(dart.legacy(animation_controller.AnimationController)),
+    [_moveToBack]: dart.fieldType(dart.legacy(animation.Animation$(dart.legacy(core.double)))),
+    [_moveToFront]: dart.fieldType(dart.legacy(animation.Animation$(dart.legacy(core.double))))
+  }));
+  var animation$ = dart.privateName(credit_card, "AwesomeCard.animation");
+  var child$ = dart.privateName(credit_card, "AwesomeCard.child");
+  credit_card.AwesomeCard = class AwesomeCard extends framework.StatelessWidget {
+    get animation() {
+      return this[animation$];
+    }
+    set animation(value) {
+      super.animation = value;
+    }
+    get child() {
+      return this[child$];
+    }
+    set child(value) {
+      super.child = value;
+    }
+    build(context) {
+      return new transitions.AnimatedBuilder.new({animation: this.animation, builder: dart.fn((context, child) => {
+          let t0;
+          return new basic.Transform.new({transform: (t0 = vector_math_64.Matrix4.identity(), (() => {
+              t0.setEntry(3, 2, 0.001);
+              t0.rotateY(this.animation.value);
+              return t0;
+            })()), alignment: alignment.Alignment.center, child: this.child, $creationLocationd_0dea112b090073317d4: C[44] || CT.C44});
+        }, T.BuildContextLAndWidgetLToTransformL()), $creationLocationd_0dea112b090073317d4: C[49] || CT.C49});
+    }
+  };
+  (credit_card.AwesomeCard.new = function(opts) {
+    let animation = opts && 'animation' in opts ? opts.animation : null;
+    let child = opts && 'child' in opts ? opts.child : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[animation$] = animation;
+    this[child$] = child;
+    credit_card.AwesomeCard.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = credit_card.AwesomeCard.prototype;
+  dart.addTypeTests(credit_card.AwesomeCard);
+  dart.addTypeCaches(credit_card.AwesomeCard);
+  dart.setMethodSignature(credit_card.AwesomeCard, () => ({
+    __proto__: dart.getMethods(credit_card.AwesomeCard.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(credit_card.AwesomeCard, I[1]);
+  dart.setFieldSignature(credit_card.AwesomeCard, () => ({
+    __proto__: dart.getFields(credit_card.AwesomeCard.__proto__),
+    animation: dart.finalFieldType(dart.legacy(animation.Animation$(dart.legacy(core.double)))),
+    child: dart.finalFieldType(dart.legacy(framework.Widget))
+  }));
+  dart.trackLibraries("packages/awesome_card/awesome_card.dart", {
+    "package:awesome_card/awesome_card.dart": awesome_card,
+    "package:awesome_card/credit_card.dart": credit_card
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["credit_card.dart"],"names":[],"mappings":"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","file":"../../../../../../packages/awesome_card/awesome_card.dart.lib.js"}');
+  // Exports:
+  return {
+    awesome_card: awesome_card,
+    credit_card: credit_card
+  };
+}));
+
+//# sourceMappingURL=awesome_card.dart.lib.js.map

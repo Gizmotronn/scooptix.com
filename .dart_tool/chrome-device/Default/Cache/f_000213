@@ -1,0 +1,405 @@
+define(['dart_sdk', 'packages/http/src/browser_client.dart', 'packages/stripe_sdk/src/stripe_error.dart', 'packages/flutter/src/foundation/_platform_web.dart'], (function load__packages__stripe_sdk__src__stripe_api_handler_dart(dart_sdk, packages__http__src__browser_client$46dart, packages__stripe_sdk__src__stripe_error$46dart, packages__flutter__src__foundation___platform_web$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const convert = dart_sdk.convert;
+  const _js_helper = dart_sdk._js_helper;
+  const async = dart_sdk.async;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const client = packages__http__src__browser_client$46dart.src__client;
+  const stripe_error = packages__stripe_sdk__src__stripe_error$46dart.src__stripe_error;
+  const platform = packages__flutter__src__foundation___platform_web$46dart.src__foundation__platform;
+  var stripe_api_handler = Object.create(dart.library);
+  var $toString = dartx.toString;
+  var $isNotEmpty = dartx.isNotEmpty;
+  var $_get = dartx._get;
+  var $_set = dartx._set;
+  var $keys = dartx.keys;
+  var $map = dartx.map;
+  var $join = dartx.join;
+  var $length = dartx.length;
+  var $forEach = dartx.forEach;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    RequestMethodL: () => (T.RequestMethodL = dart.constFn(dart.legacy(stripe_api_handler.RequestMethod)))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    MapOfStringL$dynamic: () => (T.MapOfStringL$dynamic = dart.constFn(core.Map$(T.StringL(), dart.dynamic)))(),
+    MapLOfStringL$dynamic: () => (T.MapLOfStringL$dynamic = dart.constFn(dart.legacy(T.MapOfStringL$dynamic())))(),
+    IdentityMapOfStringL$dynamic: () => (T.IdentityMapOfStringL$dynamic = dart.constFn(_js_helper.IdentityMap$(T.StringL(), dart.dynamic)))(),
+    IdentityMapOfStringL$StringL: () => (T.IdentityMapOfStringL$StringL = dart.constFn(_js_helper.IdentityMap$(T.StringL(), T.StringL())))(),
+    StringLToStringL: () => (T.StringLToStringL = dart.constFn(dart.fnType(T.StringL(), [T.StringL()])))(),
+    ListL: () => (T.ListL = dart.constFn(dart.legacy(core.List)))(),
+    MapL: () => (T.MapL = dart.constFn(dart.legacy(core.Map)))(),
+    dynamicAnddynamicToNull: () => (T.dynamicAnddynamicToNull = dart.constFn(dart.fnType(core.Null, [dart.dynamic, dart.dynamic])))(),
+    dynamicAndStringLTovoid: () => (T.dynamicAndStringLTovoid = dart.constFn(dart.fnType(dart.void, [dart.dynamic, T.StringL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: stripe_api_handler.RequestMethod.prototype,
+        [_name$]: "RequestMethod.get",
+        index: 0
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: stripe_api_handler.RequestMethod.prototype,
+        [_name$]: "RequestMethod.post",
+        index: 1
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: stripe_api_handler.RequestMethod.prototype,
+        [_name$]: "RequestMethod.put",
+        index: 2
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: stripe_api_handler.RequestMethod.prototype,
+        [_name$]: "RequestMethod.delete",
+        index: 3
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: stripe_api_handler.RequestMethod.prototype,
+        [_name$]: "RequestMethod.option",
+        index: 4
+      });
+    },
+    get C5() {
+      return C[5] = dart.constList([C[0] || CT.C0, C[1] || CT.C1, C[2] || CT.C2, C[3] || CT.C3, C[4] || CT.C4], T.RequestMethodL());
+    }
+  }, false);
+  var C = Array(6).fill(void 0);
+  var I = ["package:stripe_sdk/src/stripe_api_handler.dart"];
+  var _name$ = dart.privateName(stripe_api_handler, "_name");
+  stripe_api_handler.RequestMethod = class RequestMethod extends core.Object {
+    toString() {
+      return this[_name$];
+    }
+  };
+  (stripe_api_handler.RequestMethod.new = function(index, _name) {
+    this.index = index;
+    this[_name$] = _name;
+    ;
+  }).prototype = stripe_api_handler.RequestMethod.prototype;
+  dart.addTypeTests(stripe_api_handler.RequestMethod);
+  dart.addTypeCaches(stripe_api_handler.RequestMethod);
+  dart.setMethodSignature(stripe_api_handler.RequestMethod, () => ({
+    __proto__: dart.getMethods(stripe_api_handler.RequestMethod.__proto__),
+    toString: dart.fnType(dart.legacy(core.String), []),
+    [$toString]: dart.fnType(dart.legacy(core.String), [])
+  }));
+  dart.setLibraryUri(stripe_api_handler.RequestMethod, I[0]);
+  dart.setFieldSignature(stripe_api_handler.RequestMethod, () => ({
+    __proto__: dart.getFields(stripe_api_handler.RequestMethod.__proto__),
+    index: dart.finalFieldType(dart.legacy(core.int)),
+    [_name$]: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  dart.defineExtensionMethods(stripe_api_handler.RequestMethod, ['toString']);
+  stripe_api_handler.RequestMethod.get = C[0] || CT.C0;
+  stripe_api_handler.RequestMethod.post = C[1] || CT.C1;
+  stripe_api_handler.RequestMethod.put = C[2] || CT.C2;
+  stripe_api_handler.RequestMethod.delete = C[3] || CT.C3;
+  stripe_api_handler.RequestMethod.option = C[4] || CT.C4;
+  stripe_api_handler.RequestMethod.values = C[5] || CT.C5;
+  var apiVersion = dart.privateName(stripe_api_handler, "StripeApiHandler.apiVersion");
+  var stripeAccount$ = dart.privateName(stripe_api_handler, "StripeApiHandler.stripeAccount");
+  var _client = dart.privateName(stripe_api_handler, "_client");
+  var _getStripeResponse = dart.privateName(stripe_api_handler, "_getStripeResponse");
+  stripe_api_handler.StripeApiHandler = class StripeApiHandler extends core.Object {
+    get apiVersion() {
+      return this[apiVersion];
+    }
+    set apiVersion(value) {
+      this[apiVersion] = value;
+    }
+    get stripeAccount() {
+      return this[stripeAccount$];
+    }
+    set stripeAccount(value) {
+      super.stripeAccount = value;
+    }
+    request(method, path, key, apiVersion, opts) {
+      let params = opts && 'params' in opts ? opts.params : null;
+      let options = new stripe_api_handler.RequestOptions.new({key: key, apiVersion: apiVersion, stripeAccount: this.stripeAccount});
+      return this[_getStripeResponse](method, "https://api.stripe.com/v1" + dart.notNull(path), options, {params: params});
+    }
+    [_getStripeResponse](method, url, options, opts) {
+      let params = opts && 'params' in opts ? opts.params : null;
+      return async.async(T.MapLOfStringL$dynamic(), (function* _getStripeResponse() {
+        let headers = stripe_api_handler.StripeApiHandler._headers({options: options});
+        let response = null;
+        switch (method) {
+          case C[0] || CT.C0:
+          {
+            let fUrl = url;
+            if (params != null && dart.test(params[$isNotEmpty])) {
+              fUrl = dart.str(url) + "?" + dart.str(stripe_api_handler.StripeApiHandler._encodeMap(params));
+            }
+            response = (yield this[_client].get(fUrl, {headers: headers}));
+            break;
+          }
+          case C[1] || CT.C1:
+          {
+            response = (yield this[_client].post(url, {headers: headers, body: params != null ? stripe_api_handler.StripeApiHandler._urlEncodeMap(params) : null}));
+            break;
+          }
+          case C[3] || CT.C3:
+          {
+            response = (yield this[_client].delete(url, {headers: headers}));
+            break;
+          }
+          default:
+          {
+            dart.throw(core.Exception.new("Request Method: " + dart.str(method) + " not implemented"));
+          }
+        }
+        let requestId = response.headers[$_get]("Request-Id");
+        let statusCode = response.statusCode;
+        let resp = null;
+        try {
+          resp = T.MapLOfStringL$dynamic().as(convert.json.decode(response.body));
+        } catch (e) {
+          let error = dart.getThrown(e);
+          let stripeError = stripe_error.StripeApiError.new(requestId, new (T.IdentityMapOfStringL$dynamic()).from(["message", stripe_api_handler.StripeApiHandler.MALFORMED_RESPONSE_MESSAGE]));
+          dart.throw(new stripe_error.StripeApiException.new(stripeError));
+        }
+        if (dart.notNull(statusCode) < 200 || dart.notNull(statusCode) >= 300) {
+          let errBody = T.MapLOfStringL$dynamic().as(resp[$_get]("error"));
+          let stripeError = stripe_error.StripeApiError.new(requestId, errBody);
+          dart.throw(new stripe_error.StripeApiException.new(stripeError));
+        } else {
+          return resp;
+        }
+      }).bind(this));
+    }
+    static _headers(opts) {
+      let options = opts && 'options' in opts ? opts.options : null;
+      let headers = new (T.IdentityMapOfStringL$StringL()).new();
+      headers[$_set]("Accept-Charset", "UTF-8");
+      headers[$_set]("Accept", "application/json");
+      headers[$_set]("Content-Type", "application/x-www-form-urlencoded");
+      headers[$_set]("User-Agent", "StripeSDK/v2");
+      if (options != null) {
+        headers[$_set]("Authorization", "Bearer " + dart.str(options.key));
+      }
+      let propertyMap = new (T.IdentityMapOfStringL$StringL()).new();
+      propertyMap[$_set]("os.name", dart.toString(platform.defaultTargetPlatform));
+      propertyMap[$_set]("lang", "Dart");
+      propertyMap[$_set]("publisher", "lars.dahl@gmail.com");
+      headers[$_set]("X-Stripe-Client-User-Agent", convert.json.encode(propertyMap));
+      if (options != null) {
+        if (options.apiVersion != null) {
+          headers[$_set]("Stripe-Version", options.apiVersion);
+        }
+        if (options.stripeAccount != null) {
+          headers[$_set]("Stripe-Account", options.stripeAccount);
+        }
+        if (options.idempotencyKey != null) {
+          headers[$_set]("Idempotency-Key", options.idempotencyKey);
+        }
+      }
+      return headers;
+    }
+    static _encodeMap(params) {
+      return params[$keys][$map](T.StringL(), dart.fn(key => dart.str(core.Uri.encodeComponent(key)) + "=" + dart.str(core.Uri.encodeComponent(dart.toString(params[$_get](key)))), T.StringLToStringL()))[$join]("&");
+    }
+    static _urlEncodeMap(data) {
+      let urlData = new core.StringBuffer.new("");
+      let first = true;
+      function urlEncode(sub, path) {
+        if (T.ListL().is(sub)) {
+          for (let i = 0; i < dart.notNull(sub[$length]); i = i + 1) {
+            urlEncode(sub[$_get](i), dart.str(path) + "%5B%5D");
+          }
+        } else if (T.MapL().is(sub)) {
+          sub[$forEach](dart.fn((k, v) => {
+            if (path === "") {
+              urlEncode(v, dart.str(core.Uri.encodeQueryComponent(core.String.as(k))));
+            } else {
+              urlEncode(v, dart.str(path) + "%5B" + dart.str(core.Uri.encodeQueryComponent(core.String.as(k))) + "%5D");
+            }
+          }, T.dynamicAnddynamicToNull()));
+        } else {
+          if (!first) {
+            urlData.write("&");
+          }
+          first = false;
+          urlData.write(dart.str(path) + "=" + dart.str(core.Uri.encodeQueryComponent(dart.toString(sub))));
+        }
+      }
+      dart.fn(urlEncode, T.dynamicAndStringLTovoid());
+      urlEncode(data, "");
+      return urlData.toString();
+    }
+  };
+  (stripe_api_handler.StripeApiHandler.new = function(opts) {
+    let stripeAccount = opts && 'stripeAccount' in opts ? opts.stripeAccount : null;
+    this[apiVersion] = "2020-03-02";
+    this[_client] = client.Client.new();
+    this[stripeAccount$] = stripeAccount;
+    ;
+  }).prototype = stripe_api_handler.StripeApiHandler.prototype;
+  dart.addTypeTests(stripe_api_handler.StripeApiHandler);
+  dart.addTypeCaches(stripe_api_handler.StripeApiHandler);
+  dart.setMethodSignature(stripe_api_handler.StripeApiHandler, () => ({
+    __proto__: dart.getMethods(stripe_api_handler.StripeApiHandler.__proto__),
+    request: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.Map$(dart.legacy(core.String), dart.dynamic)))), [dart.legacy(stripe_api_handler.RequestMethod), dart.legacy(core.String), dart.legacy(core.String), dart.legacy(core.String)], {params: dart.legacy(core.Map$(dart.legacy(core.String), dart.dynamic))}, {}),
+    [_getStripeResponse]: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.Map$(dart.legacy(core.String), dart.dynamic)))), [dart.legacy(stripe_api_handler.RequestMethod), dart.legacy(core.String), dart.legacy(stripe_api_handler.RequestOptions)], {params: dart.legacy(core.Map$(dart.legacy(core.String), dart.dynamic))}, {})
+  }));
+  dart.setLibraryUri(stripe_api_handler.StripeApiHandler, I[0]);
+  dart.setFieldSignature(stripe_api_handler.StripeApiHandler, () => ({
+    __proto__: dart.getFields(stripe_api_handler.StripeApiHandler.__proto__),
+    apiVersion: dart.fieldType(dart.legacy(core.String)),
+    [_client]: dart.finalFieldType(dart.legacy(client.Client)),
+    stripeAccount: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  dart.defineLazy(stripe_api_handler.StripeApiHandler, {
+    /*stripe_api_handler.StripeApiHandler.LIVE_API_BASE*/get LIVE_API_BASE() {
+      return "https://api.stripe.com";
+    },
+    /*stripe_api_handler.StripeApiHandler.LIVE_LOGGING_BASE*/get LIVE_LOGGING_BASE() {
+      return "https://q.stripe.com";
+    },
+    /*stripe_api_handler.StripeApiHandler.LOGGING_ENDPOINT*/get LOGGING_ENDPOINT() {
+      return "https://m.stripe.com/4";
+    },
+    /*stripe_api_handler.StripeApiHandler.LIVE_API_PATH*/get LIVE_API_PATH() {
+      return "https://api.stripe.com/v1";
+    },
+    /*stripe_api_handler.StripeApiHandler.CHARSET*/get CHARSET() {
+      return "UTF-8";
+    },
+    /*stripe_api_handler.StripeApiHandler.CUSTOMERS*/get CUSTOMERS() {
+      return "customers";
+    },
+    /*stripe_api_handler.StripeApiHandler.TOKENS*/get TOKENS() {
+      return "tokens";
+    },
+    /*stripe_api_handler.StripeApiHandler.SOURCES*/get SOURCES() {
+      return "sources";
+    },
+    /*stripe_api_handler.StripeApiHandler.HEADER_KEY_REQUEST_ID*/get HEADER_KEY_REQUEST_ID() {
+      return "Request-Id";
+    },
+    /*stripe_api_handler.StripeApiHandler.FIELD_ERROR*/get FIELD_ERROR() {
+      return "error";
+    },
+    /*stripe_api_handler.StripeApiHandler.FIELD_SOURCE*/get FIELD_SOURCE() {
+      return "source";
+    },
+    /*stripe_api_handler.StripeApiHandler.MALFORMED_RESPONSE_MESSAGE*/get MALFORMED_RESPONSE_MESSAGE() {
+      return "An improperly formatted error response was found.";
+    }
+  }, true);
+  var apiVersion$ = dart.privateName(stripe_api_handler, "RequestOptions.apiVersion");
+  var guid$ = dart.privateName(stripe_api_handler, "RequestOptions.guid");
+  var idempotencyKey$ = dart.privateName(stripe_api_handler, "RequestOptions.idempotencyKey");
+  var key$ = dart.privateName(stripe_api_handler, "RequestOptions.key");
+  var requestType$ = dart.privateName(stripe_api_handler, "RequestOptions.requestType");
+  var stripeAccount$0 = dart.privateName(stripe_api_handler, "RequestOptions.stripeAccount");
+  stripe_api_handler.RequestOptions = class RequestOptions extends core.Object {
+    get apiVersion() {
+      return this[apiVersion$];
+    }
+    set apiVersion(value) {
+      super.apiVersion = value;
+    }
+    get guid() {
+      return this[guid$];
+    }
+    set guid(value) {
+      super.guid = value;
+    }
+    get idempotencyKey() {
+      return this[idempotencyKey$];
+    }
+    set idempotencyKey(value) {
+      super.idempotencyKey = value;
+    }
+    get key() {
+      return this[key$];
+    }
+    set key(value) {
+      super.key = value;
+    }
+    get requestType() {
+      return this[requestType$];
+    }
+    set requestType(value) {
+      super.requestType = value;
+    }
+    get stripeAccount() {
+      return this[stripeAccount$0];
+    }
+    set stripeAccount(value) {
+      super.stripeAccount = value;
+    }
+  };
+  (stripe_api_handler.RequestOptions.new = function(opts) {
+    let apiVersion = opts && 'apiVersion' in opts ? opts.apiVersion : null;
+    let guid = opts && 'guid' in opts ? opts.guid : null;
+    let idempotencyKey = opts && 'idempotencyKey' in opts ? opts.idempotencyKey : null;
+    let key = opts && 'key' in opts ? opts.key : null;
+    let requestType = opts && 'requestType' in opts ? opts.requestType : null;
+    let stripeAccount = opts && 'stripeAccount' in opts ? opts.stripeAccount : null;
+    this[apiVersion$] = apiVersion;
+    this[guid$] = guid;
+    this[idempotencyKey$] = idempotencyKey;
+    this[key$] = key;
+    this[requestType$] = requestType;
+    this[stripeAccount$0] = stripeAccount;
+    ;
+  }).prototype = stripe_api_handler.RequestOptions.prototype;
+  dart.addTypeTests(stripe_api_handler.RequestOptions);
+  dart.addTypeCaches(stripe_api_handler.RequestOptions);
+  dart.setLibraryUri(stripe_api_handler.RequestOptions, I[0]);
+  dart.setFieldSignature(stripe_api_handler.RequestOptions, () => ({
+    __proto__: dart.getFields(stripe_api_handler.RequestOptions.__proto__),
+    apiVersion: dart.finalFieldType(dart.legacy(core.String)),
+    guid: dart.finalFieldType(dart.legacy(core.String)),
+    idempotencyKey: dart.finalFieldType(dart.legacy(core.String)),
+    key: dart.finalFieldType(dart.legacy(core.String)),
+    requestType: dart.finalFieldType(dart.legacy(core.String)),
+    stripeAccount: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  dart.defineLazy(stripe_api_handler.RequestOptions, {
+    /*stripe_api_handler.RequestOptions.TYPE_QUERY*/get TYPE_QUERY() {
+      return "source";
+    },
+    /*stripe_api_handler.RequestOptions.TYPE_JSON*/get TYPE_JSON() {
+      return "json_data";
+    }
+  }, true);
+  dart.defineLazy(stripe_api_handler, {
+    /*stripe_api_handler.DEFAULT_API_VERSION*/get DEFAULT_API_VERSION() {
+      return "2020-03-02";
+    }
+  }, true);
+  dart.trackLibraries("packages/stripe_sdk/src/stripe_api_handler.dart", {
+    "package:stripe_sdk/src/stripe_api_handler.dart": stripe_api_handler
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["stripe_api_handler.dart"],"names":[],"mappings":"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","file":"../../../../../../../packages/stripe_sdk/src/stripe_api_handler.dart.lib.js"}');
+  // Exports:
+  return {
+    src__stripe_api_handler: stripe_api_handler
+  };
+}));
+
+//# sourceMappingURL=stripe_api_handler.dart.lib.js.map

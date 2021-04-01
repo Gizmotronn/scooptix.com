@@ -1,0 +1,793 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/layout_builder.dart', 'packages/flutter/src/widgets/widget_span.dart', 'packages/responsive_builder/src/sizing_information.dart', 'packages/flutter/src/rendering/layer.dart', 'packages/responsive_builder/src/device_screen_type.dart'], (function load__packages__responsive_builder__src__widget_builders_dart(dart_sdk, packages__flutter__src__widgets__layout_builder$46dart, packages__flutter__src__widgets__widget_span$46dart, packages__responsive_builder__src__sizing_information$46dart, packages__flutter__src__rendering__layer$46dart, packages__responsive_builder__src__device_screen_type$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const ui = dart_sdk.ui;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const layout_builder = packages__flutter__src__widgets__layout_builder$46dart.src__widgets__layout_builder;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const sizing_information = packages__responsive_builder__src__sizing_information$46dart.src__sizing_information;
+  const box = packages__flutter__src__rendering__layer$46dart.src__rendering__box;
+  const device_screen_type = packages__responsive_builder__src__device_screen_type$46dart.src__device_screen_type;
+  var widget_builders = Object.create(dart.library);
+  var responsive_sizing_config = Object.create(dart.library);
+  var helpers = Object.create(dart.library);
+  var responsive_builder = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    BoxConstraintsL: () => (T.BoxConstraintsL = dart.constFn(dart.legacy(box.BoxConstraints)))(),
+    BuildContextLAndBoxConstraintsLToWidgetL: () => (T.BuildContextLAndBoxConstraintsLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.BoxConstraintsL()])))(),
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    BuildContextLToWidgetL: () => (T.BuildContextLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL()])))(),
+    SizingInformationL: () => (T.SizingInformationL = dart.constFn(dart.legacy(sizing_information.SizingInformation)))(),
+    BuildContextLAndSizingInformationLToWidgetL: () => (T.BuildContextLAndSizingInformationLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.SizingInformationL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 26,
+        [_Location_line]: 28,
+        [_Location_file]: null
+      });
+    },
+    get C1() {
+      return C[1] = dart.constList([C[2] || CT.C2], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 28,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/responsive_builder-0.3.0/lib/src/widget_builders.dart"
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 7,
+        [_Location_line]: 58,
+        [_Location_file]: null
+      });
+    },
+    get C4() {
+      return C[4] = dart.constList([C[5] || CT.C5], T._LocationL());
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[4] || CT.C4,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 57,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/responsive_builder-0.3.0/lib/src/widget_builders.dart"
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "breakpoints",
+        [_Location_column]: 7,
+        [_Location_line]: 117,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 7,
+        [_Location_line]: 118,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.constList([C[8] || CT.C8, C[9] || CT.C9], T._LocationL());
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[7] || CT.C7,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 116,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/responsive_builder-0.3.0/lib/src/widget_builders.dart"
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "refinedBreakpoints",
+        [_Location_column]: 7,
+        [_Location_line]: 171,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 7,
+        [_Location_line]: 172,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.constList([C[12] || CT.C12, C[13] || CT.C13], T._LocationL());
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[11] || CT.C11,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 170,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/responsive_builder-0.3.0/lib/src/widget_builders.dart"
+      });
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: sizing_information.ScreenBreakpoints.prototype,
+        [ScreenBreakpoints_desktop]: 950,
+        [ScreenBreakpoints_tablet]: 600,
+        [ScreenBreakpoints_watch]: 300
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: sizing_information.RefinedBreakpoints.prototype,
+        [RefinedBreakpoints_desktopExtraLarge]: 4096,
+        [RefinedBreakpoints_desktopLarge]: 3840,
+        [RefinedBreakpoints_desktopNormal]: 1920,
+        [RefinedBreakpoints_desktopSmall]: 950,
+        [RefinedBreakpoints_tabletExtraLarge]: 900,
+        [RefinedBreakpoints_tabletLarge]: 850,
+        [RefinedBreakpoints_tabletNormal]: 768,
+        [RefinedBreakpoints_tabletSmall]: 600,
+        [RefinedBreakpoints_mobileExtraLarge]: 480,
+        [RefinedBreakpoints_mobileLarge]: 414,
+        [RefinedBreakpoints_mobileNormal]: 375,
+        [RefinedBreakpoints_mobileSmall]: 320
+      });
+    }
+  }, false);
+  var C = Array(16).fill(void 0);
+  var I = [
+    "package:responsive_builder/src/widget_builders.dart",
+    "package:responsive_builder/src/responsive_sizing_config.dart",
+    "package:responsive_builder/src/helpers.dart"
+  ];
+  var builder$ = dart.privateName(widget_builders, "ResponsiveBuilder.builder");
+  var breakpoints$ = dart.privateName(widget_builders, "ResponsiveBuilder.breakpoints");
+  var refinedBreakpoints$ = dart.privateName(widget_builders, "ResponsiveBuilder.refinedBreakpoints");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  widget_builders.ResponsiveBuilder = class ResponsiveBuilder extends framework.StatelessWidget {
+    get builder() {
+      return this[builder$];
+    }
+    set builder(value) {
+      super.builder = value;
+    }
+    get breakpoints() {
+      return this[breakpoints$];
+    }
+    set breakpoints(value) {
+      super.breakpoints = value;
+    }
+    get refinedBreakpoints() {
+      return this[refinedBreakpoints$];
+    }
+    set refinedBreakpoints(value) {
+      super.refinedBreakpoints = value;
+    }
+    build(context) {
+      return new layout_builder.LayoutBuilder.new({builder: dart.fn((context, boxConstraints) => {
+          let t1, t0;
+          let mediaQuery = media_query.MediaQuery.of(context);
+          let sizingInformation = new sizing_information.SizingInformation.new({deviceScreenType: helpers.getDeviceType(mediaQuery.size, this.breakpoints), refinedSize: helpers.getRefinedSize(mediaQuery.size, {refinedBreakpoint: this.refinedBreakpoints}), screenSize: mediaQuery.size, localWidgetSize: new ui.Size.new(boxConstraints.maxWidth, boxConstraints.maxHeight)});
+          t0 = context;
+          t1 = sizingInformation;
+          return this.builder(t0, t1);
+        }, T.BuildContextLAndBoxConstraintsLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[0] || CT.C0});
+    }
+  };
+  (widget_builders.ResponsiveBuilder.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let builder = opts && 'builder' in opts ? opts.builder : null;
+    let breakpoints = opts && 'breakpoints' in opts ? opts.breakpoints : null;
+    let refinedBreakpoints = opts && 'refinedBreakpoints' in opts ? opts.refinedBreakpoints : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[builder$] = builder;
+    this[breakpoints$] = breakpoints;
+    this[refinedBreakpoints$] = refinedBreakpoints;
+    widget_builders.ResponsiveBuilder.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = widget_builders.ResponsiveBuilder.prototype;
+  dart.addTypeTests(widget_builders.ResponsiveBuilder);
+  dart.addTypeCaches(widget_builders.ResponsiveBuilder);
+  dart.setMethodSignature(widget_builders.ResponsiveBuilder, () => ({
+    __proto__: dart.getMethods(widget_builders.ResponsiveBuilder.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(widget_builders.ResponsiveBuilder, I[0]);
+  dart.setFieldSignature(widget_builders.ResponsiveBuilder, () => ({
+    __proto__: dart.getFields(widget_builders.ResponsiveBuilder.__proto__),
+    builder: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext), dart.legacy(sizing_information.SizingInformation)]))),
+    breakpoints: dart.finalFieldType(dart.legacy(sizing_information.ScreenBreakpoints)),
+    refinedBreakpoints: dart.finalFieldType(dart.legacy(sizing_information.RefinedBreakpoints))
+  }));
+  var landscape$ = dart.privateName(widget_builders, "OrientationLayoutBuilder.landscape");
+  var portrait$ = dart.privateName(widget_builders, "OrientationLayoutBuilder.portrait");
+  widget_builders.OrientationLayoutBuilder = class OrientationLayoutBuilder extends framework.StatelessWidget {
+    get landscape() {
+      return this[landscape$];
+    }
+    set landscape(value) {
+      super.landscape = value;
+    }
+    get portrait() {
+      return this[portrait$];
+    }
+    set portrait(value) {
+      super.portrait = value;
+    }
+    build(context) {
+      return new basic.Builder.new({builder: dart.fn(context => {
+          let t0, t0$;
+          let orientation = media_query.MediaQuery.of(context).orientation;
+          if (orientation == media_query.Orientation.landscape) {
+            if (this.landscape != null) {
+              t0 = context;
+              return this.landscape(t0);
+            }
+          }
+          t0$ = context;
+          return this.portrait(t0$);
+        }, T.BuildContextLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[3] || CT.C3});
+    }
+  };
+  (widget_builders.OrientationLayoutBuilder.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let landscape = opts && 'landscape' in opts ? opts.landscape : null;
+    let portrait = opts && 'portrait' in opts ? opts.portrait : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[landscape$] = landscape;
+    this[portrait$] = portrait;
+    widget_builders.OrientationLayoutBuilder.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = widget_builders.OrientationLayoutBuilder.prototype;
+  dart.addTypeTests(widget_builders.OrientationLayoutBuilder);
+  dart.addTypeCaches(widget_builders.OrientationLayoutBuilder);
+  dart.setMethodSignature(widget_builders.OrientationLayoutBuilder, () => ({
+    __proto__: dart.getMethods(widget_builders.OrientationLayoutBuilder.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(widget_builders.OrientationLayoutBuilder, I[0]);
+  dart.setFieldSignature(widget_builders.OrientationLayoutBuilder, () => ({
+    __proto__: dart.getFields(widget_builders.OrientationLayoutBuilder.__proto__),
+    landscape: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    portrait: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])))
+  }));
+  var breakpoints$0 = dart.privateName(widget_builders, "ScreenTypeLayout.breakpoints");
+  var watch$ = dart.privateName(widget_builders, "ScreenTypeLayout.watch");
+  var mobile$ = dart.privateName(widget_builders, "ScreenTypeLayout.mobile");
+  var tablet$ = dart.privateName(widget_builders, "ScreenTypeLayout.tablet");
+  var desktop$ = dart.privateName(widget_builders, "ScreenTypeLayout.desktop");
+  widget_builders.ScreenTypeLayout = class ScreenTypeLayout extends framework.StatelessWidget {
+    get breakpoints() {
+      return this[breakpoints$0];
+    }
+    set breakpoints(value) {
+      super.breakpoints = value;
+    }
+    get watch() {
+      return this[watch$];
+    }
+    set watch(value) {
+      super.watch = value;
+    }
+    get mobile() {
+      return this[mobile$];
+    }
+    set mobile(value) {
+      super.mobile = value;
+    }
+    get tablet() {
+      return this[tablet$];
+    }
+    set tablet(value) {
+      super.tablet = value;
+    }
+    get desktop() {
+      return this[desktop$];
+    }
+    set desktop(value) {
+      super.desktop = value;
+    }
+    static _builderOrNull(widget) {
+      return widget == null ? null : dart.fn(_ => widget, T.BuildContextLToWidgetL());
+    }
+    build(context) {
+      return new widget_builders.ResponsiveBuilder.new({breakpoints: this.breakpoints, builder: dart.fn((context, sizingInformation) => {
+          let t0, t0$, t0$0, t0$1, t0$2;
+          if (sizingInformation.deviceScreenType == device_screen_type.DeviceScreenType.desktop) {
+            if (this.desktop != null) {
+              t0 = context;
+              return this.desktop(t0);
+            }
+            if (this.tablet != null) {
+              t0$ = context;
+              return this.tablet(t0$);
+            }
+          }
+          if (sizingInformation.deviceScreenType == device_screen_type.DeviceScreenType.tablet) {
+            if (this.tablet != null) {
+              t0$0 = context;
+              return this.tablet(t0$0);
+            }
+          }
+          if (sizingInformation.deviceScreenType == device_screen_type.DeviceScreenType.watch && this.watch != null) {
+            t0$1 = context;
+            return this.watch(t0$1);
+          }
+          t0$2 = context;
+          return this.mobile(t0$2);
+        }, T.BuildContextLAndSizingInformationLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[6] || CT.C6});
+    }
+  };
+  (widget_builders.ScreenTypeLayout.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let breakpoints = opts && 'breakpoints' in opts ? opts.breakpoints : null;
+    let watch = opts && 'watch' in opts ? opts.watch : null;
+    let mobile = opts && 'mobile' in opts ? opts.mobile : null;
+    let tablet = opts && 'tablet' in opts ? opts.tablet : null;
+    let desktop = opts && 'desktop' in opts ? opts.desktop : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[breakpoints$0] = breakpoints;
+    this[watch$] = widget_builders.ScreenTypeLayout._builderOrNull(watch);
+    this[mobile$] = widget_builders.ScreenTypeLayout._builderOrNull(mobile);
+    this[tablet$] = widget_builders.ScreenTypeLayout._builderOrNull(tablet);
+    this[desktop$] = widget_builders.ScreenTypeLayout._builderOrNull(desktop);
+    widget_builders.ScreenTypeLayout.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = widget_builders.ScreenTypeLayout.prototype;
+  (widget_builders.ScreenTypeLayout.builder = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let breakpoints = opts && 'breakpoints' in opts ? opts.breakpoints : null;
+    let watch = opts && 'watch' in opts ? opts.watch : null;
+    let mobile = opts && 'mobile' in opts ? opts.mobile : null;
+    let tablet = opts && 'tablet' in opts ? opts.tablet : null;
+    let desktop = opts && 'desktop' in opts ? opts.desktop : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[breakpoints$0] = breakpoints;
+    this[watch$] = watch;
+    this[mobile$] = mobile;
+    this[tablet$] = tablet;
+    this[desktop$] = desktop;
+    widget_builders.ScreenTypeLayout.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = widget_builders.ScreenTypeLayout.prototype;
+  dart.addTypeTests(widget_builders.ScreenTypeLayout);
+  dart.addTypeCaches(widget_builders.ScreenTypeLayout);
+  dart.setMethodSignature(widget_builders.ScreenTypeLayout, () => ({
+    __proto__: dart.getMethods(widget_builders.ScreenTypeLayout.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(widget_builders.ScreenTypeLayout, I[0]);
+  dart.setFieldSignature(widget_builders.ScreenTypeLayout, () => ({
+    __proto__: dart.getFields(widget_builders.ScreenTypeLayout.__proto__),
+    breakpoints: dart.finalFieldType(dart.legacy(sizing_information.ScreenBreakpoints)),
+    watch: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    mobile: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    tablet: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    desktop: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])))
+  }));
+  var refinedBreakpoints$0 = dart.privateName(widget_builders, "RefinedLayoutBuilder.refinedBreakpoints");
+  var extraLarge$ = dart.privateName(widget_builders, "RefinedLayoutBuilder.extraLarge");
+  var large$ = dart.privateName(widget_builders, "RefinedLayoutBuilder.large");
+  var normal$ = dart.privateName(widget_builders, "RefinedLayoutBuilder.normal");
+  var small$ = dart.privateName(widget_builders, "RefinedLayoutBuilder.small");
+  widget_builders.RefinedLayoutBuilder = class RefinedLayoutBuilder extends framework.StatelessWidget {
+    get refinedBreakpoints() {
+      return this[refinedBreakpoints$0];
+    }
+    set refinedBreakpoints(value) {
+      super.refinedBreakpoints = value;
+    }
+    get extraLarge() {
+      return this[extraLarge$];
+    }
+    set extraLarge(value) {
+      super.extraLarge = value;
+    }
+    get large() {
+      return this[large$];
+    }
+    set large(value) {
+      super.large = value;
+    }
+    get normal() {
+      return this[normal$];
+    }
+    set normal(value) {
+      super.normal = value;
+    }
+    get small() {
+      return this[small$];
+    }
+    set small(value) {
+      super.small = value;
+    }
+    build(context) {
+      return new widget_builders.ResponsiveBuilder.new({refinedBreakpoints: this.refinedBreakpoints, builder: dart.fn((context, sizingInformation) => {
+          let t0, t0$, t0$0, t0$1, t0$2, t0$3, t0$4;
+          if (sizingInformation.refinedSize == device_screen_type.RefinedSize.extraLarge) {
+            if (this.extraLarge != null) {
+              t0 = context;
+              return this.extraLarge(t0);
+            }
+            if (this.large != null) {
+              t0$ = context;
+              return this.large(t0$);
+            }
+          }
+          if (sizingInformation.refinedSize == device_screen_type.RefinedSize.large) {
+            if (this.large != null) {
+              t0$0 = context;
+              return this.large(t0$0);
+            }
+            if (this.normal != null) {
+              t0$1 = context;
+              return this.normal(t0$1);
+            }
+          }
+          if (sizingInformation.refinedSize == device_screen_type.RefinedSize.normal) {
+            if (this.normal != null) {
+              t0$2 = context;
+              return this.normal(t0$2);
+            }
+            if (this.small != null) {
+              t0$3 = context;
+              return this.small(t0$3);
+            }
+          }
+          t0$4 = context;
+          return this.normal(t0$4);
+        }, T.BuildContextLAndSizingInformationLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[10] || CT.C10});
+    }
+  };
+  (widget_builders.RefinedLayoutBuilder.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let refinedBreakpoints = opts && 'refinedBreakpoints' in opts ? opts.refinedBreakpoints : null;
+    let extraLarge = opts && 'extraLarge' in opts ? opts.extraLarge : null;
+    let large = opts && 'large' in opts ? opts.large : null;
+    let normal = opts && 'normal' in opts ? opts.normal : null;
+    let small = opts && 'small' in opts ? opts.small : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[refinedBreakpoints$0] = refinedBreakpoints;
+    this[extraLarge$] = extraLarge;
+    this[large$] = large;
+    this[normal$] = normal;
+    this[small$] = small;
+    widget_builders.RefinedLayoutBuilder.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = widget_builders.RefinedLayoutBuilder.prototype;
+  dart.addTypeTests(widget_builders.RefinedLayoutBuilder);
+  dart.addTypeCaches(widget_builders.RefinedLayoutBuilder);
+  dart.setMethodSignature(widget_builders.RefinedLayoutBuilder, () => ({
+    __proto__: dart.getMethods(widget_builders.RefinedLayoutBuilder.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(widget_builders.RefinedLayoutBuilder, I[0]);
+  dart.setFieldSignature(widget_builders.RefinedLayoutBuilder, () => ({
+    __proto__: dart.getFields(widget_builders.RefinedLayoutBuilder.__proto__),
+    refinedBreakpoints: dart.finalFieldType(dart.legacy(sizing_information.RefinedBreakpoints)),
+    extraLarge: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    large: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    normal: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]))),
+    small: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])))
+  }));
+  var _customBreakPoints = dart.privateName(responsive_sizing_config, "_customBreakPoints");
+  var _customRefinedBreakPoints = dart.privateName(responsive_sizing_config, "_customRefinedBreakPoints");
+  var ScreenBreakpoints_desktop = dart.privateName(sizing_information, "ScreenBreakpoints.desktop");
+  var ScreenBreakpoints_tablet = dart.privateName(sizing_information, "ScreenBreakpoints.tablet");
+  var ScreenBreakpoints_watch = dart.privateName(sizing_information, "ScreenBreakpoints.watch");
+  var RefinedBreakpoints_desktopExtraLarge = dart.privateName(sizing_information, "RefinedBreakpoints.desktopExtraLarge");
+  var RefinedBreakpoints_desktopLarge = dart.privateName(sizing_information, "RefinedBreakpoints.desktopLarge");
+  var RefinedBreakpoints_desktopNormal = dart.privateName(sizing_information, "RefinedBreakpoints.desktopNormal");
+  var RefinedBreakpoints_desktopSmall = dart.privateName(sizing_information, "RefinedBreakpoints.desktopSmall");
+  var RefinedBreakpoints_tabletExtraLarge = dart.privateName(sizing_information, "RefinedBreakpoints.tabletExtraLarge");
+  var RefinedBreakpoints_tabletLarge = dart.privateName(sizing_information, "RefinedBreakpoints.tabletLarge");
+  var RefinedBreakpoints_tabletNormal = dart.privateName(sizing_information, "RefinedBreakpoints.tabletNormal");
+  var RefinedBreakpoints_tabletSmall = dart.privateName(sizing_information, "RefinedBreakpoints.tabletSmall");
+  var RefinedBreakpoints_mobileExtraLarge = dart.privateName(sizing_information, "RefinedBreakpoints.mobileExtraLarge");
+  var RefinedBreakpoints_mobileLarge = dart.privateName(sizing_information, "RefinedBreakpoints.mobileLarge");
+  var RefinedBreakpoints_mobileNormal = dart.privateName(sizing_information, "RefinedBreakpoints.mobileNormal");
+  var RefinedBreakpoints_mobileSmall = dart.privateName(sizing_information, "RefinedBreakpoints.mobileSmall");
+  responsive_sizing_config.ResponsiveSizingConfig = class ResponsiveSizingConfig extends core.Object {
+    static get instance() {
+      if (responsive_sizing_config.ResponsiveSizingConfig._instance == null) {
+        responsive_sizing_config.ResponsiveSizingConfig._instance = new responsive_sizing_config.ResponsiveSizingConfig.new();
+      }
+      return responsive_sizing_config.ResponsiveSizingConfig._instance;
+    }
+    setCustomBreakpoints(customBreakpoints, opts) {
+      let customRefinedBreakpoints = opts && 'customRefinedBreakpoints' in opts ? opts.customRefinedBreakpoints : null;
+      this[_customBreakPoints] = customBreakpoints;
+      if (customRefinedBreakpoints != null) {
+        this[_customRefinedBreakPoints] = customRefinedBreakpoints;
+      }
+    }
+    get breakpoints() {
+      let t0;
+      t0 = this[_customBreakPoints];
+      return t0 == null ? responsive_sizing_config.ResponsiveSizingConfig._defaultBreakPoints : t0;
+    }
+    get refinedBreakpoints() {
+      let t0;
+      t0 = this[_customRefinedBreakPoints];
+      return t0 == null ? responsive_sizing_config.ResponsiveSizingConfig._defaultRefinedBreakPoints : t0;
+    }
+  };
+  (responsive_sizing_config.ResponsiveSizingConfig.new = function() {
+    this[_customBreakPoints] = null;
+    this[_customRefinedBreakPoints] = null;
+    ;
+  }).prototype = responsive_sizing_config.ResponsiveSizingConfig.prototype;
+  dart.addTypeTests(responsive_sizing_config.ResponsiveSizingConfig);
+  dart.addTypeCaches(responsive_sizing_config.ResponsiveSizingConfig);
+  dart.setMethodSignature(responsive_sizing_config.ResponsiveSizingConfig, () => ({
+    __proto__: dart.getMethods(responsive_sizing_config.ResponsiveSizingConfig.__proto__),
+    setCustomBreakpoints: dart.fnType(dart.void, [dart.legacy(sizing_information.ScreenBreakpoints)], {customRefinedBreakpoints: dart.legacy(sizing_information.RefinedBreakpoints)}, {})
+  }));
+  dart.setGetterSignature(responsive_sizing_config.ResponsiveSizingConfig, () => ({
+    __proto__: dart.getGetters(responsive_sizing_config.ResponsiveSizingConfig.__proto__),
+    breakpoints: dart.legacy(sizing_information.ScreenBreakpoints),
+    refinedBreakpoints: dart.legacy(sizing_information.RefinedBreakpoints)
+  }));
+  dart.setLibraryUri(responsive_sizing_config.ResponsiveSizingConfig, I[1]);
+  dart.setFieldSignature(responsive_sizing_config.ResponsiveSizingConfig, () => ({
+    __proto__: dart.getFields(responsive_sizing_config.ResponsiveSizingConfig.__proto__),
+    [_customBreakPoints]: dart.fieldType(dart.legacy(sizing_information.ScreenBreakpoints)),
+    [_customRefinedBreakPoints]: dart.fieldType(dart.legacy(sizing_information.RefinedBreakpoints))
+  }));
+  dart.defineLazy(responsive_sizing_config.ResponsiveSizingConfig, {
+    /*responsive_sizing_config.ResponsiveSizingConfig._instance*/get _instance() {
+      return null;
+    },
+    set _instance(_) {},
+    /*responsive_sizing_config.ResponsiveSizingConfig._defaultBreakPoints*/get _defaultBreakPoints() {
+      return C[14] || CT.C14;
+    },
+    /*responsive_sizing_config.ResponsiveSizingConfig._defaultRefinedBreakPoints*/get _defaultRefinedBreakPoints() {
+      return C[15] || CT.C15;
+    }
+  }, true);
+  const _is_ScreenTypeValueBuilder_default = Symbol('_is_ScreenTypeValueBuilder_default');
+  helpers.ScreenTypeValueBuilder$ = dart.generic(T => {
+    var TL = () => (TL = dart.constFn(dart.legacy(T)))();
+    class ScreenTypeValueBuilder extends core.Object {
+      getValueForType(opts) {
+        let context = opts && 'context' in opts ? opts.context : null;
+        let mobile = opts && 'mobile' in opts ? opts.mobile : null;
+        TL().as(mobile);
+        let tablet = opts && 'tablet' in opts ? opts.tablet : null;
+        TL().as(tablet);
+        let desktop = opts && 'desktop' in opts ? opts.desktop : null;
+        TL().as(desktop);
+        let watch = opts && 'watch' in opts ? opts.watch : null;
+        TL().as(watch);
+        return helpers.getValueForScreenType(TL(), {context: context, mobile: mobile, tablet: tablet, desktop: desktop, watch: watch});
+      }
+    }
+    (ScreenTypeValueBuilder.new = function() {
+      ;
+    }).prototype = ScreenTypeValueBuilder.prototype;
+    dart.addTypeTests(ScreenTypeValueBuilder);
+    ScreenTypeValueBuilder.prototype[_is_ScreenTypeValueBuilder_default] = true;
+    dart.addTypeCaches(ScreenTypeValueBuilder);
+    dart.setMethodSignature(ScreenTypeValueBuilder, () => ({
+      __proto__: dart.getMethods(ScreenTypeValueBuilder.__proto__),
+      getValueForType: dart.fnType(dart.legacy(T), [], {context: dart.legacy(framework.BuildContext), desktop: dart.legacy(core.Object), mobile: dart.legacy(core.Object), tablet: dart.legacy(core.Object), watch: dart.legacy(core.Object)}, {})
+    }));
+    dart.setLibraryUri(ScreenTypeValueBuilder, I[2]);
+    return ScreenTypeValueBuilder;
+  });
+  helpers.ScreenTypeValueBuilder = helpers.ScreenTypeValueBuilder$();
+  dart.addTypeTests(helpers.ScreenTypeValueBuilder, _is_ScreenTypeValueBuilder_default);
+  helpers.getDeviceType = function getDeviceType(size, breakpoint = null) {
+    let deviceWidth = size.shortestSide;
+    if (true) {
+      deviceWidth = size.width;
+    }
+    if (breakpoint != null) {
+      if (dart.notNull(deviceWidth) > dart.notNull(breakpoint.desktop)) {
+        return device_screen_type.DeviceScreenType.desktop;
+      }
+      if (dart.notNull(deviceWidth) > dart.notNull(breakpoint.tablet)) {
+        return device_screen_type.DeviceScreenType.tablet;
+      }
+      if (dart.notNull(deviceWidth) < dart.notNull(breakpoint.watch)) {
+        return device_screen_type.DeviceScreenType.watch;
+      }
+    } else {
+      if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.breakpoints.desktop)) {
+        return device_screen_type.DeviceScreenType.desktop;
+      }
+      if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.breakpoints.tablet)) {
+        return device_screen_type.DeviceScreenType.tablet;
+      }
+      if (dart.notNull(deviceWidth) < dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.breakpoints.watch)) {
+        return device_screen_type.DeviceScreenType.watch;
+      }
+    }
+    return device_screen_type.DeviceScreenType.mobile;
+  };
+  helpers.getRefinedSize = function getRefinedSize(size, opts) {
+    let refinedBreakpoint = opts && 'refinedBreakpoint' in opts ? opts.refinedBreakpoint : null;
+    let isWebOrDesktop = opts && 'isWebOrDesktop' in opts ? opts.isWebOrDesktop : true;
+    let deviceScreenType = helpers.getDeviceType(size);
+    let deviceWidth = size.shortestSide;
+    if (dart.test(isWebOrDesktop)) {
+      deviceWidth = size.width;
+    }
+    if (refinedBreakpoint != null) {
+      if (deviceScreenType == device_screen_type.DeviceScreenType.desktop) {
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.desktopExtraLarge)) {
+          return device_screen_type.RefinedSize.extraLarge;
+        }
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.desktopLarge)) {
+          return device_screen_type.RefinedSize.large;
+        }
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.desktopNormal)) {
+          return device_screen_type.RefinedSize.normal;
+        }
+      }
+      if (deviceScreenType == device_screen_type.DeviceScreenType.tablet) {
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.tabletExtraLarge)) {
+          return device_screen_type.RefinedSize.extraLarge;
+        }
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.tabletLarge)) {
+          return device_screen_type.RefinedSize.large;
+        }
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.tabletNormal)) {
+          return device_screen_type.RefinedSize.normal;
+        }
+      }
+      if (deviceScreenType == device_screen_type.DeviceScreenType.mobile) {
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.mobileExtraLarge)) {
+          return device_screen_type.RefinedSize.extraLarge;
+        }
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.mobileLarge)) {
+          return device_screen_type.RefinedSize.large;
+        }
+        if (dart.notNull(deviceWidth) > dart.notNull(refinedBreakpoint.mobileNormal)) {
+          return device_screen_type.RefinedSize.normal;
+        }
+      }
+      if (deviceScreenType == device_screen_type.DeviceScreenType.watch) {
+        return device_screen_type.RefinedSize.normal;
+      }
+    } else {
+      if (deviceScreenType == device_screen_type.DeviceScreenType.desktop) {
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.desktopExtraLarge)) {
+          return device_screen_type.RefinedSize.extraLarge;
+        }
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.desktopLarge)) {
+          return device_screen_type.RefinedSize.large;
+        }
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.desktopNormal)) {
+          return device_screen_type.RefinedSize.normal;
+        }
+      }
+      if (deviceScreenType == device_screen_type.DeviceScreenType.tablet) {
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.tabletExtraLarge)) {
+          return device_screen_type.RefinedSize.extraLarge;
+        }
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.tabletLarge)) {
+          return device_screen_type.RefinedSize.large;
+        }
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.tabletNormal)) {
+          return device_screen_type.RefinedSize.normal;
+        }
+      }
+      if (deviceScreenType == device_screen_type.DeviceScreenType.mobile) {
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.mobileExtraLarge)) {
+          return device_screen_type.RefinedSize.extraLarge;
+        }
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.mobileLarge)) {
+          return device_screen_type.RefinedSize.large;
+        }
+        if (dart.notNull(deviceWidth) >= dart.notNull(responsive_sizing_config.ResponsiveSizingConfig.instance.refinedBreakpoints.mobileNormal)) {
+          return device_screen_type.RefinedSize.normal;
+        }
+      }
+    }
+    return device_screen_type.RefinedSize.normal;
+  };
+  helpers.getValueForScreenType = function getValueForScreenType(T, opts) {
+    let context = opts && 'context' in opts ? opts.context : null;
+    let mobile = opts && 'mobile' in opts ? opts.mobile : null;
+    let tablet = opts && 'tablet' in opts ? opts.tablet : null;
+    let desktop = opts && 'desktop' in opts ? opts.desktop : null;
+    let watch = opts && 'watch' in opts ? opts.watch : null;
+    let deviceScreenType = helpers.getDeviceType(media_query.MediaQuery.of(context).size);
+    if (deviceScreenType == device_screen_type.DeviceScreenType.desktop) {
+      if (desktop != null) return desktop;
+      if (tablet != null) return tablet;
+    }
+    if (deviceScreenType == device_screen_type.DeviceScreenType.tablet) {
+      if (tablet != null) return tablet;
+    }
+    if (deviceScreenType == device_screen_type.DeviceScreenType.watch && watch != null) {
+      return watch;
+    }
+    return mobile;
+  };
+  helpers.getValueForRefinedSize = function getValueForRefinedSize(T, opts) {
+    let context = opts && 'context' in opts ? opts.context : null;
+    let normal = opts && 'normal' in opts ? opts.normal : null;
+    let large = opts && 'large' in opts ? opts.large : null;
+    let extraLarge = opts && 'extraLarge' in opts ? opts.extraLarge : null;
+    let refinedSize = helpers.getRefinedSize(media_query.MediaQuery.of(context).size);
+    if (refinedSize == device_screen_type.RefinedSize.extraLarge) {
+      if (extraLarge != null) return extraLarge;
+      if (large != null) return large;
+    }
+    if (refinedSize == device_screen_type.RefinedSize.large) {
+      if (large != null) return large;
+      if (normal != null) return normal;
+    }
+    if (refinedSize == device_screen_type.RefinedSize.normal) {
+      if (normal != null) return normal;
+    }
+    return normal;
+  };
+  dart.trackLibraries("packages/responsive_builder/src/widget_builders.dart", {
+    "package:responsive_builder/src/widget_builders.dart": widget_builders,
+    "package:responsive_builder/src/responsive_sizing_config.dart": responsive_sizing_config,
+    "package:responsive_builder/src/helpers.dart": helpers,
+    "package:responsive_builder/responsive_builder.dart": responsive_builder
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["widget_builders.dart","responsive_sizing_config.dart","helpers.dart"],"names":[],"mappings":"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","file":"../../../../../../../packages/responsive_builder/src/widget_builders.dart.lib.js"}');
+  // Exports:
+  return {
+    src__widget_builders: widget_builders,
+    src__responsive_sizing_config: responsive_sizing_config,
+    src__helpers: helpers,
+    responsive_builder: responsive_builder
+  };
+}));
+
+//# sourceMappingURL=widget_builders.dart.lib.js.map

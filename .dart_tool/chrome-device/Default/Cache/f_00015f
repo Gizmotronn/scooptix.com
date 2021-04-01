@@ -1,0 +1,274 @@
+define(['dart_sdk', 'packages/ticketapp/model/event.dart', 'packages/cloud_firestore/cloud_firestore.dart', 'packages/ticketapp/model/release_manager.dart', 'packages/ticketapp/model/ticket_release.dart', 'packages/ticketapp/model/link_type/link_type.dart', 'packages/ticketapp/model/link_type/promoterInvite.dart', 'packages/ticketapp/repositories/user_repository.dart', 'packages/ticketapp/model/link_type/birthdayList.dart', 'packages/ticketapp/model/link_type/advertisementInvite.dart', 'packages/ticketapp/services/bugsnag_wrapper.dart'], (function load__packages__ticketapp__repositories__events_repository_dart(dart_sdk, packages__ticketapp__model__event$46dart, packages__cloud_firestore__cloud_firestore$46dart, packages__ticketapp__model__release_manager$46dart, packages__ticketapp__model__ticket_release$46dart, packages__ticketapp__model__link_type__link_type$46dart, packages__ticketapp__model__link_type__promoterInvite$46dart, packages__ticketapp__repositories__user_repository$46dart, packages__ticketapp__model__link_type__birthdayList$46dart, packages__ticketapp__model__link_type__advertisementInvite$46dart, packages__ticketapp__services__bugsnag_wrapper$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const async = dart_sdk.async;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const event$ = packages__ticketapp__model__event$46dart.model__event;
+  const cloud_firestore = packages__cloud_firestore__cloud_firestore$46dart.cloud_firestore;
+  const release_manager = packages__ticketapp__model__release_manager$46dart.model__release_manager;
+  const ticket_release = packages__ticketapp__model__ticket_release$46dart.model__ticket_release;
+  const link_type = packages__ticketapp__model__link_type__link_type$46dart.model__link_type__link_type;
+  const promoterInvite = packages__ticketapp__model__link_type__promoterInvite$46dart.model__link_type__promoterInvite;
+  const user_repository = packages__ticketapp__repositories__user_repository$46dart.repositories__user_repository;
+  const birthdayList = packages__ticketapp__model__link_type__birthdayList$46dart.model__link_type__birthdayList;
+  const advertisementInvite = packages__ticketapp__model__link_type__advertisementInvite$46dart.model__link_type__advertisementInvite;
+  const bugsnag_wrapper = packages__ticketapp__services__bugsnag_wrapper$46dart.services__bugsnag_wrapper;
+  var events_repository = Object.create(dart.library);
+  var $containsKey = dartx.containsKey;
+  var $_get = dartx._get;
+  var $addAll = dartx.addAll;
+  var $add = dartx.add;
+  var $map = dartx.map;
+  var $forEach = dartx.forEach;
+  var $firstWhere = dartx.firstWhere;
+  var $any = dartx.any;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    EventL: () => (T.EventL = dart.constFn(dart.legacy(event$.Event)))(),
+    JSArrayOfEventL: () => (T.JSArrayOfEventL = dart.constFn(_interceptors.JSArray$(T.EventL())))(),
+    doubleL: () => (T.doubleL = dart.constFn(dart.legacy(core.double)))(),
+    FutureOfNull: () => (T.FutureOfNull = dart.constFn(async.Future$(core.Null)))(),
+    FutureLOfNull: () => (T.FutureLOfNull = dart.constFn(dart.legacy(T.FutureOfNull())))(),
+    QueryDocumentSnapshotL: () => (T.QueryDocumentSnapshotL = dart.constFn(dart.legacy(cloud_firestore.QueryDocumentSnapshot)))(),
+    QueryDocumentSnapshotLToFutureLOfNull: () => (T.QueryDocumentSnapshotLToFutureLOfNull = dart.constFn(dart.fnType(T.FutureLOfNull(), [T.QueryDocumentSnapshotL()])))(),
+    TicketReleaseL: () => (T.TicketReleaseL = dart.constFn(dart.legacy(ticket_release.TicketRelease)))(),
+    JSArrayOfTicketReleaseL: () => (T.JSArrayOfTicketReleaseL = dart.constFn(_interceptors.JSArray$(T.TicketReleaseL())))(),
+    QueryDocumentSnapshotLToNull: () => (T.QueryDocumentSnapshotLToNull = dart.constFn(dart.fnType(core.Null, [T.QueryDocumentSnapshotL()])))(),
+    ListOfTicketReleaseL: () => (T.ListOfTicketReleaseL = dart.constFn(core.List$(T.TicketReleaseL())))(),
+    ListLOfTicketReleaseL: () => (T.ListLOfTicketReleaseL = dart.constFn(dart.legacy(T.ListOfTicketReleaseL())))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    LinkTypesL: () => (T.LinkTypesL = dart.constFn(dart.legacy(link_type.LinkTypes)))(),
+    LinkTypesLToboolL: () => (T.LinkTypesLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.LinkTypesL()])))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    PromoterInviteL: () => (T.PromoterInviteL = dart.constFn(dart.legacy(promoterInvite.PromoterInvite)))(),
+    BookingL: () => (T.BookingL = dart.constFn(dart.legacy(birthdayList.Booking)))(),
+    AdvertisementInviteL: () => (T.AdvertisementInviteL = dart.constFn(dart.legacy(advertisementInvite.AdvertisementInvite)))(),
+    LinkTypeL: () => (T.LinkTypeL = dart.constFn(dart.legacy(link_type.LinkType)))(),
+    EventLToboolL: () => (T.EventLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.EventL()])))(),
+    ListOfEventL: () => (T.ListOfEventL = dart.constFn(core.List$(T.EventL())))(),
+    ListLOfEventL: () => (T.ListLOfEventL = dart.constFn(dart.legacy(T.ListOfEventL())))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: link_type.LinkTypes.prototype,
+        [_name]: "LinkTypes.Promoter",
+        index: 0
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: link_type.LinkTypes.prototype,
+        [_name]: "LinkTypes.BirthdayList",
+        index: 2
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: link_type.LinkTypes.prototype,
+        [_name]: "LinkTypes.Booking",
+        index: 1
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: link_type.LinkTypes.prototype,
+        [_name]: "LinkTypes.Ticket",
+        index: 4
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: link_type.LinkTypes.prototype,
+        [_name]: "LinkTypes.Advertisement",
+        index: 3
+      });
+    }
+  }, false);
+  var C = Array(5).fill(void 0);
+  var I = ["package:ticketapp/repositories/events_repository.dart"];
+  var events = dart.privateName(events_repository, "EventsRepository.events");
+  var _name = dart.privateName(link_type, "_name");
+  events_repository.EventsRepository = class EventsRepository extends core.Object {
+    get events() {
+      return this[events];
+    }
+    set events(value) {
+      this[events] = value;
+    }
+    static get instance() {
+      if (events_repository.EventsRepository._instance == null) {
+        events_repository.EventsRepository._instance = new events_repository.EventsRepository.__();
+      }
+      return events_repository.EventsRepository._instance;
+    }
+    dispose() {
+      events_repository.EventsRepository._instance = null;
+    }
+    loadEventById(id) {
+      return async.async(T.EventL(), function* loadEventById() {
+        core.print(id);
+        let eventSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("events").doc(id).get());
+        let ticketEventSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("ticketevents").doc(id).get());
+        let releaseManagerSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get());
+        let event = event$.Event.fromMap(eventSnapshot.id, eventSnapshot.data());
+        if (event != null) {
+          event.feePercent = T.doubleL().as(dart.test(ticketEventSnapshot.data()[$containsKey]("fee_percent")) ? ticketEventSnapshot.data()[$_get]("fee_percent") : 10.0);
+        }
+        yield async.Future.wait(core.Null, releaseManagerSnapshot.docs[$map](T.FutureLOfNull(), dart.fn(element => async.async(core.Null, function*() {
+          let rm = release_manager.ReleaseManager.fromMap(element.id, element.data());
+          rm.releases[$addAll](yield events_repository.EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
+          event.releaseManagers[$add](rm);
+        }), T.QueryDocumentSnapshotLToFutureLOfNull())));
+        return event;
+      });
+    }
+    loadReleasesForManager(eventId, rmId) {
+      return async.async(T.ListLOfTicketReleaseL(), function* loadReleasesForManager() {
+        let releaseSnapshots = (yield cloud_firestore.FirebaseFirestore.instance.collection("ticketevents").doc(eventId).collection("release_managers").doc(rmId).collection("ticket_releases").get());
+        let ticketReleases = T.JSArrayOfTicketReleaseL().of([]);
+        releaseSnapshots.docs[$forEach](dart.fn(releaseDoc => {
+          let release = ticket_release.TicketRelease.fromMap(releaseDoc.id, releaseDoc.data());
+          if (release != null) {
+            ticketReleases[$add](release);
+          }
+        }, T.QueryDocumentSnapshotLToNull()));
+        return ticketReleases;
+      });
+    }
+    loadLinkType(uuid) {
+      return async.async(T.LinkTypeL(), (function* loadLinkType() {
+        let t1, t1$, t1$0;
+        try {
+          let uuidMapSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("uuidmap").where("uuid", {isEqualTo: uuid}).get());
+          if (dart.notNull(uuidMapSnapshot.size) > 0) {
+            let lt = link_type.LinkTypes.Promoter;
+            try {
+              lt = link_type.LinkTypes.values[$firstWhere](dart.fn(element => core.identical(link_type['InvitationTypeExtension|toDBString'](element), uuidMapSnapshot.docs[$_get](0).data()[$_get]("type")), T.LinkTypesLToboolL()));
+            } catch (e$) {
+              let _ = dart.getThrown(e$);
+            }
+            let linkType = null;
+            switch (lt) {
+              case C[0] || CT.C0:
+              {
+                linkType = (t1 = new promoterInvite.PromoterInvite.new(), yield async.async(T.PromoterInviteL(), (function*() {
+                  t1.uuid = uuid;
+                  t1.promoter = (yield user_repository.UserRepository.instance.loadPromoter(T.StringL().as(uuidMapSnapshot.docs[$_get](0).data()[$_get]("promoter"))));
+                  t1.event = (yield this.loadEventById(T.StringL().as(uuidMapSnapshot.docs[$_get](0).data()[$_get]("event"))));
+                  return t1;
+                }).bind(this)));
+                break;
+              }
+              case C[1] || CT.C1:
+              case C[2] || CT.C2:
+              {
+                linkType = (t1$ = new birthdayList.Booking.new(), yield async.async(T.BookingL(), (function*() {
+                  t1$.uuid = uuid;
+                  t1$.promoter = (yield user_repository.UserRepository.instance.loadPromoter(T.StringL().as(uuidMapSnapshot.docs[$_get](0).data()[$_get]("promoter"))));
+                  t1$.event = (yield this.loadEventById(T.StringL().as(uuidMapSnapshot.docs[$_get](0).data()[$_get]("event"))));
+                  return t1$;
+                }).bind(this)));
+                break;
+              }
+              case C[3] || CT.C3:
+              {
+                break;
+              }
+              case C[4] || CT.C4:
+              {
+                linkType = (t1$0 = new advertisementInvite.AdvertisementInvite.new(), yield async.async(T.AdvertisementInviteL(), (function*() {
+                  t1$0.uuid = uuid;
+                  t1$0.advertisementId = T.StringL().as(uuidMapSnapshot.docs[$_get](0).data()[$_get]("advertisement_id"));
+                  t1$0.event = (yield this.loadEventById(T.StringL().as(uuidMapSnapshot.docs[$_get](0).data()[$_get]("event"))));
+                  return t1$0;
+                }).bind(this)));
+                break;
+              }
+            }
+            return linkType;
+          } else {
+            return null;
+          }
+        } catch (e$0) {
+          let e = dart.getThrown(e$0);
+          let s = dart.stackTrace(e$0);
+          core.print(e);
+          bugsnag_wrapper.BugsnagNotifier.instance.notify(e, s, {severity: bugsnag_wrapper.ErrorSeverity.error});
+          return null;
+        }
+      }).bind(this));
+    }
+    loadUpcomingEvents() {
+      return async.async(T.ListLOfEventL(), (function* loadUpcomingEvents() {
+        let eventsSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("events").where("date", {isGreaterThanOrEqualTo: new core.DateTime.now().subtract(new core.Duration.new({hours: 8}))}).get());
+        yield async.Future.wait(core.Null, eventsSnapshot.docs[$map](T.FutureLOfNull(), dart.fn(e => async.async(core.Null, (function*() {
+          let event = event$.Event.fromMap(e.id, e.data());
+          if (event != null && !dart.test(this.events[$any](dart.fn(element => element.docID == e.id, T.EventLToboolL())))) {
+            let ticketEventSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("ticketevents").doc(e.id).get());
+            let releaseManagerSnapshot = (yield cloud_firestore.FirebaseFirestore.instance.collection("ticketevents").doc(e.id).collection("release_managers").get());
+            if (dart.test(ticketEventSnapshot.exists)) {
+              event.feePercent = T.doubleL().as(dart.test(ticketEventSnapshot.data()[$containsKey]("fee_percent")) ? ticketEventSnapshot.data()[$_get]("fee_percent") : 10.0);
+            }
+            yield async.Future.wait(core.Null, releaseManagerSnapshot.docs[$map](T.FutureLOfNull(), dart.fn(element => async.async(core.Null, function*() {
+              let rm = release_manager.ReleaseManager.fromMap(element.id, element.data());
+              rm.releases[$addAll](yield events_repository.EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
+              event.releaseManagers[$add](rm);
+            }), T.QueryDocumentSnapshotLToFutureLOfNull())));
+            this.events[$add](event);
+          }
+        }).bind(this)), T.QueryDocumentSnapshotLToFutureLOfNull())));
+        return this.events;
+      }).bind(this));
+    }
+  };
+  (events_repository.EventsRepository.__ = function() {
+    this[events] = T.JSArrayOfEventL().of([]);
+    ;
+  }).prototype = events_repository.EventsRepository.prototype;
+  dart.addTypeTests(events_repository.EventsRepository);
+  dart.addTypeCaches(events_repository.EventsRepository);
+  dart.setMethodSignature(events_repository.EventsRepository, () => ({
+    __proto__: dart.getMethods(events_repository.EventsRepository.__proto__),
+    dispose: dart.fnType(dart.dynamic, []),
+    loadEventById: dart.fnType(dart.legacy(async.Future$(dart.legacy(event$.Event))), [dart.legacy(core.String)]),
+    loadReleasesForManager: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))))), [dart.legacy(core.String), dart.legacy(core.String)]),
+    loadLinkType: dart.fnType(dart.legacy(async.Future$(dart.legacy(link_type.LinkType))), [dart.legacy(core.String)]),
+    loadUpcomingEvents: dart.fnType(dart.legacy(async.Future$(dart.legacy(core.List$(dart.legacy(event$.Event))))), [])
+  }));
+  dart.setLibraryUri(events_repository.EventsRepository, I[0]);
+  dart.setFieldSignature(events_repository.EventsRepository, () => ({
+    __proto__: dart.getFields(events_repository.EventsRepository.__proto__),
+    events: dart.fieldType(dart.legacy(core.List$(dart.legacy(event$.Event))))
+  }));
+  dart.defineLazy(events_repository.EventsRepository, {
+    /*events_repository.EventsRepository._instance*/get _instance() {
+      return null;
+    },
+    set _instance(_) {}
+  }, true);
+  dart.trackLibraries("packages/ticketapp/repositories/events_repository.dart", {
+    "package:ticketapp/repositories/events_repository.dart": events_repository
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["events_repository.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IA2Bc;;;;;;;AAZV,UAAI,AAAU;AACoB,QAAhC,+CAA6B;;AAE/B,YAAO;IACT;;AAKkB,MAAhB,+CAAY;IACd;kBAImC;AAAR;AAChB,QAAT,WAAM,EAAE;AACS,6BACb,MAAwB,AAAS,AAAqB,AAAQ,sDAAlB,cAAc,EAAE;AAC/C,mCAAsB,MAAwB,AAC1D,AACA,AACA,sDAFW,oBACP,EAAE;AAGG,sCAAyB,MAAwB,AAC1D,AACA,AACA,AACA,sDAHW,oBACP,EAAE,aACK;AAGV,oBAAc,qBAAQ,AAAc,aAAD,KAAK,AAAc,aAAD;AAE3D,YAAI,AAAM,KAAD;AAGG,UAFV,AAAM,KAAD,cAAC,yBAAa,AAAoB,AAAO,mBAAR,sBAAoB,kBACpD,AAAoB,AAAM,mBAAP,eAAQ,iBAC3B;;AAOL,QALH,MAAa,6BAAK,AAAuB,AAAK,sBAAN,+BAAU,QAAC;AAClC,mBAAoB,uCAAQ,AAAQ,OAAD,KAAK,AAAQ,OAAD;AAEX,UADnD,AAAG,AAAS,EAAV,mBAAiB,MAAuB,AACrC,mEAAuB,AAAM,KAAD,QAAQ,AAAG,EAAD;AACd,UAA7B,AAAM,AAAgB,KAAjB,uBAAqB,EAAE;QAC7B;AAED,cAAO,MAAK;MACd;;2BAIW,SAAgB;AADuB;AAElC,gCAAmB,MAAwB,AACpD,AACA,AACA,AACA,AACA,AACA,sDALW,oBACP,OAAO,aACA,wBACP,IAAI,aACG;AAGI,6BAAiB;AAOnC,QANF,AAAiB,AAAK,gBAAN,gBAAc,QAAC;AACf,wBACI,qCAAQ,AAAW,UAAD,KAAK,AAAW,UAAD;AACnD,cAAI,AAAQ,OAAD;AACkB,YAA3B,AAAe,cAAD,OAAK,OAAO;;;AAI9B,cAAO,eAAc;MACvB;;iBAEqC;AAAR;;AAC3B;AACgB,iCAAkB,MAAwB,AACnD,AACA,AACA,sDAFW,iBACL,oBAAmB,IAAI;AAElC,cAAyB,aAArB,AAAgB,eAAD,SAAQ;AACf,qBAAe;AACzB;AAEqE,cADnE,KAAe,AAAO,wCAAW,QAAC,WACT,eAAb,gDAAR,OAAO,GAAiB,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;;kBACpD;;AAGA;AACT,oBAAQ,EAAE;;;AAO4D,gBALlE,0DAAW;AACP,4BAAO,IAAI;AACX,iCAAW,MAAqB,AAC7B,oEAAa,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;AAC/C,8BACE,MAAM,kCAAc,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;;;AACzD;;;;;AAQkE,gBALlE,kDAAW;AACP,6BAAO,IAAI;AACX,kCAAW,MAAqB,AAC7B,oEAAa,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;AAC/C,+BACE,MAAM,kCAAc,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;;;AACzD;;;;AAGA;;;;AAOkE,gBALlE,sEAAW;AACP,8BAAO,IAAI;AACX,wDACE,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;AACjC,gCACE,MAAM,kCAAc,AAAgB,AAAI,AAAI,AAAM,eAAf,aAAM,iBAAU;;;AACzD;;;AAEJ,kBAAO,SAAQ;;AAEf,kBAAO;;;cAEF;cAAG;AACF,UAAR,WAAM,CAAC;AAC6D,UAApD,AAAS,gDAAO,CAAC,EAAE,CAAC,aAA0B;AAC9D,gBAAO;;MAEX;;;AAIsC;AACtB,8BAAiB,MAAwB,AAClD,AACA,AAIA,sDALW,gBACL,iCAC8B,AAAM,iCAAS,8BACrC;AAgChB,QA7BH,MAAa,6BAAK,AAAe,AAAK,cAAN,+BAAU,QAAC;AACnC,sBAAc,qBAAQ,AAAE,CAAD,KAAK,AAAE,CAAD;AACnC,cAAI,AAAM,KAAD,uBAAa,AAAO,kBAAI,QAAC,WAAY,AAAQ,AAAM,OAAP,UAAU,AAAE,CAAD;AAC7C,uCAAsB,MAAwB,AAC1D,AACA,AACA,sDAFW,oBACP,AAAE,CAAD;AAGI,0CAAyB,MAAwB,AAC1D,AACA,AACA,AACA,sDAHW,oBACP,AAAE,CAAD,gBACM;AAGhB,0BAAI,AAAoB,mBAAD;AAIP,cAHd,AAAM,KAAD,cAAC,yBACF,AAAoB,AAAO,mBAAR,sBAAoB,kBACjC,AAAoB,AAAM,mBAAP,eAAQ,iBAC3B;;AAQT,YANH,MAAa,6BAAK,AAAuB,AAAK,sBAAN,+BAAU,QAAC;AAClC,uBACI,uCAAQ,AAAQ,OAAD,KAAK,AAAQ,OAAD;AAEK,cADnD,AAAG,AAAS,EAAV,mBAAiB,MAAuB,AACrC,mEAAuB,AAAM,KAAD,QAAQ,AAAG,EAAD;AACd,cAA7B,AAAM,AAAgB,KAAjB,uBAAqB,EAAE;YAC7B;AACgB,YAAjB,AAAO,kBAAI,KAAK;;QAEnB;AAED,cAAO;MACT;;;;IA3JY,eAAS;;EAND;;;;;;;;;;;;;;;;;MATI,4CAAS","file":"../../../../../../packages/ticketapp/repositories/events_repository.dart.lib.js"}');
+  // Exports:
+  return {
+    repositories__events_repository: events_repository
+  };
+}));
+
+//# sourceMappingURL=events_repository.dart.lib.js.map

@@ -1,0 +1,480 @@
+define(['dart_sdk', 'packages/flutter/src/material/typography.dart', 'packages/flutter/src/painting/strut_style.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/flutter/src/material/colors.dart', 'packages/flutter/src/material/input_border.dart', 'packages/flutter/src/painting/borders.dart', 'packages/flutter/src/widgets/icon_theme_data.dart', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/painting/edge_insets.dart', 'packages/flutter/src/painting/shape_decoration.dart', 'packages/flutter/src/painting/rounded_rectangle_border.dart', 'packages/flutter/src/painting/border_radius.dart'], (function load__packages__ticketapp__UI__theme_dart(dart_sdk, packages__flutter__src__material__typography$46dart, packages__flutter__src__painting__strut_style$46dart, packages__flutter__src__material__icon_button$46dart, packages__flutter__src__material__colors$46dart, packages__flutter__src__material__input_border$46dart, packages__flutter__src__painting__borders$46dart, packages__flutter__src__widgets__icon_theme_data$46dart, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__painting__edge_insets$46dart, packages__flutter__src__painting__shape_decoration$46dart, packages__flutter__src__painting__rounded_rectangle_border$46dart, packages__flutter__src__painting__border_radius$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const ui = dart_sdk.ui;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const text_theme = packages__flutter__src__material__typography$46dart.src__material__text_theme;
+  const text_style = packages__flutter__src__painting__strut_style$46dart.src__painting__text_style;
+  const theme_data = packages__flutter__src__material__icon_button$46dart.src__material__theme_data;
+  const input_decorator = packages__flutter__src__material__icon_button$46dart.src__material__input_decorator;
+  const navigation_rail_theme = packages__flutter__src__material__icon_button$46dart.src__material__navigation_rail_theme;
+  const colors = packages__flutter__src__material__colors$46dart.src__material__colors;
+  const input_border = packages__flutter__src__material__input_border$46dart.src__material__input_border;
+  const borders = packages__flutter__src__painting__borders$46dart.src__painting__borders;
+  const icon_theme_data = packages__flutter__src__widgets__icon_theme_data$46dart.src__widgets__icon_theme_data;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const edge_insets = packages__flutter__src__painting__edge_insets$46dart.src__painting__edge_insets;
+  const shape_decoration = packages__flutter__src__painting__shape_decoration$46dart.src__painting__shape_decoration;
+  const rounded_rectangle_border = packages__flutter__src__painting__rounded_rectangle_border$46dart.src__painting__rounded_rectangle_border;
+  const border_radius = packages__flutter__src__painting__border_radius$46dart.src__painting__border_radius;
+  var theme = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    doubleL: () => (T.doubleL = dart.constFn(dart.legacy(core.double)))(),
+    doubleLToWidgetL: () => (T.doubleLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.doubleL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 15,
+        [_Location_file]: null
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 16,
+        [_Location_file]: null
+      });
+    },
+    get C1() {
+      return C[1] = dart.constList([C[2] || CT.C2, C[3] || CT.C3], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 40,
+        [_Location_line]: 14,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 19,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 20,
+        [_Location_file]: null
+      });
+    },
+    get C5() {
+      return C[5] = dart.constList([C[6] || CT.C6, C[7] || CT.C7], T._LocationL());
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[5] || CT.C5,
+        [_Location_name]: null,
+        [_Location_column]: 41,
+        [_Location_line]: 18,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 23,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 24,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.constList([C[10] || CT.C10, C[11] || CT.C11], T._LocationL());
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[9] || CT.C9,
+        [_Location_name]: null,
+        [_Location_column]: 42,
+        [_Location_line]: 22,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 27,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 28,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.constList([C[14] || CT.C14, C[15] || CT.C15], T._LocationL());
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[13] || CT.C13,
+        [_Location_name]: null,
+        [_Location_column]: 43,
+        [_Location_line]: 26,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 31,
+        [_Location_file]: null
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 32,
+        [_Location_file]: null
+      });
+    },
+    get C17() {
+      return C[17] = dart.constList([C[18] || CT.C18, C[19] || CT.C19], T._LocationL());
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[17] || CT.C17,
+        [_Location_name]: null,
+        [_Location_column]: 40,
+        [_Location_line]: 30,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 35,
+        [_Location_file]: null
+      });
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 36,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.constList([C[22] || CT.C22, C[23] || CT.C23], T._LocationL());
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[21] || CT.C21,
+        [_Location_name]: null,
+        [_Location_column]: 47,
+        [_Location_line]: 34,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 9,
+        [_Location_line]: 39,
+        [_Location_file]: null
+      });
+    },
+    get C27() {
+      return C[27] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 40,
+        [_Location_file]: null
+      });
+    },
+    get C25() {
+      return C[25] = dart.constList([C[26] || CT.C26, C[27] || CT.C27], T._LocationL());
+    },
+    get C24() {
+      return C[24] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[25] || CT.C25,
+        [_Location_name]: null,
+        [_Location_column]: 45,
+        [_Location_line]: 38,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    },
+    get C30() {
+      return C[30] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 7,
+        [_Location_line]: 47,
+        [_Location_file]: null
+      });
+    },
+    get C31() {
+      return C[31] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 53,
+        [_Location_file]: null
+      });
+    },
+    get C29() {
+      return C[29] = dart.constList([C[30] || CT.C30, C[31] || CT.C31], T._LocationL());
+    },
+    get C28() {
+      return C[28] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[29] || CT.C29,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 46,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/theme.dart"
+      });
+    }
+  }, false);
+  var C = Array(32).fill(void 0);
+  var I = ["package:ticketapp/UI/theme.dart"];
+  theme.MyTheme = class MyTheme extends core.Object {};
+  (theme.MyTheme.new = function() {
+    ;
+  }).prototype = theme.MyTheme.prototype;
+  dart.addTypeTests(theme.MyTheme);
+  dart.addTypeCaches(theme.MyTheme);
+  dart.setLibraryUri(theme.MyTheme, I[0]);
+  dart.defineLazy(theme.MyTheme, {
+    /*theme.MyTheme.maxWidth*/get maxWidth() {
+      return 1050.0;
+    },
+    set maxWidth(_) {},
+    /*theme.MyTheme.elementSpacing*/get elementSpacing() {
+      return 20.0;
+    },
+    set elementSpacing(_) {},
+    /*theme.MyTheme.cardPadding*/get cardPadding() {
+      return 20.0;
+    },
+    set cardPadding(_) {},
+    /*theme.MyTheme.drawerSize*/get drawerSize() {
+      return 500.0;
+    },
+    set drawerSize(_) {},
+    /*theme.MyTheme.animationDuration*/get animationDuration() {
+      return new core.Duration.new({milliseconds: 300});
+    },
+    set animationDuration(_) {},
+    /*theme.MyTheme.appolloPurple*/get appolloPurple() {
+      return new ui.Color.new(4285753325);
+    },
+    set appolloPurple(_) {},
+    /*theme.MyTheme.appolloYellow*/get appolloYellow() {
+      return new ui.Color.new(4294695728);
+    },
+    set appolloYellow(_) {},
+    /*theme.MyTheme.appolloOrange*/get appolloOrange() {
+      return new ui.Color.new(4294676272);
+    },
+    set appolloOrange(_) {},
+    /*theme.MyTheme.appolloBlue*/get appolloBlue() {
+      return new ui.Color.new(4281358843);
+    },
+    set appolloBlue(_) {},
+    /*theme.MyTheme.appolloLightBlue*/get appolloLightBlue() {
+      return new ui.Color.new(4280402145);
+    },
+    set appolloLightBlue(_) {},
+    /*theme.MyTheme.appolloGreen*/get appolloGreen() {
+      return new ui.Color.new(4280927855);
+    },
+    set appolloGreen(_) {},
+    /*theme.MyTheme.appolloRed*/get appolloRed() {
+      return new ui.Color.new(4293547092);
+    },
+    set appolloRed(_) {},
+    /*theme.MyTheme.appolloDarkRed*/get appolloDarkRed() {
+      return new ui.Color.new(4294923102);
+    },
+    set appolloDarkRed(_) {},
+    /*theme.MyTheme.appolloPink*/get appolloPink() {
+      return new ui.Color.new(4293748702);
+    },
+    set appolloPink(_) {},
+    /*theme.MyTheme.appolloBlack*/get appolloBlack() {
+      return new ui.Color.new(4281084972);
+    },
+    set appolloBlack(_) {},
+    /*theme.MyTheme.appolloTeal*/get appolloTeal() {
+      return new ui.Color.new(4280079824);
+    },
+    set appolloTeal(_) {},
+    /*theme.MyTheme.appolloGrey*/get appolloGrey() {
+      return new ui.Color.new(4285558896);
+    },
+    set appolloGrey(_) {},
+    /*theme.MyTheme.appolloTextFieldFill*/get appolloTextFieldFill() {
+      return new ui.Color.new(4293915383);
+    },
+    set appolloTextFieldFill(_) {},
+    /*theme.MyTheme.appolloWhite*/get appolloWhite() {
+      return new ui.Color.new(4294967295);
+    },
+    set appolloWhite(_) {},
+    /*theme.MyTheme.appolloDimGrey*/get appolloDimGrey() {
+      return new ui.Color.new(4291679201);
+    },
+    set appolloDimGrey(_) {},
+    /*theme.MyTheme.appolloLightGrey*/get appolloLightGrey() {
+      return new ui.Color.new(4293915383);
+    },
+    set appolloLightGrey(_) {},
+    /*theme.MyTheme.lightTextTheme*/get lightTextTheme() {
+      return new text_theme.TextTheme.new({bodyText1: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 12.8, letterSpacing: 0.5, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400})), bodyText2: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 12.8, letterSpacing: 0.25, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400})), subtitle1: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 14.4, letterSpacing: 0.15, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w300})), subtitle2: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 11.2, letterSpacing: 0.1, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w500})), headline1: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 38.4, letterSpacing: -1.0, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400})), headline2: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 25.6, letterSpacing: -0.5, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w500})), headline3: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 19.2, letterSpacing: 0.0, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w500})), headline4: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 19.2, letterSpacing: 0.0, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400})), headline5: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 16.0, letterSpacing: 0.0, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400})), headline6: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 14.4, letterSpacing: 0.25, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w600})), caption: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 10.8, letterSpacing: 0.4, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400})), button: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 14.0, letterSpacing: 1.25, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w300})), overline: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 10.8, letterSpacing: 2.0, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w400}))});
+    },
+    set lightTextTheme(_) {},
+    /*theme.MyTheme.darkTextTheme*/get darkTextTheme() {
+      return new text_theme.TextTheme.new({bodyText1: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 12.8, letterSpacing: 0.5, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w400})), bodyText2: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 12.8, letterSpacing: 0.25, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w400})), subtitle1: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 14.4, letterSpacing: 0.15, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w300})), subtitle2: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 11.2, letterSpacing: 0.1, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w500})), headline1: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 38.4, letterSpacing: -1.0, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w400})), headline2: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 25.6, letterSpacing: -0.5, color: theme.MyTheme.appolloGrey, fontWeight: ui.FontWeight.w500})), headline3: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 19.2, letterSpacing: 0.0, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w500})), headline4: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 19.2, letterSpacing: 0.0, color: theme.MyTheme.appolloGrey, fontWeight: ui.FontWeight.w400})), headline5: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 16.0, letterSpacing: 0.0, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w400})), headline6: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 14.4, letterSpacing: 0.25, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w600})), caption: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 10.8, letterSpacing: 0.4, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w400})), button: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 14.0, letterSpacing: 1.25, color: theme.MyTheme.appolloWhite, fontWeight: ui.FontWeight.w300})), overline: theme['_extension#0|get#withZoomFix'](new text_style.TextStyle.new({fontFamily: "montserrat", fontSize: 10.8, letterSpacing: 2.0, color: theme.MyTheme.appolloBlack, fontWeight: ui.FontWeight.w400}))});
+    },
+    set darkTextTheme(_) {},
+    /*theme.MyTheme.theme*/get theme() {
+      return theme_data.ThemeData.new({backgroundColor: new ui.Color.new(4281084972), primaryColor: theme.MyTheme.appolloPurple, accentColor: theme.MyTheme.appolloPurple, buttonColor: theme.MyTheme.appolloPurple, hintColor: theme.MyTheme.appolloWhite, canvasColor: new ui.Color.new(4281084972), inputDecorationTheme: new input_decorator.InputDecorationTheme.new({fillColor: colors.Colors.grey._get(800).withAlpha(50), filled: true, border: new input_border.OutlineInputBorder.new(), enabledBorder: new input_border.OutlineInputBorder.new({borderSide: new borders.BorderSide.new({color: new ui.Color.new(4285558896).withAlpha(80)})})}), primaryIconTheme: new icon_theme_data.IconThemeData.new({color: theme.MyTheme.appolloPurple}), navigationRailTheme: new navigation_rail_theme.NavigationRailThemeData.new({selectedIconTheme: new icon_theme_data.IconThemeData.new({color: colors.Colors.white}), unselectedIconTheme: new icon_theme_data.IconThemeData.new({color: colors.Colors.black})}), visualDensity: theme_data.VisualDensity.adaptivePlatformDensity, textTheme: theme.MyTheme.lightTextTheme, primaryTextTheme: theme.MyTheme.lightTextTheme});
+    },
+    set theme(_) {}
+  }, true);
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  theme['_extension#0|get#withZoomFix'] = function _extension$350$124get$35withZoomFix($this) {
+    return $this.copyWith({wordSpacing: 0.0});
+  };
+  theme['WidgetPaddingX|paddingTop'] = function WidgetPaddingX$124paddingTop($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.only({top: padding}), child: $this, $creationLocationd_0dea112b090073317d4: C[0] || CT.C0});
+  };
+  theme['WidgetPaddingX|get#paddingTop'] = function WidgetPaddingX$124get$35paddingTop($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingTop']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['WidgetPaddingX|paddingLeft'] = function WidgetPaddingX$124paddingLeft($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.only({left: padding}), child: $this, $creationLocationd_0dea112b090073317d4: C[4] || CT.C4});
+  };
+  theme['WidgetPaddingX|get#paddingLeft'] = function WidgetPaddingX$124get$35paddingLeft($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingLeft']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['WidgetPaddingX|paddingRight'] = function WidgetPaddingX$124paddingRight($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.only({right: padding}), child: $this, $creationLocationd_0dea112b090073317d4: C[8] || CT.C8});
+  };
+  theme['WidgetPaddingX|get#paddingRight'] = function WidgetPaddingX$124get$35paddingRight($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingRight']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['WidgetPaddingX|paddingBottom'] = function WidgetPaddingX$124paddingBottom($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.only({bottom: padding}), child: $this, $creationLocationd_0dea112b090073317d4: C[12] || CT.C12});
+  };
+  theme['WidgetPaddingX|get#paddingBottom'] = function WidgetPaddingX$124get$35paddingBottom($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingBottom']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['WidgetPaddingX|paddingAll'] = function WidgetPaddingX$124paddingAll($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.all(padding), child: $this, $creationLocationd_0dea112b090073317d4: C[16] || CT.C16});
+  };
+  theme['WidgetPaddingX|get#paddingAll'] = function WidgetPaddingX$124get$35paddingAll($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingAll']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['WidgetPaddingX|paddingHorizontal'] = function WidgetPaddingX$124paddingHorizontal($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.symmetric({vertical: 0.0, horizontal: padding}), child: $this, $creationLocationd_0dea112b090073317d4: C[20] || CT.C20});
+  };
+  theme['WidgetPaddingX|get#paddingHorizontal'] = function WidgetPaddingX$124get$35paddingHorizontal($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingHorizontal']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['WidgetPaddingX|paddingVertical'] = function WidgetPaddingX$124paddingVertical($this, padding) {
+    return new basic.Padding.new({padding: new edge_insets.EdgeInsets.symmetric({horizontal: 0.0, vertical: padding}), child: $this, $creationLocationd_0dea112b090073317d4: C[24] || CT.C24});
+  };
+  theme['WidgetPaddingX|get#paddingVertical'] = function WidgetPaddingX$124get$35paddingVertical($this) {
+    return dart.fn(padding => theme['WidgetPaddingX|paddingVertical']($this, padding), T.doubleLToWidgetL());
+  };
+  theme['AppolloCard|get#appolloCard'] = function AppolloCard$124get$35appolloCard($this) {
+    return new container.Container.new({decoration: new shape_decoration.ShapeDecoration.new({color: colors.Colors.grey._get(800).withAlpha(160), shape: new rounded_rectangle_border.RoundedRectangleBorder.new({borderRadius: new border_radius.BorderRadius.all(new ui.Radius.circular(5.0)), side: new borders.BorderSide.new({color: new ui.Color.new(4285558896).withAlpha(100), width: 1.0})})}), child: $this.child, $creationLocationd_0dea112b090073317d4: C[28] || CT.C28});
+  };
+  dart.trackLibraries("packages/ticketapp/UI/theme.dart", {
+    "package:ticketapp/UI/theme.dart": theme
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["theme.dart"],"names":[],"mappings":"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","file":"../../../../../../packages/ticketapp/UI/theme.dart.lib.js"}');
+  // Exports:
+  return {
+    UI__theme: theme
+  };
+}));
+
+//# sourceMappingURL=theme.dart.lib.js.map

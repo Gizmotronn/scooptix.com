@@ -88,10 +88,10 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
 
   _animatedCard() {
     _timer = Timer.periodic(Duration(seconds: 8), (timer) async {
-      await Future.delayed(MyTheme.animationDuration);
+      await Future.delayed(Duration(milliseconds: 300));
       _controller.forward();
       setState(() => position = -300);
-      await Future.delayed(MyTheme.animationDuration);
+      await Future.delayed(Duration(milliseconds: 300));
       setState(() {
         count++;
         event = events[count];
@@ -192,7 +192,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
     return FadeTransition(
       opacity: animation,
       child: Container(
-        height: 83,
+        height: 82,
         child: ExpandImageCard(
           imageUrl: events[index].coverImageURL,
         ),

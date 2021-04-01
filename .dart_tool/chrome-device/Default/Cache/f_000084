@@ -1,0 +1,314 @@
+define(['dart_sdk', 'packages/nested/nested.dart', 'packages/flutter/src/widgets/widget_span.dart', 'packages/provider/src/provider.dart', 'packages/flutter/src/foundation/debug.dart', 'packages/bloc/src/cubit.dart'], (function load__packages__flutter_bloc__src__bloc_provider_dart(dart_sdk, packages__nested__nested$46dart, packages__flutter__src__widgets__widget_span$46dart, packages__provider__src__provider$46dart, packages__flutter__src__foundation__debug$46dart, packages__bloc__src__cubit$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const async = dart_sdk.async;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const nested = packages__nested__nested$46dart.nested;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const provider = packages__provider__src__provider$46dart.src__provider;
+  const assertions = packages__flutter__src__foundation__debug$46dart.src__foundation__assertions;
+  const cubit = packages__bloc__src__cubit$46dart.src__cubit;
+  var bloc_provider = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T$ = {
+    FutureOfvoid: () => (T$.FutureOfvoid = dart.constFn(async.Future$(dart.void)))(),
+    FutureLOfvoid: () => (T$.FutureLOfvoid = dart.constFn(dart.legacy(T$.FutureOfvoid())))(),
+    BuildContextL: () => (T$.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    ProviderNotFoundExceptionL: () => (T$.ProviderNotFoundExceptionL = dart.constFn(dart.legacy(provider.ProviderNotFoundException)))(),
+    VoidTovoid: () => (T$.VoidTovoid = dart.constFn(dart.fnType(dart.void, [])))(),
+    VoidToLvoid: () => (T$.VoidToLvoid = dart.constFn(dart.legacy(T$.VoidTovoid())))(),
+    CubitL: () => (T$.CubitL = dart.constFn(dart.legacy(cubit.Cubit)))(),
+    InheritedContextOfCubitL: () => (T$.InheritedContextOfCubitL = dart.constFn(provider.InheritedContext$(T$.CubitL())))(),
+    InheritedContextLOfCubitL: () => (T$.InheritedContextLOfCubitL = dart.constFn(dart.legacy(T$.InheritedContextOfCubitL())))(),
+    InheritedContextLOfCubitLAndCubitLToFn: () => (T$.InheritedContextLOfCubitLAndCubitLToFn = dart.constFn(dart.fnType(T$.VoidToLvoid(), [T$.InheritedContextLOfCubitL(), T$.CubitL()])))(),
+    _LocationL: () => (T$._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    VoidToNull: () => (T$.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
+    ObjectL: () => (T$.ObjectL = dart.constFn(dart.legacy(core.Object)))(),
+    ObjectLTovoid: () => (T$.ObjectLTovoid = dart.constFn(dart.fnType(dart.void, [T$.ObjectL()])))(),
+    CubitOfObjectL: () => (T$.CubitOfObjectL = dart.constFn(cubit.Cubit$(T$.ObjectL())))(),
+    CubitLOfObjectL: () => (T$.CubitLOfObjectL = dart.constFn(dart.legacy(T$.CubitOfObjectL())))(),
+    VoidToCL: () => (T$.VoidToCL = dart.constFn(dart.gFnType(C => {
+      var CL = () => (CL = dart.constFn(dart.legacy(C)))();
+      return [CL(), []];
+    }, C => {
+      var CL = () => (CL = dart.constFn(dart.legacy(C)))();
+      return [T$.CubitLOfObjectL()];
+    })))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T$);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.fn(bloc_provider.BlocProvider._startListening, T$.InheritedContextLOfCubitLAndCubitLToFn());
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "value",
+        [_Location_column]: 13,
+        [_Location_line]: 146,
+        [_Location_file]: null
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "startListening",
+        [_Location_column]: 13,
+        [_Location_line]: 147,
+        [_Location_file]: null
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "lazy",
+        [_Location_column]: 13,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 149,
+        [_Location_file]: null
+      });
+    },
+    get C2() {
+      return C[2] = dart.constList([C[3] || CT.C3, C[4] || CT.C4, C[5] || CT.C5, C[6] || CT.C6], T$._LocationL());
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[2] || CT.C2,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 145,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-6.1.3/lib/src/bloc_provider.dart"
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "create",
+        [_Location_column]: 13,
+        [_Location_line]: 152,
+        [_Location_file]: null
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "dispose",
+        [_Location_column]: 13,
+        [_Location_line]: 153,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "startListening",
+        [_Location_column]: 13,
+        [_Location_line]: 154,
+        [_Location_file]: null
+      });
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 155,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "lazy",
+        [_Location_column]: 13,
+        [_Location_line]: 156,
+        [_Location_file]: null
+      });
+    },
+    get C8() {
+      return C[8] = dart.constList([C[9] || CT.C9, C[10] || CT.C10, C[11] || CT.C11, C[12] || CT.C12, C[13] || CT.C13], T$._LocationL());
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[8] || CT.C8,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 151,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-6.1.3/lib/src/bloc_provider.dart"
+      });
+    }
+  }, false);
+  var C = Array(14).fill(void 0);
+  var I = [
+    "package:flutter_bloc/src/bloc_provider.dart",
+    "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-6.1.3/lib/src/bloc_provider.dart"
+  ];
+  bloc_provider.BlocProviderSingleChildWidget = class BlocProviderSingleChildWidget extends nested.SingleChildWidget {};
+  bloc_provider.BlocProviderSingleChildWidget[dart.mixinOn] = SingleChildWidget => class BlocProviderSingleChildWidget extends SingleChildWidget {};
+  dart.addTypeTests(bloc_provider.BlocProviderSingleChildWidget);
+  dart.addTypeCaches(bloc_provider.BlocProviderSingleChildWidget);
+  bloc_provider.BlocProviderSingleChildWidget[dart.implements] = () => [nested.SingleChildWidget];
+  dart.setLibraryUri(bloc_provider.BlocProviderSingleChildWidget, I[0]);
+  var child$ = dart.privateName(bloc_provider, "BlocProvider.child");
+  var lazy$ = dart.privateName(bloc_provider, "BlocProvider.lazy");
+  var _create = dart.privateName(bloc_provider, "_create");
+  var _dispose = dart.privateName(bloc_provider, "_dispose");
+  var _value = dart.privateName(bloc_provider, "_value");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  const _is_BlocProvider_default = Symbol('_is_BlocProvider_default');
+  bloc_provider.BlocProvider$ = dart.generic(T => {
+    var TL = () => (TL = dart.constFn(dart.legacy(T)))();
+    var BuildContextLAndTLToFutureLOfvoid = () => (BuildContextLAndTLToFutureLOfvoid = dart.constFn(dart.fnType(T$.FutureLOfvoid(), [T$.BuildContextL(), TL()])))();
+    var InheritedProviderOfTL = () => (InheritedProviderOfTL = dart.constFn(provider.InheritedProvider$(TL())))();
+    const SingleChildStatelessWidget_BlocProviderSingleChildWidget$36 = class SingleChildStatelessWidget_BlocProviderSingleChildWidget extends nested.SingleChildStatelessWidget {};
+    (SingleChildStatelessWidget_BlocProviderSingleChildWidget$36.new = function(opts) {
+      SingleChildStatelessWidget_BlocProviderSingleChildWidget$36.__proto__.new.call(this, opts);
+    }).prototype = SingleChildStatelessWidget_BlocProviderSingleChildWidget$36.prototype;
+    dart.applyMixin(SingleChildStatelessWidget_BlocProviderSingleChildWidget$36, bloc_provider.BlocProviderSingleChildWidget);
+    class BlocProvider extends SingleChildStatelessWidget_BlocProviderSingleChildWidget$36 {
+      get child() {
+        return this[child$];
+      }
+      set child(value) {
+        super.child = value;
+      }
+      get lazy() {
+        return this[lazy$];
+      }
+      set lazy(value) {
+        super.lazy = value;
+      }
+      static of(T, context, opts) {
+        let listen = opts && 'listen' in opts ? opts.listen : false;
+        try {
+          return provider.Provider.of(dart.legacy(T), context, {listen: listen});
+        } catch (e$) {
+          let e = dart.getThrown(e$);
+          if (T$.ProviderNotFoundExceptionL().is(e)) {
+            if (!dart.equals(e.valueType, dart.wrapType(dart.legacy(T)))) dart.rethrow(e$);
+            dart.throw(assertions.FlutterError.new("        BlocProvider.of() called with a context that does not contain a Bloc/Cubit of type " + dart.str(dart.wrapType(dart.legacy(T))) + ".\n        No ancestor could be found starting from the context that was passed to BlocProvider.of<" + dart.str(dart.wrapType(dart.legacy(T))) + ">().\n\n        This can happen if the context you used comes from a widget above the BlocProvider.\n\n        The context used was: " + dart.str(context) + "\n        "));
+          } else
+            throw e$;
+        }
+      }
+      buildWithChild(context, child) {
+        return this[_value] != null ? new (InheritedProviderOfTL()).value({value: this[_value], startListening: C[0] || CT.C0, lazy: this.lazy, child: child, $creationLocationd_0dea112b090073317d4: C[1] || CT.C1}) : new (InheritedProviderOfTL()).new({create: this[_create], dispose: this[_dispose], startListening: C[0] || CT.C0, child: child, lazy: this.lazy, $creationLocationd_0dea112b090073317d4: C[7] || CT.C7});
+      }
+      static _startListening(e, value) {
+        if (value == null) return dart.fn(() => {
+        }, T$.VoidToNull());
+        let subscription = value.listen(dart.fn(_ => e.markNeedsNotifyDependents(), T$.ObjectLTovoid()));
+        if (subscription == null) return dart.fn(() => {
+        }, T$.VoidToNull());
+        return dart.bind(subscription, 'cancel');
+      }
+    }
+    (BlocProvider.new = function(opts) {
+      let key = opts && 'key' in opts ? opts.key : null;
+      let create = opts && 'create' in opts ? opts.create : null;
+      let child = opts && 'child' in opts ? opts.child : null;
+      let lazy = opts && 'lazy' in opts ? opts.lazy : null;
+      let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+      BlocProvider.__.call(this, {key: key, create: create, dispose: dart.fn((_, bloc) => {
+          let t0;
+          t0 = bloc;
+          return t0 == null ? null : t0.close();
+        }, BuildContextLAndTLToFutureLOfvoid()), child: child, lazy: lazy, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    }).prototype = BlocProvider.prototype;
+    (BlocProvider.value = function(opts) {
+      let key = opts && 'key' in opts ? opts.key : null;
+      let value = opts && 'value' in opts ? opts.value : null;
+      let child = opts && 'child' in opts ? opts.child : null;
+      let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+      BlocProvider.__.call(this, {key: key, value: value, child: child, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    }).prototype = BlocProvider.prototype;
+    (BlocProvider.__ = function(opts) {
+      let key = opts && 'key' in opts ? opts.key : null;
+      let create = opts && 'create' in opts ? opts.create : null;
+      let value = opts && 'value' in opts ? opts.value : null;
+      let dispose = opts && 'dispose' in opts ? opts.dispose : null;
+      let child = opts && 'child' in opts ? opts.child : null;
+      let lazy = opts && 'lazy' in opts ? opts.lazy : null;
+      let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+      this[child$] = child;
+      this[lazy$] = lazy;
+      this[_create] = create;
+      this[_dispose] = dispose;
+      this[_value] = value;
+      if (!(create != null || value != null)) dart.assertFailed("either create or value must not be null", I[1], 94, 11, "create != null || value != null");
+      BlocProvider.__proto__.new.call(this, {key: key, child: child, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+      ;
+    }).prototype = BlocProvider.prototype;
+    dart.addTypeTests(BlocProvider);
+    BlocProvider.prototype[_is_BlocProvider_default] = true;
+    dart.addTypeCaches(BlocProvider);
+    dart.setMethodSignature(BlocProvider, () => ({
+      __proto__: dart.getMethods(BlocProvider.__proto__),
+      buildWithChild: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext), dart.legacy(framework.Widget)])
+    }));
+    dart.setLibraryUri(BlocProvider, I[0]);
+    dart.setFieldSignature(BlocProvider, () => ({
+      __proto__: dart.getFields(BlocProvider.__proto__),
+      child: dart.finalFieldType(dart.legacy(framework.Widget)),
+      lazy: dart.finalFieldType(dart.legacy(core.bool)),
+      [_dispose]: dart.finalFieldType(dart.legacy(dart.fnType(dart.void, [dart.legacy(framework.BuildContext), dart.legacy(T)]))),
+      [_create]: dart.finalFieldType(dart.legacy(dart.fnType(dart.legacy(T), [dart.legacy(framework.BuildContext)]))),
+      [_value]: dart.finalFieldType(dart.legacy(T))
+    }));
+    return BlocProvider;
+  });
+  bloc_provider.BlocProvider = bloc_provider.BlocProvider$();
+  dart.addTypeTests(bloc_provider.BlocProvider, _is_BlocProvider_default);
+  bloc_provider['BlocProviderExtension|bloc'] = function BlocProviderExtension$124bloc(C, $this) {
+    return bloc_provider.BlocProvider.of(dart.legacy(C), $this);
+  };
+  bloc_provider['BlocProviderExtension|get#bloc'] = function BlocProviderExtension$124get$35bloc($this) {
+    return dart.fn(C => bloc_provider['BlocProviderExtension|bloc'](dart.legacy(C), $this), T$.VoidToCL());
+  };
+  dart.trackLibraries("packages/flutter_bloc/src/bloc_provider.dart", {
+    "package:flutter_bloc/src/bloc_provider.dart": bloc_provider
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["bloc_provider.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;MAmGe;;;;;;MAIF;;;;;;mBAkBI;YACR;AAEL;AACE,gBAAgB,sCAAM,OAAO,WAAU,MAAM;;cACT;AAApC;AACA,gBAAgB,aAAZ,AAAE,CAAD,YAAc,gCAAG,AAAO;AAU5B,YATD,WAAM,4BACJ,AAOG,yGANiF,iCAAC,iHACI,iCAAC,mJAInE,OAAO;;;;MAIpC;qBAGmC,SAAgB;AACjD,cAAO,AAAO,wBACR,4CACS,mDAED,kBACC,KAAK,4DAEd,2CACU,wBACC,sDAEF,KAAK,QACN;MAEhB;6BAG0B,GAClB;AAEN,YAAI,AAAM,KAAD,UAAU,MAAO;;AACpB,2BAAe,AAAM,KAAD,QACxB,QAAQ,KAAM,AAAE,CAAD;AAEjB,YAAI,AAAa,YAAD,UAAU,MAAO;;AACjC,cAAoB,WAAb,YAAY;MACrB;;;UAhIM;UACgB;UACb;UACF;;uCAEM,GAAG,UACA,MAAM,WACL,SAAC,GAAG;;AAAS,mBAAI;8BAAJ,OAAM;wDACrB,KAAK,QACN,IAAI;IACX;;UAoBD;UACQ;UACL;;uCAEI,GAAG,SACD,KAAK,SACL,KAAK;IACb;;UAKD;UACM;UACR;UACS;UACN;UACA;;MADA;MACA;MACO,gBAAE,MAAM;MACP,iBAAE,OAAO;MACX,eAAE,KAAK;YAEZ,AAAO,AAAQ,MAAT,YAAY,AAAM,KAAD,6BACvB;AAEF,kDAAW,GAAG,SAAS,KAAK;;IAAC;;;;;;;;;;;;;;;;;;;;;;AA0FE,UAAa;EAAW;;AAA3D;EAA2D","file":"../../../../../../../packages/flutter_bloc/src/bloc_provider.dart.lib.js"}');
+  // Exports:
+  return {
+    src__bloc_provider: bloc_provider
+  };
+}));
+
+//# sourceMappingURL=bloc_provider.dart.lib.js.map

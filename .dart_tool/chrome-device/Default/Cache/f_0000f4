@@ -1,0 +1,1239 @@
+define(['dart_sdk', 'packages/stripe_sdk/src/models/card.dart', 'packages/flutter/src/widgets/widget_span.dart', 'packages/flutter/src/widgets/form.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/flutter/src/painting/strut_style.dart', 'packages/flutter/src/painting/decoration.dart', 'packages/flutter/src/widgets/single_child_scroll_view.dart', 'packages/flutter/src/rendering/flex.dart', 'packages/flutter/src/painting/edge_insets.dart', 'packages/stripe_sdk/src/ui/widgets/card_number_form_field.dart', 'packages/stripe_sdk/src/ui/widgets/card_expiry_form_field.dart', 'packages/stripe_sdk/src/ui/widgets/card_cvc_form_field.dart', 'packages/flutter/src/material/text_form_field.dart', 'packages/flutter/src/services/text_input.dart', 'packages/flutter/src/material/colors.dart', 'packages/flutter/src/material/input_border.dart', 'packages/awesome_card/awesome_card.dart', 'packages/awesome_card/style/card_background.dart'], (function load__packages__stripe_sdk__src__ui__widgets__card_form_dart(dart_sdk, packages__stripe_sdk__src__models__card$46dart, packages__flutter__src__widgets__widget_span$46dart, packages__flutter__src__widgets__form$46dart, packages__flutter__src__material__icon_button$46dart, packages__flutter__src__painting__strut_style$46dart, packages__flutter__src__painting__decoration$46dart, packages__flutter__src__widgets__single_child_scroll_view$46dart, packages__flutter__src__rendering__flex$46dart, packages__flutter__src__painting__edge_insets$46dart, packages__stripe_sdk__src__ui__widgets__card_number_form_field$46dart, packages__stripe_sdk__src__ui__widgets__card_expiry_form_field$46dart, packages__stripe_sdk__src__ui__widgets__card_cvc_form_field$46dart, packages__flutter__src__material__text_form_field$46dart, packages__flutter__src__services__text_input$46dart, packages__flutter__src__material__colors$46dart, packages__flutter__src__material__input_border$46dart, packages__awesome_card__awesome_card$46dart, packages__awesome_card__style__card_background$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const card$ = packages__stripe_sdk__src__models__card$46dart.src__models__card;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const focus_scope = packages__flutter__src__widgets__widget_span$46dart.src__widgets__focus_scope;
+  const form = packages__flutter__src__widgets__form$46dart.src__widgets__form;
+  const input_decorator = packages__flutter__src__material__icon_button$46dart.src__material__input_decorator;
+  const text_style = packages__flutter__src__painting__strut_style$46dart.src__painting__text_style;
+  const decoration = packages__flutter__src__painting__decoration$46dart.src__painting__decoration;
+  const single_child_scroll_view = packages__flutter__src__widgets__single_child_scroll_view$46dart.src__widgets__single_child_scroll_view;
+  const flex = packages__flutter__src__rendering__flex$46dart.src__rendering__flex;
+  const edge_insets = packages__flutter__src__painting__edge_insets$46dart.src__painting__edge_insets;
+  const card_number_form_field = packages__stripe_sdk__src__ui__widgets__card_number_form_field$46dart.src__ui__widgets__card_number_form_field;
+  const card_expiry_form_field = packages__stripe_sdk__src__ui__widgets__card_expiry_form_field$46dart.src__ui__widgets__card_expiry_form_field;
+  const card_cvc_form_field = packages__stripe_sdk__src__ui__widgets__card_cvc_form_field$46dart.src__ui__widgets__card_cvc_form_field;
+  const text_form_field = packages__flutter__src__material__text_form_field$46dart.src__material__text_form_field;
+  const text_input = packages__flutter__src__services__text_input$46dart.src__services__text_input;
+  const colors = packages__flutter__src__material__colors$46dart.src__material__colors;
+  const input_border = packages__flutter__src__material__input_border$46dart.src__material__input_border;
+  const credit_card = packages__awesome_card__awesome_card$46dart.credit_card;
+  const card_background = packages__awesome_card__style__card_background$46dart.style__card_background;
+  var card_form = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    StripeCardL: () => (T.StripeCardL = dart.constFn(dart.legacy(card$.StripeCard)))(),
+    FormStateL: () => (T.FormStateL = dart.constFn(dart.legacy(form.FormState)))(),
+    GlobalKeyOfFormStateL: () => (T.GlobalKeyOfFormStateL = dart.constFn(framework.GlobalKey$(T.FormStateL())))(),
+    GlobalKeyLOfFormStateL: () => (T.GlobalKeyLOfFormStateL = dart.constFn(dart.legacy(T.GlobalKeyOfFormStateL())))(),
+    VoidToNull: () => (T.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    StringLToNull: () => (T.StringLToNull = dart.constFn(dart.fnType(core.Null, [T.StringL()])))(),
+    StringLToStringL: () => (T.StringLToStringL = dart.constFn(dart.fnType(T.StringL(), [T.StringL()])))(),
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    intL: () => (T.intL = dart.constFn(dart.legacy(core.int)))(),
+    intLAndintLToNull: () => (T.intLAndintLToNull = dart.constFn(dart.fnType(core.Null, [T.intL(), T.intL()])))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    VoidToboolL: () => (T.VoidToboolL = dart.constFn(dart.fnType(T.boolL(), [])))(),
+    boolLTovoid: () => (T.boolLTovoid = dart.constFn(dart.fnType(dart.void, [T.boolL()])))(),
+    VoidToStringL: () => (T.VoidToStringL = dart.constFn(dart.fnType(T.StringL(), [])))(),
+    StringLTovoid: () => (T.StringLTovoid = dart.constFn(dart.fnType(dart.void, [T.StringL()])))(),
+    JSArrayOfStringL: () => (T.JSArrayOfStringL = dart.constFn(_interceptors.JSArray$(T.StringL())))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: edge_insets.EdgeInsets.prototype,
+        [EdgeInsets_bottom]: 0,
+        [EdgeInsets_right]: 16,
+        [EdgeInsets_top]: 0,
+        [EdgeInsets_left]: 16
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: edge_insets.EdgeInsets.prototype,
+        [EdgeInsets_bottom]: 8,
+        [EdgeInsets_right]: 0,
+        [EdgeInsets_top]: 8,
+        [EdgeInsets_left]: 0
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: edge_insets.EdgeInsets.prototype,
+        [EdgeInsets_bottom]: 0,
+        [EdgeInsets_right]: 0,
+        [EdgeInsets_top]: 16,
+        [EdgeInsets_left]: 0
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "initialValue",
+        [_Location_column]: 21,
+        [_Location_line]: 81,
+        [_Location_file]: null
+      });
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onChanged",
+        [_Location_column]: 21,
+        [_Location_line]: 82,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "validator",
+        [_Location_column]: 21,
+        [_Location_line]: 87,
+        [_Location_file]: null
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textStyle",
+        [_Location_column]: 21,
+        [_Location_line]: 90,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onSaved",
+        [_Location_column]: 21,
+        [_Location_line]: 91,
+        [_Location_file]: null
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 21,
+        [_Location_line]: 92,
+        [_Location_file]: null
+      });
+    },
+    get C4() {
+      return C[4] = dart.constList([C[5] || CT.C5, C[6] || CT.C6, C[7] || CT.C7, C[8] || CT.C8, C[9] || CT.C9, C[10] || CT.C10], T._LocationL());
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[4] || CT.C4,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 80,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C13() {
+      return C[13] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 19,
+        [_Location_line]: 78,
+        [_Location_file]: null
+      });
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "margin",
+        [_Location_column]: 19,
+        [_Location_line]: 79,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 19,
+        [_Location_line]: 80,
+        [_Location_file]: null
+      });
+    },
+    get C12() {
+      return C[12] = dart.constList([C[13] || CT.C13, C[14] || CT.C14, C[15] || CT.C15], T._LocationL());
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[12] || CT.C12,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 77,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: edge_insets.EdgeInsets.prototype,
+        [EdgeInsets_bottom]: 0,
+        [EdgeInsets_right]: 0,
+        [EdgeInsets_top]: 8,
+        [EdgeInsets_left]: 0
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "initialMonth",
+        [_Location_column]: 23,
+        [_Location_line]: 99,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "initialYear",
+        [_Location_column]: 23,
+        [_Location_line]: 100,
+        [_Location_file]: null
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onChanged",
+        [_Location_column]: 23,
+        [_Location_line]: 101,
+        [_Location_file]: null
+      });
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onSaved",
+        [_Location_column]: 23,
+        [_Location_line]: 107,
+        [_Location_file]: null
+      });
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "validator",
+        [_Location_column]: 23,
+        [_Location_line]: 111,
+        [_Location_file]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textStyle",
+        [_Location_column]: 23,
+        [_Location_line]: 114,
+        [_Location_file]: null
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 23,
+        [_Location_line]: 115,
+        [_Location_file]: null
+      });
+    },
+    get C18() {
+      return C[18] = dart.constList([C[19] || CT.C19, C[20] || CT.C20, C[21] || CT.C21, C[22] || CT.C22, C[23] || CT.C23, C[24] || CT.C24, C[25] || CT.C25], T._LocationL());
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[18] || CT.C18,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 98,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C28() {
+      return C[28] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 21,
+        [_Location_line]: 96,
+        [_Location_file]: null
+      });
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "margin",
+        [_Location_column]: 21,
+        [_Location_line]: 97,
+        [_Location_file]: null
+      });
+    },
+    get C30() {
+      return C[30] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 21,
+        [_Location_line]: 98,
+        [_Location_file]: null
+      });
+    },
+    get C27() {
+      return C[27] = dart.constList([C[28] || CT.C28, C[29] || CT.C29, C[30] || CT.C30], T._LocationL());
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[27] || CT.C27,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 95,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C33() {
+      return C[33] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "initialValue",
+        [_Location_column]: 23,
+        [_Location_line]: 123,
+        [_Location_file]: null
+      });
+    },
+    get C34() {
+      return C[34] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onChanged",
+        [_Location_column]: 23,
+        [_Location_line]: 124,
+        [_Location_file]: null
+      });
+    },
+    get C35() {
+      return C[35] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onSaved",
+        [_Location_column]: 23,
+        [_Location_line]: 125,
+        [_Location_file]: null
+      });
+    },
+    get C36() {
+      return C[36] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "validator",
+        [_Location_column]: 23,
+        [_Location_line]: 126,
+        [_Location_file]: null
+      });
+    },
+    get C37() {
+      return C[37] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textStyle",
+        [_Location_column]: 23,
+        [_Location_line]: 129,
+        [_Location_file]: null
+      });
+    },
+    get C38() {
+      return C[38] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 23,
+        [_Location_line]: 130,
+        [_Location_file]: null
+      });
+    },
+    get C32() {
+      return C[32] = dart.constList([C[33] || CT.C33, C[34] || CT.C34, C[35] || CT.C35, C[36] || CT.C36, C[37] || CT.C37, C[38] || CT.C38], T._LocationL());
+    },
+    get C31() {
+      return C[31] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[32] || CT.C32,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 122,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C41() {
+      return C[41] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onFocusChange",
+        [_Location_column]: 21,
+        [_Location_line]: 121,
+        [_Location_file]: null
+      });
+    },
+    get C42() {
+      return C[42] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 21,
+        [_Location_line]: 122,
+        [_Location_file]: null
+      });
+    },
+    get C40() {
+      return C[40] = dart.constList([C[41] || CT.C41, C[42] || CT.C42], T._LocationL());
+    },
+    get C39() {
+      return C[39] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[40] || CT.C40,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 120,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C45() {
+      return C[45] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 19,
+        [_Location_line]: 118,
+        [_Location_file]: null
+      });
+    },
+    get C46() {
+      return C[46] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "margin",
+        [_Location_column]: 19,
+        [_Location_line]: 119,
+        [_Location_file]: null
+      });
+    },
+    get C47() {
+      return C[47] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 19,
+        [_Location_line]: 120,
+        [_Location_file]: null
+      });
+    },
+    get C44() {
+      return C[44] = dart.constList([C[45] || CT.C45, C[46] || CT.C46, C[47] || CT.C47], T._LocationL());
+    },
+    get C43() {
+      return C[43] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[44] || CT.C44,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 117,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C50() {
+      return C[50] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "keyboardType",
+        [_Location_column]: 21,
+        [_Location_line]: 138,
+        [_Location_file]: null
+      });
+    },
+    get C51() {
+      return C[51] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textInputAction",
+        [_Location_column]: 21,
+        [_Location_line]: 139,
+        [_Location_file]: null
+      });
+    },
+    get C52() {
+      return C[52] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "initialValue",
+        [_Location_column]: 21,
+        [_Location_line]: 140,
+        [_Location_file]: null
+      });
+    },
+    get C53() {
+      return C[53] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onChanged",
+        [_Location_column]: 21,
+        [_Location_line]: 141,
+        [_Location_file]: null
+      });
+    },
+    get C54() {
+      return C[54] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onSaved",
+        [_Location_column]: 21,
+        [_Location_line]: 142,
+        [_Location_file]: null
+      });
+    },
+    get C55() {
+      return C[55] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "autofillHints",
+        [_Location_column]: 21,
+        [_Location_line]: 143,
+        [_Location_file]: null
+      });
+    },
+    get C56() {
+      return C[56] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "validator",
+        [_Location_column]: 21,
+        [_Location_line]: 144,
+        [_Location_file]: null
+      });
+    },
+    get C57() {
+      return C[57] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 21,
+        [_Location_line]: 147,
+        [_Location_file]: null
+      });
+    },
+    get C58() {
+      return C[58] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 21,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C49() {
+      return C[49] = dart.constList([C[50] || CT.C50, C[51] || CT.C51, C[52] || CT.C52, C[53] || CT.C53, C[54] || CT.C54, C[55] || CT.C55, C[56] || CT.C56, C[57] || CT.C57, C[58] || CT.C58], T._LocationL());
+    },
+    get C48() {
+      return C[48] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[49] || CT.C49,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 137,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C61() {
+      return C[61] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 19,
+        [_Location_line]: 135,
+        [_Location_file]: null
+      });
+    },
+    get C62() {
+      return C[62] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "margin",
+        [_Location_column]: 19,
+        [_Location_line]: 136,
+        [_Location_file]: null
+      });
+    },
+    get C63() {
+      return C[63] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 19,
+        [_Location_line]: 137,
+        [_Location_file]: null
+      });
+    },
+    get C60() {
+      return C[60] = dart.constList([C[61] || CT.C61, C[62] || CT.C62, C[63] || CT.C63], T._LocationL());
+    },
+    get C59() {
+      return C[59] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[60] || CT.C60,
+        [_Location_name]: null,
+        [_Location_column]: 17,
+        [_Location_line]: 134,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C66() {
+      return C[66] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 15,
+        [_Location_line]: 76,
+        [_Location_file]: null
+      });
+    },
+    get C65() {
+      return C[65] = dart.constList([C[66] || CT.C66], T._LocationL());
+    },
+    get C64() {
+      return C[64] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[65] || CT.C65,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 75,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C69() {
+      return C[69] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 13,
+        [_Location_line]: 74,
+        [_Location_file]: null
+      });
+    },
+    get C70() {
+      return C[70] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 75,
+        [_Location_file]: null
+      });
+    },
+    get C68() {
+      return C[68] = dart.constList([C[69] || CT.C69, C[70] || CT.C70], T._LocationL());
+    },
+    get C67() {
+      return C[67] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[68] || CT.C68,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 73,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C73() {
+      return C[73] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "key",
+        [_Location_column]: 11,
+        [_Location_line]: 72,
+        [_Location_file]: null
+      });
+    },
+    get C74() {
+      return C[74] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 73,
+        [_Location_file]: null
+      });
+    },
+    get C72() {
+      return C[72] = dart.constList([C[73] || CT.C73, C[74] || CT.C74], T._LocationL());
+    },
+    get C71() {
+      return C[71] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[72] || CT.C72,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 71,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C77() {
+      return C[77] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 18,
+        [_Location_line]: 69,
+        [_Location_file]: null
+      });
+    },
+    get C78() {
+      return C[78] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 62,
+        [_Location_line]: 69,
+        [_Location_file]: null
+      });
+    },
+    get C79() {
+      return C[79] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 108,
+        [_Location_line]: 69,
+        [_Location_file]: null
+      });
+    },
+    get C76() {
+      return C[76] = dart.constList([C[77] || CT.C77, C[78] || CT.C78, C[79] || CT.C79], T._LocationL());
+    },
+    get C75() {
+      return C[75] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[76] || CT.C76,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 69,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C82() {
+      return C[82] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 68,
+        [_Location_file]: null
+      });
+    },
+    get C81() {
+      return C[81] = dart.constList([C[82] || CT.C82], T._LocationL());
+    },
+    get C80() {
+      return C[80] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[81] || CT.C81,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 67,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C85() {
+      return C[85] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 53,
+        [_Location_line]: 161,
+        [_Location_file]: null
+      });
+    },
+    get C84() {
+      return C[84] = dart.constList([C[85] || CT.C85], T._LocationL());
+    },
+    get C83() {
+      return C[83] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[84] || CT.C84,
+        [_Location_name]: null,
+        [_Location_column]: 45,
+        [_Location_line]: 161,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C88() {
+      return C[88] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 17,
+        [_Location_line]: 171,
+        [_Location_file]: null
+      });
+    },
+    get C89() {
+      return C[89] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 17,
+        [_Location_line]: 172,
+        [_Location_file]: null
+      });
+    },
+    get C90() {
+      return C[90] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 17,
+        [_Location_line]: 173,
+        [_Location_file]: null
+      });
+    },
+    get C87() {
+      return C[87] = dart.constList([C[88] || CT.C88, C[89] || CT.C89, C[90] || CT.C90], T._LocationL());
+    },
+    get C86() {
+      return C[86] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[87] || CT.C87,
+        [_Location_name]: null,
+        [_Location_column]: 15,
+        [_Location_line]: 170,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C93() {
+      return C[93] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cardNumber",
+        [_Location_column]: 9,
+        [_Location_line]: 166,
+        [_Location_file]: null
+      });
+    },
+    get C94() {
+      return C[94] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cardExpiry",
+        [_Location_column]: 9,
+        [_Location_line]: 167,
+        [_Location_file]: null
+      });
+    },
+    get C95() {
+      return C[95] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cvv",
+        [_Location_column]: 9,
+        [_Location_line]: 168,
+        [_Location_file]: null
+      });
+    },
+    get C96() {
+      return C[96] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "frontBackground",
+        [_Location_column]: 9,
+        [_Location_line]: 169,
+        [_Location_file]: null
+      });
+    },
+    get C97() {
+      return C[97] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "backBackground",
+        [_Location_column]: 9,
+        [_Location_line]: 176,
+        [_Location_file]: null
+      });
+    },
+    get C98() {
+      return C[98] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "showBackSide",
+        [_Location_column]: 9,
+        [_Location_line]: 177,
+        [_Location_file]: null
+      });
+    },
+    get C99() {
+      return C[99] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "showShadow",
+        [_Location_column]: 9,
+        [_Location_line]: 178,
+        [_Location_file]: null
+      });
+    },
+    get C92() {
+      return C[92] = dart.constList([C[93] || CT.C93, C[94] || CT.C94, C[95] || CT.C95, C[96] || CT.C96, C[97] || CT.C97, C[98] || CT.C98, C[99] || CT.C99], T._LocationL());
+    },
+    get C91() {
+      return C[91] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[92] || CT.C92,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 165,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    },
+    get C102() {
+      return C[102] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 7,
+        [_Location_line]: 164,
+        [_Location_file]: null
+      });
+    },
+    get C103() {
+      return C[103] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 165,
+        [_Location_file]: null
+      });
+    },
+    get C101() {
+      return C[101] = dart.constList([C[102] || CT.C102, C[103] || CT.C103], T._LocationL());
+    },
+    get C100() {
+      return C[100] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[101] || CT.C101,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 163,
+        [_Location_file]: "file:///C:/flutter/.pub-cache/hosted/pub.dartlang.org/stripe_sdk-4.0.2/lib/src/ui/widgets/card_form.dart"
+      });
+    }
+  }, false);
+  var C = Array(104).fill(void 0);
+  var I = ["package:stripe_sdk/src/ui/widgets/card_form.dart"];
+  var formKey$ = dart.privateName(card_form, "CardForm.formKey");
+  var card$0 = dart.privateName(card_form, "CardForm.card");
+  var displayAnimatedCard$ = dart.privateName(card_form, "CardForm.displayAnimatedCard");
+  var cardNumberDecoration$ = dart.privateName(card_form, "CardForm.cardNumberDecoration");
+  var cardNumberTextStyle$ = dart.privateName(card_form, "CardForm.cardNumberTextStyle");
+  var cardExpiryDecoration$ = dart.privateName(card_form, "CardForm.cardExpiryDecoration");
+  var cardExpiryTextStyle$ = dart.privateName(card_form, "CardForm.cardExpiryTextStyle");
+  var cardCvcDecoration$ = dart.privateName(card_form, "CardForm.cardCvcDecoration");
+  var cardCvcTextStyle$ = dart.privateName(card_form, "CardForm.cardCvcTextStyle");
+  var postalCodeDecoration$ = dart.privateName(card_form, "CardForm.postalCodeDecoration");
+  var postalCodeTextStyle$ = dart.privateName(card_form, "CardForm.postalCodeTextStyle");
+  var cardNumberErrorText$ = dart.privateName(card_form, "CardForm.cardNumberErrorText");
+  var postalCodeErrorText$ = dart.privateName(card_form, "CardForm.postalCodeErrorText");
+  var cardExpiryErrorText$ = dart.privateName(card_form, "CardForm.cardExpiryErrorText");
+  var cardCvcErrorText$ = dart.privateName(card_form, "CardForm.cardCvcErrorText");
+  var cardDecoration$ = dart.privateName(card_form, "CardForm.cardDecoration");
+  card_form.CardForm = class CardForm extends framework.StatefulWidget {
+    get formKey() {
+      return this[formKey$];
+    }
+    set formKey(value) {
+      super.formKey = value;
+    }
+    get card() {
+      return this[card$0];
+    }
+    set card(value) {
+      super.card = value;
+    }
+    get displayAnimatedCard() {
+      return this[displayAnimatedCard$];
+    }
+    set displayAnimatedCard(value) {
+      super.displayAnimatedCard = value;
+    }
+    get cardNumberDecoration() {
+      return this[cardNumberDecoration$];
+    }
+    set cardNumberDecoration(value) {
+      super.cardNumberDecoration = value;
+    }
+    get cardNumberTextStyle() {
+      return this[cardNumberTextStyle$];
+    }
+    set cardNumberTextStyle(value) {
+      super.cardNumberTextStyle = value;
+    }
+    get cardExpiryDecoration() {
+      return this[cardExpiryDecoration$];
+    }
+    set cardExpiryDecoration(value) {
+      super.cardExpiryDecoration = value;
+    }
+    get cardExpiryTextStyle() {
+      return this[cardExpiryTextStyle$];
+    }
+    set cardExpiryTextStyle(value) {
+      super.cardExpiryTextStyle = value;
+    }
+    get cardCvcDecoration() {
+      return this[cardCvcDecoration$];
+    }
+    set cardCvcDecoration(value) {
+      super.cardCvcDecoration = value;
+    }
+    get cardCvcTextStyle() {
+      return this[cardCvcTextStyle$];
+    }
+    set cardCvcTextStyle(value) {
+      super.cardCvcTextStyle = value;
+    }
+    get postalCodeDecoration() {
+      return this[postalCodeDecoration$];
+    }
+    set postalCodeDecoration(value) {
+      super.postalCodeDecoration = value;
+    }
+    get postalCodeTextStyle() {
+      return this[postalCodeTextStyle$];
+    }
+    set postalCodeTextStyle(value) {
+      super.postalCodeTextStyle = value;
+    }
+    get cardNumberErrorText() {
+      return this[cardNumberErrorText$];
+    }
+    set cardNumberErrorText(value) {
+      super.cardNumberErrorText = value;
+    }
+    get postalCodeErrorText() {
+      return this[postalCodeErrorText$];
+    }
+    set postalCodeErrorText(value) {
+      super.postalCodeErrorText = value;
+    }
+    get cardExpiryErrorText() {
+      return this[cardExpiryErrorText$];
+    }
+    set cardExpiryErrorText(value) {
+      super.cardExpiryErrorText = value;
+    }
+    get cardCvcErrorText() {
+      return this[cardCvcErrorText$];
+    }
+    set cardCvcErrorText(value) {
+      super.cardCvcErrorText = value;
+    }
+    get cardDecoration() {
+      return this[cardDecoration$];
+    }
+    set cardDecoration(value) {
+      super.cardDecoration = value;
+    }
+    createState() {
+      return new card_form._CardFormState.new();
+    }
+  };
+  (card_form.CardForm.new = function(opts) {
+    let t0, t0$;
+    let key = opts && 'key' in opts ? opts.key : null;
+    let formKey = opts && 'formKey' in opts ? opts.formKey : null;
+    let card = opts && 'card' in opts ? opts.card : null;
+    let cardNumberDecoration = opts && 'cardNumberDecoration' in opts ? opts.cardNumberDecoration : null;
+    let cardNumberTextStyle = opts && 'cardNumberTextStyle' in opts ? opts.cardNumberTextStyle : null;
+    let cardExpiryDecoration = opts && 'cardExpiryDecoration' in opts ? opts.cardExpiryDecoration : null;
+    let cardExpiryTextStyle = opts && 'cardExpiryTextStyle' in opts ? opts.cardExpiryTextStyle : null;
+    let cardCvcDecoration = opts && 'cardCvcDecoration' in opts ? opts.cardCvcDecoration : null;
+    let cardCvcTextStyle = opts && 'cardCvcTextStyle' in opts ? opts.cardCvcTextStyle : null;
+    let cardNumberErrorText = opts && 'cardNumberErrorText' in opts ? opts.cardNumberErrorText : null;
+    let cardExpiryErrorText = opts && 'cardExpiryErrorText' in opts ? opts.cardExpiryErrorText : null;
+    let cardCvcErrorText = opts && 'cardCvcErrorText' in opts ? opts.cardCvcErrorText : null;
+    let cardDecoration = opts && 'cardDecoration' in opts ? opts.cardDecoration : null;
+    let postalCodeDecoration = opts && 'postalCodeDecoration' in opts ? opts.postalCodeDecoration : null;
+    let postalCodeTextStyle = opts && 'postalCodeTextStyle' in opts ? opts.postalCodeTextStyle : null;
+    let postalCodeErrorText = opts && 'postalCodeErrorText' in opts ? opts.postalCodeErrorText : null;
+    let displayAnimatedCard = opts && 'displayAnimatedCard' in opts ? opts.displayAnimatedCard : false;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[cardNumberDecoration$] = cardNumberDecoration;
+    this[cardNumberTextStyle$] = cardNumberTextStyle;
+    this[cardExpiryDecoration$] = cardExpiryDecoration;
+    this[cardExpiryTextStyle$] = cardExpiryTextStyle;
+    this[cardCvcDecoration$] = cardCvcDecoration;
+    this[cardCvcTextStyle$] = cardCvcTextStyle;
+    this[cardNumberErrorText$] = cardNumberErrorText;
+    this[cardExpiryErrorText$] = cardExpiryErrorText;
+    this[cardCvcErrorText$] = cardCvcErrorText;
+    this[cardDecoration$] = cardDecoration;
+    this[postalCodeDecoration$] = postalCodeDecoration;
+    this[postalCodeTextStyle$] = postalCodeTextStyle;
+    this[postalCodeErrorText$] = postalCodeErrorText;
+    this[displayAnimatedCard$] = displayAnimatedCard;
+    this[card$0] = T.StripeCardL().as((t0 = card, t0 == null ? new card$.StripeCard.new() : t0));
+    this[formKey$] = T.GlobalKeyLOfFormStateL().as((t0$ = formKey, t0$ == null ? T.GlobalKeyOfFormStateL().new() : t0$));
+    card_form.CardForm.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = card_form.CardForm.prototype;
+  dart.addTypeTests(card_form.CardForm);
+  dart.addTypeCaches(card_form.CardForm);
+  dart.setMethodSignature(card_form.CardForm, () => ({
+    __proto__: dart.getMethods(card_form.CardForm.__proto__),
+    createState: dart.fnType(dart.legacy(card_form._CardFormState), [])
+  }));
+  dart.setLibraryUri(card_form.CardForm, I[0]);
+  dart.setFieldSignature(card_form.CardForm, () => ({
+    __proto__: dart.getFields(card_form.CardForm.__proto__),
+    formKey: dart.finalFieldType(dart.legacy(framework.GlobalKey$(dart.legacy(form.FormState)))),
+    card: dart.finalFieldType(dart.legacy(card$.StripeCard)),
+    displayAnimatedCard: dart.finalFieldType(dart.legacy(core.bool)),
+    cardNumberDecoration: dart.finalFieldType(dart.legacy(input_decorator.InputDecoration)),
+    cardNumberTextStyle: dart.finalFieldType(dart.legacy(text_style.TextStyle)),
+    cardExpiryDecoration: dart.finalFieldType(dart.legacy(input_decorator.InputDecoration)),
+    cardExpiryTextStyle: dart.finalFieldType(dart.legacy(text_style.TextStyle)),
+    cardCvcDecoration: dart.finalFieldType(dart.legacy(input_decorator.InputDecoration)),
+    cardCvcTextStyle: dart.finalFieldType(dart.legacy(text_style.TextStyle)),
+    postalCodeDecoration: dart.finalFieldType(dart.legacy(input_decorator.InputDecoration)),
+    postalCodeTextStyle: dart.finalFieldType(dart.legacy(text_style.TextStyle)),
+    cardNumberErrorText: dart.finalFieldType(dart.legacy(core.String)),
+    postalCodeErrorText: dart.finalFieldType(dart.legacy(core.String)),
+    cardExpiryErrorText: dart.finalFieldType(dart.legacy(core.String)),
+    cardCvcErrorText: dart.finalFieldType(dart.legacy(core.String)),
+    cardDecoration: dart.finalFieldType(dart.legacy(decoration.Decoration))
+  }));
+  var _validationModel = dart.privateName(card_form, "_validationModel");
+  var _getCreditCardView = dart.privateName(card_form, "_getCreditCardView");
+  var EdgeInsets_bottom = dart.privateName(edge_insets, "EdgeInsets.bottom");
+  var EdgeInsets_right = dart.privateName(edge_insets, "EdgeInsets.right");
+  var EdgeInsets_top = dart.privateName(edge_insets, "EdgeInsets.top");
+  var EdgeInsets_left = dart.privateName(edge_insets, "EdgeInsets.left");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  card_form._CardFormState = class _CardFormState extends framework.State$(dart.legacy(card_form.CardForm)) {
+    build(context) {
+      let t0, t0$, t0$0, t0$1, t0$2, t0$3, t0$4, t0$5, t0$6, t0$7, t0$8, t0$9, t0$10, t0$11;
+      let cardExpiry = "MM/YY";
+      if (this[_validationModel].expMonth != null) {
+        cardExpiry = dart.str(this[_validationModel].expMonth) + "/" + dart.str((t0 = this[_validationModel].expYear, t0 == null ? "YY" : t0));
+      }
+      return new single_child_scroll_view.SingleChildScrollView.new({child: new basic.Column.new({mainAxisAlignment: flex.MainAxisAlignment.start, crossAxisAlignment: flex.CrossAxisAlignment.start, children: T.JSArrayOfWidgetL().of([this[_getCreditCardView](cardExpiry), new form.Form.new({key: this.widget.formKey, child: new basic.Padding.new({padding: C[0] || CT.C0, child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([new container.Container.new({padding: C[1] || CT.C1, margin: C[2] || CT.C2, child: new card_number_form_field.CardNumberFormField.new({initialValue: (t0$ = this[_validationModel].number, t0$ == null ? this.widget.card.number : t0$), onChanged: dart.fn(number => {
+                          this.setState(dart.fn(() => {
+                            this[_validationModel].number = number;
+                          }, T.VoidToNull()));
+                        }, T.StringLToNull()), validator: dart.fn(text => {
+                          let t0;
+                          return dart.test(this[_validationModel].validateNumber()) ? null : (t0 = this.widget.cardNumberErrorText, t0 == null ? "Invalid card number" : t0);
+                        }, T.StringLToStringL()), textStyle: (t0$0 = this.widget.cardNumberTextStyle, t0$0 == null ? card_number_form_field.CardNumberFormField.defaultTextStyle : t0$0), onSaved: dart.fn(text => this.widget.card.number = text, T.StringLToStringL()), decoration: (t0$1 = this.widget.cardNumberDecoration, t0$1 == null ? card_number_form_field.CardNumberFormField.defaultDecoration : t0$1), $creationLocationd_0dea112b090073317d4: C[3] || CT.C3}), $creationLocationd_0dea112b090073317d4: C[11] || CT.C11}), new container.Container.new({padding: C[1] || CT.C1, margin: C[16] || CT.C16, child: new card_expiry_form_field.CardExpiryFormField.new({initialMonth: (t0$2 = this[_validationModel].expMonth, t0$2 == null ? this.widget.card.expMonth : t0$2), initialYear: (t0$3 = this[_validationModel].expYear, t0$3 == null ? this.widget.card.expYear : t0$3), onChanged: dart.fn((month, year) => {
+                          this.setState(dart.fn(() => {
+                            this[_validationModel].expMonth = month;
+                            this[_validationModel].expYear = year;
+                          }, T.VoidToNull()));
+                        }, T.intLAndintLToNull()), onSaved: dart.fn((month, year) => {
+                          this.widget.card.expMonth = month;
+                          this.widget.card.expYear = year;
+                        }, T.intLAndintLToNull()), validator: dart.fn(text => {
+                          let t0;
+                          return dart.test(this[_validationModel].validateDate()) ? null : (t0 = this.widget.cardExpiryErrorText, t0 == null ? "Invalid expiration date" : t0);
+                        }, T.StringLToStringL()), textStyle: (t0$4 = this.widget.cardExpiryTextStyle, t0$4 == null ? card_expiry_form_field.CardExpiryFormField.defaultTextStyle : t0$4), decoration: (t0$5 = this.widget.cardExpiryDecoration, t0$5 == null ? card_expiry_form_field.CardExpiryFormField.defaultDecoration : t0$5), $creationLocationd_0dea112b090073317d4: C[17] || CT.C17}), $creationLocationd_0dea112b090073317d4: C[26] || CT.C26}), new container.Container.new({padding: C[1] || CT.C1, margin: C[16] || CT.C16, child: new focus_scope.Focus.new({onFocusChange: dart.fn(value => this.setState(dart.fn(() => this.cvcHasFocus = value, T.VoidToboolL())), T.boolLTovoid()), child: new card_cvc_form_field.CardCvcFormField.new({initialValue: (t0$6 = this[_validationModel].cvc, t0$6 == null ? this.widget.card.cvc : t0$6), onChanged: dart.fn(text => this.setState(dart.fn(() => this[_validationModel].cvc = text, T.VoidToStringL())), T.StringLTovoid()), onSaved: dart.fn(text => this.widget.card.cvc = text, T.StringLToStringL()), validator: dart.fn(text => {
+                            let t0;
+                            return dart.test(this[_validationModel].validateCVC()) ? null : (t0 = this.widget.cardCvcErrorText, t0 == null ? "Invalid CVV" : t0);
+                          }, T.StringLToStringL()), textStyle: (t0$7 = this.widget.cardCvcTextStyle, t0$7 == null ? card_cvc_form_field.CardCvcFormField.defaultTextStyle : t0$7), decoration: (t0$8 = this.widget.cardCvcDecoration, t0$8 == null ? card_cvc_form_field.CardCvcFormField.defaultDecoration : t0$8), $creationLocationd_0dea112b090073317d4: C[31] || CT.C31}), $creationLocationd_0dea112b090073317d4: C[39] || CT.C39}), $creationLocationd_0dea112b090073317d4: C[43] || CT.C43}), new container.Container.new({padding: C[1] || CT.C1, margin: C[16] || CT.C16, child: new text_form_field.TextFormField.new({keyboardType: text_input.TextInputType.number, textInputAction: text_input.TextInputAction.done, initialValue: (t0$9 = this[_validationModel].postalCode, t0$9 == null ? this.widget.card.postalCode : t0$9), onChanged: dart.fn(text => this.setState(dart.fn(() => this[_validationModel].postalCode = text, T.VoidToStringL())), T.StringLTovoid()), onSaved: dart.fn(text => this.widget.card.postalCode = text, T.StringLToStringL()), autofillHints: T.JSArrayOfStringL().of(["postalCode"]), validator: dart.fn(text => {
+                          let t0;
+                          return dart.test(this[_validationModel].isPostalCodeValid()) ? null : (t0 = this.widget.postalCodeErrorText, t0 == null ? "Invalid postal code" : t0);
+                        }, T.StringLToStringL()), style: (t0$10 = this.widget.postalCodeTextStyle, t0$10 == null ? new text_style.TextStyle.new({color: colors.Colors.black}) : t0$10), decoration: (t0$11 = this.widget.postalCodeDecoration, t0$11 == null ? new input_decorator.InputDecoration.new({border: new input_border.OutlineInputBorder.new(), labelText: "Postal code"}) : t0$11), $creationLocationd_0dea112b090073317d4: C[48] || CT.C48}), $creationLocationd_0dea112b090073317d4: C[59] || CT.C59})]), $creationLocationd_0dea112b090073317d4: C[64] || CT.C64}), $creationLocationd_0dea112b090073317d4: C[67] || CT.C67}), $creationLocationd_0dea112b090073317d4: C[71] || CT.C71})]), $creationLocationd_0dea112b090073317d4: C[75] || CT.C75}), $creationLocationd_0dea112b090073317d4: C[80] || CT.C80});
+    }
+    [_getCreditCardView](cardExpiry) {
+      let t0, t0$;
+      if (!dart.test(this.widget.displayAnimatedCard)) return new basic.Padding.new({padding: edge_insets.EdgeInsets.zero, $creationLocationd_0dea112b090073317d4: C[83] || CT.C83});
+      return new basic.Padding.new({padding: C[2] || CT.C2, child: new credit_card.CreditCard.new({cardNumber: (t0 = this[_validationModel].number, t0 == null ? "" : t0), cardExpiry: cardExpiry, cvv: (t0$ = this[_validationModel].cvc, t0$ == null ? "" : t0$), frontBackground: this.widget.cardDecoration != null ? new container.Container.new({width: 1.7976931348623157e+308, height: 1.7976931348623157e+308, decoration: this.widget.cardDecoration, $creationLocationd_0dea112b090073317d4: C[86] || CT.C86}) : card_background.CardBackgrounds.black, backBackground: card_background.CardBackgrounds.white, showBackSide: this.cvcHasFocus, showShadow: true, $creationLocationd_0dea112b090073317d4: C[91] || CT.C91}), $creationLocationd_0dea112b090073317d4: C[100] || CT.C100});
+    }
+  };
+  (card_form._CardFormState.new = function() {
+    this[_validationModel] = new card$.StripeCard.new();
+    this.cvcHasFocus = false;
+    card_form._CardFormState.__proto__.new.call(this);
+    ;
+  }).prototype = card_form._CardFormState.prototype;
+  dart.addTypeTests(card_form._CardFormState);
+  dart.addTypeCaches(card_form._CardFormState);
+  dart.setMethodSignature(card_form._CardFormState, () => ({
+    __proto__: dart.getMethods(card_form._CardFormState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_getCreditCardView]: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(core.String)])
+  }));
+  dart.setLibraryUri(card_form._CardFormState, I[0]);
+  dart.setFieldSignature(card_form._CardFormState, () => ({
+    __proto__: dart.getFields(card_form._CardFormState.__proto__),
+    [_validationModel]: dart.finalFieldType(dart.legacy(card$.StripeCard)),
+    cvcHasFocus: dart.fieldType(dart.legacy(core.bool))
+  }));
+  dart.trackLibraries("packages/stripe_sdk/src/ui/widgets/card_form.dart", {
+    "package:stripe_sdk/src/ui/widgets/card_form.dart": card_form
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["card_form.dart"],"names":[],"mappings":"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","file":"../../../../../../../../../packages/stripe_sdk/src/ui/widgets/card_form.dart.lib.js"}');
+  // Exports:
+  return {
+    src__ui__widgets__card_form: card_form
+  };
+}));
+
+//# sourceMappingURL=card_form.dart.lib.js.map

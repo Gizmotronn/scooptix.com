@@ -9,7 +9,6 @@ import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/utilities/images/images.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
-import 'package:websafe_svg/websafe_svg.dart';
 
 class MoreEventsFliterMapPage extends StatelessWidget {
   const MoreEventsFliterMapPage({
@@ -297,7 +296,7 @@ class MoreEventSearch extends StatelessWidget {
                 children: [
                   Container(
                       height: 22,
-                      child: WebsafeSvg.asset(AppolloSvgIcon.searchOutline,
+                      child: SvgIcon(AppolloSvgIcon.searchOutline,
                           color: MyTheme.appolloBlack)),
                   Container(
                     child: Expanded(

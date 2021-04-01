@@ -1,0 +1,2266 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/ticketapp/model/event.dart', 'packages/intl/intl.dart', 'packages/ticketapp/UI/widgets/cards/no_events.dart', 'packages/ticketapp/UI/theme.dart', 'packages/ticketapp/utilities/format_date/full_date_time.dart', 'packages/flutter/src/rendering/flex.dart', 'packages/ticketapp/UI/widgets/cards/white_card.dart', 'packages/ticketapp/UI/event_overview/events.dart', 'packages/ticketapp/UI/widgets/buttons/apollo_button.dart', 'packages/ticketapp/UI/event_overview/side_buttons.dart', 'packages/flutter/src/animation/curves.dart', 'packages/auto_size_text/auto_size_text.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/ticketapp/pages/events_overview/bloc/events_overview_bloc.dart', 'packages/ticketapp/UI/widgets/buttons/navbutton.dart', 'packages/flutter/src/widgets/single_child_scroll_view.dart', 'packages/ticketapp/UI/event_overview/event_overview_bottom_info.dart', 'packages/flutter_bloc/src/bloc_builder.dart', 'packages/ticketapp/UI/event_overview/tabs/all_events.dart', 'packages/ticketapp/UI/event_overview/tabs/free_events.dart', 'packages/ticketapp/UI/event_overview/tabs/for_me.dart', 'packages/ticketapp/UI/event_overview/tabs/today_events.dart', 'packages/ticketapp/UI/event_overview/tabs/upcoming_event.dart', 'packages/flutter/src/material/progress_indicator.dart', 'packages/ticketapp/UI/event_overview/featured_events.dart'], (function load__packages__ticketapp__UI__event_overview__tabs__this_weekend_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__ticketapp__model__event$46dart, packages__intl__intl$46dart, packages__ticketapp__UI__widgets__cards__no_events$46dart, packages__ticketapp__UI__theme$46dart, packages__ticketapp__utilities__format_date__full_date_time$46dart, packages__flutter__src__rendering__flex$46dart, packages__ticketapp__UI__widgets__cards__white_card$46dart, packages__ticketapp__UI__event_overview__events$46dart, packages__ticketapp__UI__widgets__buttons__apollo_button$46dart, packages__ticketapp__UI__event_overview__side_buttons$46dart, packages__flutter__src__animation__curves$46dart, packages__auto_size_text__auto_size_text$46dart, packages__flutter__src__material__icon_button$46dart, packages__ticketapp__pages__events_overview__bloc__events_overview_bloc$46dart, packages__ticketapp__UI__widgets__buttons__navbutton$46dart, packages__flutter__src__widgets__single_child_scroll_view$46dart, packages__ticketapp__UI__event_overview__event_overview_bottom_info$46dart, packages__flutter_bloc__src__bloc_builder$46dart, packages__ticketapp__UI__event_overview__tabs__all_events$46dart, packages__ticketapp__UI__event_overview__tabs__free_events$46dart, packages__ticketapp__UI__event_overview__tabs__for_me$46dart, packages__ticketapp__UI__event_overview__tabs__today_events$46dart, packages__ticketapp__UI__event_overview__tabs__upcoming_event$46dart, packages__flutter__src__material__progress_indicator$46dart, packages__ticketapp__UI__event_overview__featured_events$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const async = dart_sdk.async;
+  const ui = dart_sdk.ui;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const scroll_controller = packages__flutter__src__widgets__widget_span$46dart.src__widgets__scroll_controller;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const event = packages__ticketapp__model__event$46dart.model__event;
+  const intl = packages__intl__intl$46dart.intl;
+  const no_events = packages__ticketapp__UI__widgets__cards__no_events$46dart.UI__widgets__cards__no_events;
+  const theme = packages__ticketapp__UI__theme$46dart.UI__theme;
+  const full_date_time = packages__ticketapp__utilities__format_date__full_date_time$46dart.utilities__format_date__full_date_time;
+  const flex = packages__flutter__src__rendering__flex$46dart.src__rendering__flex;
+  const white_card = packages__ticketapp__UI__widgets__cards__white_card$46dart.UI__widgets__cards__white_card;
+  const events = packages__ticketapp__UI__event_overview__events$46dart.UI__event_overview__events;
+  const apollo_button = packages__ticketapp__UI__widgets__buttons__apollo_button$46dart.UI__widgets__buttons__apollo_button;
+  const side_buttons = packages__ticketapp__UI__event_overview__side_buttons$46dart.UI__event_overview__side_buttons;
+  const curves = packages__flutter__src__animation__curves$46dart.src__animation__curves;
+  const auto_size_text = packages__auto_size_text__auto_size_text$46dart.auto_size_text;
+  const theme$ = packages__flutter__src__material__icon_button$46dart.src__material__theme;
+  const events_overview_bloc = packages__ticketapp__pages__events_overview__bloc__events_overview_bloc$46dart.pages__events_overview__bloc__events_overview_bloc;
+  const navbutton = packages__ticketapp__UI__widgets__buttons__navbutton$46dart.UI__widgets__buttons__navbutton;
+  const single_child_scroll_view = packages__flutter__src__widgets__single_child_scroll_view$46dart.src__widgets__single_child_scroll_view;
+  const event_overview_bottom_info = packages__ticketapp__UI__event_overview__event_overview_bottom_info$46dart.UI__event_overview__event_overview_bottom_info;
+  const bloc_builder = packages__flutter_bloc__src__bloc_builder$46dart.src__bloc_builder;
+  const all_events = packages__ticketapp__UI__event_overview__tabs__all_events$46dart.UI__event_overview__tabs__all_events;
+  const free_events = packages__ticketapp__UI__event_overview__tabs__free_events$46dart.UI__event_overview__tabs__free_events;
+  const for_me = packages__ticketapp__UI__event_overview__tabs__for_me$46dart.UI__event_overview__tabs__for_me;
+  const today_events = packages__ticketapp__UI__event_overview__tabs__today_events$46dart.UI__event_overview__tabs__today_events;
+  const upcoming_event = packages__ticketapp__UI__event_overview__tabs__upcoming_event$46dart.UI__event_overview__tabs__upcoming_event;
+  const progress_indicator = packages__flutter__src__material__progress_indicator$46dart.src__material__progress_indicator;
+  const featured_events = packages__ticketapp__UI__event_overview__featured_events$46dart.UI__event_overview__featured_events;
+  var this_weekend = Object.create(dart.library);
+  var this_week = Object.create(dart.library);
+  var event_overview_navbar = Object.create(dart.library);
+  var event_overview_home = Object.create(dart.library);
+  var $contains = dartx.contains;
+  var $map = dartx.map;
+  var $toList = dartx.toList;
+  var $isEmpty = dartx.isEmpty;
+  var $length = dartx.length;
+  var $_get = dartx._get;
+  var $where = dartx.where;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    MenuL: () => (T.MenuL = dart.constFn(dart.legacy(event_overview_home.Menu)))(),
+    JSArrayOfMenuL: () => (T.JSArrayOfMenuL = dart.constFn(_interceptors.JSArray$(T.MenuL())))(),
+    intL: () => (T.intL = dart.constFn(dart.legacy(core.int)))(),
+    ListOfintL: () => (T.ListOfintL = dart.constFn(core.List$(T.intL())))(),
+    intLTointL: () => (T.intLTointL = dart.constFn(dart.fnType(T.intL(), [T.intL()])))(),
+    intLToMenuL: () => (T.intLToMenuL = dart.constFn(dart.fnType(T.MenuL(), [T.intL()])))(),
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    ListOfWidgetL: () => (T.ListOfWidgetL = dart.constFn(core.List$(T.WidgetL())))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    EventL: () => (T.EventL = dart.constFn(dart.legacy(event.Event)))(),
+    EventLToboolL: () => (T.EventLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.EventL()])))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))(),
+    RenderObjectWidgetL: () => (T.RenderObjectWidgetL = dart.constFn(dart.legacy(framework.RenderObjectWidget)))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    BuildContextLToRenderObjectWidgetL: () => (T.BuildContextLToRenderObjectWidgetL = dart.constFn(dart.fnType(T.RenderObjectWidgetL(), [T.BuildContextL()])))(),
+    BuilderL: () => (T.BuilderL = dart.constFn(dart.legacy(basic.Builder)))(),
+    intLToBuilderL: () => (T.intLToBuilderL = dart.constFn(dart.fnType(T.BuilderL(), [T.intL()])))(),
+    VoidToNull: () => (T.VoidToNull = dart.constFn(dart.fnType(core.Null, [])))(),
+    SideButtonL: () => (T.SideButtonL = dart.constFn(dart.legacy(side_buttons.SideButton)))(),
+    intLToSideButtonL: () => (T.intLToSideButtonL = dart.constFn(dart.fnType(T.SideButtonL(), [T.intL()])))(),
+    doubleL: () => (T.doubleL = dart.constFn(dart.legacy(core.double)))(),
+    doubleLToNull: () => (T.doubleLToNull = dart.constFn(dart.fnType(core.Null, [T.doubleL()])))(),
+    FutureOfNull: () => (T.FutureOfNull = dart.constFn(async.Future$(core.Null)))(),
+    FutureLOfNull: () => (T.FutureLOfNull = dart.constFn(dart.legacy(T.FutureOfNull())))(),
+    VoidToFutureLOfNull: () => (T.VoidToFutureLOfNull = dart.constFn(dart.fnType(T.FutureLOfNull(), [])))(),
+    NavbarButtonL: () => (T.NavbarButtonL = dart.constFn(dart.legacy(navbutton.NavbarButton)))(),
+    intLToNavbarButtonL: () => (T.intLToNavbarButtonL = dart.constFn(dart.fnType(T.NavbarButtonL(), [T.intL()])))(),
+    EventsOverviewBlocL: () => (T.EventsOverviewBlocL = dart.constFn(dart.legacy(events_overview_bloc.EventsOverviewBloc)))(),
+    EventsOverviewStateL: () => (T.EventsOverviewStateL = dart.constFn(dart.legacy(events_overview_bloc.EventsOverviewState)))(),
+    BlocBuilderOfEventsOverviewBlocL$EventsOverviewStateL: () => (T.BlocBuilderOfEventsOverviewBlocL$EventsOverviewStateL = dart.constFn(bloc_builder.BlocBuilder$(T.EventsOverviewBlocL(), T.EventsOverviewStateL())))(),
+    AllEventsStateL: () => (T.AllEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.AllEventsState)))(),
+    FreeEventsStateL: () => (T.FreeEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.FreeEventsState)))(),
+    ForMeEventsStateL: () => (T.ForMeEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.ForMeEventsState)))(),
+    TodayEventsStateL: () => (T.TodayEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.TodayEventsState)))(),
+    ThisWeekEventsStateL: () => (T.ThisWeekEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.ThisWeekEventsState)))(),
+    ThisWeekendEventsStateL: () => (T.ThisWeekendEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.ThisWeekendEventsState)))(),
+    UpcomingEventsStateL: () => (T.UpcomingEventsStateL = dart.constFn(dart.legacy(events_overview_bloc.UpcomingEventsState)))(),
+    BuildContextLAndEventsOverviewStateLToWidgetL: () => (T.BuildContextLAndEventsOverviewStateLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.EventsOverviewStateL()])))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C1() {
+      return C[1] = dart.constList([], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 58,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 76,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 33,
+        [_Location_line]: 88,
+        [_Location_file]: null
+      });
+    },
+    get C4() {
+      return C[4] = dart.constList([C[5] || CT.C5], T._LocationL());
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[4] || CT.C4,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 87,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 31,
+        [_Location_line]: 93,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "color",
+        [_Location_column]: 31,
+        [_Location_line]: 94,
+        [_Location_file]: null
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "hoverColor",
+        [_Location_column]: 31,
+        [_Location_line]: 95,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "fill",
+        [_Location_column]: 31,
+        [_Location_line]: 96,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.constList([C[8] || CT.C8, C[9] || CT.C9, C[10] || CT.C10, C[11] || CT.C11], T._LocationL());
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[7] || CT.C7,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 92,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 27,
+        [_Location_line]: 83,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.constList([C[14] || CT.C14], T._LocationL());
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[13] || CT.C13,
+        [_Location_name]: null,
+        [_Location_column]: 32,
+        [_Location_line]: 82,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 25,
+        [_Location_line]: 82,
+        [_Location_file]: null
+      });
+    },
+    get C16() {
+      return C[16] = dart.constList([C[17] || CT.C17], T._LocationL());
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[16] || CT.C16,
+        [_Location_name]: null,
+        [_Location_column]: 23,
+        [_Location_line]: 81,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 38,
+        [_Location_line]: 101,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.constList([C[21] || CT.C21], T._LocationL());
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[20] || CT.C20,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 101,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C18() {
+      return C[18] = dart.const({
+        __proto__: basic.SizedBox.prototype,
+        [Widget__location]: C[19] || CT.C19,
+        [Widget_key]: null,
+        [SingleChildRenderObjectWidget_child]: null,
+        [SizedBox_height]: 56,
+        [SizedBox_width]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 21,
+        [_Location_line]: 79,
+        [_Location_file]: null
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 21,
+        [_Location_line]: 80,
+        [_Location_file]: null
+      });
+    },
+    get C23() {
+      return C[23] = dart.constList([C[24] || CT.C24, C[25] || CT.C25], T._LocationL());
+    },
+    get C22() {
+      return C[22] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[23] || CT.C23,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 78,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C28() {
+      return C[28] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 17,
+        [_Location_line]: 70,
+        [_Location_file]: null
+      });
+    },
+    get C27() {
+      return C[27] = dart.constList([C[28] || CT.C28], T._LocationL());
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[27] || CT.C27,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 69,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C31() {
+      return C[31] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 13,
+        [_Location_line]: 67,
+        [_Location_file]: null
+      });
+    },
+    get C30() {
+      return C[30] = dart.constList([C[31] || CT.C31], T._LocationL());
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[30] || CT.C30,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 66,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C34() {
+      return C[34] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 64,
+        [_Location_file]: null
+      });
+    },
+    get C33() {
+      return C[33] = dart.constList([C[34] || CT.C34], T._LocationL());
+    },
+    get C32() {
+      return C[32] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[33] || CT.C33,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 63,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C37() {
+      return C[37] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 7,
+        [_Location_line]: 62,
+        [_Location_file]: null
+      });
+    },
+    get C38() {
+      return C[38] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 63,
+        [_Location_file]: null
+      });
+    },
+    get C36() {
+      return C[36] = dart.constList([C[37] || CT.C37, C[38] || CT.C38], T._LocationL());
+    },
+    get C35() {
+      return C[35] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[36] || CT.C36,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 61,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C41() {
+      return C[41] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 17,
+        [_Location_line]: 122,
+        [_Location_file]: null
+      });
+    },
+    get C42() {
+      return C[42] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "isTap",
+        [_Location_column]: 17,
+        [_Location_line]: 124,
+        [_Location_file]: null
+      });
+    },
+    get C43() {
+      return C[43] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onTap",
+        [_Location_column]: 17,
+        [_Location_line]: 125,
+        [_Location_file]: null
+      });
+    },
+    get C40() {
+      return C[40] = dart.constList([C[41] || CT.C41, C[42] || CT.C42, C[43] || CT.C43], T._LocationL());
+    },
+    get C39() {
+      return C[39] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[40] || CT.C40,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 121,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C46() {
+      return C[46] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 13,
+        [_Location_line]: 119,
+        [_Location_file]: null
+      });
+    },
+    get C45() {
+      return C[45] = dart.constList([C[46] || CT.C46], T._LocationL());
+    },
+    get C44() {
+      return C[44] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[45] || CT.C45,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 118,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C49() {
+      return C[49] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 118,
+        [_Location_file]: null
+      });
+    },
+    get C48() {
+      return C[48] = dart.constList([C[49] || CT.C49], T._LocationL());
+    },
+    get C47() {
+      return C[47] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[48] || CT.C48,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 117,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C52() {
+      return C[52] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 7,
+        [_Location_line]: 115,
+        [_Location_file]: null
+      });
+    },
+    get C53() {
+      return C[53] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 7,
+        [_Location_line]: 116,
+        [_Location_file]: null
+      });
+    },
+    get C51() {
+      return C[51] = dart.constList([C[52] || CT.C52, C[53] || CT.C53], T._LocationL());
+    },
+    get C50() {
+      return C[50] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[51] || CT.C51,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 114,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C56() {
+      return C[56] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 30,
+        [_Location_line]: 151,
+        [_Location_file]: null
+      });
+    },
+    get C57() {
+      return C[57] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 17,
+        [_Location_line]: 152,
+        [_Location_file]: null
+      });
+    },
+    get C55() {
+      return C[55] = dart.constList([C[56] || CT.C56, C[57] || CT.C57], T._LocationL());
+    },
+    get C54() {
+      return C[54] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[55] || CT.C55,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 151,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C60() {
+      return C[60] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 11,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C61() {
+      return C[61] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 11,
+        [_Location_line]: 149,
+        [_Location_file]: null
+      });
+    },
+    get C62() {
+      return C[62] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 11,
+        [_Location_line]: 150,
+        [_Location_file]: null
+      });
+    },
+    get C59() {
+      return C[59] = dart.constList([C[60] || CT.C60, C[61] || CT.C61, C[62] || CT.C62], T._LocationL());
+    },
+    get C58() {
+      return C[58] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[59] || CT.C59,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 147,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C65() {
+      return C[65] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 147,
+        [_Location_file]: null
+      });
+    },
+    get C64() {
+      return C[64] = dart.constList([C[65] || CT.C65], T._LocationL());
+    },
+    get C63() {
+      return C[63] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[64] || CT.C64,
+        [_Location_name]: null,
+        [_Location_column]: 47,
+        [_Location_line]: 146,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_weekend.dart"
+      });
+    },
+    get C66() {
+      return C[66] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 53,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C67() {
+      return C[67] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 71,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C70() {
+      return C[70] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 31,
+        [_Location_line]: 88,
+        [_Location_file]: null
+      });
+    },
+    get C69() {
+      return C[69] = dart.constList([C[70] || CT.C70], T._LocationL());
+    },
+    get C68() {
+      return C[68] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[69] || CT.C69,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 87,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C73() {
+      return C[73] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 31,
+        [_Location_line]: 94,
+        [_Location_file]: null
+      });
+    },
+    get C74() {
+      return C[74] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "color",
+        [_Location_column]: 31,
+        [_Location_line]: 95,
+        [_Location_file]: null
+      });
+    },
+    get C75() {
+      return C[75] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "hoverColor",
+        [_Location_column]: 31,
+        [_Location_line]: 96,
+        [_Location_file]: null
+      });
+    },
+    get C76() {
+      return C[76] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "fill",
+        [_Location_column]: 31,
+        [_Location_line]: 97,
+        [_Location_file]: null
+      });
+    },
+    get C72() {
+      return C[72] = dart.constList([C[73] || CT.C73, C[74] || CT.C74, C[75] || CT.C75, C[76] || CT.C76], T._LocationL());
+    },
+    get C71() {
+      return C[71] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[72] || CT.C72,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 93,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C77() {
+      return C[77] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[13] || CT.C13,
+        [_Location_name]: null,
+        [_Location_column]: 32,
+        [_Location_line]: 82,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C80() {
+      return C[80] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "boxHeight",
+        [_Location_column]: 25,
+        [_Location_line]: 77,
+        [_Location_file]: null
+      });
+    },
+    get C79() {
+      return C[79] = dart.constList([C[80] || CT.C80, C[17] || CT.C17], T._LocationL());
+    },
+    get C78() {
+      return C[78] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[79] || CT.C79,
+        [_Location_name]: null,
+        [_Location_column]: 23,
+        [_Location_line]: 76,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C84() {
+      return C[84] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 38,
+        [_Location_line]: 102,
+        [_Location_file]: null
+      });
+    },
+    get C83() {
+      return C[83] = dart.constList([C[84] || CT.C84], T._LocationL());
+    },
+    get C82() {
+      return C[82] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[83] || CT.C83,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 102,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C81() {
+      return C[81] = dart.const({
+        __proto__: basic.SizedBox.prototype,
+        [Widget__location]: C[82] || CT.C82,
+        [Widget_key]: null,
+        [SingleChildRenderObjectWidget_child]: null,
+        [SizedBox_height]: 56,
+        [SizedBox_width]: null
+      });
+    },
+    get C87() {
+      return C[87] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 21,
+        [_Location_line]: 74,
+        [_Location_file]: null
+      });
+    },
+    get C88() {
+      return C[88] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 21,
+        [_Location_line]: 75,
+        [_Location_file]: null
+      });
+    },
+    get C86() {
+      return C[86] = dart.constList([C[87] || CT.C87, C[88] || CT.C88], T._LocationL());
+    },
+    get C85() {
+      return C[85] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[86] || CT.C86,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 73,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C91() {
+      return C[91] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 17,
+        [_Location_line]: 65,
+        [_Location_file]: null
+      });
+    },
+    get C90() {
+      return C[90] = dart.constList([C[91] || CT.C91], T._LocationL());
+    },
+    get C89() {
+      return C[89] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[90] || CT.C90,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 64,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C94() {
+      return C[94] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 13,
+        [_Location_line]: 62,
+        [_Location_file]: null
+      });
+    },
+    get C93() {
+      return C[93] = dart.constList([C[94] || CT.C94], T._LocationL());
+    },
+    get C92() {
+      return C[92] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[93] || CT.C93,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 61,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C97() {
+      return C[97] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 59,
+        [_Location_file]: null
+      });
+    },
+    get C96() {
+      return C[96] = dart.constList([C[97] || CT.C97], T._LocationL());
+    },
+    get C95() {
+      return C[95] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[96] || CT.C96,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 58,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C100() {
+      return C[100] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 7,
+        [_Location_line]: 57,
+        [_Location_file]: null
+      });
+    },
+    get C101() {
+      return C[101] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 58,
+        [_Location_file]: null
+      });
+    },
+    get C99() {
+      return C[99] = dart.constList([C[100] || CT.C100, C[101] || CT.C101], T._LocationL());
+    },
+    get C98() {
+      return C[98] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[99] || CT.C99,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 56,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C104() {
+      return C[104] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 30,
+        [_Location_line]: 119,
+        [_Location_file]: null
+      });
+    },
+    get C105() {
+      return C[105] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 17,
+        [_Location_line]: 120,
+        [_Location_file]: null
+      });
+    },
+    get C103() {
+      return C[103] = dart.constList([C[104] || CT.C104, C[105] || CT.C105], T._LocationL());
+    },
+    get C102() {
+      return C[102] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[103] || CT.C103,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 119,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C108() {
+      return C[108] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 11,
+        [_Location_line]: 116,
+        [_Location_file]: null
+      });
+    },
+    get C109() {
+      return C[109] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 11,
+        [_Location_line]: 117,
+        [_Location_file]: null
+      });
+    },
+    get C110() {
+      return C[110] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 11,
+        [_Location_line]: 118,
+        [_Location_file]: null
+      });
+    },
+    get C107() {
+      return C[107] = dart.constList([C[108] || CT.C108, C[109] || CT.C109, C[110] || CT.C110], T._LocationL());
+    },
+    get C106() {
+      return C[106] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[107] || CT.C107,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 115,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C113() {
+      return C[113] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 115,
+        [_Location_file]: null
+      });
+    },
+    get C112() {
+      return C[112] = dart.constList([C[113] || CT.C113], T._LocationL());
+    },
+    get C111() {
+      return C[111] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[112] || CT.C112,
+        [_Location_name]: null,
+        [_Location_column]: 47,
+        [_Location_line]: 114,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C116() {
+      return C[116] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 13,
+        [_Location_line]: 135,
+        [_Location_file]: null
+      });
+    },
+    get C117() {
+      return C[117] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "isTap",
+        [_Location_column]: 13,
+        [_Location_line]: 136,
+        [_Location_file]: null
+      });
+    },
+    get C118() {
+      return C[118] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onTap",
+        [_Location_column]: 13,
+        [_Location_line]: 137,
+        [_Location_file]: null
+      });
+    },
+    get C115() {
+      return C[115] = dart.constList([C[116] || CT.C116, C[117] || CT.C117, C[118] || CT.C118], T._LocationL());
+    },
+    get C114() {
+      return C[114] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[115] || CT.C115,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 134,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C121() {
+      return C[121] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 9,
+        [_Location_line]: 131,
+        [_Location_file]: null
+      });
+    },
+    get C122() {
+      return C[122] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 132,
+        [_Location_file]: null
+      });
+    },
+    get C120() {
+      return C[120] = dart.constList([C[121] || CT.C121, C[122] || CT.C122], T._LocationL());
+    },
+    get C119() {
+      return C[119] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[120] || CT.C120,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 130,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C125() {
+      return C[125] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 130,
+        [_Location_file]: null
+      });
+    },
+    get C124() {
+      return C[124] = dart.constList([C[125] || CT.C125], T._LocationL());
+    },
+    get C123() {
+      return C[123] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[124] || CT.C124,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 129,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/tabs/this_week.dart"
+      });
+    },
+    get C128() {
+      return C[128] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "title",
+        [_Location_column]: 19,
+        [_Location_line]: 51,
+        [_Location_file]: null
+      });
+    },
+    get C129() {
+      return C[129] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "onTap",
+        [_Location_column]: 19,
+        [_Location_line]: 52,
+        [_Location_file]: null
+      });
+    },
+    get C130() {
+      return C[130] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "isTap",
+        [_Location_column]: 19,
+        [_Location_line]: 66,
+        [_Location_file]: null
+      });
+    },
+    get C127() {
+      return C[127] = dart.constList([C[128] || CT.C128, C[129] || CT.C129, C[130] || CT.C130], T._LocationL());
+    },
+    get C126() {
+      return C[126] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[127] || CT.C127,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 50,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_navbar.dart"
+      });
+    },
+    get C133() {
+      return C[133] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 13,
+        [_Location_line]: 46,
+        [_Location_file]: null
+      });
+    },
+    get C134() {
+      return C[134] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 13,
+        [_Location_line]: 47,
+        [_Location_file]: null
+      });
+    },
+    get C135() {
+      return C[135] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 13,
+        [_Location_line]: 48,
+        [_Location_file]: null
+      });
+    },
+    get C132() {
+      return C[132] = dart.constList([C[133] || CT.C133, C[134] || CT.C134, C[135] || CT.C135], T._LocationL());
+    },
+    get C131() {
+      return C[131] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[132] || CT.C132,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 45,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_navbar.dart"
+      });
+    },
+    get C138() {
+      return C[138] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 11,
+        [_Location_line]: 44,
+        [_Location_file]: null
+      });
+    },
+    get C139() {
+      return C[139] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 45,
+        [_Location_file]: null
+      });
+    },
+    get C137() {
+      return C[137] = dart.constList([C[138] || CT.C138, C[139] || CT.C139], T._LocationL());
+    },
+    get C136() {
+      return C[136] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[137] || CT.C137,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 43,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_navbar.dart"
+      });
+    },
+    get C142() {
+      return C[142] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 43,
+        [_Location_file]: null
+      });
+    },
+    get C141() {
+      return C[141] = dart.constList([C[142] || CT.C142], T._LocationL());
+    },
+    get C140() {
+      return C[140] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[141] || CT.C141,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 42,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_navbar.dart"
+      });
+    },
+    get C145() {
+      return C[145] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 7,
+        [_Location_line]: 39,
+        [_Location_file]: null
+      });
+    },
+    get C146() {
+      return C[146] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 7,
+        [_Location_line]: 40,
+        [_Location_file]: null
+      });
+    },
+    get C147() {
+      return C[147] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "color",
+        [_Location_column]: 7,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C148() {
+      return C[148] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 7,
+        [_Location_line]: 42,
+        [_Location_file]: null
+      });
+    },
+    get C144() {
+      return C[144] = dart.constList([C[145] || CT.C145, C[146] || CT.C146, C[147] || CT.C147, C[148] || CT.C148], T._LocationL());
+    },
+    get C143() {
+      return C[143] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[144] || CT.C144,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 38,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_navbar.dart"
+      });
+    },
+    get C149() {
+      return C[149] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 19,
+        [_Location_line]: 48,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C152() {
+      return C[152] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 17,
+        [_Location_line]: 45,
+        [_Location_file]: null
+      });
+    },
+    get C151() {
+      return C[151] = dart.constList([C[152] || CT.C152], T._LocationL());
+    },
+    get C150() {
+      return C[150] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[151] || CT.C151,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 44,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C155() {
+      return C[155] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 15,
+        [_Location_line]: 44,
+        [_Location_file]: null
+      });
+    },
+    get C154() {
+      return C[154] = dart.constList([C[155] || CT.C155], T._LocationL());
+    },
+    get C153() {
+      return C[153] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[154] || CT.C154,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 43,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C158() {
+      return C[158] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "controller",
+        [_Location_column]: 13,
+        [_Location_line]: 42,
+        [_Location_file]: null
+      });
+    },
+    get C159() {
+      return C[159] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 43,
+        [_Location_file]: null
+      });
+    },
+    get C157() {
+      return C[157] = dart.constList([C[158] || CT.C158, C[159] || CT.C159], T._LocationL());
+    },
+    get C156() {
+      return C[156] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[157] || CT.C157,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 41,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C162() {
+      return C[162] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 41,
+        [_Location_file]: null
+      });
+    },
+    get C161() {
+      return C[161] = dart.constList([C[162] || CT.C162], T._LocationL());
+    },
+    get C160() {
+      return C[160] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[161] || CT.C161,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 40,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C165() {
+      return C[165] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 7,
+        [_Location_line]: 39,
+        [_Location_file]: null
+      });
+    },
+    get C164() {
+      return C[164] = dart.constList([C[165] || CT.C165], T._LocationL());
+    },
+    get C163() {
+      return C[163] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[164] || CT.C164,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 38,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C168() {
+      return C[168] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 15,
+        [_Location_line]: 65,
+        [_Location_file]: null
+      });
+    },
+    get C169() {
+      return C[169] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "upcomingEvents",
+        [_Location_column]: 40,
+        [_Location_line]: 65,
+        [_Location_file]: null
+      });
+    },
+    get C167() {
+      return C[167] = dart.constList([C[168] || CT.C168, C[169] || CT.C169], T._LocationL());
+    },
+    get C166() {
+      return C[166] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[167] || CT.C167,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 64,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C172() {
+      return C[172] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 29,
+        [_Location_line]: 67,
+        [_Location_file]: null
+      });
+    },
+    get C171() {
+      return C[171] = dart.constList([C[172] || CT.C172], T._LocationL());
+    },
+    get C170() {
+      return C[170] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[171] || CT.C171,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 67,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C173() {
+      return C[173] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 69,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C176() {
+      return C[176] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 30,
+        [_Location_line]: 71,
+        [_Location_file]: null
+      });
+    },
+    get C175() {
+      return C[175] = dart.constList([C[176] || CT.C176], T._LocationL());
+    },
+    get C174() {
+      return C[174] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[175] || CT.C175,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 71,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C179() {
+      return C[179] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 15,
+        [_Location_line]: 74,
+        [_Location_file]: null
+      });
+    },
+    get C180() {
+      return C[180] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "scrollController",
+        [_Location_column]: 15,
+        [_Location_line]: 75,
+        [_Location_file]: null
+      });
+    },
+    get C178() {
+      return C[178] = dart.constList([C[179] || CT.C179, C[180] || CT.C180], T._LocationL());
+    },
+    get C177() {
+      return C[177] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[178] || CT.C178,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 73,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C183() {
+      return C[183] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 15,
+        [_Location_line]: 78,
+        [_Location_file]: null
+      });
+    },
+    get C184() {
+      return C[184] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "scrollController",
+        [_Location_column]: 15,
+        [_Location_line]: 79,
+        [_Location_file]: null
+      });
+    },
+    get C182() {
+      return C[182] = dart.constList([C[183] || CT.C183, C[184] || CT.C184], T._LocationL());
+    },
+    get C181() {
+      return C[181] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[182] || CT.C182,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 77,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C187() {
+      return C[187] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "events",
+        [_Location_column]: 33,
+        [_Location_line]: 81,
+        [_Location_file]: null
+      });
+    },
+    get C186() {
+      return C[186] = dart.constList([C[187] || CT.C187], T._LocationL());
+    },
+    get C185() {
+      return C[185] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[186] || CT.C186,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 81,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C188() {
+      return C[188] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 84,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C191() {
+      return C[191] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 84,
+        [_Location_file]: null
+      });
+    },
+    get C190() {
+      return C[190] = dart.constList([C[191] || CT.C191], T._LocationL());
+    },
+    get C189() {
+      return C[189] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[190] || CT.C190,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 83,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C194() {
+      return C[194] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cubit",
+        [_Location_column]: 7,
+        [_Location_line]: 60,
+        [_Location_file]: null
+      });
+    },
+    get C195() {
+      return C[195] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 7,
+        [_Location_line]: 61,
+        [_Location_file]: null
+      });
+    },
+    get C193() {
+      return C[193] = dart.constList([C[194] || CT.C194, C[195] || CT.C195], T._LocationL());
+    },
+    get C192() {
+      return C[192] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[193] || CT.C193,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 59,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C196() {
+      return C[196] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 96,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C199() {
+      return C[199] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "bloc",
+        [_Location_column]: 40,
+        [_Location_line]: 97,
+        [_Location_file]: null
+      });
+    },
+    get C198() {
+      return C[198] = dart.constList([C[199] || CT.C199], T._LocationL());
+    },
+    get C197() {
+      return C[197] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[198] || CT.C198,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 97,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C202() {
+      return C[202] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "crossAxisAlignment",
+        [_Location_column]: 11,
+        [_Location_line]: 94,
+        [_Location_file]: null
+      });
+    },
+    get C203() {
+      return C[203] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 11,
+        [_Location_line]: 95,
+        [_Location_file]: null
+      });
+    },
+    get C201() {
+      return C[201] = dart.constList([C[202] || CT.C202, C[203] || CT.C203], T._LocationL());
+    },
+    get C200() {
+      return C[200] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[201] || CT.C201,
+        [_Location_name]: null,
+        [_Location_column]: 16,
+        [_Location_line]: 93,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    },
+    get C206() {
+      return C[206] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "color",
+        [_Location_column]: 9,
+        [_Location_line]: 91,
+        [_Location_file]: null
+      });
+    },
+    get C207() {
+      return C[207] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 9,
+        [_Location_line]: 92,
+        [_Location_file]: null
+      });
+    },
+    get C208() {
+      return C[208] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 9,
+        [_Location_line]: 93,
+        [_Location_file]: null
+      });
+    },
+    get C205() {
+      return C[205] = dart.constList([C[206] || CT.C206, C[207] || CT.C207, C[208] || CT.C208], T._LocationL());
+    },
+    get C204() {
+      return C[204] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[205] || CT.C205,
+        [_Location_name]: null,
+        [_Location_column]: 45,
+        [_Location_line]: 90,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/UI/event_overview/event_overview_home.dart"
+      });
+    }
+  }, false);
+  var C = Array(209).fill(void 0);
+  var I = [
+    "package:ticketapp/UI/event_overview/tabs/this_weekend.dart",
+    "package:ticketapp/UI/event_overview/tabs/this_week.dart",
+    "package:ticketapp/UI/event_overview/event_overview_navbar.dart",
+    "package:ticketapp/UI/event_overview/event_overview_home.dart"
+  ];
+  var events$ = dart.privateName(this_weekend, "ThisWeekend.events");
+  var scrollController$ = dart.privateName(this_weekend, "ThisWeekend.scrollController");
+  this_weekend.ThisWeekend = class ThisWeekend extends framework.StatefulWidget {
+    get events() {
+      return this[events$];
+    }
+    set events(value) {
+      super.events = value;
+    }
+    get scrollController() {
+      return this[scrollController$];
+    }
+    set scrollController(value) {
+      super.scrollController = value;
+    }
+    createState() {
+      return new this_weekend._ThisWeekendState.new();
+    }
+  };
+  (this_weekend.ThisWeekend.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let events = opts && 'events' in opts ? opts.events : null;
+    let scrollController = opts && 'scrollController' in opts ? opts.scrollController : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[events$] = events;
+    this[scrollController$] = scrollController;
+    this_weekend.ThisWeekend.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = this_weekend.ThisWeekend.prototype;
+  dart.addTypeTests(this_weekend.ThisWeekend);
+  dart.addTypeCaches(this_weekend.ThisWeekend);
+  dart.setMethodSignature(this_weekend.ThisWeekend, () => ({
+    __proto__: dart.getMethods(this_weekend.ThisWeekend.__proto__),
+    createState: dart.fnType(dart.legacy(this_weekend._ThisWeekendState), [])
+  }));
+  dart.setLibraryUri(this_weekend.ThisWeekend, I[0]);
+  dart.setFieldSignature(this_weekend.ThisWeekend, () => ({
+    __proto__: dart.getFields(this_weekend.ThisWeekend.__proto__),
+    events: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event)))),
+    scrollController: dart.finalFieldType(dart.legacy(scroll_controller.ScrollController))
+  }));
+  var _weekendMenu = dart.privateName(this_weekend, "_weekendMenu");
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  var _weekendNav = dart.privateName(this_weekend, "_weekendNav");
+  var _eventTags = dart.privateName(this_weekend, "_eventTags");
+  var Widget__location = dart.privateName(framework, "Widget._location");
+  var Widget_key = dart.privateName(framework, "Widget.key");
+  var SingleChildRenderObjectWidget_child = dart.privateName(framework, "SingleChildRenderObjectWidget.child");
+  var SizedBox_height = dart.privateName(basic, "SizedBox.height");
+  var SizedBox_width = dart.privateName(basic, "SizedBox.width");
+  this_weekend._ThisWeekendState = class _ThisWeekendState extends framework.State$(dart.legacy(this_weekend.ThisWeekend)) {
+    initState() {
+      let now = new core.DateTime.now();
+      let firstDayOfWeek = now.subtract(new core.Duration.new({days: dart.notNull(now.weekday) - 5}));
+      this[_weekendMenu] = T.ListOfintL().generate(3, dart.fn(index => index, T.intLTointL()))[$map](T.MenuL(), dart.fn(value => new event_overview_home.Menu.new(dart.str(new intl.DateFormat.new("EEEE", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value})))), new intl.DateFormat.new("d", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value})))[$contains](new intl.DateFormat.new("d", "en_US").format(new core.DateTime.now())), {subtitle: " " + dart.str(new intl.DateFormat.new("d", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value})))), fullDate: " " + dart.str(new intl.DateFormat.new("d MMM y", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value}))))}), T.intLToMenuL()))[$toList]();
+      super.initState();
+    }
+    build(context) {
+      let screenSize = media_query.MediaQuery.of(context).size;
+      if (dart.test(this.widget.events[$isEmpty])) {
+        return new no_events.NoEvents.new({$creationLocationd_0dea112b090073317d4: C[0] || CT.C0});
+      }
+      return new container.Container.new({width: dart.notNull(screenSize.width) * 0.8, child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([theme['WidgetPaddingX|paddingBottom'](this[_weekendNav](), 16.0), new basic.Column.new({children: T.ListOfWidgetL().generate(this[_weekendMenu][$length], dart.fn(index => new basic.Builder.new({builder: dart.fn(context => {
+                  if (dart.test(this.widget.events[$where](dart.fn(event => full_date_time.fullDate(event.date)[$contains](this[_weekendMenu][$_get](index).title), T.EventLToboolL()))[$toList]()[$isEmpty])) {
+                    return new basic.SizedBox.new({$creationLocationd_0dea112b090073317d4: C[2] || CT.C2});
+                  }
+                  return new basic.Column.new({crossAxisAlignment: flex.CrossAxisAlignment.center, children: T.JSArrayOfWidgetL().of([new white_card.WhiteCardWithNoElevation.new({child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([this[_eventTags](context, {tag: dart.str(this[_weekendMenu][$_get](index).title) + "'s Events | " + dart.str(this[_weekendMenu][$_get](index).fullDate)}), new events.AppolloEvents.new({events: this.widget.events[$where](dart.fn(event => full_date_time.fullDate(event.date)[$contains](this[_weekendMenu][$_get](index).title), T.EventLToboolL()))[$toList](), $creationLocationd_0dea112b090073317d4: C[3] || CT.C3}), theme['WidgetPaddingX|paddingBottom'](new apollo_button.HoverAppolloButton.new({title: "See More Events", color: theme.MyTheme.appolloGreen, hoverColor: theme.MyTheme.appolloGreen, fill: false, $creationLocationd_0dea112b090073317d4: C[6] || CT.C6}), 16.0)]), $creationLocationd_0dea112b090073317d4: C[12] || CT.C12}), $creationLocationd_0dea112b090073317d4: C[15] || CT.C15}), C[18] || CT.C18]), $creationLocationd_0dea112b090073317d4: C[22] || CT.C22});
+                }, T.BuildContextLToRenderObjectWidgetL()), $creationLocationd_0dea112b090073317d4: C[26] || CT.C26}), T.intLToBuilderL())), $creationLocationd_0dea112b090073317d4: C[29] || CT.C29})]), $creationLocationd_0dea112b090073317d4: C[32] || CT.C32}), $creationLocationd_0dea112b090073317d4: C[35] || CT.C35});
+    }
+    [_weekendNav]() {
+      return theme['WidgetPaddingX|paddingTop'](new basic.Row.new({mainAxisAlignment: flex.MainAxisAlignment.center, children: T.JSArrayOfWidgetL().of([new white_card.WhiteCard.new({child: new basic.Row.new({children: T.ListOfWidgetL().generate(this[_weekendMenu][$length], dart.fn(index => new side_buttons.SideButton.new({title: dart.str(this[_weekendMenu][$_get](index).title) + " " + dart.str(this[_weekendMenu][$_get](index).subtitle), isTap: this[_weekendMenu][$_get](index).isTap, onTap: dart.fn(() => {
+                  this.setState(dart.fn(() => {
+                    for (let i = 0; i < dart.notNull(this[_weekendMenu][$length]); i = i + 1) {
+                      this[_weekendMenu][$_get](i).isTap = false;
+                    }
+                    this[_weekendMenu][$_get](index).isTap = true;
+                  }, T.VoidToNull()));
+                  this.widget.scrollController.animateTo(this.widget.scrollController.position.maxScrollExtent, {curve: curves.Curves.linear, duration: new core.Duration.new({milliseconds: 300})});
+                }, T.VoidToNull()), $creationLocationd_0dea112b090073317d4: C[39] || CT.C39}), T.intLToSideButtonL())), $creationLocationd_0dea112b090073317d4: C[44] || CT.C44}), $creationLocationd_0dea112b090073317d4: C[47] || CT.C47})]), $creationLocationd_0dea112b090073317d4: C[50] || CT.C50}), 8.0);
+    }
+    [_eventTags](context, opts) {
+      let t0;
+      let tag = opts && 'tag' in opts ? opts.tag : null;
+      return theme['WidgetPaddingX|paddingTop'](theme['WidgetPaddingX|paddingHorizontal'](new container.Container.new({child: new basic.Row.new({mainAxisAlignment: flex.MainAxisAlignment.spaceBetween, crossAxisAlignment: flex.CrossAxisAlignment.start, children: T.JSArrayOfWidgetL().of([new auto_size_text.AutoSizeText.new((t0 = tag, t0 == null ? "" : t0), {style: theme$.Theme.of(framework.BuildContext.as(context)).textTheme.headline3.copyWith({color: theme.MyTheme.appolloGrey}), $creationLocationd_0dea112b090073317d4: C[54] || CT.C54})]), $creationLocationd_0dea112b090073317d4: C[58] || CT.C58}), $creationLocationd_0dea112b090073317d4: C[63] || CT.C63}), 16.0), 16.0);
+    }
+  };
+  (this_weekend._ThisWeekendState.new = function() {
+    this[_weekendMenu] = T.JSArrayOfMenuL().of([]);
+    this_weekend._ThisWeekendState.__proto__.new.call(this);
+    ;
+  }).prototype = this_weekend._ThisWeekendState.prototype;
+  dart.addTypeTests(this_weekend._ThisWeekendState);
+  dart.addTypeCaches(this_weekend._ThisWeekendState);
+  dart.setMethodSignature(this_weekend._ThisWeekendState, () => ({
+    __proto__: dart.getMethods(this_weekend._ThisWeekendState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_weekendNav]: dart.fnType(dart.legacy(framework.Widget), []),
+    [_eventTags]: dart.fnType(dart.legacy(framework.Widget), [dart.dynamic], {tag: dart.legacy(core.String)}, {})
+  }));
+  dart.setLibraryUri(this_weekend._ThisWeekendState, I[0]);
+  dart.setFieldSignature(this_weekend._ThisWeekendState, () => ({
+    __proto__: dart.getFields(this_weekend._ThisWeekendState.__proto__),
+    [_weekendMenu]: dart.fieldType(dart.legacy(core.List$(dart.legacy(event_overview_home.Menu))))
+  }));
+  var events$0 = dart.privateName(this_week, "ThisWeek.events");
+  var scrollController$0 = dart.privateName(this_week, "ThisWeek.scrollController");
+  this_week.ThisWeek = class ThisWeek extends framework.StatefulWidget {
+    get events() {
+      return this[events$0];
+    }
+    set events(value) {
+      super.events = value;
+    }
+    get scrollController() {
+      return this[scrollController$0];
+    }
+    set scrollController(value) {
+      super.scrollController = value;
+    }
+    createState() {
+      return new this_week._ThisWeekState.new();
+    }
+  };
+  (this_week.ThisWeek.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let events = opts && 'events' in opts ? opts.events : null;
+    let scrollController = opts && 'scrollController' in opts ? opts.scrollController : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[events$0] = events;
+    this[scrollController$0] = scrollController;
+    this_week.ThisWeek.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = this_week.ThisWeek.prototype;
+  dart.addTypeTests(this_week.ThisWeek);
+  dart.addTypeCaches(this_week.ThisWeek);
+  dart.setMethodSignature(this_week.ThisWeek, () => ({
+    __proto__: dart.getMethods(this_week.ThisWeek.__proto__),
+    createState: dart.fnType(dart.legacy(this_week._ThisWeekState), [])
+  }));
+  dart.setLibraryUri(this_week.ThisWeek, I[1]);
+  dart.setFieldSignature(this_week.ThisWeek, () => ({
+    __proto__: dart.getFields(this_week.ThisWeek.__proto__),
+    events: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event)))),
+    scrollController: dart.finalFieldType(dart.legacy(scroll_controller.ScrollController))
+  }));
+  var _daysMenu = dart.privateName(this_week, "_daysMenu");
+  var _daysNav = dart.privateName(this_week, "_daysNav");
+  var _eventTags$ = dart.privateName(this_week, "_eventTags");
+  this_week._ThisWeekState = class _ThisWeekState extends framework.State$(dart.legacy(this_week.ThisWeek)) {
+    initState() {
+      let now = new core.DateTime.now();
+      let firstDayOfWeek = now.subtract(new core.Duration.new({days: dart.notNull(now.weekday) - 1}));
+      this[_daysMenu] = T.ListOfintL().generate(7, dart.fn(index => index, T.intLTointL()))[$map](T.MenuL(), dart.fn(value => new event_overview_home.Menu.new(dart.str(new intl.DateFormat.new("EEEE", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value})))), new intl.DateFormat.new("d", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value})))[$contains](new intl.DateFormat.new("d", "en_US").format(new core.DateTime.now())), {subtitle: " " + dart.str(new intl.DateFormat.new("d", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value})))), fullDate: " " + dart.str(new intl.DateFormat.new("d MMM y", "en_US").format(firstDayOfWeek.add(new core.Duration.new({days: value}))))}), T.intLToMenuL()))[$toList]();
+      super.initState();
+    }
+    build(context) {
+      let screenSize = media_query.MediaQuery.of(context).size;
+      if (dart.test(this.widget.events[$isEmpty])) {
+        return new no_events.NoEvents.new({$creationLocationd_0dea112b090073317d4: C[66] || CT.C66});
+      }
+      return new container.Container.new({width: dart.notNull(screenSize.width) * 0.8, child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([theme['WidgetPaddingX|paddingBottom'](this[_daysNav](), 16.0), new basic.Column.new({children: T.ListOfWidgetL().generate(this[_daysMenu][$length], dart.fn(index => new basic.Builder.new({builder: dart.fn(context => {
+                  if (dart.test(this.widget.events[$where](dart.fn(event => full_date_time.fullDate(event.date)[$contains](this[_daysMenu][$_get](index).title), T.EventLToboolL()))[$toList]()[$isEmpty])) {
+                    return new basic.SizedBox.new({$creationLocationd_0dea112b090073317d4: C[67] || CT.C67});
+                  }
+                  return new basic.Column.new({crossAxisAlignment: flex.CrossAxisAlignment.center, children: T.JSArrayOfWidgetL().of([new white_card.WhiteCardWithNoElevation.new({boxHeight: dart.fn(v => {
+                          this.setState(dart.fn(() => {
+                            this[_daysMenu][$_get](index).pixel = v;
+                          }, T.VoidToNull()));
+                        }, T.doubleLToNull()), child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([this[_eventTags$](context, {tag: dart.str(this[_daysMenu][$_get](index).title) + "'s Events | " + dart.str(this[_daysMenu][$_get](index).fullDate)}), new events.AppolloEvents.new({events: this.widget.events[$where](dart.fn(event => full_date_time.fullDate(event.date)[$contains](this[_daysMenu][$_get](index).title), T.EventLToboolL()))[$toList](), $creationLocationd_0dea112b090073317d4: C[68] || CT.C68}), theme['WidgetPaddingX|paddingBottom'](new apollo_button.HoverAppolloButton.new({title: "See More Events", color: theme.MyTheme.appolloGreen, hoverColor: theme.MyTheme.appolloGreen, fill: false, $creationLocationd_0dea112b090073317d4: C[71] || CT.C71}), 16.0)]), $creationLocationd_0dea112b090073317d4: C[77] || CT.C77}), $creationLocationd_0dea112b090073317d4: C[78] || CT.C78}), C[81] || CT.C81]), $creationLocationd_0dea112b090073317d4: C[85] || CT.C85});
+                }, T.BuildContextLToRenderObjectWidgetL()), $creationLocationd_0dea112b090073317d4: C[89] || CT.C89}), T.intLToBuilderL())), $creationLocationd_0dea112b090073317d4: C[92] || CT.C92})]), $creationLocationd_0dea112b090073317d4: C[95] || CT.C95}), $creationLocationd_0dea112b090073317d4: C[98] || CT.C98});
+    }
+    [_eventTags$](context, opts) {
+      let t0;
+      let tag = opts && 'tag' in opts ? opts.tag : null;
+      return theme['WidgetPaddingX|paddingTop'](theme['WidgetPaddingX|paddingHorizontal'](new container.Container.new({child: new basic.Row.new({mainAxisAlignment: flex.MainAxisAlignment.spaceBetween, crossAxisAlignment: flex.CrossAxisAlignment.start, children: T.JSArrayOfWidgetL().of([new auto_size_text.AutoSizeText.new((t0 = tag, t0 == null ? "" : t0), {style: theme$.Theme.of(framework.BuildContext.as(context)).textTheme.headline3.copyWith({color: theme.MyTheme.appolloGrey}), $creationLocationd_0dea112b090073317d4: C[102] || CT.C102})]), $creationLocationd_0dea112b090073317d4: C[106] || CT.C106}), $creationLocationd_0dea112b090073317d4: C[111] || CT.C111}), 16.0), 16.0);
+    }
+    [_daysNav]() {
+      return new white_card.WhiteCard.new({child: new basic.Row.new({mainAxisAlignment: flex.MainAxisAlignment.spaceBetween, children: T.ListOfWidgetL().generate(this[_daysMenu][$length], dart.fn(index => new side_buttons.SideButton.new({title: dart.str(this[_daysMenu][$_get](index).title) + " " + dart.str(this[_daysMenu][$_get](index).subtitle), isTap: this[_daysMenu][$_get](index).isTap, onTap: dart.test(this.widget.events[$where](dart.fn(event => full_date_time.fullDate(event.date)[$contains](this[_daysMenu][$_get](index).title), T.EventLToboolL()))[$toList]()[$isEmpty]) ? null : dart.fn(() => async.async(core.Null, (function*() {
+              this.setState(dart.fn(() => {
+                for (let i = 0; i < dart.notNull(this[_daysMenu][$length]); i = i + 1) {
+                  this[_daysMenu][$_get](i).isTap = false;
+                }
+                this[_daysMenu][$_get](index).isTap = true;
+              }, T.VoidToNull()));
+              yield this.widget.scrollController.animateTo(dart.notNull(this[_daysMenu][$_get](index).pixel) + 50, {curve: curves.Curves.linear, duration: new core.Duration.new({milliseconds: 300})});
+            }).bind(this)), T.VoidToFutureLOfNull()), $creationLocationd_0dea112b090073317d4: C[114] || CT.C114}), T.intLToSideButtonL())), $creationLocationd_0dea112b090073317d4: C[119] || CT.C119}), $creationLocationd_0dea112b090073317d4: C[123] || CT.C123});
+    }
+  };
+  (this_week._ThisWeekState.new = function() {
+    this[_daysMenu] = T.JSArrayOfMenuL().of([]);
+    this_week._ThisWeekState.__proto__.new.call(this);
+    ;
+  }).prototype = this_week._ThisWeekState.prototype;
+  dart.addTypeTests(this_week._ThisWeekState);
+  dart.addTypeCaches(this_week._ThisWeekState);
+  dart.setMethodSignature(this_week._ThisWeekState, () => ({
+    __proto__: dart.getMethods(this_week._ThisWeekState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_eventTags$]: dart.fnType(dart.legacy(framework.Widget), [dart.dynamic], {tag: dart.legacy(core.String)}, {}),
+    [_daysNav]: dart.fnType(dart.legacy(framework.Widget), [])
+  }));
+  dart.setLibraryUri(this_week._ThisWeekState, I[1]);
+  dart.setFieldSignature(this_week._ThisWeekState, () => ({
+    __proto__: dart.getFields(this_week._ThisWeekState.__proto__),
+    [_daysMenu]: dart.fieldType(dart.legacy(core.List$(dart.legacy(event_overview_home.Menu))))
+  }));
+  var bloc$ = dart.privateName(event_overview_navbar, "EventOverviewNavigationBar.bloc");
+  event_overview_navbar.EventOverviewNavigationBar = class EventOverviewNavigationBar extends framework.StatefulWidget {
+    get bloc() {
+      return this[bloc$];
+    }
+    set bloc(value) {
+      super.bloc = value;
+    }
+    createState() {
+      return new event_overview_navbar._EventOverviewNavigationBarState.new();
+    }
+  };
+  (event_overview_navbar.EventOverviewNavigationBar.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let bloc = opts && 'bloc' in opts ? opts.bloc : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[bloc$] = bloc;
+    event_overview_navbar.EventOverviewNavigationBar.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = event_overview_navbar.EventOverviewNavigationBar.prototype;
+  dart.addTypeTests(event_overview_navbar.EventOverviewNavigationBar);
+  dart.addTypeCaches(event_overview_navbar.EventOverviewNavigationBar);
+  dart.setMethodSignature(event_overview_navbar.EventOverviewNavigationBar, () => ({
+    __proto__: dart.getMethods(event_overview_navbar.EventOverviewNavigationBar.__proto__),
+    createState: dart.fnType(dart.legacy(event_overview_navbar._EventOverviewNavigationBarState), [])
+  }));
+  dart.setLibraryUri(event_overview_navbar.EventOverviewNavigationBar, I[2]);
+  dart.setFieldSignature(event_overview_navbar.EventOverviewNavigationBar, () => ({
+    __proto__: dart.getFields(event_overview_navbar.EventOverviewNavigationBar.__proto__),
+    bloc: dart.finalFieldType(dart.legacy(events_overview_bloc.EventsOverviewBloc))
+  }));
+  var _menu = dart.privateName(event_overview_navbar, "_menu");
+  event_overview_navbar._EventOverviewNavigationBarState = class _EventOverviewNavigationBarState extends framework.State$(dart.legacy(event_overview_navbar.EventOverviewNavigationBar)) {
+    initState() {
+      if (this.widget.bloc != null) {
+        this.widget.bloc.add(new events_overview_bloc.TabberNavEvent.new({index: 0, title: "All"}));
+      }
+      super.initState();
+    }
+    build(context) {
+      return new container.Container.new({height: 50.0, width: media_query.MediaQuery.of(context).size.width, color: theme.MyTheme.appolloBlack, child: new basic.Center.new({child: new container.Container.new({width: dart.notNull(media_query.MediaQuery.of(context).size.width) * 0.8, child: new basic.Row.new({mainAxisAlignment: flex.MainAxisAlignment.spaceBetween, crossAxisAlignment: flex.CrossAxisAlignment.center, children: T.ListOfWidgetL().generate(this[_menu][$length], dart.fn(index => new navbutton.NavbarButton.new({title: this[_menu][$_get](index).title, onTap: dart.fn(() => {
+                  for (let i = 0; i < dart.notNull(this[_menu][$length]); i = i + 1) {
+                    this.setState(dart.fn(() => {
+                      this[_menu][$_get](i).isTap = false;
+                    }, T.VoidToNull()));
+                  }
+                  this.setState(dart.fn(() => {
+                    this[_menu][$_get](index).isTap = true;
+                  }, T.VoidToNull()));
+                  this.widget.bloc.add(new events_overview_bloc.TabberNavEvent.new({index: index, title: this[_menu][$_get](index).title}));
+                }, T.VoidToNull()), isTap: this[_menu][$_get](index).isTap, $creationLocationd_0dea112b090073317d4: C[126] || CT.C126}), T.intLToNavbarButtonL())), $creationLocationd_0dea112b090073317d4: C[131] || CT.C131}), $creationLocationd_0dea112b090073317d4: C[136] || CT.C136}), $creationLocationd_0dea112b090073317d4: C[140] || CT.C140}), $creationLocationd_0dea112b090073317d4: C[143] || CT.C143});
+    }
+  };
+  (event_overview_navbar._EventOverviewNavigationBarState.new = function() {
+    this[_menu] = T.JSArrayOfMenuL().of([new event_overview_home.Menu.new("All", true), new event_overview_home.Menu.new("Free", false), new event_overview_home.Menu.new("For me", false), new event_overview_home.Menu.new("Today", false), new event_overview_home.Menu.new("This Weekend", false), new event_overview_home.Menu.new("This Week", false), new event_overview_home.Menu.new("Upcoming", false)]);
+    event_overview_navbar._EventOverviewNavigationBarState.__proto__.new.call(this);
+    ;
+  }).prototype = event_overview_navbar._EventOverviewNavigationBarState.prototype;
+  dart.addTypeTests(event_overview_navbar._EventOverviewNavigationBarState);
+  dart.addTypeCaches(event_overview_navbar._EventOverviewNavigationBarState);
+  dart.setMethodSignature(event_overview_navbar._EventOverviewNavigationBarState, () => ({
+    __proto__: dart.getMethods(event_overview_navbar._EventOverviewNavigationBarState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)])
+  }));
+  dart.setLibraryUri(event_overview_navbar._EventOverviewNavigationBarState, I[2]);
+  dart.setFieldSignature(event_overview_navbar._EventOverviewNavigationBarState, () => ({
+    __proto__: dart.getFields(event_overview_navbar._EventOverviewNavigationBarState.__proto__),
+    [_menu]: dart.fieldType(dart.legacy(core.List$(dart.legacy(event_overview_home.Menu))))
+  }));
+  var events$1 = dart.privateName(event_overview_home, "EventOverviewHome.events");
+  var bloc$0 = dart.privateName(event_overview_home, "EventOverviewHome.bloc");
+  event_overview_home.EventOverviewHome = class EventOverviewHome extends framework.StatefulWidget {
+    get events() {
+      return this[events$1];
+    }
+    set events(value) {
+      super.events = value;
+    }
+    get bloc() {
+      return this[bloc$0];
+    }
+    set bloc(value) {
+      super.bloc = value;
+    }
+    createState() {
+      return new event_overview_home._EventOverviewHomeState.new();
+    }
+  };
+  (event_overview_home.EventOverviewHome.new = function(opts) {
+    let key = opts && 'key' in opts ? opts.key : null;
+    let events = opts && 'events' in opts ? opts.events : null;
+    let bloc = opts && 'bloc' in opts ? opts.bloc : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[events$1] = events;
+    this[bloc$0] = bloc;
+    event_overview_home.EventOverviewHome.__proto__.new.call(this, {key: key, $creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = event_overview_home.EventOverviewHome.prototype;
+  dart.addTypeTests(event_overview_home.EventOverviewHome);
+  dart.addTypeCaches(event_overview_home.EventOverviewHome);
+  dart.setMethodSignature(event_overview_home.EventOverviewHome, () => ({
+    __proto__: dart.getMethods(event_overview_home.EventOverviewHome.__proto__),
+    createState: dart.fnType(dart.legacy(event_overview_home._EventOverviewHomeState), [])
+  }));
+  dart.setLibraryUri(event_overview_home.EventOverviewHome, I[3]);
+  dart.setFieldSignature(event_overview_home.EventOverviewHome, () => ({
+    __proto__: dart.getFields(event_overview_home.EventOverviewHome.__proto__),
+    events: dart.finalFieldType(dart.legacy(core.List$(dart.legacy(event.Event)))),
+    bloc: dart.finalFieldType(dart.legacy(events_overview_bloc.EventsOverviewBloc))
+  }));
+  var _eventOverview = dart.privateName(event_overview_home, "_eventOverview");
+  var _buildBody = dart.privateName(event_overview_home, "_buildBody");
+  event_overview_home._EventOverviewHomeState = class _EventOverviewHomeState extends framework.State$(dart.legacy(event_overview_home.EventOverviewHome)) {
+    build(context) {
+      let screenSize = media_query.MediaQuery.of(context).size;
+      return new basic.Column.new({children: T.JSArrayOfWidgetL().of([new basic.Expanded.new({child: new single_child_scroll_view.SingleChildScrollView.new({controller: this.widget.bloc.scrollController, child: new container.Container.new({child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([theme['WidgetPaddingX|paddingBottom'](this[_eventOverview](screenSize), 16.0), theme['WidgetPaddingX|paddingBottom'](this[_buildBody](screenSize), 16.0), new event_overview_bottom_info.EventOverviewFooter.new({$creationLocationd_0dea112b090073317d4: C[149] || CT.C149})]), $creationLocationd_0dea112b090073317d4: C[150] || CT.C150}), $creationLocationd_0dea112b090073317d4: C[153] || CT.C153}), $creationLocationd_0dea112b090073317d4: C[156] || CT.C156}), $creationLocationd_0dea112b090073317d4: C[160] || CT.C160})]), $creationLocationd_0dea112b090073317d4: C[163] || CT.C163});
+    }
+    [_buildBody](screenSize) {
+      return new (T.BlocBuilderOfEventsOverviewBlocL$EventsOverviewStateL()).new({cubit: this.widget.bloc, builder: dart.fn((context, state) => {
+          core.print(state);
+          if (T.AllEventsStateL().is(state)) {
+            return new all_events.AllEvents.new({events: state.allEvents, upcomingEvents: state.upcomingEvents, $creationLocationd_0dea112b090073317d4: C[166] || CT.C166});
+          } else if (T.FreeEventsStateL().is(state)) {
+            return new free_events.FreeEvents.new({events: state.freeEvents, $creationLocationd_0dea112b090073317d4: C[170] || CT.C170});
+          } else if (T.ForMeEventsStateL().is(state)) {
+            return new for_me.EventsForMe.new({$creationLocationd_0dea112b090073317d4: C[173] || CT.C173});
+          } else if (T.TodayEventsStateL().is(state)) {
+            return new today_events.TodayEvents.new({events: state.todayEvents, $creationLocationd_0dea112b090073317d4: C[174] || CT.C174});
+          } else if (T.ThisWeekEventsStateL().is(state)) {
+            return new this_week.ThisWeek.new({events: state.thisWeekEvents, scrollController: this.widget.bloc.scrollController, $creationLocationd_0dea112b090073317d4: C[177] || CT.C177});
+          } else if (T.ThisWeekendEventsStateL().is(state)) {
+            return new this_weekend.ThisWeekend.new({events: state.weekendEvents, scrollController: this.widget.bloc.scrollController, $creationLocationd_0dea112b090073317d4: C[181] || CT.C181});
+          } else if (T.UpcomingEventsStateL().is(state)) {
+            return new upcoming_event.UpcomingEvents.new({events: state.upcomingEvents, $creationLocationd_0dea112b090073317d4: C[185] || CT.C185});
+          }
+          return new basic.Center.new({child: new progress_indicator.CircularProgressIndicator.new({$creationLocationd_0dea112b090073317d4: C[188] || CT.C188}), $creationLocationd_0dea112b090073317d4: C[189] || CT.C189});
+        }, T.BuildContextLAndEventsOverviewStateLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[192] || CT.C192});
+    }
+    [_eventOverview](screenSize) {
+      return new container.Container.new({color: theme.MyTheme.appolloBlack, width: screenSize.width, child: new basic.Column.new({crossAxisAlignment: flex.CrossAxisAlignment.start, children: T.JSArrayOfWidgetL().of([new featured_events.FeaturedEvents.new({$creationLocationd_0dea112b090073317d4: C[196] || CT.C196}), new event_overview_navbar.EventOverviewNavigationBar.new({bloc: this.widget.bloc, $creationLocationd_0dea112b090073317d4: C[197] || CT.C197})]), $creationLocationd_0dea112b090073317d4: C[200] || CT.C200}), $creationLocationd_0dea112b090073317d4: C[204] || CT.C204});
+    }
+  };
+  (event_overview_home._EventOverviewHomeState.new = function() {
+    event_overview_home._EventOverviewHomeState.__proto__.new.call(this);
+    ;
+  }).prototype = event_overview_home._EventOverviewHomeState.prototype;
+  dart.addTypeTests(event_overview_home._EventOverviewHomeState);
+  dart.addTypeCaches(event_overview_home._EventOverviewHomeState);
+  dart.setMethodSignature(event_overview_home._EventOverviewHomeState, () => ({
+    __proto__: dart.getMethods(event_overview_home._EventOverviewHomeState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_buildBody]: dart.fnType(dart.legacy(framework.Widget), [dart.dynamic]),
+    [_eventOverview]: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(ui.Size)])
+  }));
+  dart.setLibraryUri(event_overview_home._EventOverviewHomeState, I[3]);
+  var title$ = dart.privateName(event_overview_home, "Menu.title");
+  var subtitle$ = dart.privateName(event_overview_home, "Menu.subtitle");
+  var fullDate$ = dart.privateName(event_overview_home, "Menu.fullDate");
+  var pixel$ = dart.privateName(event_overview_home, "Menu.pixel");
+  var isTap$ = dart.privateName(event_overview_home, "Menu.isTap");
+  event_overview_home.Menu = class Menu extends core.Object {
+    get title() {
+      return this[title$];
+    }
+    set title(value) {
+      this[title$] = value;
+    }
+    get subtitle() {
+      return this[subtitle$];
+    }
+    set subtitle(value) {
+      this[subtitle$] = value;
+    }
+    get fullDate() {
+      return this[fullDate$];
+    }
+    set fullDate(value) {
+      this[fullDate$] = value;
+    }
+    get pixel() {
+      return this[pixel$];
+    }
+    set pixel(value) {
+      this[pixel$] = value;
+    }
+    get isTap() {
+      return this[isTap$];
+    }
+    set isTap(value) {
+      this[isTap$] = value;
+    }
+  };
+  (event_overview_home.Menu.new = function(title, isTap, opts) {
+    let subtitle = opts && 'subtitle' in opts ? opts.subtitle : null;
+    let fullDate = opts && 'fullDate' in opts ? opts.fullDate : null;
+    let pixel = opts && 'pixel' in opts ? opts.pixel : null;
+    this[title$] = title;
+    this[isTap$] = isTap;
+    this[subtitle$] = subtitle;
+    this[fullDate$] = fullDate;
+    this[pixel$] = pixel;
+    ;
+  }).prototype = event_overview_home.Menu.prototype;
+  dart.addTypeTests(event_overview_home.Menu);
+  dart.addTypeCaches(event_overview_home.Menu);
+  dart.setLibraryUri(event_overview_home.Menu, I[3]);
+  dart.setFieldSignature(event_overview_home.Menu, () => ({
+    __proto__: dart.getFields(event_overview_home.Menu.__proto__),
+    title: dart.fieldType(dart.legacy(core.String)),
+    subtitle: dart.fieldType(dart.legacy(core.String)),
+    fullDate: dart.fieldType(dart.legacy(core.String)),
+    pixel: dart.fieldType(dart.legacy(core.double)),
+    isTap: dart.fieldType(dart.legacy(core.bool))
+  }));
+  dart.trackLibraries("packages/ticketapp/UI/event_overview/tabs/this_weekend.dart", {
+    "package:ticketapp/UI/event_overview/tabs/this_weekend.dart": this_weekend,
+    "package:ticketapp/UI/event_overview/tabs/this_week.dart": this_week,
+    "package:ticketapp/UI/event_overview/event_overview_navbar.dart": event_overview_navbar,
+    "package:ticketapp/UI/event_overview/event_overview_home.dart": event_overview_home
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["this_weekend.dart","this_week.dart","../event_overview_navbar.dart","../event_overview_home.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;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","file":"../../../../../../../../packages/ticketapp/UI/event_overview/tabs/this_weekend.dart.lib.js"}');
+  // Exports:
+  return {
+    UI__event_overview__tabs__this_weekend: this_weekend,
+    UI__event_overview__tabs__this_week: this_week,
+    UI__event_overview__event_overview_navbar: event_overview_navbar,
+    UI__event_overview__event_overview_home: event_overview_home
+  };
+}));
+
+//# sourceMappingURL=this_weekend.dart.lib.js.map

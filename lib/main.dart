@@ -39,10 +39,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'appollo - Patron Engagement Technologies',
       theme: MyTheme.theme,
-      navigatorKey: NavigationService.navigatorKey,
-      onGenerateRoute: GeneratedRoute.onGenerateRoute,
-      initialRoute: LandingPage.routeName,
-      builder: (context, child) => Scaffold(body: child),
+      // navigatorKey: NavigationService.navigatorKey,
+      // onGenerateRoute: GeneratedRoute.onGenerateRoute,
+      // initialRoute: LandingPage.routeName,
+      // builder: (context, child) => Scaffold(body: child),
+      home: LandingPage(),
     );
   }
 }

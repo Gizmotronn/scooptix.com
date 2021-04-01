@@ -1,0 +1,1608 @@
+define(['dart_sdk', 'packages/flutter/src/widgets/widget_span.dart', 'packages/ticketapp/model/link_type/link_type.dart', 'packages/ticketapp/pages/authentication/bloc/authentication_bloc.dart', 'packages/ticketapp/repositories/ticket_repository.dart', 'packages/ticketapp/UI/theme.dart', 'packages/responsive_builder/src/widget_builders.dart', 'packages/flutter/src/material/icon_button.dart', 'packages/flutter_bloc/src/bloc_provider.dart', 'packages/ticketapp/pages/event_details/desktop_view_drawer.dart', 'packages/flutter/src/painting/box_decoration.dart', 'packages/flutter/src/painting/decoration_image.dart', 'packages/extended_image/src/gesture/extended_image_slide_page_route.dart', 'packages/flutter/src/painting/box_fit.dart', 'packages/flutter/src/material/colors.dart', 'packages/flutter/src/painting/alignment.dart', 'packages/flutter/src/widgets/single_child_scroll_view.dart', 'packages/flutter/src/rendering/layer.dart', 'packages/flutter/src/painting/edge_insets.dart', 'packages/flutter_bloc/src/bloc_builder.dart', 'packages/responsive_builder/src/device_screen_type.dart', 'packages/responsive_builder/src/sizing_information.dart', 'packages/ticketapp/UI/event_details/eventInfo.dart', 'packages/flutter/src/painting/basic_types.dart', 'packages/flutter_bloc/src/bloc_consumer.dart', 'packages/ticketapp/utilities/alertGenerator.dart', 'packages/flutter/src/material/page.dart', 'packages/ticketapp/pages/event_details/mobile_view.dart', 'packages/flutter/src/widgets/animated_size.dart', 'packages/ticketapp/pages/authentication/login_and_signup_page.dart', 'packages/flutter/src/rendering/flex.dart', 'packages/flutter/src/painting/box_shadow.dart', 'packages/ticketapp/model/link_type/advertisementInvite.dart', 'packages/ticketapp/model/link_type/promoterInvite.dart', 'packages/ticketapp/model/link_type/birthdayList.dart', 'packages/ticketapp/UI/event_details/whyAreYouHere.dart'], (function load__packages__ticketapp__pages__authentication__authentication_page_dart(dart_sdk, packages__flutter__src__widgets__widget_span$46dart, packages__ticketapp__model__link_type__link_type$46dart, packages__ticketapp__pages__authentication__bloc__authentication_bloc$46dart, packages__ticketapp__repositories__ticket_repository$46dart, packages__ticketapp__UI__theme$46dart, packages__responsive_builder__src__widget_builders$46dart, packages__flutter__src__material__icon_button$46dart, packages__flutter_bloc__src__bloc_provider$46dart, packages__ticketapp__pages__event_details__desktop_view_drawer$46dart, packages__flutter__src__painting__box_decoration$46dart, packages__flutter__src__painting__decoration_image$46dart, packages__extended_image__src__gesture__extended_image_slide_page_route$46dart, packages__flutter__src__painting__box_fit$46dart, packages__flutter__src__material__colors$46dart, packages__flutter__src__painting__alignment$46dart, packages__flutter__src__widgets__single_child_scroll_view$46dart, packages__flutter__src__rendering__layer$46dart, packages__flutter__src__painting__edge_insets$46dart, packages__flutter_bloc__src__bloc_builder$46dart, packages__responsive_builder__src__device_screen_type$46dart, packages__responsive_builder__src__sizing_information$46dart, packages__ticketapp__UI__event_details__eventInfo$46dart, packages__flutter__src__painting__basic_types$46dart, packages__flutter_bloc__src__bloc_consumer$46dart, packages__ticketapp__utilities__alertGenerator$46dart, packages__flutter__src__material__page$46dart, packages__ticketapp__pages__event_details__mobile_view$46dart, packages__flutter__src__widgets__animated_size$46dart, packages__ticketapp__pages__authentication__login_and_signup_page$46dart, packages__flutter__src__rendering__flex$46dart, packages__flutter__src__painting__box_shadow$46dart, packages__ticketapp__model__link_type__advertisementInvite$46dart, packages__ticketapp__model__link_type__promoterInvite$46dart, packages__ticketapp__model__link_type__birthdayList$46dart, packages__ticketapp__UI__event_details__whyAreYouHere$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _engine = dart_sdk._engine;
+  const ui = dart_sdk.ui;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const framework = packages__flutter__src__widgets__widget_span$46dart.src__widgets__framework;
+  const media_query = packages__flutter__src__widgets__widget_span$46dart.src__widgets__media_query;
+  const widget_inspector = packages__flutter__src__widgets__widget_span$46dart.src__widgets__widget_inspector;
+  const basic = packages__flutter__src__widgets__widget_span$46dart.src__widgets__basic;
+  const container = packages__flutter__src__widgets__widget_span$46dart.src__widgets__container;
+  const navigator = packages__flutter__src__widgets__widget_span$46dart.src__widgets__navigator;
+  const text = packages__flutter__src__widgets__widget_span$46dart.src__widgets__text;
+  const ticker_provider = packages__flutter__src__widgets__widget_span$46dart.src__widgets__ticker_provider;
+  const link_type = packages__ticketapp__model__link_type__link_type$46dart.model__link_type__link_type;
+  const authentication_bloc = packages__ticketapp__pages__authentication__bloc__authentication_bloc$46dart.pages__authentication__bloc__authentication_bloc;
+  const ticket_repository = packages__ticketapp__repositories__ticket_repository$46dart.repositories__ticket_repository;
+  const theme = packages__ticketapp__UI__theme$46dart.UI__theme;
+  const helpers = packages__responsive_builder__src__widget_builders$46dart.src__helpers;
+  const widget_builders = packages__responsive_builder__src__widget_builders$46dart.src__widget_builders;
+  const scaffold = packages__flutter__src__material__icon_button$46dart.src__material__scaffold;
+  const bloc_provider = packages__flutter_bloc__src__bloc_provider$46dart.src__bloc_provider;
+  const desktop_view_drawer = packages__ticketapp__pages__event_details__desktop_view_drawer$46dart.pages__event_details__desktop_view_drawer;
+  const box_decoration = packages__flutter__src__painting__box_decoration$46dart.src__painting__box_decoration;
+  const decoration_image = packages__flutter__src__painting__decoration_image$46dart.src__painting__decoration_image;
+  const extended_image = packages__extended_image__src__gesture__extended_image_slide_page_route$46dart.src__extended_image;
+  const box_fit = packages__flutter__src__painting__box_fit$46dart.src__painting__box_fit;
+  const colors = packages__flutter__src__material__colors$46dart.src__material__colors;
+  const alignment = packages__flutter__src__painting__alignment$46dart.src__painting__alignment;
+  const single_child_scroll_view = packages__flutter__src__widgets__single_child_scroll_view$46dart.src__widgets__single_child_scroll_view;
+  const box = packages__flutter__src__rendering__layer$46dart.src__rendering__box;
+  const edge_insets = packages__flutter__src__painting__edge_insets$46dart.src__painting__edge_insets;
+  const bloc_builder = packages__flutter_bloc__src__bloc_builder$46dart.src__bloc_builder;
+  const device_screen_type = packages__responsive_builder__src__device_screen_type$46dart.src__device_screen_type;
+  const sizing_information = packages__responsive_builder__src__sizing_information$46dart.src__sizing_information;
+  const eventInfo = packages__ticketapp__UI__event_details__eventInfo$46dart.UI__event_details__eventInfo;
+  const basic_types = packages__flutter__src__painting__basic_types$46dart.src__painting__basic_types;
+  const bloc_consumer = packages__flutter_bloc__src__bloc_consumer$46dart.src__bloc_consumer;
+  const alertGenerator = packages__ticketapp__utilities__alertGenerator$46dart.utilities__alertGenerator;
+  const page = packages__flutter__src__material__page$46dart.src__material__page;
+  const mobile_view = packages__ticketapp__pages__event_details__mobile_view$46dart.pages__event_details__mobile_view;
+  const animated_size = packages__flutter__src__widgets__animated_size$46dart.src__widgets__animated_size;
+  const login_and_signup_page = packages__ticketapp__pages__authentication__login_and_signup_page$46dart.pages__authentication__login_and_signup_page;
+  const flex = packages__flutter__src__rendering__flex$46dart.src__rendering__flex;
+  const box_shadow = packages__flutter__src__painting__box_shadow$46dart.src__painting__box_shadow;
+  const advertisementInvite = packages__ticketapp__model__link_type__advertisementInvite$46dart.model__link_type__advertisementInvite;
+  const promoterInvite = packages__ticketapp__model__link_type__promoterInvite$46dart.model__link_type__promoterInvite;
+  const birthdayList = packages__ticketapp__model__link_type__birthdayList$46dart.model__link_type__birthdayList;
+  const whyAreYouHere = packages__ticketapp__UI__event_details__whyAreYouHere$46dart.UI__event_details__whyAreYouHere;
+  var authentication_page = Object.create(dart.library);
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    doubleL: () => (T.doubleL = dart.constFn(dart.legacy(core.double)))(),
+    AuthenticationBlocL: () => (T.AuthenticationBlocL = dart.constFn(dart.legacy(authentication_bloc.AuthenticationBloc)))(),
+    BlocProviderOfAuthenticationBlocL: () => (T.BlocProviderOfAuthenticationBlocL = dart.constFn(bloc_provider.BlocProvider$(T.AuthenticationBlocL())))(),
+    _LocationL: () => (T._LocationL = dart.constFn(dart.legacy(widget_inspector._Location)))(),
+    AuthenticationStateL: () => (T.AuthenticationStateL = dart.constFn(dart.legacy(authentication_bloc.AuthenticationState)))(),
+    BlocBuilderOfAuthenticationBlocL$AuthenticationStateL: () => (T.BlocBuilderOfAuthenticationBlocL$AuthenticationStateL = dart.constFn(bloc_builder.BlocBuilder$(T.AuthenticationBlocL(), T.AuthenticationStateL())))(),
+    StateLoggedInL: () => (T.StateLoggedInL = dart.constFn(dart.legacy(authentication_bloc.StateLoggedIn)))(),
+    SizedBoxL: () => (T.SizedBoxL = dart.constFn(dart.legacy(basic.SizedBox)))(),
+    BuildContextL: () => (T.BuildContextL = dart.constFn(dart.legacy(framework.BuildContext)))(),
+    SizingInformationL: () => (T.SizingInformationL = dart.constFn(dart.legacy(sizing_information.SizingInformation)))(),
+    BuildContextLAndSizingInformationLToSizedBoxL: () => (T.BuildContextLAndSizingInformationLToSizedBoxL = dart.constFn(dart.fnType(T.SizedBoxL(), [T.BuildContextL(), T.SizingInformationL()])))(),
+    ResponsiveBuilderL: () => (T.ResponsiveBuilderL = dart.constFn(dart.legacy(widget_builders.ResponsiveBuilder)))(),
+    BuildContextLAndAuthenticationStateLToResponsiveBuilderL: () => (T.BuildContextLAndAuthenticationStateLToResponsiveBuilderL = dart.constFn(dart.fnType(T.ResponsiveBuilderL(), [T.BuildContextL(), T.AuthenticationStateL()])))(),
+    StateNewUserEmailL: () => (T.StateNewUserEmailL = dart.constFn(dart.legacy(authentication_bloc.StateNewUserEmail)))(),
+    StateNewUserEmailsConfirmedL: () => (T.StateNewUserEmailsConfirmedL = dart.constFn(dart.legacy(authentication_bloc.StateNewUserEmailsConfirmed)))(),
+    StatePasswordsConfirmedL: () => (T.StatePasswordsConfirmedL = dart.constFn(dart.legacy(authentication_bloc.StatePasswordsConfirmed)))(),
+    WidgetL: () => (T.WidgetL = dart.constFn(dart.legacy(framework.Widget)))(),
+    JSArrayOfWidgetL: () => (T.JSArrayOfWidgetL = dart.constFn(_interceptors.JSArray$(T.WidgetL())))(),
+    BuildContextLAndSizingInformationLToWidgetL: () => (T.BuildContextLAndSizingInformationLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.SizingInformationL()])))(),
+    BlocConsumerOfAuthenticationBlocL$AuthenticationStateL: () => (T.BlocConsumerOfAuthenticationBlocL$AuthenticationStateL = dart.constFn(bloc_consumer.BlocConsumer$(T.AuthenticationBlocL(), T.AuthenticationStateL())))(),
+    StateErrorSignUpL: () => (T.StateErrorSignUpL = dart.constFn(dart.legacy(authentication_bloc.StateErrorSignUp)))(),
+    StateLoginFailedL: () => (T.StateLoginFailedL = dart.constFn(dart.legacy(authentication_bloc.StateLoginFailed)))(),
+    StateAutoLoggedInL: () => (T.StateAutoLoggedInL = dart.constFn(dart.legacy(authentication_bloc.StateAutoLoggedIn)))(),
+    EventDetailsPageL: () => (T.EventDetailsPageL = dart.constFn(dart.legacy(mobile_view.EventDetailsPage)))(),
+    BuildContextLToEventDetailsPageL: () => (T.BuildContextLToEventDetailsPageL = dart.constFn(dart.fnType(T.EventDetailsPageL(), [T.BuildContextL()])))(),
+    dynamicToNull: () => (T.dynamicToNull = dart.constFn(dart.fnType(core.Null, [dart.dynamic])))(),
+    BuildContextLAndAuthenticationStateLToNull: () => (T.BuildContextLAndAuthenticationStateLToNull = dart.constFn(dart.fnType(core.Null, [T.BuildContextL(), T.AuthenticationStateL()])))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    AuthenticationStateLAndAuthenticationStateLToboolL: () => (T.AuthenticationStateLAndAuthenticationStateLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.AuthenticationStateL(), T.AuthenticationStateL()])))(),
+    BuildContextLAndAuthenticationStateLToWidgetL: () => (T.BuildContextLAndAuthenticationStateLToWidgetL = dart.constFn(dart.fnType(T.WidgetL(), [T.BuildContextL(), T.AuthenticationStateL()])))(),
+    ShadowL: () => (T.ShadowL = dart.constFn(dart.legacy(ui.Shadow)))(),
+    JSArrayOfShadowL: () => (T.JSArrayOfShadowL = dart.constFn(_interceptors.JSArray$(T.ShadowL())))(),
+    AdvertisementInviteL: () => (T.AdvertisementInviteL = dart.constFn(dart.legacy(advertisementInvite.AdvertisementInvite)))(),
+    PromoterInviteL: () => (T.PromoterInviteL = dart.constFn(dart.legacy(promoterInvite.PromoterInvite)))(),
+    BookingL: () => (T.BookingL = dart.constFn(dart.legacy(birthdayList.Booking)))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "bloc",
+        [_Location_column]: 13,
+        [_Location_line]: 58,
+        [_Location_file]: null
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "linkType",
+        [_Location_column]: 13,
+        [_Location_line]: 59,
+        [_Location_file]: null
+      });
+    },
+    get C1() {
+      return C[1] = dart.constList([C[2] || CT.C2, C[3] || CT.C3], T._LocationL());
+    },
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[1] || CT.C1,
+        [_Location_name]: null,
+        [_Location_column]: 18,
+        [_Location_line]: 57,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C6() {
+      return C[6] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "value",
+        [_Location_column]: 11,
+        [_Location_line]: 56,
+        [_Location_file]: null
+      });
+    },
+    get C7() {
+      return C[7] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 11,
+        [_Location_line]: 57,
+        [_Location_file]: null
+      });
+    },
+    get C5() {
+      return C[5] = dart.constList([C[6] || CT.C6, C[7] || CT.C7], T._LocationL());
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[5] || CT.C5,
+        [_Location_name]: null,
+        [_Location_column]: 31,
+        [_Location_line]: 55,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C10() {
+      return C[10] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "url",
+        [_Location_column]: 45,
+        [_Location_line]: 73,
+        [_Location_file]: null
+      });
+    },
+    get C11() {
+      return C[11] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cache",
+        [_Location_column]: 23,
+        [_Location_line]: 74,
+        [_Location_file]: null
+      });
+    },
+    get C9() {
+      return C[9] = dart.constList([C[10] || CT.C10, C[11] || CT.C11], T._LocationL());
+    },
+    get C8() {
+      return C[8] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[9] || CT.C9,
+        [_Location_name]: null,
+        [_Location_column]: 42,
+        [_Location_line]: 72,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C14() {
+      return C[14] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 19,
+        [_Location_line]: 83,
+        [_Location_file]: null
+      });
+    },
+    get C15() {
+      return C[15] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 19,
+        [_Location_line]: 84,
+        [_Location_file]: null
+      });
+    },
+    get C16() {
+      return C[16] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 19,
+        [_Location_line]: 85,
+        [_Location_file]: null
+      });
+    },
+    get C13() {
+      return C[13] = dart.constList([C[14] || CT.C14, C[15] || CT.C15, C[16] || CT.C16], T._LocationL());
+    },
+    get C12() {
+      return C[12] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[13] || CT.C13,
+        [_Location_name]: null,
+        [_Location_column]: 24,
+        [_Location_line]: 82,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C19() {
+      return C[19] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "filter",
+        [_Location_column]: 17,
+        [_Location_line]: 81,
+        [_Location_file]: null
+      });
+    },
+    get C20() {
+      return C[20] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 17,
+        [_Location_line]: 82,
+        [_Location_file]: null
+      });
+    },
+    get C18() {
+      return C[18] = dart.constList([C[19] || CT.C19, C[20] || CT.C20], T._LocationL());
+    },
+    get C17() {
+      return C[17] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[18] || CT.C18,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 80,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C23() {
+      return C[23] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 15,
+        [_Location_line]: 68,
+        [_Location_file]: null
+      });
+    },
+    get C24() {
+      return C[24] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 15,
+        [_Location_line]: 69,
+        [_Location_file]: null
+      });
+    },
+    get C25() {
+      return C[25] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "decoration",
+        [_Location_column]: 15,
+        [_Location_line]: 70,
+        [_Location_file]: null
+      });
+    },
+    get C26() {
+      return C[26] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 15,
+        [_Location_line]: 80,
+        [_Location_file]: null
+      });
+    },
+    get C22() {
+      return C[22] = dart.constList([C[23] || CT.C23, C[24] || CT.C24, C[25] || CT.C25, C[26] || CT.C26], T._LocationL());
+    },
+    get C21() {
+      return C[21] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[22] || CT.C22,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 67,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C29() {
+      return C[29] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 13,
+        [_Location_line]: 65,
+        [_Location_file]: null
+      });
+    },
+    get C30() {
+      return C[30] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 13,
+        [_Location_line]: 66,
+        [_Location_file]: null
+      });
+    },
+    get C31() {
+      return C[31] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 67,
+        [_Location_file]: null
+      });
+    },
+    get C28() {
+      return C[28] = dart.constList([C[29] || CT.C29, C[30] || CT.C30, C[31] || CT.C31], T._LocationL());
+    },
+    get C27() {
+      return C[27] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[28] || CT.C28,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 64,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C34() {
+      return C[34] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 55,
+        [_Location_line]: 121,
+        [_Location_file]: null
+      });
+    },
+    get C33() {
+      return C[33] = dart.constList([C[34] || CT.C34], T._LocationL());
+    },
+    get C32() {
+      return C[32] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[33] || CT.C33,
+        [_Location_name]: null,
+        [_Location_column]: 46,
+        [_Location_line]: 121,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C36() {
+      return C[36] = dart.constList([], T._LocationL());
+    },
+    get C35() {
+      return C[35] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[36] || CT.C36,
+        [_Location_name]: null,
+        [_Location_column]: 55,
+        [_Location_line]: 123,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C39() {
+      return C[39] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 39,
+        [_Location_line]: 115,
+        [_Location_file]: null
+      });
+    },
+    get C38() {
+      return C[38] = dart.constList([C[39] || CT.C39], T._LocationL());
+    },
+    get C37() {
+      return C[37] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[38] || CT.C38,
+        [_Location_name]: null,
+        [_Location_column]: 42,
+        [_Location_line]: 114,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C42() {
+      return C[42] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cubit",
+        [_Location_column]: 33,
+        [_Location_line]: 112,
+        [_Location_file]: null
+      });
+    },
+    get C43() {
+      return C[43] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 33,
+        [_Location_line]: 113,
+        [_Location_file]: null
+      });
+    },
+    get C41() {
+      return C[41] = dart.constList([C[42] || CT.C42, C[43] || CT.C43], T._LocationL());
+    },
+    get C40() {
+      return C[40] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[41] || CT.C41,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 110,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C44() {
+      return C[44] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[36] || CT.C36,
+        [_Location_name]: null,
+        [_Location_column]: 57,
+        [_Location_line]: 142,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C47() {
+      return C[47] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "orientation",
+        [_Location_column]: 56,
+        [_Location_line]: 149,
+        [_Location_file]: null
+      });
+    },
+    get C48() {
+      return C[48] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "linkType",
+        [_Location_column]: 58,
+        [_Location_line]: 150,
+        [_Location_file]: null
+      });
+    },
+    get C46() {
+      return C[46] = dart.constList([C[47] || CT.C47, C[48] || CT.C48], T._LocationL());
+    },
+    get C45() {
+      return C[45] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[46] || CT.C46,
+        [_Location_name]: null,
+        [_Location_column]: 54,
+        [_Location_line]: 148,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C51() {
+      return C[51] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 47,
+        [_Location_line]: 148,
+        [_Location_file]: null
+      });
+    },
+    get C50() {
+      return C[50] = dart.constList([C[51] || CT.C51], T._LocationL());
+    },
+    get C49() {
+      return C[49] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[50] || CT.C50,
+        [_Location_name]: null,
+        [_Location_column]: 45,
+        [_Location_line]: 147,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C54() {
+      return C[54] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 43,
+        [_Location_line]: 145,
+        [_Location_file]: null
+      });
+    },
+    get C53() {
+      return C[53] = dart.constList([C[54] || CT.C54], T._LocationL());
+    },
+    get C52() {
+      return C[52] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[53] || CT.C53,
+        [_Location_name]: null,
+        [_Location_column]: 48,
+        [_Location_line]: 144,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C57() {
+      return C[57] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "orientation",
+        [_Location_column]: 52,
+        [_Location_line]: 157,
+        [_Location_file]: null
+      });
+    },
+    get C58() {
+      return C[58] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "linkType",
+        [_Location_column]: 71,
+        [_Location_line]: 157,
+        [_Location_file]: null
+      });
+    },
+    get C56() {
+      return C[56] = dart.constList([C[57] || CT.C57, C[58] || CT.C58], T._LocationL());
+    },
+    get C55() {
+      return C[55] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[56] || CT.C56,
+        [_Location_name]: null,
+        [_Location_column]: 46,
+        [_Location_line]: 156,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C61() {
+      return C[61] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 39,
+        [_Location_line]: 133,
+        [_Location_file]: null
+      });
+    },
+    get C60() {
+      return C[60] = dart.constList([C[61] || CT.C61], T._LocationL());
+    },
+    get C59() {
+      return C[59] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[60] || CT.C60,
+        [_Location_name]: null,
+        [_Location_column]: 42,
+        [_Location_line]: 132,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C64() {
+      return C[64] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cubit",
+        [_Location_column]: 33,
+        [_Location_line]: 130,
+        [_Location_file]: null
+      });
+    },
+    get C65() {
+      return C[65] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 33,
+        [_Location_line]: 131,
+        [_Location_file]: null
+      });
+    },
+    get C63() {
+      return C[63] = dart.constList([C[64] || CT.C64, C[65] || CT.C65], T._LocationL());
+    },
+    get C62() {
+      return C[62] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[63] || CT.C63,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 128,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C68() {
+      return C[68] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "linkType",
+        [_Location_column]: 58,
+        [_Location_line]: 203,
+        [_Location_file]: null
+      });
+    },
+    get C69() {
+      return C[69] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "forwardToPayment",
+        [_Location_column]: 51,
+        [_Location_line]: 204,
+        [_Location_file]: null
+      });
+    },
+    get C67() {
+      return C[67] = dart.constList([C[68] || CT.C68, C[69] || CT.C69], T._LocationL());
+    },
+    get C66() {
+      return C[66] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[67] || CT.C67,
+        [_Location_name]: null,
+        [_Location_column]: 49,
+        [_Location_line]: 202,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C70() {
+      return C[70] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[36] || CT.C36,
+        [_Location_name]: null,
+        [_Location_column]: 53,
+        [_Location_line]: 229,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C73() {
+      return C[73] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "bloc",
+        [_Location_column]: 51,
+        [_Location_line]: 245,
+        [_Location_file]: null
+      });
+    },
+    get C74() {
+      return C[74] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "textTheme",
+        [_Location_column]: 51,
+        [_Location_line]: 246,
+        [_Location_file]: null
+      });
+    },
+    get C72() {
+      return C[72] = dart.constList([C[73] || CT.C73, C[74] || CT.C74], T._LocationL());
+    },
+    get C71() {
+      return C[71] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[72] || CT.C72,
+        [_Location_name]: null,
+        [_Location_column]: 56,
+        [_Location_line]: 244,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C77() {
+      return C[77] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 49,
+        [_Location_line]: 242,
+        [_Location_file]: null
+      });
+    },
+    get C78() {
+      return C[78] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 49,
+        [_Location_line]: 244,
+        [_Location_file]: null
+      });
+    },
+    get C76() {
+      return C[76] = dart.constList([C[77] || CT.C77, C[78] || CT.C78], T._LocationL());
+    },
+    get C75() {
+      return C[75] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[76] || CT.C76,
+        [_Location_name]: null,
+        [_Location_column]: 54,
+        [_Location_line]: 241,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C81() {
+      return C[81] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 47,
+        [_Location_line]: 241,
+        [_Location_file]: null
+      });
+    },
+    get C80() {
+      return C[80] = dart.constList([C[81] || CT.C81], T._LocationL());
+    },
+    get C79() {
+      return C[79] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[80] || CT.C80,
+        [_Location_name]: null,
+        [_Location_column]: 52,
+        [_Location_line]: 240,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C84() {
+      return C[84] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "constraints",
+        [_Location_column]: 45,
+        [_Location_line]: 238,
+        [_Location_file]: null
+      });
+    },
+    get C85() {
+      return C[85] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 45,
+        [_Location_line]: 240,
+        [_Location_file]: null
+      });
+    },
+    get C83() {
+      return C[83] = dart.constList([C[84] || CT.C84, C[85] || CT.C85], T._LocationL());
+    },
+    get C82() {
+      return C[82] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[83] || CT.C83,
+        [_Location_name]: null,
+        [_Location_column]: 50,
+        [_Location_line]: 237,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C88() {
+      return C[88] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "vsync",
+        [_Location_column]: 43,
+        [_Location_line]: 234,
+        [_Location_file]: null
+      });
+    },
+    get C89() {
+      return C[89] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "duration",
+        [_Location_column]: 43,
+        [_Location_line]: 235,
+        [_Location_file]: null
+      });
+    },
+    get C90() {
+      return C[90] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 43,
+        [_Location_line]: 237,
+        [_Location_file]: null
+      });
+    },
+    get C87() {
+      return C[87] = dart.constList([C[88] || CT.C88, C[89] || CT.C89, C[90] || CT.C90], T._LocationL());
+    },
+    get C86() {
+      return C[86] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[87] || CT.C87,
+        [_Location_name]: null,
+        [_Location_column]: 41,
+        [_Location_line]: 233,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C93() {
+      return C[93] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 39,
+        [_Location_line]: 232,
+        [_Location_file]: null
+      });
+    },
+    get C92() {
+      return C[92] = dart.constList([C[93] || CT.C93], T._LocationL());
+    },
+    get C91() {
+      return C[91] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[92] || CT.C92,
+        [_Location_name]: null,
+        [_Location_column]: 44,
+        [_Location_line]: 231,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C96() {
+      return C[96] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "cubit",
+        [_Location_column]: 33,
+        [_Location_line]: 166,
+        [_Location_file]: null
+      });
+    },
+    get C97() {
+      return C[97] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "listener",
+        [_Location_column]: 33,
+        [_Location_line]: 167,
+        [_Location_file]: null
+      });
+    },
+    get C98() {
+      return C[98] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "buildWhen",
+        [_Location_column]: 33,
+        [_Location_line]: 213,
+        [_Location_file]: null
+      });
+    },
+    get C99() {
+      return C[99] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 33,
+        [_Location_line]: 219,
+        [_Location_file]: null
+      });
+    },
+    get C95() {
+      return C[95] = dart.constList([C[96] || CT.C96, C[97] || CT.C97, C[98] || CT.C98, C[99] || CT.C99], T._LocationL());
+    },
+    get C94() {
+      return C[94] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[95] || CT.C95,
+        [_Location_name]: null,
+        [_Location_column]: 29,
+        [_Location_line]: 164,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C102() {
+      return C[102] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 27,
+        [_Location_line]: 108,
+        [_Location_file]: null
+      });
+    },
+    get C101() {
+      return C[101] = dart.constList([C[102] || CT.C102], T._LocationL());
+    },
+    get C100() {
+      return C[100] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[101] || CT.C101,
+        [_Location_name]: null,
+        [_Location_column]: 25,
+        [_Location_line]: 107,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C105() {
+      return C[105] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 27,
+        [_Location_line]: 276,
+        [_Location_file]: null
+      });
+    },
+    get C104() {
+      return C[104] = dart.constList([C[105] || CT.C105], T._LocationL());
+    },
+    get C103() {
+      return C[103] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[104] || CT.C104,
+        [_Location_name]: null,
+        [_Location_column]: 25,
+        [_Location_line]: 275,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C108() {
+      return C[108] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 31,
+        [_Location_line]: 286,
+        [_Location_file]: null
+      });
+    },
+    get C107() {
+      return C[107] = dart.constList([C[108] || CT.C108], T._LocationL());
+    },
+    get C106() {
+      return C[106] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[107] || CT.C107,
+        [_Location_name]: null,
+        [_Location_column]: 36,
+        [_Location_line]: 285,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C111() {
+      return C[111] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "builder",
+        [_Location_column]: 43,
+        [_Location_line]: 278,
+        [_Location_file]: null
+      });
+    },
+    get C110() {
+      return C[110] = dart.constList([C[111] || CT.C111], T._LocationL());
+    },
+    get C109() {
+      return C[109] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[110] || CT.C110,
+        [_Location_name]: null,
+        [_Location_column]: 25,
+        [_Location_line]: 278,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C114() {
+      return C[114] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 23,
+        [_Location_line]: 106,
+        [_Location_file]: null
+      });
+    },
+    get C113() {
+      return C[113] = dart.constList([C[114] || CT.C114], T._LocationL());
+    },
+    get C112() {
+      return C[112] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[113] || CT.C113,
+        [_Location_name]: null,
+        [_Location_column]: 28,
+        [_Location_line]: 105,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C117() {
+      return C[117] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "padding",
+        [_Location_column]: 21,
+        [_Location_line]: 99,
+        [_Location_file]: null
+      });
+    },
+    get C118() {
+      return C[118] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 21,
+        [_Location_line]: 105,
+        [_Location_file]: null
+      });
+    },
+    get C116() {
+      return C[116] = dart.constList([C[117] || CT.C117, C[118] || CT.C118], T._LocationL());
+    },
+    get C115() {
+      return C[115] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[116] || CT.C116,
+        [_Location_name]: null,
+        [_Location_column]: 26,
+        [_Location_line]: 98,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C121() {
+      return C[121] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "constraints",
+        [_Location_column]: 19,
+        [_Location_line]: 97,
+        [_Location_file]: null
+      });
+    },
+    get C122() {
+      return C[122] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 19,
+        [_Location_line]: 98,
+        [_Location_file]: null
+      });
+    },
+    get C120() {
+      return C[120] = dart.constList([C[121] || CT.C121, C[122] || CT.C122], T._LocationL());
+    },
+    get C119() {
+      return C[119] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[120] || CT.C120,
+        [_Location_name]: null,
+        [_Location_column]: 24,
+        [_Location_line]: 96,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C125() {
+      return C[125] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "width",
+        [_Location_column]: 17,
+        [_Location_line]: 95,
+        [_Location_file]: null
+      });
+    },
+    get C126() {
+      return C[126] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 17,
+        [_Location_line]: 96,
+        [_Location_file]: null
+      });
+    },
+    get C124() {
+      return C[124] = dart.constList([C[125] || CT.C125, C[126] || CT.C126], T._LocationL());
+    },
+    get C123() {
+      return C[123] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[124] || CT.C124,
+        [_Location_name]: null,
+        [_Location_column]: 22,
+        [_Location_line]: 94,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C129() {
+      return C[129] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 15,
+        [_Location_line]: 94,
+        [_Location_file]: null
+      });
+    },
+    get C128() {
+      return C[128] = dart.constList([C[129] || CT.C129], T._LocationL());
+    },
+    get C127() {
+      return C[127] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[128] || CT.C128,
+        [_Location_name]: null,
+        [_Location_column]: 20,
+        [_Location_line]: 93,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C132() {
+      return C[132] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "alignment",
+        [_Location_column]: 13,
+        [_Location_line]: 92,
+        [_Location_file]: null
+      });
+    },
+    get C133() {
+      return C[133] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "child",
+        [_Location_column]: 13,
+        [_Location_line]: 93,
+        [_Location_file]: null
+      });
+    },
+    get C131() {
+      return C[131] = dart.constList([C[132] || CT.C132, C[133] || CT.C133], T._LocationL());
+    },
+    get C130() {
+      return C[130] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[131] || CT.C131,
+        [_Location_name]: null,
+        [_Location_column]: 11,
+        [_Location_line]: 91,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C136() {
+      return C[136] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 9,
+        [_Location_line]: 63,
+        [_Location_file]: null
+      });
+    },
+    get C135() {
+      return C[135] = dart.constList([C[136] || CT.C136], T._LocationL());
+    },
+    get C134() {
+      return C[134] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[135] || CT.C135,
+        [_Location_name]: null,
+        [_Location_column]: 13,
+        [_Location_line]: 62,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C139() {
+      return C[139] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "endDrawer",
+        [_Location_column]: 7,
+        [_Location_line]: 55,
+        [_Location_file]: null
+      });
+    },
+    get C140() {
+      return C[140] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "endDrawerEnableOpenDragGesture",
+        [_Location_column]: 7,
+        [_Location_line]: 61,
+        [_Location_file]: null
+      });
+    },
+    get C141() {
+      return C[141] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "body",
+        [_Location_column]: 7,
+        [_Location_line]: 62,
+        [_Location_file]: null
+      });
+    },
+    get C138() {
+      return C[138] = dart.constList([C[139] || CT.C139, C[140] || CT.C140, C[141] || CT.C141], T._LocationL());
+    },
+    get C137() {
+      return C[137] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[138] || CT.C138,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 54,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C144() {
+      return C[144] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 11,
+        [_Location_line]: 307,
+        [_Location_file]: null
+      });
+    },
+    get C143() {
+      return C[143] = dart.constList([C[144] || CT.C144], T._LocationL());
+    },
+    get C142() {
+      return C[142] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[143] || CT.C143,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 306,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C147() {
+      return C[147] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 11,
+        [_Location_line]: 310,
+        [_Location_file]: null
+      });
+    },
+    get C148() {
+      return C[148] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 11,
+        [_Location_line]: 311,
+        [_Location_file]: null
+      });
+    },
+    get C146() {
+      return C[146] = dart.constList([C[147] || CT.C147, C[148] || CT.C148], T._LocationL());
+    },
+    get C145() {
+      return C[145] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[146] || CT.C146,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 309,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C151() {
+      return C[151] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "data",
+        [_Location_column]: 14,
+        [_Location_line]: 318,
+        [_Location_file]: null
+      });
+    },
+    get C152() {
+      return C[152] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "style",
+        [_Location_column]: 13,
+        [_Location_line]: 319,
+        [_Location_file]: null
+      });
+    },
+    get C150() {
+      return C[150] = dart.constList([C[151] || CT.C151, C[152] || CT.C152], T._LocationL());
+    },
+    get C149() {
+      return C[149] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[150] || CT.C150,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 318,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C155() {
+      return C[155] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "height",
+        [_Location_column]: 11,
+        [_Location_line]: 327,
+        [_Location_file]: null
+      });
+    },
+    get C154() {
+      return C[154] = dart.constList([C[155] || CT.C155], T._LocationL());
+    },
+    get C153() {
+      return C[153] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[154] || CT.C154,
+        [_Location_name]: null,
+        [_Location_column]: 9,
+        [_Location_line]: 326,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C158() {
+      return C[158] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "mainAxisAlignment",
+        [_Location_column]: 7,
+        [_Location_line]: 304,
+        [_Location_file]: null
+      });
+    },
+    get C159() {
+      return C[159] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "children",
+        [_Location_column]: 7,
+        [_Location_line]: 305,
+        [_Location_file]: null
+      });
+    },
+    get C157() {
+      return C[157] = dart.constList([C[158] || CT.C158, C[159] || CT.C159], T._LocationL());
+    },
+    get C156() {
+      return C[156] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[157] || CT.C157,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 303,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C160() {
+      return C[160] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[36] || CT.C36,
+        [_Location_name]: null,
+        [_Location_column]: 14,
+        [_Location_line]: 337,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    },
+    get C163() {
+      return C[163] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: null,
+        [_Location_name]: "text",
+        [_Location_column]: 32,
+        [_Location_line]: 352,
+        [_Location_file]: null
+      });
+    },
+    get C162() {
+      return C[162] = dart.constList([C[163] || CT.C163], T._LocationL());
+    },
+    get C161() {
+      return C[161] = dart.const({
+        __proto__: widget_inspector._Location.prototype,
+        [_Location_parameterLocations]: C[162] || CT.C162,
+        [_Location_name]: null,
+        [_Location_column]: 12,
+        [_Location_line]: 352,
+        [_Location_file]: "file:///C:/Users/HP/APPOLLO/ticket-app/lib/pages/authentication/authentication_page.dart"
+      });
+    }
+  }, false);
+  var C = Array(164).fill(void 0);
+  var I = ["package:ticketapp/pages/authentication/authentication_page.dart"];
+  var linkType$ = dart.privateName(authentication_page, "AuthenticationPage.linkType");
+  authentication_page.AuthenticationPage = class AuthenticationPage extends framework.StatefulWidget {
+    get linkType() {
+      return this[linkType$];
+    }
+    set linkType(value) {
+      super.linkType = value;
+    }
+    createState() {
+      return new authentication_page._AuthenticationPageState.new();
+    }
+  };
+  (authentication_page.AuthenticationPage.new = function(linkType, opts) {
+    let id = opts && 'id' in opts ? opts.id : null;
+    let $36creationLocationd_0dea112b090073317d4 = opts && '$creationLocationd_0dea112b090073317d4' in opts ? opts.$creationLocationd_0dea112b090073317d4 : null;
+    this[linkType$] = linkType;
+    authentication_page.AuthenticationPage.__proto__.new.call(this, {$creationLocationd_0dea112b090073317d4: $36creationLocationd_0dea112b090073317d4});
+    ;
+  }).prototype = authentication_page.AuthenticationPage.prototype;
+  dart.addTypeTests(authentication_page.AuthenticationPage);
+  dart.addTypeCaches(authentication_page.AuthenticationPage);
+  dart.setMethodSignature(authentication_page.AuthenticationPage, () => ({
+    __proto__: dart.getMethods(authentication_page.AuthenticationPage.__proto__),
+    createState: dart.fnType(dart.legacy(authentication_page._AuthenticationPageState), [])
+  }));
+  dart.setLibraryUri(authentication_page.AuthenticationPage, I[0]);
+  dart.setFieldSignature(authentication_page.AuthenticationPage, () => ({
+    __proto__: dart.getFields(authentication_page.AuthenticationPage.__proto__),
+    linkType: dart.finalFieldType(dart.legacy(link_type.LinkType))
+  }));
+  dart.defineLazy(authentication_page.AuthenticationPage, {
+    /*authentication_page.AuthenticationPage.routeName*/get routeName() {
+      return "/auth";
+    }
+  }, true);
+  var _Location_parameterLocations = dart.privateName(widget_inspector, "_Location.parameterLocations");
+  var _Location_name = dart.privateName(widget_inspector, "_Location.name");
+  var _Location_column = dart.privateName(widget_inspector, "_Location.column");
+  var _Location_line = dart.privateName(widget_inspector, "_Location.line");
+  var _Location_file = dart.privateName(widget_inspector, "_Location.file");
+  var _buildWhyAreYouHere = dart.privateName(authentication_page, "_buildWhyAreYouHere");
+  var _buildPoweredByAppollo = dart.privateName(authentication_page, "_buildPoweredByAppollo");
+  const State_TickerProviderStateMixin$36 = class State_TickerProviderStateMixin extends framework.State$(dart.legacy(authentication_page.AuthenticationPage)) {};
+  (State_TickerProviderStateMixin$36.new = function() {
+    ticker_provider.TickerProviderStateMixin$(dart.legacy(authentication_page.AuthenticationPage))[dart.mixinNew].call(this);
+    State_TickerProviderStateMixin$36.__proto__.new.call(this);
+  }).prototype = State_TickerProviderStateMixin$36.prototype;
+  dart.applyMixin(State_TickerProviderStateMixin$36, ticker_provider.TickerProviderStateMixin$(dart.legacy(authentication_page.AuthenticationPage)));
+  authentication_page._AuthenticationPageState = class _AuthenticationPageState extends State_TickerProviderStateMixin$36 {
+    initState() {
+      this.signUpBloc = new authentication_bloc.AuthenticationBloc.new(this.widget.linkType);
+      this.signUpBloc.add(new authentication_bloc.EventPageLoad.new());
+      ticket_repository.TicketRepository.instance.incrementLinkOpenedCounter(this.widget.linkType);
+      super.initState();
+    }
+    dispose() {
+      this.signUpBloc.close();
+      super.dispose();
+    }
+    build(context) {
+      let screenSize = media_query.MediaQuery.of(context).size;
+      theme.MyTheme.maxWidth = dart.notNull(screenSize.width) < 1050 ? screenSize.width : 1050.0;
+      theme.MyTheme.cardPadding = helpers.getValueForScreenType(T.doubleL(), {context: context, watch: 8.0, mobile: 8.0, tablet: 20.0, desktop: 20.0});
+      return new scaffold.Scaffold.new({endDrawer: new (T.BlocProviderOfAuthenticationBlocL()).value({value: this.signUpBloc, child: new desktop_view_drawer.DesktopViewDrawer.new({bloc: this.signUpBloc, linkType: this.widget.linkType, $creationLocationd_0dea112b090073317d4: C[0] || CT.C0}), $creationLocationd_0dea112b090073317d4: C[4] || CT.C4}), endDrawerEnableOpenDragGesture: false, body: new basic.Stack.new({children: T.JSArrayOfWidgetL().of([new basic.Positioned.new({width: dart.notNull(screenSize.width) * 1.01, height: dart.notNull(screenSize.height) * 1.01, child: new container.Container.new({width: screenSize.width, height: screenSize.height, decoration: new box_decoration.BoxDecoration.new({image: new decoration_image.DecorationImage.new({image: new extended_image.ExtendedImage.network(this.widget.linkType.event.coverImageURL, {cache: true, $creationLocationd_0dea112b090073317d4: C[8] || CT.C8}).image, fit: box_fit.BoxFit.cover, colorFilter: new _engine._CkBlendModeColorFilter.new(colors.Colors.grey, ui.BlendMode.darken)})}), child: new basic.BackdropFilter.new({filter: ui.ImageFilter.blur({sigmaX: 60.0, sigmaY: 60.0}), child: new container.Container.new({width: screenSize.width, height: screenSize.height, decoration: new box_decoration.BoxDecoration.new({color: colors.Colors.grey._get(900).withOpacity(0.2)}), $creationLocationd_0dea112b090073317d4: C[12] || CT.C12}), $creationLocationd_0dea112b090073317d4: C[17] || CT.C17}), $creationLocationd_0dea112b090073317d4: C[21] || CT.C21}), $creationLocationd_0dea112b090073317d4: C[27] || CT.C27}), new basic.Align.new({alignment: alignment.Alignment.topCenter, child: new single_child_scroll_view.SingleChildScrollView.new({child: new basic.SizedBox.new({width: screenSize.width, child: new container.Container.new({constraints: new box.BoxConstraints.new({maxWidth: dart.notNull(theme.MyTheme.maxWidth) + 8}), child: new basic.Padding.new({padding: new edge_insets.EdgeInsets.all(helpers.getValueForScreenType(T.doubleL(), {context: context, desktop: 0.0, tablet: 0.0, mobile: 8.0, watch: 8.0})), child: new basic.Column.new({children: T.JSArrayOfWidgetL().of([new basic.Column.new({children: T.JSArrayOfWidgetL().of([new (T.BlocBuilderOfAuthenticationBlocL$AuthenticationStateL()).new({cubit: this.signUpBloc, builder: dart.fn((c, state) => new widget_builders.ResponsiveBuilder.new({builder: dart.fn((context, constraints) => {
+                                    if (T.StateLoggedInL().is(state) && (constraints.deviceScreenType == device_screen_type.DeviceScreenType.mobile || constraints.deviceScreenType == device_screen_type.DeviceScreenType.watch)) {
+                                      return new basic.SizedBox.new({height: 66.0, $creationLocationd_0dea112b090073317d4: C[32] || CT.C32});
+                                    } else {
+                                      return new basic.SizedBox.shrink({$creationLocationd_0dea112b090073317d4: C[35] || CT.C35});
+                                    }
+                                  }, T.BuildContextLAndSizingInformationLToSizedBoxL()), $creationLocationd_0dea112b090073317d4: C[37] || CT.C37}), T.BuildContextLAndAuthenticationStateLToResponsiveBuilderL()), $creationLocationd_0dea112b090073317d4: C[40] || CT.C40}), new (T.BlocBuilderOfAuthenticationBlocL$AuthenticationStateL()).new({cubit: this.signUpBloc, builder: dart.fn((c, state) => new widget_builders.ResponsiveBuilder.new({builder: dart.fn((context, constraints) => {
+                                    if (constraints.deviceScreenType == device_screen_type.DeviceScreenType.mobile || constraints.deviceScreenType == device_screen_type.DeviceScreenType.watch) {
+                                      if (T.StateNewUserEmailL().is(state) || T.StateNewUserEmailsConfirmedL().is(state) || T.StatePasswordsConfirmedL().is(state)) {
+                                        return new basic.SizedBox.shrink({$creationLocationd_0dea112b090073317d4: C[44] || CT.C44});
+                                      } else {
+                                        return new basic.Column.new({children: T.JSArrayOfWidgetL().of([this[_buildWhyAreYouHere](state), theme['WidgetPaddingX|paddingBottom'](theme['AppolloCard|get#appolloCard'](new container.Container.new({child: new eventInfo.EventInfoWidget.new(basic_types.Axis.vertical, this.widget.linkType, {$creationLocationd_0dea112b090073317d4: C[45] || CT.C45}), $creationLocationd_0dea112b090073317d4: C[49] || CT.C49})), 8.0)]), $creationLocationd_0dea112b090073317d4: C[52] || CT.C52});
+                                      }
+                                    } else {
+                                      return theme['WidgetPaddingX|paddingTop'](new eventInfo.EventInfoWidget.new(basic_types.Axis.horizontal, this.widget.linkType, {$creationLocationd_0dea112b090073317d4: C[55] || CT.C55}), theme.MyTheme.cardPadding);
+                                    }
+                                  }, T.BuildContextLAndSizingInformationLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[59] || CT.C59}), T.BuildContextLAndAuthenticationStateLToResponsiveBuilderL()), $creationLocationd_0dea112b090073317d4: C[62] || CT.C62}), new (T.BlocConsumerOfAuthenticationBlocL$AuthenticationStateL()).new({cubit: this.signUpBloc, listener: dart.fn((c, state) => {
+                                  if (T.StateErrorSignUpL().is(state)) {
+                                    let text = "We couldn't create an account for you, please make sure your password is at least 8 characters long";
+                                    if (state.error == authentication_bloc.SignUpError.UserCancelled) {
+                                      text = "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
+                                    } else {
+                                      text = "An error occurred during the signup process, please try again";
+                                    }
+                                    alertGenerator.AlertGenerator.showAlert({context: context, title: "Error", content: text, buttonText: "Ok", popTwice: false});
+                                  } else if (T.StateLoginFailedL().is(state)) {
+                                    alertGenerator.AlertGenerator.showAlert({context: context, title: "Wrong Password", content: "Your password is incorrect, please try again.", buttonText: "Ok", popTwice: false});
+                                  } else if (T.StateLoggedInL().is(state) && (helpers.getDeviceType(screenSize) == device_screen_type.DeviceScreenType.mobile || helpers.getDeviceType(screenSize) == device_screen_type.DeviceScreenType.watch)) {
+                                    navigator.Navigator.push(dart.dynamic, context, new page.MaterialPageRoute.new({builder: dart.fn(context => new mobile_view.EventDetailsPage.new(this.widget.linkType, {forwardToPayment: T.StateAutoLoggedInL().is(state) ? false : true, $creationLocationd_0dea112b090073317d4: C[66] || CT.C66}), T.BuildContextLToEventDetailsPageL())})).then(core.Null, dart.fn(value => {
+                                      this.signUpBloc.add(new authentication_bloc.EventPageLoad.new());
+                                    }, T.dynamicToNull()));
+                                  }
+                                }, T.BuildContextLAndAuthenticationStateLToNull()), buildWhen: dart.fn((c, state) => {
+                                  if (T.StateErrorSignUpL().is(state)) {
+                                    return false;
+                                  }
+                                  return true;
+                                }, T.AuthenticationStateLAndAuthenticationStateLToboolL()), builder: dart.fn((c, state) => {
+                                  if (T.StateLoggedInL().is(state) && (helpers.getDeviceType(screenSize) == device_screen_type.DeviceScreenType.mobile || helpers.getDeviceType(screenSize) == device_screen_type.DeviceScreenType.watch) || helpers.getDeviceType(screenSize) == device_screen_type.DeviceScreenType.tablet || helpers.getDeviceType(screenSize) == device_screen_type.DeviceScreenType.desktop) {
+                                    return new basic.SizedBox.shrink({$creationLocationd_0dea112b090073317d4: C[70] || CT.C70});
+                                  } else {
+                                    return theme['WidgetPaddingX|paddingBottom'](theme['WidgetPaddingX|paddingTop'](new basic.Column.new({children: T.JSArrayOfWidgetL().of([new animated_size.AnimatedSize.new({vsync: this, duration: new core.Duration.new({milliseconds: this.animationTime}), child: new container.Container.new({constraints: new box.BoxConstraints.new({maxWidth: dart.notNull(theme.MyTheme.maxWidth) + 8}), child: theme['AppolloCard|get#appolloCard'](new container.Container.new({child: new basic.Padding.new({padding: new edge_insets.EdgeInsets.all(theme.MyTheme.cardPadding), child: new login_and_signup_page.LoginAndSignupPage.new({bloc: this.signUpBloc, textTheme: theme.MyTheme.lightTextTheme, $creationLocationd_0dea112b090073317d4: C[71] || CT.C71}), $creationLocationd_0dea112b090073317d4: C[75] || CT.C75}), $creationLocationd_0dea112b090073317d4: C[79] || CT.C79})), $creationLocationd_0dea112b090073317d4: C[82] || CT.C82}), $creationLocationd_0dea112b090073317d4: C[86] || CT.C86})]), $creationLocationd_0dea112b090073317d4: C[91] || CT.C91}), helpers.getValueForScreenType(T.doubleL(), {context: context, desktop: theme.MyTheme.elementSpacing, tablet: theme.MyTheme.elementSpacing, mobile: 0.0, watch: 0.0})), helpers.getValueForScreenType(T.doubleL(), {context: context, desktop: T.StateLoggedInL().is(state) ? theme.MyTheme.elementSpacing : 0.0, tablet: T.StateLoggedInL().is(state) ? theme.MyTheme.elementSpacing : 0.0, mobile: 0.0, watch: 0.0}));
+                                  }
+                                }, T.BuildContextLAndAuthenticationStateLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[94] || CT.C94})]), $creationLocationd_0dea112b090073317d4: C[100] || CT.C100}), new basic.SizedBox.new({height: 16.0, $creationLocationd_0dea112b090073317d4: C[103] || CT.C103}), new widget_builders.ResponsiveBuilder.new({builder: dart.fn((context, constraints) => {
+                              if (constraints.deviceScreenType == device_screen_type.DeviceScreenType.mobile || constraints.deviceScreenType == device_screen_type.DeviceScreenType.watch) {
+                                return T.WidgetL().as(this[_buildPoweredByAppollo]());
+                              } else {
+                                return new basic.SizedBox.new({height: 60.0, $creationLocationd_0dea112b090073317d4: C[106] || CT.C106});
+                              }
+                            }, T.BuildContextLAndSizingInformationLToWidgetL()), $creationLocationd_0dea112b090073317d4: C[109] || CT.C109})]), $creationLocationd_0dea112b090073317d4: C[112] || CT.C112}), $creationLocationd_0dea112b090073317d4: C[115] || CT.C115}), $creationLocationd_0dea112b090073317d4: C[119] || CT.C119}), $creationLocationd_0dea112b090073317d4: C[123] || CT.C123}), $creationLocationd_0dea112b090073317d4: C[127] || CT.C127}), $creationLocationd_0dea112b090073317d4: C[130] || CT.C130})]), $creationLocationd_0dea112b090073317d4: C[134] || CT.C134}), $creationLocationd_0dea112b090073317d4: C[137] || CT.C137});
+    }
+    [_buildPoweredByAppollo]() {
+      return new basic.Column.new({mainAxisAlignment: flex.MainAxisAlignment.center, children: T.JSArrayOfWidgetL().of([new basic.SizedBox.new({height: theme.MyTheme.elementSpacing, $creationLocationd_0dea112b090073317d4: C[142] || CT.C142}), new text.Text.new("Powered by", {style: theme.MyTheme.lightTextTheme.caption.copyWith({color: colors.Colors.grey._get(200), fontWeight: ui.FontWeight.w300, shadows: T.JSArrayOfShadowL().of([new box_shadow.BoxShadow.new({color: colors.Colors.black, blurRadius: 1.0, spreadRadius: 1.0})])}), $creationLocationd_0dea112b090073317d4: C[145] || CT.C145}), new text.Text.new("appollo", {style: theme.MyTheme.lightTextTheme.subtitle1.copyWith({fontFamily: "cocon", color: colors.Colors.white, fontSize: 20.0, shadows: T.JSArrayOfShadowL().of([new box_shadow.BoxShadow.new({color: colors.Colors.black, blurRadius: 1.0, spreadRadius: 1.0})])}), $creationLocationd_0dea112b090073317d4: C[149] || CT.C149}), new basic.SizedBox.new({height: theme.MyTheme.elementSpacing, $creationLocationd_0dea112b090073317d4: C[153] || CT.C153})]), $creationLocationd_0dea112b090073317d4: C[156] || CT.C156});
+    }
+    [_buildWhyAreYouHere](state) {
+      if (T.AdvertisementInviteL().is(this.widget.linkType) || T.StateNewUserEmailL().is(state) || T.StateNewUserEmailsConfirmedL().is(state)) {
+        return new container.Container.new({$creationLocationd_0dea112b090073317d4: C[160] || CT.C160});
+      }
+      let text = "";
+      if (T.PromoterInviteL().is(this.widget.linkType)) {
+        let invitation = T.PromoterInviteL().as(this.widget.linkType);
+        text = dart.str(invitation.promoter.firstName) + " " + dart.str(invitation.promoter.lastName) + " has invited you to an event.";
+      } else if (T.BookingL().is(this.widget.linkType)) {
+        let invitation = T.BookingL().as(this.widget.linkType);
+        text = dart.str(invitation.promoter.firstName) + " " + dart.str(invitation.promoter.lastName) + " has invited you to their birthday party.";
+      }
+      return theme['WidgetPaddingX|paddingBottom'](new whyAreYouHere.WhyAreYouHereWidget.new(text, {$creationLocationd_0dea112b090073317d4: C[161] || CT.C161}), 8.0);
+    }
+  };
+  (authentication_page._AuthenticationPageState.new = function() {
+    this.signUpBloc = null;
+    this.animationTime = 400;
+    authentication_page._AuthenticationPageState.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_page._AuthenticationPageState.prototype;
+  dart.addTypeTests(authentication_page._AuthenticationPageState);
+  dart.addTypeCaches(authentication_page._AuthenticationPageState);
+  dart.setMethodSignature(authentication_page._AuthenticationPageState, () => ({
+    __proto__: dart.getMethods(authentication_page._AuthenticationPageState.__proto__),
+    build: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(framework.BuildContext)]),
+    [_buildPoweredByAppollo]: dart.fnType(dart.dynamic, []),
+    [_buildWhyAreYouHere]: dart.fnType(dart.legacy(framework.Widget), [dart.legacy(authentication_bloc.AuthenticationState)])
+  }));
+  dart.setLibraryUri(authentication_page._AuthenticationPageState, I[0]);
+  dart.setFieldSignature(authentication_page._AuthenticationPageState, () => ({
+    __proto__: dart.getFields(authentication_page._AuthenticationPageState.__proto__),
+    signUpBloc: dart.fieldType(dart.legacy(authentication_bloc.AuthenticationBloc)),
+    animationTime: dart.finalFieldType(dart.legacy(core.int))
+  }));
+  dart.trackLibraries("packages/ticketapp/pages/authentication/authentication_page.dart", {
+    "package:ticketapp/pages/authentication/authentication_page.dart": authentication_page
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["authentication_page.dart"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;IAqBiB;;;;;;;AAG2B;IAA0B;;yDAF5C;QAAkB;;IAAlB;AAAxB;;EAA8C;;;;;;;;;;;;;MAF1B,gDAAS;;;;;;;;;;;;;;;;;;;AAeqB,MAAhD,kBAAa,+CAAmB,AAAO;AACR,MAA/B,AAAW,oBAAI;AACsD,MAApD,AAAS,uEAA2B,AAAO;AAC3C,MAAX;IACR;;AAIoB,MAAlB,AAAW;AACI,MAAT;IACR;UAG0B;AACnB,uBAAwB,AAAY,0BAAT,OAAO;AAC6B,MAA5D,yBAA4B,aAAjB,AAAW,UAAD,UAAS,OAAO,AAAW,UAAD,SAAS;AAEG,MAD3D,4BAAc,qDACT,OAAO,SAAS,aAAW,aAAW,eAAa;AAChE,YAAO,uCACmB,0DACb,wBACA,qDACC,2BACI,AAAO,wKAES,aAC1B,+BACM,yBACR,iCAC0B,aAAjB,AAAW,UAAD,UAAS,cACA,aAAlB,AAAW,UAAD,WAAU,aACrB,oCACE,AAAW,UAAD,gBACT,AAAW,UAAD,qBACN,6CACH,iDACkB,AAGnB,yCAFA,AAAO,AAAS,AAAM,kDACf,0EAEG,mCAEI,wCAAY,oBAAgB,iCAE3C,sCACe,6BAAa,cAAc,eACxC,oCACE,AAAW,UAAD,gBACT,AAAW,UAAD,qBAEd,6CAA4B,AAAI,AAAM,wBAAL,iBAAiB,oPAK9D,gCACuB,sCACd,+DACE,+BACE,AAAW,UAAD,eACV,0CACQ,sCAA0C,aAAT,0BAAW,YAClD,gCACe,+BAAI,qDACX,OAAO,WACP,aACD,aACA,YACD,eACJ,gCACK,yBACR,gCACY,yBAER,4EAEW,0BACE,SAAC,GAAG,UACJ,oDACM,SAAC,SAAS;AACrB,wCAAU,sBAAN,KAAK,MACJ,AAAY,AAAiB,WAAlB,qBACa,8CACrB,AAAY,AAAiB,WAAlB,qBACU;AAC3B,4CAAO,iCAAiB;;AAExB,4CAAgB;;8QAK1B,4EAEW,0BACE,SAAC,GAAG,UACJ,oDACM,SAAC,SAAS;AACrB,wCAAK,AAAY,AAAiB,WAAlB,qBACS,8CACrB,AAAY,AAAiB,WAAlB,qBACU;AACvB,0CAAU,0BAAN,KAAK,KAED,oCADJ,KAAK,KAEC,gCAAN,KAAK;AACP,8CAAgB;;AAEhB,8CAAO,iCACK,yBACR,0BAAoB,KAAK,GAKX,sCAAZ,qCAJF,oCACS,kCACE,2BACL,AAAO,8IACe;;;AAKlC,4CAEK,oCAFE,kCACM,6BAAY,AAAO,kFACR;;4QAMlC,6EAEW,2BACG,SAAC,GAAG;AACZ,sCAAU,yBAAN,KAAK;AACA,+CACH;AACJ,wCAAI,AAAM,AAAM,KAAP,UACO;AAE+G,sCAD7H,OACI;;AAG+D,sCADnE,OACI;;AAOc,oCALL,kDACF,OAAO,SACT,kBACE,IAAI,cACD,gBACF;wCACT,KAAU,yBAAN,KAAK;AAOM,oCANL,kDACF,OAAO,SACT,2BAEH,6DACQ,gBACF;wCACT,KAAU,sBAAN,KAAK,MACX,AAA0B,sBAAZ,UAAU,KACA,8CACrB,AAA0B,sBAAZ,UAAU,KACH;AAazB,oCAZQ,AAUM,uCATZ,OAAO,EACP,yCACa,QAAC,WACN,qCACE,AAAO,yCAEG,0BAAN,KAAK,IACC,QACA,0HACH,QAAC;AACW,sCAA/B,AAAW,oBAAI;;;+FAIV,SAAC,GAAG;AACb,sCAAU,yBAAN,KAAK;AACP,0CAAO;;AAET,wCAAO;qGAEA,SAAC,GAAG;AACX,sCAAU,sBAAN,KAAK,MACA,AAA0B,sBAAZ,UAAU,KACA,8CACrB,AAA0B,sBAAZ,UAAU,KACH,8CAC5B,AAA0B,sBAAZ,UAAU,KACA,8CACrB,AAA0B,sBAAZ,UAAU,KACH;AAC3B,0CAAgB;;AAEhB,0CA8BK,uCANA,mCAxBE,gCACK,yBACR,2CACS,gBACG,qCACQ,6BACX,0CACQ,sCACkB,aAAT,0BAAW,YAW/B,qCAVK,oCACE,gCACe,+BACR,mCACL,wDACC,4BAEM,mYAQV,qDACC,OAAO,WACC,sCACD,sCACR,YACD,QACI,qDACF,OAAO,WACD,sBAAN,KAAK,IACA,+BACR,aACQ,sBAAN,KAAK,IACC,+BACR,aACE,YACD;;iNAK3B,gCACU,mEAEV,oDAA2B,SAAC,SAAS;AACnC,kCAAK,AAAY,AAAiB,WAAlB,qBACS,8CACrB,AAAY,AAAiB,WAAlB,qBACU;AACvB,sDAAO;;AAEP,sCAAO,iCACG;;;IAcpC;;AAGE,YAAO,0CACgC,yCAC3B,yBACR,gCACkB,2FAElB,kBACE,sBACe,AAAe,AAAQ,sDACpB,AAAI,wBAAC,kBACI,6BACd,yBACP,qCAAwB,iCAAmB,mBAAiB,wEAGpE,kBAAK,mBACc,AAAe,AAAU,6DACxB,gBACE,+BACJ,eACD,yBACP,qCAAwB,iCAAmB,mBAAiB,wEAEtE,gCACkB;IAIxB;0BAE+C;AAC7C,UAAoB,4BAAhB,AAAO,yBACD,0BAAN,KAAK,KACC,oCAAN,KAAK;AACP,cAAO;;AAGF,iBAAO;AAEd,UAAoB,uBAAhB,AAAO;AACM,gDAAa,AAAO;AAEgE,QADnG,OACmG,SAA5F,AAAW,AAAS,UAAV,uBAAoB,eAAG,AAAW,AAAS,UAAV,sBAAmB;YAChE,KAAoB,gBAAhB,AAAO;AACR,yCAAa,AAAO;AAEmF,QAD/G,OAC+G,SAAxG,AAAW,AAAS,UAAV,uBAAoB,eAAG,AAAW,AAAS,UAAV,sBAAmB;;AAGvE,YAAiC,uCAA1B,0CAAoB,IAAI,gEAAgB;IACjD;;;IAnUmB;IAET,qBAAgB;;;EAkU5B","file":"../../../../../../../packages/ticketapp/pages/authentication/authentication_page.dart.lib.js"}');
+  // Exports:
+  return {
+    pages__authentication__authentication_page: authentication_page
+  };
+}));
+
+//# sourceMappingURL=authentication_page.dart.lib.js.map

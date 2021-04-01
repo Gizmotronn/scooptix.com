@@ -1,0 +1,468 @@
+define(['dart_sdk', 'packages/ticketapp/model/release_manager.dart', 'packages/ticketapp/model/ticket_release.dart', 'packages/ticketapp/services/bugsnag_wrapper.dart'], (function load__packages__ticketapp__model__event_dart(dart_sdk, packages__ticketapp__model__release_manager$46dart, packages__ticketapp__model__ticket_release$46dart, packages__ticketapp__services__bugsnag_wrapper$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const release_manager = packages__ticketapp__model__release_manager$46dart.model__release_manager;
+  const ticket_release = packages__ticketapp__model__ticket_release$46dart.model__ticket_release;
+  const bugsnag_wrapper = packages__ticketapp__services__bugsnag_wrapper$46dart.services__bugsnag_wrapper;
+  var event$ = Object.create(dart.library);
+  var $length = dartx.length;
+  var $_get = dartx._get;
+  var $add = dartx.add;
+  var $firstWhere = dartx.firstWhere;
+  var $forEach = dartx.forEach;
+  var $addAll = dartx.addAll;
+  var $containsKey = dartx.containsKey;
+  var $toString = dartx.toString;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    JSArrayOfStringL: () => (T.JSArrayOfStringL = dart.constFn(_interceptors.JSArray$(T.StringL())))(),
+    ReleaseManagerL: () => (T.ReleaseManagerL = dart.constFn(dart.legacy(release_manager.ReleaseManager)))(),
+    JSArrayOfReleaseManagerL: () => (T.JSArrayOfReleaseManagerL = dart.constFn(_interceptors.JSArray$(T.ReleaseManagerL())))(),
+    TicketReleaseL: () => (T.TicketReleaseL = dart.constFn(dart.legacy(ticket_release.TicketRelease)))(),
+    JSArrayOfTicketReleaseL: () => (T.JSArrayOfTicketReleaseL = dart.constFn(_interceptors.JSArray$(T.TicketReleaseL())))(),
+    boolL: () => (T.boolL = dart.constFn(dart.legacy(core.bool)))(),
+    TicketReleaseLToboolL: () => (T.TicketReleaseLToboolL = dart.constFn(dart.fnType(T.boolL(), [T.TicketReleaseL()])))(),
+    ReleaseManagerLToNull: () => (T.ReleaseManagerLToNull = dart.constFn(dart.fnType(core.Null, [T.ReleaseManagerL()])))(),
+    dynamicToNull: () => (T.dynamicToNull = dart.constFn(dart.fnType(core.Null, [dart.dynamic])))(),
+    intL: () => (T.intL = dart.constFn(dart.legacy(core.int)))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  var C = [];
+  var I = ["package:ticketapp/model/event.dart"];
+  var docID = dart.privateName(event$, "Event.docID");
+  var name = dart.privateName(event$, "Event.name");
+  var description = dart.privateName(event$, "Event.description");
+  var coverImageURL = dart.privateName(event$, "Event.coverImageURL");
+  var address = dart.privateName(event$, "Event.address");
+  var venue = dart.privateName(event$, "Event.venue");
+  var venueName = dart.privateName(event$, "Event.venueName");
+  var ticketLink = dart.privateName(event$, "Event.ticketLink");
+  var promoter = dart.privateName(event$, "Event.promoter");
+  var organizer = dart.privateName(event$, "Event.organizer");
+  var contactEmail = dart.privateName(event$, "Event.contactEmail");
+  var repetitionId = dart.privateName(event$, "Event.repetitionId");
+  var date = dart.privateName(event$, "Event.date");
+  var endTime = dart.privateName(event$, "Event.endTime");
+  var tags = dart.privateName(event$, "Event.tags");
+  var images = dart.privateName(event$, "Event.images");
+  var isSignedUp = dart.privateName(event$, "Event.isSignedUp");
+  var isMockEvent = dart.privateName(event$, "Event.isMockEvent");
+  var newPriorityPassesAllowed = dart.privateName(event$, "Event.newPriorityPassesAllowed");
+  var newQPassesAllowed = dart.privateName(event$, "Event.newQPassesAllowed");
+  var allowsBirthdaySignUps = dart.privateName(event$, "Event.allowsBirthdaySignUps");
+  var releaseManagers = dart.privateName(event$, "Event.releaseManagers");
+  var cutoffTimeOffset = dart.privateName(event$, "Event.cutoffTimeOffset");
+  var invitationMessage = dart.privateName(event$, "Event.invitationMessage");
+  var ticketCheckoutMessage = dart.privateName(event$, "Event.ticketCheckoutMessage");
+  var feePercent = dart.privateName(event$, "Event.feePercent");
+  event$.Event = class Event extends core.Object {
+    get docID() {
+      return this[docID];
+    }
+    set docID(value) {
+      this[docID] = value;
+    }
+    get name() {
+      return this[name];
+    }
+    set name(value) {
+      this[name] = value;
+    }
+    get description() {
+      return this[description];
+    }
+    set description(value) {
+      this[description] = value;
+    }
+    get coverImageURL() {
+      return this[coverImageURL];
+    }
+    set coverImageURL(value) {
+      this[coverImageURL] = value;
+    }
+    get address() {
+      return this[address];
+    }
+    set address(value) {
+      this[address] = value;
+    }
+    get venue() {
+      return this[venue];
+    }
+    set venue(value) {
+      this[venue] = value;
+    }
+    get venueName() {
+      return this[venueName];
+    }
+    set venueName(value) {
+      this[venueName] = value;
+    }
+    get ticketLink() {
+      return this[ticketLink];
+    }
+    set ticketLink(value) {
+      this[ticketLink] = value;
+    }
+    get promoter() {
+      return this[promoter];
+    }
+    set promoter(value) {
+      this[promoter] = value;
+    }
+    get organizer() {
+      return this[organizer];
+    }
+    set organizer(value) {
+      this[organizer] = value;
+    }
+    get contactEmail() {
+      return this[contactEmail];
+    }
+    set contactEmail(value) {
+      this[contactEmail] = value;
+    }
+    get repetitionId() {
+      return this[repetitionId];
+    }
+    set repetitionId(value) {
+      this[repetitionId] = value;
+    }
+    get date() {
+      return this[date];
+    }
+    set date(value) {
+      this[date] = value;
+    }
+    get endTime() {
+      return this[endTime];
+    }
+    set endTime(value) {
+      this[endTime] = value;
+    }
+    get tags() {
+      return this[tags];
+    }
+    set tags(value) {
+      this[tags] = value;
+    }
+    get images() {
+      return this[images];
+    }
+    set images(value) {
+      this[images] = value;
+    }
+    get isSignedUp() {
+      return this[isSignedUp];
+    }
+    set isSignedUp(value) {
+      this[isSignedUp] = value;
+    }
+    get isMockEvent() {
+      return this[isMockEvent];
+    }
+    set isMockEvent(value) {
+      this[isMockEvent] = value;
+    }
+    get newPriorityPassesAllowed() {
+      return this[newPriorityPassesAllowed];
+    }
+    set newPriorityPassesAllowed(value) {
+      this[newPriorityPassesAllowed] = value;
+    }
+    get newQPassesAllowed() {
+      return this[newQPassesAllowed];
+    }
+    set newQPassesAllowed(value) {
+      this[newQPassesAllowed] = value;
+    }
+    get allowsBirthdaySignUps() {
+      return this[allowsBirthdaySignUps];
+    }
+    set allowsBirthdaySignUps(value) {
+      this[allowsBirthdaySignUps] = value;
+    }
+    get releaseManagers() {
+      return this[releaseManagers];
+    }
+    set releaseManagers(value) {
+      this[releaseManagers] = value;
+    }
+    get cutoffTimeOffset() {
+      return this[cutoffTimeOffset];
+    }
+    set cutoffTimeOffset(value) {
+      this[cutoffTimeOffset] = value;
+    }
+    get invitationMessage() {
+      return this[invitationMessage];
+    }
+    set invitationMessage(value) {
+      this[invitationMessage] = value;
+    }
+    get ticketCheckoutMessage() {
+      return this[ticketCheckoutMessage];
+    }
+    set ticketCheckoutMessage(value) {
+      this[ticketCheckoutMessage] = value;
+    }
+    get feePercent() {
+      return this[feePercent];
+    }
+    set feePercent(value) {
+      this[feePercent] = value;
+    }
+    getTicketReleases() {
+      let release = T.JSArrayOfTicketReleaseL().of([]);
+      for (let i = 0; i < dart.notNull(this.releaseManagers[$length]); i = i + 1) {
+        release[$add](this.releaseManagers[$_get](i).getActiveRelease());
+      }
+      return release;
+    }
+    isTicketSoldOut() {
+      let isSoldOut = false;
+      for (let i = 0; i < dart.notNull(this.releaseManagers[$length]); i = i + 1) {
+        let manager = this.releaseManagers[$_get](i);
+        isSoldOut = dart.notNull(manager.releases[$_get](0).ticketsLeft()) < 1 ? true : false;
+      }
+      return isSoldOut;
+    }
+    getRelease(releaseId) {
+      core.print(releaseId);
+      for (let i = 0; i < dart.notNull(this.releaseManagers[$length]); i = i + 1) {
+        try {
+          let tr = this.releaseManagers[$_get](i).releases[$firstWhere](dart.fn(element => element.docId == releaseId, T.TicketReleaseLToboolL()));
+          core.print(tr);
+          return tr;
+        } catch (e) {
+          let _ = dart.getThrown(e);
+        }
+      }
+      return null;
+    }
+    getReleasesWithSingleTicketRestriction() {
+      let releases = T.JSArrayOfTicketReleaseL().of([]);
+      this.releaseManagers[$forEach](dart.fn(manager => {
+        if (dart.test(manager.singleTicketRestriction)) {
+          releases[$add](manager.getActiveRelease());
+        }
+      }, T.ReleaseManagerLToNull()));
+      return releases;
+    }
+    getManagersWithActiveReleases() {
+      let activeManagers = T.JSArrayOfReleaseManagerL().of([]);
+      this.releaseManagers[$forEach](dart.fn(element => {
+        if (element.getActiveRelease() != null) {
+          activeManagers[$add](element);
+        }
+      }, T.ReleaseManagerLToNull()));
+      return activeManagers;
+    }
+    getAllReleases() {
+      let releases = T.JSArrayOfTicketReleaseL().of([]);
+      this.releaseManagers[$forEach](dart.fn(manager => {
+        releases[$addAll](manager.releases);
+      }, T.ReleaseManagerLToNull()));
+      return releases;
+    }
+    getActiveReleases() {
+      let releases = T.JSArrayOfTicketReleaseL().of([]);
+      this.releaseManagers[$forEach](dart.fn(manager => {
+        releases[$add](manager.getActiveRelease());
+      }, T.ReleaseManagerLToNull()));
+      return releases;
+    }
+    getReleasesWithoutRestriction() {
+      let releases = T.JSArrayOfTicketReleaseL().of([]);
+      this.releaseManagers[$forEach](dart.fn(manager => {
+        if (!dart.test(manager.singleTicketRestriction)) {
+          releases[$add](manager.getActiveRelease());
+        }
+      }, T.ReleaseManagerLToNull()));
+      return releases;
+    }
+    static fromMap(docId, data) {
+      try {
+        let event = new event$.Event._internal();
+        if (dart.test(data[$containsKey]("name"))) {
+          event.name = T.StringL().as(data[$_get]("name"));
+        }
+        if (dart.test(data[$containsKey]("description"))) {
+          event.description = T.StringL().as(data[$_get]("description"));
+        }
+        if (dart.test(data[$containsKey]("coverimage"))) {
+          event.coverImageURL = T.StringL().as(data[$_get]("coverimage"));
+        }
+        if (dart.test(data[$containsKey]("address"))) {
+          event.address = T.StringL().as(data[$_get]("address"));
+        }
+        if (dart.test(data[$containsKey]("venue"))) {
+          event.venue = T.StringL().as(data[$_get]("venue"));
+        }
+        if (dart.test(data[$containsKey]("venuename"))) {
+          event.venueName = T.StringL().as(data[$_get]("venuename"));
+        }
+        if (dart.test(data[$containsKey]("ticketlink"))) {
+          event.ticketLink = T.StringL().as(data[$_get]("ticketlink"));
+        }
+        if (dart.test(data[$containsKey]("promoter"))) {
+          event.promoter = T.StringL().as(data[$_get]("promoter"));
+        }
+        if (dart.test(data[$containsKey]("organizer_id"))) {
+          event.organizer = T.StringL().as(data[$_get]("organizer_id"));
+        }
+        if (dart.test(data[$containsKey]("issignedup"))) {
+          event.isSignedUp = T.boolL().as(data[$_get]("issignedup"));
+        }
+        if (dart.test(data[$containsKey]("ismockevent"))) {
+          event.isMockEvent = T.boolL().as(data[$_get]("ismockevent"));
+        }
+        if (dart.test(data[$containsKey]("prioritypassavailable"))) {
+          event.newPriorityPassesAllowed = T.boolL().as(data[$_get]("prioritypassavailable"));
+        }
+        if (dart.test(data[$containsKey]("qpassavailable"))) {
+          event.newQPassesAllowed = T.boolL().as(data[$_get]("qpassavailable"));
+        }
+        if (dart.test(data[$containsKey]("allowsbirthdaysignups"))) {
+          event.allowsBirthdaySignUps = T.boolL().as(data[$_get]("allowsbirthdaysignups"));
+        }
+        if (dart.test(data[$containsKey]("contactemail"))) {
+          event.contactEmail = T.StringL().as(data[$_get]("contactemail"));
+        }
+        if (dart.test(data[$containsKey]("repetition_id"))) {
+          event.repetitionId = T.StringL().as(data[$_get]("repetition_id"));
+        }
+        if (dart.test(data[$containsKey]("tags"))) {
+          dart.dsend(data[$_get]("tags"), 'forEach', [dart.fn(s => {
+              event.tags[$add](dart.toString(s));
+            }, T.dynamicToNull())]);
+        }
+        if (dart.test(data[$containsKey]("invite_link_cutoff"))) {
+          event.cutoffTimeOffset = T.intL().as(data[$_get]("invite_link_cutoff"));
+        }
+        if (dart.test(data[$containsKey]("invitation_message"))) {
+          event.invitationMessage = T.StringL().as(data[$_get]("invitation_message"));
+        }
+        if (dart.test(data[$containsKey]("ticket_checkout_message"))) {
+          event.ticketCheckoutMessage = T.StringL().as(data[$_get]("ticket_checkout_message"));
+        }
+        if (dart.test(data[$containsKey]("images"))) {
+          dart.dsend(data[$_get]("images"), 'forEach', [dart.fn(s => {
+              event.images[$add](dart.toString(s));
+            }, T.dynamicToNull())]);
+        }
+        if (dart.test(data[$containsKey]("date"))) {
+          event.date = new core.DateTime.fromMillisecondsSinceEpoch(core.int.as(dart.dload(data[$_get]("date"), 'millisecondsSinceEpoch')));
+        }
+        if (dart.test(data[$containsKey]("enddate"))) {
+          event.endTime = new core.DateTime.fromMillisecondsSinceEpoch(core.int.as(dart.dload(data[$_get]("enddate"), 'millisecondsSinceEpoch')));
+        }
+        event.docID = docId;
+        return event;
+      } catch (e$) {
+        let e = dart.getThrown(e$);
+        let s = dart.stackTrace(e$);
+        core.print(e);
+        bugsnag_wrapper.BugsnagNotifier.instance.notify(e, s, {severity: bugsnag_wrapper.ErrorSeverity.error});
+        return null;
+      }
+    }
+  };
+  (event$.Event._internal = function() {
+    this[docID] = null;
+    this[name] = null;
+    this[description] = null;
+    this[coverImageURL] = null;
+    this[address] = null;
+    this[venue] = null;
+    this[venueName] = "";
+    this[ticketLink] = null;
+    this[promoter] = null;
+    this[organizer] = null;
+    this[contactEmail] = null;
+    this[repetitionId] = null;
+    this[date] = null;
+    this[endTime] = null;
+    this[tags] = T.JSArrayOfStringL().of([]);
+    this[images] = T.JSArrayOfStringL().of([]);
+    this[isSignedUp] = false;
+    this[isMockEvent] = false;
+    this[newPriorityPassesAllowed] = false;
+    this[newQPassesAllowed] = false;
+    this[allowsBirthdaySignUps] = false;
+    this[releaseManagers] = T.JSArrayOfReleaseManagerL().of([]);
+    this[cutoffTimeOffset] = 0;
+    this[invitationMessage] = "";
+    this[ticketCheckoutMessage] = null;
+    this[feePercent] = 10.0;
+    ;
+  }).prototype = event$.Event.prototype;
+  dart.addTypeTests(event$.Event);
+  dart.addTypeCaches(event$.Event);
+  dart.setMethodSignature(event$.Event, () => ({
+    __proto__: dart.getMethods(event$.Event.__proto__),
+    getTicketReleases: dart.fnType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))), []),
+    isTicketSoldOut: dart.fnType(dart.legacy(core.bool), []),
+    getRelease: dart.fnType(dart.legacy(ticket_release.TicketRelease), [dart.legacy(core.String)]),
+    getReleasesWithSingleTicketRestriction: dart.fnType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))), []),
+    getManagersWithActiveReleases: dart.fnType(dart.legacy(core.List$(dart.legacy(release_manager.ReleaseManager))), []),
+    getAllReleases: dart.fnType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))), []),
+    getActiveReleases: dart.fnType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))), []),
+    getReleasesWithoutRestriction: dart.fnType(dart.legacy(core.List$(dart.legacy(ticket_release.TicketRelease))), [])
+  }));
+  dart.setLibraryUri(event$.Event, I[0]);
+  dart.setFieldSignature(event$.Event, () => ({
+    __proto__: dart.getFields(event$.Event.__proto__),
+    docID: dart.fieldType(dart.legacy(core.String)),
+    name: dart.fieldType(dart.legacy(core.String)),
+    description: dart.fieldType(dart.legacy(core.String)),
+    coverImageURL: dart.fieldType(dart.legacy(core.String)),
+    address: dart.fieldType(dart.legacy(core.String)),
+    venue: dart.fieldType(dart.legacy(core.String)),
+    venueName: dart.fieldType(dart.legacy(core.String)),
+    ticketLink: dart.fieldType(dart.legacy(core.String)),
+    promoter: dart.fieldType(dart.legacy(core.String)),
+    organizer: dart.fieldType(dart.legacy(core.String)),
+    contactEmail: dart.fieldType(dart.legacy(core.String)),
+    repetitionId: dart.fieldType(dart.legacy(core.String)),
+    date: dart.fieldType(dart.legacy(core.DateTime)),
+    endTime: dart.fieldType(dart.legacy(core.DateTime)),
+    tags: dart.fieldType(dart.legacy(core.List$(dart.legacy(core.String)))),
+    images: dart.fieldType(dart.legacy(core.List$(dart.legacy(core.String)))),
+    isSignedUp: dart.fieldType(dart.legacy(core.bool)),
+    isMockEvent: dart.fieldType(dart.legacy(core.bool)),
+    newPriorityPassesAllowed: dart.fieldType(dart.legacy(core.bool)),
+    newQPassesAllowed: dart.fieldType(dart.legacy(core.bool)),
+    allowsBirthdaySignUps: dart.fieldType(dart.legacy(core.bool)),
+    releaseManagers: dart.fieldType(dart.legacy(core.List$(dart.legacy(release_manager.ReleaseManager)))),
+    cutoffTimeOffset: dart.fieldType(dart.legacy(core.int)),
+    invitationMessage: dart.fieldType(dart.legacy(core.String)),
+    ticketCheckoutMessage: dart.fieldType(dart.legacy(core.String)),
+    feePercent: dart.fieldType(dart.legacy(core.double))
+  }));
+  dart.trackLibraries("packages/ticketapp/model/event.dart", {
+    "package:ticketapp/model/event.dart": event$
+  }, {
+  }, '{"version":3,"sourceRoot":"","sources":["event.dart"],"names":[],"mappings":"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","file":"../../../../../../packages/ticketapp/model/event.dart.lib.js"}');
+  // Exports:
+  return {
+    model__event: event$
+  };
+}));
+
+//# sourceMappingURL=event.dart.lib.js.map

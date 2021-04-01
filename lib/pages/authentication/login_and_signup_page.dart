@@ -5,12 +5,12 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/authentication/signUpForm.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
 import 'dart:html' as js;
 import 'package:ticketapp/services/validator.dart' as val;
-import 'package:websafe_svg/websafe_svg.dart';
 import 'bloc/authentication_bloc.dart';
 
 class LoginAndSignupPage extends StatefulWidget {
@@ -798,7 +798,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 onTap: () {
                   widget.bloc.add(EventGoogleSignIn());
                 },
-                child: WebsafeSvg.asset("icons/google_icon.svg", height: 70, width: 70),
+                child: SvgIcon("icons/google_icon.svg", size: 70),
               ),
               SizedBox(
                 width: 12,
@@ -807,7 +807,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 onTap: () {
                   widget.bloc.add(EventFacebookSignIn());
                 },
-                child: WebsafeSvg.asset("icons/facebook_icon.svg", height: 70, width: 70),
+                child: SvgIcon("icons/facebook_icon.svg", size: 70),
               ),
               SizedBox(
                 width: 12,
@@ -817,8 +817,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventAppleSignIn());
                 },
                 child: Container(
-                    child: WebsafeSvg.asset("icons/apple_icon.svg",
-                        color: widget.textTheme.bodyText2.color, height: 70, width: 70)),
+                    child: SvgIcon("icons/apple_icon.svg", color: widget.textTheme.bodyText2.color, size: 70)),
               ),
             ],
           ),

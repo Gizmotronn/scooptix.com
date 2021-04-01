@@ -1,0 +1,996 @@
+define(['dart_sdk', 'packages/ticketapp/services/firebase.dart', 'packages/ticketapp/repositories/user_repository.dart', 'packages/google_sign_in/google_sign_in.dart', 'packages/firebase_auth_platform_interface/src/providers/twitter_auth.dart', 'packages/firebase_auth/firebase_auth.dart', 'packages/ticketapp/services/bugsnag_wrapper.dart', 'packages/firebase_auth_oauth/firebase_auth_oauth.dart', 'packages/flutter_facebook_login_web/flutter_facebook_login_web.dart', 'packages/ticketapp/repositories/payment_repository.dart', 'packages/bloc/src/cubit.dart', 'packages/equatable/src/equatable_mixin.dart', 'packages/ticketapp/model/user.dart', 'packages/ticketapp/model/link_type/link_type.dart'], (function load__packages__ticketapp__pages__authentication__bloc__authentication_bloc_dart(dart_sdk, packages__ticketapp__services__firebase$46dart, packages__ticketapp__repositories__user_repository$46dart, packages__google_sign_in__google_sign_in$46dart, packages__firebase_auth_platform_interface__src__providers__twitter_auth$46dart, packages__firebase_auth__firebase_auth$46dart, packages__ticketapp__services__bugsnag_wrapper$46dart, packages__firebase_auth_oauth__firebase_auth_oauth$46dart, packages__flutter_facebook_login_web__flutter_facebook_login_web$46dart, packages__ticketapp__repositories__payment_repository$46dart, packages__bloc__src__cubit$46dart, packages__equatable__src__equatable_mixin$46dart, packages__ticketapp__model__user$46dart, packages__ticketapp__model__link_type__link_type$46dart) {
+  'use strict';
+  const core = dart_sdk.core;
+  const async = dart_sdk.async;
+  const _interceptors = dart_sdk._interceptors;
+  const dart = dart_sdk.dart;
+  const dartx = dart_sdk.dartx;
+  const firebase = packages__ticketapp__services__firebase$46dart.services__firebase;
+  const user_repository = packages__ticketapp__repositories__user_repository$46dart.repositories__user_repository;
+  const google_sign_in = packages__google_sign_in__google_sign_in$46dart.google_sign_in;
+  const google_auth = packages__firebase_auth_platform_interface__src__providers__twitter_auth$46dart.src__providers__google_auth;
+  const firebase_auth = packages__firebase_auth__firebase_auth$46dart.firebase_auth;
+  const bugsnag_wrapper = packages__ticketapp__services__bugsnag_wrapper$46dart.services__bugsnag_wrapper;
+  const firebase_auth_oauth = packages__firebase_auth_oauth__firebase_auth_oauth$46dart.firebase_auth_oauth;
+  const flutter_facebook_login_web = packages__flutter_facebook_login_web__flutter_facebook_login_web$46dart.flutter_facebook_login_web;
+  const payment_repository = packages__ticketapp__repositories__payment_repository$46dart.repositories__payment_repository;
+  const bloc = packages__bloc__src__cubit$46dart.src__bloc;
+  const equatable = packages__equatable__src__equatable_mixin$46dart.src__equatable;
+  const user = packages__ticketapp__model__user$46dart.model__user;
+  const link_type = packages__ticketapp__model__link_type__link_type$46dart.model__link_type__link_type;
+  var authentication_bloc = Object.create(dart.library);
+  var $split = dartx.split;
+  var $_get = dartx._get;
+  var $length = dartx.length;
+  var $toString = dartx.toString;
+  dart._checkModuleNullSafetyMode(false);
+  var T = {
+    AuthenticationEventL: () => (T.AuthenticationEventL = dart.constFn(dart.legacy(authentication_bloc.AuthenticationEvent)))(),
+    EventEmailProvidedL: () => (T.EventEmailProvidedL = dart.constFn(dart.legacy(authentication_bloc.EventEmailProvided)))(),
+    EventLoginPressedL: () => (T.EventLoginPressedL = dart.constFn(dart.legacy(authentication_bloc.EventLoginPressed)))(),
+    EventCreateNewUserL: () => (T.EventCreateNewUserL = dart.constFn(dart.legacy(authentication_bloc.EventCreateNewUser)))(),
+    EventChangeEmailL: () => (T.EventChangeEmailL = dart.constFn(dart.legacy(authentication_bloc.EventChangeEmail)))(),
+    EventGoogleSignInL: () => (T.EventGoogleSignInL = dart.constFn(dart.legacy(authentication_bloc.EventGoogleSignIn)))(),
+    EventFacebookSignInL: () => (T.EventFacebookSignInL = dart.constFn(dart.legacy(authentication_bloc.EventFacebookSignIn)))(),
+    EventAppleSignInL: () => (T.EventAppleSignInL = dart.constFn(dart.legacy(authentication_bloc.EventAppleSignIn)))(),
+    EventPageLoadL: () => (T.EventPageLoadL = dart.constFn(dart.legacy(authentication_bloc.EventPageLoad)))(),
+    EventLogoutL: () => (T.EventLogoutL = dart.constFn(dart.legacy(authentication_bloc.EventLogout)))(),
+    EventEmailsConfirmedL: () => (T.EventEmailsConfirmedL = dart.constFn(dart.legacy(authentication_bloc.EventEmailsConfirmed)))(),
+    EventPasswordsConfirmedL: () => (T.EventPasswordsConfirmedL = dart.constFn(dart.legacy(authentication_bloc.EventPasswordsConfirmed)))(),
+    EventSSOEmailsConfirmedL: () => (T.EventSSOEmailsConfirmedL = dart.constFn(dart.legacy(authentication_bloc.EventSSOEmailsConfirmed)))(),
+    OnTapCloseSignEventL: () => (T.OnTapCloseSignEventL = dart.constFn(dart.legacy(authentication_bloc.OnTapCloseSignEvent)))(),
+    OnTapSignEventL: () => (T.OnTapSignEventL = dart.constFn(dart.legacy(authentication_bloc.OnTapSignEvent)))(),
+    AuthenticationStateL: () => (T.AuthenticationStateL = dart.constFn(dart.legacy(authentication_bloc.AuthenticationState)))(),
+    _AsyncStarImplOfAuthenticationStateL: () => (T._AsyncStarImplOfAuthenticationStateL = dart.constFn(async._AsyncStarImpl$(T.AuthenticationStateL())))(),
+    StringL: () => (T.StringL = dart.constFn(dart.legacy(core.String)))(),
+    JSArrayOfStringL: () => (T.JSArrayOfStringL = dart.constFn(_interceptors.JSArray$(T.StringL())))(),
+    ObjectL: () => (T.ObjectL = dart.constFn(dart.legacy(core.Object)))(),
+    JSArrayOfObjectL: () => (T.JSArrayOfObjectL = dart.constFn(_interceptors.JSArray$(T.ObjectL())))(),
+    SignUpErrorL: () => (T.SignUpErrorL = dart.constFn(dart.legacy(authentication_bloc.SignUpError)))()
+  };
+  var T$Eval = Object.assign({
+    _: () => T$Eval
+  }, T);
+  var S = {
+    _: () => S
+  };
+  var S$Eval = Object.assign({
+    _: () => S$Eval
+  }, S);
+  const CT = Object.create({
+    _: () => (C, CT)
+  });
+  dart.defineLazy(CT, {
+    get C0() {
+      return C[0] = dart.const({
+        __proto__: flutter_facebook_login_web.FacebookLoginStatus.prototype,
+        [_name]: "FacebookLoginStatus.loggedIn",
+        index: 0
+      });
+    },
+    get C1() {
+      return C[1] = dart.const({
+        __proto__: flutter_facebook_login_web.FacebookLoginStatus.prototype,
+        [_name]: "FacebookLoginStatus.cancelledByUser",
+        index: 1
+      });
+    },
+    get C2() {
+      return C[2] = dart.const({
+        __proto__: flutter_facebook_login_web.FacebookLoginStatus.prototype,
+        [_name]: "FacebookLoginStatus.error",
+        index: 2
+      });
+    },
+    get C3() {
+      return C[3] = dart.const({
+        __proto__: authentication_bloc.SignUpError.prototype,
+        [_name$]: "SignUpError.Password",
+        index: 0
+      });
+    },
+    get C4() {
+      return C[4] = dart.const({
+        __proto__: authentication_bloc.SignUpError.prototype,
+        [_name$]: "SignUpError.UserCancelled",
+        index: 1
+      });
+    },
+    get C5() {
+      return C[5] = dart.const({
+        __proto__: authentication_bloc.SignUpError.prototype,
+        [_name$]: "SignUpError.Unknown",
+        index: 2
+      });
+    },
+    get C6() {
+      return C[6] = dart.constList([C[3] || CT.C3, C[4] || CT.C4, C[5] || CT.C5], T.SignUpErrorL());
+    }
+  }, false);
+  var C = Array(7).fill(void 0);
+  var I = ["package:ticketapp/pages/authentication/bloc/authentication_bloc.dart"];
+  var linkType$ = dart.privateName(authentication_bloc, "AuthenticationBloc.linkType");
+  var _checkUserStatus = dart.privateName(authentication_bloc, "_checkUserStatus");
+  var _loginExistingUser = dart.privateName(authentication_bloc, "_loginExistingUser");
+  var _createUser = dart.privateName(authentication_bloc, "_createUser");
+  var _signInWithGoogle = dart.privateName(authentication_bloc, "_signInWithGoogle");
+  var _signInWithFacebook = dart.privateName(authentication_bloc, "_signInWithFacebook");
+  var _signInWithApple = dart.privateName(authentication_bloc, "_signInWithApple");
+  var _signInCurrentUser = dart.privateName(authentication_bloc, "_signInCurrentUser");
+  var _logout = dart.privateName(authentication_bloc, "_logout");
+  var _name = dart.privateName(flutter_facebook_login_web, "_name");
+  authentication_bloc.AuthenticationEvent = class AuthenticationEvent extends equatable.Equatable {
+    get props() {
+      return T.JSArrayOfObjectL().of([]);
+    }
+  };
+  (authentication_bloc.AuthenticationEvent.new = function() {
+    authentication_bloc.AuthenticationEvent.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.AuthenticationEvent.prototype;
+  dart.addTypeTests(authentication_bloc.AuthenticationEvent);
+  dart.addTypeCaches(authentication_bloc.AuthenticationEvent);
+  dart.setGetterSignature(authentication_bloc.AuthenticationEvent, () => ({
+    __proto__: dart.getGetters(authentication_bloc.AuthenticationEvent.__proto__),
+    props: dart.legacy(core.List$(dart.legacy(core.Object)))
+  }));
+  dart.setLibraryUri(authentication_bloc.AuthenticationEvent, I[0]);
+  authentication_bloc.AuthenticationState = class AuthenticationState extends equatable.Equatable {
+    get props() {
+      return T.JSArrayOfObjectL().of([]);
+    }
+  };
+  (authentication_bloc.AuthenticationState.new = function() {
+    authentication_bloc.AuthenticationState.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.AuthenticationState.prototype;
+  dart.addTypeTests(authentication_bloc.AuthenticationState);
+  dart.addTypeCaches(authentication_bloc.AuthenticationState);
+  dart.setGetterSignature(authentication_bloc.AuthenticationState, () => ({
+    __proto__: dart.getGetters(authentication_bloc.AuthenticationState.__proto__),
+    props: dart.legacy(core.List$(dart.legacy(core.Object)))
+  }));
+  dart.setLibraryUri(authentication_bloc.AuthenticationState, I[0]);
+  authentication_bloc.AuthenticationBloc = class AuthenticationBloc extends bloc.Bloc$(dart.legacy(authentication_bloc.AuthenticationEvent), dart.legacy(authentication_bloc.AuthenticationState)) {
+    get linkType() {
+      return this[linkType$];
+    }
+    set linkType(value) {
+      super.linkType = value;
+    }
+    mapEventToState(event) {
+      T.AuthenticationEventL().as(event);
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new((function* mapEventToState(stream) {
+        if (T.EventEmailProvidedL().is(event)) {
+          if (stream.addStream(this[_checkUserStatus](event.email))) return;
+          yield;
+        } else if (T.EventLoginPressedL().is(event)) {
+          if (stream.addStream(this[_loginExistingUser](event.email, event.pw))) return;
+          yield;
+        } else if (T.EventCreateNewUserL().is(event)) {
+          if (stream.addStream(this[_createUser](event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, event.uid))) return;
+          yield;
+        } else if (T.EventChangeEmailL().is(event)) {
+          if (stream.add(new authentication_bloc.StateInitial.new())) return;
+          yield;
+        } else if (T.EventGoogleSignInL().is(event)) {
+          if (stream.addStream(this[_signInWithGoogle]())) return;
+          yield;
+        } else if (T.EventFacebookSignInL().is(event)) {
+          if (stream.addStream(this[_signInWithFacebook]())) return;
+          yield;
+        } else if (T.EventAppleSignInL().is(event)) {
+          if (stream.addStream(this[_signInWithApple]())) return;
+          yield;
+        } else if (T.EventPageLoadL().is(event)) {
+          if (stream.addStream(this[_signInCurrentUser]())) return;
+          yield;
+        } else if (T.EventLogoutL().is(event)) {
+          if (stream.addStream(this[_logout]())) return;
+          yield;
+        } else if (T.EventEmailsConfirmedL().is(event)) {
+          if (stream.add(new authentication_bloc.StateNewUserEmailsConfirmed.new())) return;
+          yield;
+        } else if (T.EventPasswordsConfirmedL().is(event)) {
+          if (stream.add(new authentication_bloc.StatePasswordsConfirmed.new(null))) return;
+          yield;
+        } else if (T.EventSSOEmailsConfirmedL().is(event)) {
+          if (stream.add(new authentication_bloc.StatePasswordsConfirmed.new(event.uid))) return;
+          yield;
+        } else if (T.OnTapCloseSignEventL().is(event)) {
+          if (stream.add(new authentication_bloc.StateInitial.new())) return;
+          yield;
+        } else if (T.OnTapSignEventL().is(event)) {
+          if (stream.add(new authentication_bloc.SignInState.new())) return;
+          yield;
+        }
+      }).bind(this)).stream;
+    }
+    [_checkUserStatus](email) {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _checkUserStatus(stream) {
+        if (stream.add(new authentication_bloc.StateLoadingUserData.new())) return;
+        yield;
+        let isInUse = (yield firebase.FBServices.instance.isEmailInUse(email));
+        if (isInUse == null) {
+          if (stream.add(new authentication_bloc.StateInvalidEmail.new())) return;
+          yield;
+        } else if (dart.test(isInUse)) {
+          if (stream.add(new authentication_bloc.StateExistingUserEmail.new())) return;
+          yield;
+        } else {
+          if (stream.add(new authentication_bloc.StateNewUserEmail.new())) return;
+          yield;
+        }
+      }).stream;
+    }
+    [_loginExistingUser](email, pw) {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _loginExistingUser(stream) {
+        if (stream.add(new authentication_bloc.StateLoadingLogin.new())) return;
+        yield;
+        let fbUser = (yield firebase.FBServices.instance.logIn(email, pw));
+        if (fbUser == null) {
+          if (stream.add(new authentication_bloc.StateLoginFailed.new())) return;
+          yield;
+        } else {
+          yield user_repository.UserRepository.instance.getUser(fbUser.uid);
+          if (stream.add(new authentication_bloc.StateLoggedIn.new(email, user_repository.UserRepository.instance.currentUser.firstname, user_repository.UserRepository.instance.currentUser.lastname))) return;
+          yield;
+        }
+      }).stream;
+    }
+    [_createUser](email, pw, firstName, lastName, dob, gender, uid) {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _createUser(stream) {
+        if (uid == null && pw.length < 8) {
+          if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.Password))) return;
+          yield;
+          if (stream.add(new authentication_bloc.StateNewUserEmail.new())) return;
+          yield;
+        } else {
+          if (stream.add(new authentication_bloc.StateLoadingCreateUser.new())) return;
+          yield;
+          yield user_repository.UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, {uid: uid});
+          if (user_repository.UserRepository.instance.currentUser == null) {
+            if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.Unknown))) return;
+            yield;
+            if (stream.add(new authentication_bloc.StatePasswordsConfirmed.new(uid))) return;
+            yield;
+          } else {
+            if (stream.add(new authentication_bloc.StateLoggedIn.new(user_repository.UserRepository.instance.currentUser.email, user_repository.UserRepository.instance.currentUser.firstname, user_repository.UserRepository.instance.currentUser.lastname))) return;
+            yield;
+          }
+        }
+      }).stream;
+    }
+    [_signInWithGoogle](opts) {
+      let retry = opts && 'retry' in opts ? opts.retry : true;
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new((function* _signInWithGoogle$(stream) {
+        if (stream.add(new authentication_bloc.StateLoadingSSO.new())) return;
+        yield;
+        let _googleSignIn = new google_sign_in.GoogleSignIn.new();
+        try {
+          let gUser = (yield _googleSignIn.signIn());
+          let googleAuth = (yield gUser.authentication);
+          let credential = google_auth.GoogleAuthProvider.credential({accessToken: googleAuth.accessToken, idToken: googleAuth.idToken});
+          let authResult = (yield firebase_auth.FirebaseAuth.instance.signInWithCredential(credential));
+          let fbUser = authResult.user;
+          if (fbUser != null) {
+            yield user_repository.UserRepository.instance.getUser(fbUser.uid);
+            if (user_repository.UserRepository.instance.currentUser == null) {
+              let firstName = fbUser.displayName != null ? fbUser.displayName[$split](" ")[$_get](0) : "";
+              let lastName = fbUser.displayName != null && dart.notNull(fbUser.displayName[$split](" ")[$length]) > 1 ? fbUser.displayName[$split](" ")[$_get](1) : "";
+              if (stream.add(new authentication_bloc.StateNewSSOUser.new(gUser.email, fbUser.uid, firstName, lastName))) return;
+              yield;
+            } else {
+              if (stream.add(new authentication_bloc.StateLoggedIn.new(gUser.email, user_repository.UserRepository.instance.currentUser.firstname, user_repository.UserRepository.instance.currentUser.lastname))) return;
+              yield;
+            }
+          } else {
+            bugsnag_wrapper.BugsnagNotifier.instance.notify("Error signing in with Google.", core.StackTrace.empty);
+            if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.Unknown))) return;
+            yield;
+            if (stream.add(new authentication_bloc.StateInitial.new())) return;
+            yield;
+          }
+        } catch (e$) {
+          let e = dart.getThrown(e$);
+          let s = dart.stackTrace(e$);
+          if (dart.test(retry)) {
+            if (stream.addStream(this[_signInWithGoogle]({retry: false}))) return;
+            yield;
+          } else {
+            bugsnag_wrapper.BugsnagNotifier.instance.notify(e, s);
+            if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.UserCancelled))) return;
+            yield;
+            if (stream.add(new authentication_bloc.StateInitial.new())) return;
+            yield;
+          }
+        }
+      }).bind(this)).stream;
+    }
+    [_signInWithApple]() {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _signInWithApple(stream) {
+        if (stream.add(new authentication_bloc.StateLoadingSSO.new())) return;
+        yield;
+        try {
+          let fbUser = (yield new firebase_auth_oauth.FirebaseAuthOAuth.new().openSignInFlow("apple.com", T.JSArrayOfStringL().of(["email"])));
+          if (fbUser != null) {
+            let user = (yield user_repository.UserRepository.instance.getUser(fbUser.uid));
+            if (user == null) {
+              let firstName = fbUser.displayName != null ? fbUser.displayName[$split](" ")[$_get](0) : "";
+              let lastName = fbUser.displayName != null && dart.notNull(fbUser.displayName[$split](" ")[$length]) > 1 ? fbUser.displayName[$split](" ")[$_get](1) : "";
+              if (stream.add(new authentication_bloc.StateNewSSOUser.new(fbUser.email, fbUser.uid, firstName, lastName))) return;
+              yield;
+            } else {
+              if (stream.add(new authentication_bloc.StateLoggedIn.new(fbUser.email, user.firstname, user.lastname))) return;
+              yield;
+            }
+          } else {
+            bugsnag_wrapper.BugsnagNotifier.instance.notify("Error signing in with Apple.", core.StackTrace.empty);
+            if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.Unknown))) return;
+            yield;
+            if (stream.add(new authentication_bloc.StateInitial.new())) return;
+            yield;
+          }
+        } catch (e$) {
+          let e = dart.getThrown(e$);
+          let s = dart.stackTrace(e$);
+          core.print(e);
+          bugsnag_wrapper.BugsnagNotifier.instance.notify(e, s, {severity: bugsnag_wrapper.ErrorSeverity.info});
+          if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.UserCancelled))) return;
+          yield;
+          if (stream.add(new authentication_bloc.StateInitial.new())) return;
+          yield;
+        }
+      }).stream;
+    }
+    [_signInWithFacebook]() {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _signInWithFacebook(stream) {
+        if (stream.add(new authentication_bloc.StateLoadingSSO.new())) return;
+        yield;
+        let facebookSignIn = new flutter_facebook_login_web.FacebookLoginWeb.new();
+        let result = (yield facebookSignIn.logIn(T.JSArrayOfStringL().of(["email", "public_profile"])));
+        switch (result.status) {
+          case C[0] || CT.C0:
+          {
+            let fbUser = (yield firebase.FBServices.instance.signInWithFacebook(result.accessToken.token));
+            if (fbUser != null) {
+              let user = (yield user_repository.UserRepository.instance.getUser(fbUser.uid));
+              if (user == null) {
+                let firstName = fbUser.displayName != null ? fbUser.displayName[$split](" ")[$_get](0) : "";
+                let lastName = fbUser.displayName != null && dart.notNull(fbUser.displayName[$split](" ")[$length]) > 1 ? fbUser.displayName[$split](" ")[$_get](1) : "";
+                if (stream.add(new authentication_bloc.StateNewSSOUser.new(fbUser.email, fbUser.uid, firstName, lastName))) return;
+                yield;
+              } else {
+                if (stream.add(new authentication_bloc.StateLoggedIn.new(fbUser.email, user.firstname, user.lastname))) return;
+                yield;
+              }
+            } else {
+              if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.Unknown))) return;
+              yield;
+              if (stream.add(new authentication_bloc.StateInitial.new())) return;
+              yield;
+            }
+            break;
+          }
+          case C[1] || CT.C1:
+          {
+            core.print("Login cancelled by the user.");
+            if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.UserCancelled))) return;
+            yield;
+            if (stream.add(new authentication_bloc.StateInitial.new())) return;
+            yield;
+            break;
+          }
+          case C[2] || CT.C2:
+          {
+            core.print("Something went wrong with the login process.\n" + "Here's the error Facebook gave us: " + dart.str(result.errorMessage));
+            bugsnag_wrapper.BugsnagNotifier.instance.notify("Error signing in with Facebook. Facebook error: " + dart.str(result.errorMessage), core.StackTrace.empty);
+            if (stream.add(new authentication_bloc.StateErrorSignUp.new(authentication_bloc.SignUpError.Unknown))) return;
+            yield;
+            if (stream.add(new authentication_bloc.StateInitial.new())) return;
+            yield;
+            break;
+          }
+        }
+      }).stream;
+    }
+    [_signInCurrentUser]() {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _signInCurrentUser(stream) {
+        let fbUser = firebase_auth.FirebaseAuth.instance.currentUser;
+        if (fbUser == null) {
+          core.print("no current user");
+          fbUser = (yield firebase_auth.FirebaseAuth.instance.authStateChanges().first);
+        }
+        if (fbUser == null) {
+          core.print("no state change user");
+          if (stream.add(new authentication_bloc.StateInitial.new())) return;
+          yield;
+        } else {
+          yield user_repository.UserRepository.instance.getUser(fbUser.uid);
+          if (user_repository.UserRepository.instance.currentUser == null) {
+            let firstName = fbUser.displayName != null ? fbUser.displayName[$split](" ")[$_get](0) : "";
+            let lastName = fbUser.displayName != null && dart.notNull(fbUser.displayName[$split](" ")[$length]) > 1 ? fbUser.displayName[$split](" ")[$_get](1) : "";
+            if (stream.add(new authentication_bloc.StateNewSSOUser.new(fbUser.email, fbUser.uid, firstName, lastName))) return;
+            yield;
+          } else {
+            if (stream.add(new authentication_bloc.StateAutoLoggedIn.new(fbUser.email, user_repository.UserRepository.instance.currentUser.firstname, user_repository.UserRepository.instance.currentUser.lastname))) return;
+            yield;
+          }
+        }
+      }).stream;
+    }
+    [_logout]() {
+      return new (T._AsyncStarImplOfAuthenticationStateL()).new(function* _logout(stream) {
+        yield firebase_auth.FirebaseAuth.instance.signOut();
+        user_repository.UserRepository.instance.dispose();
+        payment_repository.PaymentRepository.instance.dispose();
+        if (stream.add(new authentication_bloc.StateInitial.new())) return;
+        yield;
+      }).stream;
+    }
+  };
+  (authentication_bloc.AuthenticationBloc.new = function(linkType) {
+    this[linkType$] = linkType;
+    authentication_bloc.AuthenticationBloc.__proto__.new.call(this, new authentication_bloc.StateInitial.new());
+    ;
+  }).prototype = authentication_bloc.AuthenticationBloc.prototype;
+  dart.addTypeTests(authentication_bloc.AuthenticationBloc);
+  dart.addTypeCaches(authentication_bloc.AuthenticationBloc);
+  dart.setMethodSignature(authentication_bloc.AuthenticationBloc, () => ({
+    __proto__: dart.getMethods(authentication_bloc.AuthenticationBloc.__proto__),
+    mapEventToState: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), [dart.legacy(core.Object)]),
+    [_checkUserStatus]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), [dart.legacy(core.String)]),
+    [_loginExistingUser]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), [dart.legacy(core.String), dart.legacy(core.String)]),
+    [_createUser]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), [dart.legacy(core.String), dart.legacy(core.String), dart.legacy(core.String), dart.legacy(core.String), dart.legacy(core.DateTime), dart.legacy(user.Gender), dart.legacy(core.String)]),
+    [_signInWithGoogle]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), [], {retry: dart.legacy(core.bool)}, {}),
+    [_signInWithApple]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), []),
+    [_signInWithFacebook]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), []),
+    [_signInCurrentUser]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), []),
+    [_logout]: dart.fnType(dart.legacy(async.Stream$(dart.legacy(authentication_bloc.AuthenticationState))), [])
+  }));
+  dart.setLibraryUri(authentication_bloc.AuthenticationBloc, I[0]);
+  dart.setFieldSignature(authentication_bloc.AuthenticationBloc, () => ({
+    __proto__: dart.getFields(authentication_bloc.AuthenticationBloc.__proto__),
+    linkType: dart.finalFieldType(dart.legacy(link_type.LinkType))
+  }));
+  authentication_bloc.EventChangeEmail = class EventChangeEmail extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventChangeEmail.new = function() {
+    authentication_bloc.EventChangeEmail.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventChangeEmail.prototype;
+  dart.addTypeTests(authentication_bloc.EventChangeEmail);
+  dart.addTypeCaches(authentication_bloc.EventChangeEmail);
+  dart.setLibraryUri(authentication_bloc.EventChangeEmail, I[0]);
+  authentication_bloc.EventEmailsConfirmed = class EventEmailsConfirmed extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventEmailsConfirmed.new = function() {
+    authentication_bloc.EventEmailsConfirmed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventEmailsConfirmed.prototype;
+  dart.addTypeTests(authentication_bloc.EventEmailsConfirmed);
+  dart.addTypeCaches(authentication_bloc.EventEmailsConfirmed);
+  dart.setLibraryUri(authentication_bloc.EventEmailsConfirmed, I[0]);
+  var uid$ = dart.privateName(authentication_bloc, "EventSSOEmailsConfirmed.uid");
+  authentication_bloc.EventSSOEmailsConfirmed = class EventSSOEmailsConfirmed extends authentication_bloc.AuthenticationEvent {
+    get uid() {
+      return this[uid$];
+    }
+    set uid(value) {
+      super.uid = value;
+    }
+  };
+  (authentication_bloc.EventSSOEmailsConfirmed.new = function(uid) {
+    this[uid$] = uid;
+    authentication_bloc.EventSSOEmailsConfirmed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventSSOEmailsConfirmed.prototype;
+  dart.addTypeTests(authentication_bloc.EventSSOEmailsConfirmed);
+  dart.addTypeCaches(authentication_bloc.EventSSOEmailsConfirmed);
+  dart.setLibraryUri(authentication_bloc.EventSSOEmailsConfirmed, I[0]);
+  dart.setFieldSignature(authentication_bloc.EventSSOEmailsConfirmed, () => ({
+    __proto__: dart.getFields(authentication_bloc.EventSSOEmailsConfirmed.__proto__),
+    uid: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  authentication_bloc.EventPasswordsConfirmed = class EventPasswordsConfirmed extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventPasswordsConfirmed.new = function() {
+    authentication_bloc.EventPasswordsConfirmed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventPasswordsConfirmed.prototype;
+  dart.addTypeTests(authentication_bloc.EventPasswordsConfirmed);
+  dart.addTypeCaches(authentication_bloc.EventPasswordsConfirmed);
+  dart.setLibraryUri(authentication_bloc.EventPasswordsConfirmed, I[0]);
+  authentication_bloc.EventGoogleSignIn = class EventGoogleSignIn extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventGoogleSignIn.new = function() {
+    authentication_bloc.EventGoogleSignIn.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventGoogleSignIn.prototype;
+  dart.addTypeTests(authentication_bloc.EventGoogleSignIn);
+  dart.addTypeCaches(authentication_bloc.EventGoogleSignIn);
+  dart.setLibraryUri(authentication_bloc.EventGoogleSignIn, I[0]);
+  authentication_bloc.EventFacebookSignIn = class EventFacebookSignIn extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventFacebookSignIn.new = function() {
+    authentication_bloc.EventFacebookSignIn.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventFacebookSignIn.prototype;
+  dart.addTypeTests(authentication_bloc.EventFacebookSignIn);
+  dart.addTypeCaches(authentication_bloc.EventFacebookSignIn);
+  dart.setLibraryUri(authentication_bloc.EventFacebookSignIn, I[0]);
+  authentication_bloc.EventAppleSignIn = class EventAppleSignIn extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventAppleSignIn.new = function() {
+    authentication_bloc.EventAppleSignIn.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventAppleSignIn.prototype;
+  dart.addTypeTests(authentication_bloc.EventAppleSignIn);
+  dart.addTypeCaches(authentication_bloc.EventAppleSignIn);
+  dart.setLibraryUri(authentication_bloc.EventAppleSignIn, I[0]);
+  authentication_bloc.EventPageLoad = class EventPageLoad extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventPageLoad.new = function() {
+    authentication_bloc.EventPageLoad.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventPageLoad.prototype;
+  dart.addTypeTests(authentication_bloc.EventPageLoad);
+  dart.addTypeCaches(authentication_bloc.EventPageLoad);
+  dart.setLibraryUri(authentication_bloc.EventPageLoad, I[0]);
+  authentication_bloc.EventLogout = class EventLogout extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.EventLogout.new = function() {
+    authentication_bloc.EventLogout.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventLogout.prototype;
+  dart.addTypeTests(authentication_bloc.EventLogout);
+  dart.addTypeCaches(authentication_bloc.EventLogout);
+  dart.setLibraryUri(authentication_bloc.EventLogout, I[0]);
+  var email$ = dart.privateName(authentication_bloc, "EventEmailProvided.email");
+  authentication_bloc.EventEmailProvided = class EventEmailProvided extends authentication_bloc.AuthenticationEvent {
+    get email() {
+      return this[email$];
+    }
+    set email(value) {
+      super.email = value;
+    }
+  };
+  (authentication_bloc.EventEmailProvided.new = function(email) {
+    this[email$] = email;
+    authentication_bloc.EventEmailProvided.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventEmailProvided.prototype;
+  dart.addTypeTests(authentication_bloc.EventEmailProvided);
+  dart.addTypeCaches(authentication_bloc.EventEmailProvided);
+  dart.setLibraryUri(authentication_bloc.EventEmailProvided, I[0]);
+  dart.setFieldSignature(authentication_bloc.EventEmailProvided, () => ({
+    __proto__: dart.getFields(authentication_bloc.EventEmailProvided.__proto__),
+    email: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  var email$0 = dart.privateName(authentication_bloc, "EventLoginPressed.email");
+  var pw$ = dart.privateName(authentication_bloc, "EventLoginPressed.pw");
+  authentication_bloc.EventLoginPressed = class EventLoginPressed extends authentication_bloc.AuthenticationEvent {
+    get email() {
+      return this[email$0];
+    }
+    set email(value) {
+      super.email = value;
+    }
+    get pw() {
+      return this[pw$];
+    }
+    set pw(value) {
+      super.pw = value;
+    }
+  };
+  (authentication_bloc.EventLoginPressed.new = function(email, pw) {
+    this[email$0] = email;
+    this[pw$] = pw;
+    authentication_bloc.EventLoginPressed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventLoginPressed.prototype;
+  dart.addTypeTests(authentication_bloc.EventLoginPressed);
+  dart.addTypeCaches(authentication_bloc.EventLoginPressed);
+  dart.setLibraryUri(authentication_bloc.EventLoginPressed, I[0]);
+  dart.setFieldSignature(authentication_bloc.EventLoginPressed, () => ({
+    __proto__: dart.getFields(authentication_bloc.EventLoginPressed.__proto__),
+    email: dart.finalFieldType(dart.legacy(core.String)),
+    pw: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  var firstName$ = dart.privateName(authentication_bloc, "EventSignUpPressed.firstName");
+  var lastName$ = dart.privateName(authentication_bloc, "EventSignUpPressed.lastName");
+  var email$1 = dart.privateName(authentication_bloc, "EventSignUpPressed.email");
+  var pw$0 = dart.privateName(authentication_bloc, "EventSignUpPressed.pw");
+  authentication_bloc.EventSignUpPressed = class EventSignUpPressed extends authentication_bloc.AuthenticationEvent {
+    get firstName() {
+      return this[firstName$];
+    }
+    set firstName(value) {
+      super.firstName = value;
+    }
+    get lastName() {
+      return this[lastName$];
+    }
+    set lastName(value) {
+      super.lastName = value;
+    }
+    get email() {
+      return this[email$1];
+    }
+    set email(value) {
+      super.email = value;
+    }
+    get pw() {
+      return this[pw$0];
+    }
+    set pw(value) {
+      super.pw = value;
+    }
+  };
+  (authentication_bloc.EventSignUpPressed.new = function(firstName, lastName, email, pw) {
+    this[firstName$] = firstName;
+    this[lastName$] = lastName;
+    this[email$1] = email;
+    this[pw$0] = pw;
+    authentication_bloc.EventSignUpPressed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventSignUpPressed.prototype;
+  dart.addTypeTests(authentication_bloc.EventSignUpPressed);
+  dart.addTypeCaches(authentication_bloc.EventSignUpPressed);
+  dart.setLibraryUri(authentication_bloc.EventSignUpPressed, I[0]);
+  dart.setFieldSignature(authentication_bloc.EventSignUpPressed, () => ({
+    __proto__: dart.getFields(authentication_bloc.EventSignUpPressed.__proto__),
+    firstName: dart.finalFieldType(dart.legacy(core.String)),
+    lastName: dart.finalFieldType(dart.legacy(core.String)),
+    email: dart.finalFieldType(dart.legacy(core.String)),
+    pw: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  var email$2 = dart.privateName(authentication_bloc, "EventCreateNewUser.email");
+  var pw$1 = dart.privateName(authentication_bloc, "EventCreateNewUser.pw");
+  var firstName$0 = dart.privateName(authentication_bloc, "EventCreateNewUser.firstName");
+  var lastName$0 = dart.privateName(authentication_bloc, "EventCreateNewUser.lastName");
+  var dob$ = dart.privateName(authentication_bloc, "EventCreateNewUser.dob");
+  var gender$ = dart.privateName(authentication_bloc, "EventCreateNewUser.gender");
+  var uid$0 = dart.privateName(authentication_bloc, "EventCreateNewUser.uid");
+  authentication_bloc.EventCreateNewUser = class EventCreateNewUser extends authentication_bloc.AuthenticationEvent {
+    get email() {
+      return this[email$2];
+    }
+    set email(value) {
+      super.email = value;
+    }
+    get pw() {
+      return this[pw$1];
+    }
+    set pw(value) {
+      super.pw = value;
+    }
+    get firstName() {
+      return this[firstName$0];
+    }
+    set firstName(value) {
+      super.firstName = value;
+    }
+    get lastName() {
+      return this[lastName$0];
+    }
+    set lastName(value) {
+      super.lastName = value;
+    }
+    get dob() {
+      return this[dob$];
+    }
+    set dob(value) {
+      super.dob = value;
+    }
+    get gender() {
+      return this[gender$];
+    }
+    set gender(value) {
+      super.gender = value;
+    }
+    get uid() {
+      return this[uid$0];
+    }
+    set uid(value) {
+      super.uid = value;
+    }
+  };
+  (authentication_bloc.EventCreateNewUser.new = function(email, pw, firstName, lastName, dob, gender, uid) {
+    this[email$2] = email;
+    this[pw$1] = pw;
+    this[firstName$0] = firstName;
+    this[lastName$0] = lastName;
+    this[dob$] = dob;
+    this[gender$] = gender;
+    this[uid$0] = uid;
+    authentication_bloc.EventCreateNewUser.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.EventCreateNewUser.prototype;
+  dart.addTypeTests(authentication_bloc.EventCreateNewUser);
+  dart.addTypeCaches(authentication_bloc.EventCreateNewUser);
+  dart.setLibraryUri(authentication_bloc.EventCreateNewUser, I[0]);
+  dart.setFieldSignature(authentication_bloc.EventCreateNewUser, () => ({
+    __proto__: dart.getFields(authentication_bloc.EventCreateNewUser.__proto__),
+    email: dart.finalFieldType(dart.legacy(core.String)),
+    pw: dart.finalFieldType(dart.legacy(core.String)),
+    firstName: dart.finalFieldType(dart.legacy(core.String)),
+    lastName: dart.finalFieldType(dart.legacy(core.String)),
+    dob: dart.finalFieldType(dart.legacy(core.DateTime)),
+    gender: dart.finalFieldType(dart.legacy(user.Gender)),
+    uid: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  authentication_bloc.OnTapSignEvent = class OnTapSignEvent extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.OnTapSignEvent.new = function() {
+    authentication_bloc.OnTapSignEvent.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.OnTapSignEvent.prototype;
+  dart.addTypeTests(authentication_bloc.OnTapSignEvent);
+  dart.addTypeCaches(authentication_bloc.OnTapSignEvent);
+  dart.setLibraryUri(authentication_bloc.OnTapSignEvent, I[0]);
+  authentication_bloc.OnTapCloseSignEvent = class OnTapCloseSignEvent extends authentication_bloc.AuthenticationEvent {};
+  (authentication_bloc.OnTapCloseSignEvent.new = function() {
+    authentication_bloc.OnTapCloseSignEvent.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.OnTapCloseSignEvent.prototype;
+  dart.addTypeTests(authentication_bloc.OnTapCloseSignEvent);
+  dart.addTypeCaches(authentication_bloc.OnTapCloseSignEvent);
+  dart.setLibraryUri(authentication_bloc.OnTapCloseSignEvent, I[0]);
+  var _name$ = dart.privateName(authentication_bloc, "_name");
+  authentication_bloc.SignUpError = class SignUpError extends core.Object {
+    toString() {
+      return this[_name$];
+    }
+  };
+  (authentication_bloc.SignUpError.new = function(index, _name) {
+    this.index = index;
+    this[_name$] = _name;
+    ;
+  }).prototype = authentication_bloc.SignUpError.prototype;
+  dart.addTypeTests(authentication_bloc.SignUpError);
+  dart.addTypeCaches(authentication_bloc.SignUpError);
+  dart.setMethodSignature(authentication_bloc.SignUpError, () => ({
+    __proto__: dart.getMethods(authentication_bloc.SignUpError.__proto__),
+    toString: dart.fnType(dart.legacy(core.String), []),
+    [$toString]: dart.fnType(dart.legacy(core.String), [])
+  }));
+  dart.setLibraryUri(authentication_bloc.SignUpError, I[0]);
+  dart.setFieldSignature(authentication_bloc.SignUpError, () => ({
+    __proto__: dart.getFields(authentication_bloc.SignUpError.__proto__),
+    index: dart.finalFieldType(dart.legacy(core.int)),
+    [_name$]: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  dart.defineExtensionMethods(authentication_bloc.SignUpError, ['toString']);
+  authentication_bloc.SignUpError.Password = C[3] || CT.C3;
+  authentication_bloc.SignUpError.UserCancelled = C[4] || CT.C4;
+  authentication_bloc.SignUpError.Unknown = C[5] || CT.C5;
+  authentication_bloc.SignUpError.values = C[6] || CT.C6;
+  authentication_bloc.StateInitial = class StateInitial extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.StateInitial.new = function() {
+    authentication_bloc.StateInitial.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateInitial.prototype;
+  dart.addTypeTests(authentication_bloc.StateInitial);
+  dart.addTypeCaches(authentication_bloc.StateInitial);
+  dart.setLibraryUri(authentication_bloc.StateInitial, I[0]);
+  authentication_bloc.StateInvalidEmail = class StateInvalidEmail extends authentication_bloc.StateInitial {};
+  (authentication_bloc.StateInvalidEmail.new = function() {
+    authentication_bloc.StateInvalidEmail.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateInvalidEmail.prototype;
+  dart.addTypeTests(authentication_bloc.StateInvalidEmail);
+  dart.addTypeCaches(authentication_bloc.StateInvalidEmail);
+  dart.setLibraryUri(authentication_bloc.StateInvalidEmail, I[0]);
+  authentication_bloc.StateLoadingUserData = class StateLoadingUserData extends authentication_bloc.StateInitial {};
+  (authentication_bloc.StateLoadingUserData.new = function() {
+    authentication_bloc.StateLoadingUserData.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateLoadingUserData.prototype;
+  dart.addTypeTests(authentication_bloc.StateLoadingUserData);
+  dart.addTypeCaches(authentication_bloc.StateLoadingUserData);
+  dart.setLibraryUri(authentication_bloc.StateLoadingUserData, I[0]);
+  authentication_bloc.StateExistingUserEmail = class StateExistingUserEmail extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.StateExistingUserEmail.new = function() {
+    authentication_bloc.StateExistingUserEmail.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateExistingUserEmail.prototype;
+  dart.addTypeTests(authentication_bloc.StateExistingUserEmail);
+  dart.addTypeCaches(authentication_bloc.StateExistingUserEmail);
+  dart.setLibraryUri(authentication_bloc.StateExistingUserEmail, I[0]);
+  authentication_bloc.StateLoadingLogin = class StateLoadingLogin extends authentication_bloc.StateExistingUserEmail {};
+  (authentication_bloc.StateLoadingLogin.new = function() {
+    authentication_bloc.StateLoadingLogin.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateLoadingLogin.prototype;
+  dart.addTypeTests(authentication_bloc.StateLoadingLogin);
+  dart.addTypeCaches(authentication_bloc.StateLoadingLogin);
+  dart.setLibraryUri(authentication_bloc.StateLoadingLogin, I[0]);
+  authentication_bloc.StateLoadingSSO = class StateLoadingSSO extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.StateLoadingSSO.new = function() {
+    authentication_bloc.StateLoadingSSO.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateLoadingSSO.prototype;
+  dart.addTypeTests(authentication_bloc.StateLoadingSSO);
+  dart.addTypeCaches(authentication_bloc.StateLoadingSSO);
+  dart.setLibraryUri(authentication_bloc.StateLoadingSSO, I[0]);
+  authentication_bloc.StateLoadingCreateUser = class StateLoadingCreateUser extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.StateLoadingCreateUser.new = function() {
+    authentication_bloc.StateLoadingCreateUser.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateLoadingCreateUser.prototype;
+  dart.addTypeTests(authentication_bloc.StateLoadingCreateUser);
+  dart.addTypeCaches(authentication_bloc.StateLoadingCreateUser);
+  dart.setLibraryUri(authentication_bloc.StateLoadingCreateUser, I[0]);
+  var email$3 = dart.privateName(authentication_bloc, "StateNewSSOUser.email");
+  var firstName$1 = dart.privateName(authentication_bloc, "StateNewSSOUser.firstName");
+  var lastName$1 = dart.privateName(authentication_bloc, "StateNewSSOUser.lastName");
+  var uid$1 = dart.privateName(authentication_bloc, "StateNewSSOUser.uid");
+  authentication_bloc.StateNewSSOUser = class StateNewSSOUser extends authentication_bloc.AuthenticationState {
+    get email() {
+      return this[email$3];
+    }
+    set email(value) {
+      super.email = value;
+    }
+    get firstName() {
+      return this[firstName$1];
+    }
+    set firstName(value) {
+      super.firstName = value;
+    }
+    get lastName() {
+      return this[lastName$1];
+    }
+    set lastName(value) {
+      super.lastName = value;
+    }
+    get uid() {
+      return this[uid$1];
+    }
+    set uid(value) {
+      super.uid = value;
+    }
+  };
+  (authentication_bloc.StateNewSSOUser.new = function(email, uid, firstName, lastName) {
+    this[email$3] = email;
+    this[uid$1] = uid;
+    this[firstName$1] = firstName;
+    this[lastName$1] = lastName;
+    authentication_bloc.StateNewSSOUser.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateNewSSOUser.prototype;
+  dart.addTypeTests(authentication_bloc.StateNewSSOUser);
+  dart.addTypeCaches(authentication_bloc.StateNewSSOUser);
+  dart.setLibraryUri(authentication_bloc.StateNewSSOUser, I[0]);
+  dart.setFieldSignature(authentication_bloc.StateNewSSOUser, () => ({
+    __proto__: dart.getFields(authentication_bloc.StateNewSSOUser.__proto__),
+    email: dart.finalFieldType(dart.legacy(core.String)),
+    firstName: dart.finalFieldType(dart.legacy(core.String)),
+    lastName: dart.finalFieldType(dart.legacy(core.String)),
+    uid: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  authentication_bloc.StateNewUserEmail = class StateNewUserEmail extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.StateNewUserEmail.new = function() {
+    authentication_bloc.StateNewUserEmail.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateNewUserEmail.prototype;
+  dart.addTypeTests(authentication_bloc.StateNewUserEmail);
+  dart.addTypeCaches(authentication_bloc.StateNewUserEmail);
+  dart.setLibraryUri(authentication_bloc.StateNewUserEmail, I[0]);
+  authentication_bloc.StateNewUserEmailsConfirmed = class StateNewUserEmailsConfirmed extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.StateNewUserEmailsConfirmed.new = function() {
+    authentication_bloc.StateNewUserEmailsConfirmed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateNewUserEmailsConfirmed.prototype;
+  dart.addTypeTests(authentication_bloc.StateNewUserEmailsConfirmed);
+  dart.addTypeCaches(authentication_bloc.StateNewUserEmailsConfirmed);
+  dart.setLibraryUri(authentication_bloc.StateNewUserEmailsConfirmed, I[0]);
+  var uid$2 = dart.privateName(authentication_bloc, "StatePasswordsConfirmed.uid");
+  authentication_bloc.StatePasswordsConfirmed = class StatePasswordsConfirmed extends authentication_bloc.AuthenticationState {
+    get uid() {
+      return this[uid$2];
+    }
+    set uid(value) {
+      super.uid = value;
+    }
+  };
+  (authentication_bloc.StatePasswordsConfirmed.new = function(uid) {
+    this[uid$2] = uid;
+    authentication_bloc.StatePasswordsConfirmed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StatePasswordsConfirmed.prototype;
+  dart.addTypeTests(authentication_bloc.StatePasswordsConfirmed);
+  dart.addTypeCaches(authentication_bloc.StatePasswordsConfirmed);
+  dart.setLibraryUri(authentication_bloc.StatePasswordsConfirmed, I[0]);
+  dart.setFieldSignature(authentication_bloc.StatePasswordsConfirmed, () => ({
+    __proto__: dart.getFields(authentication_bloc.StatePasswordsConfirmed.__proto__),
+    uid: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  authentication_bloc.StateLoginFailed = class StateLoginFailed extends authentication_bloc.StateExistingUserEmail {};
+  (authentication_bloc.StateLoginFailed.new = function() {
+    authentication_bloc.StateLoginFailed.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateLoginFailed.prototype;
+  dart.addTypeTests(authentication_bloc.StateLoginFailed);
+  dart.addTypeCaches(authentication_bloc.StateLoginFailed);
+  dart.setLibraryUri(authentication_bloc.StateLoginFailed, I[0]);
+  var email$4 = dart.privateName(authentication_bloc, "StateLoggedIn.email");
+  var firstName$2 = dart.privateName(authentication_bloc, "StateLoggedIn.firstName");
+  var lastName$2 = dart.privateName(authentication_bloc, "StateLoggedIn.lastName");
+  authentication_bloc.StateLoggedIn = class StateLoggedIn extends authentication_bloc.AuthenticationState {
+    get email() {
+      return this[email$4];
+    }
+    set email(value) {
+      super.email = value;
+    }
+    get firstName() {
+      return this[firstName$2];
+    }
+    set firstName(value) {
+      super.firstName = value;
+    }
+    get lastName() {
+      return this[lastName$2];
+    }
+    set lastName(value) {
+      super.lastName = value;
+    }
+  };
+  (authentication_bloc.StateLoggedIn.new = function(email, firstName, lastName) {
+    this[email$4] = email;
+    this[firstName$2] = firstName;
+    this[lastName$2] = lastName;
+    authentication_bloc.StateLoggedIn.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateLoggedIn.prototype;
+  dart.addTypeTests(authentication_bloc.StateLoggedIn);
+  dart.addTypeCaches(authentication_bloc.StateLoggedIn);
+  dart.setLibraryUri(authentication_bloc.StateLoggedIn, I[0]);
+  dart.setFieldSignature(authentication_bloc.StateLoggedIn, () => ({
+    __proto__: dart.getFields(authentication_bloc.StateLoggedIn.__proto__),
+    email: dart.finalFieldType(dart.legacy(core.String)),
+    firstName: dart.finalFieldType(dart.legacy(core.String)),
+    lastName: dart.finalFieldType(dart.legacy(core.String))
+  }));
+  authentication_bloc.StateAutoLoggedIn = class StateAutoLoggedIn extends authentication_bloc.StateLoggedIn {};
+  (authentication_bloc.StateAutoLoggedIn.new = function(email, firstName, lastName) {
+    authentication_bloc.StateAutoLoggedIn.__proto__.new.call(this, T.StringL().as(email), T.StringL().as(firstName), T.StringL().as(lastName));
+    ;
+  }).prototype = authentication_bloc.StateAutoLoggedIn.prototype;
+  dart.addTypeTests(authentication_bloc.StateAutoLoggedIn);
+  dart.addTypeCaches(authentication_bloc.StateAutoLoggedIn);
+  dart.setLibraryUri(authentication_bloc.StateAutoLoggedIn, I[0]);
+  var error$ = dart.privateName(authentication_bloc, "StateErrorSignUp.error");
+  authentication_bloc.StateErrorSignUp = class StateErrorSignUp extends authentication_bloc.AuthenticationState {
+    get error() {
+      return this[error$];
+    }
+    set error(value) {
+      super.error = value;
+    }
+  };
+  (authentication_bloc.StateErrorSignUp.new = function(error) {
+    this[error$] = error;
+    authentication_bloc.StateErrorSignUp.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.StateErrorSignUp.prototype;
+  dart.addTypeTests(authentication_bloc.StateErrorSignUp);
+  dart.addTypeCaches(authentication_bloc.StateErrorSignUp);
+  dart.setLibraryUri(authentication_bloc.StateErrorSignUp, I[0]);
+  dart.setFieldSignature(authentication_bloc.StateErrorSignUp, () => ({
+    __proto__: dart.getFields(authentication_bloc.StateErrorSignUp.__proto__),
+    error: dart.finalFieldType(dart.legacy(authentication_bloc.SignUpError))
+  }));
+  authentication_bloc.SignInState = class SignInState extends authentication_bloc.AuthenticationState {};
+  (authentication_bloc.SignInState.new = function() {
+    authentication_bloc.SignInState.__proto__.new.call(this);
+    ;
+  }).prototype = authentication_bloc.SignInState.prototype;
+  dart.addTypeTests(authentication_bloc.SignInState);
+  dart.addTypeCaches(authentication_bloc.SignInState);
+  dart.setLibraryUri(authentication_bloc.SignInState, I[0]);
+  dart.trackLibraries("packages/ticketapp/pages/authentication/bloc/authentication_bloc.dart", {
+    "package:ticketapp/pages/authentication/bloc/authentication_bloc.dart": authentication_bloc
+  }, {
+    "package:ticketapp/pages/authentication/bloc/authentication_bloc.dart": ["authentication_event.dart", "authentication_state.dart"]
+  }, '{"version":3,"sourceRoot":"","sources":["authentication_event.dart","authentication_state.dart","authentication_bloc.dart"],"names":[],"mappings":"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","file":"../../../../../../../../packages/ticketapp/pages/authentication/bloc/authentication_bloc.dart.lib.js"}');
+  // Exports:
+  return {
+    pages__authentication__bloc__authentication_bloc: authentication_bloc
+  };
+}));
+
+//# sourceMappingURL=authentication_bloc.dart.lib.js.map
