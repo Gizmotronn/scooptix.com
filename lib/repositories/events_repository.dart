@@ -29,30 +29,21 @@ class EventsRepository {
 
   Future<Event> loadEventById(String id) async {
     print(id);
-    DocumentSnapshot eventSnapshot =
-        await FirebaseFirestore.instance.collection("events").doc(id).get();
-    DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance
-        .collection("ticketevents")
-        .doc(id)
-        .get();
+    DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
+    DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
 
-    QuerySnapshot releaseManagerSnapshot = await FirebaseFirestore.instance
-        .collection("ticketevents")
-        .doc(id)
-        .collection("release_managers")
-        .get();
+    QuerySnapshot releaseManagerSnapshot =
+        await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get();
 
     Event event = Event.fromMap(eventSnapshot.id, eventSnapshot.data());
 
     if (event != null) {
-      event.feePercent = ticketEventSnapshot.data().containsKey("fee_percent")
-          ? ticketEventSnapshot.data()["fee_percent"]
-          : 10.0;
+      event.feePercent =
+          ticketEventSnapshot.data().containsKey("fee_percent") ? ticketEventSnapshot.data()["fee_percent"] : 10.0;
     }
     await Future.wait(releaseManagerSnapshot.docs.map((element) async {
       ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
-      rm.releases.addAll(await EventsRepository.instance
-          .loadReleasesForManager(event.docID, rm.docId));
+      rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
       event.releaseManagers.add(rm);
     }));
 
@@ -60,8 +51,7 @@ class EventsRepository {
   }
 
   /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers
-  Future<List<TicketRelease>> loadReleasesForManager(
-      String eventId, String rmId) async {
+  Future<List<TicketRelease>> loadReleasesForManager(String eventId, String rmId) async {
     QuerySnapshot releaseSnapshots = await FirebaseFirestore.instance
         .collection("ticketevents")
         .doc(eventId)
@@ -72,8 +62,7 @@ class EventsRepository {
 
     List<TicketRelease> ticketReleases = [];
     releaseSnapshots.docs.forEach((releaseDoc) {
-      TicketRelease release =
-          TicketRelease.fromMap(releaseDoc.id, releaseDoc.data());
+      TicketRelease release = TicketRelease.fromMap(releaseDoc.id, releaseDoc.data());
       if (release != null) {
         ticketReleases.add(release);
       }
@@ -84,15 +73,12 @@ class EventsRepository {
 
   Future<LinkType> loadLinkType(String uuid) async {
     try {
-      QuerySnapshot uuidMapSnapshot = await FirebaseFirestore.instance
-          .collection("uuidmap")
-          .where("uuid", isEqualTo: uuid)
-          .get();
+      QuerySnapshot uuidMapSnapshot =
+          await FirebaseFirestore.instance.collection("uuidmap").where("uuid", isEqualTo: uuid).get();
       if (uuidMapSnapshot.size > 0) {
         LinkTypes lt = LinkTypes.Promoter;
         try {
-          lt = LinkTypes.values.firstWhere((element) =>
-              element.toDBString() == uuidMapSnapshot.docs[0].data()["type"]);
+          lt = LinkTypes.values.firstWhere((element) => element.toDBString() == uuidMapSnapshot.docs[0].data()["type"]);
         } catch (_) {
           // In case there is no type for some reason
         }
@@ -101,19 +87,15 @@ class EventsRepository {
           case LinkTypes.Promoter:
             linkType = PromoterInvite()
               ..uuid = uuid
-              ..promoter = await UserRepository.instance
-                  .loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
-              ..event =
-                  await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
+              ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
+              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
           case LinkTypes.BirthdayList:
           case LinkTypes.Booking:
             linkType = Booking()
               ..uuid = uuid
-              ..promoter = await UserRepository.instance
-                  .loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
-              ..event =
-                  await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
+              ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
+              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
           case LinkTypes.Ticket:
             // TODO: Handle this case.
@@ -121,10 +103,8 @@ class EventsRepository {
           case LinkTypes.Advertisement:
             linkType = AdvertisementInvite()
               ..uuid = uuid
-              ..advertisementId =
-                  uuidMapSnapshot.docs[0].data()["advertisement_id"]
-              ..event =
-                  await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
+              ..advertisementId = uuidMapSnapshot.docs[0].data()["advertisement_id"]
+              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
         }
         return linkType;
@@ -144,35 +124,26 @@ class EventsRepository {
     QuerySnapshot eventsSnapshot = await FirebaseFirestore.instance
         .collection("events")
         .where("date",
-            isGreaterThanOrEqualTo: DateTime.now().subtract(Duration(
-                hours: 8))) // Also include events that have recently started
+            isGreaterThanOrEqualTo:
+                DateTime.now().subtract(Duration(hours: 8))) // Also include events that have recently started
         //.limit(10) // if there are a lot of events, it might make sense to limit the number of events loaded here and load them incrementally when needed.
         .get();
     await Future.wait(eventsSnapshot.docs.map((e) async {
       Event event = Event.fromMap(e.id, e.data());
       if (event != null && !events.any((element) => element.docID == e.id)) {
-        DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance
-            .collection("ticketevents")
-            .doc(e.id)
-            .get();
+        DocumentSnapshot ticketEventSnapshot =
+            await FirebaseFirestore.instance.collection("ticketevents").doc(e.id).get();
 
-        QuerySnapshot releaseManagerSnapshot = await FirebaseFirestore.instance
-            .collection("ticketevents")
-            .doc(e.id)
-            .collection("release_managers")
-            .get();
+        QuerySnapshot releaseManagerSnapshot =
+            await FirebaseFirestore.instance.collection("ticketevents").doc(e.id).collection("release_managers").get();
 
         if (ticketEventSnapshot.exists) {
           event.feePercent =
-              ticketEventSnapshot.data().containsKey("fee_percent")
-                  ? ticketEventSnapshot.data()["fee_percent"]
-                  : 10.0;
+              ticketEventSnapshot.data().containsKey("fee_percent") ? ticketEventSnapshot.data()["fee_percent"] : 10.0;
         }
         await Future.wait(releaseManagerSnapshot.docs.map((element) async {
-          ReleaseManager rm =
-              ReleaseManager.fromMap(element.id, element.data());
-          rm.releases.addAll(await EventsRepository.instance
-              .loadReleasesForManager(event.docID, rm.docId));
+          ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
+          rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
           event.releaseManagers.add(rm);
         }));
         events.add(event);

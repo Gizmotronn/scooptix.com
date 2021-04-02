@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 class NavigationService {
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  static Future<dynamic> navigateTo(String routeName,
-      {Object arg, Map<String, String> queryParams}) {
+  static Future<dynamic> navigateTo(String routeName, {Object arg, Map<String, String> queryParams}) {
     if (queryParams != null) {
       routeName = Uri(path: routeName, queryParameters: queryParams).toString();
     }

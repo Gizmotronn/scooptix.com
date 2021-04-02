@@ -28,9 +28,7 @@ class UpcomingEvents extends StatelessWidget {
             child: Column(
               children: [
                 _eventTags(context,
-                    tag: 'Upcoming Event in',
-                    hightLightText: 'Perth',
-                    count: '${events.length} Events'),
+                    tag: 'Upcoming Event in', hightLightText: 'Perth', count: '${events.length} Events'),
                 AppolloEvents(events: events),
               ],
             ),
@@ -46,33 +44,21 @@ class UpcomingEvents extends StatelessWidget {
     );
   }
 
-  Widget _eventTags(context,
-          {String tag, String count, String hightLightText}) =>
-      Container(
+  Widget _eventTags(context, {String tag, String count, String hightLightText}) => Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                AutoSizeText(tag,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3
-                            .copyWith(color: MyTheme.appolloGrey))
+                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey))
                     .paddingRight(4),
                 AutoSizeText(hightLightText,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        .copyWith(color: MyTheme.appolloPurple)),
+                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple)),
               ],
             ),
             AutoSizeText(count ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: MyTheme.appolloLightGrey)),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloLightGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

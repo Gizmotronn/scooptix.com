@@ -84,10 +84,7 @@ class EventSearchFliter extends StatelessWidget {
       children: [
         AutoSizeText(
           'Fliters',
-          style: Theme.of(context)
-              .textTheme
-              .caption
-              .copyWith(fontSize: 16, color: MyTheme.appolloGrey),
+          style: Theme.of(context).textTheme.caption.copyWith(fontSize: 16, color: MyTheme.appolloGrey),
         ).paddingBottom(16),
         _buildLocation(context),
         _buildPriceRange(context),
@@ -152,8 +149,7 @@ class EventSearchFliter extends StatelessWidget {
         _textFieldTitle(context, 'Price Range'),
         Row(
           children: [
-            Expanded(
-                child: FliterTextField(title: 'From(\$)').paddingRight(18)),
+            Expanded(child: FliterTextField(title: 'From(\$)').paddingRight(18)),
             Container(height: 1.1, width: 5, color: MyTheme.appolloGrey),
             Expanded(child: FliterTextField(title: 'To(\$)').paddingLeft(18)),
           ],
@@ -164,8 +160,8 @@ class EventSearchFliter extends StatelessWidget {
 
   Widget _textFieldTitle(BuildContext context, String title) {
     return AutoSizeText(title,
-            style: Theme.of(context).textTheme.caption.copyWith(
-                color: MyTheme.appolloBlack, fontWeight: FontWeight.w500))
+            style:
+                Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloBlack, fontWeight: FontWeight.w500))
         .paddingBottom(12);
   }
 
@@ -175,16 +171,11 @@ class EventSearchFliter extends StatelessWidget {
           _textFieldTitle(context, 'Type'),
           Container(
             height: 40,
-            decoration: BoxDecoration(
-                color: MyTheme.appolloGrey.withAlpha(40),
-                borderRadius: BorderRadius.circular(4)),
+            decoration: BoxDecoration(color: MyTheme.appolloGrey.withAlpha(40), borderRadius: BorderRadius.circular(4)),
             child: DropdownButton(
               isExpanded: true,
               hint: AutoSizeText('Select',
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
+                  style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
               onChanged: (v) {},
               items: [
                 DropdownMenuItem(child: Text('Type'), value: 'Type'),
@@ -201,16 +192,11 @@ class EventSearchFliter extends StatelessWidget {
           _textFieldTitle(context, 'Category'),
           Container(
             height: 40,
-            decoration: BoxDecoration(
-                color: MyTheme.appolloGrey.withAlpha(40),
-                borderRadius: BorderRadius.circular(4)),
+            decoration: BoxDecoration(color: MyTheme.appolloGrey.withAlpha(40), borderRadius: BorderRadius.circular(4)),
             child: DropdownButton(
               isExpanded: true,
               hint: AutoSizeText('Select',
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
-                      .copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
+                  style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
               onChanged: (v) {},
               items: [
                 DropdownMenuItem(child: Text('Category1'), value: 'Category1'),
@@ -227,8 +213,7 @@ class FliterTextField extends StatelessWidget {
   final Widget prefixIcon;
   final Widget suffixIcon;
 
-  const FliterTextField({Key key, this.title, this.prefixIcon, this.suffixIcon})
-      : super(key: key);
+  const FliterTextField({Key key, this.title, this.prefixIcon, this.suffixIcon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -255,10 +240,7 @@ class FliterTextField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           hintText: title,
-          hintStyle: Theme.of(context)
-              .textTheme
-              .caption
-              .copyWith(color: MyTheme.appolloGrey, fontSize: 14),
+          hintStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey, fontSize: 14),
         ),
       ),
     );
@@ -294,18 +276,14 @@ class MoreEventSearch extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                      height: 22,
-                      child: SvgIcon(AppolloSvgIcon.searchOutline,
-                          color: MyTheme.appolloBlack)),
+                  Container(height: 22, child: SvgIcon(AppolloSvgIcon.searchOutline, color: MyTheme.appolloBlack)),
                   Container(
                     child: Expanded(
                       child: TextField(
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.transparent,
-                          contentPadding:
-                              const EdgeInsets.only(bottom: 14, left: 12),
+                          contentPadding: const EdgeInsets.only(bottom: 14, left: 12),
                           focusedBorder: InputBorder.none,
                           hintText: 'Search Events',
                           enabledBorder: InputBorder.none,

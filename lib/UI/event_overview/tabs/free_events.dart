@@ -27,10 +27,7 @@ class FreeEvents extends StatelessWidget {
           WhiteCardWithNoElevation(
             child: Column(
               children: [
-                _eventTags(context,
-                    tag: 'Free Events in',
-                    hightLightText: 'Perth',
-                    count: '${events.length} Events'),
+                _eventTags(context, tag: 'Free Events in', hightLightText: 'Perth', count: '${events.length} Events'),
                 AppolloEvents(events: events),
               ],
             ),
@@ -41,33 +38,21 @@ class FreeEvents extends StatelessWidget {
     );
   }
 
-  Widget _eventTags(context,
-          {String tag, String count, String hightLightText}) =>
-      Container(
+  Widget _eventTags(context, {String tag, String count, String hightLightText}) => Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                AutoSizeText(tag,
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline3
-                            .copyWith(color: MyTheme.appolloBlack))
+                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloBlack))
                     .paddingRight(4),
                 AutoSizeText(hightLightText,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        .copyWith(color: MyTheme.appolloPurple)),
+                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple)),
               ],
             ),
             AutoSizeText(count ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: MyTheme.appolloGrey)),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

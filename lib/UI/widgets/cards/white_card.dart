@@ -30,12 +30,10 @@ class WhiteCardWithNoElevation extends StatefulWidget {
   final Widget child;
   final Function(double pixel) boxHeight;
 
-  const WhiteCardWithNoElevation({Key key, this.child, this.boxHeight})
-      : super(key: key);
+  const WhiteCardWithNoElevation({Key key, this.child, this.boxHeight}) : super(key: key);
 
   @override
-  _WhiteCardWithNoElevationState createState() =>
-      _WhiteCardWithNoElevationState();
+  _WhiteCardWithNoElevationState createState() => _WhiteCardWithNoElevationState();
 }
 
 class _WhiteCardWithNoElevationState extends State<WhiteCardWithNoElevation> {

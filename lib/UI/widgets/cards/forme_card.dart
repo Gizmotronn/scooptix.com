@@ -47,19 +47,13 @@ class ForMeCard extends StatelessWidget {
                     title,
                     maxLines: 2,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline6
-                        .copyWith(color: color, fontWeight: FontWeight.w400),
+                    style: Theme.of(context).textTheme.headline6.copyWith(color: color, fontWeight: FontWeight.w400),
                   ).paddingBottom(8),
                   AutoSizeText(
                     subTitle,
                     maxLines: 4,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        .copyWith(color: MyTheme.appolloGrey, fontSize: 10),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: MyTheme.appolloGrey, fontSize: 10),
                   ).paddingBottom(8),
                   Container(
                     child: child ?? Container(),

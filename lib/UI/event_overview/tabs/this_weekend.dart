@@ -16,8 +16,7 @@ class ThisWeekend extends StatefulWidget {
   final List<Event> events;
   final ScrollController scrollController;
 
-  const ThisWeekend({Key key, this.events, this.scrollController})
-      : super(key: key);
+  const ThisWeekend({Key key, this.events, this.scrollController}) : super(key: key);
 
   @override
   _ThisWeekendState createState() => _ThisWeekendState();
@@ -40,12 +39,9 @@ class _ThisWeekendState extends State<ThisWeekend> {
               "${DateFormat(DateFormat.WEEKDAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}",
               DateFormat(DateFormat.DAY, 'en_US')
                   .format(firstDayOfWeek.add(Duration(days: value)))
-                  .contains(DateFormat(DateFormat.DAY, 'en_US')
-                      .format(DateTime.now())),
-              subtitle:
-                  ' ${DateFormat(DateFormat.DAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}',
-              fullDate:
-                  ' ${DateFormat('d MMM y', 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}'),
+                  .contains(DateFormat(DateFormat.DAY, 'en_US').format(DateTime.now())),
+              subtitle: ' ${DateFormat(DateFormat.DAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}',
+              fullDate: ' ${DateFormat('d MMM y', 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}'),
         )
         .toList();
     super.initState();
@@ -69,8 +65,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
               (index) => Builder(
                 builder: (context) {
                   if (widget.events
-                      .where((event) => fullDate(event.date)
-                          .contains(_weekendMenu[index].title))
+                      .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
                       .toList()
                       .isEmpty) {
                     return SizedBox();
@@ -82,12 +77,10 @@ class _ThisWeekendState extends State<ThisWeekend> {
                         child: Column(
                           children: [
                             _eventTags(context,
-                                tag:
-                                    "${_weekendMenu[index].title}'s Events | ${_weekendMenu[index].fullDate}"),
+                                tag: "${_weekendMenu[index].title}'s Events | ${_weekendMenu[index].fullDate}"),
                             AppolloEvents(
                                 events: widget.events
-                                    .where((event) => fullDate(event.date)
-                                        .contains(_weekendMenu[index].title))
+                                    .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
                                     .toList()),
                             HoverAppolloButton(
                               title: 'See More Events',
@@ -119,8 +112,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
             children: List.generate(
               _weekendMenu.length,
               (index) => SideButton(
-                title:
-                    "${_weekendMenu[index].title} ${_weekendMenu[index].subtitle}",
+                title: "${_weekendMenu[index].title} ${_weekendMenu[index].subtitle}",
                 isTap: _weekendMenu[index].isTap,
                 onTap: () {
                   setState(() {
@@ -130,10 +122,8 @@ class _ThisWeekendState extends State<ThisWeekend> {
                     _weekendMenu[index].isTap = true;
                   });
 
-                  widget.scrollController.animateTo(
-                      widget.scrollController.position.maxScrollExtent,
-                      curve: Curves.linear,
-                      duration: Duration(milliseconds: 300));
+                  widget.scrollController.animateTo(widget.scrollController.position.maxScrollExtent,
+                      curve: Curves.linear, duration: Duration(milliseconds: 300));
                 },
               ),
             ),
@@ -148,11 +138,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AutoSizeText(tag ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: MyTheme.appolloGrey)),
+            AutoSizeText(tag ?? '', style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

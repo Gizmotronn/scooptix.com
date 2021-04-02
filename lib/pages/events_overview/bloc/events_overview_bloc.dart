@@ -11,8 +11,7 @@ import 'package:ticketapp/repositories/events_repository.dart';
 part 'events_overview_event.dart';
 part 'events_overview_state.dart';
 
-class EventsOverviewBloc
-    extends Bloc<EventsOverviewEvent, EventsOverviewState> {
+class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> {
   Event selectedEvent;
 
   ScrollController _scrollcontroller = ScrollController();
@@ -28,19 +27,16 @@ class EventsOverviewBloc
   }
 
   @override
-  Stream<EventsOverviewState> mapEventToState(
-      EventsOverviewEvent event) async* {
+  Stream<EventsOverviewState> mapEventToState(EventsOverviewEvent event) async* {
     if (event is TabberNavEvent) {
       yield* _handleSelectedTabEvent(event);
     }
   }
 
-  Stream<EventsOverviewState> _handleSelectedTabEvent(
-      TabberNavEvent event) async* {
+  Stream<EventsOverviewState> _handleSelectedTabEvent(TabberNavEvent event) async* {
     yield LoadingEventsState();
     if (event.index == 0) {
-      List<Event> upcomingEvents =
-          await EventsRepository.instance.loadUpcomingEvents();
+      List<Event> upcomingEvents = await EventsRepository.instance.loadUpcomingEvents();
       yield AllEventsState(EventsRepository.instance.events, upcomingEvents);
     } else if (event.index == 1) {
       List<Event> events = [];
@@ -63,22 +59,19 @@ class EventsOverviewBloc
       yield ForMeEventsState();
     } else if (event.index == 3) {
       yield LoadingEventsState();
-      yield TodayEventsState(EventsRepository.instance.events
-          .where((event) => event.date.day == DateTime.now().day)
-          .toList());
+      yield TodayEventsState(
+          EventsRepository.instance.events.where((event) => event.date.day == DateTime.now().day).toList());
     } else if (event.index == 4) {
       yield LoadingEventsState();
 
       yield ThisWeekendEventsState(EventsRepository.instance.events
-          .where((event) =>
-              event.date.isBefore(DateTime.now().add(Duration(days: 7))))
+          .where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 7))))
           .toList());
     } else if (event.index == 5) {
       yield LoadingEventsState();
 
       yield ThisWeekEventsState(EventsRepository.instance.events
-          .where((event) =>
-              event.date.isBefore(DateTime.now().add(Duration(days: 14))))
+          .where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 14))))
           .toList());
     } else if (event.index == 6) {
       yield LoadingEventsState();

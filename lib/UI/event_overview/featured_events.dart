@@ -87,7 +87,15 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
   }
 
   _animatedCard() {
+    if(_timer != null){
+      _timer.cancel();
+    }
     _timer = Timer.periodic(Duration(seconds: 8), (timer) async {
+      if (!this.mounted) {
+        _timer.cancel();
+        count = 0;
+        return;
+      }
       await Future.delayed(Duration(milliseconds: 300));
       _controller.forward();
       setState(() => position = -300);

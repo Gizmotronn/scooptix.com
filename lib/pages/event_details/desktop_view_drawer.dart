@@ -16,9 +16,7 @@ class DesktopViewDrawer extends StatefulWidget {
   final AuthenticationBloc bloc;
   final LinkType linkType;
 
-  const DesktopViewDrawer(
-      {Key key, @required this.bloc, @required this.linkType})
-      : super(key: key);
+  const DesktopViewDrawer({Key key, @required this.bloc, @required this.linkType}) : super(key: key);
 
   @override
   _DesktopViewDrawerState createState() => _DesktopViewDrawerState();
@@ -38,9 +36,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
               border: OutlineInputBorder(),
               hintStyle: MyTheme.darkTextTheme.bodyText2,
               labelStyle: MyTheme.darkTextTheme.bodyText1,
-              enabledBorder: OutlineInputBorder(
-                  borderSide:
-                      BorderSide(color: Color(0xFF707070).withAlpha(80))))),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80))))),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding * 1.5),
         width: drawerWidth,
@@ -48,9 +44,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
         decoration: ShapeDecoration(
             color: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    bottomLeft: Radius.circular(10)))),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
         child: SingleChildScrollView(
           child: Container(
             constraints: BoxConstraints(minHeight: screenSize.height),
@@ -67,8 +61,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                             SizedBox(
                               width: MyTheme.drawerSize,
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
@@ -93,56 +86,45 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                               children: [
                                 SizedBox(
                                   width: drawerWidth / 1.7,
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          width: drawerWidth / 1.7,
-                                          child: AutoSizeText(
-                                            "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
-                                            maxLines: 1,
-                                            style:
-                                                MyTheme.darkTextTheme.headline6,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: drawerWidth / 1.7,
-                                          child: AutoSizeText(
-                                            "${UserRepository.instance.currentUser.email}",
-                                            maxLines: 1,
-                                            style:
-                                                MyTheme.darkTextTheme.bodyText2,
-                                          ),
-                                        ),
-                                      ]),
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    SizedBox(
+                                      width: drawerWidth / 1.7,
+                                      child: AutoSizeText(
+                                        "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
+                                        maxLines: 1,
+                                        style: MyTheme.darkTextTheme.headline6,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: drawerWidth / 1.7,
+                                      child: AutoSizeText(
+                                        "${UserRepository.instance.currentUser.email}",
+                                        maxLines: 1,
+                                        style: MyTheme.darkTextTheme.bodyText2,
+                                      ),
+                                    ),
+                                  ]),
                                 ),
                                 SizedBox(
                                   width: 106,
                                   height: 34,
                                   child: OutlineButton(
-                                    borderSide: BorderSide(
-                                        color: MyTheme.appolloPurple,
-                                        width: 1.1),
+                                    borderSide: BorderSide(color: MyTheme.appolloPurple, width: 1.1),
                                     onPressed: () async {
-                                      await auth.FirebaseAuth.instance
-                                          .signOut();
+                                      await auth.FirebaseAuth.instance.signOut();
                                       UserRepository.instance.dispose();
                                       widget.bloc.add(EventLogout());
                                       Navigator.pop(context);
                                     },
                                     child: Text(
                                       "Logout",
-                                      style: MyTheme.lightTextTheme.button
-                                          .copyWith(
-                                              color: MyTheme.appolloPurple),
+                                      style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloPurple),
                                     ),
                                   ),
                                 )
                               ],
                             ).paddingBottom(MyTheme.elementSpacing * 2),
-                            Text("Event Summary",
-                                    style: MyTheme.darkTextTheme.headline6)
+                            Text("Event Summary", style: MyTheme.darkTextTheme.headline6)
                                 .paddingBottom(MyTheme.elementSpacing * 0.5),
                             Text(
                               widget.linkType.event.name,
@@ -154,8 +136,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Text(
@@ -177,35 +158,26 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                   ),
                                   Expanded(
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
                                         AutoSizeText(
-                                          DateFormat.yMMMMd().format(
-                                              widget.linkType.event.date),
-                                          style:
-                                              MyTheme.darkTextTheme.bodyText2,
+                                          DateFormat.yMMMMd().format(widget.linkType.event.date),
+                                          style: MyTheme.darkTextTheme.bodyText2,
                                         ).paddingBottom(8),
-                                        if (widget.linkType.event.endTime !=
-                                            null)
+                                        if (widget.linkType.event.endTime != null)
                                           AutoSizeText(
                                             "${DateFormat.jm().format(widget.linkType.event.date)} - ${DateFormat.jm().format(widget.linkType.event.endTime)} (${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} Hours)",
-                                            style:
-                                                MyTheme.darkTextTheme.bodyText2,
+                                            style: MyTheme.darkTextTheme.bodyText2,
                                           ).paddingBottom(8),
-                                        if (widget.linkType.event.endTime ==
-                                            null)
+                                        if (widget.linkType.event.endTime == null)
                                           AutoSizeText(
                                             "${DateFormat.jm().format(widget.linkType.event.date)} ",
-                                            style:
-                                                MyTheme.darkTextTheme.bodyText2,
+                                            style: MyTheme.darkTextTheme.bodyText2,
                                           ).paddingBottom(8),
                                         AutoSizeText(
-                                          widget.linkType.event.address ??
-                                              widget.linkType.event.venueName,
-                                          style:
-                                              MyTheme.darkTextTheme.bodyText2,
+                                          widget.linkType.event.address ?? widget.linkType.event.venueName,
+                                          style: MyTheme.darkTextTheme.bodyText2,
                                         ),
                                       ],
                                     ),
@@ -233,9 +205,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text("Events Powered By",
-                            style: MyTheme.darkTextTheme.bodyText2
-                                .copyWith(color: Colors.grey))
+                    Text("Events Powered By", style: MyTheme.darkTextTheme.bodyText2.copyWith(color: Colors.grey))
                         .paddingRight(4),
                     Text("appollo",
                         style: MyTheme.darkTextTheme.subtitle1.copyWith(
@@ -244,9 +214,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                           fontSize: 18,
                         ))
                   ],
-                )
-                    .paddingBottom(MyTheme.elementSpacing)
-                    .paddingTop(MyTheme.elementSpacing),
+                ).paddingBottom(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing),
               ],
             ),
           ),

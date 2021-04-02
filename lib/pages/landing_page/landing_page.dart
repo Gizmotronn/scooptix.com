@@ -22,8 +22,6 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   @override
   void initState() {
-    Intl.defaultLocale = 'en_AU';
-    initializeDateFormatting('en_AU', null);
     final uri = Uri.parse(window.location.href);
     String uuid = ""; // Use this for normal functionality
     // String uuid = "jAPHBX"; // Takes you to a test event

@@ -8,12 +8,7 @@ class NavbarButton extends StatelessWidget {
   final Function onTap;
   final bool isTap;
 
-  const NavbarButton(
-      {Key key,
-      @required this.title,
-      @required this.onTap,
-      @required this.isTap})
-      : super(key: key);
+  const NavbarButton({Key key, @required this.title, @required this.onTap, @required this.isTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +19,10 @@ class NavbarButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AutoSizeText(title ?? '',
-                    style: Theme.of(context).textTheme.caption.copyWith(
-                        fontSize: 12,
-                        color: isTap
-                            ? MyTheme.appolloGreen
-                            : MyTheme.appolloWhite))
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption
+                        .copyWith(fontSize: 12, color: isTap ? MyTheme.appolloGreen : MyTheme.appolloWhite))
                 .paddingBottom(4),
             Container(
               height: 1.5,

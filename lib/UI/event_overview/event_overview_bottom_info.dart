@@ -10,20 +10,8 @@ class EventOverviewFooter extends StatelessWidget {
 
   final List<List<String>> info = [
     ['How it works', 'Pricing', 'Sell Tickets', 'FAQ', 'Sitemap'],
-    [
-      'Mobile app',
-      'Scanner app',
-      'For Organisers',
-      'For large events',
-      'Event Management'
-    ],
-    [
-      'Event Planning',
-      'Why choose appollo',
-      'Blog',
-      'Privacy Policy',
-      'Terms of Service'
-    ],
+    ['Mobile app', 'Scanner app', 'For Organisers', 'For large events', 'Event Management'],
+    ['Event Planning', 'Why choose appollo', 'Blog', 'Privacy Policy', 'Terms of Service'],
     ['About', 'Help', 'Careers', 'Prices', 'Investors'],
     ['Contact Support', 'Facebook', 'Instagram', 'Twitter', 'LinkedIn'],
   ];
@@ -42,8 +30,7 @@ class EventOverviewFooter extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: AutoSizeText('Using Appollo',
-                      style: Theme.of(context).textTheme.headline6),
+                  child: AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6),
                 ).paddingBottom(16),
                 Expanded(
                   child: Row(
@@ -55,10 +42,7 @@ class EventOverviewFooter extends StatelessWidget {
                           children: List.generate(
                             info[index].length,
                             (i) => AutoSizeText(info[index][i],
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline6
-                                        .copyWith(fontWeight: FontWeight.w400))
+                                    style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w400))
                                 .paddingVertical(4),
                           ).toList()),
                     ),
@@ -67,10 +51,7 @@ class EventOverviewFooter extends StatelessWidget {
                 AutoSizeText(
                     '© 2021 appollo Group pty ltd. Trademarks and brands are the property of their respective owners.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        .copyWith(color: MyTheme.appolloGrey))
+                    style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey))
               ],
             ).paddingVertical(8)),
       ),

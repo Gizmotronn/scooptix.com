@@ -12,8 +12,7 @@ class AllEvents extends StatelessWidget {
   final List<Event> events;
   final List<Event> upcomingEvents;
 
-  const AllEvents({Key key, this.events, this.upcomingEvents})
-      : super(key: key);
+  const AllEvents({Key key, this.events, this.upcomingEvents}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -47,17 +46,11 @@ class AllEvents extends StatelessWidget {
             AutoSizeText.rich(
               TextSpan(
                   text: 'Events in',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: MyTheme.appolloGrey),
+                  style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey),
                   children: [
                     TextSpan(
                       text: ' Perth',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: MyTheme.appolloPurple),
+                      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple),
                     ),
                     TextSpan(
                       text: ' This Week',
@@ -65,10 +58,7 @@ class AllEvents extends StatelessWidget {
                   ]),
             ),
             AutoSizeText("${events.length.toString()} Events",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: MyTheme.appolloDimGrey)),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloDimGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

@@ -43,8 +43,7 @@ class EventCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _cardImage(),
-                    VerticalDivider(
-                        color: MyTheme.appolloGrey.withOpacity(.4), width: 0.4),
+                    VerticalDivider(color: MyTheme.appolloGrey.withOpacity(.4), width: 0.4),
                     _cardContent(context, sizes),
                   ],
                 ),
@@ -77,9 +76,7 @@ class EventCard extends StatelessWidget {
 
     return _buildTag(
       context,
-      tag: maxPrice < 1
-          ? "Free"
-          : (checkSamePrice ? "\$$maxPrice" : "\$$minPrice - \$$maxPrice"),
+      tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$$maxPrice" : "\$$minPrice - \$$maxPrice"),
       isSoldOut: isSoldOut,
     );
   }
@@ -95,8 +92,7 @@ class EventCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
-          child: AutoSizeText(isSoldOut ? 'Sold Out' : tag,
-                  style: Theme.of(context).textTheme.caption)
+          child: AutoSizeText(isSoldOut ? 'Sold Out' : tag, style: Theme.of(context).textTheme.caption)
               .paddingHorizontal(14),
         ),
       ),
@@ -106,8 +102,7 @@ class EventCard extends StatelessWidget {
   Widget _cardContent(context, SizingInformation sizes) {
     return Flexible(
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(12), bottomLeft: Radius.circular(12)),
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), bottomLeft: Radius.circular(12)),
         child: Container(
           decoration: BoxDecoration(color: MyTheme.appolloWhite),
           child: Container(
@@ -122,18 +117,19 @@ class EventCard extends StatelessWidget {
                       fullDate(event.date) ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: MyTheme.appolloRed,
-                          letterSpacing: 1.5,
-                          fontSize: 12),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
                     ).paddingBottom(8),
                     AutoSizeText(
                       event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: MyTheme.appolloGrey,
-                          fontSize: sizes.isDesktop ? null : 14),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: MyTheme.appolloGrey, fontSize: sizes.isDesktop ? null : 14),
                     ).paddingBottom(4),
                   ],
                 ).paddingAll(14),
@@ -145,8 +141,7 @@ class EventCard extends StatelessWidget {
                       final overviewLinkType = OverviewLinkType(event);
                       // NavigationService.navigateTo(EventDetail.routeName);
                       NavigationService.navigateTo(EventDetail.routeName,
-                          arg: overviewLinkType.event.docID,
-                          queryParams: {'id': overviewLinkType.event.docID});
+                          arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
                     },
                   ),
                 ),
@@ -161,15 +156,13 @@ class EventCard extends StatelessWidget {
   Widget _cardImage() {
     return Flexible(
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            topRight: Radius.circular(12), topLeft: Radius.circular(12)),
+        borderRadius: BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: ExtendedImage.network(
                 //TODO remove the default image url [It's use for testing]
-                event.coverImageURL ??
-                    'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
+                event.coverImageURL ?? 'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
                 cache: true,
               ).image,
               fit: BoxFit.cover,
@@ -213,8 +206,7 @@ class EventCard2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _cardImage(),
-                VerticalDivider(
-                    color: MyTheme.appolloGrey.withOpacity(.4), width: 0.4),
+                VerticalDivider(color: MyTheme.appolloGrey.withOpacity(.4), width: 0.4),
                 _cardContent(context, sizes),
               ],
             ),
@@ -227,8 +219,7 @@ class EventCard2 extends StatelessWidget {
   Widget _cardContent(context, SizingInformation sizes) {
     return Flexible(
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            bottomRight: Radius.circular(12), topRight: Radius.circular(12)),
+        borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), topRight: Radius.circular(12)),
         child: Container(
           decoration: BoxDecoration(color: MyTheme.appolloWhite),
           child: Container(
@@ -243,18 +234,19 @@ class EventCard2 extends StatelessWidget {
                       fullDate(event.date) ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline6.copyWith(
-                          color: MyTheme.appolloRed,
-                          letterSpacing: 1.5,
-                          fontSize: 12),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
                     ).paddingBottom(8),
                     AutoSizeText(
                       event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 1,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: MyTheme.appolloGrey,
-                          fontSize: sizes.isDesktop ? null : 14),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline5
+                          .copyWith(color: MyTheme.appolloGrey, fontSize: sizes.isDesktop ? null : 14),
                     ).paddingBottom(4),
                   ],
                 ).paddingAll(14),
@@ -276,12 +268,10 @@ class EventCard2 extends StatelessWidget {
                           title: 'View Event',
                           onTap: () {
                             final overviewLinkType = OverviewLinkType(event);
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) =>
-                                    AuthenticationPage(overviewLinkType)));
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
                           },
-                          borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(12)),
+                          borderRadius: BorderRadius.only(bottomRight: Radius.circular(12)),
                         ),
                       ),
                     ],
@@ -298,15 +288,13 @@ class EventCard2 extends StatelessWidget {
   Widget _cardImage() {
     return Flexible(
       child: ClipRRect(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(12), bottomLeft: Radius.circular(12)),
         child: Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: ExtendedImage.network(
                 //TODO remove the default image url [It's use for testing]
-                event.coverImageURL ??
-                    'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
+                event.coverImageURL ?? 'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
                 cache: true,
               ).image,
               fit: BoxFit.cover,

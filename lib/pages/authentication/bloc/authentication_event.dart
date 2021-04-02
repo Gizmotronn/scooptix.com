@@ -57,8 +57,7 @@ class EventCreateNewUser extends AuthenticationEvent {
   final Gender gender;
   final String uid;
 
-  const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName,
-      this.dob, this.gender, this.uid);
+  const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender, this.uid);
 }
 
 class OnTapSignEvent extends AuthenticationEvent {

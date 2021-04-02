@@ -9,12 +9,10 @@ class EventOverviewNavigationBar extends StatefulWidget {
 
   const EventOverviewNavigationBar({Key key, this.bloc}) : super(key: key);
   @override
-  _EventOverviewNavigationBarState createState() =>
-      _EventOverviewNavigationBarState();
+  _EventOverviewNavigationBarState createState() => _EventOverviewNavigationBarState();
 }
 
-class _EventOverviewNavigationBarState
-    extends State<EventOverviewNavigationBar> {
+class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar> {
   List<Menu> _menu = [
     Menu('All', true),
     Menu('Free', false),
@@ -60,8 +58,7 @@ class _EventOverviewNavigationBarState
                       _menu[index].isTap = true;
                     });
 
-                    widget.bloc.add(TabberNavEvent(
-                        index: index, title: _menu[index].title));
+                    widget.bloc.add(TabberNavEvent(index: index, title: _menu[index].title));
                   },
                   isTap: _menu[index].isTap),
             ),

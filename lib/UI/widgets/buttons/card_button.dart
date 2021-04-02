@@ -33,19 +33,17 @@ class _CardButtonState extends State<CardButton> {
         height: 40,
         width: 175,
         decoration: BoxDecoration(
-          color: isHover
-              ? MyTheme.appolloPurple
-              : MyTheme.appolloPurple.withAlpha(40),
-          borderRadius: widget.borderRadius ??
-              BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12)),
+          color: isHover ? MyTheme.appolloPurple : MyTheme.appolloPurple.withAlpha(40),
+          borderRadius:
+              widget.borderRadius ?? BorderRadius.only(topLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
         ),
         child: Center(
             child: AutoSizeText(
           widget.title ?? '',
-          style: Theme.of(context).textTheme.button.copyWith(
-              color: isHover ? MyTheme.appolloWhite : MyTheme.appolloPurple),
+          style: Theme.of(context)
+              .textTheme
+              .button
+              .copyWith(color: isHover ? MyTheme.appolloWhite : MyTheme.appolloPurple),
         )),
       ),
     );
@@ -57,8 +55,7 @@ class ColorCard extends StatelessWidget {
   final Color color;
   final Color textColor;
 
-  const ColorCard({Key key, this.color, this.title, this.textColor})
-      : super(key: key);
+  const ColorCard({Key key, this.color, this.title, this.textColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

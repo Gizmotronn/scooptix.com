@@ -61,8 +61,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
       builder: (context, state) {
         print(state);
         if (state is AllEventsState) {
-          return AllEvents(
-              events: state.allEvents, upcomingEvents: state.upcomingEvents);
+          return AllEvents(events: state.allEvents, upcomingEvents: state.upcomingEvents);
         } else if (state is FreeEventsState) {
           return FreeEvents(events: state.freeEvents);
         } else if (state is ForMeEventsState) {
@@ -70,13 +69,9 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         } else if (state is TodayEventsState) {
           return TodayEvents(events: state.todayEvents);
         } else if (state is ThisWeekEventsState) {
-          return ThisWeek(
-              events: state.thisWeekEvents,
-              scrollController: widget.bloc.scrollController);
+          return ThisWeek(events: state.thisWeekEvents, scrollController: widget.bloc.scrollController);
         } else if (state is ThisWeekendEventsState) {
-          return ThisWeekend(
-              events: state.weekendEvents,
-              scrollController: widget.bloc.scrollController);
+          return ThisWeekend(events: state.weekendEvents, scrollController: widget.bloc.scrollController);
         } else if (state is UpcomingEventsState) {
           return UpcomingEvents(events: state.upcomingEvents);
         }
@@ -92,10 +87,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         width: screenSize.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            FeaturedEvents(),
-            EventOverviewNavigationBar(bloc: widget.bloc)
-          ],
+          children: [FeaturedEvents(), EventOverviewNavigationBar(bloc: widget.bloc)],
         ),
       );
 }

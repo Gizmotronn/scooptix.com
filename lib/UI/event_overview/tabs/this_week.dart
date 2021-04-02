@@ -16,8 +16,7 @@ class ThisWeek extends StatefulWidget {
   final List<Event> events;
   final ScrollController scrollController;
 
-  const ThisWeek({Key key, this.events, this.scrollController})
-      : super(key: key);
+  const ThisWeek({Key key, this.events, this.scrollController}) : super(key: key);
 
   @override
   _ThisWeekState createState() => _ThisWeekState();
@@ -35,12 +34,9 @@ class _ThisWeekState extends State<ThisWeek> {
               "${DateFormat(DateFormat.WEEKDAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}",
               DateFormat(DateFormat.DAY, 'en_US')
                   .format(firstDayOfWeek.add(Duration(days: value)))
-                  .contains(DateFormat(DateFormat.DAY, 'en_US')
-                      .format(DateTime.now())),
-              subtitle:
-                  ' ${DateFormat(DateFormat.DAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}',
-              fullDate:
-                  ' ${DateFormat('d MMM y', 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}'),
+                  .contains(DateFormat(DateFormat.DAY, 'en_US').format(DateTime.now())),
+              subtitle: ' ${DateFormat(DateFormat.DAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}',
+              fullDate: ' ${DateFormat('d MMM y', 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}'),
         )
         .toList();
     super.initState();
@@ -64,8 +60,7 @@ class _ThisWeekState extends State<ThisWeek> {
               (index) => Builder(
                 builder: (context) {
                   if (widget.events
-                      .where((event) =>
-                          fullDate(event.date).contains(_daysMenu[index].title))
+                      .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
                       .toList()
                       .isEmpty) {
                     return SizedBox();
@@ -82,12 +77,10 @@ class _ThisWeekState extends State<ThisWeek> {
                         child: Column(
                           children: [
                             _eventTags(context,
-                                tag:
-                                    "${_daysMenu[index].title}'s Events | ${_daysMenu[index].fullDate}"),
+                                tag: "${_daysMenu[index].title}'s Events | ${_daysMenu[index].fullDate}"),
                             AppolloEvents(
                               events: widget.events
-                                  .where((event) => fullDate(event.date)
-                                      .contains(_daysMenu[index].title))
+                                  .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
                                   .toList(),
                             ),
                             HoverAppolloButton(
@@ -116,11 +109,7 @@ class _ThisWeekState extends State<ThisWeek> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AutoSizeText(tag ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: MyTheme.appolloGrey)),
+            AutoSizeText(tag ?? '', style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);
@@ -134,25 +123,20 @@ class _ThisWeekState extends State<ThisWeek> {
           (index) => SideButton(
             title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
             isTap: _daysMenu[index].isTap,
-            onTap: widget.events
-                    .where((event) =>
-                        fullDate(event.date).contains(_daysMenu[index].title))
-                    .toList()
-                    .isEmpty
-                ? null
-                : () async {
-                    setState(() {
-                      for (var i = 0; i < _daysMenu.length; i++) {
-                        _daysMenu[i].isTap = false;
-                      }
-                      _daysMenu[index].isTap = true;
-                    });
+            onTap:
+                widget.events.where((event) => fullDate(event.date).contains(_daysMenu[index].title)).toList().isEmpty
+                    ? null
+                    : () async {
+                        setState(() {
+                          for (var i = 0; i < _daysMenu.length; i++) {
+                            _daysMenu[i].isTap = false;
+                          }
+                          _daysMenu[index].isTap = true;
+                        });
 
-                    await widget.scrollController.animateTo(
-                        _daysMenu[index].pixel + 50,
-                        curve: Curves.linear,
-                        duration: Duration(milliseconds: 300));
-                  },
+                        await widget.scrollController.animateTo(_daysMenu[index].pixel + 50,
+                            curve: Curves.linear, duration: Duration(milliseconds: 300));
+                      },
           ),
         ),
       ),

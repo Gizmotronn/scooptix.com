@@ -44,17 +44,11 @@ class TodayEvents extends StatelessWidget {
             AutoSizeText.rich(
               TextSpan(
                   text: 'Events in',
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3
-                      .copyWith(color: MyTheme.appolloGrey),
+                  style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey),
                   children: [
                     TextSpan(
                       text: ' Perth',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline3
-                          .copyWith(color: MyTheme.appolloPurple),
+                      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple),
                     ),
                     TextSpan(
                       text: ' Today',
@@ -62,10 +56,7 @@ class TodayEvents extends StatelessWidget {
                   ]),
             ),
             AutoSizeText(events.length.toString() ?? '',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline3
-                    .copyWith(color: MyTheme.appolloLightGrey)),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloLightGrey)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

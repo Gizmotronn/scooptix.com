@@ -48,8 +48,7 @@ extension AppolloCard on Container {
           color: Colors.grey[800].withAlpha(160),
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(5)),
-              side: BorderSide(
-                  color: Color(0xFF707070).withAlpha(100), width: 1))),
+              side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1))),
       child: this.child,
     );
   }
@@ -277,8 +276,7 @@ class MyTheme {
           fillColor: Colors.grey[800].withAlpha(50),
           filled: true,
           border: OutlineInputBorder(),
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80)))),
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80)))),
       primaryIconTheme: IconThemeData(color: MyTheme.appolloPurple),
       navigationRailTheme: NavigationRailThemeData(
           selectedIconTheme: IconThemeData(color: Colors.white),

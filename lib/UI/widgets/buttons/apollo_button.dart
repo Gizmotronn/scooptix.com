@@ -4,25 +4,20 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
 
 class AppolloButton {
-  static smallRaisedButton(
-          {@required Widget child,
-          @required Function onTap,
-          Color color = Colors.white}) =>
-      Container(
-          constraints: BoxConstraints(
-            minHeight: 40,
-            maxHeight: 40,
-            minWidth: 130,
-            maxWidth: 200,
-          ),
-          child: RaisedButton(
-            elevation: 3,
-            color: color,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            onPressed: onTap,
-            child: child,
-          ));
+  static smallRaisedButton({@required Widget child, @required Function onTap, Color color = Colors.white}) => Container(
+      constraints: BoxConstraints(
+        minHeight: 40,
+        maxHeight: 40,
+        minWidth: 130,
+        maxWidth: 200,
+      ),
+      child: RaisedButton(
+        elevation: 3,
+        color: color,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        onPressed: onTap,
+        child: child,
+      ));
 
   static smallButton(
           {@required Widget child,
@@ -41,14 +36,10 @@ class AppolloButton {
             maxWidth: width ?? 200,
           ),
           child: FlatButton(
-            color: fill
-                ? color ?? MyTheme.theme.buttonColor
-                : MyTheme.theme.buttonColor.withOpacity(0.1),
+            color: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5.0),
-              side: BorderSide(
-                  color: color ?? MyTheme.theme.buttonColor,
-                  width: border ? 1.3 : 0),
+              side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
             ),
             onPressed: onTap,
             child: Padding(
@@ -73,13 +64,10 @@ class AppolloButton {
           maxWidth: 200,
         ),
         child: FlatButton(
-          color: fill
-              ? color ?? MyTheme.theme.buttonColor
-              : MyTheme.theme.buttonColor.withOpacity(0.1),
+          color: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0),
-            side: BorderSide(
-                color: MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+            side: BorderSide(color: MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
           ),
           onPressed: onTap,
           child: Padding(
@@ -107,8 +95,7 @@ class AppolloButton {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color:
-                fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
+            color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: FlatButton(
@@ -135,8 +122,7 @@ class AppolloButton {
         ),
         child: Container(
           decoration: BoxDecoration(
-            color:
-                fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
+            color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
             borderRadius: BorderRadius.circular(5.0),
           ),
           child: FlatButton.icon(
@@ -191,8 +177,7 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5.0),
-            border:
-                Border.all(color: isHover ? Colors.transparent : widget.color),
+            border: Border.all(color: isHover ? Colors.transparent : widget.color),
             color: widget.fill
                 ? widget.color
                 : isHover

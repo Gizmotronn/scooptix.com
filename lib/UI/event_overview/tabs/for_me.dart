@@ -41,8 +41,7 @@ class EventsForMe extends StatelessWidget {
             ),
           ),
           ForMeCard(
-            title:
-                'Create an acount and discover the best event based on your preferences',
+            title: 'Create an acount and discover the best event based on your preferences',
             subTitle:
                 'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
             svgIcon: AppolloSvgIcon.person,
