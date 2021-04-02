@@ -66,6 +66,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
 
   int count = 0;
   double position = -300;
+  double endPosition = 0.0;
 
   int visibilityPercentage = 0;
 
@@ -87,7 +88,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
   }
 
   _animatedCard() {
-    if(_timer != null){
+    if (_timer != null) {
       _timer.cancel();
     }
     _timer = Timer.periodic(Duration(seconds: 8), (timer) async {
@@ -113,7 +114,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
         setState(() => count = 0);
       }
       _controller.reverse();
-      setState(() => position = 30);
+      setState(() => position = endPosition);
       if (visibilityPercentage < 30) {
         _timer?.cancel();
         timer?.cancel();
@@ -130,6 +131,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
         var visiblePercentage = info.visibleFraction * 100;
@@ -145,8 +147,8 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
         clipBehavior: Clip.none,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.4,
-            width: MediaQuery.of(context).size.width * 0.55,
+            height: screenSize.height * 0.4,
+            width: screenSize.width * 0.55,
             child: Row(
               children: [
                 Expanded(flex: 2, child: _inComingEvents()),
@@ -154,17 +156,21 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
               ],
             ),
           ).paddingAll(16),
-          _buildFeaturedText(),
+          _buildFeaturedText(screenSize),
         ],
       ),
     );
   }
 
-  Widget _buildFeaturedText() {
+  Widget _buildFeaturedText(Size screenSize) {
+    final featureEventCardHeight = screenSize.height * 0.4;
+    final featureEventCardWidth = screenSize.width * 0.55;
+    endPosition = featureEventCardWidth * 0.2;
+
     return AnimatedPositioned(
       duration: MyTheme.animationDuration,
       right: position,
-      top: 70,
+      top: featureEventCardHeight * 0.2,
       child: FadeTransition(
         opacity: _fadeAnimation,
         child: FeaturedEventText(event: event),
@@ -197,10 +203,11 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
       );
 
   Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
+    final featureEventCardHeight = MediaQuery.of(context).size.height * 0.4;
     return FadeTransition(
       opacity: animation,
       child: Container(
-        height: 82,
+        height: featureEventCardHeight / 4,
         child: ExpandImageCard(
           imageUrl: events[index].coverImageURL,
         ),
