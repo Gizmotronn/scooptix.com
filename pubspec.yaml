@@ -50,8 +50,7 @@ dependencies:
   url_launcher: ^5.7.10
   flutter_install_app_plugin: ^0.4.2
   visibility_detector: ^0.1.5
-# dependency_overrides:
-#   extended_image: ^1.5.0-dev
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -66,7 +65,7 @@ flutter:
     - assets/images/placeholderImages/
     - assets/icons/
   fonts:
-    - family: Montserrat
+    - family: montserrat
       fonts:
         - asset: assets/fonts/Montserrat-Light.ttf
           weight: 300
