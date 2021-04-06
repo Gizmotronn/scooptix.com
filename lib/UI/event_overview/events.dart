@@ -13,13 +13,7 @@ class AppolloEvents extends StatelessWidget {
     return Align(
       alignment: events.length < 2 ? Alignment.topLeft : Alignment.topCenter,
       child: Wrap(
-        spacing: 0,
-        runSpacing: 0,
-        children: List.generate(events.length, (index) {
-          return EventCard(
-            event: events[index],
-          );
-        }),
+        children: events.map((event) => EventCard(event: event)).toList(),
       ).paddingAll(6),
     );
   }

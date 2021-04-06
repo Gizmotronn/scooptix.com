@@ -91,7 +91,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
     if (_timer != null) {
       _timer.cancel();
     }
-    _timer = Timer.periodic(Duration(seconds: 8), (timer) async {
+    _timer = Timer.periodic(Duration(seconds: 6), (timer) async {
       if (!this.mounted) {
         _timer.cancel();
         count = 0;
