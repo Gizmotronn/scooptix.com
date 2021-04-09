@@ -12,14 +12,12 @@ class ExpandImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          image: DecorationImage(
-              fit: BoxFit.cover,
-              image: ExtendedImage.network(imageUrl ??
-                      'https://media.istockphoto.com/vectors/abstract-pop-art-line-and-dots-color-pattern-background-vector-liquid-vector-id1017781486?k=6&m=1017781486&s=612x612&w=0&h=nz4YljNqJ0xjxcdVVJge3dW3cqNakWjG7u2oFqW4tjs=')
-                  .image)),
-    ).paddingAll(4);
+    return imageUrl == null
+        ? Container()
+        : Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                image: DecorationImage(fit: BoxFit.cover, image: ExtendedImage.network(imageUrl).image)),
+          ).paddingAll(4);
   }
 }

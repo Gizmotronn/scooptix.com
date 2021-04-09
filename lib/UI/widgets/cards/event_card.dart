@@ -70,7 +70,6 @@ class EventCard extends StatelessWidget {
     if (prices.length < 1) {
       prices.sort((a, b) => a.compareTo(b));
     }
-    print(prices);
 
     int minPrice = prices.isNotEmpty ? prices.first : 0;
     int maxPrice = prices.isNotEmpty ? prices.last : 0;

@@ -67,8 +67,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
   Event event;
 
   int count = 0;
-  double position = -300;
-  double endPosition = 100;
+  double position = 0;
 
   int visibilityPercentage = 0;
 
@@ -85,7 +84,11 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
     _controller = AnimationController(vsync: this, duration: MyTheme.animationDuration);
     _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
-    _animatedCard();
+    Future.delayed(Duration(milliseconds: 1000), () {
+      final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
+      setState(() => position = featureEventCardWidth * 0.2);
+      _animatedCard();
+    });
     super.initState();
   }
 
@@ -116,7 +119,8 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
         setState(() => count = 0);
       }
       _controller.reverse();
-      setState(() => position = endPosition);
+      final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
+      setState(() => position = featureEventCardWidth * 0.2);
       if (visibilityPercentage < 30) {
         _timer?.cancel();
         timer?.cancel();
@@ -134,6 +138,9 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final height = screenSize.height * 0.4;
+    final width = screenSize.width * 0.55;
+
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
         var visiblePercentage = info.visibleFraction * 100;
@@ -145,29 +152,32 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
         }
       },
       key: ValueKey('visible-key'),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            height: screenSize.height * 0.4,
-            width: screenSize.width * 0.55,
-            child: Row(
+      child: events.isEmpty
+          ? SizedBox(
+              height: height,
+              width: width,
+            )
+          : Stack(
+              clipBehavior: Clip.none,
               children: [
-                Expanded(flex: 2, child: _inComingEvents()),
-                Expanded(flex: 7, child: _heroEvent()),
+                Container(
+                  height: height,
+                  width: width,
+                  child: Row(
+                    children: [
+                      Expanded(flex: 2, child: _inComingEvents()),
+                      Expanded(flex: 7, child: _heroEvent()),
+                    ],
+                  ),
+                ).paddingAll(16),
+                _buildFeaturedText(screenSize),
               ],
             ),
-          ).paddingAll(16),
-          _buildFeaturedText(screenSize),
-        ],
-      ),
     );
   }
 
   Widget _buildFeaturedText(Size screenSize) {
     final featureEventCardHeight = screenSize.height * 0.4;
-    final featureEventCardWidth = screenSize.width * 0.55;
-    endPosition = featureEventCardWidth * 0.2;
 
     return AnimatedPositioned(
       duration: MyTheme.animationDuration,
@@ -259,7 +269,7 @@ class FeaturedEventText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AutoSizeText(
-          "${event.description}",
+          "${event?.description ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
           style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloWhite, fontSize: 14),
@@ -284,8 +294,7 @@ class FeaturedEventText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeText(
-          //TODO To avoid null value I added [DateTime.now()] should be remove.
-          fullDate(event?.date ?? DateTime.now()),
+          event?.date == null ? '' : fullDate(event?.date),
           textAlign: TextAlign.start,
           maxLines: 2,
           style: Theme.of(context)
