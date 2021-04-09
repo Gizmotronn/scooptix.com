@@ -9,7 +9,9 @@ import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
+import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -66,7 +68,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
 
   int count = 0;
   double position = -300;
-  double endPosition = 0.0;
+  double endPosition = 100;
 
   int visibilityPercentage = 0;
 
@@ -87,7 +89,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
     super.initState();
   }
 
-  _animatedCard() {
+  void _animatedCard() {
     if (_timer != null) {
       _timer.cancel();
     }
@@ -257,7 +259,7 @@ class FeaturedEventText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AutoSizeText(
-          """Proin eget tortor risus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.""",
+          "${event.description}",
           textAlign: TextAlign.start,
           maxLines: 2,
           style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloWhite, fontSize: 14),
@@ -269,7 +271,9 @@ class FeaturedEventText extends StatelessWidget {
             child: AutoSizeText('Get Your Ticket', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
               final overviewLinkType = OverviewLinkType(event);
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
+              NavigationService.navigateTo(EventDetail.routeName,
+                  arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
+              // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],
     );

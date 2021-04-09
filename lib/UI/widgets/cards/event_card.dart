@@ -43,7 +43,6 @@ class EventCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     _cardImage(),
-                    VerticalDivider(color: MyTheme.appolloGrey.withOpacity(.4), width: 0.4),
                     _cardContent(context, sizes),
                   ],
                 ),
@@ -57,27 +56,35 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _tag(BuildContext context) {
-    List prices = [];
+    List<int> prices = [];
 
     bool isSoldOut = false;
 
-    event.getTicketReleases().forEach((releases) {
-      prices.add(releases?.price);
-      if (releases?.ticketsLeft() == null || releases.ticketsLeft() <= 0) {
+    for (var i = 0; i < event.getAllReleases().length; i++) {
+      final release = event?.getAllReleases()[i];
+      prices.add(release?.price == null ? 0 : release.price);
+      if (release?.ticketsLeft() == null || release.ticketsLeft() < 1) {
         isSoldOut = true;
       }
-    });
-    prices.sort((a, b) => a.compareTo(b));
+    }
+    if (prices.length < 1) {
+      prices.sort((a, b) => a.compareTo(b));
+    }
+    print(prices);
 
-    int minPrice = prices?.first == null ? 0 : prices.first;
-    int maxPrice = prices?.last == null ? 0 : prices.last;
+    int minPrice = prices.isNotEmpty ? prices.first : 0;
+    int maxPrice = prices.isNotEmpty ? prices.last : 0;
 
     bool checkSamePrice = minPrice == maxPrice;
-
-    return _buildTag(
-      context,
-      tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$$maxPrice" : "\$$minPrice - \$$maxPrice"),
-      isSoldOut: isSoldOut,
+    final bothPrice = "\$$minPrice - \$$maxPrice";
+    return Builder(
+      builder: (context) {
+        return _buildTag(
+          context,
+          tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$$maxPrice" : bothPrice),
+          isSoldOut: isSoldOut,
+        );
+      },
     );
   }
 

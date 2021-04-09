@@ -24,8 +24,10 @@ class DownloadAppolloWidget extends StatelessWidget {
                 Center(
                   child: SizedBox(
                     width: MyTheme.maxWidth - 60,
-                    child: RaisedButton(
-                      color: MyTheme.appolloGreen,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: MyTheme.appolloGreen,
+                      ),
                       onPressed: () {
                         var app = AppSet()
                           ..iosAppId = 1478226146

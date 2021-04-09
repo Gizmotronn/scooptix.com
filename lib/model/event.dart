@@ -19,8 +19,8 @@ class Event {
   String repetitionId;
   DateTime date;
   DateTime endTime;
-  List<String> tags = List<String>();
-  List<String> images = List<String>();
+  List<String> tags = <String>[];
+  List<String> images = <String>[];
   bool isSignedUp = false;
   bool isMockEvent = false;
   bool newPriorityPassesAllowed = false;

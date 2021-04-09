@@ -207,8 +207,10 @@ class _TicketPageState extends State<TicketPage> {
                                   SizedBox(
                                     width: MyTheme.maxWidth,
                                     height: 34,
-                                    child: RaisedButton(
-                                      color: MyTheme.appolloGreen,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: MyTheme.appolloGreen,
+                                      ),
                                       onPressed: () {
                                         bloc.add(EventGoToPayment(state.releases));
                                       },
@@ -248,8 +250,10 @@ class _TicketPageState extends State<TicketPage> {
                             SizedBox(
                               width: MyTheme.maxWidth,
                               height: 34,
-                              child: RaisedButton(
-                                color: MyTheme.appolloGreen,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: MyTheme.appolloGreen,
+                                ),
                                 onPressed: () {
                                   bloc.add(EventGoToPayment(state.releases));
                                 },

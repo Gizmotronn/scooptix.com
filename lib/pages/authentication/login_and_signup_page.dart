@@ -98,9 +98,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             constraints.deviceScreenType == DeviceScreenType.watch) {
           return SizedBox(
             width: screenSize.width,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: SizedBox(
@@ -120,9 +122,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         } else {
           return Align(
             alignment: Alignment.centerRight,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: SizedBox(
@@ -151,9 +155,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: RaisedButton(
-                  color: MyTheme.appolloGreen,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloGreen,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text("Login", style: widget.textTheme.button),
@@ -165,11 +171,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlineButton(
-                  color: MyTheme.appolloGreen,
-                  borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -186,11 +191,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlineButton(
-                color: MyTheme.appolloGreen,
-                borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(4)),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
@@ -200,9 +204,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              RaisedButton(
-                color: MyTheme.appolloGreen,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloGreen,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Login", style: widget.textTheme.button),
@@ -224,9 +230,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: RaisedButton(
-                  color: MyTheme.appolloGreen,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloGreen,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text("Next", style: widget.textTheme.button),
@@ -244,10 +252,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlineButton(
-                  color: MyTheme.appolloGreen,
-                  borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text("Back", style: widget.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -263,10 +272,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlineButton(
-                color: MyTheme.appolloGreen,
-                borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Back", style: widget.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -275,9 +285,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              RaisedButton(
-                color: MyTheme.appolloGreen,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloGreen,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Next", style: widget.textTheme.button),
@@ -307,9 +319,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: RaisedButton(
-                  color: MyTheme.appolloGreen,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloGreen,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text("Next", style: widget.textTheme.button),
@@ -327,10 +341,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlineButton(
-                  color: MyTheme.appolloGreen,
-                  borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text("Back", style: widget.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -346,10 +361,12 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlineButton(
-                color: MyTheme.appolloGreen,
-                borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  primary: MyTheme.appolloGreen,
+                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Back", style: widget.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -358,9 +375,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              RaisedButton(
-                color: MyTheme.appolloGreen,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloGreen,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Next", style: widget.textTheme.button),
@@ -385,9 +404,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             constraints.deviceScreenType == DeviceScreenType.watch) {
           return SizedBox(
             width: screenSize.width,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: Text("Next", style: widget.textTheme.button),
@@ -400,9 +421,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         } else {
           return Align(
             alignment: Alignment.centerRight,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: Text("Next", style: widget.textTheme.button),
@@ -423,9 +446,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: RaisedButton(
-                  color: MyTheme.appolloGreen,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloGreen,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text(
@@ -466,10 +491,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlineButton(
-                  color: MyTheme.appolloGreen,
-                  borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                     child: Text("Back", style: widget.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -485,10 +511,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlineButton(
-                color: MyTheme.appolloGreen,
-                borderSide: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Back", style: widget.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -497,9 +524,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              RaisedButton(
-                color: MyTheme.appolloGreen,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloGreen,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text(

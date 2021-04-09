@@ -75,8 +75,11 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         } else if (state is UpcomingEventsState) {
           return UpcomingEvents(events: state.upcomingEvents);
         }
-        return Center(
-          child: CircularProgressIndicator(),
+        return SizedBox(
+          height: 300,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
         );
       },
     );

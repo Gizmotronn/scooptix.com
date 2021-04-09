@@ -119,8 +119,10 @@ class _PaymentPageState extends State<PaymentPage> {
                   SizedBox(
                     height: 34,
                     width: widget.maxWidth,
-                    child: RaisedButton(
-                      color: MyTheme.appolloGreen,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: MyTheme.appolloGreen,
+                      ),
                       onPressed: () {
                         bloc.add(EventCancelPayment());
                       },
@@ -297,8 +299,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               SizedBox(
                                 width: widget.maxWidth,
                                 height: 38,
-                                child: RaisedButton(
-                                  color: MyTheme.appolloGreen,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: MyTheme.appolloGreen,
+                                  ),
                                   onPressed: () async {
                                     try {
                                       StripeCard card = StripeCard(
@@ -327,9 +331,11 @@ class _PaymentPageState extends State<PaymentPage> {
                               SizedBox(
                                 height: 38,
                                 width: widget.maxWidth,
-                                child: OutlineButton(
-                                  borderSide: BorderSide(color: MyTheme.appolloGreen, width: 1.1),
-                                  color: MyTheme.appolloGreen,
+                                child: OutlinedButton(
+                                  style: OutlinedButton.styleFrom(
+                                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                                  ),
                                   onPressed: () {
                                     bloc.add(EventCancelPayment());
                                   },
@@ -351,8 +357,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               SizedBox(
                                 height: 38,
                                 width: widget.maxWidth * 0.3,
-                                child: RaisedButton(
-                                  color: MyTheme.appolloGreen,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: MyTheme.appolloGreen,
+                                  ),
                                   onPressed: () {
                                     bloc.add(EventCancelPayment());
                                   },
@@ -365,8 +373,10 @@ class _PaymentPageState extends State<PaymentPage> {
                               SizedBox(
                                 width: widget.maxWidth * 0.35,
                                 height: 38,
-                                child: RaisedButton(
-                                  color: MyTheme.appolloGreen,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: MyTheme.appolloGreen,
+                                  ),
                                   onPressed: () async {
                                     try {
                                       StripeCard card = StripeCard(
@@ -580,8 +590,10 @@ class _PaymentPageState extends State<PaymentPage> {
           SizedBox(
             width: widget.maxWidth,
             height: 34,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+              ),
               onPressed: () {
                 if (!_termsConditions) {
                   AlertGenerator.showAlert(
@@ -711,8 +723,10 @@ class _PaymentPageState extends State<PaymentPage> {
           SizedBox(
             width: widget.maxWidth,
             height: 38,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+              ),
               onPressed: () {
                 if (!_termsConditions) {
                   AlertGenerator.showAlert(
@@ -806,8 +820,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         Expanded(
                           child: SizedBox(
                             height: 46,
-                            child: FlatButton(
-                              color: MyTheme.appolloGreen,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                                primary: MyTheme.appolloGreen,
+                              ),
                               onPressed: () {
                                 if (state is StatePaymentOptionAvailable && _discountController.text != "") {
                                   bloc.add(
@@ -920,8 +936,10 @@ class _PaymentPageState extends State<PaymentPage> {
           SizedBox(
             height: 38,
             width: widget.maxWidth,
-            child: RaisedButton(
-              color: MyTheme.appolloGreen,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: MyTheme.appolloGreen,
+              ),
               onPressed: () {
                 if (_termsConditions) {
                   bloc.add(EventRequestPI(selectedManager.getActiveRelease(), selectedQuantity, discount));

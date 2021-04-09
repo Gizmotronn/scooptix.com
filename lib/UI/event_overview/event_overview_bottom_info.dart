@@ -31,25 +31,25 @@ class EventOverviewFooter extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6),
-                ).paddingBottom(16),
+                ).paddingBottom(16).paddingTop(8),
                 Expanded(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List.generate(
                       info.length,
                       (index) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(
-                            info[index].length,
-                            (i) => AutoSizeText(info[index][i],
-                                    style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w400))
-                                .paddingVertical(4),
-                          ).toList()),
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: info[index]
+                            .map((text) => AutoSizeText(text,
+                                    style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w400))
+                                .paddingVertical(4))
+                            .toList(),
+                      ),
                     ),
                   ),
                 ),
                 AutoSizeText(
-                    '© 2021 appollo Group pty ltd. Trademarks and brands are the property of their respective owners.',
+                    '© 2021 appollo Group pty Ltd. Trademarks and brands are the property of their respective owners.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey))
               ],

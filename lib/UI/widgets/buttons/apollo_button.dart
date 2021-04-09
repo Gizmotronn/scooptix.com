@@ -11,10 +11,12 @@ class AppolloButton {
         minWidth: 130,
         maxWidth: 200,
       ),
-      child: RaisedButton(
-        elevation: 3,
-        color: color,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 3,
+          primary: color,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        ),
         onPressed: onTap,
         child: child,
       ));
@@ -35,11 +37,13 @@ class AppolloButton {
             minWidth: width ?? 130,
             maxWidth: width ?? 200,
           ),
-          child: FlatButton(
-            color: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+          child: TextButton(
+            style: TextButton.styleFrom(
+              primary: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+              ),
             ),
             onPressed: onTap,
             child: Padding(
@@ -63,11 +67,13 @@ class AppolloButton {
           minWidth: 130,
           maxWidth: 200,
         ),
-        child: FlatButton(
-          color: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-            side: BorderSide(color: MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+        child: TextButton(
+          style: TextButton.styleFrom(
+            primary: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5.0),
+              side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+            ),
           ),
           onPressed: onTap,
           child: Padding(
@@ -98,7 +104,7 @@ class AppolloButton {
             color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
             borderRadius: BorderRadius.circular(5.0),
           ),
-          child: FlatButton(
+          child: TextButton(
             onPressed: onTap,
             child: child,
           ),
@@ -125,7 +131,7 @@ class AppolloButton {
             color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
             borderRadius: BorderRadius.circular(5.0),
           ),
-          child: FlatButton.icon(
+          child: TextButton.icon(
             icon: icon,
             onPressed: onTap,
             label: child,

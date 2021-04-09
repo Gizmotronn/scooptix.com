@@ -16,8 +16,8 @@ class AlertGenerator {
         content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.lightTextTheme.bodyText2)),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
-          new FlatButton(
-            child: new Text(
+          TextButton(
+            child: Text(
               buttonText,
               style: MyTheme.lightTextTheme.bodyText2,
             ),
@@ -49,7 +49,7 @@ class AlertGenerator {
         content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.lightTextTheme.bodyText2)),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
-          FlatButton(
+          TextButton(
             child: Text(
               buttonText1,
               style: MyTheme.lightTextTheme.subtitle2,
@@ -59,7 +59,7 @@ class AlertGenerator {
               Navigator.pop(context);
             },
           ),
-          FlatButton(
+          TextButton(
             child: Text(buttonText2, style: MyTheme.lightTextTheme.bodyText2),
             onPressed: () {
               response = false;

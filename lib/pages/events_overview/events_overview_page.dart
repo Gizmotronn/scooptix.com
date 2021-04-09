@@ -60,7 +60,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
           child: Stack(
             children: [
               EventOverviewHome(bloc: bloc, events: widget.events),
-
+              
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),
               EventOverviewAppbar(bloc: signUpBloc),

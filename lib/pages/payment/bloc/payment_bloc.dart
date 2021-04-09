@@ -85,7 +85,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       } else {
         yield StatePaymentError("An unknown error occurred. Please try again.");
       }
-    } catch (e, s) {
+    } catch (e, _) {
       print(e);
       yield StatePaymentError("An unknown error occurred. Please try again.");
     }
