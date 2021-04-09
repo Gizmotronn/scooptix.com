@@ -64,3 +64,7 @@ class StateErrorSignUp extends AuthenticationState {
 
   const StateErrorSignUp(this.error);
 }
+
+class SignInState extends AuthenticationState {
+  const SignInState();
+}

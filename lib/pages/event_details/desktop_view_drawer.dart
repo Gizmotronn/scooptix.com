@@ -108,8 +108,11 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                 SizedBox(
                                   width: 106,
                                   height: 34,
-                                  child: OutlineButton(
-                                    borderSide: BorderSide(color: MyTheme.appolloPurple, width: 1.1),
+                                  child: OutlinedButton(
+                                    style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
+                                      side: BorderSide(color: MyTheme.appolloPurple, width: 1.1),
+                                    ),
                                     onPressed: () async {
                                       await auth.FirebaseAuth.instance.signOut();
                                       UserRepository.instance.dispose();

@@ -31,6 +31,14 @@ extension WidgetPaddingX on Widget {
         padding: EdgeInsets.all(padding),
         child: this,
       );
+  Widget paddingHorizontal(double padding) => Padding(
+        padding: EdgeInsets.symmetric(vertical: 0, horizontal: padding),
+        child: this,
+      );
+  Widget paddingVertical(double padding) => Padding(
+        padding: EdgeInsets.symmetric(horizontal: 0, vertical: padding),
+        child: this,
+      );
 }
 
 extension AppolloCard on Container {
@@ -51,6 +59,8 @@ class MyTheme {
   static double elementSpacing = 20.0;
   static double cardPadding = 20;
   static double drawerSize = 500;
+
+  static Duration animationDuration = Duration(milliseconds: 300);
 
   static Color appolloPurple = Color(0xFF7367ED);
   static Color appolloYellow = Color(0xFFFBDB30);

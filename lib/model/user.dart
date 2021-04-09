@@ -23,7 +23,7 @@ class User {
   String phone;
   Gender gender;
   Map<String, dynamic> userSettings = Map<String, dynamic>();
-  List<String> favourites = List<String>();
+  List<String> favourites = <String>[];
   String role;
   String profileImageURL = "";
 

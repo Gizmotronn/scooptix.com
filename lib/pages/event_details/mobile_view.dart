@@ -97,7 +97,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       SizedBox(
                         width: 106,
                         height: 34,
-                        child: RaisedButton(
+                        child: ElevatedButton(
                           onPressed: () async {
                             await auth.FirebaseAuth.instance.signOut();
                             UserRepository.instance.dispose();

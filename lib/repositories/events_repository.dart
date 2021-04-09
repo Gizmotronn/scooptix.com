@@ -25,7 +25,7 @@ class EventsRepository {
     _instance = null;
   }
 
-  List<Event> events = List<Event>();
+  List<Event> events = <Event>[];
 
   Future<Event> loadEventById(String id) async {
     print(id);

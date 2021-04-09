@@ -1,0 +1,30 @@
+class AppolloSvgIcon {
+  static String hamBurgerIcon = 'assets/icons/hamburger.svg';
+  static String starOutline = 'assets/icons/star-outline.svg';
+  static String searchOutline = 'assets/icons/search-outline.svg';
+  static String qrScan = 'assets/icons/qr-code.svg';
+  static String clipboard = 'assets/icons/clipboard-outline.svg';
+  static String listOutline = 'assets/icons/list-outline.svg';
+  static String arrowBackOutline = 'assets/icons/arrow-back-outline.svg';
+  static String alertTriangleOutline = 'assets/icons/alert-triangle-outline.svg';
+  static String arrowdown = 'assets/icons/arrow-ios-downward-outline.svg';
+  static String arrowup = 'assets/icons/arrow-ios-upward-outline.svg';
+  static String perthGps = 'assets/icons/gps.svg';
+  static String heart = 'assets/icons/heart.svg';
+  static String people = 'assets/icons/people.svg';
+  static String person = 'assets/icons/person.svg';
+  static String calender = 'assets/icons/calender.svg';
+  static String calenderOutline = 'assets/icons/calender_outline.svg';
+  static String noEvent = 'assets/icons/no_events.svg';
+  static String cake = 'assets/icons/cake.svg';
+  static String clock = 'assets/icons/clock.svg';
+  static String dot = 'assets/icons/dot.svg';
+  static String level1 = 'assets/icons/level1.svg';
+  static String level2 = 'assets/icons/level2.svg';
+  static String level3 = 'assets/icons/level3.svg';
+  static String trophy1 = 'assets/icons/trophy1.svg';
+  static String trophy2 = 'assets/icons/trophy2.svg';
+  static String trophy3 = 'assets/icons/trophy3.svg';
+  static String ticket = 'assets/icons/tickets.svg';
+  static String pin = 'assets/icons/pin.svg';
+}

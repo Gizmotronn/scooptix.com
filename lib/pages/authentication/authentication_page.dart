@@ -18,8 +18,9 @@ import 'login_and_signup_page.dart';
 import 'bloc/authentication_bloc.dart';
 
 class AuthenticationPage extends StatefulWidget {
+  static const String routeName = '/auth';
   final LinkType linkType;
-  AuthenticationPage(this.linkType);
+  AuthenticationPage(this.linkType, {String id});
   @override
   _AuthenticationPageState createState() => _AuthenticationPageState();
 }

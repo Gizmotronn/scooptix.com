@@ -17,7 +17,7 @@ class VenuesRepository {
     _instance = null;
   }
 
-  List<Venue> venues = List<Venue>();
+  List<Venue> venues = <Venue>[];
 
   Future<Venue> loadVenueById(String id) async {
     Venue venue;

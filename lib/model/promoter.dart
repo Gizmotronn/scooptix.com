@@ -16,7 +16,6 @@ class Promoter {
     if (data.containsKey("lastname")) {
       promoter.lastName = data["lastname"];
     }
-
     return promoter;
   }
 }

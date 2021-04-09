@@ -1,9 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/pages//landing_page/landing_page.dart';
+import 'package:ticketapp/services/navigator_services.dart';
+import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 
 import 'services/bugsnag_wrapper.dart';
 
@@ -31,13 +35,28 @@ void main() {
   });
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    Intl.defaultLocale = 'en_AU';
+    initializeDateFormatting('en_AU', null);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'appollo - Patron Engagement Technologies',
       theme: MyTheme.theme,
-      home: LandingPage(),
+      navigatorKey: NavigationService.navigatorKey,
+      onGenerateRoute: GeneratedRoute.onGenerateRoute,
+      initialRoute: LandingPage.routeName,
+      builder: (context, child) => Scaffold(body: child),
     );
   }
 }

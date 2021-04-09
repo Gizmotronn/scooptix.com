@@ -118,16 +118,16 @@ class Venue {
   int distance;
   num rating = 0;
   double lastCalculatedDistance = 9999;
-  List<String> openinghours = List<String>();
+  List<String> openinghours = <String>[];
   bool isSignedUp;
-  List<String> events = List<String>();
-  List<String> images = List<String>();
-  List<VenueServices> services = List<VenueServices>();
-  List<Drinks> drinks = List<Drinks>();
-  List<Food> food = List<Food>();
-  List<TargetAudience> targetAudience = List<TargetAudience>();
-  List<Atmosphere> atmosphere = List<Atmosphere>();
-  List<Payment> payment = List<Payment>();
+  List<String> events = <String>[];
+  List<String> images = <String>[];
+  List<VenueServices> services = <VenueServices>[];
+  List<Drinks> drinks = <Drinks>[];
+  List<Food> food = <Food>[];
+  List<TargetAudience> targetAudience = <TargetAudience>[];
+  List<Atmosphere> atmosphere = <Atmosphere>[];
+  List<Payment> payment = <Payment>[];
   String dressCode = "";
   bool qPassAvailable = false;
   bool priorityPassAvailable = true;
@@ -145,16 +145,16 @@ class Venue {
     bool qpassAvailable = false;
     bool prioritypassAvailable = false;
     num rating;
-    List<VenueType> venueType = List<VenueType>();
+    List<VenueType> venueType = <VenueType>[];
 
-    List<VenueServices> services = List<VenueServices>();
-    List<Drinks> drinks = List<Drinks>();
-    List<Food> food = List<Food>();
-    List<TargetAudience> targetAudience = List<TargetAudience>();
-    List<Atmosphere> atmosphere = List<Atmosphere>();
-    List<Payment> payment = List<Payment>();
+    List<VenueServices> services = <VenueServices>[];
+    List<Drinks> drinks = <Drinks>[];
+    List<Food> food = <Food>[];
+    List<TargetAudience> targetAudience = <TargetAudience>[];
+    List<Atmosphere> atmosphere = <Atmosphere>[];
+    List<Payment> payment = <Payment>[];
 
-    List<String> openinghours = List<String>(), events = List<String>(), images = List<String>();
+    List<String> openinghours = <String>[], events = <String>[], images = <String>[];
 
     int price = 0;
     int qPassPrice = 3000;

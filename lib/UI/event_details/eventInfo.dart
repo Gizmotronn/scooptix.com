@@ -123,10 +123,12 @@ class EventInfoWidget extends StatelessWidget {
                                 width:
                                     MyTheme.maxWidth / 3 - (MyTheme.elementSpacing + MyTheme.cardPadding * 2 + 8) / 2,
                                 height: 34,
-                                child: RaisedButton(
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-                                  padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),
-                                  color: MyTheme.appolloGreen,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+                                    padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),
+                                    primary: MyTheme.appolloGreen,
+                                  ),
                                   onPressed: () {
                                     Scaffold.of(context).openEndDrawer();
                                   },
@@ -210,7 +212,7 @@ class EventInfoWidget extends StatelessWidget {
   }
 
   Widget _buildEventInfoText(Axis orientation) {
-    List<Widget> widgets = List<Widget>();
+    List<Widget> widgets = <Widget>[];
     widgets.add(
       Align(
           alignment: orientation == Axis.horizontal ? Alignment.centerLeft : Alignment.center,

@@ -59,3 +59,11 @@ class EventCreateNewUser extends AuthenticationEvent {
 
   const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender, this.uid);
 }
+
+class OnTapSignEvent extends AuthenticationEvent {
+  const OnTapSignEvent();
+}
+
+class OnTapCloseSignEvent extends AuthenticationEvent {
+  const OnTapCloseSignEvent();
+}

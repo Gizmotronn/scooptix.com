@@ -41,7 +41,7 @@ dependencies:
   firebase_auth_oauth: 0.2.2
   flutter_facebook_login_web: 0.2.1+1
   reactive_forms: 7.6.2
-  websafe_svg: 1.1.4
+  flutter_svg: ^0.19.3
   device_info: 1.0.0
   package_info: 0.4.3+2
   qr_flutter: 3.2.0
@@ -49,6 +49,7 @@ dependencies:
   stripe_sdk: ^4.0.2
   url_launcher: ^5.7.10
   flutter_install_app_plugin: ^0.4.2
+  visibility_detector: ^0.1.5
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +65,7 @@ flutter:
     - assets/images/placeholderImages/
     - assets/icons/
   fonts:
-    - family: Montserrat
+    - family: montserrat
       fonts:
         - asset: assets/fonts/Montserrat-Light.ttf
           weight: 300
