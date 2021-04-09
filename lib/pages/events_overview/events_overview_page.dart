@@ -26,7 +26,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
 
   @override
   void initState() {
-    signUpBloc = AuthenticationBloc(null);
+    signUpBloc = AuthenticationBloc();
 
     super.initState();
   }

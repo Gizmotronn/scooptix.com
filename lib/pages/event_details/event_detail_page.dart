@@ -40,7 +40,7 @@ class _EventDetailState extends State<EventDetail> with TickerProviderStateMixin
 
   @override
   void initState() {
-    signUpBloc = AuthenticationBloc(null);
+    signUpBloc = AuthenticationBloc();
     getEvent();
     super.initState();
   }
@@ -49,7 +49,7 @@ class _EventDetailState extends State<EventDetail> with TickerProviderStateMixin
     setState(() => isLoading = true);
     final event = await EventsRepository.instance.loadEventById(widget.id);
     final overviewLinkType = OverviewLinkType(event);
-    signUpBloc = AuthenticationBloc(overviewLinkType);
+    signUpBloc = AuthenticationBloc();
     signUpBloc.add(EventPageLoad());
     TicketRepository.instance.incrementLinkOpenedCounter(overviewLinkType);
 
