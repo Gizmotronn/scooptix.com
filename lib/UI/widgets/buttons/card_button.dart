@@ -7,14 +7,25 @@ class CardButton extends StatefulWidget {
   final Function onTap;
 
   final String title;
-
+  final Color activeColor;
+  final Color deactiveColor;
+  final Color activeColorText;
+  final Color deactiveColorText;
   final BorderRadius borderRadius;
-  const CardButton({
-    Key key,
-    @required this.onTap,
-    @required this.title,
-    this.borderRadius,
-  }) : super(key: key);
+
+  final double width;
+
+  const CardButton(
+      {Key key,
+      @required this.onTap,
+      @required this.title,
+      this.borderRadius,
+      this.activeColor,
+      this.deactiveColor,
+      this.activeColorText,
+      this.deactiveColorText,
+      this.width})
+      : super(key: key);
 
   @override
   _CardButtonState createState() => _CardButtonState();
@@ -24,6 +35,11 @@ class _CardButtonState extends State<CardButton> {
   bool isHover = false;
   @override
   Widget build(BuildContext context) {
+    final activeColor = widget.activeColor ?? MyTheme.appolloGreen;
+    final deactiveColor = widget.deactiveColor ?? MyTheme.appolloGreen.withAlpha(40);
+    final activeColorText = widget.activeColorText ?? MyTheme.appolloWhite;
+    final deactiveColorText = widget.deactiveColorText ?? MyTheme.appolloGreen;
+
     return InkWell(
       onTap: widget.onTap,
       onHover: (v) {
@@ -31,19 +47,16 @@ class _CardButtonState extends State<CardButton> {
       },
       child: Container(
         height: 40,
-        width: 175,
+        width: widget.width,
         decoration: BoxDecoration(
-          color: isHover ? MyTheme.appolloPurple : MyTheme.appolloPurple.withAlpha(40),
-          borderRadius:
-              widget.borderRadius ?? BorderRadius.only(topLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
+          color: isHover ? activeColor : deactiveColor,
+          borderRadius: widget.borderRadius ??
+              BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
         ),
         child: Center(
             child: AutoSizeText(
           widget.title ?? '',
-          style: Theme.of(context)
-              .textTheme
-              .button
-              .copyWith(color: isHover ? MyTheme.appolloWhite : MyTheme.appolloPurple),
+          style: Theme.of(context).textTheme.button.copyWith(color: isHover ? activeColorText : deactiveColorText),
         )),
       ),
     );

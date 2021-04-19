@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/theme.dart';
+import '../../theme.dart';
 
 class AppolloDivider extends StatelessWidget {
   @override

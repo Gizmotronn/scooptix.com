@@ -1,6 +1,6 @@
 import 'package:ticketapp/model/event.dart';
 
-enum LinkTypes { Promoter, Booking, BirthdayList, Advertisement, Ticket }
+enum LinkTypes { Promoter, Booking, BirthdayList, Advertisement, Ticket, MemberInvite }
 
 extension InvitationTypeExtension on LinkTypes {
   String toDBString() {

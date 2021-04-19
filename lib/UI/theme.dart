@@ -41,23 +41,40 @@ extension WidgetPaddingX on Widget {
       );
 }
 
-extension AppolloCard on Container {
-  Container get appolloCard {
+extension AppolloCards on Container {
+  Container appolloCard({Color color, BorderRadiusGeometry borderRadius, Clip clip}) {
+    return Container(
+      child: ClipRRect(
+        clipBehavior: clip ?? Clip.antiAlias,
+        borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
+          child: Container(
+            decoration: ShapeDecoration(
+              color: color ?? MyTheme.appolloCard3Color.withAlpha(190),
+              shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5))),
+            ),
+            child: this.child,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Container appolloTransparentCard({Color color, BorderRadiusGeometry borderRadius}) {
     return Container(
       decoration: ShapeDecoration(
-          color: Colors.grey[800].withAlpha(160),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-              side: BorderSide(color: Color(0xFF707070).withAlpha(100), width: 1))),
+          color: color ?? MyTheme.appolloCard3Color.withAlpha(200),
+          shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)))),
       child: this.child,
     );
   }
 }
 
 class MyTheme {
-  static double maxWidth = 1050.0;
+  static double maxWidth = 1080.0;
   static double elementSpacing = 20.0;
-  static double cardPadding = 20;
+  static double cardPadding = 32;
   static double drawerSize = 500;
 
   static Duration animationDuration = Duration(milliseconds: 300);
@@ -71,13 +88,18 @@ class MyTheme {
   static Color appolloRed = Color(0xFFEA5454);
   static Color appolloDarkRed = Color(0xFFFF535E);
   static Color appolloPink = Color(0xFFED67DE);
-  static Color appolloBlack = Color(0xFF2c2c2c);
+  static Color appolloBlack = Color(0xFF111010);
   static Color appolloTeal = Color(0xFF1CD5D0);
   static Color appolloGrey = Color(0xFF707070);
   static Color appolloTextFieldFill = Color(0xFFEFF2F7);
   static Color appolloWhite = Color(0xFFFFFFFF);
   static Color appolloDimGrey = Color(0xFFCDD3E1);
   static Color appolloLightGrey = Color(0xFFEFF2F7);
+  static Color appolloDarkBlue = Color(0xFF14142B);
+  static Color appolloBackgroundColor = Color(0xFF21223B);
+  static Color appolloCardColor = Color(0xFF14142B);
+  static Color appolloCard2Color = Color(0xFF383854);
+  static Color appolloCard3Color = Color(0xFF27273D);
 
   static TextTheme lightTextTheme = TextTheme(
       bodyText1: TextStyle(
@@ -266,7 +288,8 @@ class MyTheme {
           .withZoomFix);
 
   static ThemeData theme = ThemeData(
-      backgroundColor: Color(0xff2c2c2c),
+      backgroundColor: Color(0xFF21223B),
+      scaffoldBackgroundColor: Color(0xFF21223B),
       primaryColor: MyTheme.appolloPurple,
       accentColor: MyTheme.appolloPurple,
       buttonColor: MyTheme.appolloPurple,

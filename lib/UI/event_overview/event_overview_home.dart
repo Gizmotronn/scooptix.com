@@ -86,21 +86,25 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   }
 
   Widget _eventOverview(Size screenSize) => Container(
-        color: MyTheme.appolloBlack,
+        color: MyTheme.appolloDarkBlue,
         width: screenSize.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [FeaturedEvents(), EventOverviewNavigationBar(bloc: widget.bloc)],
+          children: [
+            FeaturedEvents(),
+            EventOverviewNavigationBar(bloc: widget.bloc),
+          ],
         ),
       );
 }
 
 class Menu {
+  int id;
   String title;
   String subtitle;
   String fullDate;
-  double pixel;
+  double position;
 
   bool isTap;
-  Menu(this.title, this.isTap, {this.subtitle, this.fullDate, this.pixel});
+  Menu(this.title, this.isTap, {this.id, this.subtitle, this.fullDate, this.position});
 }

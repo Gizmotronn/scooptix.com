@@ -47,3 +47,14 @@ class UpcomingEventsState extends EventsOverviewState {
   final List<Event> upcomingEvents;
   const UpcomingEventsState(this.upcomingEvents);
 }
+
+class EventDetailState extends EventsOverviewState {
+  final Event event;
+  final Organizer organizer;
+  const EventDetailState(this.event, this.organizer);
+}
+
+class ErrorEventDetailState extends EventsOverviewState {
+  final String message;
+  const ErrorEventDetailState(this.message);
+}

@@ -27,4 +27,5 @@ class AppolloSvgIcon {
   static String trophy3 = 'assets/icons/trophy3.svg';
   static String ticket = 'assets/icons/tickets.svg';
   static String pin = 'assets/icons/pin.svg';
+  static String cakewithbg = 'assets/icons/cake_with_bg.svg';
 }

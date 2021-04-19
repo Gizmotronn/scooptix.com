@@ -62,7 +62,7 @@ class _TicketPageState extends State<TicketPage> {
                       if (constraints.deviceScreenType == DeviceScreenType.mobile ||
                           constraints.deviceScreenType == DeviceScreenType.watch) {
                         return Container(child: EventInfoWidget(Axis.vertical, widget.linkType))
-                            .appolloCard
+                            .appolloCard()
                             .paddingBottom(8);
                       } else {
                         return SizedBox.shrink();
@@ -100,7 +100,7 @@ class _TicketPageState extends State<TicketPage> {
                               desktop: MyTheme.darkTextTheme.bodyText2)),
                     ],
                   ),
-                )).appolloCard,
+                )).appolloCard(),
               );
             } else if (state is StateNoTicketsLeft) {
               return ResponsiveBuilder(builder: (context, constraints) {
@@ -120,7 +120,7 @@ class _TicketPageState extends State<TicketPage> {
                           AutoSizeText("It looks like there are no more tickets left."),
                         ],
                       ),
-                    )).appolloCard,
+                    )).appolloCard(),
                   );
                 } else {
                   return SizedBox(
@@ -166,7 +166,7 @@ class _TicketPageState extends State<TicketPage> {
                               desktop: MyTheme.darkTextTheme.bodyText2)),
                     ],
                   ),
-                )).appolloCard,
+                )).appolloCard(),
               );
             } else if (state is StateWaitForPayment) {
               return ResponsiveBuilder(builder: (context, constraints) {
@@ -191,7 +191,7 @@ class _TicketPageState extends State<TicketPage> {
                       return Column(
                         children: [
                           Container(child: EventInfoWidget(Axis.vertical, widget.linkType))
-                              .appolloCard
+                              .appolloCard()
                               .paddingBottom(8),
                           SizedBox(
                             width: MyTheme.maxWidth,
@@ -222,7 +222,7 @@ class _TicketPageState extends State<TicketPage> {
                                   )
                                 ],
                               ),
-                            )).appolloCard,
+                            )).appolloCard(),
                           ).paddingBottom(8),
                         ],
                       );
@@ -289,7 +289,7 @@ class _TicketPageState extends State<TicketPage> {
                           AutoSizeText("Fetching your invitation data, this won't take long")
                         ],
                       ),
-                    )).appolloCard;
+                    )).appolloCard();
                   } else {
                     return Padding(
                       padding: const EdgeInsets.all(20.0),

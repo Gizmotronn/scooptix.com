@@ -1,6 +1,5 @@
 // 0-17 are bars
 // 20-22 are clubs
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 enum VenueType {
   Bar,
@@ -314,10 +313,10 @@ class Venue {
 
       return venue;
     } catch (e, s) {
-      print("Error creating venue from data");
-      print(e);
-      print(data);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      // print("Error creating venue from data");
+      // print(e);
+      // print(data);
+      // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }

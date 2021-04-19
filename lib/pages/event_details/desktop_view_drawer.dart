@@ -11,6 +11,8 @@ import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
+import '../../model/link_type/memberInvite.dart';
+
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class DesktopViewDrawer extends StatefulWidget {
   final AuthenticationBloc bloc;
@@ -188,10 +190,16 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                 ],
                               ).paddingBottom(MyTheme.elementSpacing * 2),
                             ),
-                            TicketPage(
-                              widget.linkType,
-                              forwardToPayment: true,
-                            ),
+                            widget.linkType is MemberInvite &&
+                                    (widget.linkType as MemberInvite).promoter.docId ==
+                                        UserRepository.instance.currentUser.firebaseUserID
+                                ? Center(
+                                    child: Text("You can't invite yourself to this event",
+                                        style: MyTheme.darkTextTheme.bodyText2))
+                                : TicketPage(
+                                    widget.linkType,
+                                    forwardToPayment: true,
+                                  ),
                           ],
                         );
                       } else {

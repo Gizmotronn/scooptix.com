@@ -471,7 +471,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   EdgeInsets.all(getValueForScreenType(context: context, desktop: 20, tablet: 20, mobile: 8, watch: 8)),
               child: data,
             ),
-          ).appolloCard,
+          ).appolloCard(),
         );
       } else {
         return SizedBox(

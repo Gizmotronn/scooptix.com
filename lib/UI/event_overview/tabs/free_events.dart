@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
-import 'package:ticketapp/UI/widgets/cards/white_card.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
 
 import '../../theme.dart';
@@ -24,7 +24,7 @@ class FreeEvents extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          WhiteCardWithNoElevation(
+          AppolloBackgroundCard(
             child: Column(
               children: [
                 _eventTags(context, tag: 'Free Events in', hightLightText: 'Perth', count: '${events.length} Events'),
@@ -45,14 +45,14 @@ class FreeEvents extends StatelessWidget {
           children: [
             Row(
               children: [
-                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloBlack))
+                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite))
                     .paddingRight(4),
                 AutoSizeText(hightLightText,
-                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple)),
+                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange)),
               ],
             ),
             AutoSizeText(count ?? '',
-                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey)),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

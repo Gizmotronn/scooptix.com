@@ -8,6 +8,8 @@ import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/pages/ticket/ticket_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
+import '../../model/link_type/memberInvite.dart';
+
 class EventDetailsPage extends StatefulWidget {
   final LinkType linkType;
   // If a user logs in manually or creates a new account, they won't have to press "Get my Ticket", but are instead directly taken to the checkout page
@@ -46,9 +48,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               ),
             ),
           ),
-          SingleChildScrollView(
-              child:
-                  TicketPage(widget.linkType, forwardToPayment: widget.forwardToPayment).paddingAll(8).paddingTop(56)),
+          widget.linkType is MemberInvite &&
+                  (widget.linkType as MemberInvite).promoter.docId == UserRepository.instance.currentUser.firebaseUserID
+              ? Center(child: Text("You can't invite yourself to this event", style: MyTheme.darkTextTheme.bodyText2))
+              : SingleChildScrollView(
+                  child: TicketPage(widget.linkType, forwardToPayment: widget.forwardToPayment)
+                      .paddingAll(8)
+                      .paddingTop(56)),
         ],
       ),
     );

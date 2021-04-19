@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
-import 'package:ticketapp/UI/widgets/cards/white_card.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
 
 class TodayEvents extends StatelessWidget {
@@ -22,7 +22,7 @@ class TodayEvents extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          WhiteCardWithNoElevation(
+          AppolloBackgroundCard(
             child: Column(
               children: [
                 _eventTags(context),
@@ -44,19 +44,19 @@ class TodayEvents extends StatelessWidget {
             AutoSizeText.rich(
               TextSpan(
                   text: 'Events in',
-                  style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey),
+                  style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite),
                   children: [
                     TextSpan(
                       text: ' Perth',
-                      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple),
+                      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange),
                     ),
                     TextSpan(
                       text: ' Today',
                     ),
                   ]),
             ),
-            AutoSizeText(events.length.toString() ?? '',
-                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloLightGrey)),
+            AutoSizeText("${events.length.toString() ?? ''} Events",
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

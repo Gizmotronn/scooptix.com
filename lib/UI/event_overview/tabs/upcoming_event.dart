@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
-import 'package:ticketapp/UI/widgets/cards/white_card.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
 
 import '../../theme.dart';
@@ -24,7 +24,7 @@ class UpcomingEvents extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          WhiteCardWithNoElevation(
+          AppolloBackgroundCard(
             child: Column(
               children: [
                 _eventTags(context,
@@ -51,14 +51,14 @@ class UpcomingEvents extends StatelessWidget {
           children: [
             Row(
               children: [
-                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey))
+                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite))
                     .paddingRight(4),
                 AutoSizeText(hightLightText,
-                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloPurple)),
+                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange)),
               ],
             ),
             AutoSizeText(count ?? '',
-                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloLightGrey)),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

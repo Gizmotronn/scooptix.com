@@ -5,8 +5,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
+
+import '../../../model/link_type/overview.dart';
+import '../../../repositories/ticket_repository.dart';
 
 part 'events_overview_event.dart';
 part 'events_overview_state.dart';
@@ -30,6 +35,8 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
   Stream<EventsOverviewState> mapEventToState(EventsOverviewEvent event) async* {
     if (event is TabberNavEvent) {
       yield* _handleSelectedTabEvent(event);
+    } else if (event is LoadEventDetailEvent) {
+      yield* _handleLoadEventDetail(event);
     }
   }
 
@@ -61,7 +68,9 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
     } else if (event.index == 3) {
       yield LoadingEventsState();
       final events = EventsRepository.instance.events;
-      final todayEvent = events.where((event) => event.date.day == DateTime.now().day).toList();
+      final todayEvent = events
+          .where((event) => event.date.day == DateTime.now().day && event.date.month == DateTime.now().month)
+          .toList();
 
       yield TodayEventsState(todayEvent);
     } else if (event.index == 4) {
@@ -75,7 +84,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
       yield LoadingEventsState();
       final events = EventsRepository.instance.events;
       final thisWeekEvent =
-          events.where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 14)))).toList();
+          events.where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 7)))).toList();
 
       yield ThisWeekEventsState(thisWeekEvent);
     } else if (event.index == 6) {
@@ -83,6 +92,19 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
 
       List<Event> events = await EventsRepository.instance.loadUpcomingEvents();
       yield UpcomingEventsState(events);
+    }
+  }
+
+  Stream<EventsOverviewState> _handleLoadEventDetail(LoadEventDetailEvent e) async* {
+    yield LoadingEventsState();
+    try {
+      final event = await EventsRepository.instance.loadEventById(e.id);
+      final organizer = await UserRepository.instance.loadOrganizer(event.organizer);
+      final overviewLinkType = OverviewLinkType(event);
+      TicketRepository.instance.incrementLinkOpenedCounter(overviewLinkType);
+      yield EventDetailState(event, organizer);
+    } catch (e) {
+      yield ErrorEventDetailState('404: Page Not Found');
     }
   }
 }

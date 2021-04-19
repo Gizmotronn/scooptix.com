@@ -9,6 +9,7 @@ import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import '../theme.dart';
+import 'downloadAppollo.dart';
 
 /// Displays a message that the user already has tickets for this event
 /// If on mobile view, also displays QR codes for those tickets
@@ -77,12 +78,12 @@ class _ExistingTicketsWidgetState extends State<ExistingTicketsWidget> {
                             ).paddingBottom(MyTheme.elementSpacing)
                           ],
                         ).paddingTop(16),
-                      ).appolloCard.paddingBottom(8);
+                      ).appolloCard().paddingBottom(8);
                     }),
               ],
             ),
           ),
-        )).appolloCard;
+        )).appolloCard();
       } else {
         String ticketHeadline;
         String ticketText;

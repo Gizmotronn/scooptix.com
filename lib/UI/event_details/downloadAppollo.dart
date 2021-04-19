@@ -43,7 +43,7 @@ class DownloadAppolloWidget extends StatelessWidget {
                 )
               ],
             ),
-          ).appolloCard,
+          ).appolloCard(),
         );
       } else {
         return SizedBox(

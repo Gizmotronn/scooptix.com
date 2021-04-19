@@ -26,14 +26,7 @@ class ForMeCard extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: MyTheme.appolloGrey.withAlpha(15),
-              spreadRadius: 3,
-              blurRadius: 3,
-            ),
-          ],
+          color: MyTheme.appolloCardColor,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -53,7 +46,7 @@ class ForMeCard extends StatelessWidget {
                     subTitle,
                     maxLines: 4,
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: MyTheme.appolloGrey, fontSize: 10),
+                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontSize: 10),
                   ).paddingBottom(8),
                   Container(
                     child: child ?? Container(),

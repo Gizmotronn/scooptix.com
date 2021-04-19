@@ -54,13 +54,13 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
         endDrawerEnableOpenDragGesture: false,
         backgroundColor: MyTheme.appolloWhite,
         body: Container(
-          color: MyTheme.appolloPurple.withAlpha(20),
+          color: MyTheme.appolloBackgroundColor,
           width: screenSize.width,
           height: screenSize.height,
           child: Stack(
             children: [
               EventOverviewHome(bloc: bloc, events: widget.events),
-              
+
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),
               EventOverviewAppbar(bloc: signUpBloc),

@@ -6,7 +6,6 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_auth_oauth/firebase_auth_oauth.dart';
 import 'package:flutter_facebook_login_web/flutter_facebook_login_web.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';

@@ -8,7 +8,6 @@ import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
-import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
@@ -281,7 +280,7 @@ class FeaturedEventText extends StatelessWidget {
             child: AutoSizeText('Get Your Ticket', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
               final overviewLinkType = OverviewLinkType(event);
-              NavigationService.navigateTo(EventDetail.routeName,
+              NavigationService.navigateTo(EventDetailPage.routeName,
                   arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
