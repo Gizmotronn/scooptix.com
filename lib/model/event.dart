@@ -1,6 +1,7 @@
+import 'release_manager.dart';
+import 'ticket_release.dart';
 import 'package:ticketapp/model/release_manager.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class Event {
   Event._internal();
@@ -201,8 +202,8 @@ class Event {
 
       return event;
     } catch (e, s) {
-      print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      // print(e);
+      // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }

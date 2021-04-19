@@ -33,10 +33,10 @@ class GeneratedRoute {
 
       case LandingPage.routeName:
         return _navigateTo(routeSettings, LandingPage());
-      case EventDetail.routeName:
+      case EventDetailPage.routeName:
         final id = routeData['id'];
         if (id != null) {
-          return _navigateTo(routeSettings, EventDetail(id: id));
+          return _navigateTo(routeSettings, EventDetailPage(id: id));
         }
         return _navigateTo(routeSettings, ErrorPage('404: Page Not Found'));
 

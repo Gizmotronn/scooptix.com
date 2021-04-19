@@ -1,4 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../model/event.dart';
+import '../model/link_type/advertisementInvite.dart';
+import '../model/link_type/birthdayList.dart';
+import '../model/link_type/link_type.dart';
+import '../model/link_type/promoterInvite.dart';
+import '../model/release_manager.dart';
+import '../model/ticket_release.dart';
+import 'user_repository.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
 import 'package:ticketapp/model/link_type/birthdayList.dart';
@@ -7,7 +15,6 @@ import 'package:ticketapp/model/link_type/promoterInvite.dart';
 import 'package:ticketapp/model/release_manager.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class EventsRepository {
   static EventsRepository _instance;
@@ -106,6 +113,9 @@ class EventsRepository {
               ..advertisementId = uuidMapSnapshot.docs[0].data()["advertisement_id"]
               ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
             break;
+          case LinkTypes.MemberInvite:
+            // TODO: Handle this case.
+            break;
         }
         return linkType;
       } else {
@@ -113,7 +123,7 @@ class EventsRepository {
       }
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }
   }

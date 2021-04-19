@@ -7,10 +7,10 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
-import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
+import '../../../pages/event_details/event_detail_page.dart';
 import '../../theme.dart';
 import '../buttons/card_button.dart';
 
@@ -26,11 +26,10 @@ class EventCard extends StatelessWidget {
           Container(
             width: sizes.isDesktop ? 292 : 292,
             decoration: BoxDecoration(
-              color: MyTheme.appolloWhite,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: MyTheme.appolloGrey.withAlpha(20),
+                  color: MyTheme.appolloDarkBlue.withOpacity(.2),
                   spreadRadius: 5,
                   blurRadius: 10,
                 ),
@@ -94,7 +93,7 @@ class EventCard extends StatelessWidget {
       child: Container(
         height: 35,
         decoration: BoxDecoration(
-          color: isSoldOut ? MyTheme.appolloRed : MyTheme.appolloGreen,
+          color: isSoldOut ? MyTheme.appolloRed : MyTheme.appolloOrange,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
@@ -110,7 +109,7 @@ class EventCard extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), bottomLeft: Radius.circular(12)),
         child: Container(
-          decoration: BoxDecoration(color: MyTheme.appolloWhite),
+          decoration: BoxDecoration(color: MyTheme.appolloCardColor),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,10 +131,10 @@ class EventCard extends StatelessWidget {
                       event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline5
-                          .copyWith(color: MyTheme.appolloGrey, fontSize: sizes.isDesktop ? null : 14),
+                      style: Theme.of(context).textTheme.headline5.copyWith(
+                          color: MyTheme.appolloWhite,
+                          fontWeight: FontWeight.w500,
+                          fontSize: sizes.isDesktop ? null : 14),
                     ).paddingBottom(4),
                   ],
                 ).paddingAll(14),
@@ -143,10 +142,15 @@ class EventCard extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: CardButton(
                     title: 'View Event',
+                    width: null,
+                    deactiveColor: MyTheme.appolloGreen,
+                    activeColor: MyTheme.appolloGreen.withOpacity(.9),
+                    deactiveColorText: MyTheme.appolloDarkBlue,
+                    activeColorText: MyTheme.appolloWhite,
                     onTap: () {
                       final overviewLinkType = OverviewLinkType(event);
                       // NavigationService.navigateTo(EventDetail.routeName);
-                      NavigationService.navigateTo(EventDetail.routeName,
+                      NavigationService.navigateTo(EventDetailPage.routeName,
                           arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
                     },
                   ),
@@ -167,12 +171,20 @@ class EventCard extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               image: ExtendedImage.network(
-                //TODO remove the default image url [It's use for testing]
-                event.coverImageURL ?? 'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
+                event.coverImageURL,
                 cache: true,
+                loadStateChanged: (state) {
+                  switch (state.extendedImageLoadState) {
+                    case LoadState.loading:
+                      return Container(color: Colors.white);
+                    case LoadState.completed:
+                      return state.completedWidget;
+                    default:
+                      return Container(color: Colors.white);
+                  }
+                },
               ).image,
               fit: BoxFit.cover,
-              // colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken),
             ),
           ),
         ),

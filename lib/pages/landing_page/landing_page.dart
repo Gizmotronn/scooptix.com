@@ -21,6 +21,7 @@ class _LandingPageState extends State<LandingPage> {
   void initState() {
     final uri = Uri.parse(window.location.href);
     String uuid = ""; // Use this for normal functionality
+    //String uuid = "jAPHBX"; // Takes you to a test event
     // String uuid = "jAPHBX"; // Takes you to a test event
 
     if (uri.queryParameters.containsKey("id")) {
@@ -57,12 +58,9 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          CircularProgressIndicator().paddingBottom(8),
-        ],
-      ),
+    return Align(
+      alignment: Alignment.center,
+      child: CircularProgressIndicator().paddingBottom(8),
     );
   }
 }

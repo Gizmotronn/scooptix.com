@@ -6,6 +6,14 @@ class Organizer {
 
   Organizer._();
 
+  String getFullName() {
+    if (firstName != null) {
+      return firstName + " " + lastName;
+    } else {
+      return "";
+    }
+  }
+
   factory Organizer.fromMap(String id, Map<String, dynamic> data) {
     Organizer organizer = Organizer._();
 

@@ -6,7 +6,7 @@ import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
-import 'package:ticketapp/UI/widgets/cards/white_card.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
@@ -24,6 +24,8 @@ class ThisWeek extends StatefulWidget {
 
 class _ThisWeekState extends State<ThisWeek> {
   List<Menu> _daysMenu = [];
+  List<double> positions = [];
+
   @override
   void initState() {
     final now = DateTime.now();
@@ -35,10 +37,15 @@ class _ThisWeekState extends State<ThisWeek> {
               DateFormat(DateFormat.DAY, 'en_US')
                   .format(firstDayOfWeek.add(Duration(days: value)))
                   .contains(DateFormat(DateFormat.DAY, 'en_US').format(DateTime.now())),
+              id: value,
               subtitle: ' ${DateFormat(DateFormat.DAY, 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}',
               fullDate: ' ${DateFormat('d MMM y', 'en_US').format(firstDayOfWeek.add(Duration(days: value)))}'),
         )
         .toList();
+
+    _daysMenu.forEach((_) {
+      positions.add(0.0);
+    });
     super.initState();
   }
 
@@ -68,28 +75,30 @@ class _ThisWeekState extends State<ThisWeek> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      WhiteCardWithNoElevation(
-                        boxHeight: (v) {
+                      BoxOffset(
+                        boxOffset: (offset) {
                           setState(() {
-                            _daysMenu[index].pixel = v;
+                            positions[_daysMenu[index].id] = offset.dy;
                           });
                         },
-                        child: Column(
-                          children: [
-                            _eventTags(context,
-                                tag: "${_daysMenu[index].title}'s Events | ${_daysMenu[index].fullDate}"),
-                            AppolloEvents(
-                              events: widget.events
-                                  .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
-                                  .toList(),
-                            ),
-                            HoverAppolloButton(
-                              title: 'See More Events',
-                              color: MyTheme.appolloGreen,
-                              hoverColor: MyTheme.appolloGreen,
-                              fill: false,
-                            ).paddingBottom(16),
-                          ],
+                        child: AppolloBackgroundCard(
+                          child: Column(
+                            children: [
+                              _eventTags(context,
+                                  tag1: "${_daysMenu[index].title}'s Events |", tag2: " ${_daysMenu[index].fullDate}"),
+                              AppolloEvents(
+                                events: widget.events
+                                    .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
+                                    .toList(),
+                              ),
+                              HoverAppolloButton(
+                                title: 'See More Events',
+                                color: MyTheme.appolloGreen,
+                                hoverColor: MyTheme.appolloGreen,
+                                fill: false,
+                              ).paddingBottom(16),
+                            ],
+                          ),
                         ),
                       ),
                       const SizedBox(height: kToolbarHeight),
@@ -104,18 +113,29 @@ class _ThisWeekState extends State<ThisWeek> {
     );
   }
 
-  Widget _eventTags(context, {String tag}) => Container(
+  Widget _eventTags(context, {String tag1, String tag2}) => Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AutoSizeText(tag ?? '', style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGrey)),
+            AutoSizeText.rich(
+                TextSpan(
+                  text: tag1 ?? '',
+                  children: [
+                    TextSpan(
+                      text: " $tag2" ?? '',
+                      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloRed),
+                    ),
+                  ],
+                ),
+                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);
 
   Widget _daysNav() {
-    return WhiteCard(
+    return AppolloCard(
+      color: MyTheme.appolloCardColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: List.generate(
@@ -133,9 +153,8 @@ class _ThisWeekState extends State<ThisWeek> {
                           }
                           _daysMenu[index].isTap = true;
                         });
-
-                        await widget.scrollController.animateTo(_daysMenu[index].pixel + 50,
-                            curve: Curves.linear, duration: Duration(milliseconds: 300));
+                        await widget.scrollController
+                            .animateTo(positions[index], curve: Curves.linear, duration: Duration(milliseconds: 300));
                       },
           ),
         ),

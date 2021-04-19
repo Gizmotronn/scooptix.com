@@ -1,7 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/theme.dart';
+
+import '../../theme.dart';
 
 class AppolloButton {
   static smallRaisedButton({@required Widget child, @required Function onTap, Color color = Colors.white}) => Container(
@@ -57,28 +58,35 @@ class AppolloButton {
           {@required Widget child,
           double labelSize,
           Color color,
+          double minHeight,
+          double maxHeight,
           @required Function onTap,
           bool fill = true,
           bool border = true}) =>
       Container(
         constraints: BoxConstraints(
-          minHeight: 50,
-          maxHeight: 50,
+          minHeight: minHeight ?? 50,
+          maxHeight: maxHeight ?? 50,
           minWidth: 130,
           maxWidth: 200,
         ),
-        child: TextButton(
-          style: TextButton.styleFrom(
-            primary: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
-            ),
+        child: Container(
+          decoration: BoxDecoration(
+            color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
+            borderRadius: BorderRadius.circular(5.0),
           ),
-          onPressed: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: child,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+              ),
+            ),
+            onPressed: onTap,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: child,
+            ),
           ),
         ),
       );
@@ -97,7 +105,7 @@ class AppolloButton {
           minHeight: heightMin ?? 50,
           maxHeight: heightMax ?? 50,
           minWidth: 200,
-          maxWidth: 300,
+          maxWidth: 250,
         ),
         child: Container(
           decoration: BoxDecoration(

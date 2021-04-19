@@ -2,6 +2,12 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
+import '../../pages/authentication/bloc/authentication_bloc.dart';
+import '../../utilities/svg/icon.dart';
+import '../theme.dart';
+import '../widgets/icons/svgicon.dart';
+import '../widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
@@ -11,7 +17,9 @@ import 'package:ticketapp/utilities/svg/icon.dart';
 class EventOverviewAppbar extends StatefulWidget {
   final AuthenticationBloc bloc;
 
-  const EventOverviewAppbar({Key key, this.bloc}) : super(key: key);
+  final Color color;
+
+  const EventOverviewAppbar({Key key, this.bloc, this.color}) : super(key: key);
   @override
   _EventOverviewAppbarState createState() => _EventOverviewAppbarState();
 }
@@ -38,25 +46,25 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         sigmaY: 16,
       ),
       child: Container(
-        height: kToolbarHeight + 20,
-        color: MyTheme.appolloBlack.withAlpha(160),
-        width: screenSize.width,
-        child: Row(
-          children: [
-            _appolloLogo(),
-            Expanded(
-              child: _appolloSearchBar(context, screenSize).paddingHorizontal(18),
-            ),
-            Container(
-              child: Row(children: [
-                _appolloCreateEventDropDown(context).paddingRight(18),
-                _appolloHelpDropDown(context).paddingRight(18),
+          height: kToolbarHeight,
+          color: widget.color ?? MyTheme.appolloDarkBlue,
+          width: screenSize.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  _appolloLogo().paddingHorizontal(50),
+                  _appolloSearchBar(context, screenSize),
+                ],
+              ).paddingVertical(4),
+              Row(children: [
+                _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
+                _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
                 _signInButton(context),
               ]),
-            ),
-          ],
-        ).paddingHorizontal(50).paddingTop(8).paddingBottom(8),
-      ),
+            ],
+          )),
     ));
   }
 
@@ -67,22 +75,24 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         setState(() => isHoverSearchBar = v);
       },
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
         child: BackdropFilter(
           filter: ImageFilter.blur(
             sigmaX: 10,
             sigmaY: 10,
           ),
-          child: Container(
-            height: 30,
+          child: AnimatedContainer(
+            duration: Duration(milliseconds: 300),
+            height: 25,
+            width: screenSize.width * 0.4,
             decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: MyTheme.appolloWhite.withOpacity(.4),
-                      width: 0.2,
+                      color: isHoverSearchBar ? MyTheme.appolloWhite.withOpacity(.8) : Colors.transparent,
+                      width: 1,
                     ),
-                    borderRadius: BorderRadius.circular(2)),
-                color: MyTheme.appolloGrey.withOpacity(.5)),
+                    borderRadius: BorderRadius.circular(4)),
+                color: isHoverSearchBar ? MyTheme.appolloGrey.withOpacity(.5) : MyTheme.appolloDarkBlue),
             child: Stack(
               children: [
                 Row(
@@ -125,8 +135,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         child: Row(
           children: [
             Expanded(
+              flex: 6,
               child: Container(
-                height: 30,
+                height: 25,
                 color: MyTheme.appolloWhite.withAlpha(120),
                 child: Row(
                   children: [
@@ -138,8 +149,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
               ),
             ),
             Expanded(
+              flex: 4,
               child: Container(
-                height: 30,
+                height: 25,
                 color: MyTheme.appolloGreen,
                 child: Center(
                   child: AutoSizeText('Search', style: Theme.of(context).textTheme.button.copyWith(fontSize: 12))
@@ -153,7 +165,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
     );
   }
 
-  _appolloLogo() => Text("appollo",
+  Widget _appolloLogo() => Text("appollo",
       style: MyTheme.lightTextTheme.subtitle1.copyWith(
           fontFamily: "cocon",
           color: Colors.white,
@@ -226,16 +238,21 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         ),
       ));
 
-  Widget _signInButton(context) => Center(
-        child: InkWell(
-          onTap: () {
-            widget.bloc.add(OnTapSignEvent());
-            Scaffold.of(context).openEndDrawer();
-          },
-          child: Text(
-            'Sign In',
-            style:
-                Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloWhite),
+  Widget _signInButton(context) => InkWell(
+        onTap: () {
+          widget.bloc.add(OnTapSignEvent());
+          Scaffold.of(context).openEndDrawer();
+        },
+        child: Container(
+          height: kToolbarHeight,
+          color: MyTheme.appolloGreen,
+          child: Center(
+            child: Text('Login Or Sign Up',
+                    style: Theme.of(context)
+                        .textTheme
+                        .button
+                        .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloDarkBlue))
+                .paddingHorizontal(16),
           ),
         ),
       );

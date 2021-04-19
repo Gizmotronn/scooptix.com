@@ -111,7 +111,7 @@ class EventInfoWidget extends StatelessWidget {
                     children: [
                       SizedBox(
                           width: MyTheme.maxWidth / 3 * 2 - (MyTheme.elementSpacing + MyTheme.cardPadding * 2 + 8) / 2,
-                          child: Container(child: _buildEventInfoText(Axis.horizontal)).appolloCard),
+                          child: Container(child: _buildEventInfoText(Axis.horizontal)).appolloCard()),
                       SizedBox(
                         width: MyTheme.elementSpacing,
                       ),
@@ -160,7 +160,7 @@ class EventInfoWidget extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                              )).appolloCard,
+                              )).appolloCard(),
                             ],
                           )),
                     ],
@@ -168,7 +168,7 @@ class EventInfoWidget extends StatelessWidget {
                 ],
               ),
             ),
-          ).appolloCard,
+          ).appolloCard(),
         ),
       ],
     );

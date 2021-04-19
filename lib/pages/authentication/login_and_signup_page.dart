@@ -10,7 +10,6 @@ import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
 import 'dart:html' as js;
-import 'package:ticketapp/services/validator.dart' as val;
 import 'bloc/authentication_bloc.dart';
 
 class LoginAndSignupPage extends StatefulWidget {
@@ -688,7 +687,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                       )
                     : SizedBox.shrink()),
             autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
-            validator: (v) => val.Validator.validateEmail(_emailController.text),
+            // validator: (v) => val.Validator.validateEmail(_emailController.text),
           ),
         ),
       );
@@ -724,7 +723,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                             width: 0,
                           )),
                 autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
-                validator: (v) => val.Validator.validateEmail(_emailController.text),
+                // validator: (v) => val.Validator.validateEmail(_emailController.text),
               ),
             ),
           ),
@@ -906,7 +905,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               controller: _pwController,
               autofocus: true,
               obscureText: true,
-              validator: (v) => val.Validator.validatePassword(v),
+              // validator: (val) => val.Validator.validatePassword(v),
               autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
               onFieldSubmitted: (v) {
                 if (_pwController.text.length >= 8 && _confirmPwController.text == _pwController.text) {
@@ -974,7 +973,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               controller: _pwController,
               obscureText: true,
               autofocus: true,
-              validator: (v) => val.Validator.validatePassword(v),
+              // validator: (v) => val.Validator.validatePassword(v),
               autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
               onFieldSubmitted: (v) {
                 if (state is StateExistingUserEmail) {

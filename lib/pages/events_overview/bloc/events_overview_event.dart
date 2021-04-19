@@ -13,3 +13,9 @@ class TabberNavEvent extends EventsOverviewEvent {
 
   const TabberNavEvent({this.title, this.index = 0});
 }
+
+class LoadEventDetailEvent extends EventsOverviewEvent {
+  final String id;
+
+  const LoadEventDetailEvent(this.id);
+}

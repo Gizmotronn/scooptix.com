@@ -36,7 +36,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
     return Container(
       height: 50,
       width: MediaQuery.of(context).size.width,
-      color: MyTheme.appolloBlack,
+      color: MyTheme.appolloDarkBlue,
       child: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.8,

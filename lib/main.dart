@@ -53,6 +53,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'appollo - Patron Engagement Technologies',
       theme: MyTheme.theme,
+      // home: EventDetailPage(id: 'Kg95ctLcviH2pOQIdSEr'),
       navigatorKey: NavigationService.navigatorKey,
       onGenerateRoute: GeneratedRoute.onGenerateRoute,
       initialRoute: LandingPage.routeName,

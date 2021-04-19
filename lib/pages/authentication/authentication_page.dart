@@ -129,7 +129,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                             _buildWhyAreYouHere(state),
                                             Container(
                                               child: EventInfoWidget(Axis.vertical, widget.linkType),
-                                            ).appolloCard.paddingBottom(8),
+                                            ).appolloCard().paddingBottom(8),
                                           ],
                                         );
                                       }
@@ -209,7 +209,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                                   textTheme: MyTheme.lightTextTheme,
                                                 ),
                                               ),
-                                            ).appolloCard,
+                                            ).appolloCard(),
                                           ),
                                         ),
                                       ],
