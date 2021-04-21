@@ -100,6 +100,8 @@ class MyTheme {
   static Color appolloCardColor = Color(0xFF14142B);
   static Color appolloCard2Color = Color(0xFF383854);
   static Color appolloCard3Color = Color(0xFF27273D);
+  static Color appolloTextFieldColor = Color(0xFF22223A);
+
 
   static TextTheme lightTextTheme = TextTheme(
       bodyText1: TextStyle(
