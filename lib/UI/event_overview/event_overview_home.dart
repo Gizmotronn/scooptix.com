@@ -14,23 +14,23 @@ import 'package:ticketapp/UI/event_overview/tabs/today_events.dart';
 import 'package:ticketapp/UI/event_overview/tabs/upcoming_event.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewHome extends StatefulWidget {
   final List<Event> events;
   final EventsOverviewBloc bloc;
+  final AuthenticationBloc authBloc;
 
-  const EventOverviewHome({
-    Key key,
-    this.events,
-    this.bloc,
-  }) : super(key: key);
+  const EventOverviewHome({Key key, this.events, this.bloc, this.authBloc}) : super(key: key);
 
   @override
   _EventOverviewHomeState createState() => _EventOverviewHomeState();
 }
 
 class _EventOverviewHomeState extends State<EventOverviewHome> {
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -39,15 +39,13 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            controller: widget.bloc.scrollController,
-            child: Container(
-              child: Column(
-                children: [
-                  _eventOverview(screenSize).paddingBottom(16),
-                  _buildBody(screenSize).paddingBottom(16),
-                  EventOverviewFooter(),
-                ],
-              ),
+            controller: scrollController,
+            child: Column(
+              children: [
+                _eventOverview(screenSize).paddingBottom(16),
+                _buildBody(screenSize).paddingBottom(16),
+                EventOverviewFooter(),
+              ],
             ),
           ),
         ),
@@ -59,19 +57,18 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
     return BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
       cubit: widget.bloc,
       builder: (context, state) {
-        print(state);
         if (state is AllEventsState) {
           return AllEvents(events: state.allEvents, upcomingEvents: state.upcomingEvents);
         } else if (state is FreeEventsState) {
           return FreeEvents(events: state.freeEvents);
         } else if (state is ForMeEventsState) {
-          return EventsForMe();
+          return EventsForMe(bloc: widget.authBloc, scrollController: scrollController);
         } else if (state is TodayEventsState) {
           return TodayEvents(events: state.todayEvents);
         } else if (state is ThisWeekEventsState) {
-          return ThisWeek(events: state.thisWeekEvents, scrollController: widget.bloc.scrollController);
+          return ThisWeek(events: state.thisWeekEvents, scrollController: scrollController);
         } else if (state is ThisWeekendEventsState) {
-          return ThisWeekend(events: state.weekendEvents, scrollController: widget.bloc.scrollController);
+          return ThisWeekend(events: state.weekendEvents, scrollController: scrollController);
         } else if (state is UpcomingEventsState) {
           return UpcomingEvents(events: state.upcomingEvents);
         }
@@ -86,7 +83,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   }
 
   Widget _eventOverview(Size screenSize) => Container(
-        color: MyTheme.appolloDarkBlue,
+        color: MyTheme.appolloBackgroundColor2,
         width: screenSize.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,8 +100,8 @@ class Menu {
   String title;
   String subtitle;
   String fullDate;
-  double position;
-
+  String svgIcon;
   bool isTap;
-  Menu(this.title, this.isTap, {this.id, this.subtitle, this.fullDate, this.position});
+
+  Menu(this.title, this.isTap, {this.id, this.subtitle, this.fullDate, this.svgIcon});
 }

@@ -134,29 +134,25 @@ class _ThisWeekState extends State<ThisWeek> {
       ).paddingHorizontal(16).paddingTop(16);
 
   Widget _daysNav() {
-    return AppolloCard(
-      color: MyTheme.appolloCardColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: List.generate(
-          _daysMenu.length,
-          (index) => SideButton(
-            title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
-            isTap: _daysMenu[index].isTap,
-            onTap:
-                widget.events.where((event) => fullDate(event.date).contains(_daysMenu[index].title)).toList().isEmpty
-                    ? null
-                    : () async {
-                        setState(() {
-                          for (var i = 0; i < _daysMenu.length; i++) {
-                            _daysMenu[i].isTap = false;
-                          }
-                          _daysMenu[index].isTap = true;
-                        });
-                        await widget.scrollController
-                            .animateTo(positions[index], curve: Curves.linear, duration: Duration(milliseconds: 300));
-                      },
-          ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate(
+        _daysMenu.length,
+        (index) => SideButton(
+          title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
+          isTap: _daysMenu[index].isTap,
+          onTap: widget.events.where((event) => fullDate(event.date).contains(_daysMenu[index].title)).toList().isEmpty
+              ? null
+              : () async {
+                  setState(() {
+                    for (var i = 0; i < _daysMenu.length; i++) {
+                      _daysMenu[i].isTap = false;
+                    }
+                    _daysMenu[index].isTap = true;
+                  });
+                  await widget.scrollController
+                      .animateTo(positions[index], curve: Curves.linear, duration: Duration(milliseconds: 300));
+                },
         ),
       ),
     );

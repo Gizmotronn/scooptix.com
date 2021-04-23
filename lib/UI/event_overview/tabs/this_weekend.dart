@@ -117,31 +117,28 @@ class _ThisWeekendState extends State<ThisWeekend> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        AppolloCard(
-          color: MyTheme.appolloCardColor,
-          child: Row(
-            children: List.generate(
-              _weekendMenu.length,
-              (index) => SideButton(
-                title: "${_weekendMenu[index].title} ${_weekendMenu[index].subtitle}",
-                isTap: _weekendMenu[index].isTap,
-                onTap: widget.events
-                        .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
-                        .toList()
-                        .isEmpty
-                    ? null
-                    : () {
-                        setState(() {
-                          for (var i = 0; i < _weekendMenu.length; i++) {
-                            _weekendMenu[i].isTap = false;
-                          }
-                          _weekendMenu[index].isTap = true;
-                        });
+        Row(
+          children: List.generate(
+            _weekendMenu.length,
+            (index) => SideButton(
+              title: "${_weekendMenu[index].title} ${_weekendMenu[index].subtitle}",
+              isTap: _weekendMenu[index].isTap,
+              onTap: widget.events
+                      .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
+                      .toList()
+                      .isEmpty
+                  ? null
+                  : () {
+                      setState(() {
+                        for (var i = 0; i < _weekendMenu.length; i++) {
+                          _weekendMenu[i].isTap = false;
+                        }
+                        _weekendMenu[index].isTap = true;
+                      });
 
-                        widget.scrollController
-                            .animateTo(positions[index], curve: Curves.linear, duration: Duration(milliseconds: 300));
-                      },
-              ),
+                      widget.scrollController
+                          .animateTo(positions[index], curve: Curves.linear, duration: Duration(milliseconds: 300));
+                    },
             ),
           ),
         ),

@@ -60,7 +60,7 @@ class EventDetailNavbar extends StatelessWidget {
                             style: Theme.of(context)
                                 .textTheme
                                 .button
-                                .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloDarkBlue))
+                                .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor))
                         .paddingHorizontal(16),
                   ),
                 ),
@@ -72,7 +72,7 @@ class EventDetailNavbar extends StatelessWidget {
             topLeft: Radius.circular(5),
             topRight: Radius.circular(5),
           ),
-          color: MyTheme.appolloDarkBlue.withAlpha(190),
+          color: MyTheme.appolloBackgroundColor.withAlpha(190),
         ),
       ),
     );

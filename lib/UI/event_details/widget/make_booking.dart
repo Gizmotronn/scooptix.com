@@ -1,14 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ticketapp/pages/event_details/widget/event_title.dart';
-
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/appollo/appolloDivider.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
 import '../../../utilities/svg/icon.dart';
+import 'event_title.dart';
 
 class MakeBooking extends StatelessWidget {
   const MakeBooking({
@@ -216,7 +215,8 @@ class MakeBooking extends StatelessWidget {
                               color: MyTheme.appolloGreen,
                               child: AutoSizeText(
                                 'CREATE BIRTHDAY LIST',
-                                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloDarkBlue),
+                                style:
+                                    Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                               ),
                               onTap: () {},
                             ),

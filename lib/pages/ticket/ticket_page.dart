@@ -47,7 +47,6 @@ class _TicketPageState extends State<TicketPage> {
       child: BlocBuilder<TicketBloc, TicketState>(
           cubit: bloc,
           builder: (c, state) {
-            print(state);
             if (state is StateInvitationAccepted) {
               return SizedBox(
                 width: MyTheme.maxWidth,

@@ -93,7 +93,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
               color: textFieldState == AppolloTextfieldState.hover ||
                       textFieldState == AppolloTextfieldState.typing ||
                       textFieldState == AppolloTextfieldState.error
-                  ? MyTheme.appolloDarkBlue
+                  ? MyTheme.appolloBackgroundColor
                   : MyTheme.appolloTextFieldColor,
               border: Border.all(
                 width: 0.8,

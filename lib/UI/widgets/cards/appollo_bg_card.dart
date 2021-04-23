@@ -35,7 +35,7 @@ class AppolloBackgroundCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: MyTheme.appolloCard2Color,
+        color: MyTheme.appolloBackgroundColor2,
         borderRadius: BorderRadius.circular(12),
       ),
       child: child,

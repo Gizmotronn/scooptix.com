@@ -47,10 +47,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else if (event is EventSSOEmailsConfirmed) {
       // SSO doesn't require a password so go straight to the PWConfirmed state
       yield StatePasswordsConfirmed(event.uid);
-    } else if (event is OnTapCloseSignEvent) {
-      yield StateInitial();
-    } else if (event is OnTapSignEvent) {
-      yield SignInState();
     }
   }
 

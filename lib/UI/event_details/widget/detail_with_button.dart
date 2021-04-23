@@ -56,7 +56,7 @@ class EventDetailWithButtons extends StatelessWidget {
                     text: 'Organised by',
                     children: [
                       TextSpan(
-                          text: ' ${organizer.getFullName()}',
+                          text: ' ${organizer?.getFullName() ?? ''}',
                           style: Theme.of(context)
                               .textTheme
                               .caption
@@ -73,11 +73,12 @@ class EventDetailWithButtons extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               EventDetailTitle('Event Details').paddingBottom(MyTheme.cardPadding),
-              IconText(text: event.address, icon: AppolloSvgIcon.pin).paddingBottom(8),
-              IconText(text: '${time(event.date)} - ${time(event.endTime)}', icon: AppolloSvgIcon.clock)
+              IconText(text: event.address ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
+              IconText(text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}', icon: AppolloSvgIcon.clock)
                   .paddingBottom(8),
               IconText(
-                  text: 'Ticket Price: ${money(event.getAllReleases()?.first?.price) ?? '\$0.0'} - BF',
+                  text:
+                      'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price)} - BF',
                   icon: AppolloSvgIcon.ticket),
             ],
           )

@@ -45,7 +45,7 @@ class BookingCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   'Make A Booking',
-                  style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloDarkBlue),
+                  style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                 ),
               ),
               onTap: () {},

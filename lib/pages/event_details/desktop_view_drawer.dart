@@ -25,8 +25,6 @@ class DesktopViewDrawer extends StatefulWidget {
 }
 
 class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
-  final double drawerWidth = 500;
-
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -40,8 +38,8 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
               labelStyle: MyTheme.darkTextTheme.bodyText1,
               enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80))))),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding * 1.5),
-        width: drawerWidth,
+        padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),
+        width: MyTheme.drawerSize,
         height: screenSize.height,
         decoration: ShapeDecoration(
             color: Colors.white,
@@ -87,10 +85,10 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 SizedBox(
-                                  width: drawerWidth / 1.7,
+                                  width: MyTheme.drawerSize / 1.7,
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                                     SizedBox(
-                                      width: drawerWidth / 1.7,
+                                      width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
                                         "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
                                         maxLines: 1,
@@ -98,7 +96,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                       ),
                                     ),
                                     SizedBox(
-                                      width: drawerWidth / 1.7,
+                                      width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
                                         "${UserRepository.instance.currentUser.email}",
                                         maxLines: 1,

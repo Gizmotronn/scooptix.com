@@ -29,7 +29,7 @@ class EventCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: MyTheme.appolloDarkBlue.withOpacity(.2),
+                  color: MyTheme.appolloBackgroundColor2.withOpacity(.2),
                   spreadRadius: 5,
                   blurRadius: 10,
                 ),
@@ -74,12 +74,12 @@ class EventCard extends StatelessWidget {
     int maxPrice = prices.isNotEmpty ? prices.last : 0;
 
     bool checkSamePrice = minPrice == maxPrice;
-    final bothPrice = "\$$minPrice - \$$maxPrice";
+    final bothPrice = "\$${(minPrice / 100).toStringAsFixed(2)} - \$${(maxPrice / 100).toStringAsFixed(2)}";
     return Builder(
       builder: (context) {
         return _buildTag(
           context,
-          tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$$maxPrice" : bothPrice),
+          tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$${(maxPrice / 100).toStringAsFixed(2)}" : bothPrice),
           isSoldOut: isSoldOut,
         );
       },
@@ -87,13 +87,23 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _buildTag(BuildContext context, {String tag, bool isSoldOut = false}) {
+    Color buildColor() {
+      if (tag == 'Free') {
+        return MyTheme.appolloGreen;
+      } else if (isSoldOut) {
+        return MyTheme.appolloRed;
+      } else {
+        return MyTheme.appolloOrange;
+      }
+    }
+
     return Positioned(
       right: 0,
       top: 30,
       child: Container(
         height: 35,
         decoration: BoxDecoration(
-          color: isSoldOut ? MyTheme.appolloRed : MyTheme.appolloOrange,
+          color: buildColor(),
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
@@ -145,7 +155,7 @@ class EventCard extends StatelessWidget {
                     width: null,
                     deactiveColor: MyTheme.appolloGreen,
                     activeColor: MyTheme.appolloGreen.withOpacity(.9),
-                    deactiveColorText: MyTheme.appolloDarkBlue,
+                    deactiveColorText: MyTheme.appolloBackgroundColor,
                     activeColorText: MyTheme.appolloWhite,
                     onTap: () {
                       final overviewLinkType = OverviewLinkType(event);
@@ -167,27 +177,31 @@ class EventCard extends StatelessWidget {
     return Flexible(
       child: ClipRRect(
         borderRadius: BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
-        child: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: ExtendedImage.network(
-                event.coverImageURL,
-                cache: true,
-                loadStateChanged: (state) {
-                  switch (state.extendedImageLoadState) {
-                    case LoadState.loading:
-                      return Container(color: Colors.white);
-                    case LoadState.completed:
-                      return state.completedWidget;
-                    default:
-                      return Container(color: Colors.white);
-                  }
-                },
-              ).image,
-              fit: BoxFit.cover,
-            ),
-          ),
-        ),
+        child: event.coverImageURL == null
+            ? SizedBox()
+            : Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: ExtendedImage.network(
+                      event.coverImageURL,
+                      cache: true,
+                      loadStateChanged: (state) {
+                        switch (state.extendedImageLoadState) {
+                          case LoadState.loading:
+                            return Container(color: Colors.white);
+                          case LoadState.completed:
+                            return state.completedWidget;
+                          case LoadState.failed:
+                            return Container(color: Colors.white);
+                          default:
+                            return Container(color: Colors.white);
+                        }
+                      },
+                    ).image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
       ),
     );
   }

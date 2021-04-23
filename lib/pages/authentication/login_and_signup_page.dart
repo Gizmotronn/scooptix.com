@@ -90,7 +90,6 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
 
   /// Creates the buttons at the bottom allowing user to proceed or return to previous states
   Widget _buildMainButtons(AuthenticationState state, Size screenSize) {
-    print(state);
     if (state is StateLoadingLogin) {
       return ResponsiveBuilder(builder: (context, constraints) {
         if (constraints.deviceScreenType == DeviceScreenType.mobile ||
@@ -617,7 +616,6 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     InkWell(
                         onTap: () {
                           Navigator.pop(context);
-                          widget.bloc.add(OnTapCloseSignEvent());
                         },
                         child: Icon(
                           Icons.close,

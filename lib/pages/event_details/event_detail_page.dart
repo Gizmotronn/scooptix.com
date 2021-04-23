@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/event_details/widget/event_details.dart';
+import 'package:ticketapp/UI/event_details/widget/event_nav_bar.dart';
 
 import '../../UI/event_overview/event_top_nav.dart';
 import '../../UI/theme.dart';
 import '../../UI/widgets/backgrounds/events_details_background.dart';
 import '../authentication/bloc/authentication_bloc.dart';
 import '../error_page.dart';
-import 'widget/event_details.dart';
-import 'widget/event_nav_bar.dart';
 import '../events_overview/bloc/events_overview_bloc.dart';
 
 class EventDetailPage extends StatefulWidget {
@@ -79,7 +79,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                     ),
                   ),
                   EventDetailNavbar(event: state.event),
-                  EventOverviewAppbar(bloc: signUpBloc, color: MyTheme.appolloDarkBlue),
+                  EventOverviewAppbar(bloc: signUpBloc, color: MyTheme.appolloBackgroundColor),
                 ],
               );
             }

@@ -7,12 +7,14 @@ class SideButton extends StatelessWidget {
   final String title;
   final bool isTap;
   final Function onTap;
+  final Widget icon;
 
   const SideButton({
     Key key,
     this.title,
-    this.isTap,
+    this.isTap = false,
     this.onTap,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -22,17 +24,25 @@ class SideButton extends StatelessWidget {
       child: ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
           height: size.deviceScreenType == DeviceScreenType.desktop ? 35 : 25,
-          child: Center(
-            child: AutoSizeText(
-              title ?? '',
-              style: Theme.of(context).textTheme.button.copyWith(
-                  fontSize: size.deviceScreenType == DeviceScreenType.desktop ? null : 12,
-                  color: isTap
-                      ? MyTheme.appolloGreen
-                      : onTap == null
-                          ? MyTheme.appolloDimGrey
-                          : MyTheme.appolloWhite),
-            ).paddingHorizontal(8),
+          child: Row(
+            children: [
+              icon ?? SizedBox(),
+              AutoSizeText(
+                title ?? '',
+                style: Theme.of(context).textTheme.button.copyWith(
+                    fontSize: 10.5,
+                    fontWeight: isTap
+                        ? FontWeight.w500
+                        : onTap == null
+                            ? FontWeight.w300
+                            : FontWeight.w400,
+                    color: isTap
+                        ? MyTheme.appolloGreen
+                        : onTap == null
+                            ? MyTheme.appolloDimGrey
+                            : MyTheme.appolloWhite),
+              ).paddingHorizontal(8),
+            ],
           ),
         );
       }),
