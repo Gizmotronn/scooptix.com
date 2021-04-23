@@ -3,13 +3,12 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
-import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
@@ -144,26 +143,21 @@ class EventCard extends StatelessWidget {
                                 .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
                           ).paddingBottom(8),
                         ),
-                        BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                          cubit: context.watch<AuthenticationBloc>(),
-                          builder: (context, state) {
-                            return FavoriteHeartButton(
-                              onTap: (v) {
-                                if (!v) {
-                                  if (state is StateInitial) {
-                                    Scaffold.of(context).openEndDrawer();
-                                  } else {
-                                    print('Event added to favorite');
+                        FavoriteHeartButton(
+                          onTap: (v) {
+                            if (!v) {
+                              if (UserRepository.instance.currentUser == null) {
+                                Scaffold.of(context).openEndDrawer();
+                              } else {
+                                print('Event added to favorite');
 
-                                    ///TODO Add event as favorite to user
-                                  }
-                                }
-                              },
-                              enable: state is StateLoggedIn ? true : false,
-                              //TODO if event is favorited, should pass true
-                              isFavorite: false,
-                            );
+                                ///TODO Add event as favorite to user
+                              }
+                            }
                           },
+                          enable: UserRepository.instance.currentUser != null ? true : false,
+                          //TODO if event is favorited, should pass true
+                          isFavorite: false,
                         ),
                       ],
                     ),
