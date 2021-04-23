@@ -59,7 +59,10 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
           height: screenSize.height,
           child: Stack(
             children: [
-              EventOverviewHome(bloc: bloc, authBloc: signUpBloc, events: widget.events),
+              BlocProvider.value(
+                value: signUpBloc,
+                child: EventOverviewHome(bloc: bloc, authBloc: signUpBloc, events: widget.events),
+              ),
 
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),

@@ -5,8 +5,10 @@ import '../../theme.dart';
 class FavoriteHeartButton extends StatefulWidget {
   final bool isFavorite;
   final Function(bool) onTap;
+  final bool enable;
 
-  const FavoriteHeartButton({Key key, @required this.isFavorite, @required this.onTap}) : super(key: key);
+  const FavoriteHeartButton({Key key, @required this.isFavorite, @required this.onTap, @required this.enable})
+      : super(key: key);
   @override
   _FavoriteHeartButtonState createState() => _FavoriteHeartButtonState();
 }
@@ -32,10 +34,8 @@ class _FavoriteHeartButtonState extends State<FavoriteHeartButton> with SingleTi
     if (widget.isFavorite) {
       _animationController.forward();
       isFavorite = true;
-      widget.onTap(isFavorite);
     } else {
       isFavorite = false;
-      widget.onTap(isFavorite);
     }
 
     _animationController.addListener(() {
@@ -67,14 +67,17 @@ class _FavoriteHeartButtonState extends State<FavoriteHeartButton> with SingleTi
                 color: _colorAnimation.value,
                 size: _sizeAnimation.value,
               ),
+              onTapDown: widget.enable
+                  ? (v) {
+                      if (isFavorite) {
+                        _animationController.reverse();
+                      } else {
+                        _animationController.forward();
+                      }
+                    }
+                  : null,
               onTap: () async {
-                if (isFavorite) {
-                  _animationController.reverse();
-                  widget.onTap(isFavorite);
-                } else {
-                  _animationController.forward();
-                  widget.onTap(isFavorite);
-                }
+                widget.onTap(isFavorite);
               }),
         );
       },
