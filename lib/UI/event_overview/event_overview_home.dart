@@ -43,7 +43,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
             child: Column(
               children: [
                 _eventOverview(screenSize).paddingBottom(16),
-                _buildBody(screenSize).paddingBottom(16),
+                _buildBody(context, screenSize).paddingBottom(16),
                 EventOverviewFooter(),
               ],
             ),
@@ -53,7 +53,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
     );
   }
 
-  Widget _buildBody(screenSize) {
+  Widget _buildBody(BuildContext context, Size screenSize) {
     return BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
       cubit: widget.bloc,
       builder: (context, state) {
