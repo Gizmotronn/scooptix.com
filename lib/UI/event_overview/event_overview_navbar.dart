@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/buttons/navbutton.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
-import '../theme.dart';
 import 'event_overview_home.dart';
 
 class EventOverviewNavigationBar extends StatefulWidget {
@@ -36,7 +35,6 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
     return Container(
       height: 50,
       width: MediaQuery.of(context).size.width,
-      color: MyTheme.appolloDarkBlue,
       child: Center(
         child: Container(
           width: MediaQuery.of(context).size.width * 0.8,

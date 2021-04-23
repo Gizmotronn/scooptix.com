@@ -59,7 +59,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
           height: screenSize.height,
           child: Stack(
             children: [
-              EventOverviewHome(bloc: bloc, events: widget.events),
+              EventOverviewHome(bloc: bloc, authBloc: signUpBloc, events: widget.events),
 
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),
@@ -92,7 +92,7 @@ class _BlurBackgroundState extends State<BlurBackground> {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       cubit: widget.bloc,
       builder: (context, state) {
-        if (state is SignInState) {
+        /*if (state is SignInState) {
           return InkWell(
             onTap: () {
               widget.bloc.add(OnTapCloseSignEvent());
@@ -108,9 +108,9 @@ class _BlurBackgroundState extends State<BlurBackground> {
               ),
             ),
           );
-        } else {
-          return Container();
-        }
+        } else {*/
+        return Container();
+        //}
       },
     );
   }

@@ -483,7 +483,6 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   Widget _buildTicketOverview(StatePaymentOptionAvailable state) {
-    print(state);
     return Column(
         crossAxisAlignment: getValueForScreenType(
             context: context,

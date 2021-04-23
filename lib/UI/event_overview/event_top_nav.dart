@@ -1,7 +1,11 @@
 import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticketapp/UI/event_overview/side_buttons.dart';
+import 'package:ticketapp/model/user.dart';
 
 import '../../pages/authentication/bloc/authentication_bloc.dart';
 import '../../utilities/svg/icon.dart';
@@ -47,7 +51,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
       ),
       child: Container(
           height: kToolbarHeight,
-          color: widget.color ?? MyTheme.appolloDarkBlue,
+          color: widget.color ?? MyTheme.appolloBackgroundColor,
           width: screenSize.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,11 +62,50 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                   _appolloSearchBar(context, screenSize),
                 ],
               ).paddingVertical(4),
-              Row(children: [
-                _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
-                _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
-                _signInButton(context),
-              ]),
+              BlocBuilder<AuthenticationBloc, AuthenticationState>(
+                  cubit: widget.bloc,
+                  builder: (context, state) {
+                    if (state is StateLoggedIn) {
+                      return Row(
+                        children: [
+                          Badge(
+                              badgeContent: Text('10'),
+                              showBadge: true,
+                              alignment: Alignment.topRight,
+                              position: BadgePosition.topEnd(end: 5),
+                              child: SideButton(title: 'Anouncement', onTap: () {}).paddingRight(8)),
+                          Badge(
+                              badgeContent: Text('5'),
+                              showBadge: true,
+                              alignment: Alignment.topRight,
+                              position: BadgePosition.topEnd(end: 5),
+                              child: SideButton(title: 'My Reminder', onTap: () {}).paddingRight(8)),
+                          Badge(
+                              badgeContent: Text('0'),
+                              showBadge: false,
+                              alignment: Alignment.topRight,
+                              position: BadgePosition.topEnd(end: 5),
+                              child: SideButton(title: 'My Rewards', onTap: () {}).paddingRight(8)),
+                          Badge(
+                              badgeContent: Text('0'),
+                              showBadge: false,
+                              alignment: Alignment.topRight,
+                              position: BadgePosition.topEnd(end: 5),
+                              child: SideButton(title: 'My Tickets', onTap: () {}).paddingRight(8)),
+                          _appolloCreateEventDropDown(context).paddingRight(8),
+                          _appolloHelpDropDown(context).paddingRight(16),
+                          _showUserAvatar(context, User()).paddingRight(50),
+                        ],
+                      ).paddingVertical(4);
+                    }
+                    return Row(
+                      children: [
+                        _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
+                        _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
+                        _signInButton(context),
+                      ],
+                    );
+                  }),
             ],
           )),
     ));
@@ -92,7 +135,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(4)),
-                color: isHoverSearchBar ? MyTheme.appolloGrey.withOpacity(.5) : MyTheme.appolloDarkBlue),
+                color: isHoverSearchBar ? MyTheme.appolloGrey.withOpacity(.5) : MyTheme.appolloBackgroundColor),
             child: Stack(
               children: [
                 Row(
@@ -199,7 +242,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         child: PopupButton(
           title: Text(
             'Create Event',
-            style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
           ),
           icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
         ),
@@ -232,7 +275,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         child: PopupButton(
           title: Text(
             'Help',
-            style: Theme.of(context).textTheme.button.copyWith(fontWeight: FontWeight.w500),
+            style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
           ),
           icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
         ),
@@ -240,7 +283,6 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
 
   Widget _signInButton(context) => InkWell(
         onTap: () {
-          widget.bloc.add(OnTapSignEvent());
           Scaffold.of(context).openEndDrawer();
         },
         child: Container(
@@ -251,9 +293,27 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                     style: Theme.of(context)
                         .textTheme
                         .button
-                        .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloDarkBlue))
+                        .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor))
                 .paddingHorizontal(16),
           ),
+        ),
+      );
+
+  Widget _showUserAvatar(BuildContext context, User user) => InkWell(
+        onTap: () {},
+        child: Row(
+          children: [
+            Text('Test User',
+                    style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400))
+                .paddingRight(16),
+            SizedBox(
+              width: 50,
+              child: CircleAvatar(
+                radius: 50,
+                // backgroundImage: user ?? ExtendedImage.asset(user.profileImageURL).image,
+              ),
+            ),
+          ],
         ),
       );
 }

@@ -19,14 +19,9 @@ part 'events_overview_state.dart';
 class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> {
   Event selectedEvent;
 
-  ScrollController _scrollcontroller = ScrollController();
-
-  ScrollController get scrollController => _scrollcontroller;
-
   EventsOverviewBloc() : super(LoadingEventsState());
   @override
   Future<void> close() {
-    _scrollcontroller.dispose();
     EventsRepository.instance.dispose();
     return super.close();
   }

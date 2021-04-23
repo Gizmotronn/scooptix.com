@@ -51,7 +51,7 @@ extension AppolloCards on Container {
           filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
           child: Container(
             decoration: ShapeDecoration(
-              color: color ?? MyTheme.appolloCard3Color.withAlpha(190),
+              color: color ?? MyTheme.appolloBackgroundColor2.withAlpha(190),
               shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5))),
             ),
             child: this.child,
@@ -64,7 +64,7 @@ extension AppolloCards on Container {
   Container appolloTransparentCard({Color color, BorderRadiusGeometry borderRadius}) {
     return Container(
       decoration: ShapeDecoration(
-          color: color ?? MyTheme.appolloCard3Color.withAlpha(200),
+          color: color ?? MyTheme.appolloBackgroundColor2.withAlpha(200),
           shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)))),
       child: this.child,
     );
@@ -75,7 +75,7 @@ class MyTheme {
   static double maxWidth = 1080.0;
   static double elementSpacing = 20.0;
   static double cardPadding = 32;
-  static double drawerSize = 500;
+  static double drawerSize = 420;
 
   static Duration animationDuration = Duration(milliseconds: 300);
 
@@ -95,13 +95,10 @@ class MyTheme {
   static Color appolloWhite = Color(0xFFFFFFFF);
   static Color appolloDimGrey = Color(0xFFCDD3E1);
   static Color appolloLightGrey = Color(0xFFEFF2F7);
-  static Color appolloDarkBlue = Color(0xFF14142B);
-  static Color appolloBackgroundColor = Color(0xFF21223B);
-  static Color appolloCardColor = Color(0xFF14142B);
-  static Color appolloCard2Color = Color(0xFF383854);
-  static Color appolloCard3Color = Color(0xFF27273D);
+  static Color appolloBackgroundColor = Color(0xFF14142B);
+  static Color appolloBackgroundColor2 = Color(0xFF21223B);
+  static Color appolloCardColor = Color(0xFF2B2B57);
   static Color appolloTextFieldColor = Color(0xFF22223A);
-
 
   static TextTheme lightTextTheme = TextTheme(
       bodyText1: TextStyle(

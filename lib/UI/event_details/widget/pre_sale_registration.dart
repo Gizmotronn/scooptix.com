@@ -60,21 +60,22 @@ class PreSaleRegistration extends StatelessWidget {
                 children: [
                   Expanded(
                       child: AppolloSmallCounter(
-                          duration: _duration(event.date),
+                          duration: _duration(event?.date ?? DateTime.now()),
                           countDownType:
                               _duration(event.date).inDays <= 1 ? CountDownType.inHours : CountDownType.inDays)),
                   const SizedBox(width: 4),
                   Expanded(
                       child: AppolloSmallCounter(
-                          duration: _duration(event.date),
+                          duration: _duration(event.date ?? DateTime.now()),
                           countDownType:
                               _duration(event.date).inDays <= 1 ? CountDownType.inMinutes : CountDownType.inHours)),
                   const SizedBox(width: 4),
                   Expanded(
                       child: AppolloSmallCounter(
-                          duration: _duration(event.date),
-                          countDownType:
-                              _duration(event.date).inDays <= 1 ? CountDownType.inSeconds : CountDownType.inMinutes)),
+                          duration: _duration(event.date ?? DateTime.now()),
+                          countDownType: _duration(event.date ?? DateTime.now()).inDays <= 1
+                              ? CountDownType.inSeconds
+                              : CountDownType.inMinutes)),
                 ],
               ).paddingAll(4),
             ).appolloCard(),
@@ -85,7 +86,7 @@ class PreSaleRegistration extends StatelessWidget {
             child: Center(
               child: Text(
                 'REGISTER FOR PRE-SALE',
-                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloDarkBlue),
+                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
               ),
             ),
             onTap: () {},
@@ -101,7 +102,7 @@ class PreSaleRegistration extends StatelessWidget {
             child: Center(
               child: Text(
                 'REGISTER FOR PRE-SALE',
-                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloDarkBlue),
+                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
               ),
             ),
             onTap: () {},

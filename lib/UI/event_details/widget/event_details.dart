@@ -6,11 +6,11 @@ import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/organizer.dart';
-import 'package:ticketapp/pages/event_details/widget/detail_with_button.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/side_buttons.dart';
 import '../../../model/event.dart';
 import 'counter.dart';
+import 'detail_with_button.dart';
 import 'event_description.dart';
 import 'event_gallery.dart';
 import 'event_title.dart';
@@ -62,46 +62,28 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
         child: Column(
           children: [
             BoxOffset(
-              boxOffset: (offset) {
-                setState(() {
-                  positions[0] = offset.dy;
-                });
-              },
+              boxOffset: (offset) => setState(() => positions[0] = offset.dy),
               child: _buildEventDetailWithCountdown(context),
             ),
             BoxOffset(
-              boxOffset: (offset) {
-                setState(() {
-                  positions[1] = offset.dy;
-                });
-              },
+              boxOffset: (offset) => setState(() => positions[1] = offset.dy),
               child: EventDescription(event: widget.event),
             ),
             BoxOffset(
-              boxOffset: (offset) {
-                setState(() {
-                  positions[2] = offset.dy;
-                });
-              },
+              boxOffset: (offset) => setState(() => positions[2] = offset.dy),
               child: PreSaleRegistration(event: widget.event),
             ),
             BoxOffset(
-              boxOffset: (offset) {
-                setState(() {
-                  positions[3] = offset.dy;
-                });
-              },
+              boxOffset: (offset) => setState(() => positions[3] = offset.dy),
               child: MakeBooking(event: widget.event),
             ),
             BoxOffset(
-              boxOffset: (offset) {
-                positions[4] = offset.dy;
-              },
+              boxOffset: (offset) => setState(() => positions[4] = offset.dy),
               child: EventGallary(event: widget.event),
             ),
           ],
         ).paddingAll(MyTheme.cardPadding),
-      ).appolloCard(color: MyTheme.appolloDarkBlue);
+      ).appolloCard(color: MyTheme.appolloBackgroundColor);
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {
     return Container(
@@ -135,7 +117,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
             child: Center(
               child: Text(
                 'REMIND ME',
-                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloDarkBlue),
+                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
               ),
             ),
             onTap: () {},
@@ -223,7 +205,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
                   ),
                 ),
               ).paddingAll(8),
-            ).appolloCard(color: MyTheme.appolloDarkBlue.withAlpha(190)),
+            ).appolloCard(color: MyTheme.appolloBackgroundColor.withAlpha(190)),
             SizedBox(height: MyTheme.cardPadding),
             InkWell(
               onTap: () {
