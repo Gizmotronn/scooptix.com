@@ -10,7 +10,7 @@ class EventOverviewFooter extends StatelessWidget {
 
   final List<List<String>> info = [
     ['How it works', 'Pricing', 'Sell Tickets', 'FAQ', 'Sitemap'],
-    ['Mobile app', 'Scanner app', 'For Organisers', 'For large events', 'Event Management'],
+    ['Loyalty Member App', 'Scanner App', 'For Organisers', 'For large events', 'Event Management'],
     ['Event Planning', 'Why choose appollo', 'Blog', 'Privacy Policy', 'Terms of Service'],
     ['About', 'Help', 'Careers', 'Prices', 'Investors'],
     ['Contact Support', 'Facebook', 'Instagram', 'Twitter', 'LinkedIn'],

@@ -12,7 +12,7 @@ class AppolloEvents extends StatelessWidget {
   Widget build(BuildContext context) {
     return Align(
       // alignment: events.length < 2 ? Alignment.topLeft : Alignment.topCenter,
-      alignment: Alignment.topLeft,
+      alignment: Alignment.topCenter,
       child: Wrap(
         children: events.map((event) => EventCard(event: event)).toList(),
       ).paddingAll(6),

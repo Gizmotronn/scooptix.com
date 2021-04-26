@@ -6,12 +6,12 @@ import '../../theme.dart';
 
 class SideButton extends StatelessWidget {
   final String title;
-  final bool isTap;
+  final bool highlight;
   final Function onTap;
   final Color activeColor;
   final Color disableColor;
 
-  const SideButton({Key key, this.title, this.isTap, this.onTap, this.activeColor, this.disableColor})
+  const SideButton({Key key, this.title, this.highlight, this.onTap, this.activeColor, this.disableColor})
       : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class SideButton extends StatelessWidget {
               title ?? '',
               style: Theme.of(context).textTheme.button.copyWith(
                   fontSize: size.deviceScreenType == DeviceScreenType.desktop ? null : 12,
-                  color: isTap
+                  color: highlight
                       ? active
                       : onTap == null
                           ? MyTheme.appolloDimGrey

@@ -3,6 +3,18 @@ import 'ticket_release.dart';
 import 'package:ticketapp/model/release_manager.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 
+enum EventOccurrence { Single, Recurring }
+
+extension EventOccurrenceExtension on EventOccurrence {
+  String toDBString() {
+    return this.toString().split(".")[1].toLowerCase();
+  }
+
+  String toDisplayString() {
+    return this.toString().split(".")[1];
+  }
+}
+
 class Event {
   Event._internal();
 
@@ -17,7 +29,8 @@ class Event {
   String promoter;
   String organizer;
   String contactEmail;
-  String repetitionId;
+  String recurringEventId;
+
   DateTime date;
   DateTime endTime;
   List<String> tags = <String>[];
@@ -32,6 +45,7 @@ class Event {
   String invitationMessage = "";
   String ticketCheckoutMessage;
   double feePercent = 10.0;
+  EventOccurrence occurrence;
 
   List<TicketRelease> getTicketReleases() {
     List<TicketRelease> release = [];
@@ -170,8 +184,11 @@ class Event {
       if (data.containsKey("contactemail")) {
         event.contactEmail = data["contactemail"];
       }
-      if (data.containsKey("repetition_id")) {
-        event.repetitionId = data["repetition_id"];
+      if (data.containsKey("recurring_event_id")) {
+        event.recurringEventId = data["recurring_event_id"];
+        event.occurrence = EventOccurrence.Recurring;
+      } else {
+        event.occurrence = EventOccurrence.Single;
       }
       if (data.containsKey("tags")) {
         data["tags"].forEach((s) {

@@ -13,6 +13,9 @@ class EventGallary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (event.images.length == 0) {
+      return SizedBox.shrink();
+    }
     return Container(
       child: Column(
         children: [
@@ -20,7 +23,7 @@ class EventGallary extends StatelessWidget {
           GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: 10,
+              itemCount: event.images.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4,
                 mainAxisSpacing: MyTheme.cardPadding * 2,
@@ -29,7 +32,7 @@ class EventGallary extends StatelessWidget {
               itemBuilder: (ctx, index) => Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
-                      child: ExtendedImage.network(event.coverImageURL ?? "", cache: true, fit: BoxFit.cover,
+                      child: ExtendedImage.network(event.images[index] ?? "", cache: true, fit: BoxFit.cover,
                           loadStateChanged: (ExtendedImageState state) {
                         switch (state.extendedImageLoadState) {
                           case LoadState.loading:

@@ -57,6 +57,10 @@ class EventsRepository {
     return event;
   }
 
+  List<Event> getRecurringEvents(String recurringEventId) {
+    return events.where((element) => element.recurringEventId == recurringEventId).toList();
+  }
+
   /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers
   Future<List<TicketRelease>> loadReleasesForManager(String eventId, String rmId) async {
     QuerySnapshot releaseSnapshots = await FirebaseFirestore.instance
