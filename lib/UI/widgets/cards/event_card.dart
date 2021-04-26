@@ -1,25 +1,26 @@
-import 'dart:ui';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
+import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
-import '../../../pages/event_details/event_detail_page.dart';
 import '../../theme.dart';
-import '../buttons/card_button.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
 
   const EventCard({Key key, this.event}) : super(key: key);
+  // var ValueNotifier<User> userValue;
+
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
@@ -143,22 +144,27 @@ class EventCard extends StatelessWidget {
                                 .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
                           ).paddingBottom(8),
                         ),
-                        FavoriteHeartButton(
-                          onTap: (v) {
-                            if (!v) {
-                              if (UserRepository.instance.currentUser == null) {
-                                Scaffold.of(context).openEndDrawer();
-                              } else {
-                                print('Event added to favorite');
+                        ValueListenableBuilder<User>(
+                            valueListenable: ValueNotifier(UserRepository.instance.currentUser),
+                            builder: (context, user, child) {
+                              return FavoriteHeartButton(
+                                onTap: (v) {
+                                  if (!v) {
+                                    if (user == null) {
+                                      Scaffold.of(context).openEndDrawer();
+                                    } else {
+                                      print('Event added to favorite');
+                                      print(user.email);
 
-                                ///TODO Add event as favorite to user
-                              }
-                            }
-                          },
-                          enable: UserRepository.instance.currentUser != null ? true : false,
-                          //TODO if event is favorited, should pass true
-                          isFavorite: false,
-                        ),
+                                      ///TODO Add event as favorite to user
+                                    }
+                                  }
+                                },
+                                enable: user != null ? true : false,
+                                //TODO if event is favorited, should pass true
+                                isFavorite: false,
+                              );
+                            }),
                       ],
                     ),
                     AutoSizeText(
