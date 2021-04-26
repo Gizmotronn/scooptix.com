@@ -1,12 +1,9 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/authentication/auth_view.dart';
 import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/pages/event_details/desktop_view_drawer.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
@@ -51,10 +48,6 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
             child: DesktopViewDrawer(
               bloc: signUpBloc,
               linkType: null,
-              child: AuthView(
-                bloc: signUpBloc,
-                linkType: null,
-              ),
             )),
         endDrawerEnableOpenDragGesture: false,
         backgroundColor: MyTheme.appolloWhite,

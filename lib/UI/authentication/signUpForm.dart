@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
@@ -50,22 +51,26 @@ class _SignUpFormState extends State<SignUpForm> {
 
             Column(
               children: [
-                ReactiveTextField(
+                AppolloTextfield(
+                  labelText: "First Name",
+                  textfieldType: TextFieldType.reactive,
                   formControlName: 'fname',
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide a name',
                   },
-                  decoration: InputDecoration(labelText: "First Name"),
+                  // decoration: InputDecoration(labelText: "First Name"),
                 ),
                 SizedBox(
                   height: 8,
                 ),
-                ReactiveTextField(
+                AppolloTextfield(
+                  labelText: "Last Name",
+                  textfieldType: TextFieldType.reactive,
                   formControlName: 'lname',
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide a name',
                   },
-                  decoration: InputDecoration(labelText: "Last Name"),
+                  // decoration: InputDecoration(labelText: "Last Name"),
                 ),
               ],
             ),
@@ -103,7 +108,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
                             watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
-                        child: ReactiveTextField(
+                        child: AppolloTextfield(
+                          labelText: 'Day',
+                          textfieldType: TextFieldType.reactive,
                           formControlName: 'dobDay',
                           keyboardType: TextInputType.number,
                           validationMessages: (control) => {
@@ -113,10 +120,12 @@ class _SignUpFormState extends State<SignUpForm> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
+                          /*
                           decoration: InputDecoration(
                             hintText: "DD",
                             labelText: 'Day',
                           ),
+                          */
                         ),
                       ),
                       SizedBox(
@@ -126,7 +135,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
                             watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
-                        child: ReactiveTextField(
+                        child: AppolloTextfield(
+                          labelText: 'Month',
+                          textfieldType: TextFieldType.reactive,
                           formControlName: 'dobMonth',
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a month',
@@ -136,10 +147,11 @@ class _SignUpFormState extends State<SignUpForm> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          decoration: InputDecoration(
+                          /* decoration: InputDecoration(
                             hintText: "MM",
                             labelText: 'Month',
                           ),
+                          */
                         ),
                       ),
                       SizedBox(
@@ -149,7 +161,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
                             watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
-                        child: ReactiveTextField(
+                        child: AppolloTextfield(
+                          labelText: 'Year',
+                          textfieldType: TextFieldType.reactive,
                           formControlName: 'dobYear',
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a year',
@@ -160,10 +174,11 @@ class _SignUpFormState extends State<SignUpForm> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly,
                           ],
-                          decoration: InputDecoration(
+                          /*decoration: InputDecoration(
                             hintText: "YYYY",
                             labelText: 'Year',
                           ),
+                          */
                         ),
                       ),
                     ],
