@@ -49,7 +49,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
             ),
           ),
           widget.linkType is MemberInvite &&
-                  (widget.linkType as MemberInvite).promoter.docId == UserRepository.instance.currentUser.firebaseUserID
+                  (widget.linkType as MemberInvite).promoter.docId ==
+                      UserRepository.instance.currentUser().firebaseUserID
               ? Center(child: Text("You can't invite yourself to this event", style: MyTheme.darkTextTheme.bodyText2))
               : SingleChildScrollView(
                   child: TicketPage(widget.linkType, forwardToPayment: widget.forwardToPayment)
@@ -85,7 +86,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                           SizedBox(
                             width: MyTheme.maxWidth / 1.7,
                             child: AutoSizeText(
-                              "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
+                              "${UserRepository.instance.currentUser().firstname} ${UserRepository.instance.currentUser().lastname}",
                               maxLines: 1,
                               style: MyTheme.lightTextTheme.subtitle2,
                             ),
@@ -93,7 +94,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                           SizedBox(
                             width: MyTheme.maxWidth / 1.7,
                             child: AutoSizeText(
-                              "${UserRepository.instance.currentUser.email}",
+                              "${UserRepository.instance.currentUser().email}",
                               maxLines: 1,
                               style: MyTheme.lightTextTheme.bodyText2,
                             ),

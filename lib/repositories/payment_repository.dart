@@ -47,7 +47,7 @@ class PaymentRepository {
         "quantity": quantity.toString(),
         "discount": discount == null ? "" : discount.docId,
         "pmId": !PaymentRepository.instance.saveCreditCard ? PaymentRepository.instance.paymentMethodId : "",
-        "user": UserRepository.instance.currentUser.firebaseUserID
+        "user": UserRepository.instance.currentUser().firebaseUserID
       });
       return response;
     } on Exception catch (ex) {
@@ -62,7 +62,7 @@ class PaymentRepository {
   Future<http.Response> getSetupIntent(bool forceNewPaymentMethod) async {
     try {
       http.Response response = await http.post("https://appollo-devops.web.app/getSetupIntent", body: {
-        "user": UserRepository.instance.currentUser.firebaseUserID,
+        "user": UserRepository.instance.currentUser().firebaseUserID,
         "forceNewPaymentMethod": forceNewPaymentMethod.toString()
       });
       return response;

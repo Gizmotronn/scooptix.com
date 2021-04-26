@@ -26,7 +26,7 @@ class _TicketPageState extends State<TicketPage> {
   @override
   void initState() {
     bloc.add(EventCheckInvitationStatus(
-        UserRepository.instance.currentUser.firebaseUserID, widget.linkType.event, widget.forwardToPayment));
+        UserRepository.instance.currentUser().firebaseUserID, widget.linkType.event, widget.forwardToPayment));
     super.initState();
   }
 
@@ -41,7 +41,7 @@ class _TicketPageState extends State<TicketPage> {
     return WillPopScope(
       onWillPop: () async {
         bloc.add(EventCheckInvitationStatus(
-            UserRepository.instance.currentUser.firebaseUserID, widget.linkType.event, false));
+            UserRepository.instance.currentUser().firebaseUserID, widget.linkType.event, false));
         return false;
       },
       child: BlocBuilder<TicketBloc, TicketState>(

@@ -2,11 +2,14 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/forme_card.dart';
 import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
 import '../event_overview_home.dart';
@@ -73,7 +76,11 @@ class _EventsForMeState extends State<EventsForMe> {
                       child: Column(
                         children: [
                           _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
-                          const SizedBox(height: 300),
+                          AppolloEvents(
+                              events: EventsRepository.instance.events
+                                  .where((element) =>
+                                      UserRepository.instance.currentUser().favourites.contains(element.docID))
+                                  .toList()),
                         ],
                       ),
                     ),

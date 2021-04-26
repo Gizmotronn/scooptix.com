@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/model/promoter.dart';
 import 'package:ticketapp/model/user.dart';
@@ -17,11 +18,15 @@ class UserRepository {
   UserRepository._();
 
   dispose() {
-    currentUser = null;
+    currentUserNotifier.value = null;
     _instance = null;
   }
 
-  User currentUser;
+  ValueNotifier<User> currentUserNotifier = ValueNotifier<User>(null);
+
+  User currentUser() {
+    return currentUserNotifier.value;
+  }
 
   Future<User> createUser(String email, String password, String firstName, String lastName, DateTime dob, Gender gender,
       {String uid}) async {
@@ -30,49 +35,48 @@ class UserRepository {
     if (id == null) {
       return null;
     } else {
-      currentUser = User()
+      currentUserNotifier.value = User()
         ..firebaseUserID = id
         ..firstname = firstName
         ..lastname = lastName
         ..email = email
         ..dob = dob
         ..gender = gender ?? Gender.Unknown;
-      return currentUser;
+      return currentUserNotifier.value;
     }
   }
 
   /// Retrieve user data from the database
   Future<User> getUser(uid) async {
-    currentUser = null;
+    currentUserNotifier.value = null;
     DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(uid).get();
 
     if (!userSnapshot.exists) {
       return null;
     } else {
-      currentUser = User();
-      currentUser.firebaseUserID = userSnapshot.id;
-      currentUser.firstname = userSnapshot.data()["firstname"];
-      currentUser.lastname = userSnapshot.data()["lastname"];
-      currentUser.email = userSnapshot.data()["email"];
-      currentUser.dob = userSnapshot.data().containsKey("dob")
-          ? DateTime.fromMillisecondsSinceEpoch(userSnapshot.data()["dob"].millisecondsSinceEpoch)
-          : null;
-      currentUser.profileImageURL =
-          userSnapshot.data().containsKey("profileimage") ? userSnapshot.data()["profileimage"] : "";
-      currentUser.phone = userSnapshot.data()["phone"];
-      currentUser.role = userSnapshot.data()["role"];
+      currentUserNotifier.value = User()
+        ..firebaseUserID = userSnapshot.id
+        ..firstname = userSnapshot.data()["firstname"]
+        ..lastname = userSnapshot.data()["lastname"]
+        ..email = userSnapshot.data()["email"]
+        ..dob = userSnapshot.data().containsKey("dob")
+            ? DateTime.fromMillisecondsSinceEpoch(userSnapshot.data()["dob"].millisecondsSinceEpoch)
+            : null
+        ..profileImageURL = userSnapshot.data().containsKey("profileimage") ? userSnapshot.data()["profileimage"] : ""
+        ..phone = userSnapshot.data()["phone"]
+        ..role = userSnapshot.data()["role"];
       try {
-        currentUser.gender =
+        currentUserNotifier.value.gender =
             Gender.values.firstWhere((element) => element.toDBString() == userSnapshot.data()["gender"]);
       } catch (_) {
         try {
-          currentUser.gender = Gender.values[userSnapshot.data()["gender"]];
+          currentUserNotifier.value.gender = Gender.values[userSnapshot.data()["gender"]];
         } catch (_) {
-          currentUser.gender = Gender.Unknown;
+          currentUserNotifier.value.gender = Gender.Unknown;
         }
       }
 
-      return currentUser;
+      return currentUserNotifier.value;
     }
   }
 

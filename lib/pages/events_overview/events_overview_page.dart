@@ -23,6 +23,7 @@ class EventOverviewPage extends StatefulWidget {
 class _EventOverviewPageState extends State<EventOverviewPage> {
   AuthenticationBloc signUpBloc;
   EventsOverviewBloc bloc = EventsOverviewBloc();
+  bool drawerOpen = false;
 
   @override
   void initState() {
@@ -42,18 +43,23 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return BlocProvider(
-      create: (_) => bloc,
-      child: Scaffold(
-        endDrawer: BlocProvider.value(
-            value: signUpBloc,
-            child: DesktopViewDrawer(
-              bloc: signUpBloc,
-              linkType: null,
-            )),
-        endDrawerEnableOpenDragGesture: false,
-        backgroundColor: MyTheme.appolloWhite,
-        body: Container(
+    return Scaffold(
+      onEndDrawerChanged: (d) {
+        setState(() {
+          drawerOpen = d;
+        });
+      },
+      endDrawer: BlocProvider.value(
+          value: signUpBloc,
+          child: DesktopViewDrawer(
+            bloc: signUpBloc,
+            linkType: null,
+          )),
+      endDrawerEnableOpenDragGesture: false,
+      backgroundColor: MyTheme.appolloWhite,
+      body: BlocProvider(
+        create: (_) => bloc,
+        child: Container(
           color: MyTheme.appolloBackgroundColor,
           width: screenSize.width,
           height: screenSize.height,
@@ -66,8 +72,8 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
 
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),
+              drawerOpen ? BlurBackground() : SizedBox(),
               EventOverviewAppbar(bloc: signUpBloc),
-              BlurBackground(bloc: signUpBloc)
             ],
           ),
         ),
@@ -77,10 +83,8 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
 }
 
 class BlurBackground extends StatefulWidget {
-  final AuthenticationBloc bloc;
   const BlurBackground({
     Key key,
-    this.bloc,
   }) : super(key: key);
 
   @override
@@ -92,29 +96,16 @@ class _BlurBackgroundState extends State<BlurBackground> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      cubit: widget.bloc,
-      builder: (context, state) {
-        /*if (state is SignInState) {
-          return InkWell(
-            onTap: () {
-              widget.bloc.add(OnTapCloseSignEvent());
-            },
-            child: BackdropFilter(
-              filter: ImageFilter.blur(
-                sigmaX: 16,
-                sigmaY: 16,
-              ),
-              child: Container(
-                width: screenSize.width,
-                height: screenSize.height,
-              ),
-            ),
-          );
-        } else {*/
-        return Container();
-        //}
-      },
+    return BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 16,
+        sigmaY: 16,
+      ),
+      child: Container(
+        color: Colors.transparent,
+        width: screenSize.width,
+        height: screenSize.height,
+      ),
     );
   }
 }

@@ -90,7 +90,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                     SizedBox(
                                       width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
+                                        "${UserRepository.instance.currentUser().firstname} ${UserRepository.instance.currentUser().lastname}",
                                         maxLines: 1,
                                         style: MyTheme.darkTextTheme.headline6,
                                       ),
@@ -98,7 +98,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                     SizedBox(
                                       width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser.email}",
+                                        "${UserRepository.instance.currentUser().email}",
                                         maxLines: 1,
                                         style: MyTheme.darkTextTheme.bodyText2,
                                       ),
@@ -190,7 +190,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                             ),
                             widget.linkType is MemberInvite &&
                                     (widget.linkType as MemberInvite).promoter.docId ==
-                                        UserRepository.instance.currentUser.firebaseUserID
+                                        UserRepository.instance.currentUser().firebaseUserID
                                 ? Center(
                                     child: Text("You can't invite yourself to this event",
                                         style: MyTheme.darkTextTheme.bodyText2))

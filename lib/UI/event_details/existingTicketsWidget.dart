@@ -32,10 +32,10 @@ class _ExistingTicketsWidgetState extends State<ExistingTicketsWidget> {
         String ticketText;
         if (widget.linkType is Booking || widget.linkType is Invitation) {
           ticketText =
-              "Here is your ticket. We've also sent it to ${UserRepository.instance.currentUser.email}. Please note: This event only allows one ticket per person.";
+              "Here is your ticket. We've also sent it to ${UserRepository.instance.currentUser().email}. Please note: This event only allows one ticket per person.";
         } else {
           ticketText =
-              "Here are your previously bought tickets. We've also sent them to ${UserRepository.instance.currentUser.email}.";
+              "Here are your previously bought tickets. We've also sent them to ${UserRepository.instance.currentUser().email}.";
         }
         return Container(
             child: Padding(
@@ -90,11 +90,11 @@ class _ExistingTicketsWidgetState extends State<ExistingTicketsWidget> {
         if (widget.linkType.event.getReleasesWithoutRestriction().length == 0) {
           ticketHeadline = "Invitation Accepted";
           ticketText =
-              "We've sent your ticket to ${UserRepository.instance.currentUser.email}. Please note: This event only allows one ticket per person.";
+              "We've sent your ticket to ${UserRepository.instance.currentUser().email}. Please note: This event only allows one ticket per person.";
         } else {
           ticketHeadline = "Your Tickets";
           ticketText =
-              "You already bought tickets for this event. We've sent them to ${UserRepository.instance.currentUser.email}.";
+              "You already bought tickets for this event. We've sent them to ${UserRepository.instance.currentUser().email}.";
         }
         return SizedBox(
           width: MyTheme.maxWidth,
