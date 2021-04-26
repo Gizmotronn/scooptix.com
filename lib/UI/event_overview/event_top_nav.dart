@@ -63,7 +63,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 ],
               ).paddingVertical(4),
               ValueListenableBuilder<User>(
-                  valueListenable: ValueNotifier<User>(UserRepository.instance.currentUser),
+                  valueListenable: ValueNotifier<User>(UserRepository.instance.currentUserNotifier.value),
                   builder: (context, user, child) {
                     if (user != null) {
                       return Row(

@@ -145,7 +145,7 @@ class EventCard extends StatelessWidget {
                           ).paddingBottom(8),
                         ),
                         ValueListenableBuilder<User>(
-                            valueListenable: ValueNotifier(UserRepository.instance.currentUser),
+                            valueListenable: ValueNotifier(UserRepository.instance.currentUserNotifier.value),
                             builder: (context, user, child) {
                               return FavoriteHeartButton(
                                 onTap: (v) {

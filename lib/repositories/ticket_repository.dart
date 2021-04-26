@@ -110,13 +110,13 @@ class TicketRepository {
           "type": linkType.toString(),
           "ticketnumber": i,
           "valid": true,
-          "requestee": UserRepository.instance.currentUser.firebaseUserID,
+          "requestee": UserRepository.instance.currentUser().firebaseUserID,
           "requesttime": ticket.dateIssued,
-          "useremail": UserRepository.instance.currentUser.email,
-          "firstname": UserRepository.instance.currentUser.firstname,
-          "lastname": UserRepository.instance.currentUser.lastname,
-          "dob": UserRepository.instance.currentUser.dob,
-          "gender": UserRepository.instance.currentUser.gender.toDBString(),
+          "useremail": UserRepository.instance.currentUser().email,
+          "firstname": UserRepository.instance.currentUser().firstname,
+          "lastname": UserRepository.instance.currentUser().lastname,
+          "dob": UserRepository.instance.currentUser().dob,
+          "gender": UserRepository.instance.currentUser().gender.toDBString(),
           if (linkType is Invitation) "promoter": linkType.promoter.docId,
           if (linkType is AdvertisementInvite) "advertisement_id": linkType.advertisementId,
           if (discount != null) "discount_id": discount.docId,
@@ -127,7 +127,7 @@ class TicketRepository {
 
         FirebaseFirestore.instance
             .collection("users")
-            .doc(UserRepository.instance.currentUser.firebaseUserID)
+            .doc(UserRepository.instance.currentUser().firebaseUserID)
             .collection("tickets")
             .doc(ticketDoc.id)
             .set({
@@ -159,7 +159,7 @@ class TicketRepository {
       http.Response response;
       try {
         response = await http.post("https://appollo-devops.web.app/ticketConfirmation", body: {
-          "uid": UserRepository.instance.currentUser.firebaseUserID,
+          "uid": UserRepository.instance.currentUser().firebaseUserID,
           "eventId": linkType.event.docID,
           "ticketId": ticketDocIds[0]
         });
@@ -199,13 +199,13 @@ class TicketRepository {
         "imageURL": linkType.event.coverImageURL,
         "type": linkType.toString(),
         "valid": true,
-        "requestee": UserRepository.instance.currentUser.firebaseUserID,
+        "requestee": UserRepository.instance.currentUser().firebaseUserID,
         "requesttime": ticket.dateIssued,
-        "useremail": UserRepository.instance.currentUser.email,
-        "firstname": UserRepository.instance.currentUser.firstname,
-        "lastname": UserRepository.instance.currentUser.lastname,
-        "dob": UserRepository.instance.currentUser.dob,
-        "gender": UserRepository.instance.currentUser.gender.toDBString(),
+        "useremail": UserRepository.instance.currentUser().email,
+        "firstname": UserRepository.instance.currentUser().firstname,
+        "lastname": UserRepository.instance.currentUser().lastname,
+        "dob": UserRepository.instance.currentUser().dob,
+        "gender": UserRepository.instance.currentUser().gender.toDBString(),
         if (linkType is Invitation) "promoter": linkType.promoter.docId,
         if (linkType is AdvertisementInvite) "advertisement_id": linkType.advertisementId,
         "onWaitList": false,
@@ -215,7 +215,7 @@ class TicketRepository {
 
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(UserRepository.instance.currentUser.firebaseUserID)
+          .doc(UserRepository.instance.currentUser().firebaseUserID)
           .collection("tickets")
           .doc(ticketDoc.id)
           .set({
@@ -239,7 +239,7 @@ class TicketRepository {
       http.Response response;
       try {
         response = await http.post("https://appollo-devops.web.app/ticketConfirmation", body: {
-          "uid": UserRepository.instance.currentUser.firebaseUserID,
+          "uid": UserRepository.instance.currentUser().firebaseUserID,
           "eventId": linkType.event.docID,
           "ticketId": ticketDoc.id
         });

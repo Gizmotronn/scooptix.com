@@ -23,7 +23,7 @@ class EventOverviewPage extends StatefulWidget {
 class _EventOverviewPageState extends State<EventOverviewPage> {
   AuthenticationBloc signUpBloc;
   EventsOverviewBloc bloc = EventsOverviewBloc();
-  var scaffoldState = GlobalKey<ScaffoldState>();
+  bool drawerOpen = false;
 
   @override
   void initState() {
@@ -44,7 +44,11 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      key: scaffoldState,
+      onEndDrawerChanged: (d) {
+        setState(() {
+          drawerOpen = d;
+        });
+      },
       endDrawer: BlocProvider.value(
           value: signUpBloc,
           child: DesktopViewDrawer(
@@ -68,7 +72,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
 
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),
-              Scaffold.of(context).hasEndDrawer ? BlurBackground() : SizedBox(),
+              drawerOpen ? BlurBackground() : SizedBox(),
               EventOverviewAppbar(bloc: signUpBloc),
             ],
           ),

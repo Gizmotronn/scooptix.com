@@ -606,7 +606,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           context: context,
                           title: "Ticket Sent",
                           content:
-                              "We have issued your ticket and sent it to ${UserRepository.instance.currentUser.email}",
+                              "We have issued your ticket and sent it to ${UserRepository.instance.currentUser().email}",
                           buttonText: "Ok",
                           popTwice: false)
                       .then((_) {

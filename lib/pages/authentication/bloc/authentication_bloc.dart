@@ -72,7 +72,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       await UserRepository.instance.getUser(fbUser.uid);
 
       yield StateLoggedIn(
-          email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+          email, UserRepository.instance.currentUser().firstname, UserRepository.instance.currentUser().lastname);
     }
   }
 
@@ -88,13 +88,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else {
       yield StateLoadingCreateUser();
       await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
-      if (UserRepository.instance.currentUser == null) {
+      if (UserRepository.instance.currentUserNotifier == null) {
         // Notify UI about error and revert to previous state
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StatePasswordsConfirmed(uid);
       } else {
-        yield StateLoggedIn(UserRepository.instance.currentUser.email, UserRepository.instance.currentUser.firstname,
-            UserRepository.instance.currentUser.lastname);
+        yield StateLoggedIn(UserRepository.instance.currentUser().email,
+            UserRepository.instance.currentUser().firstname, UserRepository.instance.currentUser().lastname);
       }
     }
   }
@@ -114,15 +114,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       // If authentication was successful
       if (fbUser != null) {
         await UserRepository.instance.getUser(fbUser.uid);
-        if (UserRepository.instance.currentUser == null) {
+        if (UserRepository.instance.currentUserNotifier == null) {
           String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
           String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
               ? fbUser.displayName.split(" ")[1]
               : "";
           yield StateNewSSOUser(gUser.email, fbUser.uid, firstName, lastName);
         } else {
-          yield StateLoggedIn(
-              gUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+          yield StateLoggedIn(gUser.email, UserRepository.instance.currentUser().firstname,
+              UserRepository.instance.currentUser().lastname);
         }
       } else {
         BugsnagNotifier.instance.notify("Error signing in with Google.", StackTrace.empty);
@@ -230,15 +230,15 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       await UserRepository.instance.getUser(fbUser.uid);
 
       // Using SSO it's possible the user has an auth account but no user document
-      if (UserRepository.instance.currentUser == null) {
+      if (UserRepository.instance.currentUserNotifier == null) {
         String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
         String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
             ? fbUser.displayName.split(" ")[1]
             : "";
         yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
       } else {
-        yield StateAutoLoggedIn(
-            fbUser.email, UserRepository.instance.currentUser.firstname, UserRepository.instance.currentUser.lastname);
+        yield StateAutoLoggedIn(fbUser.email, UserRepository.instance.currentUser().firstname,
+            UserRepository.instance.currentUser().lastname);
       }
     }
   }
