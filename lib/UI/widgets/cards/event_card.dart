@@ -153,16 +153,15 @@ class EventCard extends StatelessWidget {
                                     if (user == null) {
                                       Scaffold.of(context).openEndDrawer();
                                     } else {
-                                      print('Event added to favorite');
-                                      print(user.email);
-
                                       ///TODO Add event as favorite to user
+                                      print('Event added to favorite');
+                                      user.toggleFavourite(event.docID);
                                     }
                                   }
                                 },
                                 enable: user != null ? true : false,
                                 //TODO if event is favorited, should pass true
-                                isFavorite: false,
+                                isFavorite: _checkFavorite(user),
                               );
                             }),
                       ],
@@ -234,6 +233,14 @@ class EventCard extends StatelessWidget {
               ),
       ),
     );
+  }
+
+  bool _checkFavorite(User user) {
+    if (user != null) {
+      return user.favourites.contains(event.docID) ?? false;
+    } else {
+      return false;
+    }
   }
 }
 
