@@ -3,9 +3,9 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../pages/authentication/bloc/authentication_bloc.dart';
 import '../../utilities/svg/icon.dart';
@@ -62,10 +62,10 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                   _appolloSearchBar(context, screenSize),
                 ],
               ).paddingVertical(4),
-              BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                  cubit: widget.bloc,
-                  builder: (context, state) {
-                    if (state is StateLoggedIn) {
+              ValueListenableBuilder<User>(
+                  valueListenable: ValueNotifier<User>(UserRepository.instance.currentUserNotifier.value),
+                  builder: (context, user, child) {
+                    if (user != null) {
                       return Row(
                         children: [
                           Badge(
@@ -94,7 +94,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                               child: SideButton(title: 'My Tickets', onTap: () {}).paddingRight(8)),
                           _appolloCreateEventDropDown(context).paddingRight(8),
                           _appolloHelpDropDown(context).paddingRight(16),
-                          _showUserAvatar(context, User()).paddingRight(50),
+                          _showUserAvatar(context, user).paddingRight(50),
                         ],
                       ).paddingVertical(4);
                     }
@@ -303,7 +303,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         onTap: () {},
         child: Row(
           children: [
-            Text('Test User',
+            Text('${user.getFullName() ?? 'Test User'}',
                     style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400))
                 .paddingRight(16),
             SizedBox(

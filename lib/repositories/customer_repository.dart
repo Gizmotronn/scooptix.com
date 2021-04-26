@@ -28,13 +28,13 @@ class CustomerRepository {
           .collection("organizers")
           .doc(organizerId)
           .collection("customers")
-          .doc(UserRepository.instance.currentUser.firebaseUserID);
+          .doc(UserRepository.instance.currentUser().firebaseUserID);
       await userRef.set({
-        "firstname": UserRepository.instance.currentUser.firstname,
-        "lastname": UserRepository.instance.currentUser.lastname,
-        "gender": UserRepository.instance.currentUser.gender.toDBString(),
-        "dob": UserRepository.instance.currentUser.dob,
-        "email": UserRepository.instance.currentUser.email,
+        "firstname": UserRepository.instance.currentUser().firstname,
+        "lastname": UserRepository.instance.currentUser().lastname,
+        "gender": UserRepository.instance.currentUser().gender.toDBString(),
+        "dob": UserRepository.instance.currentUser().dob,
+        "email": UserRepository.instance.currentUser().email,
         "last_action": DateTime.now()
       });
 
@@ -52,7 +52,7 @@ class CustomerRepository {
           .collection("organizers")
           .doc(linkType.event.organizer)
           .collection("customers")
-          .doc(UserRepository.instance.currentUser.firebaseUserID)
+          .doc(UserRepository.instance.currentUser().firebaseUserID)
           .get();
       DocumentReference userRef;
       if (!userSnapshot.exists) {

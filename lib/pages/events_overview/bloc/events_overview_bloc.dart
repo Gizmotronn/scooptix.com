@@ -20,11 +20,6 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
   Event selectedEvent;
 
   EventsOverviewBloc() : super(LoadingEventsState());
-  @override
-  Future<void> close() {
-    EventsRepository.instance.dispose();
-    return super.close();
-  }
 
   @override
   Stream<EventsOverviewState> mapEventToState(EventsOverviewEvent event) async* {

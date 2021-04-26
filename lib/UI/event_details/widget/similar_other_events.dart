@@ -57,14 +57,13 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
           ).paddingBottom(32),
           SizedBox(
             height: 320,
-            child: ListView(
+            child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              physics: NeverScrollableScrollPhysics(),
-              children: List.generate(
-                _similarEvents.length,
-                (index) => EventCard(event: _similarEvents[index]),
-              ),
+              itemCount: _similarEvents.length,
+              itemBuilder: (c, index) {
+                return EventCard(event: _similarEvents[index]);
+              },
             ),
           ),
         ],
@@ -75,7 +74,7 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
         children: [
           AutoSizeText.rich(
             TextSpan(
-              text: 'Other Event By This Organizer    ',
+              text: 'Other Events By This Organizer    ',
               children: [
                 TextSpan(
                   text: 'View All',
@@ -87,14 +86,13 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
           ).paddingBottom(32),
           SizedBox(
             height: 320,
-            child: ListView(
+            child: ListView.builder(
               shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              children: List.generate(
-                _otherEventsByThisOrganizer.length,
-                (index) => EventCard(event: _otherEventsByThisOrganizer[index]),
-              ),
+              itemBuilder: (c, index) {
+                return EventCard(event: _otherEventsByThisOrganizer[index]);
+              },
+              itemCount: _otherEventsByThisOrganizer.length,
             ),
           ),
         ],

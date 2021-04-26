@@ -89,7 +89,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                     SizedBox(
                                       width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser.firstname} ${UserRepository.instance.currentUser.lastname}",
+                                        "${UserRepository.instance.currentUser().firstname} ${UserRepository.instance.currentUser().lastname}",
                                         maxLines: 1,
                                         style: Theme.of(context).textTheme.headline6,
                                       ),
@@ -97,7 +97,7 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                     SizedBox(
                                       width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser.email}",
+                                        "${UserRepository.instance.currentUser().email}",
                                         maxLines: 1,
                                         style: Theme.of(context).textTheme.bodyText2,
                                       ),
@@ -202,34 +202,43 @@ class _DesktopViewDrawerState extends State<DesktopViewDrawer> {
                                 ],
                               ),
                             ),
-                          ]);
-                        } else {
-                          return SizedBox(
-                            width: MyTheme.drawerSize,
-                            child: LoginAndSignupPage(
-                              textTheme: Theme.of(context).textTheme,
-                              bloc: widget.bloc,
-                            ),
-                          );
-                        }
-                      }),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text("Events Powered By",
-                              style: Theme.of(context).textTheme.bodyText2.copyWith(color: Colors.grey))
-                          .paddingRight(4),
-                      Text("appollo",
-                          style: Theme.of(context).textTheme.subtitle1.copyWith(
-                                fontFamily: "cocon",
-                                color: MyTheme.appolloPurple,
-                                fontSize: 18,
-                              ))
-                    ],
-                  ).paddingBottom(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing),
-                ],
-              ),
+                            widget.linkType is MemberInvite &&
+                                    (widget.linkType as MemberInvite).promoter.docId ==
+                                        UserRepository.instance.currentUser().firebaseUserID
+                                ? Center(
+                                    child: Text("You can't invite yourself to this event",
+                                        style: MyTheme.darkTextTheme.bodyText2))
+                                : TicketPage(
+                                    widget.linkType,
+                                    forwardToPayment: true,
+                                  ),
+                          ],
+                        );
+                      } else {
+                        return SizedBox(
+                          width: MyTheme.drawerSize,
+                          child: LoginAndSignupPage(
+                            textTheme: MyTheme.darkTextTheme,
+                            bloc: widget.bloc,
+                          ),
+                        );
+                      }
+                    }).paddingTop(MyTheme.cardPadding),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text("Events Powered By", style: MyTheme.darkTextTheme.bodyText2.copyWith(color: Colors.grey))
+                        .paddingRight(4),
+                    Text("appollo",
+                        style: MyTheme.darkTextTheme.subtitle1.copyWith(
+                          fontFamily: "cocon",
+                          color: MyTheme.appolloPurple,
+                          fontSize: 18,
+                        ))
+                  ],
+                ).paddingBottom(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing),
+              ],
             ),
           ),
         ],

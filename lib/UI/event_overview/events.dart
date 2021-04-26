@@ -11,7 +11,8 @@ class AppolloEvents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: events.length < 2 ? Alignment.topLeft : Alignment.topCenter,
+      // alignment: events.length < 2 ? Alignment.topLeft : Alignment.topCenter,
+      alignment: Alignment.topCenter,
       child: Wrap(
         children: events.map((event) => EventCard(event: event)).toList(),
       ).paddingAll(6),

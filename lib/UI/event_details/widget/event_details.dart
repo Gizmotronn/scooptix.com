@@ -1,11 +1,14 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/organizer.dart';
+import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/side_buttons.dart';
 import '../../../model/event.dart';
@@ -22,7 +25,8 @@ class EventDetailInfo extends StatefulWidget {
   final Event event;
   final Organizer organizer;
   final ScrollController scrollController;
-  const EventDetailInfo({Key key, this.event, this.organizer, this.scrollController}) : super(key: key);
+  final EventsOverviewBloc bloc;
+  const EventDetailInfo({Key key, this.event, this.organizer, this.scrollController, this.bloc}) : super(key: key);
 
   @override
   _EventDetailInfoState createState() => _EventDetailInfoState();
@@ -53,7 +57,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
       children: [
         _eventImageDays(context, screenSize),
         _mainBody(context).paddingBottom(320),
-        SimilarOtherEvents(event: widget.event),
+        SimilarOtherEvents(event: widget.event).paddingBottom(80),
       ],
     );
   }
@@ -190,23 +194,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
         SizedBox(height: MediaQuery.of(context).viewPadding.top + 45),
         Column(
           children: [
-            Container(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: List.generate(
-                  5,
-                  (index) => SideButton(
-                    activeColor: MyTheme.appolloRed,
-                    disableColor: MyTheme.appolloWhite,
-                    title: 'Sat 12th 2021',
-                    isTap: false,
-                    onTap: () {},
-                  ),
-                ),
-              ).paddingAll(8),
-            ).appolloCard(color: MyTheme.appolloBackgroundColor.withAlpha(190)),
-            SizedBox(height: MyTheme.cardPadding),
+            _buildRecurringEventDates(),
             InkWell(
               onTap: () {
                 widget.scrollController
@@ -228,4 +216,30 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
   }
 
   Duration _duration(DateTime time) => time.difference(DateTime.now());
+
+  Widget _buildRecurringEventDates() {
+    if (widget.event.occurrence == EventOccurrence.Single) {
+      return SizedBox.shrink();
+    } else {
+      List<Event> recurringEvents = EventsRepository.instance.getRecurringEvents(widget.event.recurringEventId);
+      return Container(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: List.generate(
+            recurringEvents.length,
+            (index) => SideButton(
+              activeColor: MyTheme.appolloRed,
+              disableColor: MyTheme.appolloWhite,
+              title: DateFormat('EEE dd. MMM').format(recurringEvents[index].date),
+              highlight: recurringEvents[index].docID == widget.event.docID,
+              onTap: () {
+                widget.bloc.add(LoadEventDetailEvent(recurringEvents[index].docID));
+              },
+            ),
+          ),
+        ).paddingAll(8),
+      ).appolloCard(color: MyTheme.appolloBackgroundColor.withAlpha(190)).paddingBottom(MyTheme.cardPadding);
+    }
+  }
 }

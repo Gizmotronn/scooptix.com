@@ -74,6 +74,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                           event: state.event,
                           organizer: state.organizer,
                           scrollController: _scrollController,
+                          bloc: bloc,
                         ),
                       ),
                     ),

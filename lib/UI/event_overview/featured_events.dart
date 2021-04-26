@@ -26,7 +26,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
   void initState() {
     super.initState();
 
-    events = EventsRepository.instance.events;
+    events.addAll(EventsRepository.instance.events);
   }
 
   @override
@@ -79,7 +79,7 @@ class _EventFeaturesState extends State<EventFeatures> with SingleTickerProvider
         events.add(e);
       }
     });
-
+    event = events.first;
     _controller = AnimationController(vsync: this, duration: MyTheme.animationDuration);
     _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
