@@ -6,6 +6,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/authentication/signUpForm.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
+import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
@@ -169,9 +170,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloBackgroundColor2,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -189,9 +190,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloBackgroundColor2,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
@@ -250,9 +251,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloBackgroundColor2,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -270,9 +271,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
@@ -339,9 +339,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloBackgroundColor2,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -359,10 +359,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  primary: MyTheme.appolloGreen,
-                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloBackgroundColor2,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
@@ -489,9 +488,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ).paddingBottom(8),
               SizedBox(
                 width: screenSize.width,
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: MyTheme.appolloBackgroundColor2,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -511,7 +510,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               OutlinedButton(
                 style: OutlinedButton.styleFrom(
-                  side: BorderSide(color: MyTheme.appolloGreen, width: 5),
+                  primary: MyTheme.appolloBackgroundColor2,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
@@ -603,32 +602,30 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 return AutoSizeText(
                   "Get your ticket in just a few steps",
                   maxLines: 1,
-                  style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
+                  style: widget.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
                 ).paddingBottom(MyTheme.elementSpacing);
               } else {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
+                      "Sign up or sign in",
+                      style:
+                          widget.textTheme.headline2.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.bold),
+                    ).paddingBottom(MyTheme.cardPadding),
+                    AutoSizeText(
                       "Get your ticket in just a few steps",
-                      style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
+                      style:
+                          widget.textTheme.headline3.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w400),
                     ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(
-                          Icons.close,
-                          size: 34,
-                          color: Colors.grey,
-                        )),
                   ],
                 ).paddingBottom(MyTheme.elementSpacing);
               }
             }),
             AutoSizeText(
-              "Let's start with your email address",
+              "Welcome, please enter your email to continue.",
               style: widget.textTheme.subtitle2
+                  .copyWith(color: MyTheme.appolloLightGrey, fontWeight: FontWeight.w300)
                   .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : widget.textTheme.subtitle2.color),
               minFontSize: 12,
             ),
@@ -669,24 +666,19 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         key: ValueKey(1),
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Focus(
-          child: TextFormField(
-            autofillHints: [AutofillHints.email],
-            controller: _emailController,
-            onFieldSubmitted: (v) {
-              widget.bloc.add(EventEmailProvided(_emailController.text));
-            },
-            decoration: InputDecoration(
-                labelText: "Email Address",
-                labelStyle: widget.textTheme.bodyText2,
-                suffixIcon: state is StateLoadingUserData
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(),
-                      )
-                    : SizedBox.shrink()),
-            autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
-            // validator: (v) => val.Validator.validateEmail(_emailController.text),
-          ),
+          child: AppolloTextfield(
+              textfieldType: TextFieldType.dafault,
+              autofillHints: [AutofillHints.email],
+              controller: _emailController,
+              onFieldSubmitted: (v) {
+                widget.bloc.add(EventEmailProvided(_emailController.text));
+              },
+              labelText: "Email",
+              autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
+              suffixIcon: state is StateLoadingUserData ? _buildSpinner() : SizedBox.shrink()
+
+              // validator: (v) => val.Validator.validateEmail(_emailController.text),
+              ),
         ),
       );
     // Prompt confirm email
@@ -696,7 +688,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
             child: Focus(
-              child: TextFormField(
+              child: AppolloTextfield(
+                textfieldType: TextFieldType.dafault,
+                labelText: "Email",
                 autofillHints: [AutofillHints.email],
                 controller: _emailController,
                 onFieldSubmitted: (v) {
@@ -708,18 +702,13 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     }
                   }
                 },
-                decoration: InputDecoration(
-                    labelText: "Email Address",
-                    labelStyle: widget.textTheme.bodyText2,
-                    suffixIcon: state is StateLoadingUserData
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          )
-                        : Container(
-                            height: 0,
-                            width: 0,
-                          )),
+                suffixIcon: state is StateLoadingUserData
+                    ? _buildSpinner()
+                    : Container(
+                        height: 0,
+                        width: 0,
+                      ),
+
                 autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
                 // validator: (v) => val.Validator.validateEmail(_emailController.text),
               ),
@@ -731,7 +720,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
             child: Focus(
-              child: TextFormField(
+              child: AppolloTextfield(
+                labelText: "Confirm Email",
+                textfieldType: TextFieldType.dafault,
                 autofillHints: [AutofillHints.email],
                 autofocus: true,
                 controller: _confirmEmailController,
@@ -744,18 +735,12 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     }
                   }
                 },
-                decoration: InputDecoration(
-                    labelText: "Confirm Email Address",
-                    labelStyle: widget.textTheme.bodyText2,
-                    suffixIcon: state is StateLoadingUserData
-                        ? Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: CircularProgressIndicator(),
-                          )
-                        : Container(
-                            height: 0,
-                            width: 0,
-                          )),
+                suffixIcon: state is StateLoadingUserData
+                    ? _buildSpinner()
+                    : Container(
+                        height: 0,
+                        width: 0,
+                      ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (v) =>
                     _confirmEmailController.text == _emailController.text ? null : "Please make sure your emails match",
@@ -767,6 +752,13 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     } else {
       return SizedBox.shrink();
     }
+  }
+
+  Widget _buildSpinner() {
+    return Transform.scale(
+      scale: 0.5,
+      child: CircularProgressIndicator(),
+    );
   }
 
   Widget _buildSSO(AuthenticationState state, Size screenSize) {
@@ -807,16 +799,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     } else if (state is StateInitial) {
       return Column(
         children: [
-          SizedBox(
-            height: 12,
-          ),
-          AutoSizeText(
-            "Or continue with",
-            style: widget.textTheme.subtitle1,
-          ),
-          SizedBox(
-            height: 12,
-          ),
+          _buildDivider().paddingVertical(12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -852,6 +835,27 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     } else {
       return SizedBox.shrink();
     }
+  }
+
+  Widget _buildDivider() {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: MyTheme.appolloPurple, thickness: 0.5)),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: MyTheme.appolloPurple,
+          ),
+          child: Center(
+            child: AutoSizeText(
+              "OR",
+              style: widget.textTheme.button.copyWith(color: Colors.white),
+            ).paddingAll(6),
+          ),
+        ).paddingHorizontal(16),
+        Expanded(child: Divider(color: MyTheme.appolloPurple, thickness: 0.5)),
+      ],
+    );
   }
 
   /// Builds TextInputFields for the initial email fields as well as email and password confirmation
@@ -898,7 +902,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           ),
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: TextFormField(
+            child: AppolloTextfield(
+              textfieldType: TextFieldType.dafault,
               autofillHints: [AutofillHints.password],
               controller: _pwController,
               autofocus: true,
@@ -914,10 +919,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   });
                 }
               },
-              decoration: InputDecoration(
-                labelText: "Password",
-                labelStyle: widget.textTheme.bodyText2,
-              ),
+              labelText: "Password",
             ),
           ),
           SizedBox(
@@ -925,7 +927,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           ),
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: TextFormField(
+            child: AppolloTextfield(
+              textfieldType: TextFieldType.dafault,
               autofillHints: [AutofillHints.password],
               controller: _confirmPwController,
               obscureText: true,
@@ -941,10 +944,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   });
                 }
               },
-              decoration: InputDecoration(
-                labelText: "Confirm Password",
-                labelStyle: widget.textTheme.bodyText2,
-              ),
+              labelText: "Confirm Password",
             ),
           ),
         ],
@@ -966,10 +966,13 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           ),
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: TextFormField(
+            child: AppolloTextfield(
+              textfieldType: TextFieldType.dafault,
+
               autofillHints: [AutofillHints.password],
               controller: _pwController,
               obscureText: true,
+              labelText: "Password",
               autofocus: true,
               // validator: (v) => val.Validator.validatePassword(v),
               autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
@@ -978,10 +981,6 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventLoginPressed(_emailController.text, _pwController.text));
                 }
               },
-              decoration: InputDecoration(
-                labelText: "Password",
-                labelStyle: widget.textTheme.bodyText2,
-              ),
             ),
           ),
           state is StateExistingUserEmail

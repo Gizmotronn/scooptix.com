@@ -1,18 +1,55 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../theme.dart';
 
 enum AppolloTextfieldState { initial, hover, typing, filled, diabled, error }
+enum TextFieldType { reactive, dafault }
 
 class AppolloTextfield extends StatefulWidget {
   final TextEditingController controller;
-
   final String labelText;
-
   final String errorText;
+  final TextFieldType textfieldType;
+  final TextInputType keyboardType;
+  final Map<String, String> Function(AbstractControl<dynamic>) validationMessages;
+  final List<TextInputFormatter> inputFormatters;
+  final String formControlName;
 
-  const AppolloTextfield({Key key, this.controller, this.labelText, this.errorText = ''}) : super(key: key);
+  final List<String> autofillHints;
+
+  final bool autofocus;
+
+  final Function(String) onFieldSubmitted;
+
+  final Function(String) validator;
+
+  final Widget suffixIcon;
+
+  final AutovalidateMode autovalidateMode;
+
+  final bool obscureText;
+
+  const AppolloTextfield(
+      {Key key,
+      this.controller,
+      @required this.labelText,
+      this.errorText = '',
+      @required this.textfieldType,
+      this.keyboardType,
+      this.validationMessages,
+      this.inputFormatters,
+      this.formControlName,
+      this.autofillHints,
+      this.autofocus,
+      this.onFieldSubmitted,
+      this.validator,
+      this.suffixIcon,
+      this.autovalidateMode,
+      this.obscureText})
+      : super(key: key);
   @override
   _AppolloTextfieldState createState() => _AppolloTextfieldState();
 }
@@ -101,27 +138,65 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
               ),
             ),
             child: Expanded(
-              child: TextField(
-                onChanged: (v) => setState(() => _text = v),
-                controller: widget.controller,
-                focusNode: _focusNode,
-                style: Theme.of(context).textTheme.button,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.transparent,
-                  contentPadding: const EdgeInsets.only(left: 8),
-                  errorBorder: InputBorder.none,
-                  errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
-                  focusedBorder: InputBorder.none,
-                  hintStyle: Theme.of(context).textTheme.button.copyWith(
-                      color:
-                          textFieldState == AppolloTextfieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
-                  enabledBorder: InputBorder.none,
-                  labelText: widget.labelText,
-                  labelStyle: Theme.of(context).textTheme.button.copyWith(color: _buildLabelColor()),
-                  disabledBorder: InputBorder.none,
-                ),
-              ),
+              child: Builder(builder: (context) {
+                if (widget.textfieldType == TextFieldType.reactive) {
+                  return ReactiveTextField(
+                    formControlName: widget.formControlName,
+                    keyboardType: widget.keyboardType,
+                    validationMessages: widget.validationMessages,
+                    inputFormatters: widget.inputFormatters,
+                    focusNode: _focusNode,
+                    style: Theme.of(context).textTheme.bodyText1,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.transparent,
+                      contentPadding: const EdgeInsets.only(left: 8),
+                      errorBorder: InputBorder.none,
+                      errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                      focusedBorder: InputBorder.none,
+                      hintStyle: Theme.of(context).textTheme.button.copyWith(
+                          color: textFieldState == AppolloTextfieldState.initial
+                              ? MyTheme.appolloGrey
+                              : MyTheme.appolloWhite),
+                      enabledBorder: InputBorder.none,
+                      labelText: widget.labelText,
+                      labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: _buildLabelColor()),
+                      disabledBorder: InputBorder.none,
+                    ),
+                  );
+                }
+                return TextFormField(
+                  autofillHints: widget.autofillHints,
+                  autofocus: widget.autofocus ?? false,
+                  onFieldSubmitted: widget.onFieldSubmitted,
+                  autovalidateMode: widget.autovalidateMode,
+                  validator: widget.validator,
+                  obscureText: widget.obscureText ?? false,
+                  onChanged: (v) => setState(() => _text = v),
+                  controller: widget.controller,
+                  keyboardType: widget.keyboardType,
+                  focusNode: _focusNode,
+                  inputFormatters: widget.inputFormatters,
+                  style: Theme.of(context).textTheme.bodyText1,
+                  decoration: InputDecoration(
+                    filled: true,
+                    suffixIcon: widget.suffixIcon,
+                    fillColor: Colors.transparent,
+                    contentPadding: const EdgeInsets.only(left: 8),
+                    errorBorder: InputBorder.none,
+                    errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                    focusedBorder: InputBorder.none,
+                    hintStyle: Theme.of(context).textTheme.button.copyWith(
+                        color: textFieldState == AppolloTextfieldState.initial
+                            ? MyTheme.appolloGrey
+                            : MyTheme.appolloWhite),
+                    enabledBorder: InputBorder.none,
+                    labelText: widget.labelText,
+                    labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: _buildLabelColor()),
+                    disabledBorder: InputBorder.none,
+                  ),
+                );
+              }),
             ).paddingAll(4),
           ),
           widget.errorText.isEmpty
