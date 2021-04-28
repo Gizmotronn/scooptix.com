@@ -3,9 +3,11 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/link_type/birthdayList.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/promoterInvite.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 
 import 'dateWidget.dart';
 import 'whyAreYouHere.dart';
@@ -130,7 +132,8 @@ class EventInfoWidget extends StatelessWidget {
                                     primary: MyTheme.appolloGreen,
                                   ),
                                   onPressed: () {
-                                    Scaffold.of(context).openEndDrawer();
+                                    WrapperPage.endDrawer.value = AuthenticationDrawer();
+                                    WrapperPage.mainScaffold.currentState.openEndDrawer();
                                   },
                                   child: Text(
                                     "GET YOUR TICKET",

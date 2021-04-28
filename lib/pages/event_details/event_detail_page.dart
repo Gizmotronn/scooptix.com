@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/event_details/widget/event_details.dart';
-import 'package:ticketapp/UI/event_details/widget/event_nav_bar.dart';
 
 import '../../UI/event_overview/event_top_nav.dart';
 import '../../UI/theme.dart';
 import '../../UI/widgets/backgrounds/events_details_background.dart';
-import '../authentication/bloc/authentication_bloc.dart';
 import '../error_page.dart';
 import '../events_overview/bloc/events_overview_bloc.dart';
+import 'sections/event_details.dart';
+import 'sections/event_nav_bar.dart';
 
 class EventDetailPage extends StatefulWidget {
   static const String routeName = '/event';
   final String id;
+  static ValueNotifier<Widget> fab = ValueNotifier<Widget>(null);
 
   const EventDetailPage({Key key, this.id}) : super(key: key);
 
@@ -22,7 +22,6 @@ class EventDetailPage extends StatefulWidget {
 }
 
 class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
-  AuthenticationBloc signUpBloc;
   EventsOverviewBloc bloc;
 
   ScrollController _scrollController;
@@ -31,15 +30,12 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   void initState() {
     _scrollController = ScrollController();
     bloc = EventsOverviewBloc();
-    signUpBloc = AuthenticationBloc();
-    signUpBloc.add(EventPageLoad());
     super.initState();
   }
 
   @override
   void dispose() {
     bloc.close();
-    signUpBloc.close();
     super.dispose();
   }
 
@@ -50,6 +46,16 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
     MyTheme.cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
 
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: ValueListenableBuilder(
+          valueListenable: EventDetailPage.fab,
+          builder: (context, value, child) {
+            if (value != null) {
+              return Padding(padding: EdgeInsets.only(bottom: 54), child: value);
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
       body: UpdateEventDetail(
         init: () {
           bloc.add(LoadEventDetailEvent(widget.id));
@@ -64,12 +70,14 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
               return Stack(
                 children: [
                   EventDetailBackground(coverImageURL: state.event.coverImageURL),
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: SizedBox(
-                      width: MyTheme.maxWidth,
-                      child: SingleChildScrollView(
-                        controller: _scrollController,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - MyTheme.maxWidth) / 2),
+                      child: Align(
+                        alignment: Alignment.topCenter,
                         child: EventDetailInfo(
                           event: state.event,
                           organizer: state.organizer,
@@ -80,7 +88,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
                     ),
                   ),
                   EventDetailNavbar(event: state.event),
-                  EventOverviewAppbar(bloc: signUpBloc, color: MyTheme.appolloBackgroundColor),
+                  EventOverviewAppbar(color: MyTheme.appolloBackgroundColor),
                 ],
               );
             }

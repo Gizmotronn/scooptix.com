@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_install_app_plugin/flutter_install_app_plugin.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/UI/theme.dart';
 
 /// Provides a direct link to the app in the stores
@@ -53,48 +51,12 @@ class DownloadAppolloWidget extends StatelessWidget {
               children: [
                 Text(
                   "Keep your Tickets with you, get the app!",
-                  style: MyTheme.darkTextTheme.headline5,
+                  style: MyTheme.lightTextTheme.headline5,
                 ).paddingBottom(MyTheme.elementSpacing),
                 Text(
                   "Install the appollo app on iOS or Android, sign in the withe same account and keep your tickets with you.",
-                  style: MyTheme.darkTextTheme.bodyText2,
+                  style: MyTheme.lightTextTheme.bodyText2,
                 ).paddingBottom(MyTheme.elementSpacing),
-                SizedBox(
-                  width: MyTheme.drawerSize,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SizedBox(
-                        width: MyTheme.drawerSize * 0.3,
-                        child: InkWell(
-                          onTap: () async {
-                            const url = 'https://apps.apple.com/app/appollo/id1478226146#?platform=iphone';
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: SvgIcon("images/appstore.svg"),
-                        ),
-                      ),
-                      SizedBox(
-                        width: MyTheme.drawerSize * 0.3,
-                        child: InkWell(
-                          onTap: () async {
-                            const url = 'https://play.google.com/store/apps/details?id=live.appollo';
-                            if (await canLaunch(url)) {
-                              await launch(url);
-                            } else {
-                              throw 'Could not launch $url';
-                            }
-                          },
-                          child: SvgIcon("images/playstore.svg"),
-                        ),
-                      ),
-                    ],
-                  ),
-                )
               ],
             ));
       }

@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import '../../../UI/theme.dart';
-import '../../../UI/widgets/appollo/appolloDivider.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
@@ -27,7 +26,6 @@ class MakeBooking extends StatelessWidget {
           _privateRoomPackages(context).paddingBottom(32),
           _birthdayListBookings(context).paddingBottom(32),
           _createBookingList(context).paddingBottom(32),
-          AppolloDivider(),
         ],
       ),
     );
@@ -205,8 +203,7 @@ class MakeBooking extends StatelessWidget {
                                       TextSpan(text: '\$500', children: [
                                         TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)
                                       ]),
-                                      style:
-                                          Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
+                                      style: Theme.of(context).textTheme.headline2)
                                   .paddingBottom(MyTheme.cardPadding),
                             ),
                             AppolloButton.wideButton(

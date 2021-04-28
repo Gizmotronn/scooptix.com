@@ -610,8 +610,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   children: [
                     AutoSizeText(
                       "Sign up or sign in",
-                      style:
-                          widget.textTheme.headline2.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.bold),
+                      style: widget.textTheme.headline2.copyWith(color: MyTheme.appolloWhite),
                     ).paddingBottom(MyTheme.cardPadding),
                     AutoSizeText(
                       "Get your ticket in just a few steps",
@@ -619,14 +618,14 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                           widget.textTheme.headline3.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w400),
                     ),
                   ],
-                ).paddingBottom(MyTheme.elementSpacing);
+                ).paddingBottom(MyTheme.elementSpacing * 0.5);
               }
             }),
             AutoSizeText(
               "Welcome, please enter your email to continue.",
-              style: widget.textTheme.subtitle2
-                  .copyWith(color: MyTheme.appolloLightGrey, fontWeight: FontWeight.w300)
-                  .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : widget.textTheme.subtitle2.color),
+              style: widget.textTheme.subtitle2.copyWith(
+                  color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite,
+                  fontWeight: FontWeight.w300),
               minFontSize: 12,
             ),
           ],
@@ -651,7 +650,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               tablet: TextAlign.left,
               desktop: TextAlign.left),
           style: widget.textTheme.headline6
-              .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : widget.textTheme.subtitle2.color),
+              .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite),
           minFontSize: 12,
         ),
       ),
@@ -850,7 +849,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             child: AutoSizeText(
               "OR",
               style: widget.textTheme.button.copyWith(color: Colors.white),
-            ).paddingAll(6),
+            ).paddingAll(8),
           ),
         ).paddingHorizontal(16),
         Expanded(child: Divider(color: MyTheme.appolloPurple, thickness: 0.5)),
@@ -954,13 +953,6 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _buildHeadline(state, screenSize),
-          SizedBox(
-            height: MyTheme.elementSpacing,
-          ),
-          AnimatedSwitcher(
-            duration: Duration(milliseconds: animationTime),
-            child: _buildEmailField(state, screenSize),
-          ),
           SizedBox(
             height: MyTheme.elementSpacing,
           ),

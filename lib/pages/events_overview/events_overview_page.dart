@@ -6,8 +6,6 @@ import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
-import 'package:ticketapp/pages/event_details/desktop_view_drawer.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewPage extends StatefulWidget {
@@ -21,22 +19,16 @@ class EventOverviewPage extends StatefulWidget {
 }
 
 class _EventOverviewPageState extends State<EventOverviewPage> {
-  AuthenticationBloc signUpBloc;
   EventsOverviewBloc bloc = EventsOverviewBloc();
-  bool drawerOpen = false;
 
   @override
   void initState() {
-    signUpBloc = AuthenticationBloc();
-
     super.initState();
   }
 
   @override
   void dispose() {
     bloc.close();
-
-    signUpBloc.close();
     super.dispose();
   }
 
@@ -44,18 +36,6 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-      onEndDrawerChanged: (d) {
-        setState(() {
-          drawerOpen = d;
-        });
-      },
-      endDrawer: BlocProvider.value(
-          value: signUpBloc,
-          child: DesktopViewDrawer(
-            bloc: signUpBloc,
-            linkType: null,
-          )),
-      endDrawerEnableOpenDragGesture: false,
       backgroundColor: MyTheme.appolloWhite,
       body: BlocProvider(
         create: (_) => bloc,
@@ -66,14 +46,13 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
           child: Stack(
             children: [
               BlocProvider.value(
-                value: signUpBloc,
-                child: EventOverviewHome(bloc: bloc, authBloc: signUpBloc, events: widget.events),
+                value: bloc,
+                child: EventOverviewHome(bloc: bloc, events: widget.events),
               ),
 
               /// TODO More Events page with fliters and map
               // MoreEventsFliterMapPage(events: events),
-              drawerOpen ? BlurBackground() : SizedBox(),
-              EventOverviewAppbar(bloc: signUpBloc),
+              EventOverviewAppbar(),
             ],
           ),
         ),

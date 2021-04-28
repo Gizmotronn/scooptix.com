@@ -244,7 +244,7 @@ class FeaturedEventText extends StatelessWidget {
           height: 225,
           width: 400,
           decoration: BoxDecoration(
-            color: MyTheme.appolloGrey.withOpacity(.4),
+            color: MyTheme.appolloCardColor.withOpacity(.5),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(

@@ -11,6 +11,8 @@ class TicketRelease {
   int maxTickets = 0;
   int ticketsBought = 0;
   int price;
+  List<String> includedPerks = ["Included Test Perk"];
+  List<String> excludedPerks = ["Excluded Test Perk"];
 
   int ticketsLeft() {
     return maxTickets - ticketsBought;

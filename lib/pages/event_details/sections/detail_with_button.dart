@@ -8,7 +8,7 @@ import '../../../UI/widgets/buttons/card_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
 import '../../../utilities/svg/icon.dart';
-import 'event_title.dart';
+import '../../../UI/event_details/widget/event_title.dart';
 
 class EventDetailWithButtons extends StatelessWidget {
   const EventDetailWithButtons({Key key, @required this.event, this.buttons, this.organizer}) : super(key: key);
@@ -19,7 +19,6 @@ class EventDetailWithButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(MediaQuery.of(context).size.height * 0.3);
     return Column(
       children: [
         SizedBox(

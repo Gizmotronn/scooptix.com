@@ -78,11 +78,9 @@ class Event {
   }
 
   TicketRelease getRelease(String releaseId) {
-    print(releaseId);
     for (int i = 0; i < releaseManagers.length; i++) {
       try {
         TicketRelease tr = releaseManagers[i].releases.firstWhere((element) => element.docId == releaseId);
-        print(tr);
         return tr;
       } catch (_) {}
     }

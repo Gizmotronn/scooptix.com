@@ -8,18 +8,20 @@ import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
+import '../../../main.dart';
 import '../../theme.dart';
 
 class EventCard extends StatelessWidget {
   final Event event;
+  final double width;
 
-  const EventCard({Key key, this.event}) : super(key: key);
-  // var ValueNotifier<User> userValue;
+  const EventCard({Key key, this.event, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,12 @@ class EventCard extends StatelessWidget {
       return Stack(
         children: [
           Container(
-            width: sizes.isDesktop ? 292 : 292,
+            width: width != null
+                ? width - 24
+                : sizes.localWidgetSize.width > 324 * 4
+                    ? sizes.localWidgetSize.width / 4 - 24
+                    : sizes.localWidgetSize.width / 3 - 24,
+            height: 300,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
@@ -39,15 +46,12 @@ class EventCard extends StatelessWidget {
               ],
             ),
             child: Center(
-              child: AspectRatio(
-                aspectRatio: 100 / 100,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _cardImage(),
-                    _cardContent(context, sizes),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _cardImage(),
+                  _cardContent(context, sizes),
+                ],
               ),
             ),
           ).paddingAll(12),
@@ -151,7 +155,8 @@ class EventCard extends StatelessWidget {
                                 onTap: (v) {
                                   if (!v) {
                                     if (user == null) {
-                                      Scaffold.of(context).openEndDrawer();
+                                      WrapperPage.endDrawer.value = AuthenticationDrawer();
+                                      WrapperPage.mainScaffold.currentState.openEndDrawer();
                                     } else {
                                       ///TODO Add event as favorite to user
                                       print('Event added to favorite');

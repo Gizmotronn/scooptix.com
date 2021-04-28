@@ -28,7 +28,7 @@ class UpcomingEvents extends StatelessWidget {
             child: Column(
               children: [
                 _eventTags(context,
-                    tag: 'Upcoming Event in', hightLightText: 'Perth', count: '${events.length} Events'),
+                    tag: 'Upcoming Events in', hightLightText: 'Perth', count: '${events.length} Events'),
                 AppolloEvents(events: events),
               ],
             ),

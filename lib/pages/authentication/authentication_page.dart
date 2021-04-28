@@ -10,7 +10,7 @@ import 'package:ticketapp/model/link_type/advertisementInvite.dart';
 import 'package:ticketapp/model/link_type/birthdayList.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/promoterInvite.dart';
-import 'package:ticketapp/pages/event_details/desktop_view_drawer.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/mobile_view.dart';
 import 'package:ticketapp/repositories/ticket_repository.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
@@ -50,12 +50,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     MyTheme.maxWidth = screenSize.width < 1050 ? screenSize.width : 1050;
     MyTheme.cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
     return Scaffold(
-      endDrawer: BlocProvider.value(
-          value: signUpBloc,
-          child: DesktopViewDrawer(
-            bloc: signUpBloc,
-            linkType: widget.linkType,
-          )),
+      endDrawer: BlocProvider.value(value: signUpBloc, child: AuthenticationDrawer()),
       endDrawerEnableOpenDragGesture: false,
       body: Stack(
         children: [

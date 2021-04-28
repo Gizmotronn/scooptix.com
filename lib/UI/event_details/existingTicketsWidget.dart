@@ -2,14 +2,12 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/event_details/downloadAppollo.dart';
 import 'package:ticketapp/model/link_type/birthdayList.dart';
 import 'package:ticketapp/model/link_type/invitation.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import '../theme.dart';
-import 'downloadAppollo.dart';
 
 /// Displays a message that the user already has tickets for this event
 /// If on mobile view, also displays QR codes for those tickets
@@ -48,7 +46,7 @@ class _ExistingTicketsWidgetState extends State<ExistingTicketsWidget> {
                   ticketText,
                   textAlign: TextAlign.center,
                 ).paddingLeft(8).paddingRight(8).paddingBottom(MyTheme.elementSpacing * 0.5),
-                DownloadAppolloWidget().paddingBottom(8),
+                //DownloadAppolloWidget().paddingBottom(8),
                 ListView.builder(
                     padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
@@ -104,18 +102,18 @@ class _ExistingTicketsWidgetState extends State<ExistingTicketsWidget> {
             children: [
               AutoSizeText(
                 ticketHeadline,
-                style: MyTheme.darkTextTheme.headline5,
+                style: MyTheme.lightTextTheme.headline5,
               ).paddingBottom(MyTheme.elementSpacing),
               if (widget.linkType.event.invitationMessage != "")
                 AutoSizeText(
                   widget.linkType.event.invitationMessage,
-                  style: MyTheme.darkTextTheme.bodyText2,
+                  style: MyTheme.lightTextTheme.bodyText2,
                 ).paddingBottom(MyTheme.elementSpacing),
               AutoSizeText(
                 ticketText,
-                style: MyTheme.darkTextTheme.bodyText2,
+                style: MyTheme.lightTextTheme.bodyText2,
               ).paddingBottom(MyTheme.elementSpacing * 2),
-              DownloadAppolloWidget()
+              //DownloadAppolloWidget()
             ],
           ),
         );

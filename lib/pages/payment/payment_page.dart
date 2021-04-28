@@ -165,7 +165,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             isDense: true,
-                            prefixIcon: SvgIcon("icons/credit_card.svg", size: 20),
+                            prefixIconConstraints: BoxConstraints(maxHeight: 26, maxWidth: 26),
+                            prefixIcon: SvgIcon("icons/credit_card.svg", size: 26),
                             hintText: "Credit Card Number"),
                       ),
                     ),
@@ -213,7 +214,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                         border: OutlineInputBorder(),
                                         isDense: true,
                                         hintText: "MM",
-                                        suffixIcon: SvgIcon("icons/calendar.svg", size: 20)),
+                                        suffixIconConstraints: BoxConstraints(maxHeight: 26, maxWidth: 26),
+                                        suffixIcon: SvgIcon("icons/calendar.svg", size: 26)),
                                   ),
                                 ).paddingRight(8),
                                 SizedBox(
@@ -242,7 +244,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                         border: OutlineInputBorder(),
                                         isDense: true,
                                         hintText: "YY",
-                                        suffixIcon: SvgIcon("icons/calendar.svg", size: 20)),
+                                        suffixIconConstraints: BoxConstraints(maxHeight: 26, maxWidth: 26),
+                                        suffixIcon: SvgIcon("icons/calendar.svg", size: 26)),
                                   ),
                                 ),
                               ],
@@ -506,12 +509,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   child: DropdownButtonFormField(
                     isDense: true,
                     itemHeight: 50,
-                    iconEnabledColor: getValueForScreenType(
-                        context: context,
-                        watch: MyTheme.appolloWhite,
-                        mobile: MyTheme.appolloWhite,
-                        tablet: MyTheme.appolloBlack,
-                        desktop: MyTheme.appolloBlack),
+                    iconEnabledColor: MyTheme.appolloWhite,
                     decoration: InputDecoration(
                       hintText: 'Choose your ticket',
                       isDense: true,
@@ -651,12 +649,7 @@ class _PaymentPageState extends State<PaymentPage> {
             height: 50,
             child: PaymentRepository.instance.last4 != null
                 ? DropdownButtonFormField(
-                    iconEnabledColor: getValueForScreenType(
-                        context: context,
-                        watch: MyTheme.appolloWhite,
-                        mobile: MyTheme.appolloWhite,
-                        tablet: MyTheme.appolloBlack,
-                        desktop: MyTheme.appolloBlack),
+                    iconEnabledColor: MyTheme.appolloWhite,
                     decoration: InputDecoration(isDense: true),
                     value: 1,
                     items: [
@@ -679,12 +672,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     },
                   )
                 : DropdownButtonFormField(
-                    iconEnabledColor: getValueForScreenType(
-                        context: context,
-                        watch: MyTheme.appolloWhite,
-                        mobile: MyTheme.appolloWhite,
-                        tablet: MyTheme.appolloBlack,
-                        desktop: MyTheme.appolloBlack),
+                    iconEnabledColor: MyTheme.appolloWhite,
                     isDense: true,
                     itemHeight: 50,
                     decoration: InputDecoration(isDense: true),
@@ -766,12 +754,7 @@ class _PaymentPageState extends State<PaymentPage> {
             width: widget.maxWidth,
             height: 50,
             child: DropdownButtonFormField(
-              iconEnabledColor: getValueForScreenType(
-                  context: context,
-                  watch: MyTheme.appolloWhite,
-                  mobile: MyTheme.appolloWhite,
-                  tablet: MyTheme.appolloBlack,
-                  desktop: MyTheme.appolloBlack),
+              iconEnabledColor: MyTheme.appolloWhite,
               isDense: true,
               itemHeight: 50,
               decoration: InputDecoration(hintText: 'Quantity', isDense: true),
@@ -864,12 +847,7 @@ class _PaymentPageState extends State<PaymentPage> {
             height: 50,
             child: PaymentRepository.instance.last4 != null
                 ? DropdownButtonFormField(
-                    iconEnabledColor: getValueForScreenType(
-                        context: context,
-                        watch: MyTheme.appolloWhite,
-                        mobile: MyTheme.appolloWhite,
-                        tablet: MyTheme.appolloBlack,
-                        desktop: MyTheme.appolloBlack),
+                    iconEnabledColor: MyTheme.appolloWhite,
                     decoration: InputDecoration(isDense: true),
                     isDense: true,
                     itemHeight: 50,
@@ -891,12 +869,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     },
                   )
                 : DropdownButtonFormField(
-                    iconEnabledColor: getValueForScreenType(
-                        context: context,
-                        watch: MyTheme.appolloWhite,
-                        mobile: MyTheme.appolloWhite,
-                        tablet: MyTheme.appolloBlack,
-                        desktop: MyTheme.appolloBlack),
+                    iconEnabledColor: MyTheme.appolloWhite,
                     decoration: InputDecoration(isDense: true),
                     isDense: true,
                     itemHeight: 50,

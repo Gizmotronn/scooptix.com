@@ -14,15 +14,13 @@ import 'package:ticketapp/UI/event_overview/tabs/today_events.dart';
 import 'package:ticketapp/UI/event_overview/tabs/upcoming_event.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewHome extends StatefulWidget {
   final List<Event> events;
   final EventsOverviewBloc bloc;
-  final AuthenticationBloc authBloc;
 
-  const EventOverviewHome({Key key, this.events, this.bloc, this.authBloc}) : super(key: key);
+  const EventOverviewHome({Key key, this.events, this.bloc}) : super(key: key);
 
   @override
   _EventOverviewHomeState createState() => _EventOverviewHomeState();
@@ -62,7 +60,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         } else if (state is FreeEventsState) {
           return FreeEvents(events: state.freeEvents);
         } else if (state is ForMeEventsState) {
-          return EventsForMe(bloc: widget.authBloc, scrollController: scrollController);
+          return EventsForMe(scrollController: scrollController);
         } else if (state is TodayEventsState) {
           return TodayEvents(events: state.todayEvents);
         } else if (state is ThisWeekEventsState) {

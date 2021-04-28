@@ -218,27 +218,29 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   /// Tries to login a previously logged in user.
   Stream<AuthenticationState> _signInCurrentUser() async* {
-    auth.User fbUser = auth.FirebaseAuth.instance.currentUser;
-    if (fbUser == null) {
-      print("no current user");
-      fbUser = await auth.FirebaseAuth.instance.authStateChanges().first;
-    }
-    if (fbUser == null) {
-      print("no state change user");
-      yield StateInitial();
-    } else {
-      await UserRepository.instance.getUser(fbUser.uid);
-
-      // Using SSO it's possible the user has an auth account but no user document
-      if (UserRepository.instance.currentUserNotifier == null) {
-        String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
-        String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
-            ? fbUser.displayName.split(" ")[1]
-            : "";
-        yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
+    if (UserRepository.instance.currentUser() == null) {
+      auth.User fbUser = auth.FirebaseAuth.instance.currentUser;
+      if (fbUser == null) {
+        print("no current user");
+        fbUser = await auth.FirebaseAuth.instance.authStateChanges().first;
+      }
+      if (fbUser == null) {
+        print("no state change user");
+        yield StateInitial();
       } else {
-        yield StateAutoLoggedIn(fbUser.email, UserRepository.instance.currentUser().firstname,
-            UserRepository.instance.currentUser().lastname);
+        await UserRepository.instance.getUser(fbUser.uid);
+
+        // Using SSO it's possible the user has an auth account but no user document
+        if (UserRepository.instance.currentUserNotifier == null) {
+          String firstName = fbUser.displayName != null ? fbUser.displayName.split(" ")[0] : "";
+          String lastName = fbUser.displayName != null && fbUser.displayName.split(" ").length > 1
+              ? fbUser.displayName.split(" ")[1]
+              : "";
+          yield StateNewSSOUser(fbUser.email, fbUser.uid, firstName, lastName);
+        } else {
+          yield StateAutoLoggedIn(fbUser.email, UserRepository.instance.currentUser().firstname,
+              UserRepository.instance.currentUser().lastname);
+        }
       }
     }
   }

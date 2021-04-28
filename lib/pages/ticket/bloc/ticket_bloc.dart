@@ -43,8 +43,6 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
           .where((t) => releasesWithSingleTicketRestriction.any((element) => t.release.docId == element.docId))
           .toList();
 
-      print("tickets ${tickets.length}");
-
       if (restrictedTickets.length > 0) {
         yield StateTicketAlreadyIssued(tickets[0]);
       }

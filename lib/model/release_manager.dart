@@ -30,6 +30,10 @@ class ReleaseManager {
     return null;
   }
 
+  int getFullPrice() {
+    return releases.isEmpty ? 0 : releases.last.price;
+  }
+
   factory ReleaseManager.fromMap(String id, Map<String, dynamic> data) {
     ReleaseManager rm = ReleaseManager._();
 

@@ -4,10 +4,13 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
+import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
-import '../../pages/authentication/bloc/authentication_bloc.dart';
 import '../../utilities/svg/icon.dart';
 import '../theme.dart';
 import '../widgets/icons/svgicon.dart';
@@ -15,15 +18,12 @@ import '../widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
-import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
 class EventOverviewAppbar extends StatefulWidget {
-  final AuthenticationBloc bloc;
-
   final Color color;
 
-  const EventOverviewAppbar({Key key, this.bloc, this.color}) : super(key: key);
+  const EventOverviewAppbar({Key key, this.color}) : super(key: key);
   @override
   _EventOverviewAppbarState createState() => _EventOverviewAppbarState();
 }
@@ -58,7 +58,13 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
             children: [
               Row(
                 children: [
-                  _appolloLogo().paddingHorizontal(50),
+                  InkWell(
+                      onTap: () {
+                        Navigator.popUntil(context, (route) => route.isFirst);
+                        Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
+                            arguments: EventsRepository.instance.events);
+                      },
+                      child: _appolloLogo().paddingHorizontal(50)),
                   _appolloSearchBar(context, screenSize),
                 ],
               ).paddingVertical(4),
@@ -79,7 +85,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                               showBadge: true,
                               alignment: Alignment.topRight,
                               position: BadgePosition.topEnd(end: 5),
-                              child: SideButton(title: 'My Reminder', onTap: () {}).paddingRight(8)),
+                              child: SideButton(title: 'My Reminders', onTap: () {}).paddingRight(8)),
                           Badge(
                               badgeContent: Text('0'),
                               showBadge: false,
@@ -283,7 +289,8 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
 
   Widget _signInButton(context) => InkWell(
         onTap: () {
-          Scaffold.of(context).openEndDrawer();
+          WrapperPage.endDrawer.value = AuthenticationDrawer();
+          WrapperPage.mainScaffold.currentState.openEndDrawer();
         },
         child: Container(
           height: kToolbarHeight,
@@ -300,7 +307,10 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
       );
 
   Widget _showUserAvatar(BuildContext context, User user) => InkWell(
-        onTap: () {},
+        onTap: () {
+          WrapperPage.endDrawer.value = AuthenticationDrawer();
+          WrapperPage.mainScaffold.currentState.openEndDrawer();
+        },
         child: Row(
           children: [
             Text('${user.getFullName() ?? 'Test User'}',

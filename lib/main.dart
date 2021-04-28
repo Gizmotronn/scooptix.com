@@ -5,8 +5,10 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/pages//landing_page/landing_page.dart';
-import 'package:ticketapp/services/navigator_services.dart';
+import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
+import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 
 import 'services/bugsnag_wrapper.dart';
@@ -45,6 +47,9 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     Intl.defaultLocale = 'en_AU';
     initializeDateFormatting('en_AU', null);
+    // Used to sign in current user session
+    AuthenticationDrawer.bloc = AuthenticationBloc();
+    AuthenticationDrawer.bloc.add(EventPageLoad());
     super.initState();
   }
 
@@ -53,11 +58,49 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'appollo - Patron Engagement Technologies',
       theme: MyTheme.theme,
-      // home: EventDetailPage(id: 'Kg95ctLcviH2pOQIdSEr'),
-      navigatorKey: NavigationService.navigatorKey,
-      onGenerateRoute: GeneratedRoute.onGenerateRoute,
-      initialRoute: LandingPage.routeName,
-      builder: (context, child) => Scaffold(body: child),
+      home: WrapperPage(),
     );
+  }
+}
+
+class WrapperPage extends StatefulWidget {
+  static final navigatorKey = GlobalKey<NavigatorState>();
+  static bool drawerOpen = false;
+  static ValueNotifier<Widget> endDrawer = ValueNotifier<Widget>(null);
+  static GlobalKey<ScaffoldState> mainScaffold = GlobalKey<ScaffoldState>();
+
+  @override
+  _WrapperPageState createState() => _WrapperPageState();
+}
+
+class _WrapperPageState extends State<WrapperPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        key: WrapperPage.mainScaffold,
+        onEndDrawerChanged: (d) {
+          setState(() {
+            WrapperPage.drawerOpen = d;
+          });
+        },
+        endDrawer: ValueListenableBuilder(
+            valueListenable: WrapperPage.endDrawer,
+            builder: (context, value, child) {
+              if (value != null) {
+                return value;
+              } else {
+                return SizedBox.shrink();
+              }
+            }),
+        body: Stack(
+          children: [
+            Navigator(
+              key: WrapperPage.navigatorKey,
+              initialRoute: LandingPage.routeName,
+              onGenerateRoute: GeneratedRoute.onGenerateRoute,
+            ),
+            WrapperPage.drawerOpen ? BlurBackground() : SizedBox(),
+          ],
+        ));
   }
 }

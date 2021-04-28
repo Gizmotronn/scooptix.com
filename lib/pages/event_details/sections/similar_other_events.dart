@@ -34,7 +34,9 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _otherEventsByThisOrganizer.isEmpty ? SizedBox() : _otherEventByThisOrganizer(context),
+        _otherEventsByThisOrganizer.isEmpty
+            ? SizedBox()
+            : _otherEventByThisOrganizer(context).paddingBottom(MyTheme.elementSpacing),
         _similarEvents.isEmpty ? SizedBox() : _similarEvent(context).paddingBottom(32),
       ],
     );
@@ -60,9 +62,12 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: _similarEvents.length,
+              itemCount: _similarEvents.length > 3 ? 3 : _similarEvents.length,
               itemBuilder: (c, index) {
-                return EventCard(event: _similarEvents[index]);
+                return EventCard(
+                  event: _similarEvents[index],
+                  width: MyTheme.maxWidth / 3,
+                );
               },
             ),
           ),
@@ -90,9 +95,9 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (c, index) {
-                return EventCard(event: _otherEventsByThisOrganizer[index]);
+                return EventCard(event: _otherEventsByThisOrganizer[index], width: MyTheme.maxWidth / 3);
               },
-              itemCount: _otherEventsByThisOrganizer.length,
+              itemCount: _otherEventsByThisOrganizer.length > 3 ? 3 : _otherEventsByThisOrganizer.length,
             ),
           ),
         ],

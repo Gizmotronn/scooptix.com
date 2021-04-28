@@ -5,7 +5,10 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_details/eventInfo.dart';
 import 'package:ticketapp/UI/event_details/existingTicketsWidget.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
+import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart';
 import 'package:ticketapp/pages/payment/payment_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -25,8 +28,10 @@ class _TicketPageState extends State<TicketPage> {
 
   @override
   void initState() {
-    bloc.add(EventCheckInvitationStatus(
-        UserRepository.instance.currentUser().firebaseUserID, widget.linkType.event, widget.forwardToPayment));
+    if (UserRepository.instance.currentUser() != null) {
+      bloc.add(EventCheckInvitationStatus(
+          UserRepository.instance.currentUser().firebaseUserID, widget.linkType.event, widget.forwardToPayment));
+    }
     super.initState();
   }
 
@@ -38,6 +43,22 @@ class _TicketPageState extends State<TicketPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (UserRepository.instance.currentUser() == null) {
+      return Column(
+        children: [
+          Text("Please login to proceed to checkout").paddingBottom(MyTheme.elementSpacing),
+          AppolloButton.mediumButton(
+              child: Text(
+                "Login",
+                style: MyTheme.darkTextTheme.button,
+              ),
+              onTap: () {
+                WrapperPage.endDrawer.value = AuthenticationDrawer();
+                WrapperPage.mainScaffold.currentState.openEndDrawer();
+              }),
+        ],
+      );
+    }
     return WillPopScope(
       onWillPop: () async {
         bloc.add(EventCheckInvitationStatus(
@@ -79,24 +100,17 @@ class _TicketPageState extends State<TicketPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      AutoSizeText("Uh-oh",
-                          style: getValueForScreenType(
-                              context: context,
-                              watch: MyTheme.lightTextTheme.subtitle1,
-                              mobile: MyTheme.lightTextTheme.subtitle1,
-                              tablet: MyTheme.darkTextTheme.subtitle1,
-                              desktop: MyTheme.darkTextTheme.subtitle1)),
+                      AutoSizeText(
+                        "Uh-oh",
+                        style: MyTheme.lightTextTheme.subtitle1,
+                      ),
                       SizedBox(
                         height: 12,
                       ),
                       AutoSizeText(
-                          "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io",
-                          style: getValueForScreenType(
-                              context: context,
-                              watch: MyTheme.lightTextTheme.bodyText2,
-                              mobile: MyTheme.lightTextTheme.bodyText2,
-                              tablet: MyTheme.darkTextTheme.bodyText2,
-                              desktop: MyTheme.darkTextTheme.bodyText2)),
+                        "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io",
+                        style: MyTheme.lightTextTheme.bodyText2,
+                      ),
                     ],
                   ),
                 )).appolloCard(),
@@ -126,12 +140,12 @@ class _TicketPageState extends State<TicketPage> {
                     width: MyTheme.maxWidth,
                     child: Column(
                       children: [
-                        AutoSizeText("Oh no!", style: MyTheme.darkTextTheme.subtitle1),
+                        AutoSizeText("Oh no!", style: MyTheme.lightTextTheme.subtitle1),
                         SizedBox(
                           height: 12,
                         ),
                         AutoSizeText("It looks like there are currently no tickets for sale.",
-                            style: MyTheme.darkTextTheme.bodyText2),
+                            style: MyTheme.lightTextTheme.bodyText2),
                       ],
                     ),
                   );
@@ -145,24 +159,16 @@ class _TicketPageState extends State<TicketPage> {
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
-                      AutoSizeText("Oh no!",
-                          style: getValueForScreenType(
-                              context: context,
-                              watch: MyTheme.lightTextTheme.subtitle1,
-                              mobile: MyTheme.lightTextTheme.subtitle1,
-                              tablet: MyTheme.darkTextTheme.subtitle1,
-                              desktop: MyTheme.darkTextTheme.subtitle1)),
+                      AutoSizeText(
+                        "Oh no!",
+                        style: MyTheme.lightTextTheme.subtitle1,
+                      ),
                       SizedBox(
                         height: 12,
                       ),
                       AutoSizeText(
                           "Looks like it's past the cutoff time for this event, no more invitations can be accepted.",
-                          style: getValueForScreenType(
-                              context: context,
-                              watch: MyTheme.lightTextTheme.bodyText2,
-                              mobile: MyTheme.lightTextTheme.bodyText2,
-                              tablet: MyTheme.darkTextTheme.bodyText2,
-                              desktop: MyTheme.darkTextTheme.bodyText2)),
+                          style: MyTheme.lightTextTheme.bodyText2),
                     ],
                   ),
                 )).appolloCard(),
@@ -178,7 +184,8 @@ class _TicketPageState extends State<TicketPage> {
                     maxWidth: MyTheme.maxWidth,
                   );
                 } else {
-                  return PaymentPage(widget.linkType, bloc, textTheme: MyTheme.darkTextTheme, maxWidth: 500);
+                  return PaymentPage(widget.linkType, bloc,
+                      textTheme: MyTheme.lightTextTheme, maxWidth: MyTheme.drawerSize);
                 }
               });
             } else if (state is StatePaymentRequired) {
@@ -235,12 +242,12 @@ class _TicketPageState extends State<TicketPage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  AutoSizeText("VIP Invitation Conditions", style: MyTheme.darkTextTheme.headline6),
+                                  AutoSizeText("VIP Invitation Conditions", style: MyTheme.lightTextTheme.headline6),
                                   SizedBox(
                                     height: MyTheme.elementSpacing * 0.5,
                                   ),
                                   AutoSizeText(widget.linkType.event.invitationMessage,
-                                      style: MyTheme.darkTextTheme.bodyText2),
+                                      style: MyTheme.lightTextTheme.bodyText2),
                                   SizedBox(
                                     height: MyTheme.elementSpacing,
                                   ),
@@ -300,7 +307,7 @@ class _TicketPageState extends State<TicketPage> {
                           ),
                           AutoSizeText(
                             "Fetching your invitation data, this won't take long",
-                            style: MyTheme.darkTextTheme.bodyText2,
+                            style: MyTheme.lightTextTheme.bodyText2,
                           )
                         ],
                       ),

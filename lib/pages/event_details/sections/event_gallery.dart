@@ -1,7 +1,8 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/event_details/widget/event_title.dart';
+import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import '../../../model/event.dart';
-import 'event_title.dart';
 import '../../../UI/theme.dart';
 
 class EventGallary extends StatelessWidget {
@@ -19,6 +20,7 @@ class EventGallary extends StatelessWidget {
     return Container(
       child: Column(
         children: [
+          AppolloDivider(),
           EventDetailTitle('Event Gallery').paddingBottom(30),
           GridView.builder(
               shrinkWrap: true,

@@ -137,50 +137,17 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                 color: _buildOutlineColor(),
               ),
             ),
-            child: Expanded(
-              child: Builder(builder: (context) {
-                if (widget.textfieldType == TextFieldType.reactive) {
-                  return ReactiveTextField(
-                    formControlName: widget.formControlName,
-                    keyboardType: widget.keyboardType,
-                    validationMessages: widget.validationMessages,
-                    inputFormatters: widget.inputFormatters,
-                    focusNode: _focusNode,
-                    style: Theme.of(context).textTheme.bodyText1,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.transparent,
-                      contentPadding: const EdgeInsets.only(left: 8),
-                      errorBorder: InputBorder.none,
-                      errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
-                      focusedBorder: InputBorder.none,
-                      hintStyle: Theme.of(context).textTheme.button.copyWith(
-                          color: textFieldState == AppolloTextfieldState.initial
-                              ? MyTheme.appolloGrey
-                              : MyTheme.appolloWhite),
-                      enabledBorder: InputBorder.none,
-                      labelText: widget.labelText,
-                      labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: _buildLabelColor()),
-                      disabledBorder: InputBorder.none,
-                    ),
-                  );
-                }
-                return TextFormField(
-                  autofillHints: widget.autofillHints,
-                  autofocus: widget.autofocus ?? false,
-                  onFieldSubmitted: widget.onFieldSubmitted,
-                  autovalidateMode: widget.autovalidateMode,
-                  validator: widget.validator,
-                  obscureText: widget.obscureText ?? false,
-                  onChanged: (v) => setState(() => _text = v),
-                  controller: widget.controller,
+            child: Builder(builder: (context) {
+              if (widget.textfieldType == TextFieldType.reactive) {
+                return ReactiveTextField(
+                  formControlName: widget.formControlName,
                   keyboardType: widget.keyboardType,
-                  focusNode: _focusNode,
+                  validationMessages: widget.validationMessages,
                   inputFormatters: widget.inputFormatters,
+                  focusNode: _focusNode,
                   style: Theme.of(context).textTheme.bodyText1,
                   decoration: InputDecoration(
                     filled: true,
-                    suffixIcon: widget.suffixIcon,
                     fillColor: Colors.transparent,
                     contentPadding: const EdgeInsets.only(left: 8),
                     errorBorder: InputBorder.none,
@@ -196,8 +163,38 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                     disabledBorder: InputBorder.none,
                   ),
                 );
-              }),
-            ).paddingAll(4),
+              }
+              return TextFormField(
+                autofillHints: widget.autofillHints,
+                autofocus: widget.autofocus ?? false,
+                onFieldSubmitted: widget.onFieldSubmitted,
+                autovalidateMode: widget.autovalidateMode,
+                validator: widget.validator,
+                obscureText: widget.obscureText ?? false,
+                onChanged: (v) => setState(() => _text = v),
+                controller: widget.controller,
+                keyboardType: widget.keyboardType,
+                focusNode: _focusNode,
+                inputFormatters: widget.inputFormatters,
+                style: Theme.of(context).textTheme.bodyText1,
+                decoration: InputDecoration(
+                  filled: true,
+                  suffixIcon: widget.suffixIcon,
+                  fillColor: Colors.transparent,
+                  contentPadding: const EdgeInsets.only(left: 8),
+                  errorBorder: InputBorder.none,
+                  errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                  focusedBorder: InputBorder.none,
+                  hintStyle: Theme.of(context).textTheme.button.copyWith(
+                      color:
+                          textFieldState == AppolloTextfieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
+                  enabledBorder: InputBorder.none,
+                  labelText: widget.labelText,
+                  labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: _buildLabelColor()),
+                  disabledBorder: InputBorder.none,
+                ),
+              );
+            }).paddingAll(4),
           ),
           widget.errorText.isEmpty
               ? SizedBox()

@@ -54,26 +54,19 @@ class BoxOffset extends StatefulWidget {
 }
 
 class _BoxOffsetState extends State<BoxOffset> {
-  GlobalKey widgetKey = GlobalKey();
-
-  Size size = Size(0, 0);
   Offset offset = Offset(0.0, 0.0);
 
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final box = widgetKey.currentContext.findRenderObject() as RenderBox;
-      offset = box.localToGlobal(Offset.zero);
-      size = box.size;
-      widget.boxOffset(offset);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final box = context.findRenderObject() as RenderBox;
+      Offset newOffset = box.localToGlobal(Offset.zero);
+      if (newOffset != offset) {
+        offset = newOffset;
+        widget.boxOffset(offset);
+      }
+    });
     return Container(
-      key: widgetKey,
       child: widget.child,
     );
   }

@@ -51,7 +51,7 @@ extension AppolloCards on Container {
           filter: ImageFilter.blur(sigmaX: 15.0, sigmaY: 15.0),
           child: Container(
             decoration: ShapeDecoration(
-              color: color ?? MyTheme.appolloBackgroundColor2.withAlpha(190),
+              color: color ?? MyTheme.appolloBackgroundColor.withAlpha(90),
               shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5))),
             ),
             child: this.child,
@@ -64,7 +64,7 @@ extension AppolloCards on Container {
   Container appolloTransparentCard({Color color, BorderRadiusGeometry borderRadius}) {
     return Container(
       decoration: ShapeDecoration(
-          color: color ?? MyTheme.appolloBackgroundColor2.withAlpha(200),
+          color: color ?? MyTheme.appolloCardColor.withAlpha(200),
           shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)))),
       child: this.child,
     );
@@ -141,7 +141,7 @@ class MyTheme {
               fontSize: 25.6, // 32
               letterSpacing: -0.5,
               color: appolloWhite,
-              fontWeight: FontWeight.w500)
+              fontWeight: FontWeight.w600)
           .withZoomFix,
       headline3: TextStyle(
               fontFamily: "montserrat",
@@ -181,9 +181,9 @@ class MyTheme {
       button: TextStyle(
               fontFamily: "montserrat",
               fontSize: 14,
-              letterSpacing: 1.25,
+              letterSpacing: 0.75,
               color: appolloWhite,
-              fontWeight: FontWeight.w300)
+              fontWeight: FontWeight.w500)
           .withZoomFix, // 14
       overline: TextStyle(
               fontFamily: "montserrat",
@@ -276,7 +276,7 @@ class MyTheme {
               fontSize: 14,
               letterSpacing: 1.25,
               color: appolloWhite,
-              fontWeight: FontWeight.w300)
+              fontWeight: FontWeight.w500)
           .withZoomFix, // 14
       overline: TextStyle(
               fontFamily: "montserrat",
@@ -304,6 +304,7 @@ class MyTheme {
           selectedIconTheme: IconThemeData(color: Colors.white),
           unselectedIconTheme: IconThemeData(color: Colors.black)),
       visualDensity: VisualDensity.adaptivePlatformDensity,
+      unselectedWidgetColor: MyTheme.appolloWhite,
       textTheme: lightTextTheme,
       primaryTextTheme: lightTextTheme);
 }

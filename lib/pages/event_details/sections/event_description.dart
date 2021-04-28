@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/event_details/widget/event_title.dart';
 
 import '../../../UI/widgets/appollo/appolloDivider.dart';
 import '../../../model/event.dart';
-import 'event_title.dart';
 import '../../../UI/theme.dart';
 
 class EventDescription extends StatelessWidget {

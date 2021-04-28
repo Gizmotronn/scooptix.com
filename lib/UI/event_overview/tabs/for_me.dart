@@ -1,13 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/forme_card.dart';
-import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
@@ -16,10 +14,9 @@ import '../event_overview_home.dart';
 import '../side_buttons.dart';
 
 class EventsForMe extends StatefulWidget {
-  final AuthenticationBloc bloc;
   final ScrollController scrollController;
 
-  const EventsForMe({Key key, this.bloc, this.scrollController}) : super(key: key);
+  const EventsForMe({Key key, this.scrollController}) : super(key: key);
 
   @override
   _EventsForMeState createState() => _EventsForMeState();
@@ -39,61 +36,56 @@ class _EventsForMeState extends State<EventsForMe> {
     final screenSize = MediaQuery.of(context).size;
     return SizedBox(
       width: screenSize.width * 0.8,
-      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          cubit: widget.bloc,
-          builder: (context, state) {
-            if (state is StateLoggedIn) {
-              return Column(
-                children: [
-                  _forMeNav().paddingBottom(16),
-                  BoxOffset(
-                    boxOffset: (offset) => setState(() => positions[_forMe[0].id] = offset.dy),
-                    child: AppolloBackgroundCard(
-                      child: Column(
-                        children: [
-                          _forMeTags(context, tag: 'Event you may liked', icon: AppolloSvgIcon.calender),
-                          const SizedBox(height: 300),
-                        ],
-                      ),
+      child: UserRepository.instance.currentUser() != null
+          ? Column(
+              children: [
+                _forMeNav().paddingBottom(16),
+                BoxOffset(
+                  boxOffset: (offset) => setState(() => positions[_forMe[0].id] = offset.dy),
+                  child: AppolloBackgroundCard(
+                    child: Column(
+                      children: [
+                        _forMeTags(context, tag: 'Event you may liked', icon: AppolloSvgIcon.calender),
+                        const SizedBox(height: 300),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: kToolbarHeight),
-                  BoxOffset(
-                    boxOffset: (offset) => setState(() => positions[_forMe[1].id] = offset.dy),
-                    child: AppolloBackgroundCard(
-                      child: Column(
-                        children: [
-                          _forMeTags(context, tag: 'Favourite Organizers', icon: AppolloSvgIcon.people),
-                          const SizedBox(height: 300),
-                        ],
-                      ),
+                ),
+                const SizedBox(height: kToolbarHeight),
+                BoxOffset(
+                  boxOffset: (offset) => setState(() => positions[_forMe[1].id] = offset.dy),
+                  child: AppolloBackgroundCard(
+                    child: Column(
+                      children: [
+                        _forMeTags(context, tag: 'Favourite Organizers', icon: AppolloSvgIcon.people),
+                        const SizedBox(height: 300),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: kToolbarHeight),
-                  BoxOffset(
-                    boxOffset: (offset) => setState(() => positions[_forMe[2].id] = offset.dy),
-                    child: AppolloBackgroundCard(
-                      child: Column(
-                        children: [
-                          _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
-                          AppolloEvents(
-                              events: EventsRepository.instance.events
-                                  .where((element) =>
-                                      UserRepository.instance.currentUser().favourites.contains(element.docID))
-                                  .toList()),
-                        ],
-                      ),
+                ),
+                const SizedBox(height: kToolbarHeight),
+                BoxOffset(
+                  boxOffset: (offset) => setState(() => positions[_forMe[2].id] = offset.dy),
+                  child: AppolloBackgroundCard(
+                    child: Column(
+                      children: [
+                        _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
+                        AppolloEvents(
+                            events: EventsRepository.instance.events
+                                .where((element) =>
+                                    UserRepository.instance.currentUser().favourites.contains(element.docID))
+                                .toList()),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: kToolbarHeight),
-                ],
-              );
-            }
-            return Container(
+                ),
+                const SizedBox(height: kToolbarHeight),
+              ],
+            )
+          : Container(
               height: screenSize.height * 0.5,
               child: _buildForMe(),
-            );
-          }),
+            ),
     );
   }
 

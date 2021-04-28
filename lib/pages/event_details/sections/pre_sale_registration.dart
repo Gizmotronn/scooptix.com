@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/event_details/widget/counter.dart';
+import 'package:ticketapp/UI/event_details/widget/event_title.dart';
 import 'package:ticketapp/model/event.dart';
 
 import '../../../UI/theme.dart';
@@ -7,8 +9,6 @@ import '../../../UI/widgets/appollo/appolloDivider.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/level_card.dart';
 import '../../../utilities/svg/icon.dart';
-import 'counter.dart';
-import 'event_title.dart';
 
 class PreSaleRegistration extends StatelessWidget {
   final Event event;
@@ -53,32 +53,9 @@ class PreSaleRegistration extends StatelessWidget {
               style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
           const SizedBox(height: 32),
           _subtitle(context, 'Pre-Sale Closes In').paddingBottom(32),
-          SizedBox(
-            width: 250,
-            child: Container(
-              child: Row(
-                children: [
-                  Expanded(
-                      child: AppolloSmallCounter(
-                          duration: _duration(event?.date ?? DateTime.now()),
-                          countDownType:
-                              _duration(event.date).inDays <= 1 ? CountDownType.inHours : CountDownType.inDays)),
-                  const SizedBox(width: 4),
-                  Expanded(
-                      child: AppolloSmallCounter(
-                          duration: _duration(event.date ?? DateTime.now()),
-                          countDownType:
-                              _duration(event.date).inDays <= 1 ? CountDownType.inMinutes : CountDownType.inHours)),
-                  const SizedBox(width: 4),
-                  Expanded(
-                      child: AppolloSmallCounter(
-                          duration: _duration(event.date ?? DateTime.now()),
-                          countDownType: _duration(event.date ?? DateTime.now()).inDays <= 1
-                              ? CountDownType.inSeconds
-                              : CountDownType.inMinutes)),
-                ],
-              ).paddingAll(4),
-            ).appolloCard(),
+          Countdown(
+            width: 280,
+            duration: event.date.difference(DateTime.now()),
           ).paddingBottom(32),
           AppolloButton.wideButton(
             heightMax: 40,
@@ -241,6 +218,4 @@ class PreSaleRegistration extends StatelessWidget {
       ],
     );
   }
-
-  Duration _duration(DateTime time) => time.difference(DateTime.now());
 }
