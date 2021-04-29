@@ -1,6 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ticketapp/main.dart';
+import 'package:ticketapp/model/link_type/overview.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
@@ -215,7 +220,18 @@ class MakeBooking extends StatelessWidget {
                                 style:
                                     Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                               ),
-                              onTap: () {},
+                              onTap: () {
+                                if (UserRepository.instance.isLoggedIn) {
+                                  WrapperPage.endDrawer.value = BirthdayDrawer(
+                                    linkType: OverviewLinkType(event),
+                                  );
+                                  WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                } else {
+                                  WrapperPage.endDrawer.value = AuthenticationDrawer();
+                                  WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                  UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -235,4 +251,16 @@ class MakeBooking extends StatelessWidget {
           ),
         ).appolloCard().paddingHorizontal(32),
       );
+
+  VoidCallback _tryOpenBirthdayDrawer() {
+    return () {
+      if (UserRepository.instance.isLoggedIn) {
+        WrapperPage.endDrawer.value = BirthdayDrawer(
+          linkType: OverviewLinkType(event),
+        );
+        WrapperPage.mainScaffold.currentState.openEndDrawer();
+      }
+      UserRepository.instance.currentUserNotifier.removeListener(_tryOpenBirthdayDrawer());
+    };
+  }
 }

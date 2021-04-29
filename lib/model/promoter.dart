@@ -3,6 +3,7 @@ class Promoter {
   String firstName;
   String lastName;
 
+  Promoter(this.docId, this.firstName, this.lastName);
   Promoter._();
 
   factory Promoter.fromMap(String id, Map<String, dynamic> data) {

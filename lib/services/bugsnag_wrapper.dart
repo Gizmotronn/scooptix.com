@@ -205,7 +205,7 @@ class BugsnagNotifier {
 
       print('Reporting to bugsnag...');
       var response = await http.post(
-        'https://notify.bugsnag.com/',
+        Uri.parse('https://notify.bugsnag.com/'),
         headers: headers,
         body: jsonEncode(requestBody),
       );

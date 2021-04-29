@@ -6,7 +6,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import '../../theme.dart';
 
 enum AppolloTextfieldState { initial, hover, typing, filled, diabled, error }
-enum TextFieldType { reactive, dafault }
+enum TextFieldType { reactive, regular }
 
 class AppolloTextfield extends StatefulWidget {
   final TextEditingController controller;

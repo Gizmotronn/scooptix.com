@@ -28,6 +28,8 @@ class UserRepository {
     return currentUserNotifier.value;
   }
 
+  bool get isLoggedIn => currentUser() != null;
+
   Future<User> createUser(String email, String password, String firstName, String lastName, DateTime dob, Gender gender,
       {String uid}) async {
     print(uid);
