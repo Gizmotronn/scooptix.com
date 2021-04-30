@@ -666,7 +666,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
         child: Focus(
           child: AppolloTextfield(
-              textfieldType: TextFieldType.dafault,
+              textfieldType: TextFieldType.regular,
               autofillHints: [AutofillHints.email],
               controller: _emailController,
               onFieldSubmitted: (v) {
@@ -688,7 +688,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
             child: Focus(
               child: AppolloTextfield(
-                textfieldType: TextFieldType.dafault,
+                textfieldType: TextFieldType.regular,
                 labelText: "Email",
                 autofillHints: [AutofillHints.email],
                 controller: _emailController,
@@ -721,7 +721,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             child: Focus(
               child: AppolloTextfield(
                 labelText: "Confirm Email",
-                textfieldType: TextFieldType.dafault,
+                textfieldType: TextFieldType.regular,
                 autofillHints: [AutofillHints.email],
                 autofocus: true,
                 controller: _confirmEmailController,
@@ -902,7 +902,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
             child: AppolloTextfield(
-              textfieldType: TextFieldType.dafault,
+              textfieldType: TextFieldType.regular,
               autofillHints: [AutofillHints.password],
               controller: _pwController,
               autofocus: true,
@@ -927,7 +927,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
             child: AppolloTextfield(
-              textfieldType: TextFieldType.dafault,
+              textfieldType: TextFieldType.regular,
               autofillHints: [AutofillHints.password],
               controller: _confirmPwController,
               obscureText: true,
@@ -959,7 +959,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           Container(
             constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
             child: AppolloTextfield(
-              textfieldType: TextFieldType.dafault,
+              textfieldType: TextFieldType.regular,
 
               autofillHints: [AutofillHints.password],
               controller: _pwController,

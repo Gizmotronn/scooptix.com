@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
@@ -51,7 +52,6 @@ class TicketRepository {
         .collection("tickets")
         .where("eventref", isEqualTo: event.docID)
         .get();
-    print("num tickets ${ticketSnapshot.size}");
     if (ticketSnapshot.size == 0) {
       return [];
     } else {
@@ -158,7 +158,7 @@ class TicketRepository {
 
       http.Response response;
       try {
-        response = await http.post("https://appollo-devops.web.app/ticketConfirmation", body: {
+        response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
           "uid": UserRepository.instance.currentUser().firebaseUserID,
           "eventId": linkType.event.docID,
           "ticketId": ticketDocIds[0]
@@ -238,7 +238,7 @@ class TicketRepository {
 
       http.Response response;
       try {
-        response = await http.post("https://appollo-devops.web.app/ticketConfirmation", body: {
+        response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
           "uid": UserRepository.instance.currentUser().firebaseUserID,
           "eventId": linkType.event.docID,
           "ticketId": ticketDoc.id
@@ -258,6 +258,23 @@ class TicketRepository {
       print(e);
       return null;
     }
+  }
+
+  Future<List<AttendeeTicket>> loadBookingAttendees(Event event, String promoterId) async {
+    List<AttendeeTicket> attendees = [];
+    QuerySnapshot passSnaphot = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(event.docID)
+        .collection("tickets")
+        .where("promoter", isEqualTo: promoterId)
+        .get();
+    await Future.wait(passSnaphot.docs.map((e) async {
+      attendees.add(AttendeeTicket()
+        ..docId = e.id
+        ..name = e.data()["firstname"] + " " + e.data()["lastname"]
+        ..dateAccepted = DateTime.fromMillisecondsSinceEpoch(e.data()["requesttime"].millisecondsSinceEpoch));
+    }));
+    return attendees;
   }
 
   /// Increments the bought_ticket counter for releases

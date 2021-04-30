@@ -1,3 +1,4 @@
+import 'birthday_lists/birthday_event_data.dart';
 import 'release_manager.dart';
 import 'ticket_release.dart';
 import 'package:ticketapp/model/release_manager.dart';
@@ -46,7 +47,7 @@ class Event {
   String ticketCheckoutMessage;
   double feePercent = 10.0;
   EventOccurrence occurrence;
-
+  BirthdayEventData birthdayEventData;
   List<TicketRelease> getTicketReleases() {
     List<TicketRelease> release = [];
     for (int i = 0; i < releaseManagers.length; i++) {
@@ -91,7 +92,7 @@ class Event {
     List<TicketRelease> releases = [];
     releaseManagers.forEach((manager) {
       if (manager.singleTicketRestriction) {
-        releases.add(manager.getActiveRelease());
+        releases.addAll(manager.releases);
       }
     });
     return releases;
@@ -178,6 +179,18 @@ class Event {
       }
       if (data.containsKey("allowsbirthdaysignups")) {
         event.allowsBirthdaySignUps = data["allowsbirthdaysignups"];
+        if (event.allowsBirthdaySignUps) {
+          event.birthdayEventData = BirthdayEventData();
+          if (data.containsKey("birthday_data")) {
+            event.birthdayEventData.price = data["birthday_data"]["price"] ?? 0;
+            event.birthdayEventData.maxGuests = data["birthday_data"]["max_guests"] ?? 0;
+            if (data["birthday_data"].containsKey("benefits")) {
+              {
+                event.birthdayEventData.benefits.addAll(data["birthday_data"]["benefits"].cast<String>());
+              }
+            }
+          }
+        }
       }
       if (data.containsKey("contactemail")) {
         event.contactEmail = data["contactemail"];
@@ -217,7 +230,7 @@ class Event {
 
       return event;
     } catch (e, s) {
-      // print(e);
+      print(e);
       // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }

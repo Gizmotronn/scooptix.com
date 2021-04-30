@@ -40,7 +40,7 @@ class PaymentRepository {
       String eventId, String managerId, String ticketReleaseId, int quantity, Discount discount) async {
     print(discount);
     try {
-      http.Response response = await http.post("https://appollo-devops.web.app/createPITicketSale", body: {
+      http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/createPITicketSale"), body: {
         "event": eventId,
         "manager": managerId,
         "ticketRelease": ticketReleaseId,
@@ -61,7 +61,7 @@ class PaymentRepository {
   /// Setting [forceNewPaymentMethod] to true ignores any stored payment methods.
   Future<http.Response> getSetupIntent(bool forceNewPaymentMethod) async {
     try {
-      http.Response response = await http.post("https://appollo-devops.web.app/getSetupIntent", body: {
+      http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/getSetupIntent"), body: {
         "user": UserRepository.instance.currentUser().firebaseUserID,
         "forceNewPaymentMethod": forceNewPaymentMethod.toString()
       });
@@ -74,7 +74,7 @@ class PaymentRepository {
 
   Future<http.Response> confirmSetupIntent(String paymentId, String setupIntentId) async {
     try {
-      http.Response response = await http.post("https://appollo-devops.web.app/confirmSetupIntent",
+      http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/confirmSetupIntent"),
           body: {"paymentId": paymentId, "setupIntentId": setupIntentId});
       return response;
     } on Exception catch (ex) {

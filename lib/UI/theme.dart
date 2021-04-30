@@ -75,7 +75,7 @@ class MyTheme {
   static double maxWidth = 1080.0;
   static double elementSpacing = 20.0;
   static double cardPadding = 32;
-  static double drawerSize = 420;
+  static double drawerSize = 432;
 
   static Duration animationDuration = Duration(milliseconds: 300);
 
@@ -147,15 +147,15 @@ class MyTheme {
               fontFamily: "montserrat",
               fontSize: 19.2,
               letterSpacing: 0,
-              color: appolloWhite,
+              color: appolloGreen,
               fontWeight: FontWeight.w500) // 24
           .withZoomFix,
       headline4: TextStyle(
               fontFamily: "montserrat",
               fontSize: 19.2,
               letterSpacing: 0,
-              color: appolloWhite,
-              fontWeight: FontWeight.w400)
+              color: appolloOrange,
+              fontWeight: FontWeight.w500)
           .withZoomFix, // 24
       headline5: TextStyle(
               fontFamily: "montserrat",
