@@ -34,6 +34,10 @@ class ReleaseManager {
     return releases.isEmpty ? 0 : releases.last.price;
   }
 
+  bool isSoldOut() {
+    return !releases.any((element) => element.maxTickets > element.ticketsBought);
+  }
+
   factory ReleaseManager.fromMap(String id, Map<String, dynamic> data) {
     ReleaseManager rm = ReleaseManager._();
 

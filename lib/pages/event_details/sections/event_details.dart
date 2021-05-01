@@ -170,7 +170,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
                 deactiveColorText: MyTheme.appolloGreen,
                 onTap: () async {
                   await widget.scrollController
-                      .animateTo(positions[index + 1], curve: Curves.linear, duration: MyTheme.animationDuration);
+                      .animateTo(positions[index + 1] - 100, curve: Curves.linear, duration: MyTheme.animationDuration);
                 },
               ),
             ),

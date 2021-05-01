@@ -52,6 +52,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   /// Checks whether the entered email address is new or from an existing user
   Stream<AuthenticationState> _checkUserStatus(String email) async* {
+    print("checking user status");
     yield StateLoadingUserData();
     bool isInUse = await FBServices.instance.isEmailInUse(email);
     if (isInUse == null) {

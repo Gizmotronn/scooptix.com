@@ -97,6 +97,7 @@ class MyTheme {
   static Color appolloLightGrey = Color(0xFFEFF2F7);
   static Color appolloBackgroundColor = Color(0xFF14142B);
   static Color appolloBackgroundColor2 = Color(0xFF21223B);
+  static Color appolloLightCardColor = Color(0xFF4D4D7E);
   static Color appolloCardColor = Color(0xFF2B2B57);
   static Color appolloCardColor2 = Color(0xFF343454);
   static Color appolloTextFieldColor = Color(0xFF22223A);
@@ -189,7 +190,7 @@ class MyTheme {
       overline: TextStyle(
               fontFamily: "montserrat",
               fontSize: 10.8,
-              letterSpacing: 2,
+              letterSpacing: 0.5,
               color: appolloWhite,
               fontWeight: FontWeight.w400)
           .withZoomFix);
@@ -275,14 +276,14 @@ class MyTheme {
       button: TextStyle(
               fontFamily: "montserrat",
               fontSize: 14,
-              letterSpacing: 1.25,
+              letterSpacing: 0.75,
               color: appolloWhite,
               fontWeight: FontWeight.w500)
           .withZoomFix, // 14
       overline: TextStyle(
               fontFamily: "montserrat",
               fontSize: 10.8,
-              letterSpacing: 2,
+              letterSpacing: 0.5,
               color: appolloBlack,
               fontWeight: FontWeight.w400)
           .withZoomFix);

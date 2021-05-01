@@ -50,7 +50,7 @@ class EventsRepository {
     }
     await Future.wait(releaseManagerSnapshot.docs.map((element) async {
       ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
-      rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
+      rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm));
       event.releaseManagers.add(rm);
     }));
 
@@ -62,18 +62,18 @@ class EventsRepository {
   }
 
   /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers
-  Future<List<TicketRelease>> loadReleasesForManager(String eventId, String rmId) async {
+  Future<List<TicketRelease>> loadReleasesForManager(String eventId, ReleaseManager rm) async {
     QuerySnapshot releaseSnapshots = await FirebaseFirestore.instance
         .collection("ticketevents")
         .doc(eventId)
         .collection("release_managers")
-        .doc(rmId)
+        .doc(rm.docId)
         .collection("ticket_releases")
         .get();
 
     List<TicketRelease> ticketReleases = [];
     releaseSnapshots.docs.forEach((releaseDoc) {
-      TicketRelease release = TicketRelease.fromMap(releaseDoc.id, releaseDoc.data());
+      TicketRelease release = TicketRelease.fromMap(releaseDoc.id, releaseDoc.data(), rm.name);
       if (release != null) {
         ticketReleases.add(release);
       }
@@ -157,7 +157,7 @@ class EventsRepository {
         }
         await Future.wait(releaseManagerSnapshot.docs.map((element) async {
           ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
-          rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm.docId));
+          rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm));
           event.releaseManagers.add(rm);
         }));
         events.add(event);

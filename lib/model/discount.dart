@@ -6,6 +6,7 @@ class Discount {
   DiscountType type;
   int maxUses;
   int timesUsed;
+  String code;
 
   Discount._();
 
@@ -31,6 +32,7 @@ class Discount {
 
       discount.maxUses = data["max_uses"];
       discount.timesUsed = data["times_used"];
+      discount.code = data["code"];
 
       return discount;
     } catch (_) {

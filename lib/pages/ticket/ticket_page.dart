@@ -1,23 +1,26 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/event_details/eventInfo.dart';
-import 'package:ticketapp/UI/event_details/existingTicketsWidget.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
+import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/main.dart';
+import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import 'package:ticketapp/model/ticket_release.dart';
+import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
 import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart';
-import 'package:ticketapp/pages/payment/payment_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 class TicketPage extends StatefulWidget {
   final LinkType linkType;
   final bool forwardToPayment;
+  final Map<TicketRelease, int> selectedTickets;
+  final double maxWidth;
 
-  const TicketPage(this.linkType, {Key key, @required this.forwardToPayment}) : super(key: key);
+  const TicketPage(this.linkType,
+      {Key key, @required this.forwardToPayment, @required this.selectedTickets, @required this.maxWidth})
+      : super(key: key);
 
   @override
   _TicketPageState createState() => _TicketPageState();
@@ -25,13 +28,13 @@ class TicketPage extends StatefulWidget {
 
 class _TicketPageState extends State<TicketPage> {
   TicketBloc bloc = TicketBloc();
+  double subtotal;
+  int totalTicketQuantity;
+  Discount discount;
+  TextEditingController _discountController = TextEditingController();
 
   @override
   void initState() {
-    if (UserRepository.instance.currentUser() != null) {
-      bloc.add(EventCheckInvitationStatus(
-          UserRepository.instance.currentUser().firebaseUserID, widget.linkType.event, widget.forwardToPayment));
-    }
     super.initState();
   }
 
@@ -43,280 +46,302 @@ class _TicketPageState extends State<TicketPage> {
 
   @override
   Widget build(BuildContext context) {
-    if (UserRepository.instance.currentUser() == null) {
-      return Column(
-        children: [
-          Text("Please login to proceed to checkout").paddingBottom(MyTheme.elementSpacing),
-          AppolloButton.mediumButton(
-              child: Text(
-                "Login",
-                style: MyTheme.darkTextTheme.button,
-              ),
-              onTap: () {
-                WrapperPage.endDrawer.value = AuthenticationDrawer();
-                WrapperPage.mainScaffold.currentState.openEndDrawer();
-              }),
-        ],
-      );
+    subtotal = 0;
+    totalTicketQuantity = 0;
+    widget.selectedTickets.forEach((release, quantity) {
+      subtotal += release.price * quantity;
+    });
+    if (widget.selectedTickets.isNotEmpty) {
+      totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
     }
-    return WillPopScope(
-      onWillPop: () async {
-        bloc.add(EventCheckInvitationStatus(
-            UserRepository.instance.currentUser().firebaseUserID, widget.linkType.event, false));
-        return false;
-      },
-      child: BlocBuilder<TicketBloc, TicketState>(
-          cubit: bloc,
-          builder: (c, state) {
-            if (state is StateInvitationAccepted) {
-              return SizedBox(
-                width: MyTheme.maxWidth,
-                child: ExistingTicketsWidget(state.tickets, widget.linkType),
-              );
-            } else if (state is StateTicketAlreadyIssued) {
-              return SizedBox(
-                width: MyTheme.maxWidth,
-                child: Column(
-                  children: [
-                    ResponsiveBuilder(builder: (context, constraints) {
-                      if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                          constraints.deviceScreenType == DeviceScreenType.watch) {
-                        return Container(child: EventInfoWidget(Axis.vertical, widget.linkType))
-                            .appolloCard()
-                            .paddingBottom(8);
-                      } else {
-                        return SizedBox.shrink();
-                      }
-                    }),
-                    ExistingTicketsWidget([state.ticket], widget.linkType),
-                  ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AutoSizeText(
+          "Order Summary",
+          style: MyTheme.lightTextTheme.headline2,
+        ).paddingBottom(MyTheme.elementSpacing),
+        _buildMainContent().paddingBottom(MyTheme.elementSpacing),
+        _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
+        Expanded(
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: widget.maxWidth,
+              height: 38,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: MyTheme.appolloGreen,
                 ),
-              );
-            } else if (state is StateError) {
-              return SizedBox(
-                width: MyTheme.maxWidth,
-                child: Container(
-                    child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      AutoSizeText(
-                        "Uh-oh",
-                        style: MyTheme.lightTextTheme.subtitle1,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      AutoSizeText(
-                        "Something went wrong on our end. Please reload the page and try again. If this continues to happen, please contact us: contact@appollo.io",
-                        style: MyTheme.lightTextTheme.bodyText2,
-                      ),
-                    ],
-                  ),
-                )).appolloCard(),
-              );
-            } else if (state is StateNoTicketsLeft) {
-              return ResponsiveBuilder(builder: (context, constraints) {
-                if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                    constraints.deviceScreenType == DeviceScreenType.watch) {
-                  return SizedBox(
-                    width: MyTheme.maxWidth,
-                    child: Container(
-                        child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          AutoSizeText("Oh no!", style: MyTheme.lightTextTheme.subtitle1),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          AutoSizeText("It looks like there are no more tickets left."),
-                        ],
-                      ),
-                    )).appolloCard(),
-                  );
-                } else {
-                  return SizedBox(
-                    width: MyTheme.maxWidth,
-                    child: Column(
-                      children: [
-                        AutoSizeText("Oh no!", style: MyTheme.lightTextTheme.subtitle1),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        AutoSizeText("It looks like there are currently no tickets for sale.",
-                            style: MyTheme.lightTextTheme.bodyText2),
-                      ],
-                    ),
-                  );
-                }
-              });
-            } else if (state is StatePastCutoffTime) {
-              return SizedBox(
-                width: MyTheme.maxWidth,
-                child: Container(
-                    child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      AutoSizeText(
-                        "Oh no!",
-                        style: MyTheme.lightTextTheme.subtitle1,
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      AutoSizeText(
-                          "Looks like it's past the cutoff time for this event, no more invitations can be accepted.",
-                          style: MyTheme.lightTextTheme.bodyText2),
-                    ],
-                  ),
-                )).appolloCard(),
-              );
-            } else if (state is StateWaitForPayment) {
-              return ResponsiveBuilder(builder: (context, constraints) {
-                if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                    constraints.deviceScreenType == DeviceScreenType.watch) {
-                  return PaymentPage(
-                    widget.linkType,
-                    bloc,
-                    textTheme: MyTheme.lightTextTheme,
-                    maxWidth: MyTheme.maxWidth,
-                  );
-                } else {
-                  return PaymentPage(widget.linkType, bloc,
-                      textTheme: MyTheme.lightTextTheme, maxWidth: MyTheme.drawerSize);
-                }
-              });
-            } else if (state is StatePaymentRequired) {
-              return Column(
-                children: [
-                  ResponsiveBuilder(builder: (context, constraints) {
-                    if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                        constraints.deviceScreenType == DeviceScreenType.watch) {
-                      return Column(
-                        children: [
-                          Container(child: EventInfoWidget(Axis.vertical, widget.linkType))
-                              .appolloCard()
-                              .paddingBottom(8),
-                          SizedBox(
-                            width: MyTheme.maxWidth,
-                            child: Container(
-                                child: Padding(
-                              padding: EdgeInsets.all(MyTheme.cardPadding),
-                              child: Column(
-                                children: [
-                                  AutoSizeText("Accept your invitation", style: MyTheme.lightTextTheme.subtitle1),
-                                  SizedBox(
-                                    height: 18,
-                                  ),
-                                  SizedBox(
-                                    width: MyTheme.maxWidth,
-                                    height: 34,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        primary: MyTheme.appolloGreen,
-                                      ),
-                                      onPressed: () {
-                                        bloc.add(EventGoToPayment(state.releases));
-                                      },
-                                      child: Text(
-                                        "Get Your Ticket",
-                                        style: MyTheme.lightTextTheme.button,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            )).appolloCard(),
-                          ).paddingBottom(8),
-                        ],
-                      );
-                    } else {
-                      return SizedBox(
-                        width: MyTheme.maxWidth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            if (widget.linkType.event.invitationMessage != "")
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AutoSizeText("VIP Invitation Conditions", style: MyTheme.lightTextTheme.headline6),
-                                  SizedBox(
-                                    height: MyTheme.elementSpacing * 0.5,
-                                  ),
-                                  AutoSizeText(widget.linkType.event.invitationMessage,
-                                      style: MyTheme.lightTextTheme.bodyText2),
-                                  SizedBox(
-                                    height: MyTheme.elementSpacing,
-                                  ),
-                                ],
-                              ),
-                            SizedBox(
-                              width: MyTheme.maxWidth,
-                              height: 34,
-                              child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: MyTheme.appolloGreen,
-                                ),
-                                onPressed: () {
-                                  bloc.add(EventGoToPayment(state.releases));
-                                },
-                                child: Text(
-                                  "Get Your Ticket",
-                                  style: MyTheme.lightTextTheme.button,
-                                ),
-                              ),
-                            )
-                          ],
-                        ).paddingBottom(MyTheme.elementSpacing),
-                      );
-                    }
-                  }),
-                  if (state.tickets.length > 0) ExistingTicketsWidget(state.tickets, widget.linkType),
-                ],
-              );
-            } else {
-              return SizedBox(
-                width: MyTheme.maxWidth,
-                child: ResponsiveBuilder(builder: (context, constraints) {
-                  if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                      constraints.deviceScreenType == DeviceScreenType.watch) {
-                    return Container(
-                        child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          AutoSizeText("Fetching your invitation data, this won't take long")
-                        ],
-                      ),
-                    )).appolloCard();
-                  } else {
-                    return Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          CircularProgressIndicator(),
-                          SizedBox(
-                            height: 12,
-                          ),
-                          AutoSizeText(
-                            "Fetching your invitation data, this won't take long",
-                            style: MyTheme.lightTextTheme.bodyText2,
-                          )
-                        ],
-                      ),
+                onPressed: () {
+                  if (widget.selectedTickets.isNotEmpty) {
+                    WrapperPage.endDrawer.value = CheckoutDrawer(
+                      linkType: widget.linkType,
+                      discount: discount,
+                      selectedTickets: widget.selectedTickets,
                     );
+                    WrapperPage.mainScaffold.currentState.openEndDrawer();
                   }
-                }),
-              );
-            }
-          }),
+                },
+                child: Text(
+                  "CHECKOUT",
+                  style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
+  }
+
+  Widget _buildMainContent() {
+    return BlocBuilder<TicketBloc, TicketState>(
+        cubit: bloc,
+        builder: (c, state) {
+          return _buildPriceBreakdown();
+        });
+  }
+
+  Widget _buildPriceBreakdown() {
+    return Column(
+      children: [
+        _buildSelectedTickets(),
+        AppolloDivider(),
+        SizedBox(
+          width: widget.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Subtotal", style: MyTheme.lightTextTheme.bodyText2),
+              SizedBox(
+                  width: 70,
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("\$${(subtotal / 100).toStringAsFixed(2)}", style: MyTheme.lightTextTheme.bodyText2)))
+            ],
+          ),
+        ).paddingBottom(MyTheme.elementSpacing),
+        if (discount != null && discount.enoughLeft(totalTicketQuantity))
+          SizedBox(
+            width: widget.maxWidth,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : discount.amount.toString() + "%"})",
+                  style: MyTheme.lightTextTheme.bodyText2,
+                ),
+                SizedBox(
+                    child:
+                        Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.lightTextTheme.bodyText2))
+              ],
+            ),
+          ).paddingBottom(MyTheme.elementSpacing),
+        SizedBox(
+          width: widget.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Booking Fee",
+                style: MyTheme.lightTextTheme.bodyText2,
+              ),
+              SizedBox(
+                  width: 70,
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
+                          style: MyTheme.lightTextTheme.bodyText2)))
+            ],
+          ),
+        ).paddingBottom(MyTheme.elementSpacing),
+        AppolloDivider(),
+        SizedBox(
+          width: widget.maxWidth,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Total", style: MyTheme.lightTextTheme.bodyText2),
+              SizedBox(
+                  width: 70,
+                  child: Align(
+                      alignment: Alignment.centerRight,
+                      child: Text(
+                          "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
+                          style: MyTheme.lightTextTheme.bodyText2)))
+            ],
+          ),
+        ).paddingBottom(8),
+      ],
+    );
+  }
+
+  Column _buildSelectedTickets() {
+    List<Widget> tickets = [];
+
+    widget.selectedTickets.forEach((key, value) {
+      tickets.add(SizedBox(
+        width: widget.maxWidth,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(key.ticketName + " x $value", style: MyTheme.lightTextTheme.bodyText2),
+            SizedBox(
+                width: 70,
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.lightTextTheme.bodyText2)))
+          ],
+        ),
+      ).paddingBottom(8));
+    });
+
+    return Column(
+      children: tickets,
+    );
+  }
+
+  double _calculateDiscount() {
+    if (discount == null) {
+      return 0.0;
+    } else if (discount.type == DiscountType.value) {
+      return discount.amount.toDouble() * totalTicketQuantity / 100;
+    } else {
+      return subtotal * discount.amount / 100 / 100;
+    }
+  }
+
+  double _calculateAppolloFees() {
+    if (subtotal == 0) {
+      return 0.0;
+    } else {
+      double fee = subtotal / 100 * widget.linkType.event.feePercent / 100;
+      if (fee < 1.0) {
+        fee = 1.0;
+      }
+      return fee;
+    }
+  }
+
+  VoidCallback _updateAfterLogin() {
+    return () {
+      if (UserRepository.instance.isLoggedIn) {
+        setState(() {});
+      }
+      UserRepository.instance.currentUserNotifier.removeListener(_updateAfterLogin());
+    };
+  }
+
+  Widget _buildDiscountCode() {
+    return BlocConsumer<TicketBloc, TicketState>(
+        cubit: bloc,
+        listener: (c, state) {
+          if (state is StateDiscountApplied) {
+            setState(() {
+              discount = state.discount;
+            });
+          } else if (state is StateDiscountCodeInvalid) {
+            setState(() {
+              discount = null;
+            });
+          }
+        },
+        builder: (context, state) {
+          return Column(
+            children: [
+              AppolloCard(
+                color: MyTheme.appolloLightCardColor,
+                child: SizedBox(
+                  height: 38,
+                  width: widget.maxWidth,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: TextFormField(
+                          decoration: InputDecoration(
+                              fillColor: Colors.transparent,
+                              enabledBorder: InputBorder.none,
+                              border: InputBorder.none,
+                              hintText: "Discount Code",
+                              isDense: true),
+                          controller: _discountController,
+                        ).paddingRight(8),
+                      ),
+                      Expanded(
+                        child: SizedBox(
+                          height: 46,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              primary: MyTheme.appolloGreen,
+                            ),
+                            onPressed: () {
+                              if (_discountController.text != "") {
+                                bloc.add(EventApplyDiscount(widget.linkType.event, _discountController.text));
+                              }
+                            },
+                            child: state is StateDiscountCodeLoading
+                                ? Transform.scale(scale: 0.5, child: CircularProgressIndicator())
+                                : Text(
+                                    "Apply",
+                                    style: MyTheme.lightTextTheme.caption,
+                                  ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ).paddingBottom(8),
+              if (state is StateDiscountApplied)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AppolloCard(
+                      color: MyTheme.appolloGreen.withAlpha(90),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                            child: AutoSizeText(
+                              state.discount.code,
+                              style: MyTheme.lightTextTheme.caption
+                                  .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                          Icon(
+                            Icons.close,
+                            color: MyTheme.appolloLightBlue,
+                            size: 14,
+                          ).paddingLeft(4).paddingRight(8)
+                        ],
+                      )),
+                ),
+              if (state is StateDiscountCodeInvalid)
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: AppolloCard(
+                      color: MyTheme.appolloRed.withAlpha(90),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                            child: AutoSizeText(
+                              "This code is invalid",
+                              style: MyTheme.lightTextTheme.caption.copyWith(fontWeight: FontWeight.w400),
+                            ),
+                          ),
+                        ],
+                      )),
+                ),
+            ],
+          );
+        });
   }
 }

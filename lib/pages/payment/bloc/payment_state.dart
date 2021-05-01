@@ -10,44 +10,27 @@ class StateInitial extends PaymentState {}
 
 class StateLoading extends PaymentState {}
 
-class StateLoadingPaymentMethod extends PaymentState {}
+class StateLoadingPaymentMethod extends StatePaymentOptionAvailable {}
 
 class StateLoadingPaymentIntent extends PaymentState {}
 
-class StateNoTicketsAvailable extends PaymentState {}
-
-class StateAddPaymentMethod extends PaymentState {}
-
-class StateUpdating extends PaymentState {}
+class StateCardUpdated extends PaymentState {}
 
 class StatePaymentOptionAvailable extends PaymentState {
-  final List<ReleaseManager> managers;
-  final Discount discount;
-
-  const StatePaymentOptionAvailable(this.managers, this.discount);
+  const StatePaymentOptionAvailable();
 }
 
 class StateFreeTicketSelected extends StatePaymentOptionAvailable {
-  const StateFreeTicketSelected(releases, {discount}) : super(releases, discount);
+  const StateFreeTicketSelected() : super();
 }
 
-class StateFreeTicketQuantitySelected extends StatePaymentOptionAvailable {
-  const StateFreeTicketQuantitySelected(releases, {discount}) : super(releases, discount);
-}
-
-class StatePaidTicketSelected extends StatePaymentOptionAvailable {
-  const StatePaidTicketSelected(releases, {discount}) : super(releases, discount);
-}
-
-class StatePaidTicketQuantitySelected extends StatePaymentOptionAvailable {
-  const StatePaidTicketQuantitySelected(releases, {discount}) : super(releases, discount);
+class StatePaidTickets extends StatePaymentOptionAvailable {
+  const StatePaidTickets() : super();
 }
 
 class StatePaymentCompleted extends PaymentState {
-  final TicketRelease release;
-  final int quantity;
   final String message;
-  const StatePaymentCompleted(this.message, this.release, this.quantity);
+  const StatePaymentCompleted(this.message);
 }
 
 class StateFreeTicketIssued extends PaymentState {
@@ -66,7 +49,3 @@ class StateSIRequiresPaymentMethod extends PaymentState {
   final String setupIntentId;
   const StateSIRequiresPaymentMethod(this.setupIntentId);
 }
-
-class StateDiscountCodeInvalid extends PaymentState {}
-
-class StateDiscountCodeLoading extends PaymentState {}

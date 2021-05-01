@@ -4,6 +4,7 @@ import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/model/promoter.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class UserRepository {
   static UserRepository _instance;
@@ -79,6 +80,22 @@ class UserRepository {
       }
 
       return currentUserNotifier.value;
+    }
+  }
+
+  /// Tries to login a previously logged in user.
+  signInCurrentUser() async {
+    if (UserRepository.instance.currentUser() == null) {
+      auth.User fbUser = auth.FirebaseAuth.instance.currentUser;
+      if (fbUser == null) {
+        print("no current user");
+        fbUser = await auth.FirebaseAuth.instance.authStateChanges().first;
+      }
+      if (fbUser == null) {
+        print("no state change user");
+      } else {
+        await UserRepository.instance.getUser(fbUser.uid);
+      }
     }
   }
 

@@ -3,12 +3,13 @@ import 'package:ticketapp/UI/event_details/widget/event_title.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/ticket/ticket_page.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
 
-class EventTickets extends StatelessWidget {
+class EventTickets extends StatefulWidget {
   final Event event;
   final LinkType linkType;
 
@@ -17,8 +18,15 @@ class EventTickets extends StatelessWidget {
     this.event,
     this.linkType,
   }) : super(key: key);
-  final double height = 500;
-  final double checkoutWidth = 280;
+
+  @override
+  _EventTicketsState createState() => _EventTicketsState();
+}
+
+class _EventTicketsState extends State<EventTickets> {
+  final Map<TicketRelease, int> selectedTickets = {};
+  final double height = 580;
+  final double checkoutWidth = 295;
 
   final List<Color> ticketColor = [
     MyTheme.appolloGreen,
@@ -44,16 +52,33 @@ class EventTickets extends StatelessWidget {
                   color: MyTheme.appolloBackgroundColor,
                   child: Column(
                     children: [
-                      _header(context, text: event.name),
-                      _subHeader(context, text: "${fullDateWithYear(event.date)} - ${time(event.endTime)}"),
+                      _header(context, text: widget.event.name),
+                      _subHeader(context,
+                          text: "${fullDateWithYear(widget.event.date)} - ${time(widget.event.endTime)}"),
                       Expanded(
                         child: Container(
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              itemCount: event.releaseManagers.length,
+                              padding: EdgeInsets.only(right: 8),
+                              itemCount: widget.event.releaseManagers.length,
                               itemBuilder: (c, index) {
                                 final Color color = ticketColor[index % ticketColor.length];
-                                return TicketCard(release: event.releaseManagers[index], color: color);
+                                return TicketCard(
+                                    release: widget.event.releaseManagers[index],
+                                    color: color,
+                                    onQuantityChanged: (q) {
+                                      if (q == 0 &&
+                                          selectedTickets
+                                              .containsKey(widget.event.releaseManagers[index].getActiveRelease())) {
+                                        setState(() {
+                                          selectedTickets.remove(widget.event.releaseManagers[index]);
+                                        });
+                                      } else if (q != 0) {
+                                        setState(() {
+                                          selectedTickets[widget.event.releaseManagers[index].getActiveRelease()] = q;
+                                        });
+                                      }
+                                    });
                               }),
                         ),
                       ),
@@ -69,8 +94,10 @@ class EventTickets extends StatelessWidget {
                       color: MyTheme.appolloCardColor2,
                     ),
                     child: TicketPage(
-                      linkType,
+                      widget.linkType,
                       forwardToPayment: false,
+                      selectedTickets: selectedTickets,
+                      maxWidth: checkoutWidth,
                     ).paddingAll(16)),
               ),
             ]),

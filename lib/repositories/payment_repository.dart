@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:ticketapp/model/discount.dart';
+import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 enum PaymentType { FashionItemSale, DesignerSubscription }
@@ -37,14 +41,14 @@ class PaymentRepository {
   }
 
   Future<http.Response> createPaymentIntent(
-      String eventId, String managerId, String ticketReleaseId, int quantity, Discount discount) async {
+      Event event, Map<TicketRelease, int> selectedTickets, Discount discount) async {
     print(discount);
     try {
       http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/createPITicketSale"), body: {
-        "event": eventId,
-        "manager": managerId,
-        "ticketRelease": ticketReleaseId,
-        "quantity": quantity.toString(),
+        "event": event.docID,
+        "manager": json.encode(selectedTickets.keys.map((e) => event.getReleaseManager(e).docId).toList()),
+        "ticketRelease": json.encode(selectedTickets.keys.map((e) => e.docId).toList()),
+        "quantity": json.encode(selectedTickets.values.toList()),
         "discount": discount == null ? "" : discount.docId,
         "pmId": !PaymentRepository.instance.saveCreditCard ? PaymentRepository.instance.paymentMethodId : "",
         "user": UserRepository.instance.currentUser().firebaseUserID

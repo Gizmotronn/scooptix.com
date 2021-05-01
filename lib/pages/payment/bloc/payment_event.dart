@@ -9,19 +9,10 @@ abstract class PaymentEvent extends Equatable {
 
 class EventCancelPayment extends PaymentEvent {}
 
-class EventChangePaymentMethod extends PaymentEvent {}
-
-class EventAddPaymentMethod extends PaymentEvent {}
-
 class EventConfirmSetupIntent extends PaymentEvent {
   final PaymentMethod paymentMethod;
   final bool saveCreditCard;
   const EventConfirmSetupIntent(this.paymentMethod, this.saveCreditCard);
-}
-
-class EventConfirmSingleUseIntent extends PaymentEvent {
-  final PaymentMethod paymentMethod;
-  const EventConfirmSingleUseIntent(this.paymentMethod);
 }
 
 class EventConfirmPayment extends PaymentEvent {
@@ -31,29 +22,22 @@ class EventConfirmPayment extends PaymentEvent {
 }
 
 class EventRequestPI extends PaymentEvent {
-  final TicketRelease selectedRelease;
-  final int quantity;
+  final Map<TicketRelease, int> selectedRelease;
   final Discount discount;
+  final LinkType linkType;
 
-  const EventRequestPI(this.selectedRelease, this.quantity, this.discount);
+  const EventRequestPI(this.selectedRelease, this.discount, this.linkType);
 }
 
-class EventTicketSelected extends PaymentEvent {
-  final TicketRelease selectedRelease;
-  final List<ReleaseManager> managers;
+class EventRequestFreeTickets extends PaymentEvent {
+  final Map<TicketRelease, int> selectedRelease;
+  final LinkType linkType;
 
-  const EventTicketSelected(this.managers, this.selectedRelease);
+  const EventRequestFreeTickets(this.selectedRelease, this.linkType);
 }
 
 class EventLoadAvailableReleases extends PaymentEvent {
-  final Event event;
+  final Map<TicketRelease, int> selectedTickets;
 
-  const EventLoadAvailableReleases(this.event);
-}
-
-class EventApplyDiscount extends PaymentEvent {
-  final String code;
-  final TicketRelease selectedRelease;
-
-  const EventApplyDiscount(this.code, this.selectedRelease);
+  const EventLoadAvailableReleases(this.selectedTickets);
 }

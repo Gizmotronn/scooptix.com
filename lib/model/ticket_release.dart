@@ -4,6 +4,7 @@ class TicketRelease {
   String docId = "";
   String name = "";
   String description = "";
+  String ticketName = "";
   DateTime entryStart;
   DateTime entryEnd;
   DateTime releaseStart;
@@ -20,7 +21,7 @@ class TicketRelease {
 
   TicketRelease._();
 
-  factory TicketRelease.fromMap(String id, Map<String, dynamic> data) {
+  factory TicketRelease.fromMap(String id, Map<String, dynamic> data, String releaseManagerName) {
     TicketRelease release = TicketRelease._();
 
     try {
@@ -52,6 +53,7 @@ class TicketRelease {
       if (data.containsKey("price")) {
         release.price = data["price"];
       }
+      release.ticketName = releaseManagerName;
     } catch (e, s) {
       print(e);
       BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);

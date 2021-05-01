@@ -48,12 +48,12 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
           AutoSizeText.rich(
             TextSpan(
               text: 'Similar Events    ',
-              children: [
+              /* children: [
                 TextSpan(
                   text: 'View All',
                   style: Theme.of(context).textTheme.subtitle1.copyWith(decoration: TextDecoration.underline),
                 )
-              ],
+              ],*/
             ),
             style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange),
           ).paddingBottom(32),
@@ -80,12 +80,12 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
           AutoSizeText.rich(
             TextSpan(
               text: 'Other Events By This Organizer    ',
-              children: [
+              /* children: [
                 TextSpan(
                   text: 'View All',
                   style: Theme.of(context).textTheme.subtitle1.copyWith(decoration: TextDecoration.underline),
                 )
-              ],
+              ],*/
             ),
             style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange),
           ).paddingBottom(32),

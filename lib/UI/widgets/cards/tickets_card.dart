@@ -7,7 +7,8 @@ import '../../../UI/theme.dart';
 class TicketCard extends StatefulWidget {
   final ReleaseManager release;
   final Color color;
-  const TicketCard({Key key, this.release, this.color}) : super(key: key);
+  final Function onQuantityChanged;
+  const TicketCard({Key key, this.release, this.color, this.onQuantityChanged}) : super(key: key);
 
   @override
   _TicketCardState createState() => _TicketCardState();
@@ -19,7 +20,7 @@ class _TicketCardState extends State<TicketCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 255,
+      width: 260,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(5)),
         color: MyTheme.appolloCardColor,
@@ -78,7 +79,8 @@ class _TicketCardState extends State<TicketCard> {
                 ).paddingBottom(16),
                 if (widget.release.getFullPrice() > widget.release.getActiveRelease().price)
                   _saveUp(context,
-                          savePrice: "${widget.release.getFullPrice() - widget.release.getActiveRelease().price}",
+                          savePrice: ((widget.release.getFullPrice() - widget.release.getActiveRelease().price) / 100)
+                              .toStringAsFixed(2),
                           countdown:
                               "${widget.release.getActiveRelease().releaseEnd.difference(DateTime.now()).inHours} HOURS")
                       .paddingBottom(16),
@@ -116,8 +118,7 @@ class _TicketCardState extends State<TicketCard> {
           AutoSizeText(tagName, style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w400))
               .paddingBottom(8),
           AutoSizeText.rich(
-              TextSpan(
-                  text: '\$ $price', children: [TextSpan(text: '+BF', style: Theme.of(context).textTheme.caption)]),
+              TextSpan(text: '\$$price', children: [TextSpan(text: '+BF', style: Theme.of(context).textTheme.caption)]),
               style: Theme.of(context).textTheme.headline2.copyWith(
                   fontWeight: FontWeight.bold,
                   decoration: lineThrough ? TextDecoration.lineThrough : TextDecoration.none)),
@@ -167,7 +168,10 @@ class _TicketCardState extends State<TicketCard> {
               InkWell(
                 onTap: () {
                   if (quantity > 0) {
-                    quantity--;
+                    setState(() {
+                      quantity--;
+                    });
+                    widget.onQuantityChanged(quantity);
                   }
                 },
                 child: Container(
@@ -181,7 +185,10 @@ class _TicketCardState extends State<TicketCard> {
               Text("${quantity.toString()}").paddingHorizontal(12),
               InkWell(
                 onTap: () {
-                  quantity++;
+                  setState(() {
+                    quantity++;
+                  });
+                  widget.onQuantityChanged(quantity);
                 },
                 child: Container(
                   decoration: BoxDecoration(

@@ -11,12 +11,15 @@ enum TextFieldType { reactive, regular }
 class AppolloTextfield extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
+  final String hintText;
   final String errorText;
   final TextFieldType textfieldType;
   final TextInputType keyboardType;
   final Map<String, String> Function(AbstractControl<dynamic>) validationMessages;
   final List<TextInputFormatter> inputFormatters;
   final String formControlName;
+  final FocusNode focusNode;
+  final Function onChanged;
 
   final List<String> autofillHints;
 
@@ -48,7 +51,10 @@ class AppolloTextfield extends StatefulWidget {
       this.validator,
       this.suffixIcon,
       this.autovalidateMode,
-      this.obscureText})
+      this.obscureText,
+      this.focusNode,
+      this.onChanged,
+      this.hintText})
       : super(key: key);
   @override
   _AppolloTextfieldState createState() => _AppolloTextfieldState();
@@ -64,28 +70,29 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
     if (widget.errorText.isNotEmpty) {
       textFieldState = AppolloTextfieldState.error;
     }
-    _focusNode = FocusNode()
-      ..addListener(() {
-        setState(() {
-          if (_focusNode.hasFocus) {
-            if (widget.errorText.isNotEmpty) {
-              textFieldState = AppolloTextfieldState.error;
-            } else {
-              textFieldState = AppolloTextfieldState.typing;
-            }
-          } else if (_text.isNotEmpty) {
-            if (widget.errorText.isNotEmpty) {
-              textFieldState = AppolloTextfieldState.error;
-            } else {
-              textFieldState = AppolloTextfieldState.filled;
-            }
-          } else if (widget.errorText.isNotEmpty) {
+
+    _focusNode = widget.focusNode ?? FocusNode();
+    _focusNode.addListener(() {
+      setState(() {
+        if (_focusNode.hasFocus) {
+          if (widget.errorText.isNotEmpty) {
             textFieldState = AppolloTextfieldState.error;
           } else {
-            textFieldState = AppolloTextfieldState.initial;
+            textFieldState = AppolloTextfieldState.typing;
           }
-        });
+        } else if (_text.isNotEmpty) {
+          if (widget.errorText.isNotEmpty) {
+            textFieldState = AppolloTextfieldState.error;
+          } else {
+            textFieldState = AppolloTextfieldState.filled;
+          }
+        } else if (widget.errorText.isNotEmpty) {
+          textFieldState = AppolloTextfieldState.error;
+        } else {
+          textFieldState = AppolloTextfieldState.initial;
+        }
       });
+    });
 
     super.initState();
   }
@@ -148,6 +155,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                   style: Theme.of(context).textTheme.bodyText1,
                   decoration: InputDecoration(
                     filled: true,
+                    hintText: widget.hintText,
                     fillColor: Colors.transparent,
                     contentPadding: const EdgeInsets.only(left: 8),
                     errorBorder: InputBorder.none,
@@ -171,7 +179,12 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                 autovalidateMode: widget.autovalidateMode,
                 validator: widget.validator,
                 obscureText: widget.obscureText ?? false,
-                onChanged: (v) => setState(() => _text = v),
+                onChanged: (v) {
+                  if (widget.onChanged != null) {
+                    widget.onChanged(v);
+                  }
+                  setState(() => _text = v);
+                },
                 controller: widget.controller,
                 keyboardType: widget.keyboardType,
                 focusNode: _focusNode,
@@ -179,6 +192,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                 style: Theme.of(context).textTheme.bodyText1,
                 decoration: InputDecoration(
                   filled: true,
+                  hintText: widget.hintText,
                   suffixIcon: widget.suffixIcon,
                   fillColor: Colors.transparent,
                   contentPadding: const EdgeInsets.only(left: 8),

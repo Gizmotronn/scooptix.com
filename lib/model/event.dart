@@ -22,7 +22,7 @@ class Event {
   String docID;
   String name;
   String description;
-  String coverImageURL;
+  String coverImageURL = "";
   String address;
   String venue;
   String venueName = "";
@@ -69,13 +69,17 @@ class Event {
   //   return release;
   // }
 
-  bool isTicketSoldOut() {
-    bool isSoldOut = false;
+  ReleaseManager getReleaseManager(TicketRelease release) {
     for (int i = 0; i < releaseManagers.length; i++) {
-      ReleaseManager manager = releaseManagers[i];
-      isSoldOut = manager.releases[0].ticketsLeft() < 1 ? true : false;
+      if (releaseManagers[i].releases.contains(release)) {
+        return releaseManagers[i];
+      }
     }
-    return isSoldOut;
+    return null;
+  }
+
+  bool soldOut() {
+    return !releaseManagers.any((element) => !element.isSoldOut());
   }
 
   TicketRelease getRelease(String releaseId) {

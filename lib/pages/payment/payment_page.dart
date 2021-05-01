@@ -1,28 +1,33 @@
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
+import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
+import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
+import 'package:ticketapp/model/ticket_release.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
-import 'package:ticketapp/model/release_manager.dart';
-import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart' as ticket;
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
 
 class PaymentPage extends StatefulWidget {
   final LinkType linkType;
-  final ticket.TicketBloc ticketBloc;
   final TextTheme textTheme;
-  final double maxWidth;
+  final Map<TicketRelease, int> selectedTickets;
+  final Discount discount;
+  final double maxHeight;
 
-  const PaymentPage(this.linkType, this.ticketBloc, {Key key, @required this.textTheme, @required this.maxWidth})
+  const PaymentPage(this.linkType,
+      {Key key, @required this.textTheme, @required this.selectedTickets, this.discount, @required this.maxHeight})
       : super(key: key);
 
   @override
@@ -35,22 +40,22 @@ class _PaymentPageState extends State<PaymentPage> {
   TextEditingController _monthController = TextEditingController();
   TextEditingController _yearController = TextEditingController();
   TextEditingController _cvcController = TextEditingController();
-  TextEditingController _discountController = TextEditingController();
   FocusNode focusMonth = FocusNode();
   FocusNode focusYear = FocusNode();
   FocusNode focusCVC = FocusNode();
 
   bool _termsConditions = false;
   bool _saveCreditCard = false;
-  int selectedQuantity = 1;
-  ReleaseManager selectedManager;
-  Discount discount;
   bool validateCC = false;
+  double subtotal;
+  int totalTicketQuantity;
+  bool addNewPaymentMethod = false;
+  bool cardLoading = false;
 
   @override
   void initState() {
     bloc = PaymentBloc();
-    bloc.add(EventLoadAvailableReleases(widget.linkType.event));
+    bloc.add(EventLoadAvailableReleases(widget.selectedTickets));
     Future.delayed(Duration(milliseconds: 1)).then((value) {
       if (widget.linkType.event.ticketCheckoutMessage != null) {
         AlertGenerator.showAlert(
@@ -72,6 +77,14 @@ class _PaymentPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
+    subtotal = 0;
+    totalTicketQuantity = 0;
+    widget.selectedTickets.forEach((release, quantity) {
+      subtotal += release.price * quantity;
+    });
+    if (widget.selectedTickets.isNotEmpty) {
+      totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
+    }
     Column data = Column(
       children: [
         BlocConsumer<PaymentBloc, PaymentState>(
@@ -85,40 +98,24 @@ class _PaymentPageState extends State<PaymentPage> {
                       buttonText: "Ok",
                       popTwice: false)
                   .then((_) {
-                widget.ticketBloc.add(ticket.EventPaymentSuccessful(
-                    widget.linkType, selectedManager.getActiveRelease(), selectedQuantity, discount));
+                // widget.ticketBloc.add(ticket.EventPaymentSuccessful(
+                //    widget.linkType, widget.selectedTickets, discount));
               });
-            } else if (state is StateDiscountCodeInvalid) {
-              AlertGenerator.showAlert(
-                  context: context,
-                  title: "Invalid code",
-                  content: "Sorry, this code does not exist",
-                  buttonText: "Ok",
-                  popTwice: false);
-            } else if (state is StatePaymentOptionAvailable) {
-              if (state.discount != null) {
-                discount = state.discount;
-              }
-              if (selectedManager == null) {
-                selectedManager = state.managers[0];
-              }
-            }
-          },
-          buildWhen: (c, state) {
-            if (state is StateDiscountCodeLoading || state is StateDiscountCodeInvalid) {
-              return false;
-            } else {
-              return true;
+            } else if (state is StateCardUpdated) {
+              setState(() {
+                addNewPaymentMethod = false;
+              });
             }
           },
           builder: (c, state) {
+            print(state);
             if (state is StatePaymentError) {
               return Column(
                 children: [
-                  Text(state.message, style: widget.textTheme.bodyText2).paddingBottom(MyTheme.elementSpacing),
+                  Text(state.message, style: MyTheme.lightTextTheme.bodyText2).paddingBottom(MyTheme.elementSpacing),
                   SizedBox(
                     height: 34,
-                    width: widget.maxWidth,
+                    width: MyTheme.drawerSize,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: MyTheme.appolloGreen,
@@ -126,7 +123,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       onPressed: () {
                         bloc.add(EventCancelPayment());
                       },
-                      child: Text("Go back", style: widget.textTheme.bodyText2),
+                      child: Text("Go back", style: MyTheme.lightTextTheme.bodyText2),
                     ),
                   )
                 ],
@@ -134,294 +131,54 @@ class _PaymentPageState extends State<PaymentPage> {
             } else if (state is StatePaymentCompleted) {
               return Text(
                 "Payment Successful",
-                style: widget.textTheme.bodyText2,
-              );
-            } else if (state is StateAddPaymentMethod) {
-              return SizedBox(
-                width: widget.maxWidth,
-                child: Column(
-                  children: [
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Add a Payment Method",
-                          style: widget.textTheme.headline6,
-                        )),
-                    SizedBox(
-                      height: MyTheme.elementSpacing,
-                    ),
-                    SizedBox(
-                      width: widget.maxWidth,
-                      child: TextFormField(
-                        validator: (v) => v.length != 16 ? "Please enter a valid credit card number" : null,
-                        autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
-                        controller: _ccnumberController,
-                        onChanged: (v) {
-                          if (v.length == 16) {
-                            focusMonth.requestFocus();
-                          }
-                        },
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            isDense: true,
-                            prefixIconConstraints: BoxConstraints(maxHeight: 26, maxWidth: 26),
-                            prefixIcon: SvgIcon("icons/credit_card.svg", size: 26),
-                            hintText: "Credit Card Number"),
-                      ),
-                    ),
-                    SizedBox(
-                      height: MyTheme.elementSpacing * 0.5,
-                    ),
-                    SizedBox(
-                      width: widget.maxWidth,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: getValueForScreenType(
-                                context: context,
-                                desktop: widget.maxWidth * 0.5 - 28,
-                                tablet: widget.maxWidth * 0.5 - 28,
-                                mobile: widget.maxWidth * 0.6 - 16,
-                                watch: widget.maxWidth * 0.6 - 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: getValueForScreenType(
-                                      context: context,
-                                      desktop: widget.maxWidth * 0.25 - 18,
-                                      tablet: widget.maxWidth * 0.25 - 18,
-                                      mobile: widget.maxWidth * 0.3 - 12,
-                                      watch: widget.maxWidth * 0.3 - 12),
-                                  child: TextFormField(
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(2)
-                                    ],
-                                    onChanged: (v) {
-                                      if (v.length == 2) {
-                                        focusYear.requestFocus();
-                                      }
-                                    },
-                                    controller: _monthController,
-                                    focusNode: focusMonth,
-                                    validator: (v) =>
-                                        int.tryParse(v) < 1 || int.tryParse(v) > 12 ? "Invalid month" : null,
-                                    autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        isDense: true,
-                                        hintText: "MM",
-                                        suffixIconConstraints: BoxConstraints(maxHeight: 26, maxWidth: 26),
-                                        suffixIcon: SvgIcon("icons/calendar.svg", size: 26)),
-                                  ),
-                                ).paddingRight(8),
-                                SizedBox(
-                                  width: getValueForScreenType(
-                                      context: context,
-                                      desktop: widget.maxWidth * 0.25 - 18,
-                                      tablet: widget.maxWidth * 0.25 - 18,
-                                      mobile: widget.maxWidth * 0.3 - 12,
-                                      watch: widget.maxWidth * 0.3 - 12),
-                                  child: TextFormField(
-                                    onChanged: (v) {
-                                      if (v.length == 2) {
-                                        focusCVC.requestFocus();
-                                      }
-                                    },
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.digitsOnly,
-                                      LengthLimitingTextInputFormatter(2)
-                                    ],
-                                    controller: _yearController,
-                                    focusNode: focusYear,
-                                    autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                                    validator: (v) =>
-                                        int.tryParse(v) < 20 || int.tryParse(v) > 99 ? "Invalid year" : null,
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(),
-                                        isDense: true,
-                                        hintText: "YY",
-                                        suffixIconConstraints: BoxConstraints(maxHeight: 26, maxWidth: 26),
-                                        suffixIcon: SvgIcon("icons/calendar.svg", size: 26)),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            width: getValueForScreenType(
-                                context: context,
-                                desktop: widget.maxWidth * 0.45 - 28,
-                                tablet: widget.maxWidth * 0.45 - 28,
-                                mobile: widget.maxWidth * 0.35 - 16,
-                                watch: widget.maxWidth * 0.35 - 16),
-                            child: TextFormField(
-                              focusNode: focusCVC,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(4)
-                              ],
-                              controller: _cvcController,
-                              validator: (v) => v.length < 3 || v.length > 4 ? "Please enter a valid CVC number" : null,
-                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                              decoration: InputDecoration(border: OutlineInputBorder(), isDense: true, hintText: "CVC"),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ).paddingBottom(MyTheme.elementSpacing),
-                    SizedBox(
-                      width: widget.maxWidth,
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: _saveCreditCard,
-                            onChanged: (v) {
-                              setState(() {
-                                _saveCreditCard = v;
-                              });
-                            },
-                          ).paddingRight(8).paddingLeft(4),
-                          Text(
-                            "Save my credit card details",
-                            style: widget.textTheme.bodyText2,
-                          ),
-                        ],
-                      ),
-                    ).paddingBottom(MyTheme.elementSpacing),
-                    ResponsiveBuilder(builder: (context, constraints) {
-                      if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                          constraints.deviceScreenType == DeviceScreenType.watch) {
-                        return SizedBox(
-                          width: widget.maxWidth,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: widget.maxWidth,
-                                height: 38,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: MyTheme.appolloGreen,
-                                  ),
-                                  onPressed: () async {
-                                    try {
-                                      StripeCard card = StripeCard(
-                                          number: _ccnumberController.text,
-                                          cvc: _cvcController.text,
-                                          last4: _ccnumberController.text.substring(12),
-                                          expMonth: int.tryParse(_monthController.text),
-                                          expYear: int.tryParse(_yearController.text));
-                                      Map<String, dynamic> data =
-                                          await Stripe.instance.api.createPaymentMethodFromCard(card);
-                                      PaymentMethod pm =
-                                          PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
-                                    } catch (_) {
-                                      setState(() {
-                                        validateCC = true;
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    "Use Credit Card",
-                                    style: widget.textTheme.button,
-                                  ),
-                                ),
-                              ).paddingBottom(8),
-                              SizedBox(
-                                height: 38,
-                                width: widget.maxWidth,
-                                child: OutlinedButton(
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(color: MyTheme.appolloGreen, width: 5),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-                                  ),
-                                  onPressed: () {
-                                    bloc.add(EventCancelPayment());
-                                  },
-                                  child: Text(
-                                    "Cancel",
-                                    style: widget.textTheme.button,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return SizedBox(
-                          width: widget.maxWidth,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                height: 38,
-                                width: widget.maxWidth * 0.3,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: MyTheme.appolloGreen,
-                                  ),
-                                  onPressed: () {
-                                    bloc.add(EventCancelPayment());
-                                  },
-                                  child: Text(
-                                    "Cancel",
-                                    style: widget.textTheme.button,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: widget.maxWidth * 0.35,
-                                height: 38,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: MyTheme.appolloGreen,
-                                  ),
-                                  onPressed: () async {
-                                    try {
-                                      StripeCard card = StripeCard(
-                                          number: _ccnumberController.text,
-                                          cvc: _cvcController.text,
-                                          last4: _ccnumberController.text.substring(12),
-                                          expMonth: int.tryParse(_monthController.text),
-                                          expYear: int.tryParse(_yearController.text));
-                                      Map<String, dynamic> data =
-                                          await Stripe.instance.api.createPaymentMethodFromCard(card);
-                                      PaymentMethod pm =
-                                          PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                      print(pm.id);
-                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
-                                    } catch (_) {
-                                      setState(() {
-                                        validateCC = true;
-                                      });
-                                    }
-                                  },
-                                  child: Text(
-                                    "Use Credit Card",
-                                    style: widget.textTheme.button,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
-                    }),
-                  ],
-                ),
+                style: MyTheme.lightTextTheme.bodyText2,
               );
             } else if (state is StatePaymentOptionAvailable) {
-              return _buildTicketOverview(state);
-            } else if (state is StateNoTicketsAvailable) {
-              return Text("Sorry, there are no more tickets available");
+              return Column(
+                children: [
+                  _buildPaymentWidgets(state),
+                  if (state is! StateFreeTicketSelected) _buildAddPaymentWidget(state),
+                  Column(
+                    children: [
+                      _buildTAndC().paddingBottom(MyTheme.elementSpacing),
+                      SizedBox(
+                        height: 38,
+                        width: MyTheme.drawerSize,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: MyTheme.appolloGreen,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                          onPressed: () {
+                            if (_termsConditions) {
+                              if (state is StateFreeTicketSelected) {
+                                bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.linkType));
+                              } else {
+                                bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.linkType));
+                              }
+                            } else {
+                              AlertGenerator.showAlert(
+                                  context: context,
+                                  title: "Please accept our T & C",
+                                  content:
+                                      "To proceed with your purchase, you have to agree to our terms and conditions",
+                                  buttonText: "Ok",
+                                  popTwice: false);
+                            }
+                          },
+                          child: Text(
+                            "PURCHASE",
+                            style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
             } else if (state is StateLoadingPaymentMethod) {
               return Column(
                 children: [
-                  Text("Fetching payment methods", style: widget.textTheme.bodyText2),
+                  Text("Fetching payment methods", style: MyTheme.lightTextTheme.bodyText2),
                   SizedBox(
                     height: MyTheme.elementSpacing,
                   ),
@@ -433,7 +190,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 children: [
                   Text(
                     "Finalizing your payment",
-                    style: widget.textTheme.bodyText2,
+                    style: MyTheme.lightTextTheme.bodyText2,
                   ),
                   SizedBox(
                     height: MyTheme.elementSpacing,
@@ -447,9 +204,10 @@ class _PaymentPageState extends State<PaymentPage> {
             } else {
               return Column(
                 children: [
+                  _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
                   Text(
                     "Setting up secure payment",
-                    style: widget.textTheme.bodyText2,
+                    style: MyTheme.lightTextTheme.bodyText2,
                   ),
                   SizedBox(
                     height: MyTheme.elementSpacing,
@@ -467,7 +225,7 @@ class _PaymentPageState extends State<PaymentPage> {
       if (constraints.deviceScreenType == DeviceScreenType.mobile ||
           constraints.deviceScreenType == DeviceScreenType.watch) {
         return SizedBox(
-          width: widget.maxWidth - 8,
+          width: MyTheme.drawerSize - 8,
           child: Container(
             child: Padding(
               padding:
@@ -478,90 +236,29 @@ class _PaymentPageState extends State<PaymentPage> {
         );
       } else {
         return SizedBox(
-          width: widget.maxWidth,
-          child: data,
+          width: MyTheme.drawerSize,
+          height: widget.maxHeight,
+          child: SingleChildScrollView(child: data),
         );
       }
     });
   }
 
-  Widget _buildTicketOverview(StatePaymentOptionAvailable state) {
-    return Column(
-        crossAxisAlignment: getValueForScreenType(
-            context: context,
-            watch: CrossAxisAlignment.center,
-            mobile: CrossAxisAlignment.center,
-            tablet: CrossAxisAlignment.start,
-            desktop: CrossAxisAlignment.start),
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "Select Your Ticket Type",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing),
-          LayoutBuilder(builder: (context, constraints) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  width: constraints.maxWidth,
-                  height: 50,
-                  child: DropdownButtonFormField(
-                    isDense: true,
-                    itemHeight: 50,
-                    iconEnabledColor: MyTheme.appolloWhite,
-                    decoration: InputDecoration(
-                      hintText: 'Choose your ticket',
-                      isDense: true,
-                    ),
-                    items: state.managers
-                        .map((e) => DropdownMenuItem(
-                              value: e,
-                              child: Text("${e.name} - \$${(e.getActiveRelease().price / 100).toStringAsFixed(2)}"),
-                            ))
-                        .toList(),
-                    value: selectedManager,
-                    onChanged: (ReleaseManager value) {
-                      setState(() {
-                        selectedManager = value;
-                      });
-                      bloc.add(EventTicketSelected(state.managers, value.getActiveRelease()));
-                    },
-                  ),
-                ).paddingBottom(12),
-                Divider(
-                  color: getValueForScreenType(
-                      context: context,
-                      watch: MyTheme.appolloWhite,
-                      mobile: MyTheme.appolloWhite,
-                      tablet: MyTheme.appolloGrey,
-                      desktop: MyTheme.appolloGrey),
-                  height: 1.5,
-                ).paddingBottom(8),
-              ],
-            );
-          }),
-          _buildPaymentWidgets(state),
-        ]);
-  }
-
-  double _calculateDiscount(StatePaymentOptionAvailable state) {
-    if (discount == null) {
+  double _calculateDiscount() {
+    if (widget.discount == null) {
       return 0.0;
-    } else if (discount.type == DiscountType.value) {
-      return discount.amount.toDouble() * selectedQuantity / 100;
+    } else if (widget.discount.type == DiscountType.value) {
+      return widget.discount.amount.toDouble() * totalTicketQuantity / 100;
     } else {
-      return (selectedManager.getActiveRelease().price.toDouble() * selectedQuantity) * discount.amount / 100 / 100;
+      return subtotal * widget.discount.amount / 100 / 100;
     }
   }
 
-  double _calculateAppolloFees(StatePaymentOptionAvailable state) {
-    if (selectedManager.getActiveRelease().price == 0) {
+  double _calculateAppolloFees() {
+    if (subtotal == 0) {
       return 0.0;
     } else {
-      double fee = (((selectedManager.getActiveRelease().price * selectedQuantity) / 100) *
-          widget.linkType.event.feePercent /
-          100);
+      double fee = subtotal / 100 * widget.linkType.event.feePercent / 100;
       if (fee < 1.0) {
         fee = 1.0;
       }
@@ -571,6 +268,11 @@ class _PaymentPageState extends State<PaymentPage> {
 
   Widget _buildPaymentWidgets(StatePaymentOptionAvailable state) {
     if (state is StateFreeTicketSelected) {
+      return Text(
+        "This ticket is free!",
+        style: MyTheme.lightTextTheme.headline6,
+      ).paddingBottom(MyTheme.elementSpacing);
+    } else if (state is StatePaidTickets) {
       return Column(
         crossAxisAlignment: getValueForScreenType(
             context: context,
@@ -578,357 +280,45 @@ class _PaymentPageState extends State<PaymentPage> {
             mobile: CrossAxisAlignment.center,
             tablet: CrossAxisAlignment.start,
             desktop: CrossAxisAlignment.start),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            "This ticket is free!",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing),
-          _buildTAndC().paddingBottom(MyTheme.elementSpacing).paddingTop(8),
-          SizedBox(
-            width: widget.maxWidth,
-            height: 34,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: MyTheme.appolloGreen,
-              ),
-              onPressed: () {
-                if (!_termsConditions) {
-                  AlertGenerator.showAlert(
-                      context: context,
-                      title: "Please accept our T & C",
-                      content: "To proceed with your purchase, you have to agree to our terms and conditions",
-                      buttonText: "Ok",
-                      popTwice: false);
-                } else {
-                  AlertGenerator.showAlert(
-                          context: context,
-                          title: "Ticket Sent",
-                          content:
-                              "We have issued your ticket and sent it to ${UserRepository.instance.currentUser().email}",
-                          buttonText: "Ok",
-                          popTwice: false)
-                      .then((_) {
-                    widget.ticketBloc
-                        .add(ticket.EventAcceptInvitation(widget.linkType, selectedManager.getActiveRelease()));
-                  });
-                }
-              },
-              child: Text(
-                "Proceed to your ticket",
-                style: widget.textTheme.button,
-              ),
-            ),
-          ).paddingBottom(MyTheme.elementSpacing),
-        ],
-      );
-    } else if (state is StatePaidTicketSelected) {
-      return Column(
-        crossAxisAlignment: getValueForScreenType(
-            context: context,
-            watch: CrossAxisAlignment.center,
-            mobile: CrossAxisAlignment.center,
-            tablet: CrossAxisAlignment.start,
-            desktop: CrossAxisAlignment.start),
-        children: [
-          Divider(
-            color: getValueForScreenType(
+          Column(
+            crossAxisAlignment: getValueForScreenType(
                 context: context,
-                watch: MyTheme.appolloWhite,
-                mobile: MyTheme.appolloWhite,
-                tablet: MyTheme.appolloGrey,
-                desktop: MyTheme.appolloGrey),
-            height: 1.5,
-          ).paddingBottom(8),
-          _buildPriceBreakdown(state).paddingBottom(MyTheme.elementSpacing),
-          Text(
-            "Payment Method",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing),
-          SizedBox(
-            width: widget.maxWidth,
-            height: 50,
-            child: PaymentRepository.instance.last4 != null
-                ? DropdownButtonFormField(
-                    iconEnabledColor: MyTheme.appolloWhite,
-                    decoration: InputDecoration(isDense: true),
-                    value: 1,
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("Use your card ending in ${PaymentRepository.instance.last4}"),
-                        value: 1,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Add Payment Method"),
-                        value: 0,
-                      ),
-                    ],
-                    onChanged: (value) {
-                      if (value == 0) {
-                        _saveCreditCard = false;
-                        bloc.add(EventAddPaymentMethod());
-                      } else {
-                        _saveCreditCard = true;
-                      }
-                    },
-                  )
-                : DropdownButtonFormField(
-                    iconEnabledColor: MyTheme.appolloWhite,
-                    isDense: true,
-                    itemHeight: 50,
-                    decoration: InputDecoration(isDense: true),
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("Add Payment Method"),
-                        value: 0,
-                      ),
-                    ],
-                    onChanged: (value) {
-                      if (value == 0) {
-                        bloc.add(EventAddPaymentMethod());
-                      }
-                    },
-                  ),
-          ).paddingBottom(MyTheme.elementSpacing),
-          Text(
-            "Booking Fee",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing * 0.5),
-          Text(
-            "The Booking Fee is non refundable",
-            style: widget.textTheme.bodyText2,
-          ).paddingBottom(MyTheme.elementSpacing),
-          Text(
-            "Refund Policy",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing * 0.5),
-          Text(
-            "Please contact the event organiser for refund enquiries",
-            style: widget.textTheme.bodyText2,
-            textAlign: TextAlign.center,
-          ).paddingBottom(MyTheme.elementSpacing),
-          _buildTAndC().paddingBottom(MyTheme.elementSpacing),
-          SizedBox(
-            width: widget.maxWidth,
-            height: 38,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: MyTheme.appolloGreen,
-              ),
-              onPressed: () {
-                if (!_termsConditions) {
-                  AlertGenerator.showAlert(
-                      context: context,
-                      title: "Please accept our T & C",
-                      content: "To proceed with your purchase, you have to agree to our terms and conditions",
-                      buttonText: "Ok",
-                      popTwice: false);
-                } else if (PaymentRepository.instance.last4 == null) {
-                  AlertGenerator.showAlert(
-                      context: context,
-                      title: "Missing payment method",
-                      content: "Please provide a valid payment method",
-                      buttonText: "Ok",
-                      popTwice: false);
-                } else {
-                  bloc.add(EventRequestPI(selectedManager.getActiveRelease(), 1, discount));
-                }
-              },
-              child: Text(
-                "Complete Purchase",
-                style: widget.textTheme.button,
-              ),
-            ),
-          ),
-        ],
-      );
-    } else if (state is StatePaidTicketQuantitySelected) {
-      return Column(
-        crossAxisAlignment: getValueForScreenType(
-            context: context,
-            watch: CrossAxisAlignment.center,
-            mobile: CrossAxisAlignment.center,
-            tablet: CrossAxisAlignment.start,
-            desktop: CrossAxisAlignment.start),
-        children: [
-          SizedBox(
-            width: widget.maxWidth,
-            height: 50,
-            child: DropdownButtonFormField(
-              iconEnabledColor: MyTheme.appolloWhite,
-              isDense: true,
-              itemHeight: 50,
-              decoration: InputDecoration(hintText: 'Quantity', isDense: true),
-              items: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                  .map((e) => DropdownMenuItem(
-                        value: e,
-                        child: Text("${e.toString()} tickets"),
-                      ))
-                  .toList(),
-              value: selectedQuantity,
-              onChanged: (int value) {
-                setState(() {
-                  selectedQuantity = value;
-                });
-              },
-            ),
-          ).paddingBottom(12),
-          BlocConsumer<PaymentBloc, PaymentState>(
-              cubit: bloc,
-              listener: (c, state) {},
-              buildWhen: (c, state) {
-                if (state is StateDiscountCodeInvalid) {
-                  return false;
-                }
-                return true;
-              },
-              builder: (context, state) {
-                if (state is StatePaymentOptionAvailable || state is StateDiscountCodeLoading) {
-                  return SizedBox(
-                    height: 50,
-                    width: widget.maxWidth,
-                    child: Flex(
-                      direction: Axis.horizontal,
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: SizedBox(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  border: OutlineInputBorder(), hintText: "Discount Code", isDense: true),
-                              controller: _discountController,
-                            ),
-                          ).paddingRight(8),
-                        ),
-                        Expanded(
-                          child: SizedBox(
-                            height: 46,
-                            child: TextButton(
-                              style: TextButton.styleFrom(
-                                primary: MyTheme.appolloGreen,
+                watch: CrossAxisAlignment.center,
+                mobile: CrossAxisAlignment.center,
+                tablet: CrossAxisAlignment.start,
+                desktop: CrossAxisAlignment.start),
+            children: [
+              _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
+              Text(
+                "Payment Method",
+                style: MyTheme.lightTextTheme.headline6,
+              ).paddingBottom(MyTheme.elementSpacing),
+              PaymentRepository.instance.last4 != null
+                  ? AppolloCard(
+                      color: MyTheme.appolloBackgroundColor2.withAlpha(120),
+                      child: SizedBox(
+                          width: MyTheme.drawerSize,
+                          height: 38,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  SvgIcon("icons/credit_card.svg", size: 26).paddingLeft(8),
+                                  Text("Credit Card").paddingLeft(8),
+                                ],
                               ),
-                              onPressed: () {
-                                if (state is StatePaymentOptionAvailable && _discountController.text != "") {
-                                  bloc.add(
-                                      EventApplyDiscount(_discountController.text, selectedManager.getActiveRelease()));
-                                }
-                              },
-                              child: state is StateDiscountCodeLoading
-                                  ? CircularProgressIndicator()
-                                  : Text(
-                                      "Apply",
-                                      style: widget.textTheme.button,
-                                    ),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ).paddingBottom(8);
-                } else {
-                  return SizedBox.shrink();
-                }
-              }),
-          Divider(
-            color: getValueForScreenType(
-                context: context,
-                watch: MyTheme.appolloWhite,
-                mobile: MyTheme.appolloWhite,
-                tablet: MyTheme.appolloGrey,
-                desktop: MyTheme.appolloGrey),
-            height: 1.5,
-          ).paddingBottom(8),
-          _buildPriceBreakdown(state).paddingBottom(MyTheme.elementSpacing),
-          Text(
-            "Payment Method",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing),
-          SizedBox(
-            width: widget.maxWidth,
-            height: 50,
-            child: PaymentRepository.instance.last4 != null
-                ? DropdownButtonFormField(
-                    iconEnabledColor: MyTheme.appolloWhite,
-                    decoration: InputDecoration(isDense: true),
-                    isDense: true,
-                    itemHeight: 50,
-                    value: 1,
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("Use your card ending in ${PaymentRepository.instance.last4}"),
-                        value: 1,
-                      ),
-                      DropdownMenuItem(
-                        child: Text("Add Payment Method"),
-                        value: 0,
-                      ),
-                    ],
-                    onChanged: (value) {
-                      if (value == 0) {
-                        bloc.add(EventAddPaymentMethod());
-                      }
-                    },
-                  )
-                : DropdownButtonFormField(
-                    iconEnabledColor: MyTheme.appolloWhite,
-                    decoration: InputDecoration(isDense: true),
-                    isDense: true,
-                    itemHeight: 50,
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("Add Payment Method"),
-                        value: 0,
-                      ),
-                    ],
-                    onChanged: (value) {
-                      if (value == 0) {
-                        bloc.add(EventAddPaymentMethod());
-                      }
-                    },
-                  ),
-          ).paddingBottom(MyTheme.elementSpacing),
-          Text(
-            "Booking Fee",
-            style: widget.textTheme.headline6,
-          ).paddingBottom(MyTheme.elementSpacing * 0.5),
-          Text(
-            "The Booking Fee is non refundable",
-            style: widget.textTheme.bodyText2,
-          ).paddingBottom(MyTheme.elementSpacing),
-          Text(
-            "Refund Policy",
-            style: widget.textTheme.headline6,
-            textAlign: TextAlign.center,
-          ).paddingBottom(MyTheme.elementSpacing * 0.5),
-          Text(
-            "Please contact the event organiser for refund enquiries",
-            style: widget.textTheme.bodyText2,
-            textAlign: TextAlign.center,
-          ).paddingBottom(MyTheme.elementSpacing),
-          _buildTAndC().paddingBottom(MyTheme.elementSpacing),
-          SizedBox(
-            height: 38,
-            width: widget.maxWidth,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: MyTheme.appolloGreen,
-              ),
-              onPressed: () {
-                if (_termsConditions) {
-                  bloc.add(EventRequestPI(selectedManager.getActiveRelease(), selectedQuantity, discount));
-                } else {
-                  AlertGenerator.showAlert(
-                      context: context,
-                      title: "Please accept our T & C",
-                      content: "To proceed with your purchase, you have to agree to our terms and conditions",
-                      buttonText: "Ok",
-                      popTwice: false);
-                }
-              },
-              child: Text(
-                "Complete Purchase",
-                style: widget.textTheme.button,
-              ),
-            ),
+                              Expanded(
+                                  child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(PaymentRepository.instance.last4).paddingRight(8)))
+                            ],
+                          )),
+                    ).paddingBottom(MyTheme.elementSpacing)
+                  : SizedBox.shrink(),
+            ],
           ),
         ],
       );
@@ -937,75 +327,72 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  Widget _buildPriceBreakdown(StatePaymentOptionAvailable state) {
+  Widget _buildPriceBreakdown() {
     return Column(
       children: [
+        _buildSelectedTickets(),
+        AppolloDivider(),
         SizedBox(
-          width: widget.maxWidth,
+          width: MyTheme.drawerSize,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(selectedManager.name, style: widget.textTheme.bodyText2),
+              Text("Subtotal", style: MyTheme.lightTextTheme.bodyText2),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                          "\$${(selectedManager.getActiveRelease().price * selectedQuantity / 100).toStringAsFixed(2)}",
-                          style: widget.textTheme.bodyText2)))
+                      child: Text("\$${(subtotal / 100 - _calculateDiscount()).toStringAsFixed(2)}",
+                          style: MyTheme.lightTextTheme.bodyText2)))
             ],
           ),
-        ).paddingBottom(8),
-        if (discount != null && discount.enoughLeft(selectedQuantity))
+        ).paddingBottom(MyTheme.elementSpacing),
+        if (widget.discount != null && widget.discount.enoughLeft(totalTicketQuantity))
           SizedBox(
-            width: widget.maxWidth,
+            width: MyTheme.drawerSize,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $selectedQuantity" : discount.amount.toString() + "%"})",
-                  style: widget.textTheme.bodyText2,
+                  "Discount (${widget.discount.type == DiscountType.value ? "\$" + (widget.discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : widget.discount.amount.toString() + "%"})",
+                  style: MyTheme.lightTextTheme.bodyText2,
                 ),
-                SizedBox(
-                    width: 70,
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text("-\$${_calculateDiscount(state).toStringAsFixed(2)}",
-                            style: widget.textTheme.bodyText2)))
+                Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.lightTextTheme.bodyText2)
               ],
             ),
-          ).paddingBottom(8),
+          ).paddingBottom(MyTheme.elementSpacing),
         SizedBox(
-          width: widget.maxWidth,
+          width: MyTheme.drawerSize,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 "Booking Fee",
-                style: widget.textTheme.bodyText2,
+                style: MyTheme.lightTextTheme.bodyText2,
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${_calculateAppolloFees(state).toStringAsFixed(2)}",
-                          style: widget.textTheme.bodyText2)))
+                      child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
+                          style: MyTheme.lightTextTheme.bodyText2)))
             ],
           ),
-        ).paddingBottom(8),
+        ).paddingBottom(MyTheme.elementSpacing),
+        AppolloDivider(),
         SizedBox(
-          width: widget.maxWidth,
+          width: MyTheme.drawerSize,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: widget.textTheme.bodyText2),
+              Text("Total", style: MyTheme.lightTextTheme.bodyText2),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
-                          "\$${(selectedManager.getActiveRelease().price * selectedQuantity / 100 - _calculateDiscount(state) + _calculateAppolloFees(state)).toStringAsFixed(2)}",
-                          style: widget.textTheme.bodyText2)))
+                          "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
+                          style: MyTheme.lightTextTheme.bodyText2)))
             ],
           ),
         ).paddingBottom(8),
@@ -1015,7 +402,7 @@ class _PaymentPageState extends State<PaymentPage> {
 
   Widget _buildTAndC() {
     return SizedBox(
-      width: widget.maxWidth,
+      width: MyTheme.drawerSize,
       child: Row(
         children: [
           Checkbox(
@@ -1025,7 +412,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 _termsConditions = v;
               });
             },
-          ).paddingRight(8).paddingLeft(4),
+          ).paddingRight(4),
           InkWell(
               onTap: () {
                 AlertGenerator.showAlertWithChoice(
@@ -1047,10 +434,259 @@ class _PaymentPageState extends State<PaymentPage> {
               },
               child: Text(
                 "I accept the terms & conditions",
-                style: widget.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
+                style: MyTheme.lightTextTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
               )),
         ],
       ),
     );
+  }
+
+  Column _buildSelectedTickets() {
+    List<Widget> tickets = [];
+
+    widget.selectedTickets.forEach((key, value) {
+      tickets.add(SizedBox(
+        width: MyTheme.drawerSize,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(key.ticketName + " x $value", style: MyTheme.lightTextTheme.bodyText2),
+            SizedBox(
+                width: 70,
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.lightTextTheme.bodyText2)))
+          ],
+        ),
+      ).paddingBottom(8));
+    });
+
+    return Column(
+      children: tickets,
+    );
+  }
+
+  Widget _buildAddPaymentWidget(StatePaymentOptionAvailable state) {
+    return InkWell(
+      onTap: () {
+        setState(() {
+          addNewPaymentMethod = true;
+        });
+      },
+      child: AnimatedSwitcher(
+        duration: Duration(milliseconds: 300),
+        child: addNewPaymentMethod
+            ? Container(
+                width: MyTheme.drawerSize,
+                child: Column(
+                  children: [
+                    Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Add a Payment Method",
+                          style: MyTheme.lightTextTheme.headline6,
+                        )),
+                    SizedBox(
+                      height: MyTheme.elementSpacing,
+                    ),
+                    SizedBox(
+                      width: MyTheme.drawerSize,
+                      child: AppolloTextfield(
+                        textfieldType: TextFieldType.regular,
+                        labelText: "Credit Card Number",
+                        validator: (v) => v.length != 16 ? "Please enter a valid credit card number" : null,
+                        autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
+                        controller: _ccnumberController,
+                        onChanged: (v) {
+                          if (v.length == 16) {
+                            focusMonth.requestFocus();
+                          }
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: MyTheme.elementSpacing * 0.5,
+                    ),
+                    SizedBox(
+                      width: MyTheme.drawerSize,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: AppolloTextfield(
+                              textfieldType: TextFieldType.regular,
+                              labelText: "MM",
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(2)
+                              ],
+                              onChanged: (v) {
+                                if (v.length == 2) {
+                                  focusYear.requestFocus();
+                                }
+                              },
+                              controller: _monthController,
+                              focusNode: focusMonth,
+                              validator: (v) => int.tryParse(v) < 1 || int.tryParse(v) > 12 ? "Invalid month" : null,
+                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
+                            ).paddingRight(MyTheme.elementSpacing),
+                          ),
+                          Expanded(
+                            child: AppolloTextfield(
+                              textfieldType: TextFieldType.regular,
+                              labelText: "YY",
+                              onChanged: (v) {
+                                if (v.length == 2) {
+                                  focusCVC.requestFocus();
+                                }
+                              },
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(2)
+                              ],
+                              controller: _yearController,
+                              focusNode: focusYear,
+                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
+                              validator: (v) => int.tryParse(v) < 20 || int.tryParse(v) > 99 ? "Invalid year" : null,
+                            ).paddingRight(MyTheme.elementSpacing),
+                          ),
+                          Expanded(
+                            child: AppolloTextfield(
+                              textfieldType: TextFieldType.regular,
+                              labelText: "CVC",
+                              focusNode: focusCVC,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(4)
+                              ],
+                              controller: _cvcController,
+                              validator: (v) => v.length < 3 || v.length > 4 ? "Please enter a valid CVC number" : null,
+                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    SizedBox(
+                      width: MyTheme.drawerSize,
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: _saveCreditCard,
+                            onChanged: (v) {
+                              setState(() {
+                                _saveCreditCard = v;
+                              });
+                            },
+                          ),
+                          Text(
+                            "Save my credit card details",
+                            style: MyTheme.lightTextTheme.bodyText2,
+                          ),
+                        ],
+                      ),
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    ResponsiveBuilder(builder: (context, constraints) {
+                      if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                          constraints.deviceScreenType == DeviceScreenType.watch) {
+                        return SizedBox(
+                          width: MyTheme.drawerSize,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                width: MyTheme.drawerSize,
+                                height: 38,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    primary: MyTheme.appolloGreen,
+                                  ),
+                                  onPressed: () async {
+                                    try {
+                                      setState(() {
+                                        cardLoading = true;
+                                      });
+                                      StripeCard card = StripeCard(
+                                          number: _ccnumberController.text,
+                                          cvc: _cvcController.text,
+                                          last4: _ccnumberController.text.substring(12),
+                                          expMonth: int.tryParse(_monthController.text),
+                                          expYear: int.tryParse(_yearController.text));
+                                      Map<String, dynamic> data =
+                                          await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                      PaymentMethod pm =
+                                          PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
+                                    } catch (_) {
+                                      setState(() {
+                                        validateCC = true;
+                                      });
+                                    } finally {
+                                      setState(() {
+                                        cardLoading = false;
+                                      });
+                                    }
+                                  },
+                                  child: state is StateLoadingPaymentMethod || cardLoading
+                                      ? CircularProgressIndicator()
+                                      : Text(
+                                          "Add Card",
+                                          style: MyTheme.lightTextTheme.button,
+                                        ),
+                                ),
+                              ).paddingBottom(8),
+                            ],
+                          ),
+                        );
+                      } else {
+                        return SizedBox(
+                          width: MyTheme.drawerSize,
+                          height: 38,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: MyTheme.appolloGreen,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                            onPressed: () async {
+                              try {
+                                StripeCard card = StripeCard(
+                                    number: _ccnumberController.text,
+                                    cvc: _cvcController.text,
+                                    last4: _ccnumberController.text.substring(12),
+                                    expMonth: int.tryParse(_monthController.text),
+                                    expYear: int.tryParse(_yearController.text));
+                                Map<String, dynamic> data = await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                PaymentMethod pm =
+                                    PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                print(pm.id);
+                                bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard));
+                              } catch (_) {
+                                setState(() {
+                                  validateCC = true;
+                                });
+                              }
+                            },
+                            child: Text(
+                              "Add Card",
+                              style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                            ),
+                          ),
+                        );
+                      }
+                    }),
+                  ],
+                ).paddingAll(MyTheme.elementSpacing),
+              )
+                .appolloTransparentCard(color: MyTheme.appolloBackgroundColor2.withAlpha(120))
+                .paddingBottom(MyTheme.elementSpacing)
+            : Container(
+                    child: Center(
+                        child: Text(
+                "Add a Payment Method",
+                style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloGreen),
+              ).paddingAll(8)))
+                .appolloTransparentCard(color: MyTheme.appolloBackgroundColor2.withAlpha(120)),
+      ),
+    ).paddingBottom(MyTheme.elementSpacing);
   }
 }

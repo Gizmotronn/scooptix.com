@@ -3,7 +3,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
-import 'package:ticketapp/pages/event_details/ticket_drawer.dart';
+import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../../UI/theme.dart';
@@ -56,14 +56,7 @@ class EventDetailNavbar extends StatelessWidget {
                 ],
               ).paddingLeft(8).paddingVertical(8),
               InkWell(
-                onTap: () {
-                  if (UserRepository.instance.currentUser() == null) {
-                    WrapperPage.endDrawer.value = AuthenticationDrawer();
-                  } else {
-                    WrapperPage.endDrawer.value = TicketDrawer(linkType: OverviewLinkType(event));
-                  }
-                  WrapperPage.mainScaffold.currentState.openEndDrawer();
-                },
+                onTap: () {},
                 child: Container(
                   height: bottomBarHeight,
                   decoration: BoxDecoration(

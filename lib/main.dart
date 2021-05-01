@@ -5,8 +5,6 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/pages/authentication/bloc/authentication_bloc.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
@@ -47,9 +45,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     Intl.defaultLocale = 'en_AU';
     initializeDateFormatting('en_AU', null);
-    // Used to sign in current user session
-    AuthenticationDrawer.bloc = AuthenticationBloc();
-    AuthenticationDrawer.bloc.add(EventPageLoad());
     super.initState();
   }
 
@@ -74,6 +69,19 @@ class WrapperPage extends StatefulWidget {
 }
 
 class _WrapperPageState extends State<WrapperPage> {
+  @override
+  void initState() {
+    // Used to sign in current user session
+    // Disbaled for DEV, doesn't work with hot reload
+    //UserRepository.instance.signInCurrentUser();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

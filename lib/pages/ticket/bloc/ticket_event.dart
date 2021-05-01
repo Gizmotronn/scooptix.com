@@ -7,33 +7,9 @@ abstract class TicketEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class EventPaymentSuccessful extends TicketEvent {
-  final LinkType linkType;
-  final TicketRelease release;
-  final int quantity;
-  final Discount discount;
-
-  const EventPaymentSuccessful(this.linkType, this.release, this.quantity, this.discount);
-}
-
-class EventCheckInvitationStatus extends TicketEvent {
-  final String uid;
+class EventApplyDiscount extends TicketEvent {
   final Event event;
-  // Will directly take the user to the payment page
-  final bool forwardToPayment;
+  final String code;
 
-  const EventCheckInvitationStatus(this.uid, this.event, this.forwardToPayment);
-}
-
-class EventAcceptInvitation extends TicketEvent {
-  final LinkType linkType;
-  final TicketRelease release;
-
-  const EventAcceptInvitation(this.linkType, this.release);
-}
-
-class EventGoToPayment extends TicketEvent {
-  final List<TicketRelease> releases;
-
-  const EventGoToPayment(this.releases);
+  const EventApplyDiscount(this.event, this.code);
 }

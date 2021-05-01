@@ -64,6 +64,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           }
         },
         builder: (c, state) {
+          print(state);
           if (state is StatePasswordsConfirmed) {
             return Column(
               children: [
@@ -428,6 +429,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 child: Text("Next", style: widget.textTheme.button),
               ),
               onPressed: () {
+                print(widget.bloc);
                 widget.bloc.add(EventEmailProvided(_emailController.text));
               },
             ),
@@ -670,6 +672,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               autofillHints: [AutofillHints.email],
               controller: _emailController,
               onFieldSubmitted: (v) {
+                print("submit");
                 widget.bloc.add(EventEmailProvided(_emailController.text));
               },
               labelText: "Email",

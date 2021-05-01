@@ -64,16 +64,13 @@ class EventCard extends StatelessWidget {
   Widget _tag(BuildContext context) {
     List<int> prices = [];
 
-    bool isSoldOut = false;
+    bool isSoldOut = event.soldOut();
 
-    for (var i = 0; i < event.getAllReleases().length; i++) {
-      final release = event?.getAllReleases()[i];
+    for (var i = 0; i < event.getActiveReleases().length; i++) {
+      final release = event?.getActiveReleases()[i];
       prices.add(release?.price == null ? 0 : release.price);
-      if (release?.ticketsLeft() == null || release.ticketsLeft() < 1) {
-        isSoldOut = true;
-      }
     }
-    if (prices.length < 1) {
+    if (prices.length > 1) {
       prices.sort((a, b) => a.compareTo(b));
     }
 
@@ -84,21 +81,22 @@ class EventCard extends StatelessWidget {
     final bothPrice = "\$${(minPrice / 100).toStringAsFixed(2)} - \$${(maxPrice / 100).toStringAsFixed(2)}";
     return Builder(
       builder: (context) {
-        return _buildTag(
-          context,
-          tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$${(maxPrice / 100).toStringAsFixed(2)}" : bothPrice),
-          isSoldOut: isSoldOut,
-        );
+        return _buildTag(context,
+            tag: maxPrice < 1 ? "Free" : (checkSamePrice ? "\$${(maxPrice / 100).toStringAsFixed(2)}" : bothPrice),
+            isSoldOut: isSoldOut,
+            preSale: !isSoldOut && prices.isEmpty);
       },
     );
   }
 
-  Widget _buildTag(BuildContext context, {String tag, bool isSoldOut = false}) {
+  Widget _buildTag(BuildContext context, {String tag, bool isSoldOut = false, bool preSale = false}) {
     Color buildColor() {
       if (tag == 'Free') {
         return MyTheme.appolloGreen;
       } else if (isSoldOut) {
         return MyTheme.appolloRed;
+      } else if (preSale) {
+        return MyTheme.appolloGrey;
       } else {
         return MyTheme.appolloOrange;
       }
@@ -114,7 +112,13 @@ class EventCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
         ),
         child: Center(
-          child: AutoSizeText(isSoldOut ? 'Sold Out' : tag, style: Theme.of(context).textTheme.caption)
+          child: AutoSizeText(
+                  isSoldOut
+                      ? 'Sold Out'
+                      : preSale
+                          ? "Pre Sale"
+                          : tag,
+                  style: Theme.of(context).textTheme.caption)
               .paddingHorizontal(14),
         ),
       ),
@@ -149,7 +153,7 @@ class EventCard extends StatelessWidget {
                           ).paddingBottom(8),
                         ),
                         ValueListenableBuilder<User>(
-                            valueListenable: ValueNotifier(UserRepository.instance.currentUserNotifier.value),
+                            valueListenable: UserRepository.instance.currentUserNotifier,
                             builder: (context, user, child) {
                               return FavoriteHeartButton(
                                 onTap: (v) {

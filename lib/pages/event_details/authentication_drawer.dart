@@ -12,9 +12,6 @@ import 'package:ticketapp/repositories/user_repository.dart';
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class AuthenticationDrawer extends StatefulWidget {
   const AuthenticationDrawer({Key key}) : super(key: key);
-  // Used to sign in current user session
-  // ignore: close_sinks
-  static AuthenticationBloc bloc = AuthenticationBloc();
 
   @override
   _AuthenticationDrawerState createState() => _AuthenticationDrawerState();
@@ -24,7 +21,7 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
   AuthenticationBloc bloc;
   @override
   void initState() {
-    bloc = AuthenticationDrawer.bloc;
+    bloc = AuthenticationBloc();
     bloc.add(EventPageLoad());
     super.initState();
   }

@@ -3,24 +3,59 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
-import 'package:ticketapp/pages/ticket/ticket_page.dart';
+import 'package:ticketapp/model/ticket_release.dart';
+import 'package:ticketapp/pages/payment/payment_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
-/// In the desktop view, most of the functionality is displayed in the end drawer.
-class TicketDrawer extends StatefulWidget {
-  final LinkType linkType;
+import '../../main.dart';
+import 'authentication_drawer.dart';
 
-  const TicketDrawer({Key key, @required this.linkType}) : super(key: key);
+/// In the desktop view, most of the functionality is displayed in the end drawer.
+class CheckoutDrawer extends StatefulWidget {
+  final LinkType linkType;
+  final Map<TicketRelease, int> selectedTickets;
+  final Discount discount;
+
+  const CheckoutDrawer({Key key, @required this.linkType, this.selectedTickets, this.discount}) : super(key: key);
 
   @override
-  _TicketDrawerState createState() => _TicketDrawerState();
+  _CheckoutDrawerState createState() => _CheckoutDrawerState();
 }
 
-class _TicketDrawerState extends State<TicketDrawer> {
+class _CheckoutDrawerState extends State<CheckoutDrawer> {
+  @override
+  void initState() {
+    if (!UserRepository.instance.isLoggedIn) {
+      Future.delayed(Duration(milliseconds: 1)).then((_) {
+        WrapperPage.endDrawer.value = AuthenticationDrawer();
+        UserRepository.instance.currentUserNotifier.addListener(_tryOpenCheckoutDrawer());
+      });
+    }
+    super.initState();
+  }
+
+  VoidCallback _tryOpenCheckoutDrawer() {
+    return () {
+      if (UserRepository.instance.isLoggedIn) {
+        WrapperPage.endDrawer.value = CheckoutDrawer(
+          linkType: widget.linkType,
+          discount: widget.discount,
+          selectedTickets: widget.selectedTickets,
+        );
+        WrapperPage.mainScaffold.currentState.openEndDrawer();
+      }
+      UserRepository.instance.currentUserNotifier.removeListener(_tryOpenCheckoutDrawer());
+    };
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!UserRepository.instance.isLoggedIn) {
+      return Center(child: Text("Please login first. Forwarding you now ..."));
+    }
     Size screenSize = MediaQuery.of(context).size;
     return Container(
       width: MyTheme.drawerSize,
@@ -71,15 +106,15 @@ class _TicketDrawerState extends State<TicketDrawer> {
                               children: [
                                 Text(
                                   "Date:",
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: MyTheme.lightTextTheme.subtitle2,
                                 ).paddingBottom(8),
                                 Text(
                                   "Duration:",
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: MyTheme.lightTextTheme.subtitle2,
                                 ).paddingBottom(8),
                                 Text(
                                   "Location:",
-                                  style: Theme.of(context).textTheme.subtitle2,
+                                  style: MyTheme.lightTextTheme.subtitle2,
                                 ),
                               ],
                             ),
@@ -93,21 +128,21 @@ class _TicketDrawerState extends State<TicketDrawer> {
                                 children: [
                                   AutoSizeText(
                                     DateFormat.yMMMMd().format(widget.linkType.event.date),
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style: MyTheme.lightTextTheme.bodyText2,
                                   ).paddingBottom(8),
                                   if (widget.linkType.event.endTime != null)
                                     AutoSizeText(
                                       "${DateFormat.jm().format(widget.linkType.event.date)} - ${DateFormat.jm().format(widget.linkType.event.endTime)} (${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} Hours)",
-                                      style: Theme.of(context).textTheme.bodyText2,
+                                      style: MyTheme.lightTextTheme.bodyText2,
                                     ).paddingBottom(8),
                                   if (widget.linkType.event.endTime == null)
                                     AutoSizeText(
                                       "${DateFormat.jm().format(widget.linkType.event.date)} ",
-                                      style: Theme.of(context).textTheme.bodyText2,
+                                      style: MyTheme.lightTextTheme.bodyText2,
                                     ).paddingBottom(8),
                                   AutoSizeText(
                                     widget.linkType.event.address ?? widget.linkType.event.venueName,
-                                    style: Theme.of(context).textTheme.bodyText2,
+                                    style: MyTheme.lightTextTheme.bodyText2,
                                   ),
                                 ],
                               ),
@@ -121,9 +156,11 @@ class _TicketDrawerState extends State<TicketDrawer> {
                           ? Center(
                               child: Text("You can't invite yourself to this event",
                                   style: MyTheme.darkTextTheme.bodyText2))
-                          : TicketPage(
+                          : PaymentPage(
                               widget.linkType,
-                              forwardToPayment: true,
+                              maxHeight: screenSize.height - 304,
+                              selectedTickets: widget.selectedTickets,
+                              discount: widget.discount,
                             ),
                     ],
                   ),

@@ -15,36 +15,12 @@ class StateLoading extends TicketState {
 
 class StateError extends TicketState {}
 
-class StatePreviouslyBoughtTickets extends TicketState {
-  final List<Ticket> tickets;
+class StateDiscountApplied extends TicketState {
+  final Discount discount;
 
-  const StatePreviouslyBoughtTickets(this.tickets);
+  StateDiscountApplied(this.discount);
 }
 
-class StatePaymentRequired extends StatePreviouslyBoughtTickets {
-  final List<TicketRelease> releases;
+class StateDiscountCodeLoading extends TicketState {}
 
-  StatePaymentRequired(this.releases, tickets) : super(tickets);
-}
-
-class StateWaitForPayment extends TicketState {
-  final List<TicketRelease> releases;
-
-  StateWaitForPayment(this.releases);
-}
-
-class StateNoTicketsLeft extends TicketState {}
-
-class StatePastCutoffTime extends TicketState {}
-
-class StateInvitationAccepted extends TicketState {
-  final List<Ticket> tickets;
-
-  const StateInvitationAccepted(this.tickets);
-}
-
-class StateTicketAlreadyIssued extends TicketState {
-  final Ticket ticket;
-
-  const StateTicketAlreadyIssued(this.ticket);
-}
+class StateDiscountCodeInvalid extends TicketState {}
