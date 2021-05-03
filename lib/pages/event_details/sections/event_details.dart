@@ -9,7 +9,7 @@ import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
-import 'package:ticketapp/pages/event_details/sections/pre_sale_registration.dart';
+import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_registration.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import '../../../UI/theme.dart';
