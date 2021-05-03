@@ -1,3 +1,5 @@
+import 'package:ticketapp/model/pre_sale.dart';
+
 import 'birthday_lists/birthday_event_data.dart';
 import 'release_manager.dart';
 import 'ticket_release.dart';
@@ -48,6 +50,10 @@ class Event {
   double feePercent = 10.0;
   EventOccurrence occurrence;
   BirthdayEventData birthdayEventData;
+  PreSale preSale;
+
+  bool get preSaleEnabled => preSale != null && preSale.enabled;
+
   List<TicketRelease> getTicketReleases() {
     List<TicketRelease> release = [];
     for (int i = 0; i < releaseManagers.length; i++) {
@@ -229,6 +235,11 @@ class Event {
       }
       if (data.containsKey("enddate")) {
         event.endTime = DateTime.fromMillisecondsSinceEpoch(data["enddate"].millisecondsSinceEpoch);
+      }
+      if (data.containsKey("presale_data")) {
+        event.preSale = PreSale(
+            enabled: data["presale_data"]["enabled"] ?? false,
+            startDate: DateTime.fromMillisecondsSinceEpoch(data["presale_data"]["start_date"].millisecondsSinceEpoch));
       }
       event.docID = docId;
 

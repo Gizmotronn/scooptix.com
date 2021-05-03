@@ -1,13 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
-import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../../UI/theme.dart';
-import '../../../main.dart';
 import '../../../model/event.dart';
 
 class EventDetailNavbar extends StatelessWidget {
