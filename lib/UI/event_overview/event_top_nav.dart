@@ -43,78 +43,79 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    return ClipRRect(
-        child: BackdropFilter(
-      filter: ImageFilter.blur(
-        sigmaX: 16,
-        sigmaY: 16,
-      ),
-      child: Container(
-          height: kToolbarHeight,
-          color: widget.color ?? MyTheme.appolloBackgroundColor,
-          width: screenSize.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  InkWell(
-                      onTap: () {
-                        Navigator.popUntil(context, (route) => route.isFirst);
-                        Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                            arguments: EventsRepository.instance.events);
-                      },
-                      child: _appolloLogo().paddingHorizontal(50)),
-                  _appolloSearchBar(context, screenSize),
-                ],
-              ).paddingVertical(4),
-              ValueListenableBuilder<User>(
-                  valueListenable: UserRepository.instance.currentUserNotifier,
-                  builder: (context, user, child) {
-                    if (user != null) {
-                      return Row(
-                        children: [
-                          Badge(
-                              badgeContent: Text('10'),
-                              showBadge: true,
-                              alignment: Alignment.topRight,
-                              position: BadgePosition.topEnd(end: 5),
-                              child: SideButton(title: 'Anouncement', onTap: () {}).paddingRight(8)),
-                          Badge(
-                              badgeContent: Text('5'),
-                              showBadge: true,
-                              alignment: Alignment.topRight,
-                              position: BadgePosition.topEnd(end: 5),
-                              child: SideButton(title: 'My Reminders', onTap: () {}).paddingRight(8)),
-                          Badge(
-                              badgeContent: Text('0'),
-                              showBadge: false,
-                              alignment: Alignment.topRight,
-                              position: BadgePosition.topEnd(end: 5),
-                              child: SideButton(title: 'My Rewards', onTap: () {}).paddingRight(8)),
-                          Badge(
-                              badgeContent: Text('0'),
-                              showBadge: false,
-                              alignment: Alignment.topRight,
-                              position: BadgePosition.topEnd(end: 5),
-                              child: SideButton(title: 'My Tickets', onTap: () {}).paddingRight(8)),
-                          _appolloCreateEventDropDown(context).paddingRight(8),
-                          _appolloHelpDropDown(context).paddingRight(16),
-                          _showUserAvatar(context, user).paddingRight(50),
-                        ],
-                      ).paddingVertical(4);
-                    }
+    return Container(
+        color: widget.color ?? MyTheme.appolloBackgroundColor,
+        width: screenSize.width,
+        height: kToolbarHeight,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                InkWell(
+                    onTap: () {
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                      Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
+                          arguments: EventsRepository.instance.events);
+                    },
+                    child: _appolloLogo().paddingHorizontal(50)),
+                _appolloSearchBar(context, screenSize),
+              ],
+            ).paddingVertical(4),
+            ValueListenableBuilder<User>(
+                valueListenable: UserRepository.instance.currentUserNotifier,
+                builder: (context, user, child) {
+                  if (user != null) {
                     return Row(
                       children: [
-                        _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
-                        _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
-                        _signInButton(context),
+                        Badge(
+                            badgeContent: Text('10'),
+                            showBadge: true,
+                            alignment: Alignment.topRight,
+                            position: BadgePosition.topEnd(end: 5),
+                            child: SideButton(title: 'Anouncement', onTap: () {}).paddingRight(8)),
+                        Badge(
+                            badgeContent: Text('5'),
+                            showBadge: true,
+                            alignment: Alignment.topRight,
+                            position: BadgePosition.topEnd(end: 5),
+                            child: SideButton(title: 'My Reminders', onTap: () {}).paddingRight(8)),
+                        Badge(
+                            badgeContent: Text('0'),
+                            showBadge: false,
+                            alignment: Alignment.topRight,
+                            position: BadgePosition.topEnd(end: 5),
+                            child: SideButton(title: 'My Rewards', onTap: () {}).paddingRight(8)),
+                        Badge(
+                            badgeContent: Text('0'),
+                            showBadge: false,
+                            alignment: Alignment.topRight,
+                            position: BadgePosition.topEnd(end: 5),
+                            child: SideButton(title: 'My Tickets', onTap: () {}).paddingRight(8)),
+                        _appolloCreateEventDropDown(context).paddingRight(8),
+                        _appolloHelpDropDown(context).paddingRight(16),
+                        _showUserAvatar(context, user).paddingRight(50),
                       ],
-                    );
-                  }),
-            ],
-          )),
-    ));
+                    ).paddingVertical(4);
+                  }
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Row(
+                        children: [
+                          _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4).paddingRight(80),
+                          _signInButton(context),
+                        ],
+                      ),
+                      Positioned(
+                          right: screenSize.width * 0.2 / 2,
+                          top: kToolbarHeight * 0.5 / 4,
+                          child: _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4)),
+                    ],
+                  );
+                }),
+          ],
+        ));
   }
 
   Widget _appolloSearchBar(BuildContext context, Size screenSize) {
@@ -222,70 +223,61 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
           shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]));
 
   Widget _appolloCreateEventDropDown(BuildContext context) => Container(
-          child: AppolloPopup(
-        item: List.generate(
-          createEventOptions.length,
-          (index) => PopupMenuItem(
-            value: createEventOptions[index],
-            child: Stack(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 10,
-                        sigmaY: 10,
-                      ),
-                      child: Container(
-                        width: kMinInteractiveDimension,
-                      ),
-                    )),
-                Text(createEventOptions[index]).paddingLeft(8)
-              ],
-            ),
-          ),
-        ),
-        child: PopupButton(
-          title: Text(
-            'Create Event',
-            style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-          ),
-          icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
-        ),
+          child: CustomDropdown(
+        title: 'Create an Event',
+        // onSelected: (v) {},
+        // initialValue: createEventOptions[0],
+        child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+              createEventOptions.length,
+              (index) => Container(
+                // value: createEventOptions[index],
+                child: Text(
+                  createEventOptions[index],
+                  style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
+                ).paddingBottom(8),
+              ),
+            )),
+        // child: InkWell(
+        //   onHover: (v) {
+        //     // setState(() {
+        //     //   isHover = v;
+        //     // });
+        //     print(v);
+        //   },
+        //   child: PopupButton(
+        //     title: Text(
+        //       'Create an Event',
+        //       style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
+        //     ),
+        //     icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
+        //   ),
+        // ),
       ));
 
   Widget _appolloHelpDropDown(BuildContext context) => Container(
-          child: AppolloPopup(
-        item: List.generate(
-          helpOptions.length,
-          (index) => PopupMenuItem(
-            value: helpOptions[index],
-            child: Stack(
-              children: [
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(
-                        sigmaX: 10,
-                        sigmaY: 10,
-                      ),
-                      child: Container(
-                        width: kMinInteractiveDimension,
-                      ),
-                    )),
-                Text(helpOptions[index]).paddingLeft(8)
-              ],
-            ),
-          ),
-        ),
-        child: PopupButton(
-          title: Text(
-            'Help',
-            style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-          ),
-          icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
-        ),
-      ));
+      child: CustomDropdown(
+          title: 'Help',
+          // onSelected: (v) {},
+          // initialValue: createEventOptions[0],
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: List.generate(
+                helpOptions.length,
+                (index) => Text(
+                      helpOptions[index],
+                      style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
+                    ).paddingBottom(8)),
+            // child: PopupButton(
+            //   title: Text(
+            //     'Help',
+            //     style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
+            //   ),
+            //   icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
+            // ),
+            // )
+          )));
 
   Widget _signInButton(context) => InkWell(
         onTap: () {
