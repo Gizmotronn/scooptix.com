@@ -71,16 +71,24 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
       );
     });
 
-    widget.scrollController.addListener(() {
+    // Starting to scroll from the top of the page starts an automatic scroll to the event details.
+    // Works the same in return when scrolling above the event details.
+    bool scrolling = false;
+    widget.scrollController.addListener(() async {
+      if (scrolling) {
+        return;
+      }
       if (widget.scrollController.offset > 0) {
         if (EventDetailPage.fab.value != null) {
           EventDetailPage.fab.value = null;
         }
       } else {
         EventDetailPage.fab.value = InkWell(
-          onTap: () {
-            widget.scrollController
+          onTap: () async {
+            scrolling = true;
+            await widget.scrollController
                 .animateTo(positions[0] - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+            scrolling = false;
           },
           child: Container(
             decoration: BoxDecoration(
@@ -92,14 +100,23 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
         );
       }
       if (widget.scrollController.offset < positions[0] - 90) {
-        if (previousScrollPosition > widget.scrollController.offset) {
-          widget.scrollController.jumpTo(0);
-        } else {
-          widget.scrollController.jumpTo(positions[0] - 90);
-        }
+        scrolling = true;
+        WidgetsBinding.instance.addPostFrameCallback((_) async {
+          print(widget.scrollController.offset);
+          if (previousScrollPosition > widget.scrollController.offset) {
+            await widget.scrollController.animateTo(0, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+            previousScrollPosition = widget.scrollController.offset;
+          } else {
+            await widget.scrollController
+                .animateTo(positions[0] - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+            previousScrollPosition = widget.scrollController.offset;
+          }
+          scrolling = false;
+        });
       }
-
-      previousScrollPosition = widget.scrollController.offset;
+      if (!scrolling) {
+        previousScrollPosition = widget.scrollController.offset;
+      }
     });
   }
 

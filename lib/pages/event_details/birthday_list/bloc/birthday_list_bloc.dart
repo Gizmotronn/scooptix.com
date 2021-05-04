@@ -32,7 +32,11 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
     yield StateLoading();
     BirthdayList bDayList = await BirthdayListRepository.instance.loadExistingList(event.docID);
     if (bDayList == null) {
-      yield StateNoList();
+      if (UserRepository.instance.currentUser().dob.difference(event.date).inDays.abs() > 14) {
+        yield StateTooFarAway();
+      } else {
+        yield StateNoList();
+      }
     } else {
       bDayList.attendees = await TicketRepository.instance
           .loadBookingAttendees(event, UserRepository.instance.currentUser().firebaseUserID);

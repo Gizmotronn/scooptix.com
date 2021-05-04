@@ -35,10 +35,10 @@ class _CardButtonState extends State<CardButton> {
   bool isHover = false;
   @override
   Widget build(BuildContext context) {
-    final activeColor = widget.activeColor ?? MyTheme.appolloGreen;
-    final deactiveColor = widget.deactiveColor ?? MyTheme.appolloGreen.withAlpha(40);
+    final activeColor = widget.activeColor ?? MyTheme.appolloGreen.withOpacity(.9);
+    final deactiveColor = widget.deactiveColor ?? MyTheme.appolloGreen;
     final activeColorText = widget.activeColorText ?? MyTheme.appolloWhite;
-    final deactiveColorText = widget.deactiveColorText ?? MyTheme.appolloGreen;
+    final deactiveColorText = widget.deactiveColorText ?? MyTheme.appolloBackgroundColor;
 
     return InkWell(
       onTap: widget.onTap,

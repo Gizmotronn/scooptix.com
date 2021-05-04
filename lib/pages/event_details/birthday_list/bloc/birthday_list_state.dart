@@ -18,3 +18,5 @@ class StateExistingList extends BirthdayListState {
 }
 
 class StateNoList extends BirthdayListState {}
+
+class StateTooFarAway extends BirthdayListState {}
