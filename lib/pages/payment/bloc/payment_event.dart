@@ -12,7 +12,8 @@ class EventCancelPayment extends PaymentEvent {}
 class EventConfirmSetupIntent extends PaymentEvent {
   final PaymentMethod paymentMethod;
   final bool saveCreditCard;
-  const EventConfirmSetupIntent(this.paymentMethod, this.saveCreditCard);
+  final Event event;
+  const EventConfirmSetupIntent(this.paymentMethod, this.saveCreditCard, this.event);
 }
 
 class EventConfirmPayment extends PaymentEvent {
@@ -38,6 +39,7 @@ class EventRequestFreeTickets extends PaymentEvent {
 
 class EventLoadAvailableReleases extends PaymentEvent {
   final Map<TicketRelease, int> selectedTickets;
+  final Event event;
 
-  const EventLoadAvailableReleases(this.selectedTickets);
+  const EventLoadAvailableReleases(this.selectedTickets, this.event);
 }

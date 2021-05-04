@@ -24,6 +24,10 @@ class StateFreeTicketSelected extends StatePaymentOptionAvailable {
   const StateFreeTicketSelected() : super();
 }
 
+class StateFreeTicketAlreadyOwned extends PaymentState {
+  const StateFreeTicketAlreadyOwned() : super();
+}
+
 class StatePaidTickets extends StatePaymentOptionAvailable {
   const StatePaidTickets() : super();
 }

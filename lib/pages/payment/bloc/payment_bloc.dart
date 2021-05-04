@@ -5,9 +5,13 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:ticketapp/model/discount.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
+import 'package:ticketapp/repositories/ticket_repository.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 
 part 'payment_event.dart';
 part 'payment_state.dart';
@@ -23,9 +27,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   ) async* {
     if (event is EventLoadAvailableReleases) {
       PaymentRepository.instance.dispose();
-      yield* _loadReleases(event.selectedTickets);
+      yield* _loadReleases(event.selectedTickets, event.event);
     } else if (event is EventConfirmSetupIntent) {
-      yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard);
+      yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard, event.event);
     } else if (event is EventRequestPI) {
       yield* _createPaymentIntent(event.selectedRelease, event.discount, event.linkType);
     } else if (event is EventRequestFreeTickets) {
@@ -34,16 +38,26 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Stream<PaymentState> _createPaymentIntent(
-      Map<TicketRelease, int> selectedRelease, Discount discount, LinkType linkType) async* {
+      Map<TicketRelease, int> selectedReleases, Discount discount, LinkType linkType) async* {
     yield StateLoadingPaymentIntent();
     try {
+      // It's possible there are free tickets selected as well, we only want to process paid ones here
+      Map<TicketRelease, int> paidReleases = {};
+      Map<TicketRelease, int> freeReleases = {};
+      selectedReleases.forEach((key, value) {
+        if (key.price != 0) {
+          paidReleases[key] = value;
+        } else {
+          freeReleases[key] = value;
+        }
+      });
       http.Response response =
-          await PaymentRepository.instance.createPaymentIntent(linkType.event, selectedRelease, discount);
+          await PaymentRepository.instance.createPaymentIntent(linkType.event, paidReleases, discount);
 
       if (response != null) {
         if (response.statusCode == 200) {
           PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-          yield* _confirmPayment();
+          yield* _confirmPayment(freeReleases: freeReleases, linkType: linkType);
         } else {
           yield StatePaymentError("An unknown error occurred. Please try again.");
         }
@@ -56,7 +70,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _confirmPayment() async* {
+  Stream<PaymentState> _confirmPayment({Map<TicketRelease, int> freeReleases, LinkType linkType}) async* {
+    assert(freeReleases == null || (freeReleases != null && linkType != null));
+
     String errorMessage = "An unknown error occurred. Please try again.";
     try {
       Map<String, dynamic> result = await PaymentRepository.instance
@@ -64,6 +80,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (result == null) {
         yield StatePaymentError(errorMessage);
       } else if (result["status"] == "succeeded") {
+        // If there were free tickets to process as well, do this here.
+        // This assures that free tickets are only issued if the paid tickets were issued successfully.
+        // Issuing free tickets should never fail.
+        if (freeReleases != null && freeReleases.isNotEmpty) {
+          freeReleases.keys.forEach((element) async {
+            await TicketRepository.instance.acceptInvitation(linkType, element);
+          });
+        }
         yield StatePaymentCompleted(
             "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.");
         PaymentRepository.instance.dispose();
@@ -76,7 +100,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _savePaymentMethod(PaymentMethod payment, bool saveCreditCard) async* {
+  Stream<PaymentState> _savePaymentMethod(PaymentMethod payment, bool saveCreditCard, Event event) async* {
     yield StateCardUpdated();
     PaymentRepository.instance.saveCreditCard = saveCreditCard;
     if (saveCreditCard) {
@@ -89,7 +113,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           if (response.statusCode == 200) {
             PaymentRepository.instance.paymentMethodId = payment.id;
             PaymentRepository.instance.last4 = payment.last4;
-            yield* _loadReleases(this.selectedTickets);
+            yield* _loadReleases(this.selectedTickets, event);
           } else {
             yield StatePaymentError(response.toString());
           }
@@ -104,14 +128,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _loadReleases(Map<TicketRelease, int> selectedTickets) async* {
+  Stream<PaymentState> _loadReleases(Map<TicketRelease, int> selectedTickets, Event event) async* {
     yield StateLoading();
     this.selectedTickets = selectedTickets;
     if (selectedTickets.keys.any((element) => element.price > 0)) {
       if (PaymentRepository.instance.paymentMethodId == null || PaymentRepository.instance.last4 == null) {
         http.Response response = await PaymentRepository.instance.getSetupIntent(false);
         try {
-          if (response.statusCode == 200) {
+          if (response != null && response.statusCode == 200) {
             if (json.decode(response.body)["requiresConfirmation"] == false) {
               print(json.decode(response.body)["paymentMethod"]);
               PaymentRepository.instance.paymentMethodId = json.decode(response.body)["paymentMethod"];
@@ -129,11 +153,26 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         yield StatePaidTickets();
       }
     } else {
-      yield StateFreeTicketSelected();
+      List<Future<List<Ticket>>> ownedTicketsFutures = [];
+      selectedTickets.keys.where((element) => element.price == 0).forEach((element) {
+        ownedTicketsFutures.add(TicketRepository.instance
+            .loadTickets(UserRepository.instance.currentUser().firebaseUserID, event, release: element));
+      });
+      List<List<Ticket>> ownedTickets = await Future.wait(ownedTicketsFutures);
+      if (ownedTickets.any((element) => element.isNotEmpty)) {
+        yield StateFreeTicketAlreadyOwned();
+      } else {
+        yield StateFreeTicketSelected();
+      }
     }
   }
 
   Stream<PaymentState> _issueFreeTickets(Map<TicketRelease, int> selectedRelease, LinkType linkType) async* {
-    yield StateFreeTicketSelected();
+    yield StateLoading();
+    selectedRelease.keys.forEach((element) async {
+      await TicketRepository.instance.acceptInvitation(linkType, element);
+    });
+    yield StatePaymentCompleted(
+        "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.");
   }
 }

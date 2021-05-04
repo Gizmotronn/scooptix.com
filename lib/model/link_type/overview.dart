@@ -6,4 +6,8 @@ class OverviewLinkType extends LinkType {
   OverviewLinkType(Event event) {
     this.event = event;
   }
+  @override
+  String toString() {
+    return "overview";
+  }
 }

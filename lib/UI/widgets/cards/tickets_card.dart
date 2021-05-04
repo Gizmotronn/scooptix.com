@@ -185,10 +185,12 @@ class _TicketCardState extends State<TicketCard> {
               Text("${quantity.toString()}").paddingHorizontal(12),
               InkWell(
                 onTap: () {
-                  setState(() {
-                    quantity++;
-                  });
-                  widget.onQuantityChanged(quantity);
+                  if (widget.release.getActiveRelease().price != 0 || quantity == 0) {
+                    setState(() {
+                      quantity++;
+                    });
+                    widget.onQuantityChanged(quantity);
+                  }
                 },
                 child: Container(
                   decoration: BoxDecoration(

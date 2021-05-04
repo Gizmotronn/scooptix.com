@@ -36,6 +36,8 @@ class PaymentRepository {
   String last4;
   bool saveCreditCard = false;
 
+  /// Checks if the payment is valid an confirms the payment with stripe.
+  /// Ticket creation and final validity check are handled by the stripe webhook CF
   Future<Map<String, dynamic>> confirmPayment(String clientSecret, String paymentId) async {
     return await Stripe.instance.confirmPayment(clientSecret, paymentMethodId: paymentId);
   }

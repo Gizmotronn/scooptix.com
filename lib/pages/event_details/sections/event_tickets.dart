@@ -71,7 +71,8 @@ class _EventTicketsState extends State<EventTickets> {
                                           selectedTickets
                                               .containsKey(widget.event.releaseManagers[index].getActiveRelease())) {
                                         setState(() {
-                                          selectedTickets.remove(widget.event.releaseManagers[index]);
+                                          selectedTickets
+                                              .remove(widget.event.releaseManagers[index].getActiveRelease());
                                         });
                                       } else if (q != 0) {
                                         setState(() {

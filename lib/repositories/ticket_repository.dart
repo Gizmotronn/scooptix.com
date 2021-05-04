@@ -44,14 +44,19 @@ class TicketRepository {
     }
   }
 
-  Future<List<Ticket>> loadTickets(String uid, Event event) async {
+  Future<List<Ticket>> loadTickets(String uid, Event event, {TicketRelease release}) async {
     List<Ticket> tickets = [];
-    QuerySnapshot ticketSnapshot = await FirebaseFirestore.instance
+    Query q = FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
         .collection("tickets")
-        .where("eventref", isEqualTo: event.docID)
-        .get();
+        .where("eventref", isEqualTo: event.docID);
+
+    if (release != null) {
+      q = q.where("ticket_release_id", isEqualTo: release.docId);
+    }
+
+    QuerySnapshot ticketSnapshot = await q.get();
     if (ticketSnapshot.size == 0) {
       return [];
     } else {

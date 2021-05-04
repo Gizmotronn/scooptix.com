@@ -89,7 +89,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Event Summary", style: MyTheme.lightTextTheme.headline4)
+                      Text("Order Confirmation", style: MyTheme.lightTextTheme.headline4)
                           .paddingBottom(MyTheme.elementSpacing),
                       Text(
                         widget.linkType.event.name,
