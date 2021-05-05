@@ -92,10 +92,9 @@ class _CustomDropdownState extends State<CustomDropdown> {
               _isExpanded = !_isExpanded;
             });
           },
-          child: AnimatedContainer(
-            duration: Duration(milliseconds: 300),
+          child: Container(
             decoration: BoxDecoration(
-              color: _isExpanded ? MyTheme.appolloBackgroundColor2 : Colors.transparent,
+              color: _isExpanded ? MyTheme.appolloBackgroundColor2 : null,
               border: Border.all(color: _isHover ? MyTheme.appolloGreen : Colors.transparent, width: 0.8),
               borderRadius: BorderRadius.circular(5),
             ),

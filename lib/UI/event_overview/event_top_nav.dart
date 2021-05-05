@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/main.dart';
@@ -20,6 +21,8 @@ import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
+import 'event_overview_home.dart';
+
 class EventOverviewAppbar extends StatefulWidget {
   final Color color;
 
@@ -30,13 +33,13 @@ class EventOverviewAppbar extends StatefulWidget {
 
 class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   bool isHoverSearchBar = false;
-  final List<String> createEventOptions = ['Overview', 'Pricing', 'Blog'];
+  final List<Menu> createEventOptions = [Menu('Overview', false), Menu('Pricing', false), Menu('Blog', false)];
 
-  final List<String> helpOptions = [
-    'How do I connect event organizers',
-    'Cost for creating event with us',
-    'Where do I find my tickets',
-    'Support Center'
+  final List<Menu> helpOptions = [
+    Menu('How do I connect event organizers', false),
+    Menu('Cost for creating event with us', false),
+    Menu('Where do I find my tickets', false),
+    Menu('Support Center', false),
   ];
 
   @override
@@ -98,19 +101,11 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                       ],
                     ).paddingVertical(4);
                   }
-                  return Stack(
-                    clipBehavior: Clip.none,
+                  return Row(
                     children: [
-                      Row(
-                        children: [
-                          _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4).paddingRight(80),
-                          _signInButton(context),
-                        ],
-                      ),
-                      Positioned(
-                          right: screenSize.width * 0.2 / 2,
-                          top: kToolbarHeight * 0.5 / 4,
-                          child: _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4)),
+                      _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
+                      _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
+                      _signInButton(context),
                     ],
                   );
                 }),
@@ -225,59 +220,52 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   Widget _appolloCreateEventDropDown(BuildContext context) => Container(
           child: CustomDropdown(
         title: 'Create an Event',
-        // onSelected: (v) {},
-        // initialValue: createEventOptions[0],
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
               createEventOptions.length,
-              (index) => Container(
-                // value: createEventOptions[index],
-                child: Text(
-                  createEventOptions[index],
-                  style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-                ).paddingBottom(8),
+              (index) => InkWell(
+                onHover: (value) {
+                  print(value);
+                  for (var i = 0; i < createEventOptions.length; i++) {
+                    setState(() {
+                      createEventOptions[i].isTap = false;
+                    });
+                  }
+
+                  setState(() {
+                    createEventOptions[index].isTap = true;
+                  });
+                },
+                child: _hoverText(context,
+                        title: createEventOptions[index].title, isHover: createEventOptions[index].isTap)
+                    .paddingBottom(8),
               ),
             )),
-        // child: InkWell(
-        //   onHover: (v) {
-        //     // setState(() {
-        //     //   isHover = v;
-        //     // });
-        //     print(v);
-        //   },
-        //   child: PopupButton(
-        //     title: Text(
-        //       'Create an Event',
-        //       style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-        //     ),
-        //     icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
-        //   ),
-        // ),
       ));
 
+  Widget _hoverText(BuildContext context, {String title, bool isHover}) {
+    return Text(
+      title,
+      style: Theme.of(context)
+          .textTheme
+          .button
+          .copyWith(fontSize: 12, fontWeight: isHover ? FontWeight.w600 : FontWeight.w400),
+    );
+  }
+
   Widget _appolloHelpDropDown(BuildContext context) => Container(
-      child: CustomDropdown(
+        child: CustomDropdown(
           title: 'Help',
-          // onSelected: (v) {},
-          // initialValue: createEventOptions[0],
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
                 helpOptions.length,
-                (index) => Text(
-                      helpOptions[index],
-                      style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-                    ).paddingBottom(8)),
-            // child: PopupButton(
-            //   title: Text(
-            //     'Help',
-            //     style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400),
-            //   ),
-            //   icon: Container(height: 20, child: SvgIcon(AppolloSvgIcon.arrowdown, color: MyTheme.appolloWhite)),
-            // ),
-            // )
-          )));
+                (index) => _hoverText(context, title: helpOptions[index].title, isHover: helpOptions[index].isTap)
+                    .paddingBottom(8)),
+          ),
+        ),
+      );
 
   Widget _signInButton(context) => InkWell(
         onTap: () {
@@ -312,7 +300,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
               width: 50,
               child: CircleAvatar(
                 radius: 50,
-                // backgroundImage: user ?? ExtendedImage.asset(user.profileImageURL).image,
+                // backgroundImage: ExtendedImage.asset(user.profileImageURL).image,
               ),
             ),
           ],
