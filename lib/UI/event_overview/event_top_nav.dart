@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
-import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/main.dart';
@@ -232,7 +231,6 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                       createEventOptions[i].isTap = false;
                     });
                   }
-
                   setState(() {
                     createEventOptions[index].isTap = true;
                   });
@@ -257,6 +255,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   Widget _appolloHelpDropDown(BuildContext context) => Container(
         child: CustomDropdown(
           title: 'Help',
+          width: 100,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: List.generate(
