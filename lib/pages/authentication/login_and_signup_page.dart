@@ -677,7 +677,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               },
               labelText: "Email",
               autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
-              suffixIcon: state is StateLoadingUserData ? _buildSpinner() : SizedBox.shrink()
+              suffixIcon: state is StateLoadingUserData ? _buildSpinner() : SizedBox()
 
               // validator: (v) => val.Validator.validateEmail(_emailController.text),
               ),
@@ -760,7 +760,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     return Transform.scale(
       scale: 0.5,
       child: CircularProgressIndicator(),
-    );
+    ).paddingBottom(4);
   }
 
   Widget _buildSSO(AuthenticationState state, Size screenSize) {
