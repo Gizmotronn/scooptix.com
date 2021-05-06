@@ -104,7 +104,7 @@ class _CountdownState extends State<Countdown> {
                 ).paddingHorizontal(4),
               ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50)),
             ),
-            if (_duration.inDays < 0)
+            if (_duration.inDays == 0)
               Expanded(
                 child: Container(
                   child: Column(
