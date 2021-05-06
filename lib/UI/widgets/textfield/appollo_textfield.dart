@@ -193,7 +193,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                 decoration: InputDecoration(
                   filled: true,
                   hintText: widget.hintText,
-                  suffixIcon: widget.suffixIcon,
+                  suffix: widget.suffixIcon,
                   fillColor: Colors.transparent,
                   contentPadding: const EdgeInsets.only(left: 8),
                   errorBorder: InputBorder.none,
