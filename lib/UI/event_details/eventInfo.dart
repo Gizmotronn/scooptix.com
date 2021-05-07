@@ -137,7 +137,7 @@ class EventInfoWidget extends StatelessWidget {
                                   },
                                   child: Text(
                                     "GET YOUR TICKET",
-                                    style: MyTheme.darkTextTheme.button,
+                                    style: MyTheme.lightTextTheme.button,
                                   ),
                                 ),
                               ).paddingBottom(MyTheme.elementSpacing),

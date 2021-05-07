@@ -291,7 +291,7 @@ class _PaymentPageState extends State<PaymentPage> {
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
                 "Payment Method",
-                style: MyTheme.lightTextTheme.headline6,
+                style: MyTheme.lightTextTheme.subtitle1.copyWith(color: MyTheme.appolloOrange),
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
@@ -681,7 +681,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     child: Center(
                         child: Text(
                 "Add a Payment Method",
-                style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloGreen),
+                style: MyTheme.lightTextTheme.subtitle1.copyWith(color: MyTheme.appolloGreen),
               ).paddingAll(8)))
                 .appolloTransparentCard(color: MyTheme.appolloBackgroundColor2.withAlpha(120)),
       ),

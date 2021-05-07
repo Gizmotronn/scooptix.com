@@ -92,7 +92,10 @@ class UserRepository {
       auth.User fbUser = auth.FirebaseAuth.instance.currentUser;
       if (fbUser == null) {
         print("no current user");
-        fbUser = await auth.FirebaseAuth.instance.authStateChanges().first;
+        // There seems so be a case where this fails, so just make sure we continue on in that case
+        try {
+          fbUser = await auth.FirebaseAuth.instance.authStateChanges().first;
+        } catch (_) {}
       }
       if (fbUser == null) {
         print("no state change user");

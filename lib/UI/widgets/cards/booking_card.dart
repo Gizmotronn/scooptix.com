@@ -34,7 +34,7 @@ class BookingCard extends StatelessWidget {
                         TextSpan(
                             text: '\$ $price',
                             children: [TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)]),
-                        style: Theme.of(context).textTheme.headline2)
+                        style: Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
                     .paddingBottom(14),
                 Column(children: textIcons)
               ],

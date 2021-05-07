@@ -124,11 +124,14 @@ class _ThisWeekState extends State<ThisWeek> {
                   children: [
                     TextSpan(
                       text: " $tag2" ?? '',
-                      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloRed),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
                     ),
                   ],
                 ),
-                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite)),
+                style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

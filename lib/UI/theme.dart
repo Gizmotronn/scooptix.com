@@ -105,24 +105,24 @@ class MyTheme {
   static TextTheme lightTextTheme = TextTheme(
       bodyText1: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 12.8, // 16
+              fontSize: 13.6, // 16
               letterSpacing: 0.5,
               color: appolloWhite,
-              fontWeight: FontWeight.w400)
+              fontWeight: FontWeight.w500)
           .withZoomFix,
       bodyText2: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 12.8, // 16
+              fontSize: 11.9, // 16
               letterSpacing: 0.25,
               color: appolloWhite,
-              fontWeight: FontWeight.w400)
+              fontWeight: FontWeight.w500)
           .withZoomFix,
       subtitle1: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 14.4, // 18
+              fontSize: 15.3, // 18
               letterSpacing: 0.15,
               color: appolloWhite,
-              fontWeight: FontWeight.w300)
+              fontWeight: FontWeight.w500)
           .withZoomFix,
       subtitle2: TextStyle(
               fontFamily: "montserrat",
@@ -140,10 +140,10 @@ class MyTheme {
           .withZoomFix,
       headline2: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 25.6, // 32
-              letterSpacing: -0.5,
+              fontSize: 27.2, // 32
+              letterSpacing: -0.25,
               color: appolloWhite,
-              fontWeight: FontWeight.w600)
+              fontWeight: FontWeight.w400)
           .withZoomFix,
       headline3: TextStyle(
               fontFamily: "montserrat",
@@ -154,10 +154,10 @@ class MyTheme {
           .withZoomFix,
       headline4: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 19.2,
+              fontSize: 20.4,
               letterSpacing: 0,
-              color: appolloOrange,
-              fontWeight: FontWeight.w500)
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
           .withZoomFix, // 24
       headline5: TextStyle(
               fontFamily: "montserrat",
@@ -168,10 +168,10 @@ class MyTheme {
           .withZoomFix, // 20
       headline6: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 14.4,
+              fontSize: 17,
               letterSpacing: 0.25,
               color: appolloWhite,
-              fontWeight: FontWeight.w600)
+              fontWeight: FontWeight.w400)
           .withZoomFix, // 16
       caption: TextStyle(
               fontFamily: "montserrat",
@@ -195,7 +195,7 @@ class MyTheme {
               fontWeight: FontWeight.w400)
           .withZoomFix);
 
-  static TextTheme darkTextTheme = TextTheme(
+  /* static TextTheme darkTextTheme = TextTheme(
       bodyText1: TextStyle(
               fontFamily: "montserrat",
               fontSize: 12.8, // 16
@@ -287,13 +287,13 @@ class MyTheme {
               color: appolloBlack,
               fontWeight: FontWeight.w400)
           .withZoomFix);
-
+*/
   static ThemeData theme = ThemeData(
       backgroundColor: Color(0xFF21223B),
       scaffoldBackgroundColor: Color(0xFF21223B),
-      primaryColor: MyTheme.appolloPurple,
-      accentColor: MyTheme.appolloPurple,
-      buttonColor: MyTheme.appolloPurple,
+      primaryColor: MyTheme.appolloGreen,
+      accentColor: MyTheme.appolloGreen,
+      buttonColor: MyTheme.appolloGreen,
       hintColor: MyTheme.appolloWhite,
       canvasColor: Color(0xff2c2c2c),
       inputDecorationTheme: InputDecorationTheme(
@@ -301,7 +301,7 @@ class MyTheme {
           filled: true,
           border: OutlineInputBorder(),
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80)))),
-      primaryIconTheme: IconThemeData(color: MyTheme.appolloPurple),
+      primaryIconTheme: IconThemeData(color: MyTheme.appolloGreen),
       navigationRailTheme: NavigationRailThemeData(
           selectedIconTheme: IconThemeData(color: Colors.white),
           unselectedIconTheme: IconThemeData(color: Colors.black)),

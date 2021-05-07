@@ -118,7 +118,7 @@ class EventCard extends StatelessWidget {
                       : preSale
                           ? "Pre Sale"
                           : tag,
-                  style: Theme.of(context).textTheme.caption)
+                  style: MyTheme.lightTextTheme.bodyText2)
               .paddingHorizontal(14),
         ),
       ),
@@ -146,10 +146,7 @@ class EventCard extends StatelessWidget {
                             fullDate(event.date) ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline6
-                                .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
+                            style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
                         ValueListenableBuilder<User>(
@@ -179,10 +176,10 @@ class EventCard extends StatelessWidget {
                       event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: MyTheme.appolloWhite,
-                          fontWeight: FontWeight.w500,
-                          fontSize: sizes.isDesktop ? null : 14),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(fontWeight: FontWeight.w500, fontSize: sizes.isDesktop ? null : 14),
                     ).paddingBottom(4),
                   ],
                 ).paddingAll(14),

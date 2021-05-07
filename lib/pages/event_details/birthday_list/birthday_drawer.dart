@@ -50,7 +50,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
               value,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: MyTheme.lightTextTheme.headline6,
+              style: MyTheme.lightTextTheme.bodyText2,
             );
           }),
       DatatableHeader(
@@ -110,7 +110,9 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                   children: [
                                     AutoSizeText("Birthday list created.", style: MyTheme.lightTextTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
-                                    AutoSizeText("Invite your friends", style: MyTheme.lightTextTheme.headline3)
+                                    AutoSizeText("Invite your friends",
+                                            style:
+                                                MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                             "Below you will find your invitation link. Copy the link and give it to anyone you wish to invite")
@@ -118,7 +120,9 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     AutoSizeText(
                                             "Guests need to open the link and accept your invite by following the instructions.")
                                         .paddingBottom(MyTheme.elementSpacing),
-                                    AutoSizeText("Invitation Link", style: MyTheme.lightTextTheme.headline4)
+                                    AutoSizeText("Invitation Link",
+                                            style:
+                                                MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     InkWell(
                                       onTap: () {
@@ -142,7 +146,9 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         ),
                                       ).paddingBottom(MyTheme.elementSpacing),
                                     ),
-                                    AutoSizeText("RSVP's", style: MyTheme.lightTextTheme.headline4)
+                                    AutoSizeText("RSVP's",
+                                            style:
+                                                MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     ClipRRect(
                                       borderRadius: BorderRadius.only(
@@ -186,7 +192,8 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                 AutoSizeText("Create your birthday list.",
                                         maxLines: 2, style: MyTheme.lightTextTheme.headline2)
                                     .paddingBottom(MyTheme.elementSpacing),
-                                AutoSizeText("Celebrate in style!", style: MyTheme.lightTextTheme.headline3)
+                                AutoSizeText("Celebrate in style!",
+                                        style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen))
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ListView.builder(
                                   shrinkWrap: true,
@@ -202,13 +209,17 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                             width: 12,
                                           ).paddingRight(MyTheme.elementSpacing),
                                         ),
-                                        Center(child: Text(widget.linkType.event.birthdayEventData.benefits[index])),
+                                        Center(
+                                            child: Text(
+                                          widget.linkType.event.birthdayEventData.benefits[index],
+                                          style: MyTheme.lightTextTheme.bodyText1,
+                                        )),
                                       ],
                                     ).paddingBottom(8);
                                   },
                                 ).paddingBottom(MyTheme.elementSpacing),
                                 AutoSizeText("How many guests are you inviting?",
-                                        style: MyTheme.lightTextTheme.headline4)
+                                        style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloOrange))
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ReactiveForm(
                                   formGroup: form,
@@ -249,12 +260,14 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                 constraints:
                                     BoxConstraints(minHeight: screenSize.height - 120, maxHeight: double.infinity),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     AutoSizeText("Unable to create your birthday list.",
                                             maxLines: 2, style: MyTheme.lightTextTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Your birthday is too far away!",
-                                            style: MyTheme.lightTextTheme.headline3)
+                                            style:
+                                                MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                         "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
@@ -301,10 +314,10 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text("Events Powered By", style: MyTheme.darkTextTheme.bodyText2.copyWith(color: Colors.grey))
+                        Text("Events Powered By", style: MyTheme.lightTextTheme.bodyText2.copyWith(color: Colors.grey))
                             .paddingRight(4),
                         Text("appollo",
-                            style: MyTheme.darkTextTheme.subtitle1.copyWith(
+                            style: MyTheme.lightTextTheme.subtitle1.copyWith(
                               fontFamily: "cocon",
                               color: MyTheme.appolloPurple,
                               fontSize: 18,

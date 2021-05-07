@@ -144,7 +144,7 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
     );
   }
 

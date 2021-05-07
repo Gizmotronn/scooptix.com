@@ -51,7 +51,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
           widget.linkType is MemberInvite &&
                   (widget.linkType as MemberInvite).promoter.docId ==
                       UserRepository.instance.currentUser().firebaseUserID
-              ? Center(child: Text("You can't invite yourself to this event", style: MyTheme.darkTextTheme.bodyText2))
+              ? Center(child: Text("You can't invite yourself to this event", style: MyTheme.lightTextTheme.bodyText2))
               : SingleChildScrollView(
                   child: TicketPage(widget.linkType, forwardToPayment: widget.forwardToPayment)
                       .paddingAll(8)

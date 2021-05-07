@@ -56,15 +56,11 @@ class EventDetailWithButtons extends StatelessWidget {
                     children: [
                       TextSpan(
                           text: ' ${organizer?.getFullName() ?? ''}',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
+                          style: MyTheme.lightTextTheme.bodyText2
                               .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
                     ],
                   ),
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption
+                  style: MyTheme.lightTextTheme.bodyText2
                       .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
             ],
           ),

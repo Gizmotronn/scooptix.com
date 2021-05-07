@@ -51,14 +51,14 @@ class UpcomingEvents extends StatelessWidget {
           children: [
             Row(
               children: [
-                AutoSizeText(tag, style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite))
+                AutoSizeText(tag, style: MyTheme.lightTextTheme.headline4.copyWith(fontWeight: FontWeight.w500))
                     .paddingRight(4),
                 AutoSizeText(hightLightText,
-                    style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange)),
+                    style: MyTheme.lightTextTheme.headline4
+                        .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500)),
               ],
             ),
-            AutoSizeText(count ?? '',
-                style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite)),
+            AutoSizeText(count ?? '', style: MyTheme.lightTextTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

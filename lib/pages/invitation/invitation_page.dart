@@ -49,7 +49,7 @@ class _InvitationPageState extends State<InvitationPage> {
           AppolloButton.mediumButton(
               child: Text(
                 "Login",
-                style: MyTheme.darkTextTheme.button,
+                style: MyTheme.lightTextTheme.button,
               ),
               onTap: () {
                 WrapperPage.endDrawer.value = AuthenticationDrawer();

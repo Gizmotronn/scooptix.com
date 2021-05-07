@@ -102,7 +102,10 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
                                       children: [
                                         Text(
                                           "Welcome Back",
-                                          style: Theme.of(context).textTheme.headline3,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline2
+                                              .copyWith(color: MyTheme.appolloGreen),
                                         ).paddingBottom(MyTheme.elementSpacing),
                                         /*  InkWell(
                                           onTap: () {
@@ -140,7 +143,6 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
                                                     builder: (context, state) {
                                                       if (state is profile.StateInitial) {
                                                         return CircleAvatar(
-                                                          backgroundColor: MyTheme.appolloGreen,
                                                           radius: 50,
                                                           backgroundImage: ExtendedImage.network(
                                                               UserRepository.instance.currentUser().profileImageURL ??
@@ -228,10 +230,10 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text("Events Powered By", style: MyTheme.darkTextTheme.bodyText2.copyWith(color: Colors.grey))
+                        Text("Events Powered By", style: MyTheme.lightTextTheme.bodyText2.copyWith(color: Colors.grey))
                             .paddingRight(4),
                         Text("appollo",
-                            style: MyTheme.darkTextTheme.subtitle1.copyWith(
+                            style: MyTheme.lightTextTheme.subtitle1.copyWith(
                               fontFamily: "cocon",
                               color: MyTheme.appolloPurple,
                               fontSize: 18,

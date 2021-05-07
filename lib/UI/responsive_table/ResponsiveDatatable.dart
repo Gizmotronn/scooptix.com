@@ -277,7 +277,7 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
                                       : Container(
                                           child: Text(
                                             "${data[header.value]}",
-                                            style: MyTheme.lightTextTheme.headline6,
+                                            style: MyTheme.lightTextTheme.bodyText2,
                                             textAlign: header.textAlign,
                                           ),
                                         ),

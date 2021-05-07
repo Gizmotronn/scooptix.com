@@ -55,7 +55,10 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
                 )
               ],*/
             ),
-            style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange),
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
           ).paddingBottom(32),
           SizedBox(
             height: 320,
@@ -87,7 +90,10 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
                 )
               ],*/
             ),
-            style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloOrange),
+            style: Theme.of(context)
+                .textTheme
+                .headline4
+                .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500),
           ).paddingBottom(32),
           SizedBox(
             height: 320,

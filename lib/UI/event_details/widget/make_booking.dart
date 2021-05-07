@@ -176,11 +176,11 @@ class MakeBooking extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            AutoSizeText('Create A Booking List',
+                            AutoSizeText('Create A Birthday List',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headline4
-                                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
+                                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
                                 .paddingBottom(32),
                             AutoSizeText(
                                     "Celebrate your birthday in style by creating a Birthday List for you and your closest friends and get the VIP experience.",
@@ -208,7 +208,8 @@ class MakeBooking extends StatelessWidget {
                                       TextSpan(text: '\$500', children: [
                                         TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)
                                       ]),
-                                      style: Theme.of(context).textTheme.headline2)
+                                      style:
+                                          Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
                                   .paddingBottom(MyTheme.cardPadding),
                             ),
                             AppolloButton.wideButton(

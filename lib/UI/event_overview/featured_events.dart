@@ -271,7 +271,7 @@ class FeaturedEventText extends StatelessWidget {
           "${event?.description ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloWhite, fontSize: 14),
+          style: MyTheme.lightTextTheme.bodyText1,
         ).paddingBottom(8),
         AppolloButton.wideButton(
             heightMax: 40,
@@ -296,16 +296,13 @@ class FeaturedEventText extends StatelessWidget {
           event?.date == null ? '' : fullDate(event?.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: Theme.of(context)
-              .textTheme
-              .headline6
-              .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
+          style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
         ).paddingBottom(8),
         AutoSizeText(
           event?.name ?? '',
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloWhite),
         ).paddingBottom(4),
       ],
     );

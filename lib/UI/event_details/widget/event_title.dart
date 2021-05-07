@@ -11,7 +11,7 @@ class EventDetailTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoSizeText(
       title,
-      style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+      style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
     );
   }
 }

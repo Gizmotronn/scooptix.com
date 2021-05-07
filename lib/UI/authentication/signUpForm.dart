@@ -36,14 +36,14 @@ class _SignUpFormState extends State<SignUpForm> {
             AutoSizeText(
               "Tell us about yourself",
               textAlign: TextAlign.center,
-              style: widget.textTheme.headline6,
+              style: widget.textTheme.headline4,
             ),
             SizedBox(
               height: MyTheme.elementSpacing * 1.5,
             ),
             AutoSizeText(
               "Name",
-              style: widget.textTheme.headline6,
+              style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: MyTheme.elementSpacing,
@@ -81,7 +81,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
             AutoSizeText(
               "Date of birth",
-              style: widget.textTheme.headline6,
+              style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
             ),
 
             SizedBox(
@@ -189,7 +189,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
                 AutoSizeText(
                   "Gender",
-                  style: widget.textTheme.headline6,
+                  style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
                 ),
                 SizedBox(
                   height: MyTheme.elementSpacing,
@@ -219,7 +219,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             AutoSizeText(
               "Terms & Conditions",
-              style: widget.textTheme.headline6,
+              style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: MyTheme.elementSpacing,

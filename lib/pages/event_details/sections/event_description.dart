@@ -25,7 +25,7 @@ class EventDescription extends StatelessWidget {
               const SizedBox(height: 30),
               AutoSizeText("${event?.description ?? ''}",
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
+                  style: MyTheme.lightTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w400)),
             ],
           ).paddingHorizontal(32),
           const SizedBox(height: 30),
