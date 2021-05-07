@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -243,6 +244,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
               UserRepository.instance.currentUser().lastname);
         }
       }
+    } else {
+      yield StateLoggedIn(UserRepository.instance.currentUser().email, UserRepository.instance.currentUser().firstname,
+          UserRepository.instance.currentUser().lastname);
     }
   }
 

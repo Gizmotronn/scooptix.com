@@ -11,7 +11,6 @@ import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
 import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
 
 class TicketPage extends StatefulWidget {
   final LinkType linkType;

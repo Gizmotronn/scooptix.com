@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
+import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/main.dart';
@@ -65,7 +66,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                             arguments: EventsRepository.instance.events);
                       },
                       child: _appolloLogo().paddingHorizontal(50)),
-                  _appolloSearchBar(context, screenSize),
+                  //TODO: _appolloSearchBar(context, screenSize),
                 ],
               ).paddingVertical(4),
               ValueListenableBuilder<User>(
@@ -319,8 +320,23 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
             SizedBox(
               width: 50,
               child: CircleAvatar(
+                backgroundColor: MyTheme.appolloGreen,
                 radius: 50,
-                // backgroundImage: user ?? ExtendedImage.asset(user.profileImageURL).image,
+                backgroundImage: ExtendedImage.network(UserRepository.instance.currentUser().profileImageURL ?? "",
+                    cache: true, fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {
+                  switch (state.extendedImageLoadState) {
+                    case LoadState.loading:
+                      return Container(
+                        color: Colors.white,
+                      );
+                    case LoadState.completed:
+                      return state.completedWidget;
+                    default:
+                      return Container(
+                        color: Colors.white,
+                      );
+                  }
+                }).image,
               ),
             ),
           ],

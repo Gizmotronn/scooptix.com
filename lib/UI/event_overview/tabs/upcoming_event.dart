@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
@@ -33,12 +32,13 @@ class UpcomingEvents extends StatelessWidget {
               ],
             ),
           ).paddingBottom(16),
-          HoverAppolloButton(
+          // TODO:
+          /*HoverAppolloButton(
             title: 'See More Events',
             color: MyTheme.appolloGreen,
             hoverColor: MyTheme.appolloGreen,
             fill: false,
-          ),
+          ),*/
         ],
       ),
     );

@@ -29,7 +29,9 @@ class EventDetailInfo extends StatefulWidget {
   final Organizer organizer;
   final ScrollController scrollController;
   final EventsOverviewBloc bloc;
-  const EventDetailInfo({Key key, this.event, this.organizer, this.scrollController, this.bloc}) : super(key: key);
+  final Function physics;
+  EventDetailInfo({Key key, this.event, this.organizer, this.scrollController, this.bloc, this.physics})
+      : super(key: key);
 
   @override
   _EventDetailInfoState createState() => _EventDetailInfoState();
@@ -88,6 +90,9 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
             scrolling = true;
             await widget.scrollController
                 .animateTo(positions[0] - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+            if (EventDetailPage.fab.value != null) {
+              EventDetailPage.fab.value = null;
+            }
             scrolling = false;
           },
           child: Container(
@@ -99,7 +104,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
           ),
         );
       }
-      if (widget.scrollController.offset < positions[0] - 90) {
+      /* if (widget.scrollController.offset < positions[0] - 90) {
         scrolling = true;
         WidgetsBinding.instance.addPostFrameCallback((_) async {
           print(widget.scrollController.offset);
@@ -113,7 +118,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
           }
           scrolling = false;
         });
-      }
+      }*/
       if (!scrolling) {
         previousScrollPosition = widget.scrollController.offset;
       }

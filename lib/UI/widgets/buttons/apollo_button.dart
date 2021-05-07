@@ -40,10 +40,10 @@ class AppolloButton {
           ),
           child: TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: fill ? color ?? MyTheme.theme.buttonColor : MyTheme.theme.buttonColor.withOpacity(0.1),
+              backgroundColor: fill ? color ?? MyTheme.appolloGreen : MyTheme.appolloGreen.withOpacity(0.1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
-                side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+                side: BorderSide(color: color ?? MyTheme.appolloGreen, width: border ? 1.3 : 0),
               ),
             ),
             onPressed: onTap,

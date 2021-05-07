@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/model/organizer.dart';
@@ -5,6 +7,7 @@ import 'package:ticketapp/model/promoter.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:ticketapp/services/image_util.dart';
 
 class UserRepository {
   static UserRepository _instance;
@@ -112,5 +115,15 @@ class UserRepository {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance.collection('users').doc(uid).get();
       return Promoter.fromMap(userSnapshot.id, userSnapshot.data());
     }
+  }
+
+  Future<void> updateUserProfileImage(Uint8List image) async {
+    String url = await ImageUtil.uploadImageToDefaultBucket(
+        image, "profiles/${this.currentUser().firebaseUserID}/profileimage.png");
+    this.currentUser().profileImageURL = url;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser().firebaseUserID)
+        .update({"profileimage": url});
   }
 }

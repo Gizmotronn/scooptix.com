@@ -23,7 +23,6 @@ class EventDetailPage extends StatefulWidget {
 
 class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
   EventsOverviewBloc bloc;
-
   ScrollController _scrollController;
 
   @override
