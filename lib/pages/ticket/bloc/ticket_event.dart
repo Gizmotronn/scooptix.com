@@ -13,3 +13,5 @@ class EventApplyDiscount extends TicketEvent {
 
   const EventApplyDiscount(this.event, this.code);
 }
+
+class EventRemoveDiscount extends TicketEvent {}

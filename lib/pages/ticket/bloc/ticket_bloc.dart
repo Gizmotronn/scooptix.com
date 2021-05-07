@@ -18,6 +18,8 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
   ) async* {
     if (event is EventApplyDiscount) {
       yield* _applyDiscount(event.event, event.code);
+    } else if (event is EventRemoveDiscount) {
+      yield StateDiscountCodeRemoved();
     }
   }
 
