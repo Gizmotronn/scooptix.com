@@ -35,9 +35,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   final List<Menu> createEventOptions = [Menu('Overview', false), Menu('Pricing', false), Menu('Blog', false)];
 
   final List<Menu> helpOptions = [
-    Menu('How do I connect event organizers', false),
-    Menu('Cost for creating event with us', false),
-    Menu('Where do I find my tickets', false),
+    Menu('Contact Organiser', false),
+    Menu('Creating an Event', false),
+    Menu('Find my tickets', false),
     Menu('Support Center', false),
   ];
 
@@ -210,59 +210,32 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   }
 
   Widget _appolloLogo() => Text("appollo",
-      style: MyTheme.lightTextTheme.subtitle1.copyWith(
-          fontFamily: "cocon",
-          color: Colors.white,
-          fontSize: 25,
-          shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]));
+      style:
+          MyTheme.lightTextTheme.subtitle1.copyWith(fontFamily: "cocon", color: Colors.white, fontSize: 25, shadows: [
+        BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1),
+      ]));
 
-  Widget _appolloCreateEventDropDown(BuildContext context) => Container(
-          child: CustomDropdown(
-        title: 'Create an Event',
-        child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-              createEventOptions.length,
-              (index) => InkWell(
-                onHover: (value) {
-                  print(value);
-                  for (var i = 0; i < createEventOptions.length; i++) {
-                    setState(() {
-                      createEventOptions[i].isTap = false;
-                    });
-                  }
-                  setState(() {
-                    createEventOptions[index].isTap = true;
-                  });
-                },
-                child: _hoverText(context,
-                        title: createEventOptions[index].title, isHover: createEventOptions[index].isTap)
-                    .paddingBottom(8),
-              ),
-            )),
-      ));
-
-  Widget _hoverText(BuildContext context, {String title, bool isHover}) {
-    return Text(
-      title,
-      style: Theme.of(context)
-          .textTheme
-          .button
-          .copyWith(fontSize: 12, fontWeight: isHover ? FontWeight.w600 : FontWeight.w400),
-    );
+  Widget _appolloCreateEventDropDown(BuildContext context) {
+    return Container(
+        child: CustomDropdown(
+      item: createEventOptions,
+      title: 'Create an Event',
+      onChange: (s, v) {
+        print(s);
+        print(v);
+      },
+    ));
   }
 
   Widget _appolloHelpDropDown(BuildContext context) => Container(
         child: CustomDropdown(
           title: 'Help',
           width: 100,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: List.generate(
-                helpOptions.length,
-                (index) => _hoverText(context, title: helpOptions[index].title, isHover: helpOptions[index].isTap)
-                    .paddingBottom(8)),
-          ),
+          item: helpOptions,
+          onChange: (s, v) {
+            print(s);
+            print(v);
+          },
         ),
       );
 
