@@ -24,3 +24,5 @@ class StateDiscountApplied extends TicketState {
 class StateDiscountCodeLoading extends TicketState {}
 
 class StateDiscountCodeInvalid extends TicketState {}
+
+class StateDiscountCodeRemoved extends TicketState {}
