@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
+import 'package:ticketapp/UI/widgets/textfield/discount_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
@@ -225,15 +226,6 @@ class _TicketPageState extends State<TicketPage> {
     }
   }
 
-  VoidCallback _updateAfterLogin() {
-    return () {
-      if (UserRepository.instance.isLoggedIn) {
-        setState(() {});
-      }
-      UserRepository.instance.currentUserNotifier.removeListener(_updateAfterLogin());
-    };
-  }
-
   Widget _buildDiscountCode() {
     return BlocConsumer<TicketBloc, TicketState>(
         cubit: bloc,
@@ -251,50 +243,12 @@ class _TicketPageState extends State<TicketPage> {
         builder: (context, state) {
           return Column(
             children: [
-              AppolloCard(
-                color: MyTheme.appolloLightCardColor,
-                child: SizedBox(
-                  height: 38,
-                  width: widget.maxWidth,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 3,
-                        child: TextFormField(
-                          decoration: InputDecoration(
-                              fillColor: Colors.transparent,
-                              enabledBorder: InputBorder.none,
-                              border: InputBorder.none,
-                              hintText: "Discount Code",
-                              isDense: true),
-                          controller: _discountController,
-                        ).paddingRight(8),
-                      ),
-                      Expanded(
-                        child: SizedBox(
-                          height: 46,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              primary: MyTheme.appolloGreen,
-                            ),
-                            onPressed: () {
-                              if (_discountController.text != "") {
-                                bloc.add(EventApplyDiscount(widget.linkType.event, _discountController.text));
-                              }
-                            },
-                            child: state is StateDiscountCodeLoading
-                                ? Transform.scale(scale: 0.5, child: CircularProgressIndicator())
-                                : Text(
-                                    "Apply",
-                                    style: MyTheme.lightTextTheme.caption,
-                                  ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
+              DiscountTextField(
+                discountController: _discountController,
+                bloc: bloc,
+                state: state,
+                width: widget.maxWidth,
+                linkType: widget.linkType,
               ).paddingBottom(8),
               if (state is StateDiscountApplied)
                 Align(
@@ -313,11 +267,19 @@ class _TicketPageState extends State<TicketPage> {
                                   .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
                             ),
                           ),
-                          Icon(
-                            Icons.close,
-                            color: MyTheme.appolloLightBlue,
-                            size: 14,
-                          ).paddingLeft(4).paddingRight(8)
+                          InkWell(
+                            onTap: () {
+                              setState(() {
+                                discount = null;
+                                bloc.add(EventRemoveDiscount());
+                              });
+                            },
+                            child: Icon(
+                              Icons.close,
+                              color: MyTheme.appolloLightBlue,
+                              size: 14,
+                            ).paddingLeft(4).paddingRight(8),
+                          )
                         ],
                       )),
                 ),
