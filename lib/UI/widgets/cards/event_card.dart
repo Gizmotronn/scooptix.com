@@ -66,8 +66,8 @@ class EventCard extends StatelessWidget {
 
     bool isSoldOut = event.soldOut();
 
-    for (var i = 0; i < event.getActiveReleases().length; i++) {
-      final release = event?.getActiveReleases()[i];
+    for (var i = 0; i < event.getAllReleases().length; i++) {
+      final release = event?.getAllReleases()[i];
       prices.add(release?.price == null ? 0 : release.price);
     }
     if (prices.length > 1) {
