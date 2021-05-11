@@ -159,7 +159,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                                   style: MyTheme.lightTextTheme.bodyText2))
                           : PaymentPage(
                               widget.linkType,
-                              maxHeight: screenSize.height - 304,
+                              maxHeight: screenSize.height - 296,
                               selectedTickets: widget.selectedTickets,
                               discount: widget.discount,
                             ),

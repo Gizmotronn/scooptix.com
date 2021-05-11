@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/event_details/widget/dotpoin.dart';
 import 'package:ticketapp/model/release_manager.dart';
 import '../../../UI/theme.dart';
@@ -101,6 +102,13 @@ class _TicketCardState extends State<TicketCard> {
           ).paddingTop(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing),
         ),
       );
+    } else if (widget.release.getNextRelease() != null) {
+      return AutoSizeText(
+              "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.getNextRelease().releaseStart)}",
+              style: MyTheme.lightTextTheme.subtitle1,
+              textAlign: TextAlign.center)
+          .paddingAll(8)
+          .paddingTop(MyTheme.elementSpacing);
     } else {
       return AutoSizeText("There are currently no tickets of this type available.",
               style: MyTheme.lightTextTheme.subtitle1, textAlign: TextAlign.center)

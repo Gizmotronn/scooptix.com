@@ -30,6 +30,25 @@ class ReleaseManager {
     return null;
   }
 
+  /// Returns the next release that will be active, which might not be active right now
+  TicketRelease getNextRelease() {
+    // Sort by earliest release start first
+    releases.sort((a, b) => a.releaseStart.isBefore(b.releaseStart) ? -1 : 1);
+    for (int i = 0; i < releases.length; i++) {
+      // If autorelease is true, we can ignore the release start time if the first release is already sold out
+      // This is why we sort the releases first
+      if ((releases[i].releaseStart.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+          releases[i].releaseEnd.isAfter(DateTime.now()) &&
+          releases[i].maxTickets > releases[i].ticketsBought) {
+        return releases[i];
+      }
+    }
+    if (releases.any((element) => element.releaseEnd.isAfter(DateTime.now()))) {
+      return releases.firstWhere((element) => element.releaseEnd.isAfter(DateTime.now()));
+    }
+    return null;
+  }
+
   int getFullPrice() {
     return releases.isEmpty ? 0 : releases.last.price;
   }

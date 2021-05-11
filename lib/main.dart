@@ -9,6 +9,7 @@ import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 
+import 'repositories/user_repository.dart';
 import 'services/bugsnag_wrapper.dart';
 
 void main() {
@@ -73,7 +74,7 @@ class _WrapperPageState extends State<WrapperPage> {
   void initState() {
     // Used to sign in current user session
     // Disbaled for DEV, doesn't work with hot reload
-    //UserRepository.instance.signInCurrentUser();
+    UserRepository.instance.signInCurrentUser();
     super.initState();
   }
 

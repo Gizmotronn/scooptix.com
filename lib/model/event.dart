@@ -239,7 +239,10 @@ class Event {
       if (data.containsKey("presale_data")) {
         event.preSale = PreSale(
             enabled: data["presale_data"]["enabled"] ?? false,
-            startDate: DateTime.fromMillisecondsSinceEpoch(data["presale_data"]["start_date"].millisecondsSinceEpoch));
+            registrationStartDate: DateTime.fromMillisecondsSinceEpoch(
+                data["presale_data"]["registration_start_date"].millisecondsSinceEpoch),
+            registrationEndDate: DateTime.fromMillisecondsSinceEpoch(
+                data["presale_data"]["registration_end_date"].millisecondsSinceEpoch));
       }
       event.docID = docId;
 

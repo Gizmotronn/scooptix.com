@@ -38,23 +38,34 @@ class EventDetailInfo extends StatefulWidget {
 }
 
 class _EventDetailInfoState extends State<EventDetailInfo> {
-  List<Menu> _tabButtons = [
-    Menu('Detail', false),
-    Menu('Pre-Sale', false),
-    Menu('Tickets', false),
-    Menu('Make a Booking', false),
-    Menu('Location', false)
-  ];
+  List<Menu> _tabButtons = [];
 
   double previousScrollPosition = 0.0;
 
-  List<double> positions = [];
+  Map<int, double> positions = {};
   @override
   void initState() {
     super.initState();
-    positions.add(0.0);
+    _tabButtons = [
+      Menu('Detail', false, id: 1),
+    ];
+
+    if (widget.event.preSaleEnabled) {
+      _tabButtons.add(Menu('Pre-Sale', false, id: 2));
+    }
+    if (widget.event.releaseManagers.isNotEmpty) {
+      _tabButtons.add(Menu('Tickets', false, id: 3));
+    }
+    if (widget.event.allowsBirthdaySignUps) {
+      _tabButtons.add(Menu('Make a Booking', false, id: 4));
+    }
+    if (widget.event.images.isNotEmpty) {
+      _tabButtons.add(Menu('Location', false, id: 5));
+    }
+
+    positions[0] = 0.0;
     _tabButtons.forEach((element) {
-      positions.add(0.0);
+      positions[element.id] = 0.0;
     });
 
     Future.delayed(Duration(milliseconds: 1)).then((_) {
@@ -141,33 +152,39 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
     return Container(
       child: Column(
         children: [
-          BoxOffset(
-            boxOffset: (offset) => setState(() => positions[0] = offset.dy),
-            child: _buildEventDetailWithCountdown(context),
-          ),
-          BoxOffset(
-            boxOffset: (offset) => setState(() => positions[1] = offset.dy),
-            child: EventDescription(event: widget.event),
-          ),
-          BoxOffset(
-            boxOffset: (offset) => setState(() => positions[2] = offset.dy),
-            child: PreSaleRegistration(event: widget.event),
-          ),
-          BoxOffset(
-            boxOffset: (offset) => setState(() => positions[3] = offset.dy),
-            child: EventTickets(
-              event: widget.event,
-              linkType: OverviewLinkType(widget.event),
+          if (positions.containsKey(0))
+            BoxOffset(
+              boxOffset: (offset) => setState(() => positions[0] = offset.dy),
+              child: _buildEventDetailWithCountdown(context),
             ),
-          ),
-          BoxOffset(
-            boxOffset: (offset) => setState(() => positions[4] = offset.dy),
-            child: MakeBooking(event: widget.event),
-          ),
-          BoxOffset(
-            boxOffset: (offset) => setState(() => positions[5] = offset.dy),
-            child: EventGallary(event: widget.event),
-          ),
+          if (positions.containsKey(1))
+            BoxOffset(
+              boxOffset: (offset) => setState(() => positions[1] = offset.dy),
+              child: EventDescription(event: widget.event),
+            ),
+          if (positions.containsKey(2))
+            BoxOffset(
+              boxOffset: (offset) => setState(() => positions[2] = offset.dy),
+              child: PreSaleRegistration(event: widget.event),
+            ),
+          if (positions.containsKey(3))
+            BoxOffset(
+              boxOffset: (offset) => setState(() => positions[3] = offset.dy),
+              child: EventTickets(
+                event: widget.event,
+                linkType: OverviewLinkType(widget.event),
+              ),
+            ),
+          if (positions.containsKey(4))
+            BoxOffset(
+              boxOffset: (offset) => setState(() => positions[4] = offset.dy),
+              child: MakeBooking(event: widget.event),
+            ),
+          if (positions.containsKey(5))
+            BoxOffset(
+              boxOffset: (offset) => setState(() => positions[5] = offset.dy),
+              child: EventGallary(event: widget.event),
+            ),
         ],
       ).paddingAll(MyTheme.cardPadding),
     ).appolloCard(color: MyTheme.appolloBackgroundColor2);
@@ -191,37 +208,15 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
                 activeColorText: MyTheme.appolloWhite,
                 deactiveColorText: MyTheme.appolloGreen,
                 onTap: () async {
-                  await widget.scrollController
-                      .animateTo(positions[index + 1] - 100, curve: Curves.linear, duration: MyTheme.animationDuration);
+                  await widget.scrollController.animateTo(positions[_tabButtons[index].id] - 100,
+                      curve: Curves.linear, duration: MyTheme.animationDuration);
                 },
               ),
             ),
           ),
-          EventDetailTitle('Countdown to Pre-Sale Registration').paddingBottom(32),
-          _buildCountdown().paddingBottom(32),
-          AppolloButton.wideButton(
-            heightMax: 40,
-            heightMin: 40,
-            child: Center(
-              child: Text(
-                'REMIND ME',
-                style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
-              ),
-            ),
-            onTap: () {},
-            color: MyTheme.appolloGreen,
-          ),
-          const SizedBox(height: 32),
           AppolloDivider(),
         ],
       ),
-    );
-  }
-
-  Widget _buildCountdown() {
-    return Countdown(
-      width: 432,
-      duration: widget.event.date.difference(DateTime.now()),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:ticketapp/UI/event_overview/tabs/today_events.dart';
 import 'package:ticketapp/UI/event_overview/tabs/upcoming_event.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/event_details/sections/event_details.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewHome extends StatefulWidget {
@@ -93,13 +95,17 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
       );
 }
 
-class Menu {
-  int id;
-  String title;
-  String subtitle;
-  String fullDate;
-  String svgIcon;
+// ignore: must_be_immutable
+class Menu extends Equatable {
+  final int id;
+  final String title;
+  final String subtitle;
+  final String fullDate;
+  final String svgIcon;
   bool isTap;
 
   Menu(this.title, this.isTap, {this.id, this.subtitle, this.fullDate, this.svgIcon});
+
+  @override
+  List<Object> get props => [title];
 }
