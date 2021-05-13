@@ -1,10 +1,10 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_details/widget/event_title.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/pages/ticket/ticket_page.dart';
+import 'package:ticketapp/pages/ticket/order_summary_overlay.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
@@ -39,7 +39,10 @@ class _EventTicketsState extends State<EventTickets> {
     return Container(
         child: Column(
       children: [
-        EventDetailTitle('Tickets').paddingBottom(30),
+        AutoSizeText(
+          'Tickets',
+          style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+        ).paddingBottom(30),
         ClipRRect(
           borderRadius: BorderRadius.circular(5),
           child: Container(
@@ -94,9 +97,8 @@ class _EventTicketsState extends State<EventTickets> {
                       borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
                       color: MyTheme.appolloCardColor2,
                     ),
-                    child: TicketPage(
+                    child: OrderSummaryOverlay(
                       widget.linkType,
-                      forwardToPayment: false,
                       selectedTickets: selectedTickets,
                       maxWidth: checkoutWidth,
                     ).paddingAll(16)),

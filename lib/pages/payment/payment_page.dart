@@ -20,13 +20,11 @@ import 'package:ticketapp/utilities/alertGenerator.dart';
 
 class PaymentPage extends StatefulWidget {
   final LinkType linkType;
-  final TextTheme textTheme;
   final Map<TicketRelease, int> selectedTickets;
   final Discount discount;
   final double maxHeight;
 
-  const PaymentPage(this.linkType,
-      {Key key, @required this.textTheme, @required this.selectedTickets, this.discount, @required this.maxHeight})
+  const PaymentPage(this.linkType, {Key key, @required this.selectedTickets, this.discount, @required this.maxHeight})
       : super(key: key);
 
   @override
@@ -222,16 +220,7 @@ class _PaymentPageState extends State<PaymentPage> {
     return ResponsiveBuilder(builder: (context, constraints) {
       if (constraints.deviceScreenType == DeviceScreenType.mobile ||
           constraints.deviceScreenType == DeviceScreenType.watch) {
-        return SizedBox(
-          width: MyTheme.drawerSize - 8,
-          child: Container(
-            child: Padding(
-              padding:
-                  EdgeInsets.all(getValueForScreenType(context: context, desktop: 20, tablet: 20, mobile: 8, watch: 8)),
-              child: data,
-            ),
-          ).appolloCard(),
-        );
+        return data;
       } else {
         return SizedBox(
           width: MyTheme.drawerSize,
@@ -295,7 +284,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
-                      color: MyTheme.appolloBackgroundColor2.withAlpha(120),
+                      color: MyTheme.appolloGrey.withAlpha(40),
                       child: SizedBox(
                           width: MyTheme.drawerSize,
                           height: 38,
@@ -335,13 +324,13 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.lightTextTheme.bodyText2),
+              Text("Subtotal", style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100 - _calculateDiscount()).toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2)))
+                          style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -353,9 +342,10 @@ class _PaymentPageState extends State<PaymentPage> {
               children: [
                 Text(
                   "Discount (${widget.discount.type == DiscountType.value ? "\$" + (widget.discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : widget.discount.amount.toString() + "%"})",
-                  style: MyTheme.lightTextTheme.bodyText2,
+                  style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
                 ),
-                Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.lightTextTheme.bodyText2)
+                Text("-\$${_calculateDiscount().toStringAsFixed(2)}",
+                    style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -366,14 +356,14 @@ class _PaymentPageState extends State<PaymentPage> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.lightTextTheme.bodyText2,
+                style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2)))
+                          style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -383,14 +373,14 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.lightTextTheme.bodyText2),
+              Text("Total", style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2)))
+                          style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -448,13 +438,14 @@ class _PaymentPageState extends State<PaymentPage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(key.ticketName + " x $value", style: MyTheme.lightTextTheme.bodyText2),
+            Text(key.ticketName + " x $value",
+                style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.lightTextTheme.bodyText2)))
+                        style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));

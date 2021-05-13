@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/pages/error_page.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
@@ -26,10 +26,7 @@ class GeneratedRoute {
         return _navigateTo(routeSettings, EventOverviewPage(events: []));
 
       case AuthenticationPage.routeName:
-        if (arg is LinkType) {
-          return _navigateTo(routeSettings, AuthenticationPage(arg));
-        }
-        return _navigateTo(routeSettings, AuthenticationPage(null));
+        return _navigateTo(routeSettings, AuthenticationPage());
 
       case LandingPage.routeName:
         return _navigateTo(routeSettings, LandingPage());
@@ -47,7 +44,7 @@ class GeneratedRoute {
 }
 
 MaterialPageRoute _navigateTo(RouteSettings settings, Widget child) {
-  return MaterialPageRoute(
+  return MaterialWithModalsPageRoute(
     settings: settings,
     builder: (_) => child,
   );

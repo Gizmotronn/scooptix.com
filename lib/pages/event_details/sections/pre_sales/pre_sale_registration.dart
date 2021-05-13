@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/event_details/widget/counter.dart';
-import 'package:ticketapp/UI/event_details/widget/event_title.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
@@ -69,7 +68,11 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
       children: [
         Column(
           children: [
-            EventDetailTitle('Pre-Sale Registration').paddingBottom(32),
+            AutoSizeText(
+              'Pre-Sale Registration',
+              style:
+                  MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            ).paddingBottom(32),
             AutoSizeText(
                     "Registering for presale is easy, signup or sign in and we will hold your ticket under your account. You will receive an email when presale tickets have gone on sale.",
                     textAlign: TextAlign.center,
@@ -134,22 +137,10 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
                     },
                     color: MyTheme.appolloGreen,
                   ),
-        _subtitle(context, 'Pre-Sale Perks').paddingTop(32).paddingBottom(60),
-        _buildLevel(context).paddingHorizontal(32).paddingBottom(32),
-        _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(60),
-        _buildTrophy(context).paddingHorizontal(32).paddingBottom(32),
-        AppolloButton.wideButton(
-          heightMax: 40,
-          heightMin: 40,
-          child: Center(
-            child: Text(
-              'REGISTER FOR PRE-SALE',
-              style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
-            ),
-          ),
-          onTap: () {},
-          color: MyTheme.appolloGreen,
-        ),
+        //_subtitle(context, 'Pre-Sale Perks').paddingTop(32).paddingBottom(60),
+        // _buildLevel(context).paddingHorizontal(32).paddingBottom(32),
+        //_subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(60),
+        // _buildTrophy(context).paddingHorizontal(32).paddingBottom(32),
         AppolloDivider().paddingTop(32),
       ],
     );
@@ -158,7 +149,10 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
   Widget buildPreSaleNotOpenYet() {
     return Column(
       children: [
-        EventDetailTitle('Countdown to Pre-Sale Registration').paddingBottom(MyTheme.elementSpacing),
+        AutoSizeText(
+          'Countdown to Pre-Sale Registration',
+          style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+        ).paddingBottom(MyTheme.elementSpacing),
         _buildCountdown().paddingBottom(MyTheme.elementSpacing),
         /* TODO AppolloButton.wideButton(
           heightMax: 40,
@@ -191,14 +185,16 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
     );
   }
 
-  Row _buildLevel(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        LevalCard(
+  Widget _buildLevel(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return LevalCard(
           icon: AppolloSvgIcon.level1,
           children: [
-            AutoSizeText('Level 1', style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
+            AutoSizeText('Level ${index.toString()}',
+                    style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
                 .paddingBottom(4),
             AutoSizeText('10 Referrals',
                     style: Theme.of(context)
@@ -211,104 +207,34 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
 +2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
                 .paddingBottom(8),
           ],
-        ),
-        LevalCard(
-          icon: AppolloSvgIcon.level2,
-          children: [
-            AutoSizeText('Level 1', style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                .paddingBottom(4),
-            AutoSizeText('10 Referrals',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                .paddingBottom(8),
-            AutoSizeText("""Free drink on arrival*
-1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                .paddingBottom(8),
-          ],
-        ).paddingHorizontal(MyTheme.cardPadding),
-        LevalCard(
-          icon: AppolloSvgIcon.level3,
-          children: [
-            AutoSizeText('Level 1', style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                .paddingBottom(4),
-            AutoSizeText('10 Referrals',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                .paddingBottom(8),
-            AutoSizeText("""Free drink on arrival*
-1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                .paddingBottom(8),
-          ],
-        ),
-      ],
+        );
+      },
     );
   }
 
-  Row _buildTrophy(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        LevalCard(
-          icon: AppolloSvgIcon.trophy1,
-          children: [
-            AutoSizeText('1st Place',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                .paddingBottom(4),
-            AutoSizeText('Leaderboard',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                .paddingBottom(8),
-            AutoSizeText("""Free drink on arrival*
+  Widget _buildTrophy(BuildContext context) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return LevalCard(
+            icon: AppolloSvgIcon.trophy1,
+            children: [
+              AutoSizeText('${index.toString()}. Place',
+                      style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
+                  .paddingBottom(4),
+              AutoSizeText('Leaderboard',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1
+                          .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
+                  .paddingBottom(8),
+              AutoSizeText("""Free drink on arrival*
 1 x 25% Discounted ticket
 +2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                .paddingBottom(8),
-          ],
-        ),
-        LevalCard(
-          icon: AppolloSvgIcon.trophy2,
-          children: [
-            AutoSizeText('2nd Place',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                .paddingBottom(4),
-            AutoSizeText('Leaderboard',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                .paddingBottom(8),
-            AutoSizeText("""Free drink on arrival*
-1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                .paddingBottom(8),
-          ],
-        ).paddingHorizontal(MyTheme.cardPadding),
-        LevalCard(
-          icon: AppolloSvgIcon.trophy3,
-          children: [
-            AutoSizeText('3rd Place',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                .paddingBottom(4),
-            AutoSizeText('Leaderboard',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                .paddingBottom(8),
-            AutoSizeText("""Free drink on arrival*
-1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                .paddingBottom(8),
-          ],
-        ),
-      ],
-    );
+                  .paddingBottom(8),
+            ],
+          );
+        });
   }
 }

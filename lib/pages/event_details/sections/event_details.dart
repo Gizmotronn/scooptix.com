@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
@@ -15,29 +14,26 @@ import 'package:ticketapp/repositories/events_repository.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/side_buttons.dart';
 import '../../../model/event.dart';
-import '../../../UI/event_details/widget/counter.dart';
 import 'detail_with_button.dart';
-import '../../../UI/event_details/widget/event_title.dart';
 import '../../../UI/event_details/widget/make_booking.dart';
 import 'event_description.dart';
 import 'event_gallery.dart';
 import 'event_tickets.dart';
 import 'similar_other_events.dart';
 
-class EventDetailInfo extends StatefulWidget {
+class EventData extends StatefulWidget {
   final Event event;
   final Organizer organizer;
   final ScrollController scrollController;
   final EventsOverviewBloc bloc;
   final Function physics;
-  EventDetailInfo({Key key, this.event, this.organizer, this.scrollController, this.bloc, this.physics})
-      : super(key: key);
+  EventData({Key key, this.event, this.organizer, this.scrollController, this.bloc, this.physics}) : super(key: key);
 
   @override
-  _EventDetailInfoState createState() => _EventDetailInfoState();
+  _EventDataState createState() => _EventDataState();
 }
 
-class _EventDetailInfoState extends State<EventDetailInfo> {
+class _EventDataState extends State<EventData> {
   List<Menu> _tabButtons = [];
 
   double previousScrollPosition = 0.0;
@@ -194,7 +190,7 @@ class _EventDetailInfoState extends State<EventDetailInfo> {
     return Container(
       child: Column(
         children: [
-          EventDetailWithButtons(
+          EventInfo(
             event: widget.event,
             organizer: widget.organizer,
             buttons: List.generate(

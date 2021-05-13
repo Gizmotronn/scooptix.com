@@ -14,9 +14,8 @@ class LoadingEventsState extends EventsOverviewState {
 
 class AllEventsState extends EventsOverviewState {
   final List<Event> allEvents;
-  final List<Event> upcomingEvents;
 
-  const AllEventsState(this.allEvents, this.upcomingEvents);
+  const AllEventsState(this.allEvents);
 }
 
 class FreeEventsState extends EventsOverviewState {

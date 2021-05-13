@@ -161,10 +161,10 @@ class MyTheme {
           .withZoomFix, // 24
       headline5: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 16.0,
+              fontSize: 17.0,
               letterSpacing: 0,
               color: appolloWhite,
-              fontWeight: FontWeight.w400)
+              fontWeight: FontWeight.w600)
           .withZoomFix, // 20
       headline6: TextStyle(
               fontFamily: "montserrat",

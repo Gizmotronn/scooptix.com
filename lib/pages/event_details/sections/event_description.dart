@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_details/widget/event_title.dart';
 
 import '../../../UI/widgets/appollo/appolloDivider.dart';
 import '../../../model/event.dart';
@@ -21,7 +20,11 @@ class EventDescription extends StatelessWidget {
         children: [
           Column(
             children: [
-              EventDetailTitle('Event Details'),
+              AutoSizeText(
+                'Event Details',
+                style:
+                    MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              ),
               const SizedBox(height: 30),
               AutoSizeText("${event?.description ?? ''}",
                   textAlign: TextAlign.center,

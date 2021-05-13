@@ -8,10 +8,9 @@ import '../../../UI/widgets/buttons/card_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
 import '../../../utilities/svg/icon.dart';
-import '../../../UI/event_details/widget/event_title.dart';
 
-class EventDetailWithButtons extends StatelessWidget {
-  const EventDetailWithButtons({Key key, @required this.event, this.buttons, this.organizer}) : super(key: key);
+class EventInfo extends StatelessWidget {
+  const EventInfo({Key key, @required this.event, this.buttons, this.organizer}) : super(key: key);
 
   final Event event;
   final Organizer organizer;
@@ -49,7 +48,11 @@ class EventDetailWithButtons extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EventDetailTitle(event.name).paddingBottom(8),
+              AutoSizeText(
+                event.name,
+                style:
+                    MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              ).paddingBottom(8),
               AutoSizeText.rich(
                   TextSpan(
                     text: 'Organised by',
@@ -67,7 +70,11 @@ class EventDetailWithButtons extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              EventDetailTitle('Event Details').paddingBottom(MyTheme.cardPadding),
+              AutoSizeText(
+                'Event Details',
+                style:
+                    MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              ).paddingBottom(MyTheme.cardPadding),
               IconText(text: event.address ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
               IconText(text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}', icon: AppolloSvgIcon.clock)
                   .paddingBottom(8),

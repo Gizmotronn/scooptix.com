@@ -1,13 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -26,38 +26,71 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
-      return Stack(
-        children: [
-          Container(
-            width: width != null
-                ? width - 24
-                : sizes.localWidgetSize.width > 324 * 4
-                    ? sizes.localWidgetSize.width / 4 - 24
-                    : sizes.localWidgetSize.width / 3 - 24,
-            height: 300,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: MyTheme.appolloBackgroundColor2.withOpacity(.2),
-                  spreadRadius: 5,
-                  blurRadius: 10,
-                ),
-              ],
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _cardImage(),
-                  _cardContent(context, sizes),
+      if (sizes.isDesktop || sizes.isTablet) {
+        return Stack(
+          children: [
+            Container(
+              width: width != null
+                  ? width - 24
+                  : sizes.localWidgetSize.width > 324 * 4
+                      ? sizes.localWidgetSize.width / 4 - 24
+                      : sizes.localWidgetSize.width / 3 - 24,
+              height: 300,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: MyTheme.appolloBackgroundColor2.withOpacity(.2),
+                    spreadRadius: 5,
+                    blurRadius: 10,
+                  ),
                 ],
               ),
-            ),
-          ).paddingAll(12),
-          _tag(context)
-        ],
-      );
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _cardImage(),
+                    _cardContent(context),
+                  ],
+                ),
+              ),
+            ).paddingAll(12),
+            _tag(context)
+          ],
+        );
+      } else {
+        return SizedBox(
+          width: width != null ? width - 24 : MediaQuery.of(context).size.width,
+          child: Stack(
+            children: [
+              Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: MyTheme.appolloBackgroundColor2.withOpacity(.2),
+                      spreadRadius: 5,
+                      blurRadius: 10,
+                    ),
+                  ],
+                ),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _cardContent(context),
+                      _cardImage(),
+                    ],
+                  ),
+                ),
+              ).paddingAll(MyTheme.elementSpacing),
+              _tag(context)
+            ],
+          ),
+        );
+      }
     });
   }
 
@@ -125,7 +158,7 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  Widget _cardContent(BuildContext context, SizingInformation sizes) {
+  Widget _cardContent(BuildContext context) {
     return Flexible(
       child: ClipRRect(
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), bottomLeft: Radius.circular(12)),
@@ -176,10 +209,7 @@ class EventCard extends StatelessWidget {
                       event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(fontWeight: FontWeight.w500, fontSize: sizes.isDesktop ? null : 14),
+                      style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
                     ).paddingBottom(4),
                   ],
                 ).paddingAll(14),
@@ -343,8 +373,10 @@ class EventCard2 extends StatelessWidget {
                           title: 'View Event',
                           onTap: () {
                             final overviewLinkType = OverviewLinkType(event);
-                            Navigator.of(context)
-                                .push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
+                            Navigator.of(context).push(MaterialWithModalsPageRoute(
+                                builder: (_) => EventDetailPage(
+                                      id: event.docID,
+                                    )));
                           },
                           borderRadius: BorderRadius.only(bottomRight: Radius.circular(12)),
                         ),

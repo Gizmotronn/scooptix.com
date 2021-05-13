@@ -33,8 +33,8 @@ class AppolloButton {
       ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
           constraints: BoxConstraints(
-            minHeight: height ?? size.isDesktop ? 40 : 25,
-            maxHeight: height ?? size.isDesktop ? 40 : 25,
+            minHeight: height ?? size.isDesktop ? 40 : 35,
+            maxHeight: height ?? size.isDesktop ? 40 : 35,
             minWidth: width ?? 130,
             maxWidth: width ?? 200,
           ),

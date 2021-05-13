@@ -36,7 +36,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
       final allEvents = EventsRepository.instance.events;
       List<Event> upcomingEvents = await EventsRepository.instance.loadUpcomingEvents();
 
-      yield AllEventsState(allEvents, upcomingEvents);
+      yield AllEventsState(allEvents);
     } else if (event.index == 1) {
       yield LoadingEventsState();
       List<Event> events = [];

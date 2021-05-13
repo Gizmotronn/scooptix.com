@@ -1,6 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_overview/tabs/upcoming_event.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
@@ -10,9 +10,9 @@ import '../events.dart';
 
 class AllEvents extends StatelessWidget {
   final List<Event> events;
-  final List<Event> upcomingEvents;
+  final AutoSizeText headline;
 
-  const AllEvents({Key key, this.events, this.upcomingEvents}) : super(key: key);
+  const AllEvents({Key key, this.events, this.headline}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -20,7 +20,12 @@ class AllEvents extends StatelessWidget {
       return NoEvents();
     }
     return Container(
-      width: screenSize.width * 0.8,
+      width: getValueForScreenType(
+          context: context,
+          desktop: screenSize.width * 0.8,
+          tablet: screenSize.width * 0.8,
+          mobile: screenSize.width,
+          watch: screenSize.width),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -32,7 +37,6 @@ class AllEvents extends StatelessWidget {
               ],
             ),
           ).paddingBottom(16),
-          UpcomingEvents(events: upcomingEvents),
         ],
       ),
     );
@@ -43,23 +47,7 @@ class AllEvents extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AutoSizeText.rich(
-              TextSpan(
-                  text: 'Events in',
-                  style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
-                  children: [
-                    TextSpan(
-                      text: ' Perth',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
-                    ),
-                    TextSpan(
-                      text: ' This Week',
-                    ),
-                  ]),
-            ),
+            headline,
             AutoSizeText("${events.length.toString()} Events",
                 style: Theme.of(context)
                     .textTheme

@@ -12,21 +12,19 @@ import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
 import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart';
 
-class TicketPage extends StatefulWidget {
+class OrderSummaryOverlay extends StatefulWidget {
   final LinkType linkType;
-  final bool forwardToPayment;
   final Map<TicketRelease, int> selectedTickets;
   final double maxWidth;
 
-  const TicketPage(this.linkType,
-      {Key key, @required this.forwardToPayment, @required this.selectedTickets, @required this.maxWidth})
+  const OrderSummaryOverlay(this.linkType, {Key key, @required this.selectedTickets, @required this.maxWidth})
       : super(key: key);
 
   @override
-  _TicketPageState createState() => _TicketPageState();
+  _OrderSummaryOverlayState createState() => _OrderSummaryOverlayState();
 }
 
-class _TicketPageState extends State<TicketPage> {
+class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
   TicketBloc bloc = TicketBloc();
   double subtotal;
   int totalTicketQuantity;

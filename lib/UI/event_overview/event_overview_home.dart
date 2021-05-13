@@ -1,22 +1,19 @@
 import 'dart:ui';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_navbar.dart';
-import 'package:ticketapp/UI/event_overview/featured_events.dart';
 import 'package:ticketapp/UI/event_overview/tabs/all_events.dart';
 import 'package:ticketapp/UI/event_overview/tabs/for_me.dart';
-import 'package:ticketapp/UI/event_overview/tabs/free_events.dart';
 import 'package:ticketapp/UI/event_overview/tabs/this_week.dart';
 import 'package:ticketapp/UI/event_overview/tabs/this_weekend.dart';
-import 'package:ticketapp/UI/event_overview/tabs/today_events.dart';
-import 'package:ticketapp/UI/event_overview/tabs/upcoming_event.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/event_details/sections/event_details.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
+import 'package:ticketapp/pages/events_overview/featured_events/featured_events.dart';
 
 class EventOverviewHome extends StatefulWidget {
   final List<Event> events;
@@ -58,20 +55,70 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
       cubit: widget.bloc,
       builder: (context, state) {
         if (state is AllEventsState) {
-          return AllEvents(events: state.allEvents, upcomingEvents: state.upcomingEvents);
+          return AllEvents(
+            events: state.allEvents,
+            headline: AutoSizeText.rich(
+              TextSpan(
+                  text: 'Events in',
+                  style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                  children: [
+                    TextSpan(
+                      text: ' Perth',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4
+                          .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                    ),
+                  ]),
+            ),
+          );
         } else if (state is FreeEventsState) {
-          return FreeEvents(events: state.freeEvents);
+          return AllEvents(
+              events: state.freeEvents,
+              headline: AutoSizeText.rich(
+                TextSpan(
+                    text: 'Free events in',
+                    style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                    children: [
+                      TextSpan(
+                        text: ' Perth',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                      ),
+                    ]),
+              ));
         } else if (state is ForMeEventsState) {
           return EventsForMe(scrollController: scrollController);
         } else if (state is TodayEventsState) {
-          return TodayEvents(events: state.todayEvents);
+          return AllEvents(
+              events: state.todayEvents,
+              headline: AutoSizeText.rich(
+                TextSpan(
+                    text: 'Events in',
+                    style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                    children: [
+                      TextSpan(
+                        text: ' Perth',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                      ),
+                      TextSpan(
+                        text: ' Today',
+                      ),
+                    ]),
+              ));
         } else if (state is ThisWeekEventsState) {
           return ThisWeek(events: state.thisWeekEvents, scrollController: scrollController);
         } else if (state is ThisWeekendEventsState) {
           return ThisWeekend(events: state.weekendEvents, scrollController: scrollController);
-        } else if (state is UpcomingEventsState) {
-          return UpcomingEvents(events: state.upcomingEvents);
         }
+        /*else if (state is UpcomingEventsState) {
+          return UpcomingEvents(events: state.upcomingEvents);
+        }*/
         return SizedBox(
           height: 300,
           child: Center(
