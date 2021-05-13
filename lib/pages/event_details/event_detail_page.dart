@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/pages/event_details/mobile_view.dart';
 
 import '../../UI/event_overview/event_top_nav.dart';
 import '../../UI/theme.dart';
@@ -29,6 +30,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
   void initState() {
     _scrollController = ScrollController();
     bloc = EventsOverviewBloc();
+    bloc.add(LoadEventDetailEvent(widget.id));
     super.initState();
   }
 
@@ -55,70 +57,72 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
               return SizedBox.shrink();
             }
           }),
-      body: UpdateEventDetail(
-        init: () {
-          bloc.add(LoadEventDetailEvent(widget.id));
+      body: BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
+        cubit: bloc,
+        builder: (context, state) {
+          if (state is ErrorEventDetailState) {
+            return ErrorPage(state.message);
+          }
+          if (state is EventDetailState) {
+            return ResponsiveBuilder(
+              builder: (context, SizingInformation size) {
+                if (size.isTablet || size.isDesktop) {
+                  return EventPageDesktopView(scrollController: _scrollController, bloc: bloc, state: state);
+                } else {
+                  return EventDetailsMobilePage(
+                    event: state.event,
+                    organizer: state.organizer,
+                    scrollController: _scrollController,
+                    bloc: bloc,
+                  );
+                }
+              },
+            );
+          }
+          return Center(child: CircularProgressIndicator());
         },
-        child: BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
-          cubit: bloc,
-          builder: (context, state) {
-            if (state is ErrorEventDetailState) {
-              return ErrorPage(state.message);
-            }
-            if (state is EventDetailState) {
-              return Stack(
-                children: [
-                  EventDetailBackground(coverImageURL: state.event.coverImageURL),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - MyTheme.maxWidth) / 2),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: EventDetailInfo(
-                          event: state.event,
-                          organizer: state.organizer,
-                          scrollController: _scrollController,
-                          bloc: bloc,
-                        ),
-                      ),
-                    ),
-                  ),
-                  EventDetailNavbar(event: state.event),
-                  EventOverviewAppbar(color: MyTheme.appolloBackgroundColor),
-                ],
-              );
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        ),
       ),
     );
   }
 }
 
-class UpdateEventDetail extends StatefulWidget {
-  final Function init;
-  final Widget child;
+class EventPageDesktopView extends StatelessWidget {
+  const EventPageDesktopView({
+    Key key,
+    @required ScrollController scrollController,
+    @required this.bloc,
+    this.state,
+  })  : _scrollController = scrollController,
+        super(key: key);
 
-  const UpdateEventDetail({Key key, this.init, this.child}) : super(key: key);
-  @override
-  _UpdateEventDetailState createState() => _UpdateEventDetailState();
-}
-
-class _UpdateEventDetailState extends State<UpdateEventDetail> {
-  @override
-  void initState() {
-    if (mounted) {
-      widget.init();
-    }
-    super.initState();
-  }
+  final ScrollController _scrollController;
+  final EventsOverviewBloc bloc;
+  final EventDetailState state;
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    return Stack(
+      children: [
+        EventDetailBackground(coverImageURL: state.event.coverImageURL),
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            padding: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - MyTheme.maxWidth) / 2),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: EventData(
+                event: state.event,
+                organizer: state.organizer,
+                scrollController: _scrollController,
+                bloc: bloc,
+              ),
+            ),
+          ),
+        ),
+        EventDetailNavbar(event: state.event),
+        EventOverviewAppbar(color: MyTheme.appolloBackgroundColor),
+      ],
+    );
   }
 }

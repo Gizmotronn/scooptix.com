@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme.dart';
@@ -41,50 +42,90 @@ class EventOverviewFooter extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    return Container(
-      width: screenSize.width,
-      height: screenSize.height * 0.3,
-      color: MyTheme.appolloBlack,
-      child: Center(
-        child: SizedBox(
-            width: screenSize.width * 0.8,
-            height: screenSize.height * 0.3,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6)
-                    .paddingBottom(16)
-                    .paddingTop(8),
-                SizedBox(
-                  height: 140,
-                  width: screenSize.width * 0.8,
-                  child: Wrap(
-                    runSpacing: MyTheme.elementSpacing,
-                    runAlignment: WrapAlignment.spaceBetween,
-                    direction: Axis.vertical,
-                    alignment: WrapAlignment.spaceBetween,
-                    children: List.generate(
-                        info.length,
-                        (index) => InkWell(
-                              onTap: () async {
-                                if (await canLaunch(info[info.keys.toList()[index]])) {
-                                  await launch(info[info.keys.toList()[index]]);
-                                }
-                              },
-                              child: AutoSizeText(info.keys.toList()[index],
-                                      style:
-                                          Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w400))
-                                  .paddingVertical(4),
-                            )),
-                  ),
-                ).paddingBottom(MyTheme.elementSpacing),
-                AutoSizeText(
+    return ResponsiveBuilder(builder: (context, size) {
+      if (size.isTablet || size.isDesktop) {
+        return Container(
+          width: screenSize.width,
+          height: screenSize.height * 0.3,
+          color: MyTheme.appolloBlack,
+          child: Center(
+            child: SizedBox(
+                width: screenSize.width * 0.8,
+                height: screenSize.height * 0.3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6)
+                        .paddingBottom(16)
+                        .paddingTop(8),
+                    SizedBox(
+                      height: 140,
+                      width: screenSize.width * 0.8,
+                      child: Wrap(
+                        runSpacing: MyTheme.elementSpacing,
+                        runAlignment: WrapAlignment.spaceBetween,
+                        direction: Axis.vertical,
+                        alignment: WrapAlignment.spaceBetween,
+                        children: List.generate(
+                            info.length,
+                            (index) => InkWell(
+                                  onTap: () async {
+                                    if (await canLaunch(info[info.keys.toList()[index]])) {
+                                      await launch(info[info.keys.toList()[index]]);
+                                    }
+                                  },
+                                  child: AutoSizeText(info.keys.toList()[index],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2
+                                              .copyWith(fontWeight: FontWeight.w400))
+                                      .paddingVertical(4),
+                                )),
+                      ),
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    AutoSizeText(
+                        '© 2021 appollo Group pty Ltd. Trademarks and brands are the property of their respective owners.',
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey))
+                  ],
+                ).paddingVertical(8)),
+          ),
+        );
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6).paddingBottom(16).paddingTop(8),
+            SizedBox(
+              height: 300,
+              width: screenSize.width,
+              child: Wrap(
+                runSpacing: MyTheme.elementSpacing,
+                runAlignment: WrapAlignment.spaceBetween,
+                direction: Axis.vertical,
+                alignment: WrapAlignment.spaceBetween,
+                children: List.generate(
+                    info.length,
+                    (index) => InkWell(
+                          onTap: () async {
+                            if (await canLaunch(info[info.keys.toList()[index]])) {
+                              await launch(info[info.keys.toList()[index]]);
+                            }
+                          },
+                          child: AutoSizeText(info.keys.toList()[index],
+                                  style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w400))
+                              .paddingVertical(4),
+                        )),
+              ),
+            ).paddingBottom(MyTheme.elementSpacing),
+            AutoSizeText(
                     '© 2021 appollo Group pty Ltd. Trademarks and brands are the property of their respective owners.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey))
-              ],
-            ).paddingVertical(8)),
-      ),
-    );
+                .paddingBottom(MyTheme.elementSpacing)
+          ],
+        ).paddingLeft(MyTheme.elementSpacing).paddingRight(MyTheme.elementSpacing);
+      }
+    });
   }
 }

@@ -9,53 +9,19 @@ import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
-import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
-class FeaturedEvents extends StatefulWidget {
-  @override
-  _FeaturedEventsState createState() => _FeaturedEventsState();
-}
-
-class _FeaturedEventsState extends State<FeaturedEvents> {
-  List<Event> events = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    events.addAll(EventsRepository.instance.events);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: kToolbarHeight + 20),
-            Container(width: screenSize.width * 0.8, child: EventFeatures(events: events)),
-          ],
-        )
-      ],
-    );
-  }
-}
-
-class EventFeatures extends StatefulWidget {
+class FeaturedEventsDesktop extends StatefulWidget {
   final List<Event> events;
-  const EventFeatures({Key key, @required this.events}) : super(key: key);
+  const FeaturedEventsDesktop({Key key, @required this.events}) : super(key: key);
 
   @override
-  _EventFeaturesState createState() => _EventFeaturesState();
+  _FeaturedEventsDesktopState createState() => _FeaturedEventsDesktopState();
 }
 
-class _EventFeaturesState extends State<EventFeatures> with SingleTickerProviderStateMixin {
+class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with SingleTickerProviderStateMixin {
   GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
 
   AnimationController _controller;

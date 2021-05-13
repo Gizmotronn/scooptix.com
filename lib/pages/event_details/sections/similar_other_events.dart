@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 
 import '../../../UI/theme.dart';
@@ -59,17 +60,28 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
                 .textTheme
                 .headline4
                 .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
-          ).paddingBottom(32),
+          ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(
             height: 320,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: _similarEvents.length > 3 ? 3 : _similarEvents.length,
+              itemCount: getValueForScreenType(
+                context: context,
+                watch: 1,
+                mobile: 1,
+                tablet: _similarEvents.length > 3 ? 3 : _similarEvents.length,
+                desktop: _similarEvents.length > 3 ? 3 : _similarEvents.length,
+              ),
               itemBuilder: (c, index) {
                 return EventCard(
                   event: _similarEvents[index],
-                  width: MyTheme.maxWidth / 3,
+                  width: getValueForScreenType(
+                      context: context,
+                      watch: MediaQuery.of(context).size.width,
+                      mobile: MediaQuery.of(context).size.width,
+                      tablet: MyTheme.maxWidth / 3,
+                      desktop: MyTheme.maxWidth / 3),
                 );
               },
             ),
@@ -94,16 +106,29 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
                 .textTheme
                 .headline4
                 .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500),
-          ).paddingBottom(32),
+          ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(
             height: 320,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemBuilder: (c, index) {
-                return EventCard(event: _otherEventsByThisOrganizer[index], width: MyTheme.maxWidth / 3);
+                return EventCard(
+                    event: _otherEventsByThisOrganizer[index],
+                    width: getValueForScreenType(
+                        context: context,
+                        watch: MediaQuery.of(context).size.width,
+                        mobile: MediaQuery.of(context).size.width,
+                        tablet: MyTheme.maxWidth / 3,
+                        desktop: MyTheme.maxWidth / 3));
               },
-              itemCount: _otherEventsByThisOrganizer.length > 3 ? 3 : _otherEventsByThisOrganizer.length,
+              itemCount: getValueForScreenType(
+                context: context,
+                watch: 1,
+                mobile: 1,
+                tablet: _otherEventsByThisOrganizer.length > 3 ? 3 : _otherEventsByThisOrganizer.length,
+                desktop: _otherEventsByThisOrganizer.length > 3 ? 3 : _otherEventsByThisOrganizer.length,
+              ),
             ),
           ),
         ],

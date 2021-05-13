@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewPage extends StatefulWidget {
@@ -35,29 +37,55 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Scaffold(
-      backgroundColor: MyTheme.appolloWhite,
-      body: BlocProvider(
-        create: (_) => bloc,
-        child: Container(
-          color: MyTheme.appolloBackgroundColor,
-          width: screenSize.width,
-          height: screenSize.height,
-          child: Stack(
-            children: [
-              BlocProvider.value(
-                value: bloc,
-                child: EventOverviewHome(bloc: bloc, events: widget.events),
-              ),
+    return ResponsiveBuilder(builder: (context, size) {
+      if (size.isDesktop || size.isTablet) {
+        return Scaffold(
+          backgroundColor: MyTheme.appolloWhite,
+          body: BlocProvider(
+            create: (_) => bloc,
+            child: Container(
+              color: MyTheme.appolloBackgroundColor,
+              width: screenSize.width,
+              height: screenSize.height,
+              child: Stack(
+                children: [
+                  BlocProvider.value(
+                    value: bloc,
+                    child: EventOverviewHome(bloc: bloc, events: widget.events),
+                  ),
 
-              /// TODO More Events page with fliters and map
-              // MoreEventsFliterMapPage(events: events),
-              EventOverviewAppbar(),
-            ],
+                  /// TODO More Events page with fliters and map
+                  // MoreEventsFliterMapPage(events: events),
+                  EventOverviewAppbar(),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
-    );
+        );
+      } else {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: MyTheme.appolloWhite,
+          appBar: AppolloAppBar(),
+          body: BlocProvider(
+            create: (_) => bloc,
+            child: Container(
+              color: MyTheme.appolloBackgroundColor,
+              width: screenSize.width,
+              height: screenSize.height,
+              child: Stack(
+                children: [
+                  BlocProvider.value(
+                    value: bloc,
+                    child: EventOverviewHome(bloc: bloc, events: widget.events),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      }
+    });
   }
 }
 

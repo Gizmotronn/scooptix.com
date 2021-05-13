@@ -1,31 +1,29 @@
+import 'dart:typed_data';
 import 'dart:ui';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/event_details/eventInfo.dart';
-import 'package:ticketapp/UI/event_details/whyAreYouHere.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/model/link_type/advertisementInvite.dart';
-import 'package:ticketapp/model/link_type/birthdayList.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
-import 'package:ticketapp/model/link_type/promoterInvite.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
-import 'package:ticketapp/pages/event_details/mobile_view.dart';
-import 'package:ticketapp/repositories/ticket_repository.dart';
-import 'package:ticketapp/utilities/alertGenerator.dart';
+import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/services/image_util.dart';
 import 'login_and_signup_page.dart';
 import 'bloc/authentication_bloc.dart';
+import 'package:ticketapp/pages/authentication/profile/bloc/profile_bloc.dart' as profile;
+import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationPage extends StatefulWidget {
   static const String routeName = '/auth';
-  final LinkType linkType;
-  AuthenticationPage(this.linkType, {String id});
+  final Function onAutoAuthenticated;
+
+  const AuthenticationPage({Key key, this.onAutoAuthenticated}) : super(key: key);
   @override
   _AuthenticationPageState createState() => _AuthenticationPageState();
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> with TickerProviderStateMixin {
+  profile.ProfileBloc profileBloc;
   AuthenticationBloc signUpBloc;
 
   final int animationTime = 400;
@@ -34,12 +32,15 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   void initState() {
     signUpBloc = AuthenticationBloc();
     signUpBloc.add(EventPageLoad());
-    TicketRepository.instance.incrementLinkOpenedCounter(widget.linkType);
     super.initState();
   }
 
   @override
   void dispose() {
+    if (profileBloc != null) {
+      profileBloc.close();
+      profileBloc = null;
+    }
     signUpBloc.close();
     super.dispose();
   }
@@ -47,252 +48,178 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    MyTheme.maxWidth = screenSize.width < 1050 ? screenSize.width : 1050;
-    MyTheme.cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
-    return Scaffold(
-      endDrawer: BlocProvider.value(value: signUpBloc, child: AuthenticationDrawer()),
-      endDrawerEnableOpenDragGesture: false,
-      body: Stack(
-        children: [
-          Positioned(
-            width: screenSize.width * 1.01,
-            height: screenSize.height * 1.01,
-            child: Container(
-              width: screenSize.width,
-              height: screenSize.height,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: ExtendedImage.network(
-                      widget.linkType.event.coverImageURL,
-                      cache: true,
-                    ).image,
-                    fit: BoxFit.cover,
-                    colorFilter: ColorFilter.mode(Colors.grey, BlendMode.darken)),
-              ),
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 60.0, sigmaY: 60.0),
-                child: Container(
-                  width: screenSize.width,
-                  height: screenSize.height,
-                  decoration: BoxDecoration(color: Colors.grey[900].withOpacity(0.2)),
-                ),
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: SingleChildScrollView(
-              child: SizedBox(
-                width: screenSize.width,
-                child: Container(
-                  constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                        getValueForScreenType(context: context, desktop: 0, tablet: 0, mobile: 8, watch: 8)),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            // Add some top padding if we show the appbar
-                            BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                cubit: signUpBloc,
-                                builder: (c, state) {
-                                  return ResponsiveBuilder(builder: (context, constraints) {
-                                    if (state is StateLoggedIn &&
-                                        (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                                            constraints.deviceScreenType == DeviceScreenType.watch)) {
-                                      return SizedBox(height: 66);
-                                    } else {
-                                      return SizedBox.shrink();
-                                    }
-                                  });
-                                }),
-
-                            BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                cubit: signUpBloc,
-                                builder: (c, state) {
-                                  return ResponsiveBuilder(builder: (context, constraints) {
-                                    if ((constraints.deviceScreenType == DeviceScreenType.mobile ||
-                                        constraints.deviceScreenType == DeviceScreenType.watch)) {
-                                      if (state is StateNewUserEmail ||
-                                          state is StateNewUserEmailsConfirmed ||
-                                          state is StatePasswordsConfirmed) {
-                                        return SizedBox.shrink();
-                                      } else {
-                                        return Column(
-                                          children: [
-                                            _buildWhyAreYouHere(state),
-                                            Container(
-                                              child: EventInfoWidget(Axis.vertical, widget.linkType),
-                                            ).appolloCard().paddingBottom(8),
-                                          ],
-                                        );
-                                      }
-                                    } else {
-                                      return EventInfoWidget(Axis.horizontal, widget.linkType)
-                                          .paddingTop(MyTheme.cardPadding);
-                                    }
-                                  });
-                                }),
-
-                            // Builds the login functionality
-                            BlocConsumer<AuthenticationBloc, AuthenticationState>(
-                                cubit: signUpBloc,
-                                listener: (c, state) {
-                                  if (state is StateErrorSignUp) {
-                                    String text =
-                                        "We couldn't create an account for you, please make sure your password is at least 8 characters long";
-                                    if (state.error == SignUpError.UserCancelled) {
-                                      text =
-                                          "Login pop up closed. Your browser might be blocking the login pop up. Please try again or use a different login method.";
-                                    } else {
-                                      text = "An error occurred during the signup process, please try again";
-                                    }
-                                    AlertGenerator.showAlert(
-                                        context: context,
-                                        title: "Error",
-                                        content: text,
-                                        buttonText: "Ok",
-                                        popTwice: false);
-                                  } else if (state is StateLoginFailed) {
-                                    AlertGenerator.showAlert(
-                                        context: context,
-                                        title: "Wrong Password",
-                                        content: "Your password is incorrect, please try again.",
-                                        buttonText: "Ok",
-                                        popTwice: false);
-                                  } else if (state is StateLoggedIn &&
-                                      (getDeviceType(screenSize) == DeviceScreenType.mobile ||
-                                          getDeviceType(screenSize) == DeviceScreenType.watch)) {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => EventDetailsPage(
-                                                  widget.linkType,
-                                                  forwardToPayment: state is StateAutoLoggedIn ? false : true,
-                                                ))).then((value) {
-                                      signUpBloc.add(EventPageLoad());
-                                    });
-                                  }
-                                },
-                                buildWhen: (c, state) {
-                                  if (state is StateErrorSignUp) {
-                                    return false;
-                                  }
-                                  return true;
-                                },
-                                builder: (c, state) {
-                                  if (state is StateLoggedIn &&
-                                          (getDeviceType(screenSize) == DeviceScreenType.mobile ||
-                                              getDeviceType(screenSize) == DeviceScreenType.watch) ||
-                                      (getDeviceType(screenSize) == DeviceScreenType.tablet ||
-                                          getDeviceType(screenSize) == DeviceScreenType.desktop)) {
-                                    return SizedBox.shrink();
-                                  } else {
-                                    return Column(
-                                      children: [
-                                        AnimatedSize(
-                                          vsync: this,
-                                          duration: Duration(milliseconds: animationTime),
-                                          child: Container(
-                                            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth + 8),
-                                            child: Container(
-                                              child: Padding(
-                                                padding: EdgeInsets.all(MyTheme.cardPadding),
-                                                child: LoginAndSignupPage(
-                                                  bloc: signUpBloc,
-                                                  textTheme: MyTheme.lightTextTheme,
-                                                ),
-                                              ),
-                                            ).appolloCard(),
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),
+        height: screenSize.height - 58,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                  cubit: signUpBloc,
+                  listener: (c, state) {
+                    if (state is StateAutoLoggedIn) {
+                      if (widget.onAutoAuthenticated != null) {
+                        widget.onAutoAuthenticated();
+                      }
+                    }
+                    if (state is StateLoggedIn) {
+                      if (profileBloc == null) {
+                        profileBloc = profile.ProfileBloc();
+                      }
+                    }
+                  },
+                  builder: (c, state) {
+                    if (state is StateLoggedIn) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MyTheme.drawerSize,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Welcome Back",
+                                  style: Theme.of(context).textTheme.headline2.copyWith(color: MyTheme.appolloGreen),
+                                ).paddingBottom(MyTheme.elementSpacing),
+                                /*  InkWell(
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 34,
+                                            color: Colors.grey,
+                                          )),
+                                          */
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    InkWell(
+                                      onTap: () async {
+                                        Uint8List imageData = await ImageUtil.pickImage();
+                                        if (imageData != null) {
+                                          profileBloc.add(profile.EventUploadProfileImage(imageData));
+                                        }
+                                      },
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: BlocBuilder<profile.ProfileBloc, profile.ProfileState>(
+                                            cubit: profileBloc,
+                                            builder: (context, state) {
+                                              if (state is profile.StateInitial) {
+                                                return CircleAvatar(
+                                                  radius: 50,
+                                                  backgroundImage: ExtendedImage.network(
+                                                      UserRepository.instance.currentUser().profileImageURL ?? "",
+                                                      cache: true,
+                                                      fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {
+                                                    switch (state.extendedImageLoadState) {
+                                                      case LoadState.loading:
+                                                        return Container(
+                                                          color: Colors.white,
+                                                        );
+                                                      case LoadState.completed:
+                                                        return state.completedWidget;
+                                                      default:
+                                                        return Container(
+                                                          color: Colors.white,
+                                                        );
+                                                    }
+                                                  }).image,
+                                                );
+                                              } else {
+                                                return Center(child: CircularProgressIndicator());
+                                              }
+                                            }),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: MyTheme.drawerSize / 1.7,
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                        SizedBox(
+                                          width: MyTheme.drawerSize / 1.7,
+                                          child: AutoSizeText(
+                                            "${UserRepository.instance.currentUser().firstname} ${UserRepository.instance.currentUser().lastname}",
+                                            maxLines: 1,
+                                            style: Theme.of(context).textTheme.headline6,
                                           ),
                                         ),
-                                      ],
-                                    )
-                                        .paddingTop(getValueForScreenType(
-                                            context: context,
-                                            desktop: MyTheme.elementSpacing,
-                                            tablet: MyTheme.elementSpacing,
-                                            mobile: 0,
-                                            watch: 0))
-                                        .paddingBottom(getValueForScreenType(
-                                            context: context,
-                                            desktop: state is StateLoggedIn ? MyTheme.elementSpacing : 0,
-                                            tablet: state is StateLoggedIn ? MyTheme.elementSpacing : 0,
-                                            mobile: 0,
-                                            watch: 0));
-                                  }
-                                }),
-                          ],
+                                        SizedBox(
+                                          width: MyTheme.drawerSize / 1.7,
+                                          child: AutoSizeText(
+                                            "${UserRepository.instance.currentUser().email}",
+                                            maxLines: 1,
+                                            style: Theme.of(context).textTheme.bodyText2,
+                                          ),
+                                        ),
+                                      ]),
+                                    ),
+                                  ],
+                                ).paddingBottom(MyTheme.elementSpacing * 2),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: AppolloButton.smallButton(
+                                    onTap: () async {
+                                      await auth.FirebaseAuth.instance.signOut();
+                                      UserRepository.instance.dispose();
+                                      signUpBloc.add(EventLogout());
+                                      Navigator.pop(context);
+                                    },
+                                    fill: true,
+                                    child: Text(
+                                      "Logout",
+                                      style:
+                                          MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return SizedBox(
+                        width: MyTheme.drawerSize,
+                        child: LoginAndSignupPage(
+                          textTheme: MyTheme.lightTextTheme,
+                          bloc: signUpBloc,
                         ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        ResponsiveBuilder(builder: (context, constraints) {
-                          if ((constraints.deviceScreenType == DeviceScreenType.mobile ||
-                              constraints.deviceScreenType == DeviceScreenType.watch)) {
-                            return _buildPoweredByAppollo();
-                          } else {
-                            return SizedBox(
-                              height: 60,
-                            );
-                          }
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+                      );
+                    }
+                  }).paddingTop(MyTheme.cardPadding),
             ),
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text("Events Powered By", style: MyTheme.lightTextTheme.bodyText2.copyWith(color: Colors.grey))
+                    .paddingRight(4),
+                Text("appollo",
+                    style: MyTheme.lightTextTheme.subtitle1.copyWith(
+                      fontFamily: "cocon",
+                      color: MyTheme.appolloPurple,
+                      fontSize: 18,
+                    ))
+              ],
+            ).paddingBottom(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing),
+          ],
+        ),
       ),
     );
-  }
-
-  _buildPoweredByAppollo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          height: MyTheme.elementSpacing,
-        ),
-        Text(
-          "Powered by",
-          style: MyTheme.lightTextTheme.caption.copyWith(
-              color: Colors.grey[200],
-              fontWeight: FontWeight.w300,
-              shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]),
-        ),
-        Text("appollo",
-            style: MyTheme.lightTextTheme.subtitle1.copyWith(
-                fontFamily: "cocon",
-                color: Colors.white,
-                fontSize: 20,
-                shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)])),
-        SizedBox(
-          height: MyTheme.elementSpacing,
-        ),
-      ],
-    );
-  }
-
-  Widget _buildWhyAreYouHere(AuthenticationState state) {
-    if (widget.linkType is AdvertisementInvite || state is StateNewUserEmail || state is StateNewUserEmailsConfirmed) {
-      return Container();
-    }
-
-    String text = "";
-
-    if (widget.linkType is PromoterInvite) {
-      PromoterInvite invitation = widget.linkType;
-      text = "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to an event.";
-    } else if (widget.linkType is Booking) {
-      Booking invitation = widget.linkType;
-      text =
-          "${invitation.promoter.firstName} ${invitation.promoter.lastName} has invited you to their birthday party.";
-    }
-
-    return WhyAreYouHereWidget(text).paddingBottom(8);
   }
 }

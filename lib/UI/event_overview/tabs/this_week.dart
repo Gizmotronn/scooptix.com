@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/theme.dart';
@@ -57,7 +58,12 @@ class _ThisWeekState extends State<ThisWeek> {
     }
 
     return Container(
-      width: screenSize.width * 0.8,
+      width: getValueForScreenType(
+          context: context,
+          desktop: screenSize.width * 0.8,
+          tablet: screenSize.width * 0.8,
+          mobile: screenSize.width,
+          watch: screenSize.width),
       child: Column(
         children: [
           _daysNav().paddingBottom(16),
@@ -85,7 +91,7 @@ class _ThisWeekState extends State<ThisWeek> {
                           child: Column(
                             children: [
                               _eventTags(context,
-                                  tag1: "${_daysMenu[index].title}'s Events |", tag2: " ${_daysMenu[index].fullDate}"),
+                                  tag1: "${_daysMenu[index].title}'s Events", tag2: " | ${_daysMenu[index].fullDate}"),
                               AppolloEvents(
                                 events: widget.events
                                     .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
@@ -122,13 +128,20 @@ class _ThisWeekState extends State<ThisWeek> {
                 TextSpan(
                   text: tag1 ?? '',
                   children: [
-                    TextSpan(
-                      text: " $tag2" ?? '',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
-                    ),
+                    if (getValueForScreenType<bool>(
+                      context: context,
+                      mobile: false,
+                      watch: false,
+                      desktop: true,
+                      tablet: true,
+                    ))
+                      TextSpan(
+                        text: " $tag2" ?? '',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
+                      ),
                   ],
                 ),
                 style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
@@ -137,11 +150,13 @@ class _ThisWeekState extends State<ThisWeek> {
       ).paddingHorizontal(16).paddingTop(16);
 
   Widget _daysNav() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: List.generate(
-        _daysMenu.length,
-        (index) => SideButton(
+    return SizedBox(
+      height: 30,
+      child: ListView.builder(
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: _daysMenu.length,
+        itemBuilder: (context, index) => SideButton(
           title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
           isTap: _daysMenu[index].isTap,
           onTap: widget.events.where((event) => fullDate(event.date).contains(_daysMenu[index].title)).toList().isEmpty

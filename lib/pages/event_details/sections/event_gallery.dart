@@ -1,7 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_details/widget/event_title.dart';
-import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
 
@@ -20,16 +19,19 @@ class EventGallary extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          AppolloDivider(),
-          EventDetailTitle('Event Gallery').paddingBottom(30),
+          AutoSizeText(
+            'Event Gallery',
+            style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          ).paddingBottom(MyTheme.elementSpacing),
           GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: event.images.length,
+              padding: EdgeInsets.zero,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 4,
-                mainAxisSpacing: MyTheme.cardPadding * 2,
-                crossAxisSpacing: MyTheme.cardPadding,
+                crossAxisCount: 2,
+                mainAxisSpacing: MyTheme.elementSpacing,
+                crossAxisSpacing: MyTheme.elementSpacing,
               ),
               itemBuilder: (ctx, index) => Container(
                     child: ClipRRect(
@@ -50,7 +52,7 @@ class EventGallary extends StatelessWidget {
                         }
                       }),
                     ),
-                  )).paddingBottom(32),
+                  )).paddingBottom(MyTheme.elementSpacing),
         ],
       ),
     );

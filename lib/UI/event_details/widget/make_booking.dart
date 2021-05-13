@@ -11,7 +11,6 @@ import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
 import '../../../utilities/svg/icon.dart';
-import 'event_title.dart';
 
 class MakeBooking extends StatelessWidget {
   const MakeBooking({
@@ -26,7 +25,10 @@ class MakeBooking extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          EventDetailTitle('Make A Booking').paddingBottom(32),
+          AutoSizeText(
+            'Make A Booking',
+            style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          ).paddingBottom(32),
           _vipBoothPackages(context).paddingBottom(32),
           _privateRoomPackages(context).paddingBottom(32),
           _birthdayListBookings(context).paddingBottom(32),

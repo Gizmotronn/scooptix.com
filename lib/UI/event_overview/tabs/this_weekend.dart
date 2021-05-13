@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
@@ -57,7 +58,12 @@ class _ThisWeekendState extends State<ThisWeekend> {
     }
 
     return Container(
-      width: screenSize.width * 0.8,
+      width: getValueForScreenType(
+          context: context,
+          desktop: screenSize.width * 0.8,
+          tablet: screenSize.width * 0.8,
+          mobile: screenSize.width,
+          watch: screenSize.width),
       child: Column(
         children: [
           _weekendNav().paddingBottom(16),
@@ -85,8 +91,8 @@ class _ThisWeekendState extends State<ThisWeekend> {
                           child: Column(
                             children: [
                               _eventTags(context,
-                                  tag1: "${_weekendMenu[index].title}'s Events |",
-                                  tag2: ' ${_weekendMenu[index].fullDate}'),
+                                  tag1: "${_weekendMenu[index].title}'s Events",
+                                  tag2: ' | ${_weekendMenu[index].fullDate}'),
                               AppolloEvents(
                                   events: widget.events
                                       .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
@@ -155,13 +161,20 @@ class _ThisWeekendState extends State<ThisWeekend> {
                 TextSpan(
                   text: tag1 ?? '',
                   children: [
-                    TextSpan(
-                      text: " $tag2" ?? '',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4
-                          .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
-                    ),
+                    if (getValueForScreenType<bool>(
+                      context: context,
+                      mobile: false,
+                      watch: false,
+                      desktop: true,
+                      tablet: true,
+                    ))
+                      TextSpan(
+                        text: " $tag2" ?? '',
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline4
+                            .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
+                      ),
                   ],
                 ),
                 style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
