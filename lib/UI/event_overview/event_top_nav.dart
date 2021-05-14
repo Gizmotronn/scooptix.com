@@ -11,6 +11,7 @@ import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/services/messager_share.dart';
 
 import '../../utilities/svg/icon.dart';
 import '../theme.dart';
