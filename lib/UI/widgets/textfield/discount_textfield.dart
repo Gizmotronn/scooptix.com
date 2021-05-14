@@ -2,7 +2,7 @@ import "dart:async";
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
-import 'package:ticketapp/pages/ticket/bloc/ticket_bloc.dart';
+import 'package:ticketapp/pages/order_summary/bloc/ticket_bloc.dart';
 
 enum DiscountTextfieldState { initial, hover, typing, filled, invalid, applied, loading, error }
 

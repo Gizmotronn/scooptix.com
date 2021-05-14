@@ -76,6 +76,7 @@ class MyTheme {
   static double elementSpacing = 20.0;
   static double cardPadding = 32;
   static double drawerSize = 432;
+  static double bottomNavBarHeight = 56;
 
   static Duration animationDuration = Duration(milliseconds: 300);
 

@@ -4,7 +4,7 @@ import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/pages/ticket/order_summary_sheet.dart';
+import 'package:ticketapp/pages/order_summary/order_summary_sheet.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
 

@@ -1,0 +1,13 @@
+<svg id="Icons_-_Line_-_Industry-Specific" data-name="Icons - Line - Industry-Specific" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="Rectangle_4" data-name="Rectangle 4" fill="none" stroke="#29c66f" stroke-width="1" opacity="0">
+    <rect width="24" height="24" stroke="none"/>
+    <rect x="0.5" y="0.5" width="23" height="23" fill="none"/>
+  </g>
+  <g id="Gift" transform="translate(0 -0.25)">
+    <rect id="Rectangle_87" data-name="Rectangle 87" width="16" height="10" transform="translate(4 12)" fill="none" stroke="#29c66f" stroke-width="2"/>
+    <rect id="Rectangle_88" data-name="Rectangle 88" width="20" height="6" rx="1" transform="translate(2 6)" fill="none" stroke="#29c66f" stroke-width="2"/>
+    <path id="Path_598" data-name="Path 598" d="M12,22.5V6.5" fill="none" stroke="#29c66f" stroke-width="2"/>
+    <path id="Path_599" data-name="Path 599" d="M12,6h3.5a2,2,0,1,0,0-4,1.981,1.981,0,0,0-1.5.5C12.91,3.347,12,6,12,6Z" fill="none" stroke="#29c66f" stroke-width="2"/>
+    <path id="Path_600" data-name="Path 600" d="M12.5,6H9A2,2,0,0,1,9,2a1.981,1.981,0,0,1,1.5.5C11.59,3.347,12.5,6,12.5,6Z" fill="none" stroke="#29c66f" stroke-width="2"/>
+  </g>
+</svg>

@@ -96,7 +96,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
     return Material(
       child: Navigator(
         onGenerateRoute: (_) {
-          return MaterialPageRoute(builder: (context2) {
+          return MaterialPageRoute(builder: (sheetContext) {
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
@@ -155,10 +155,10 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                                   backgroundColor: MyTheme.appolloBackgroundColor,
                                   expand: true,
                                   builder: (c) => AuthenticationPage(
-                                        onAutoAuthenticated: () {
+                                        onAutoAuthenticated: (autoLoggedIn) {
                                           Navigator.pop(context);
                                           Navigator.push(
-                                              context2,
+                                              sheetContext,
                                               MaterialPageRoute(
                                                   builder: (c) => PaymentSheetWrapper(
                                                         linkType: widget.linkType,
@@ -171,7 +171,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                                       ));
                             } else if (widget.selectedTickets.isNotEmpty) {
                               Navigator.push(
-                                  context2,
+                                  sheetContext,
                                   MaterialPageRoute(
                                       builder: (c) => PaymentSheetWrapper(
                                             linkType: widget.linkType,

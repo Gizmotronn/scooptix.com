@@ -10,6 +10,7 @@ import 'package:ticketapp/model/link_type/promoterInvite.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:http/http.dart' as http;
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
@@ -41,6 +42,48 @@ class TicketRepository {
       return null;
     } else {
       return Discount.fromMap(discountSnapshot.docs[0].id, discountSnapshot.docs[0].data());
+    }
+  }
+
+  Future<List<Ticket>> loadMyTickets(String uid) async {
+    List<Ticket> tickets = [];
+    QuerySnapshot ticketSnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .collection("tickets")
+        .where("date", isGreaterThan: DateTime.now().subtract(Duration(days: 14)))
+        .get();
+
+    if (ticketSnapshot.size == 0) {
+      return [];
+    } else {
+      ticketSnapshot.docs.forEach((ticketDoc) async {
+        Ticket ticket;
+        try {
+          ticket = Ticket()
+            ..event = await EventsRepository.instance.loadEventById(ticketDoc.data()["eventref"])
+            ..docId = ticketDoc.id
+            ..dateIssued = DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
+          try {
+            print("option 1");
+            ticket.release = ticket.event.getRelease(ticketDoc.data()["ticket_release_id"]);
+
+            tickets.add(ticket);
+          } catch (_) {
+            // From the old version, tickets won't have a ticket_release_id
+            // All our tickets should be single restricted so this should work until there are no more old tickets
+            if (ticket.release == null) {
+              print("get single release");
+              ticket.release = ticket.event.getReleasesWithSingleTicketRestriction()[0];
+            }
+            tickets.add(ticket);
+          }
+        } catch (e, s) {
+          BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+          print(e);
+        }
+      });
+      return tickets;
     }
   }
 

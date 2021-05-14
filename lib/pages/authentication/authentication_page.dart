@@ -62,10 +62,13 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                   listener: (c, state) {
                     if (state is StateAutoLoggedIn) {
                       if (widget.onAutoAuthenticated != null) {
-                        widget.onAutoAuthenticated();
+                        widget.onAutoAuthenticated(true);
                       }
                     }
                     if (state is StateLoggedIn) {
+                      if (widget.onAutoAuthenticated != null) {
+                        widget.onAutoAuthenticated(false);
+                      }
                       if (profileBloc == null) {
                         profileBloc = profile.ProfileBloc();
                       }
