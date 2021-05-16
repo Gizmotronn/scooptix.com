@@ -110,7 +110,7 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
         ).paddingBottom(32),
         state is StateLoading
             ? Container(child: Center(child: CircularProgressIndicator()).paddingAll(8))
-                .appolloTransparentCard(color: MyTheme.appolloBackgroundColor2.withAlpha(120))
+                .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
             : state is StateRegistered
                 ? Container(
                         child: Text(
@@ -118,9 +118,7 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
                     style: MyTheme.lightTextTheme.headline6,
                   ).paddingAll(12))
                     .appolloTransparentCard(color: MyTheme.appolloCardColor.withAlpha(120))
-                : AppolloButton.wideButton(
-                    heightMax: 40,
-                    heightMin: 40,
+                : AppolloButton.regularButton(
                     child: Center(
                       child: Text(
                         'REGISTER FOR PRE-SALE',

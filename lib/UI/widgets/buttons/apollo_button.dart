@@ -5,24 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../theme.dart';
 
 class AppolloButton {
-  static smallRaisedButton({@required Widget child, @required Function onTap, Color color = Colors.white}) => Container(
-      constraints: BoxConstraints(
-        minHeight: 40,
-        maxHeight: 40,
-        minWidth: 130,
-        maxWidth: 200,
-      ),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          elevation: 3,
-          primary: color,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        ),
-        onPressed: onTap,
-        child: child,
-      ));
-
-  static smallButton(
+  static regularButton(
           {@required Widget child,
           double width,
           double height,
@@ -36,7 +19,6 @@ class AppolloButton {
             minHeight: height ?? size.isDesktop ? 40 : 35,
             maxHeight: height ?? size.isDesktop ? 40 : 35,
             minWidth: width ?? 130,
-            maxWidth: width ?? 200,
           ),
           child: TextButton(
             style: TextButton.styleFrom(
@@ -54,98 +36,108 @@ class AppolloButton {
           ),
         );
       });
-  static mediumButton(
-          {@required Widget child,
-          double labelSize,
-          Color color,
-          double minHeight,
-          double maxHeight,
-          @required Function onTap,
-          bool fill = true,
-          bool border = true}) =>
-      Container(
+}
+
+class OnTapAnimationButton extends StatefulWidget {
+  final double width;
+  final double height;
+  final Color color;
+  final Function onTap;
+  final bool fill;
+  final bool border;
+  final Color onTapColor;
+  final Widget onTapContent;
+  final Widget child;
+
+  OnTapAnimationButton(
+      {this.width,
+      this.height,
+      this.color,
+      @required this.onTap,
+      this.fill = true,
+      this.border = true,
+      this.onTapColor,
+      this.onTapContent,
+      this.child});
+
+  @override
+  _OnTapAnimationButtonState createState() => _OnTapAnimationButtonState();
+}
+
+class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with SingleTickerProviderStateMixin {
+  AnimationController opacityController;
+  double opacity = 0.0;
+
+  @override
+  void initState() {
+    opacityController =
+        AnimationController(vsync: this, lowerBound: 0.0, upperBound: 1.0, duration: Duration(milliseconds: 1500));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    opacityController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ResponsiveBuilder(builder: (context, SizingInformation size) {
+      return Container(
         constraints: BoxConstraints(
-          minHeight: minHeight ?? 50,
-          maxHeight: maxHeight ?? 50,
-          minWidth: 130,
-          maxWidth: 200,
+          minHeight: widget.height ?? size.isDesktop ? 40 : 35,
+          maxHeight: widget.height ?? size.isDesktop ? 40 : 35,
+          minWidth: widget.width ?? 130,
+          maxWidth: widget.width ?? 200,
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: TextButton(
-            style: TextButton.styleFrom(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
-                side: BorderSide(color: color ?? MyTheme.theme.buttonColor, width: border ? 1.3 : 0),
+        child: Stack(
+          children: [
+            TextButton(
+              style: TextButton.styleFrom(
+                backgroundColor:
+                    widget.fill ? widget.color ?? MyTheme.appolloGreen : MyTheme.appolloGreen.withOpacity(0.1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                  side: BorderSide(color: widget.color ?? MyTheme.appolloGreen, width: widget.border ? 1.3 : 0),
+                ),
+              ),
+              onPressed: () async {
+                widget.onTap();
+                setState(() {
+                  opacity = 1.0;
+                });
+                await Future.delayed(Duration(milliseconds: 4000));
+                setState(() {
+                  opacity = 0.0;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: widget.child,
               ),
             ),
-            onPressed: onTap,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: child,
-            ),
-          ),
+            Positioned(
+              top: 0,
+              height: widget.height ?? size.isDesktop ? 40 : 35,
+              left: 0,
+              right: 0,
+              child: IgnorePointer(
+                child: AnimatedOpacity(
+                  opacity: opacity,
+                  duration: Duration(milliseconds: 300),
+                  child: Container(
+                    color: widget.onTapColor,
+                    child: Center(child: widget.onTapContent),
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
       );
-
-  static wideButton(
-          {@required Widget child,
-          double labelSize,
-          Color color,
-          double heightMax,
-          double heightMin,
-          @required Function onTap,
-          bool fill = true,
-          bool border = true}) =>
-      ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: heightMin ?? 50,
-          maxHeight: heightMax ?? 50,
-          minWidth: 200,
-          maxWidth: 250,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: TextButton(
-            onPressed: onTap,
-            child: child,
-          ),
-        ),
-      );
-
-  static wideButtonIcon(
-          {@required Widget child,
-          double labelSize,
-          Color color,
-          @required Function onTap,
-          @required Icon icon,
-          bool fill = true,
-          bool border = true}) =>
-      ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: 50,
-          maxHeight: 50,
-          minWidth: 200,
-          maxWidth: 300,
-        ),
-        child: Container(
-          decoration: BoxDecoration(
-            color: fill ? color ?? MyTheme.theme.buttonColor : Colors.transparent,
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-          child: TextButton.icon(
-            icon: icon,
-            onPressed: onTap,
-            label: child,
-          ),
-        ),
-      );
+    });
+  }
 }
 
 class HoverAppolloButton extends StatefulWidget {

@@ -130,7 +130,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   }
 
   Widget _eventOverview(Size screenSize) => Container(
-        color: MyTheme.appolloBackgroundColor2,
+        color: MyTheme.appolloBackgroundColorLight,
         width: screenSize.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

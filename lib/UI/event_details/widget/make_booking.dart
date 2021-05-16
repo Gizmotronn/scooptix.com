@@ -1,10 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
+import 'package:ticketapp/pages/event_details/birthday_list/birthday_sheet.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
@@ -25,12 +26,12 @@ class MakeBooking extends StatelessWidget {
     return Container(
       child: Column(
         children: [
-          AutoSizeText(
+          /* AutoSizeText(
             'Make A Booking',
             style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(32),
           _vipBoothPackages(context).paddingBottom(32),
-          _privateRoomPackages(context).paddingBottom(32),
+          _privateRoomPackages(context).paddingBottom(32),*/
           _birthdayListBookings(context).paddingBottom(32),
           _createBookingList(context).paddingBottom(32),
         ],
@@ -189,22 +190,24 @@ class MakeBooking extends StatelessWidget {
                                     textAlign: TextAlign.center,
                                     style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500))
                                 .paddingBottom(16),
-                            Column(
-                              children: List.generate(
-                                4,
-                                (index) => IconText(
-                                  text: 'VIP Tickets for each Guests',
-                                  iconSize: 8,
-                                  icon: AppolloSvgIcon.dot,
-                                ),
+                            Column(children: [
+                              IconText(
+                                text: 'VIP Entry for each Guest',
+                                iconSize: 8,
+                                icon: AppolloSvgIcon.dot,
                               ),
-                            )
+                              IconText(
+                                text: 'Valid from 8pm - 10pm',
+                                iconSize: 8,
+                                icon: AppolloSvgIcon.dot,
+                              ),
+                            ])
                           ],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Align(
+                            /*Align(
                               alignment: Alignment.center,
                               child: AutoSizeText.rich(
                                       TextSpan(text: '\$500', children: [
@@ -213,10 +216,13 @@ class MakeBooking extends StatelessWidget {
                                       style:
                                           Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
                                   .paddingBottom(MyTheme.cardPadding),
+                            ),*/
+                            Align(
+                              alignment: Alignment.center,
+                              child: AutoSizeText("Free of charge!", style: Theme.of(context).textTheme.headline4)
+                                  .paddingBottom(MyTheme.elementSpacing),
                             ),
-                            AppolloButton.wideButton(
-                              heightMax: 40,
-                              heightMin: 40,
+                            AppolloButton.regularButton(
                               color: MyTheme.appolloGreen,
                               child: AutoSizeText(
                                 'CREATE BIRTHDAY LIST',
@@ -224,15 +230,20 @@ class MakeBooking extends StatelessWidget {
                                     Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                               ),
                               onTap: () {
-                                if (UserRepository.instance.isLoggedIn) {
-                                  WrapperPage.endDrawer.value = BirthdayDrawer(
-                                    linkType: OverviewLinkType(event),
-                                  );
-                                  WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                if (getValueForScreenType(
+                                    context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
+                                  if (UserRepository.instance.isLoggedIn) {
+                                    WrapperPage.endDrawer.value = BirthdayDrawer(
+                                      linkType: OverviewLinkType(event),
+                                    );
+                                    WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                  } else {
+                                    WrapperPage.endDrawer.value = AuthenticationDrawer();
+                                    WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                    UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
+                                  }
                                 } else {
-                                  WrapperPage.endDrawer.value = AuthenticationDrawer();
-                                  WrapperPage.mainScaffold.currentState.openEndDrawer();
-                                  UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
+                                  BirthdaySheet.openMyTicketsSheet(OverviewLinkType(event));
                                 }
                               },
                             ),
@@ -241,7 +252,7 @@ class MakeBooking extends StatelessWidget {
                       ],
                     ).paddingAll(MyTheme.cardPadding),
                   )),
-              Expanded(
+              /*Expanded(
                 flex: 3,
                 child: Container(
                   decoration: BoxDecoration(
@@ -249,10 +260,10 @@ class MakeBooking extends StatelessWidget {
                   ),
                   child: SvgPicture.asset(AppolloSvgIcon.cakewithbg, fit: BoxFit.cover),
                 ),
-              ),
+              ),*/
             ],
           ),
-        ).appolloCard().paddingHorizontal(32),
+        ).appolloCard().paddingHorizontal(MyTheme.elementSpacing),
       );
 
   VoidCallback _tryOpenBirthdayDrawer() {

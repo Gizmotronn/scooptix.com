@@ -46,7 +46,7 @@ class _InvitationPageState extends State<InvitationPage> {
       return Column(
         children: [
           Text("Please login to proceed to checkout").paddingBottom(MyTheme.elementSpacing),
-          AppolloButton.mediumButton(
+          AppolloButton.regularButton(
               child: Text(
                 "Login",
                 style: MyTheme.lightTextTheme.button,

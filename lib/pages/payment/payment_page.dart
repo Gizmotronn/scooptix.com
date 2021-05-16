@@ -666,7 +666,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   ],
                 ).paddingAll(MyTheme.elementSpacing),
               )
-                .appolloTransparentCard(color: MyTheme.appolloBackgroundColor2.withAlpha(120))
+                .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
                 .paddingBottom(MyTheme.elementSpacing)
             : Container(
                     child: Center(
@@ -674,7 +674,7 @@ class _PaymentPageState extends State<PaymentPage> {
                 "Add a Payment Method",
                 style: MyTheme.lightTextTheme.subtitle1.copyWith(color: MyTheme.appolloGreen),
               ).paddingAll(8)))
-                .appolloTransparentCard(color: MyTheme.appolloBackgroundColor2.withAlpha(120)),
+                .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120)),
       ),
     ).paddingBottom(MyTheme.elementSpacing);
   }

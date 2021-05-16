@@ -175,7 +175,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                 ).paddingBottom(MyTheme.elementSpacing * 2),
                                 Align(
                                   alignment: Alignment.bottomRight,
-                                  child: AppolloButton.smallButton(
+                                  child: AppolloButton.regularButton(
                                     onTap: () async {
                                       await auth.FirebaseAuth.instance.signOut();
                                       UserRepository.instance.dispose();

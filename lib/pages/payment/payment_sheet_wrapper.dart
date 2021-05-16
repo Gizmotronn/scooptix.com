@@ -26,7 +26,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: MyTheme.appolloCardColor2,
+        backgroundColor: MyTheme.appolloCardColorLight,
         automaticallyImplyLeading: true,
         centerTitle: true,
         title: Container(

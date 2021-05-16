@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/event_details/widget/make_booking.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/organizer.dart';
@@ -40,9 +41,10 @@ class _EventDataMobileState extends State<EventDataMobile> {
           EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
           PreSaleRegistration(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
           EventTicketsMobile(
-            event: widget.event,
             linkType: OverviewLinkType(widget.event),
+            scrollController: widget.scrollController,
           ),
+          MakeBooking(event: widget.event),
           EventGallary(event: widget.event)
               .paddingBottom(MyTheme.elementSpacing)
               .paddingHorizontal(MyTheme.elementSpacing),
@@ -51,7 +53,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
               .paddingHorizontal(MyTheme.elementSpacing),
         ],
       ).paddingVertical(MyTheme.elementSpacing),
-    ).appolloCard(color: MyTheme.appolloBackgroundColor2);
+    ).appolloCard(color: MyTheme.appolloBackgroundColorLight);
   }
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {

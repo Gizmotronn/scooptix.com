@@ -14,84 +14,50 @@ import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
-import '../../../main.dart';
-import '../../theme.dart';
+import '../../main.dart';
+import '../../UI/theme.dart';
 
-class EventCard extends StatelessWidget {
+class EventCardDesktop extends StatelessWidget {
   final Event event;
   final double width;
 
-  const EventCard({Key key, this.event, this.width}) : super(key: key);
+  const EventCardDesktop({Key key, this.event, this.width}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveBuilder(builder: (context, SizingInformation sizes) {
-      if (sizes.isDesktop || sizes.isTablet) {
-        return Stack(
-          children: [
-            Container(
-              width: width != null
-                  ? width - 24
-                  : sizes.localWidgetSize.width > 324 * 4
-                      ? sizes.localWidgetSize.width / 4 - 24
-                      : sizes.localWidgetSize.width / 3 - 24,
-              height: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: MyTheme.appolloBackgroundColor2.withOpacity(.2),
-                    spreadRadius: 5,
-                    blurRadius: 10,
-                  ),
-                ],
+    Size screenSize = MediaQuery.of(context).size;
+    return Stack(
+      children: [
+        Container(
+          width: width != null
+              ? width - 24
+              : screenSize.width > 324 * 4
+                  ? screenSize.width / 4 - 24
+                  : screenSize.width / 3 - 24,
+          height: 300,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: MyTheme.appolloBackgroundColorLight.withOpacity(.2),
+                spreadRadius: 5,
+                blurRadius: 10,
               ),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    _cardImage(),
-                    _cardContent(context),
-                  ],
-                ),
-              ),
-            ).paddingAll(12),
-            _tag(context)
-          ],
-        );
-      } else {
-        return SizedBox(
-          width: width != null ? width - 24 : MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Container(
-                height: 300,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: MyTheme.appolloBackgroundColor2.withOpacity(.2),
-                      spreadRadius: 5,
-                      blurRadius: 10,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _cardContent(context),
-                      _cardImage(),
-                    ],
-                  ),
-                ),
-              ).paddingAll(MyTheme.elementSpacing),
-              _tag(context)
             ],
           ),
-        );
-      }
-    });
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _cardImage(),
+                _cardContentDesktop(context),
+              ],
+            ),
+          ),
+        ).paddingAll(12),
+        _tag(context)
+      ],
+    );
   }
 
   Widget _tag(BuildContext context) {
@@ -158,7 +124,7 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  Widget _cardContent(BuildContext context) {
+  Widget _cardContentDesktop(BuildContext context) {
     return Flexible(
       child: ClipRRect(
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), bottomLeft: Radius.circular(12)),
@@ -234,6 +200,37 @@ class EventCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _cardContentMobile(BuildContext context) {
+    return Flexible(
+      child: Container(
+        decoration: BoxDecoration(color: MyTheme.appolloCardColor),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: AutoSizeText(
+                    fullDate(event.date) ?? '',
+                    textAlign: TextAlign.start,
+                    maxLines: 2,
+                    style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed),
+                  ).paddingBottom(8),
+                ),
+              ],
+            ),
+            AutoSizeText(
+              event.name ?? '',
+              textAlign: TextAlign.start,
+              maxLines: 2,
+              style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+            ).paddingBottom(4),
+          ],
+        ).paddingAll(MyTheme.elementSpacing),
       ),
     );
   }

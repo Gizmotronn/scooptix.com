@@ -25,6 +25,7 @@ class ResponsiveDatatable extends StatefulWidget {
   final Decoration listDecoration;
   final EdgeInsets itemPadding;
   final EdgeInsets headerPadding;
+  final bool useDesktopView;
 
   /// Space between rows
   final double itemPaddingVertical;
@@ -51,7 +52,8 @@ class ResponsiveDatatable extends StatefulWidget {
       this.listDecoration,
       this.itemPadding = const EdgeInsets.all(0),
       this.itemPaddingVertical,
-      this.headerPadding})
+      this.headerPadding,
+      this.useDesktopView = false})
       : super(key: key);
 
   @override
@@ -320,7 +322,7 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
 
   @override
   Widget build(BuildContext context) {
-    return MediaQuery.of(context).size.width < 600
+    return MediaQuery.of(context).size.width < 600 && !widget.useDesktopView
         ?
         /**
          * for small screen

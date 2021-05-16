@@ -97,10 +97,10 @@ class MyTheme {
   static Color appolloDimGrey = Color(0xFFCDD3E1);
   static Color appolloLightGrey = Color(0xFFEFF2F7);
   static Color appolloBackgroundColor = Color(0xFF14142B);
-  static Color appolloBackgroundColor2 = Color(0xFF21223B);
+  static Color appolloBackgroundColorLight = Color(0xFF21223B);
   static Color appolloLightCardColor = Color(0xFF4D4D7E);
   static Color appolloCardColor = Color(0xFF2B2B57);
-  static Color appolloCardColor2 = Color(0xFF343454);
+  static Color appolloCardColorLight = Color(0xFF343454);
   static Color appolloTextFieldColor = Color(0xFF22223A);
 
   static TextTheme lightTextTheme = TextTheme(

@@ -93,7 +93,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
 
   /// Creates the buttons at the bottom allowing user to proceed or return to previous states
   Widget _buildMainButtons(AuthenticationState state, Size screenSize) {
-    if (state is StateLoadingLogin) {
+    if (state is StateLoadingLogin || state is StateLoadingUserData) {
       return ResponsiveBuilder(builder: (context, constraints) {
         if (constraints.deviceScreenType == DeviceScreenType.mobile ||
             constraints.deviceScreenType == DeviceScreenType.watch) {
@@ -174,7 +174,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 width: screenSize.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: MyTheme.appolloBackgroundColor2,
+                    primary: MyTheme.appolloBackgroundColorLight,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -194,7 +194,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: MyTheme.appolloBackgroundColor2,
+                  primary: MyTheme.appolloBackgroundColorLight,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
@@ -238,7 +238,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
-                    child: Text("Next", style: widget.textTheme.button),
+                    child: Text("Next", style: widget.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor)),
                   ),
                   onPressed: () {
                     if (_pwController.text.length >= 8 && _pwController.text == _confirmPwController.text) {
@@ -255,7 +255,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 width: screenSize.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: MyTheme.appolloBackgroundColor2,
+                    primary: MyTheme.appolloBackgroundColorLight,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -273,7 +273,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppolloButton.smallButton(
+              AppolloButton.regularButton(
                 fill: false,
                 color: MyTheme.appolloGreen,
                 child: Padding(
@@ -284,7 +284,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              AppolloButton.smallButton(
+              AppolloButton.regularButton(
                 fill: true,
                 color: MyTheme.appolloGreen,
                 child: Padding(
@@ -340,7 +340,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 width: screenSize.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: MyTheme.appolloBackgroundColor2,
+                    primary: MyTheme.appolloBackgroundColorLight,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -360,7 +360,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: MyTheme.appolloBackgroundColor2,
+                  primary: MyTheme.appolloBackgroundColorLight,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                 ),
                 child: Padding(
@@ -417,7 +417,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         } else {
           return Align(
             alignment: Alignment.centerRight,
-            child: AppolloButton.smallButton(
+            child: AppolloButton.regularButton(
               color: MyTheme.appolloGreen,
               fill: true,
               child: Padding(
@@ -499,7 +499,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 width: screenSize.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: MyTheme.appolloBackgroundColor2,
+                    primary: MyTheme.appolloBackgroundColorLight,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
                   ),
                   child: Padding(
@@ -517,7 +517,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppolloButton.smallButton(
+              AppolloButton.regularButton(
                 fill: false,
                 color: MyTheme.appolloGreen,
                 child: Padding(
@@ -528,7 +528,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              AppolloButton.smallButton(
+              AppolloButton.regularButton(
                 fill: true,
                 color: MyTheme.appolloGreen,
                 child: Padding(
@@ -594,18 +594,13 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
       return SizedBox(
         width: MyTheme.maxWidth,
         child: Column(
-          crossAxisAlignment: getValueForScreenType(
-              context: context,
-              watch: CrossAxisAlignment.center,
-              mobile: CrossAxisAlignment.center,
-              tablet: CrossAxisAlignment.start,
-              desktop: CrossAxisAlignment.start),
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ResponsiveBuilder(builder: (context, constraints) {
               if (constraints.deviceScreenType == DeviceScreenType.mobile ||
                   constraints.deviceScreenType == DeviceScreenType.watch) {
                 return AutoSizeText(
-                  "Get your ticket in just a few steps",
+                  "Let's start with your email.",
                   maxLines: 1,
                   style: widget.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
                 ).paddingBottom(MyTheme.elementSpacing);
@@ -629,7 +624,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               "Welcome, please enter your email to continue.",
               style: widget.textTheme.bodyText2.copyWith(
                   color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite,
-                  fontWeight: FontWeight.w300),
+                  fontWeight: FontWeight.w400),
               minFontSize: 12,
             ),
           ],

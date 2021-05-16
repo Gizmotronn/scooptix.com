@@ -39,9 +39,7 @@ class BookingCard extends StatelessWidget {
                 Column(children: textIcons)
               ],
             ),
-            AppolloButton.mediumButton(
-              minHeight: 40,
-              maxHeight: 40,
+            AppolloButton.regularButton(
               child: Center(
                 child: Text(
                   'Make A Booking',

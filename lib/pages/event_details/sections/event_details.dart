@@ -183,7 +183,7 @@ class _EventDataState extends State<EventData> {
             ),
         ],
       ).paddingAll(MyTheme.cardPadding),
-    ).appolloCard(color: MyTheme.appolloBackgroundColor2);
+    ).appolloCard(color: MyTheme.appolloBackgroundColorLight);
   }
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {

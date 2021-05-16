@@ -38,7 +38,7 @@ class AllEvents extends StatelessWidget {
             ),
           ).paddingBottom(16),
         ],
-      ),
+      ).paddingAll(MyTheme.elementSpacing / 2),
     );
   }
 

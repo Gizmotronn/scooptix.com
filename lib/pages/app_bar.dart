@@ -46,7 +46,10 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                       Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
                           arguments: EventsRepository.instance.events);
                     },
-                    child: SvgPicture.asset(AppolloSvgIcon.menuIcon)),
+                    child: SvgPicture.asset(
+                      AppolloSvgIcon.menuIcon,
+                      height: 40,
+                    )),
                 Text("appollo",
                     style: MyTheme.lightTextTheme.subtitle1.copyWith(
                         fontFamily: "cocon",

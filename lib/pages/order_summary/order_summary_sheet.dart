@@ -68,7 +68,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
         },
         child: Container(
           decoration: ShapeDecoration(
-              color: MyTheme.appolloCardColor2,
+              color: MyTheme.appolloCardColorLight,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)))),
           width: MediaQuery.of(context).size.width,
@@ -100,7 +100,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
-                backgroundColor: MyTheme.appolloCardColor2,
+                backgroundColor: MyTheme.appolloCardColorLight,
                 automaticallyImplyLeading: false,
                 title: InkWell(
                   onTap: () {

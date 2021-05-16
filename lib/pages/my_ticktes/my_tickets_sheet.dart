@@ -70,7 +70,7 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
         return Scaffold(
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: MyTheme.appolloCardColor2,
+              backgroundColor: MyTheme.appolloCardColorLight,
               automaticallyImplyLeading: false,
               title: InkWell(
                 onTap: () {

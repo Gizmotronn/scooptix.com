@@ -95,7 +95,7 @@ class _EventTicketsState extends State<EventTickets> {
                 child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
-                      color: MyTheme.appolloCardColor2,
+                      color: MyTheme.appolloCardColorLight,
                     ),
                     child: OrderSummaryOverlay(
                       widget.linkType,

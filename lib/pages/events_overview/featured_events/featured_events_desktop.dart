@@ -239,9 +239,7 @@ class FeaturedEventText extends StatelessWidget {
           maxLines: 2,
           style: MyTheme.lightTextTheme.bodyText1,
         ).paddingBottom(8),
-        AppolloButton.wideButton(
-            heightMax: 40,
-            heightMin: 35,
+        AppolloButton.regularButton(
             color: MyTheme.appolloGreen,
             child: AutoSizeText('Get Your Ticket', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {

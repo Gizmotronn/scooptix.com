@@ -110,7 +110,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
       },
       child: Container(
           decoration: BoxDecoration(
-            color: _isExpanded ? MyTheme.appolloBackgroundColor2 : null,
+            color: _isExpanded ? MyTheme.appolloBackgroundColorLight : null,
             border: Border.all(color: _isHover ? MyTheme.appolloGreen : Colors.transparent, width: 0.8),
             borderRadius: BorderRadius.circular(5),
           ),

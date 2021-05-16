@@ -123,7 +123,16 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                             style:
                                                 MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
-                                    InkWell(
+                                    OnTapAnimationButton(
+                                      fill: true,
+                                      border: true,
+                                      width: screenSize.width,
+                                      onTapColor: MyTheme.appolloGreen,
+                                      onTapContent: Text(
+                                        "LINK COPIED",
+                                        style: MyTheme.lightTextTheme.headline6,
+                                      ),
+                                      color: MyTheme.appolloBackgroundColor,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
                                           Share.share("appollo.io/invite?id=${state.birthdayList.uuid}",
@@ -132,19 +141,14 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                           FlutterClipboard.copy("appollo.io/invite?id=${state.birthdayList.uuid}");
                                         }
                                       },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            color: MyTheme.appolloBackgroundColor2,
-                                            borderRadius: BorderRadius.circular(5)),
-                                        child: Align(
-                                          alignment: Alignment.centerLeft,
-                                          child: AutoSizeText("appollo.io/invite?id=${state.birthdayList.uuid}")
-                                              .paddingBottom(12)
-                                              .paddingTop(12)
-                                              .paddingLeft(12),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: AutoSizeText(
+                                          "appollo.io/invite?id=${state.birthdayList.uuid}",
+                                          style: MyTheme.lightTextTheme.bodyText2,
                                         ),
-                                      ).paddingBottom(MyTheme.elementSpacing),
-                                    ),
+                                      ),
+                                    ).paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("RSVP's",
                                             style:
                                                 MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloOrange))
@@ -155,7 +159,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       child: ResponsiveDatatable(
                                         headers: _headers,
                                         source: _buildAttendeeTable(state.birthdayList.attendees),
-                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor2),
+                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
                                         itemPaddingVertical: 8,
                                         headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                         headerDecoration: BoxDecoration(
@@ -167,7 +171,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     Expanded(
                                       child: Align(
                                           alignment: Alignment.bottomRight,
-                                          child: AppolloButton.smallButton(
+                                          child: AppolloButton.regularButton(
                                               fill: true,
                                               color: MyTheme.appolloGreen,
                                               child: Text(
@@ -234,7 +238,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                 _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
                                 Align(
                                     alignment: Alignment.bottomRight,
-                                    child: AppolloButton.smallButton(
+                                    child: AppolloButton.regularButton(
                                         fill: true,
                                         color: MyTheme.appolloGreen,
                                         child: Text(
@@ -273,7 +277,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     Expanded(
                                       child: Align(
                                           alignment: Alignment.bottomRight,
-                                          child: AppolloButton.smallButton(
+                                          child: AppolloButton.regularButton(
                                               fill: true,
                                               color: MyTheme.appolloGreen,
                                               child: Text(
