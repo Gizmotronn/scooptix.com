@@ -6,7 +6,6 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
@@ -134,16 +133,13 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppolloButton.wideButton(
-            heightMax: 45,
-            heightMin: 40,
+        AppolloButton.regularButton(
             color: MyTheme.appolloGreen,
             child: AutoSizeText('Get Ticket',
                 maxLines: 2, style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBlack)),
             onTap: () {
-              final overviewLinkType = OverviewLinkType(heroEvent);
               NavigationService.navigateTo(EventDetailPage.routeName,
-                  arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
+                  arg: heroEvent.docID, queryParams: {'id': heroEvent.docID});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],

@@ -1,13 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/utilities/platform_detector.dart';
-
 import '../../../../main.dart';
 import 'bloc/pre_sale_bloc.dart';
 

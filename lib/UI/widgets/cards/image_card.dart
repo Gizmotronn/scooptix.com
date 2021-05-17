@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:extended_image/extended_image.dart';
-import 'package:ticketapp/UI/theme.dart';
 
 class ExpandImageCard extends StatelessWidget {
   final BorderRadius borderRadius;
