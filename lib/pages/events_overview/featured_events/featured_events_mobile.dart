@@ -19,26 +19,26 @@ class FeaturedEventsMobile extends StatefulWidget {
   _FeaturedEventsMobileState createState() => _FeaturedEventsMobileState();
 }
 
-class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
-    with TickerProviderStateMixin {
+class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with TickerProviderStateMixin {
+  GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
 
-  Duration _animationDuration = Duration(milliseconds: 400);
+  Duration _animationDuration = Duration(milliseconds: 300);
   List<Event> events = [];
   Event heroEvent;
 
   AnimationController _animationController;
-  ScrollController _scrollController;
   int visibilityPercentage = 0;
 
   Timer _timer;
   int count = 0;
 
+  Offset beginOffset = Offset(0, 0);
+
+  Offset endOffset = Offset(-2, 0);
 
   @override
   void initState() {
-    _animationController =
-        AnimationController(vsync: this, duration: _animationDuration);
-    _scrollController = ScrollController();
+    _animationController = AnimationController(vsync: this, duration: _animationDuration);
     widget.events.forEach((element) {
       if (events.length < 5) {
         events.add(element);
@@ -51,18 +51,23 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
 
   slideList() async {
     var removedEvent = events.removeAt(0);
-    await _animationController.forward(from: 0.8);
 
+    await _animationController.forward();
+    setState(() {
+      beginOffset = Offset(0, 0);
+      endOffset = Offset(2, 0);
+    });
     setState(() {
       heroEvent = removedEvent;
     });
-
     setState(() {
       events.insert(4, removedEvent);
     });
-    if (_animationController.status == AnimationStatus.completed) {
-      _animationController.reset();
-    }
+    await _animationController.reverse();
+    setState(() {
+      beginOffset = Offset(0, 0);
+      endOffset = Offset(-2, 0);
+    });
   }
 
   void _animatedCard() {
@@ -104,15 +109,8 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
           heroEvent == null
               ? SizedBox()
               : SlideTransition(
-                  position: TweenSequence<Offset>(<TweenSequenceItem<Offset>>[
-                    TweenSequenceItem<Offset>(
-                        tween: Tween(begin: Offset(0, 0), end: Offset(5, 0)),
-                        weight: 15),
-                    TweenSequenceItem<Offset>(
-                        tween: Tween(begin: Offset(-5, 0), end: Offset(0, 0)),
-                        weight: 15)
-                  ]).animate(CurvedAnimation(
-                      parent: _animationController, curve: Curves.easeInOut)),
+                  position: Tween<Offset>(begin: beginOffset, end: endOffset)
+                      .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -122,17 +120,12 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
                             imageUrl: heroEvent.coverImageURL,
                             borderRadius: BorderRadius.zero,
                           )).paddingBottom(16),
-                      heroEvent == null
-                          ? SizedBox()
-                          : FeaturedEventTextMobile(event: heroEvent)
-                              .paddingBottom(16),
+                      heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent).paddingBottom(16),
                     ],
                   ),
                 ),
           _buildButton(),
-          SizedBox(height: 50, child: _inComingEvents(context))
-              .paddingBottom(16)
-              .paddingHorizontal(16),
+          SizedBox(height: 50, child: _inComingEvents(context)).paddingBottom(16).paddingHorizontal(16),
         ]),
       ),
     );
@@ -148,16 +141,11 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
             heightMin: 40,
             color: MyTheme.appolloGreen,
             child: AutoSizeText('Get Ticket',
-                maxLines: 2,
-                style: Theme.of(context)
-                    .textTheme
-                    .button
-                    .copyWith(color: MyTheme.appolloBlack)),
+                maxLines: 2, style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBlack)),
             onTap: () {
               final overviewLinkType = OverviewLinkType(heroEvent);
               NavigationService.navigateTo(EventDetailPage.routeName,
-                  arg: overviewLinkType.event.docID,
-                  queryParams: {'id': overviewLinkType.event.docID});
+                  arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],
@@ -165,25 +153,31 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
   }
 
   Widget _inComingEvents(BuildContext context) {
-    final size = MediaQuery.of(context).size;
     return Container(
-      child: Container(
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          physics: NeverScrollableScrollPhysics(),
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: List.generate(
-              events.length,
-              (index) => SizedBox(
-                width: size.width * 0.233,
-                child: ExpandImageCard(
-                  imageUrl: events[index].coverImageURL,
-                ).paddingRight(index == 3?10:2.5),
-              ),
-            ),
-          ),
-        ),
+      child: AnimatedList(
+        key: _list,
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        physics: NeverScrollableScrollPhysics(),
+        initialItemCount: events.length,
+        itemBuilder: (context, index, animation) => _buildItem(context, index, animation),
+      ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
+    final size = MediaQuery.of(context).size;
+
+    return SlideTransition(
+      position: Tween<Offset>(
+              begin: _animationController.status == AnimationStatus.forward && index == 3 ? Offset(5, 0) : Offset(0, 0),
+              end: _animationController.status == AnimationStatus.forward && index == 0 ? Offset(-5, 0) : Offset(0, 0))
+          .animate(_animationController),
+      child: SizedBox(
+        width: size.width * 0.233,
+        child: ExpandImageCard(
+          imageUrl: events[index].coverImageURL,
+        ).paddingRight(2.5).paddingLeft(index == 4 ? 30 : 0),
       ),
     );
   }
@@ -192,8 +186,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
 class FeaturedEventTextMobile extends StatelessWidget {
   final Event event;
 
-  const FeaturedEventTextMobile({Key key, @required this.event})
-      : super(key: key);
+  const FeaturedEventTextMobile({Key key, @required this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -212,21 +205,19 @@ class FeaturedEventTextMobile extends StatelessWidget {
           event?.date == null ? '' : fullDate(event?.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.caption
-              .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
+          style: MyTheme.lightTextTheme.caption.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
         ).paddingBottom(8),
         AutoSizeText(
           event?.name ?? '',
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.headline5
-              .copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(8),
         AutoSizeText(
           "${event?.description ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.bodyText1.copyWith(fontWeight:FontWeight.w400),
+          style: MyTheme.lightTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w400),
         ).paddingBottom(8)
       ],
     );
