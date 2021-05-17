@@ -16,10 +16,10 @@ class AppolloButton {
       ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
           constraints: BoxConstraints(
-            minHeight: height ?? size.isDesktop ? 40 : 35,
-            maxHeight: height ?? size.isDesktop ? 40 : 35,
-            minWidth: width ?? 130,
-          ),
+              minHeight: height ?? size.isDesktop ? 40 : 35,
+              maxHeight: height ?? size.isDesktop ? 40 : 35,
+              minWidth: width ?? 130,
+              maxWidth: width ?? double.infinity),
           child: TextButton(
             style: TextButton.styleFrom(
               backgroundColor: fill ? color ?? MyTheme.appolloGreen : MyTheme.appolloGreen.withOpacity(0.1),

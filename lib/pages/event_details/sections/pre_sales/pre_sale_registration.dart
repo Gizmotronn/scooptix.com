@@ -6,6 +6,7 @@ import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/bloc/pre_sale_bloc.dart';
+import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_drawer.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../../../UI/theme.dart';
@@ -112,13 +113,35 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
             ? Container(child: Center(child: CircularProgressIndicator()).paddingAll(8))
                 .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
             : state is StateRegistered
-                ? Container(
-                        child: Text(
-                    "You are registered for pre-sale",
-                    style: MyTheme.lightTextTheme.headline6,
-                  ).paddingAll(12))
-                    .appolloTransparentCard(color: MyTheme.appolloCardColor.withAlpha(120))
+                ? InkWell(
+                    onTap: () {
+                      if (state is StateNotLoggedIn) {
+                        WrapperPage.endDrawer.value = AuthenticationDrawer(
+                          onAutoAuthenticated: () {
+                            WrapperPage.endDrawer.value = PreSaleDrawer(
+                              bloc: bloc,
+                            );
+                            WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          },
+                        );
+                        WrapperPage.mainScaffold.currentState.openEndDrawer();
+                      } else {
+                        bloc.add(EventRegister(widget.event));
+                        WrapperPage.endDrawer.value = PreSaleDrawer(
+                          bloc: bloc,
+                        );
+                        WrapperPage.mainScaffold.currentState.openEndDrawer();
+                      }
+                    },
+                    child: Container(
+                            child: Text(
+                      "You are registered for pre-sale, click for details",
+                      style: MyTheme.lightTextTheme.headline6,
+                    ).paddingAll(12))
+                        .appolloTransparentCard(color: MyTheme.appolloCardColor.withAlpha(120)),
+                  )
                 : AppolloButton.regularButton(
+                    width: 400,
                     child: Center(
                       child: Text(
                         'REGISTER FOR PRE-SALE',
@@ -127,10 +150,21 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
                     ),
                     onTap: () {
                       if (state is StateNotLoggedIn) {
-                        WrapperPage.endDrawer.value = AuthenticationDrawer();
+                        WrapperPage.endDrawer.value = AuthenticationDrawer(
+                          onAutoAuthenticated: () {
+                            WrapperPage.endDrawer.value = PreSaleDrawer(
+                              bloc: bloc,
+                            );
+                            WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          },
+                        );
                         WrapperPage.mainScaffold.currentState.openEndDrawer();
                       } else {
                         bloc.add(EventRegister(widget.event));
+                        WrapperPage.endDrawer.value = PreSaleDrawer(
+                          bloc: bloc,
+                        );
+                        WrapperPage.mainScaffold.currentState.openEndDrawer();
                       }
                     },
                     color: MyTheme.appolloGreen,

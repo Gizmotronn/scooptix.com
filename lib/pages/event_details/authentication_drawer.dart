@@ -6,7 +6,8 @@ import 'package:ticketapp/pages/authentication/authentication_page.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class AuthenticationDrawer extends StatefulWidget {
-  const AuthenticationDrawer({Key key}) : super(key: key);
+  final Function onAutoAuthenticated;
+  const AuthenticationDrawer({Key key, this.onAutoAuthenticated}) : super(key: key);
 
   @override
   _AuthenticationDrawerState createState() => _AuthenticationDrawerState();
@@ -40,7 +41,13 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
           ).paddingTop(16).paddingRight(16).paddingBottom(8),
           SizedBox(
             height: screenSize.height - 58,
-            child: AuthenticationPage(),
+            child: AuthenticationPage(
+              onAutoAuthenticated: (autoLoggedIn) {
+                if (widget.onAutoAuthenticated != null) {
+                  widget.onAutoAuthenticated();
+                }
+              },
+            ),
           ),
         ],
       ),

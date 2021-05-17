@@ -237,12 +237,16 @@ class Event {
         event.endTime = DateTime.fromMillisecondsSinceEpoch(data["enddate"].millisecondsSinceEpoch);
       }
       if (data.containsKey("presale_data")) {
-        event.preSale = PreSale(
-            enabled: data["presale_data"]["enabled"] ?? false,
-            registrationStartDate: DateTime.fromMillisecondsSinceEpoch(
-                data["presale_data"]["registration_start_date"].millisecondsSinceEpoch),
-            registrationEndDate: DateTime.fromMillisecondsSinceEpoch(
-                data["presale_data"]["registration_end_date"].millisecondsSinceEpoch));
+        try {
+          event.preSale = PreSale(
+              enabled: data["presale_data"]["enabled"] ?? false,
+              registrationStartDate: DateTime.fromMillisecondsSinceEpoch(
+                  data["presale_data"]["registration_start_date"].millisecondsSinceEpoch),
+              registrationEndDate: DateTime.fromMillisecondsSinceEpoch(
+                  data["presale_data"]["registration_end_date"].millisecondsSinceEpoch));
+        } catch (_) {
+          event.preSale = null;
+        }
       }
       event.docID = docId;
 
