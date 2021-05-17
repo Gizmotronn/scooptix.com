@@ -8,7 +8,7 @@ import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/textfield/discount_textfield.dart';
 import 'package:ticketapp/model/discount.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/pages/payment/payment_sheet_wrapper.dart';
@@ -17,10 +17,10 @@ import 'bloc/ticket_bloc.dart';
 
 class OrderSummarySheet extends StatefulWidget {
   final bool collapsed;
-  final LinkType linkType;
+  final Event event;
   final Map<TicketRelease, int> selectedTickets;
 
-  const OrderSummarySheet({Key key, this.collapsed = false, @required this.linkType, @required this.selectedTickets})
+  const OrderSummarySheet({Key key, this.collapsed = false, @required this.event, @required this.selectedTickets})
       : super(key: key);
   @override
   _OrderSummarySheetState createState() => _OrderSummarySheetState();
@@ -62,7 +62,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
               backgroundColor: MyTheme.appolloBackgroundColor,
               builder: (c) => OrderSummarySheet(
                     selectedTickets: widget.selectedTickets,
-                    linkType: widget.linkType,
+                    event: widget.event,
                     collapsed: false,
                   ));
         },
@@ -161,7 +161,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                                               sheetContext,
                                               MaterialPageRoute(
                                                   builder: (c) => PaymentSheetWrapper(
-                                                        linkType: widget.linkType,
+                                                        event: widget.event,
                                                         discount: discount,
                                                         selectedTickets: widget.selectedTickets,
                                                         maxHeight: MediaQuery.of(context).size.height,
@@ -174,7 +174,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                                   sheetContext,
                                   MaterialPageRoute(
                                       builder: (c) => PaymentSheetWrapper(
-                                            linkType: widget.linkType,
+                                            event: widget.event,
                                             discount: discount,
                                             selectedTickets: widget.selectedTickets,
                                             maxHeight: MediaQuery.of(context).size.height,
@@ -318,7 +318,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
     if (subtotal == 0) {
       return 0.0;
     } else {
-      double fee = subtotal / 100 * widget.linkType.event.feePercent / 100;
+      double fee = subtotal / 100 * widget.event.feePercent / 100;
       if (fee < 1.0) {
         fee = 1.0;
       }
@@ -348,7 +348,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 bloc: bloc,
                 state: state,
                 width: MediaQuery.of(context).size.width,
-                linkType: widget.linkType,
+                event: widget.event,
               ).paddingBottom(8),
               if (state is StateDiscountApplied)
                 Align(

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/discount.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/payment/payment_page.dart';
 
 class PaymentSheetWrapper extends StatefulWidget {
-  final LinkType linkType;
+  final Event event;
   final Map<TicketRelease, int> selectedTickets;
   final Discount discount;
   final double maxHeight;
   final BuildContext parentContext;
 
   const PaymentSheetWrapper(
-      {Key key, this.linkType, this.selectedTickets, this.discount, this.maxHeight, this.parentContext})
+      {Key key, this.event, this.selectedTickets, this.discount, this.maxHeight, this.parentContext})
       : super(key: key);
 
   @override
@@ -67,7 +67,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
       ),
       body: Padding(
         padding: EdgeInsets.all(MyTheme.elementSpacing),
-        child: PaymentPage(widget.linkType,
+        child: PaymentPage(widget.event,
             discount: widget.discount,
             selectedTickets: widget.selectedTickets,
             maxHeight: MediaQuery.of(context).size.height),

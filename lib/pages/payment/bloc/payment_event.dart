@@ -25,16 +25,16 @@ class EventConfirmPayment extends PaymentEvent {
 class EventRequestPI extends PaymentEvent {
   final Map<TicketRelease, int> selectedRelease;
   final Discount discount;
-  final LinkType linkType;
+  final Event event;
 
-  const EventRequestPI(this.selectedRelease, this.discount, this.linkType);
+  const EventRequestPI(this.selectedRelease, this.discount, this.event);
 }
 
 class EventRequestFreeTickets extends PaymentEvent {
   final Map<TicketRelease, int> selectedRelease;
-  final LinkType linkType;
+  final Event event;
 
-  const EventRequestFreeTickets(this.selectedRelease, this.linkType);
+  const EventRequestFreeTickets(this.selectedRelease, this.event);
 }
 
 class EventLoadAvailableReleases extends PaymentEvent {

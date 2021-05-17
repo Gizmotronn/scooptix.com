@@ -11,15 +11,15 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/bloc/birthday_list_bloc.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class BirthdayDrawer extends StatefulWidget {
-  final LinkType linkType;
+  final Event event;
 
-  const BirthdayDrawer({Key key, @required this.linkType}) : super(key: key);
+  const BirthdayDrawer({Key key, @required this.event}) : super(key: key);
 
   @override
   _BirthdayDrawerState createState() => _BirthdayDrawerState();
@@ -56,7 +56,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
           text: "Date Accepted", value: "date", show: true, sortable: true, flex: 3, textAlign: TextAlign.left),
     ];
     bloc = BirthdayListBloc();
-    bloc.add(EventLoadExistingList(widget.linkType.event));
+    bloc.add(EventLoadExistingList(widget.event));
     super.initState();
   }
 
@@ -200,7 +200,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: widget.linkType.event.birthdayEventData.benefits.length,
+                                  itemCount: widget.event.birthdayEventData.benefits.length,
                                   itemBuilder: (context, index) {
                                     return Row(
                                       children: [
@@ -214,7 +214,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         ),
                                         Center(
                                             child: Text(
-                                          widget.linkType.event.birthdayEventData.benefits[index],
+                                          widget.event.birthdayEventData.benefits[index],
                                           style: MyTheme.lightTextTheme.bodyText1,
                                         )),
                                       ],
@@ -248,8 +248,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         ),
                                         onTap: () {
                                           if (form.valid) {
-                                            bloc.add(EventCreateList(
-                                                widget.linkType.event, int.tryParse(guestController.text)));
+                                            bloc.add(EventCreateList(widget.event, int.tryParse(guestController.text)));
                                           } else {
                                             form.markAllAsTouched();
                                           }
@@ -338,7 +337,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
   }
 
   Widget _buildOrderSummary() {
-    if (widget.linkType.event.birthdayEventData.price == 0) {
+    if (widget.event.birthdayEventData.price == 0) {
       return AutoSizeText(
         "You can create this birhtday list free of charge!",
         style: MyTheme.lightTextTheme.bodyText1,

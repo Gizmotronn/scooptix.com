@@ -1,7 +1,7 @@
 import "dart:async";
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/order_summary/bloc/ticket_bloc.dart';
 
 enum DiscountTextfieldState { initial, hover, typing, filled, invalid, applied, loading, error }
@@ -13,14 +13,14 @@ class DiscountTextField extends StatefulWidget {
     @required this.bloc,
     @required this.state,
     @required this.width,
-    @required this.linkType,
+    @required this.event,
   })  : _discountController = discountController,
         super(key: key);
 
   final TextEditingController _discountController;
   final TicketBloc bloc;
   final TicketState state;
-  final LinkType linkType;
+  final Event event;
   final double width;
 
   @override
@@ -163,7 +163,7 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                       if (widget._discountController.text != "") {
                         setState(() => textFieldState = DiscountTextfieldState.loading);
                         _listenToStateChanges();
-                        widget.bloc.add(EventApplyDiscount(widget.linkType.event, widget._discountController.text));
+                        widget.bloc.add(EventApplyDiscount(widget.event, widget._discountController.text));
                         widget._discountController.text = "";
                       }
                     },

@@ -7,18 +7,18 @@ import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/textfield/discount_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/discount.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
 
 import 'bloc/ticket_bloc.dart';
 
 class OrderSummaryOverlay extends StatefulWidget {
-  final LinkType linkType;
+  final Event event;
   final Map<TicketRelease, int> selectedTickets;
   final double maxWidth;
 
-  const OrderSummaryOverlay(this.linkType, {Key key, @required this.selectedTickets, @required this.maxWidth})
+  const OrderSummaryOverlay(this.event, {Key key, @required this.selectedTickets, @required this.maxWidth})
       : super(key: key);
 
   @override
@@ -75,7 +75,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                 onPressed: () {
                   if (widget.selectedTickets.isNotEmpty) {
                     WrapperPage.endDrawer.value = CheckoutDrawer(
-                      linkType: widget.linkType,
+                      event: widget.event,
                       discount: discount,
                       selectedTickets: widget.selectedTickets,
                     );
@@ -216,7 +216,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     if (subtotal == 0) {
       return 0.0;
     } else {
-      double fee = subtotal / 100 * widget.linkType.event.feePercent / 100;
+      double fee = subtotal / 100 * widget.event.feePercent / 100;
       if (fee < 1.0) {
         fee = 1.0;
       }
@@ -246,7 +246,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                 bloc: bloc,
                 state: state,
                 width: widget.maxWidth,
-                linkType: widget.linkType,
+                event: widget.event,
               ).paddingBottom(8),
               if (state is StateDiscountApplied)
                 Align(

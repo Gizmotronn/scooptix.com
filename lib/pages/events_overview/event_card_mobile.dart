@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
@@ -22,10 +21,8 @@ class EventCardMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        final overviewLinkType = OverviewLinkType(event);
         // NavigationService.navigateTo(EventDetail.routeName);
-        NavigationService.navigateTo(EventDetailPage.routeName,
-            arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
+        NavigationService.navigateTo(EventDetailPage.routeName, arg: event.docID, queryParams: {'id': event.docID});
       },
       child: Container(
           height: MediaQuery.of(context).size.width / 1.9 / 2,

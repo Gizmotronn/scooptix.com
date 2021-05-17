@@ -6,7 +6,6 @@ import 'package:equatable/equatable.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
@@ -31,14 +30,14 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     } else if (event is EventConfirmSetupIntent) {
       yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard, event.event);
     } else if (event is EventRequestPI) {
-      yield* _createPaymentIntent(event.selectedRelease, event.discount, event.linkType);
+      yield* _createPaymentIntent(event.selectedRelease, event.discount, event.event);
     } else if (event is EventRequestFreeTickets) {
-      yield* _issueFreeTickets(event.selectedRelease, event.linkType);
+      yield* _issueFreeTickets(event.selectedRelease, event.event);
     }
   }
 
   Stream<PaymentState> _createPaymentIntent(
-      Map<TicketRelease, int> selectedReleases, Discount discount, LinkType linkType) async* {
+      Map<TicketRelease, int> selectedReleases, Discount discount, Event event) async* {
     yield StateLoadingPaymentIntent();
     try {
       // It's possible there are free tickets selected as well, we only want to process paid ones here
@@ -51,13 +50,12 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           freeReleases[key] = value;
         }
       });
-      http.Response response =
-          await PaymentRepository.instance.createPaymentIntent(linkType.event, paidReleases, discount);
+      http.Response response = await PaymentRepository.instance.createPaymentIntent(event, paidReleases, discount);
 
       if (response != null) {
         if (response.statusCode == 200) {
           PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-          yield* _confirmPayment(freeReleases: freeReleases, linkType: linkType);
+          yield* _confirmPayment(freeReleases: freeReleases, event: event);
         } else {
           yield StatePaymentError("An unknown error occurred. Please try again.");
         }
@@ -70,8 +68,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _confirmPayment({Map<TicketRelease, int> freeReleases, LinkType linkType}) async* {
-    assert(freeReleases == null || (freeReleases != null && linkType != null));
+  Stream<PaymentState> _confirmPayment({Map<TicketRelease, int> freeReleases, Event event}) async* {
+    assert(freeReleases == null || (freeReleases != null && event != null));
 
     String errorMessage = "An unknown error occurred. Please try again.";
     try {
@@ -85,7 +83,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         // Issuing free tickets should never fail.
         if (freeReleases != null && freeReleases.isNotEmpty) {
           freeReleases.keys.forEach((element) async {
-            await TicketRepository.instance.acceptInvitation(linkType, element);
+            await TicketRepository.instance.acceptInvitation(event, element);
           });
         }
         yield StatePaymentCompleted(
@@ -167,10 +165,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _issueFreeTickets(Map<TicketRelease, int> selectedRelease, LinkType linkType) async* {
+  Stream<PaymentState> _issueFreeTickets(Map<TicketRelease, int> selectedRelease, Event event) async* {
     yield StateLoading();
     selectedRelease.keys.forEach((element) async {
-      await TicketRepository.instance.acceptInvitation(linkType, element);
+      await TicketRepository.instance.acceptInvitation(event, element);
     });
     yield StatePaymentCompleted(
         "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.");

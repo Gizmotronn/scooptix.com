@@ -5,7 +5,6 @@ import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_registration.dart';
@@ -168,7 +167,6 @@ class _EventDataState extends State<EventData> {
               boxOffset: (offset) => setState(() => positions[3] = offset.dy),
               child: EventTickets(
                 event: widget.event,
-                linkType: OverviewLinkType(widget.event),
               ),
             ),
           if (positions.containsKey(4))

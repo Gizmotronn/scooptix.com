@@ -5,8 +5,6 @@ import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/birthdayList.dart';
-import 'package:ticketapp/model/promoter.dart';
 import 'package:ticketapp/repositories/birthdaylist_repository.dart';
 import 'package:ticketapp/repositories/ticket_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -50,15 +48,7 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
         .createOrLoadUUIDMap(event, UserRepository.instance.currentUser().firebaseUserID, "", numGuests);
     // Issue ticket for list creator
     // TODO: select correct ticket release
-    TicketRepository.instance.issueTickets(
-        Booking()
-          ..event = event
-          ..promoter = Promoter(UserRepository.instance.currentUser().firebaseUserID,
-              UserRepository.instance.currentUser().firstname, UserRepository.instance.currentUser().lastname)
-          ..uuid = uuid,
-        event.getManagersWithActiveReleases()[0].getActiveRelease(),
-        1,
-        null);
+    TicketRepository.instance.issueTickets(event, event.getManagersWithActiveReleases()[0].getActiveRelease(), 1, null);
     yield StateExistingList(BirthdayList()
       ..uuid = uuid
       ..estGuests = numGuests

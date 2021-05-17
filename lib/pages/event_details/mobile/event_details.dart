@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_details/widget/make_booking.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/mobile/event_info.dart';
 import 'package:ticketapp/pages/event_details/sections/event_description.dart';
@@ -41,7 +40,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
           EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
           PreSaleRegistration(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
           EventTicketsMobile(
-            linkType: OverviewLinkType(widget.event),
+            event: widget.event,
             scrollController: widget.scrollController,
           ),
           MakeBooking(event: widget.event),

@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
@@ -243,9 +241,8 @@ class FeaturedEventText extends StatelessWidget {
             color: MyTheme.appolloGreen,
             child: AutoSizeText('Get Your Ticket', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
-              final overviewLinkType = OverviewLinkType(event);
               NavigationService.navigateTo(EventDetailPage.routeName,
-                  arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
+                  arg: event.docID, queryParams: {'id': event.docID});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],

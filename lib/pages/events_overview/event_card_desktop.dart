@@ -6,7 +6,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
@@ -189,10 +188,9 @@ class EventCardDesktop extends StatelessWidget {
                     deactiveColorText: MyTheme.appolloBackgroundColor,
                     activeColorText: MyTheme.appolloWhite,
                     onTap: () {
-                      final overviewLinkType = OverviewLinkType(event);
                       // NavigationService.navigateTo(EventDetail.routeName);
                       NavigationService.navigateTo(EventDetailPage.routeName,
-                          arg: overviewLinkType.event.docID, queryParams: {'id': overviewLinkType.event.docID});
+                          arg: event.docID, queryParams: {'id': event.docID});
                     },
                   ),
                 ),
@@ -369,7 +367,6 @@ class EventCard2 extends StatelessWidget {
                         child: CardButton(
                           title: 'View Event',
                           onTap: () {
-                            final overviewLinkType = OverviewLinkType(event);
                             Navigator.of(context).push(MaterialWithModalsPageRoute(
                                 builder: (_) => EventDetailPage(
                                       id: event.docID,

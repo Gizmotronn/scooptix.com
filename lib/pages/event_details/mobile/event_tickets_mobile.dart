@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/order_summary/order_summary_sheet.dart';
 import '../../../UI/theme.dart';
 import 'get_tickets_sheet.dart';
 
 class EventTicketsMobile extends StatefulWidget {
-  final LinkType linkType;
+  final Event event;
   final ScrollController scrollController;
 
   EventTicketsMobile({
     Key key,
-    @required this.linkType,
+    @required this.event,
     @required this.scrollController,
   }) : super(key: key);
 
@@ -41,7 +41,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
           context: context,
           builder: (c) => GetTicketsSheet(
                 controller: widget.scrollController,
-                name: widget.linkType.event.name,
+                name: widget.event.name,
                 position: position,
               ));
     });
@@ -69,22 +69,21 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
             child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.only(right: 8),
-                itemCount: widget.linkType.event.releaseManagers.length,
+                itemCount: widget.event.releaseManagers.length,
                 itemBuilder: (c, index) {
                   final Color color = ticketColor[index % ticketColor.length];
                   return TicketCard(
-                      release: widget.linkType.event.releaseManagers[index],
+                      release: widget.event.releaseManagers[index],
                       color: color,
                       onQuantityChanged: (q) {
                         if (q == 0 &&
-                            selectedTickets
-                                .containsKey(widget.linkType.event.releaseManagers[index].getActiveRelease())) {
+                            selectedTickets.containsKey(widget.event.releaseManagers[index].getActiveRelease())) {
                           setState(() {
-                            selectedTickets.remove(widget.linkType.event.releaseManagers[index].getActiveRelease());
+                            selectedTickets.remove(widget.event.releaseManagers[index].getActiveRelease());
                           });
                         } else if (q != 0) {
                           setState(() {
-                            selectedTickets[widget.linkType.event.releaseManagers[index].getActiveRelease()] = q;
+                            selectedTickets[widget.event.releaseManagers[index].getActiveRelease()] = q;
                           });
                         }
                         if (selectedTickets.isNotEmpty) {
@@ -92,7 +91,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                               context: context,
                               builder: (c) => OrderSummarySheet(
                                     selectedTickets: selectedTickets,
-                                    linkType: widget.linkType,
+                                    event: widget.event,
                                     collapsed: true,
                                   ));
                         } else {
@@ -101,7 +100,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                                 context: context,
                                 builder: (c) => GetTicketsSheet(
                                       controller: widget.scrollController,
-                                      name: widget.linkType.event.name,
+                                      name: widget.event.name,
                                       position: position,
                                     ));
                           });

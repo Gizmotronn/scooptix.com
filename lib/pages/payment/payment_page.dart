@@ -9,22 +9,22 @@ import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
 
 class PaymentPage extends StatefulWidget {
-  final LinkType linkType;
+  final Event event;
   final Map<TicketRelease, int> selectedTickets;
   final Discount discount;
   final double maxHeight;
 
-  const PaymentPage(this.linkType, {Key key, @required this.selectedTickets, this.discount, @required this.maxHeight})
+  const PaymentPage(this.event, {Key key, @required this.selectedTickets, this.discount, @required this.maxHeight})
       : super(key: key);
 
   @override
@@ -52,13 +52,13 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     bloc = PaymentBloc();
-    bloc.add(EventLoadAvailableReleases(widget.selectedTickets, widget.linkType.event));
+    bloc.add(EventLoadAvailableReleases(widget.selectedTickets, widget.event));
     Future.delayed(Duration(milliseconds: 1)).then((value) {
-      if (widget.linkType.event.ticketCheckoutMessage != null) {
+      if (widget.event.ticketCheckoutMessage != null) {
         AlertGenerator.showAlert(
             context: context,
             title: "Please note",
-            content: widget.linkType.event.ticketCheckoutMessage,
+            content: widget.event.ticketCheckoutMessage,
             buttonText: "I Understand",
             popTwice: false);
       }
@@ -145,9 +145,9 @@ class _PaymentPageState extends State<PaymentPage> {
                           onPressed: () {
                             if (_termsConditions) {
                               if (state is StateFreeTicketSelected) {
-                                bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.linkType));
+                                bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
                               } else {
-                                bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.linkType));
+                                bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
                               }
                             } else {
                               AlertGenerator.showAlert(
@@ -245,7 +245,7 @@ class _PaymentPageState extends State<PaymentPage> {
     if (subtotal == 0) {
       return 0.0;
     } else {
-      double fee = subtotal / 100 * widget.linkType.event.feePercent / 100;
+      double fee = subtotal / 100 * widget.event.feePercent / 100;
       if (fee < 1.0) {
         fee = 1.0;
       }
@@ -606,7 +606,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                           await Stripe.instance.api.createPaymentMethodFromCard(card);
                                       PaymentMethod pm =
                                           PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.linkType.event));
+                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
                                     } catch (_) {
                                       setState(() {
                                         validateCC = true;
@@ -648,7 +648,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 PaymentMethod pm =
                                     PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
                                 print(pm.id);
-                                bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.linkType.event));
+                                bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
                               } catch (_) {
                                 setState(() {
                                   validateCC = true;

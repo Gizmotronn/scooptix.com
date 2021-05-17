@@ -9,8 +9,6 @@ import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-
-import '../../../model/link_type/overview.dart';
 import '../../../repositories/ticket_repository.dart';
 
 part 'events_overview_event.dart';
@@ -90,8 +88,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
     try {
       final event = await EventsRepository.instance.loadEventById(e.id);
       final organizer = await UserRepository.instance.loadOrganizer(event.organizer);
-      final overviewLinkType = OverviewLinkType(event);
-      TicketRepository.instance.incrementLinkOpenedCounter(overviewLinkType);
+      TicketRepository.instance.incrementLinkOpenedCounter(event);
       yield EventDetailState(event, organizer);
     } catch (e) {
       yield ErrorEventDetailState('404: Page Not Found');

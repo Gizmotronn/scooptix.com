@@ -230,6 +230,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
+                height: MyTheme.elementSpacing,
+              ),
+              SizedBox(
                 width: screenSize.width,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -413,7 +416,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 widget.bloc.add(EventEmailProvided(_emailController.text));
               },
             ),
-          ).paddingBottom(8);
+          ).paddingBottom(8).paddingTop(MyTheme.elementSpacing);
         } else {
           return Align(
             alignment: Alignment.centerRight,

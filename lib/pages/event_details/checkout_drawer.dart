@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/discount.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/payment/payment_page.dart';
@@ -15,11 +15,11 @@ import 'authentication_drawer.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class CheckoutDrawer extends StatefulWidget {
-  final LinkType linkType;
+  final Event event;
   final Map<TicketRelease, int> selectedTickets;
   final Discount discount;
 
-  const CheckoutDrawer({Key key, @required this.linkType, this.selectedTickets, this.discount}) : super(key: key);
+  const CheckoutDrawer({Key key, @required this.event, this.selectedTickets, this.discount}) : super(key: key);
 
   @override
   _CheckoutDrawerState createState() => _CheckoutDrawerState();
@@ -41,7 +41,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
     return () {
       if (UserRepository.instance.isLoggedIn) {
         WrapperPage.endDrawer.value = CheckoutDrawer(
-          linkType: widget.linkType,
+          event: widget.event,
           discount: widget.discount,
           selectedTickets: widget.selectedTickets,
         );
@@ -93,7 +93,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                       Text("Order Confirmation", style: MyTheme.lightTextTheme.headline2)
                           .paddingBottom(MyTheme.elementSpacing),
                       Text(
-                        widget.linkType.event.name,
+                        widget.event.name,
                         style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen),
                       ).paddingBottom(MyTheme.elementSpacing),
                       SizedBox(
@@ -128,21 +128,21 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   AutoSizeText(
-                                    DateFormat.yMMMMd().format(widget.linkType.event.date),
+                                    DateFormat.yMMMMd().format(widget.event.date),
                                     style: MyTheme.lightTextTheme.bodyText2,
                                   ).paddingBottom(8),
-                                  if (widget.linkType.event.endTime != null)
+                                  if (widget.event.endTime != null)
                                     AutoSizeText(
-                                      "${DateFormat.jm().format(widget.linkType.event.date)} - ${DateFormat.jm().format(widget.linkType.event.endTime)} (${widget.linkType.event.endTime.difference(widget.linkType.event.date).inHours} Hours)",
+                                      "${DateFormat.jm().format(widget.event.date)} - ${DateFormat.jm().format(widget.event.endTime)} (${widget.event.endTime.difference(widget.event.date).inHours} Hours)",
                                       style: MyTheme.lightTextTheme.bodyText2,
                                     ).paddingBottom(8),
-                                  if (widget.linkType.event.endTime == null)
+                                  if (widget.event.endTime == null)
                                     AutoSizeText(
-                                      "${DateFormat.jm().format(widget.linkType.event.date)} ",
+                                      "${DateFormat.jm().format(widget.event.date)} ",
                                       style: MyTheme.lightTextTheme.bodyText2,
                                     ).paddingBottom(8),
                                   AutoSizeText(
-                                    widget.linkType.event.address ?? widget.linkType.event.venueName,
+                                    widget.event.address ?? widget.event.venueName,
                                     style: MyTheme.lightTextTheme.bodyText2,
                                   ),
                                 ],
@@ -151,14 +151,14 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                           ],
                         ),
                       ).paddingBottom(MyTheme.elementSpacing),
-                      widget.linkType is MemberInvite &&
-                              (widget.linkType as MemberInvite).promoter.docId ==
+                      widget.event is MemberInvite &&
+                              (widget.event as MemberInvite).promoter.docId ==
                                   UserRepository.instance.currentUser().firebaseUserID
                           ? Center(
                               child: Text("You can't invite yourself to this event",
                                   style: MyTheme.lightTextTheme.bodyText2))
                           : PaymentPage(
-                              widget.linkType,
+                              widget.event,
                               maxHeight: screenSize.height - 296,
                               selectedTickets: widget.selectedTickets,
                               discount: widget.discount,

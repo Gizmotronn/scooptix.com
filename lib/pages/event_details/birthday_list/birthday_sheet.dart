@@ -12,7 +12,7 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
@@ -21,17 +21,17 @@ import '../../../main.dart';
 import 'bloc/birthday_list_bloc.dart';
 
 class BirthdaySheet extends StatefulWidget {
-  final LinkType linkType;
-  BirthdaySheet._(this.linkType);
+  final Event event;
+  BirthdaySheet._(this.event);
 
   /// Makes sure the user is logged in before opening the My Ticket Sheet
-  static openMyTicketsSheet(LinkType linkType) {
+  static openMyTicketsSheet(Event event) {
     if (UserRepository.instance.isLoggedIn) {
       showCupertinoModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
-          builder: (context) => BirthdaySheet._(linkType));
+          builder: (context) => BirthdaySheet._(event));
     } else {
       showCupertinoModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext,
@@ -44,7 +44,7 @@ class BirthdaySheet extends StatefulWidget {
                       context: WrapperPage.navigatorKey.currentContext,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
-                      builder: (context) => BirthdaySheet._(linkType));
+                      builder: (context) => BirthdaySheet._(event));
                 },
               ));
     }
@@ -85,7 +85,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
           text: "Date Accepted", value: "date", show: true, sortable: true, flex: 3, textAlign: TextAlign.left),
     ];
     bloc = BirthdayListBloc();
-    bloc.add(EventLoadExistingList(widget.linkType.event));
+    bloc.add(EventLoadExistingList(widget.event));
     super.initState();
   }
 
@@ -232,7 +232,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 .paddingTop(MyTheme.elementSpacing / 2),
                             ListView.builder(
                               shrinkWrap: true,
-                              itemCount: widget.linkType.event.birthdayEventData.benefits.length,
+                              itemCount: widget.event.birthdayEventData.benefits.length,
                               itemBuilder: (context, index) {
                                 return Row(
                                   children: [
@@ -245,7 +245,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                     ),
                                     Center(
                                         child: Text(
-                                      widget.linkType.event.birthdayEventData.benefits[index],
+                                      widget.event.birthdayEventData.benefits[index],
                                       style: MyTheme.lightTextTheme.bodyText1,
                                     )),
                                   ],
@@ -280,8 +280,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                       ),
                                       onTap: () {
                                         if (form.valid) {
-                                          bloc.add(EventCreateList(
-                                              widget.linkType.event, int.tryParse(guestController.text)));
+                                          bloc.add(EventCreateList(widget.event, int.tryParse(guestController.text)));
                                         } else {
                                           form.markAllAsTouched();
                                         }
@@ -346,7 +345,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
   }
 
   Widget _buildOrderSummary() {
-    if (widget.linkType.event.birthdayEventData.price == 0) {
+    if (widget.event.birthdayEventData.price == 0) {
       return AutoSizeText(
         "You can create this birthday list free of charge!",
         style: MyTheme.lightTextTheme.bodyText1,

@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/order_summary/order_summary_overlay.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
@@ -11,12 +10,10 @@ import '../../../UI/theme.dart';
 
 class EventTickets extends StatefulWidget {
   final Event event;
-  final LinkType linkType;
 
   EventTickets({
     Key key,
     this.event,
-    this.linkType,
   }) : super(key: key);
 
   @override
@@ -98,7 +95,7 @@ class _EventTicketsState extends State<EventTickets> {
                       color: MyTheme.appolloCardColorLight,
                     ),
                     child: OrderSummaryOverlay(
-                      widget.linkType,
+                      widget.event,
                       selectedTickets: selectedTickets,
                       maxWidth: checkoutWidth,
                     ).paddingAll(16)),

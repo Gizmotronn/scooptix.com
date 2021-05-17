@@ -1,20 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../model/event.dart';
-import '../model/link_type/advertisementInvite.dart';
-import '../model/link_type/birthdayList.dart';
-import '../model/link_type/link_type.dart';
-import '../model/link_type/promoterInvite.dart';
 import '../model/release_manager.dart';
 import '../model/ticket_release.dart';
-import 'user_repository.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/advertisementInvite.dart';
-import 'package:ticketapp/model/link_type/birthdayList.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
-import 'package:ticketapp/model/link_type/promoterInvite.dart';
 import 'package:ticketapp/model/release_manager.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
 
 class EventsRepository {
   static EventsRepository _instance;
@@ -80,56 +70,6 @@ class EventsRepository {
     });
 
     return ticketReleases;
-  }
-
-  Future<LinkType> loadLinkType(String uuid) async {
-    try {
-      QuerySnapshot uuidMapSnapshot =
-          await FirebaseFirestore.instance.collection("uuidmap").where("uuid", isEqualTo: uuid).get();
-      if (uuidMapSnapshot.size > 0) {
-        LinkTypes lt = LinkTypes.Promoter;
-        try {
-          lt = LinkTypes.values.firstWhere((element) => element.toDBString() == uuidMapSnapshot.docs[0].data()["type"]);
-        } catch (_) {
-          // In case there is no type for some reason
-        }
-        LinkType linkType;
-        switch (lt) {
-          case LinkTypes.Promoter:
-            linkType = PromoterInvite()
-              ..uuid = uuid
-              ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
-              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
-            break;
-          case LinkTypes.BirthdayList:
-          case LinkTypes.Booking:
-            linkType = Booking()
-              ..uuid = uuid
-              ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
-              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
-            break;
-          case LinkTypes.Ticket:
-            // TODO: Handle this case.
-            break;
-          case LinkTypes.Advertisement:
-            linkType = AdvertisementInvite()
-              ..uuid = uuid
-              ..advertisementId = uuidMapSnapshot.docs[0].data()["advertisement_id"]
-              ..event = await loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
-            break;
-          case LinkTypes.MemberInvite:
-            // TODO: Handle this case.
-            break;
-        }
-        return linkType;
-      } else {
-        return null;
-      }
-    } catch (e, s) {
-      print(e);
-      // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
-      return null;
-    }
   }
 
   /// Fetches all upcoming events from the database

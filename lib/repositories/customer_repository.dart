@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
 import 'package:ticketapp/model/link_type/birthdayList.dart';
-import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
@@ -46,38 +47,41 @@ class CustomerRepository {
     }
   }
 
-  Future<void> addCustomerAttendingAction(LinkType linkType) async {
+  Future<void> addCustomerAttendingAction(Event event) async {
     try {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
           .collection("organizers")
-          .doc(linkType.event.organizer)
+          .doc(event.organizer)
           .collection("customers")
           .doc(UserRepository.instance.currentUser().firebaseUserID)
           .get();
       DocumentReference userRef;
       if (!userSnapshot.exists) {
-        userRef = await createCustomer(linkType.event.organizer);
+        userRef = await createCustomer(event.organizer);
       } else {
         userRef = userSnapshot.reference;
       }
 
       String action;
 
-      if (linkType is Booking) {
+      if (event is Booking) {
         action = "bday_invite_accepted";
-      } else if (linkType is AdvertisementInvite) {
+      } else if (event is AdvertisementLink) {
         action = "advertisement_invite_accepted";
       } else {
         action = "promoter_invite_accepted";
       }
 
-      userRef
-          .collection("actions")
-          .add({"event": linkType.event.docID, "date": DateTime.now(), "action": action, "uuid": linkType.uuid});
+      userRef.collection("actions").add({
+        "event": event.docID,
+        "date": DateTime.now(),
+        "action": action,
+        "uuid": LinkRepository.instance.linkType.uuid
+      });
 
       userRef.set({
         "last_action": DateTime.now(),
-        "events": FieldValue.arrayUnion([linkType.event.docID])
+        "events": FieldValue.arrayUnion([event.docID])
       }, SetOptions(merge: true));
     } catch (e, s) {
       print(e);

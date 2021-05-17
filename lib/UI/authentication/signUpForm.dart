@@ -26,28 +26,18 @@ class _SignUpFormState extends State<SignUpForm> {
     return ReactiveForm(
         formGroup: widget.form,
         child: Column(
-          crossAxisAlignment: getValueForScreenType(
-              context: context,
-              watch: CrossAxisAlignment.center,
-              mobile: CrossAxisAlignment.center,
-              tablet: CrossAxisAlignment.start,
-              desktop: CrossAxisAlignment.start),
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            AutoSizeText(
+              "Create an account",
+              textAlign: TextAlign.center,
+              style: widget.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+            ).paddingBottom(MyTheme.elementSpacing),
             AutoSizeText(
               "Tell us about yourself",
               textAlign: TextAlign.center,
-              style: widget.textTheme.headline4,
-            ),
-            SizedBox(
-              height: MyTheme.elementSpacing * 1.5,
-            ),
-            AutoSizeText(
-              "Name",
-              style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(
-              height: MyTheme.elementSpacing,
-            ),
+              style: widget.textTheme.headline4.copyWith(color: MyTheme.appolloOrange),
+            ).paddingBottom(MyTheme.elementSpacing),
 
             Column(
               children: [
@@ -59,10 +49,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ValidationMessage.required: 'Please provide a name',
                   },
                   // decoration: InputDecoration(labelText: "First Name"),
-                ),
-                SizedBox(
-                  height: 8,
-                ),
+                ).paddingBottom(MyTheme.elementSpacing),
                 AppolloTextfield(
                   labelText: "Last Name",
                   textfieldType: TextFieldType.reactive,
@@ -73,20 +60,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   // decoration: InputDecoration(labelText: "Last Name"),
                 ),
               ],
-            ),
+            ).paddingBottom(MyTheme.elementSpacing * 2),
 
-            SizedBox(
-              height: MyTheme.elementSpacing * 2,
-            ),
-
-            AutoSizeText(
-              "Date of birth",
-              style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
-            ),
-
-            SizedBox(
-              height: MyTheme.elementSpacing,
-            ),
             Column(
               crossAxisAlignment: getValueForScreenType(
                   context: context,
@@ -187,13 +162,6 @@ class _SignUpFormState extends State<SignUpForm> {
                 SizedBox(
                   height: MyTheme.elementSpacing * 2,
                 ),
-                AutoSizeText(
-                  "Gender",
-                  style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(
-                  height: MyTheme.elementSpacing,
-                ),
                 SizedBox(
                   width: (MyTheme.maxWidth - MyTheme.cardPadding * 4) + 8,
                   child: ReactiveDropdownField(
@@ -227,6 +195,7 @@ class _SignUpFormState extends State<SignUpForm> {
             AutoSizeText(
               "We require this information to issue your ticket. Please note that providing incorrect information may invalidate you ticket.\n\nWe’ll save this data for you so you’ll only need to provide it once. ",
               style: widget.textTheme.caption,
+              textAlign: TextAlign.center,
             ),
             SizedBox(
               height: MyTheme.elementSpacing,

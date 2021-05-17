@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/main.dart';
-import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_sheet.dart';
@@ -234,7 +233,7 @@ class MakeBooking extends StatelessWidget {
                                     context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
                                   if (UserRepository.instance.isLoggedIn) {
                                     WrapperPage.endDrawer.value = BirthdayDrawer(
-                                      linkType: OverviewLinkType(event),
+                                      event: event,
                                     );
                                     WrapperPage.mainScaffold.currentState.openEndDrawer();
                                   } else {
@@ -243,7 +242,7 @@ class MakeBooking extends StatelessWidget {
                                     UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
                                   }
                                 } else {
-                                  BirthdaySheet.openMyTicketsSheet(OverviewLinkType(event));
+                                  BirthdaySheet.openMyTicketsSheet(event);
                                 }
                               },
                             ),
@@ -270,7 +269,7 @@ class MakeBooking extends StatelessWidget {
     return () {
       if (UserRepository.instance.isLoggedIn) {
         WrapperPage.endDrawer.value = BirthdayDrawer(
-          linkType: OverviewLinkType(event),
+          event: event,
         );
         WrapperPage.mainScaffold.currentState.openEndDrawer();
       }
