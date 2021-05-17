@@ -3,9 +3,11 @@ import 'package:extended_image/extended_image.dart';
 import 'package:ticketapp/UI/theme.dart';
 
 class ExpandImageCard extends StatelessWidget {
+  final BorderRadius borderRadius;
+
   const ExpandImageCard({
     Key key,
-    @required this.imageUrl,
+    @required this.imageUrl, this.borderRadius,
   }) : super(key: key);
 
   final String imageUrl;
@@ -16,8 +18,8 @@ class ExpandImageCard extends StatelessWidget {
         ? Container()
         : Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius:borderRadius?? BorderRadius.circular(8),
                 image: DecorationImage(fit: BoxFit.cover, image: ExtendedImage.network(imageUrl).image)),
-          ).paddingAll(4);
+          );
   }
 }

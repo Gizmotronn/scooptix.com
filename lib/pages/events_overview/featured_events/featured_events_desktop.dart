@@ -170,7 +170,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: Container(
-                child: ExpandImageCard(imageUrl: event?.coverImageURL),
+                child: ExpandImageCard(imageUrl: event?.coverImageURL).paddingAll(2.5),
               ),
             ),
           );
@@ -185,7 +185,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
         height: featureEventCardHeight / 4,
         child: ExpandImageCard(
           imageUrl: events[index].coverImageURL,
-        ),
+      ).paddingAll(2.5),
       ),
     );
   }
