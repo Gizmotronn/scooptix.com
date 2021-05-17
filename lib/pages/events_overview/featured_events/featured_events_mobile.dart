@@ -39,11 +39,9 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: _animationDuration);
-    widget.events.forEach((element) {
-      if (events.length < 5) {
-        events.add(element);
-      }
-    });
+   for(int i = 0; i < 5 && i < widget.events.length; i++){
+     events.add(widget.events[i]);
+   }
     heroEvent = events.first;
     super.initState();
     _animatedCard();
@@ -61,7 +59,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       heroEvent = removedEvent;
     });
     setState(() {
-      events.insert(4, removedEvent);
+      events.add(removedEvent);
     });
     await _animationController.reverse();
     setState(() {
