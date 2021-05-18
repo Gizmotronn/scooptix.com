@@ -253,6 +253,7 @@ class Event {
       return event;
     } catch (e, s) {
       print(e);
+      print(s);
       // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
       return null;
     }

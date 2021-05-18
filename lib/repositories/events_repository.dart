@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
 import '../model/event.dart';
 import '../model/release_manager.dart';
 import '../model/ticket_release.dart';
@@ -25,9 +26,17 @@ class EventsRepository {
   List<Event> events = <Event>[];
 
   Future<Event> loadEventById(String id) async {
+    try {
+      return events.firstWhere((element) => element.docID == id);
+    } catch (_) {}
     print(id);
     DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
     DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();
+
+    if (!eventSnapshot.exists || !ticketEventSnapshot.exists) {
+      BugsnagNotifier.instance.notify("Couldn't load event $id", StackTrace.current);
+      return null;
+    }
 
     QuerySnapshot releaseManagerSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(id).collection("release_managers").get();
