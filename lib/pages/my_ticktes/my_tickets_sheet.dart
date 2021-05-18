@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/main.dart';
@@ -8,6 +9,9 @@ import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/pages/authentication/authentication_page.dart';
 import 'package:ticketapp/pages/my_ticktes/bloc/my_tickets_bloc.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/utilities/svg/icon.dart';
+
+import 'myticket_card.dart';
 
 class MyTicketsSheet extends StatefulWidget {
   MyTicketsSheet._();
@@ -118,18 +122,32 @@ class Tickets extends StatelessWidget {
       cubit: bloc,
       builder: (context, state) {
         if (state is StateTicketOverview) {
-          return SingleChildScrollView(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _headerText('Tickets', color: MyTheme.appolloGreen).paddingBottom(16),
-                  _tickets(context, state.tickets),
-                  _headerText('Past Event Tickets', color: MyTheme.appolloOrange).paddingBottom(16),
-                ],
-              ).paddingHorizontal(16),
-            ),
-          );
+          return state.tickets.isEmpty
+              ? _noTicket(context)
+              : SingleChildScrollView(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _headerText('Tickets', color: MyTheme.appolloGreen)
+                            .paddingBottom(MyTheme.cardPadding)
+                            .paddingTop(16),
+                        _tickets(context,
+                            tickets: state.tickets
+                                .where((ticket) => ticket.event.date.isBefore(DateTime.now().add(Duration(days: 14))))
+                                .toList(),
+                            isPastTicket: false),
+                        _headerText('Past Event Tickets', color: MyTheme.appolloOrange)
+                            .paddingBottom(MyTheme.cardPadding),
+                        _tickets(context,
+                            tickets: state.tickets
+                                .where((ticket) => ticket.event.date.isAfter(DateTime.now().add(Duration(days: 14))))
+                                .toList(),
+                            isPastTicket: true),
+                      ],
+                    ).paddingHorizontal(16),
+                  ),
+                );
         }
         return Container();
       },
@@ -141,24 +159,40 @@ class Tickets extends StatelessWidget {
         style: MyTheme.lightTextTheme.headline4.copyWith(color: color, fontWeight: FontWeight.w600));
   }
 
-  Widget _tickets(BuildContext context, List<Ticket> tickets) => Column(
+  Widget _tickets(BuildContext context, {List<Ticket> tickets, bool isPastTicket}) => Column(
         children: List.generate(
-          5,
-          (index) => Row(
-            children: [
-              Expanded(
-                child: Container(
-                  color: MyTheme.appolloLightCardColor,
-                  height: 120,
-                ),
-              ),
-              Container(
-                color: MyTheme.appolloLightCardColor,
-                height: 120,
-                width: MediaQuery.of(context).size.width * 0.25,
-              ).paddingLeft(2.5),
-            ],
+          tickets.length,
+          (index) => MyTicketCard(
+            ticket: tickets[index],
+            isPastTicket: isPastTicket,
           ).paddingBottom(16),
         ),
       );
+
+  Widget _noTicket(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _headerText('Tickets', color: MyTheme.appolloGreen).paddingBottom(MyTheme.cardPadding).paddingTop(16),
+              AutoSizeText(
+                """You do not currently have a ticket to an event.
+
+Once you purchase a ticket it will be displayed here so its always easy to find.
+              """,
+                style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w300),
+              ),
+            ],
+          ),
+          Align(
+              alignment: Alignment.center,
+              child: SvgPicture.asset(
+                AppolloSvgIcon.tickets,
+                width: MediaQuery.of(context).size.height * 0.3,
+              )).paddingAll(16),
+          SizedBox.shrink(),
+        ],
+      ).paddingHorizontal(16);
 }

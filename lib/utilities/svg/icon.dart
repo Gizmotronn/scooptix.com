@@ -34,4 +34,5 @@ class AppolloSvgIcon {
   static String ticket = 'assets/icons/ticket.svg';
   static String ticketGreen = 'assets/icons/ticket_green.svg';
   static String pin = 'assets/icons/pin.svg';
+  static String tickets = 'assets/icons/tickets.svg';
 }
