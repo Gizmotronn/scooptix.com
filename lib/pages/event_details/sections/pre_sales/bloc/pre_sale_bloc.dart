@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/pre_sale/pre_sale_registration.dart';
 import 'package:ticketapp/repositories/presale_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
@@ -25,8 +26,8 @@ class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
 
   Stream<PreSaleState> _registerForPreSale(Event event) async* {
     yield StateLoading();
-    await PreSaleRepository.instance.registerForPreSale(event);
-    yield StateRegistered();
+    PreSaleRegistration preSale = await PreSaleRepository.instance.registerForPreSale(event);
+    yield StateRegistered(preSale);
   }
 
   Stream<PreSaleState> _checkStatus(Event event) async* {
@@ -34,9 +35,9 @@ class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
       yield StateNotLoggedIn();
     } else {
       yield StateLoading();
-      bool registered = await PreSaleRepository.instance.isRegisteredForPreSale(event);
-      if (registered) {
-        yield StateRegistered();
+      PreSaleRegistration preSale = await PreSaleRepository.instance.isRegisteredForPreSale(event);
+      if (preSale != null) {
+        yield StateRegistered(preSale);
       } else {
         yield StateNotRegistered();
       }

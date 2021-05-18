@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/mobile_view.dart';
 
 import '../../UI/event_overview/event_top_nav.dart';
@@ -9,7 +11,6 @@ import '../../UI/widgets/backgrounds/events_details_background.dart';
 import '../error_page.dart';
 import '../events_overview/bloc/events_overview_bloc.dart';
 import 'sections/event_details.dart';
-import 'sections/event_nav_bar.dart';
 
 class EventDetailPage extends StatefulWidget {
   static const String routeName = '/event';
@@ -67,7 +68,12 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
             return ResponsiveBuilder(
               builder: (context, SizingInformation size) {
                 if (size.isTablet || size.isDesktop) {
-                  return EventPageDesktopView(scrollController: _scrollController, bloc: bloc, state: state);
+                  return EventPageDesktopView(
+                    scrollController: _scrollController,
+                    bloc: bloc,
+                    event: state.event,
+                    organizer: state.organizer,
+                  );
                 } else {
                   return EventDetailsMobilePage(
                     event: state.event,
@@ -91,36 +97,33 @@ class EventPageDesktopView extends StatelessWidget {
     Key key,
     @required ScrollController scrollController,
     @required this.bloc,
-    this.state,
+    @required this.event,
+    @required this.organizer,
   })  : _scrollController = scrollController,
         super(key: key);
 
   final ScrollController _scrollController;
   final EventsOverviewBloc bloc;
-  final EventDetailState state;
+  final Event event;
+  final Organizer organizer;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        EventDetailBackground(coverImageURL: state.event.coverImageURL),
+        EventDetailBackground(coverImageURL: event.coverImageURL),
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          child: SingleChildScrollView(
-            controller: _scrollController,
-            padding: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - MyTheme.maxWidth) / 2),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: EventData(
-                event: state.event,
-                organizer: state.organizer,
-                scrollController: _scrollController,
-                bloc: bloc,
-              ),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: EventData(
+              event: event,
+              organizer: organizer,
+              scrollController: _scrollController,
+              bloc: bloc,
             ),
           ),
         ),
-        EventDetailNavbar(event: state.event),
         EventOverviewAppbar(color: MyTheme.appolloBackgroundColor),
       ],
     );

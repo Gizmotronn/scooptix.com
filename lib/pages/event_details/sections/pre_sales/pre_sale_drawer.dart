@@ -1,9 +1,12 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/utilities/platform_detector.dart';
 import '../../../../main.dart';
 import 'bloc/pre_sale_bloc.dart';
 
@@ -53,6 +56,9 @@ class PreSaleDrawer extends StatelessWidget {
                               style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen))
                           .paddingBottom(MyTheme.elementSpacing / 2),
                       AutoSizeText(
+                              "You have registered for pre-sale. You will be notified once ticket sales start and may also receive special pre-sale offers from the event organiser.")
+                          .paddingBottom(MyTheme.elementSpacing),
+                      AutoSizeText(
                               "Increase your chance of winning by simply sharing your referral code with your friends, family or followers.")
                           .paddingBottom(MyTheme.elementSpacing),
                       Container(
@@ -66,10 +72,10 @@ class PreSaleDrawer extends StatelessWidget {
                               "Current Points",
                               style: MyTheme.lightTextTheme.headline6,
                             ),
-                            AutoSizeText("1")
+                            AutoSizeText(state.preSale.points.toString())
                           ],
                         ).paddingAll(MyTheme.elementSpacing / 2),
-                      ).appolloTransparentCard().paddingBottom(MyTheme.elementSpacing),
+                      ).appolloTransparentCard().paddingBottom(MyTheme.elementSpacing * 2),
                       AutoSizeText("Referral Link",
                               style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloOrange))
                           .paddingBottom(MyTheme.elementSpacing),
@@ -84,21 +90,21 @@ class PreSaleDrawer extends StatelessWidget {
                         ),
                         color: MyTheme.appolloCardColor,
                         onTap: () {
-                          /*  if (PlatformDetector.isMobile()) {
-                          Share.share("appollo.io/invite?id=${state.birthdayList.uuid}",
-                              subject: 'Appollo Event Invitation');
-                        } else {
-                          FlutterClipboard.copy("appollo.io/invite?id=${state.birthdayList.uuid}");
-                        }*/
+                          if (PlatformDetector.isMobile()) {
+                            Share.share("appollo.io/invite?id=${state.preSale.uuid}",
+                                subject: 'Appollo Event Invitation');
+                          } else {
+                            FlutterClipboard.copy("appollo.io/invite?id=${state.preSale.uuid}");
+                          }
                         },
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: AutoSizeText(
-                            "appollo.io/invite?id=${1}",
+                            "appollo.io/invite?id=${state.preSale.uuid}",
                             style: MyTheme.lightTextTheme.bodyText2,
                           ),
                         ),
-                      ).paddingBottom(MyTheme.elementSpacing),
+                      ).paddingBottom(MyTheme.elementSpacing * 2),
                       AutoSizeText("Prize Pool",
                               style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloOrange))
                           .paddingBottom(MyTheme.elementSpacing),

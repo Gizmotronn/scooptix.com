@@ -13,4 +13,8 @@ class StateNotLoggedIn extends PreSaleState {}
 
 class StateNotRegistered extends PreSaleState {}
 
-class StateRegistered extends PreSaleState {}
+class StateRegistered extends PreSaleState {
+  final PreSaleRegistration preSale;
+
+  const StateRegistered(this.preSale);
+}

@@ -1,4 +1,4 @@
-import 'package:ticketapp/model/pre_sale.dart';
+import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 
 import 'birthday_lists/birthday_event_data.dart';
 import 'release_manager.dart';

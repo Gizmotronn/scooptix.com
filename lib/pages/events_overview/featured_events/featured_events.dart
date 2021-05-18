@@ -39,7 +39,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
             ],
           );
         } else {
-          return FeaturedEventsMobile(events:events);
+          return FeaturedEventsMobile(events: events);
         }
       },
     );

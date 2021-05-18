@@ -185,7 +185,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
         height: featureEventCardHeight / 4,
         child: ExpandImageCard(
           imageUrl: events[index].coverImageURL,
-      ).paddingAll(2.5),
+        ).paddingAll(2.5),
       ),
     );
   }

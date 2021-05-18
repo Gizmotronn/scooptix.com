@@ -37,39 +37,66 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
     Size screenSize = MediaQuery.of(context).size;
     return Container(
       height: 50,
-      width: screenSize.width,
-      child: Container(
-        width: getValueForScreenType(
-            context: context,
-            desktop: screenSize.width * 0.8,
-            tablet: screenSize.width * 0.8,
-            mobile: screenSize.width,
-            watch: screenSize.width),
-        child: Center(
-          child: ListView.builder(
-            shrinkWrap: true,
-            padding: EdgeInsets.only(left: MyTheme.elementSpacing),
-            scrollDirection: Axis.horizontal,
-            itemCount: _menu.length,
-            itemBuilder: (context, index) => NavbarButton(
-                    title: _menu[index].title,
-                    onTap: () {
-                      for (var i = 0; i < _menu.length; i++) {
-                        setState(() {
-                          _menu[i].isTap = false;
-                        });
-                      }
+      child: ResponsiveBuilder(
+        builder: (c, size) {
+          if (size.isDesktop || size.isTablet) {
+            return Center(
+              child: SizedBox(
+                width: screenSize.width * 0.8 - MyTheme.elementSpacing * 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                      _menu.length,
+                      (index) => NavbarButton(
+                          title: _menu[index].title,
+                          onTap: () {
+                            for (var i = 0; i < _menu.length; i++) {
+                              setState(() {
+                                _menu[i].isTap = false;
+                              });
+                            }
 
-                      setState(() {
-                        _menu[index].isTap = true;
-                      });
+                            setState(() {
+                              _menu[index].isTap = true;
+                            });
 
-                      widget.bloc.add(TabberNavEvent(index: index, title: _menu[index].title));
-                    },
-                    isTap: _menu[index].isTap)
-                .paddingRight(MyTheme.elementSpacing),
-          ),
-        ),
+                            widget.bloc.add(TabberNavEvent(index: index, title: _menu[index].title));
+                          },
+                          isTap: _menu[index].isTap)),
+                ),
+              ),
+            );
+          } else {
+            return Container(
+              width: screenSize.width,
+              child: Center(
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.only(left: MyTheme.elementSpacing),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _menu.length,
+                  itemBuilder: (context, index) => NavbarButton(
+                          title: _menu[index].title,
+                          onTap: () {
+                            for (var i = 0; i < _menu.length; i++) {
+                              setState(() {
+                                _menu[i].isTap = false;
+                              });
+                            }
+
+                            setState(() {
+                              _menu[index].isTap = true;
+                            });
+
+                            widget.bloc.add(TabberNavEvent(index: index, title: _menu[index].title));
+                          },
+                          isTap: _menu[index].isTap)
+                      .paddingRight(MyTheme.elementSpacing),
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }

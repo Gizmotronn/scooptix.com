@@ -5,7 +5,7 @@ import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/mobile/event_info.dart';
 import 'package:ticketapp/pages/event_details/sections/event_description.dart';
 import 'package:ticketapp/pages/event_details/sections/event_gallery.dart';
-import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_registration.dart';
+import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_registration_page.dart';
 import 'package:ticketapp/pages/event_details/sections/similar_other_events.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import '../../../UI/theme.dart';
@@ -38,7 +38,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
         children: [
           _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
           EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
-          PreSaleRegistration(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
+          PreSaleRegistrationPage(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
           EventTicketsMobile(
             event: widget.event,
             scrollController: widget.scrollController,

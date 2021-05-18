@@ -6,7 +6,8 @@ class ExpandImageCard extends StatelessWidget {
 
   const ExpandImageCard({
     Key key,
-    @required this.imageUrl, this.borderRadius,
+    @required this.imageUrl,
+    this.borderRadius,
   }) : super(key: key);
 
   final String imageUrl;
@@ -17,7 +18,7 @@ class ExpandImageCard extends StatelessWidget {
         ? Container()
         : Container(
             decoration: BoxDecoration(
-                borderRadius:borderRadius?? BorderRadius.circular(8),
+                borderRadius: borderRadius ?? BorderRadius.circular(8),
                 image: DecorationImage(fit: BoxFit.cover, image: ExtendedImage.network(imageUrl).image)),
           );
   }

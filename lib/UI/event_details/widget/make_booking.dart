@@ -222,6 +222,7 @@ class MakeBooking extends StatelessWidget {
                                   .paddingBottom(MyTheme.elementSpacing),
                             ),
                             AppolloButton.regularButton(
+                              width: 400,
                               color: MyTheme.appolloGreen,
                               child: AutoSizeText(
                                 'CREATE BIRTHDAY LIST',

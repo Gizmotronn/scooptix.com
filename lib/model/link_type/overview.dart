@@ -3,8 +3,8 @@ import 'package:ticketapp/model/link_type/link_type.dart';
 
 class OverviewLinkType extends LinkType {
   OverviewLinkType();
-  @override
-  String toString() {
+
+  static String toDBString() {
     return "overview";
   }
 }

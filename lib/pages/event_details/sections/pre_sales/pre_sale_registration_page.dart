@@ -15,15 +15,15 @@ import '../../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../../UI/widgets/cards/level_card.dart';
 import '../../../../utilities/svg/icon.dart';
 
-class PreSaleRegistration extends StatefulWidget {
+class PreSaleRegistrationPage extends StatefulWidget {
   final Event event;
-  const PreSaleRegistration({Key key, this.event}) : super(key: key);
+  const PreSaleRegistrationPage({Key key, this.event}) : super(key: key);
 
   @override
-  _PreSaleRegistrationState createState() => _PreSaleRegistrationState();
+  _PreSaleRegistrationPageState createState() => _PreSaleRegistrationPageState();
 }
 
-class _PreSaleRegistrationState extends State<PreSaleRegistration> {
+class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   PreSaleBloc bloc;
 
   @override
@@ -118,6 +118,7 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
                       if (state is StateNotLoggedIn) {
                         WrapperPage.endDrawer.value = AuthenticationDrawer(
                           onAutoAuthenticated: () {
+                            bloc.add(EventRegister(widget.event));
                             WrapperPage.endDrawer.value = PreSaleDrawer(
                               bloc: bloc,
                             );
@@ -152,6 +153,7 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
                       if (state is StateNotLoggedIn) {
                         WrapperPage.endDrawer.value = AuthenticationDrawer(
                           onAutoAuthenticated: () {
+                            bloc.add(EventRegister(widget.event));
                             WrapperPage.endDrawer.value = PreSaleDrawer(
                               bloc: bloc,
                             );
@@ -169,10 +171,10 @@ class _PreSaleRegistrationState extends State<PreSaleRegistration> {
                     },
                     color: MyTheme.appolloGreen,
                   ),
-        //_subtitle(context, 'Pre-Sale Perks').paddingTop(32).paddingBottom(60),
-        // _buildLevel(context).paddingHorizontal(32).paddingBottom(32),
-        //_subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(60),
-        // _buildTrophy(context).paddingHorizontal(32).paddingBottom(32),
+        _subtitle(context, 'Pre-Sale Perks').paddingTop(32).paddingBottom(60),
+        _buildLevel(context).paddingHorizontal(32).paddingBottom(32),
+        _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(60),
+        _buildTrophy(context).paddingHorizontal(32).paddingBottom(32),
         AppolloDivider().paddingTop(32),
       ],
     );

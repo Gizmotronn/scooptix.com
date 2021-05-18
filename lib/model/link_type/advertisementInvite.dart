@@ -4,8 +4,7 @@ class AdvertisementLink extends LinkType {
   String organizerId;
   String advertisementId;
 
-  @override
-  String toString() {
+  static String toDBString() {
     return "advertisement";
   }
 }

@@ -188,7 +188,6 @@ class EventCardDesktop extends StatelessWidget {
                     deactiveColorText: MyTheme.appolloBackgroundColor,
                     activeColorText: MyTheme.appolloWhite,
                     onTap: () {
-                      // NavigationService.navigateTo(EventDetail.routeName);
                       NavigationService.navigateTo(EventDetailPage.routeName,
                           arg: event.docID, queryParams: {'id': event.docID});
                     },

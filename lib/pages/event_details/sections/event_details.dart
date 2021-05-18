@@ -7,7 +7,7 @@ import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
-import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_registration.dart';
+import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_registration_page.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import '../../../UI/theme.dart';
@@ -17,6 +17,7 @@ import 'detail_with_button.dart';
 import '../../../UI/event_details/widget/make_booking.dart';
 import 'event_description.dart';
 import 'event_gallery.dart';
+import 'event_nav_bar.dart';
 import 'event_tickets.dart';
 import 'similar_other_events.dart';
 
@@ -131,14 +132,45 @@ class _EventDataState extends State<EventData> {
     });
   }
 
+  Widget _buildNavBar(Event event) {
+    if (event.preSaleEnabled &&
+        event.preSale.registrationStartDate.isBefore(DateTime.now()) &&
+        event.preSale.registrationEndDate.isAfter(DateTime.now())) {
+      return EventDetailNavbar(
+        imageURL: event.coverImageURL,
+        mainText: "Register for Pre-Sale",
+        buttonText: "Register",
+        scrollController: widget.scrollController,
+        offset: positions[2] - 90,
+      );
+    } else {
+      return EventDetailNavbar(
+        imageURL: event.coverImageURL,
+        mainText: widget.event.name,
+        buttonText: "Get Tickets",
+        scrollController: widget.scrollController,
+        offset: positions[3] - 90,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return Column(
+    return Stack(
       children: [
-        _eventImageDays(context, screenSize),
-        _mainBody(context, screenSize).paddingBottom(MyTheme.elementSpacing * 2),
-        SimilarOtherEvents(event: widget.event).paddingBottom(80),
+        SingleChildScrollView(
+          controller: widget.scrollController,
+          padding: EdgeInsets.symmetric(horizontal: (MediaQuery.of(context).size.width - MyTheme.maxWidth) / 2),
+          child: Column(
+            children: [
+              _eventImageDays(context, screenSize),
+              _mainBody(context, screenSize).paddingBottom(MyTheme.elementSpacing * 2),
+              SimilarOtherEvents(event: widget.event).paddingBottom(80),
+            ],
+          ),
+        ),
+        Positioned(bottom: 0, left: 0, right: 0, child: _buildNavBar(widget.event)),
       ],
     );
   }
@@ -160,7 +192,7 @@ class _EventDataState extends State<EventData> {
           if (positions.containsKey(2))
             BoxOffset(
               boxOffset: (offset) => setState(() => positions[2] = offset.dy),
-              child: PreSaleRegistration(event: widget.event),
+              child: PreSaleRegistrationPage(event: widget.event),
             ),
           if (positions.containsKey(3))
             BoxOffset(

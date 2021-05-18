@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
 
@@ -29,7 +30,7 @@ class EventGallary extends StatelessWidget {
               itemCount: event.images.length,
               padding: EdgeInsets.zero,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: getValueForScreenType(context: context, watch: 2, mobile: 2, tablet: 4, desktop: 4),
                 mainAxisSpacing: MyTheme.elementSpacing,
                 crossAxisSpacing: MyTheme.elementSpacing,
               ),

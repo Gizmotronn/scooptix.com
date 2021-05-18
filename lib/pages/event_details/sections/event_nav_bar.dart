@@ -8,10 +8,18 @@ import '../../../model/event.dart';
 class EventDetailNavbar extends StatelessWidget {
   const EventDetailNavbar({
     Key key,
-    @required this.event,
+    this.imageURL,
+    this.mainText,
+    this.buttonText,
+    this.scrollController,
+    this.offset,
   }) : super(key: key);
 
-  final Event event;
+  final String imageURL;
+  final String mainText;
+  final String buttonText;
+  final ScrollController scrollController;
+  final double offset;
   final double bottomBarHeight = 48.0;
 
   @override
@@ -33,8 +41,7 @@ class EventDetailNavbar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5),
                       image: DecorationImage(
                         image: ExtendedImage.network(
-                          event.coverImageURL ??
-                              'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
+                          imageURL ?? '',
                           cache: true,
                         ).image,
                         fit: BoxFit.cover,
@@ -42,7 +49,7 @@ class EventDetailNavbar extends StatelessWidget {
                     ),
                   ).paddingRight(16),
                   AutoSizeText(
-                    event.name,
+                    mainText,
                     style: Theme.of(context)
                         .textTheme
                         .headline6
@@ -51,13 +58,15 @@ class EventDetailNavbar extends StatelessWidget {
                 ],
               ).paddingLeft(8).paddingVertical(8),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  scrollController.animateTo(offset, duration: MyTheme.animationDuration, curve: Curves.easeOut);
+                },
                 child: Container(
                   height: bottomBarHeight,
                   decoration: BoxDecoration(
                       color: MyTheme.appolloGreen, borderRadius: BorderRadius.only(topRight: Radius.circular(5))),
                   child: Center(
-                    child: Text('Get Tickets',
+                    child: Text(buttonText,
                             style: Theme.of(context)
                                 .textTheme
                                 .button

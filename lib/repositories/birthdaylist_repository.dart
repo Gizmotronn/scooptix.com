@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ticketapp/services/uuid_generator.dart';
 
 enum BirthdayListStatus { Pending, Declined, Accepted }
 
@@ -55,7 +54,7 @@ class BirthdayListRepository {
     if (uuidSnapshot.docs.length != 0) {
       return uuidSnapshot.docs[0].data()["uuid"];
     } else {
-      String uuid = await createNewUUID();
+      String uuid = await UUIDGenerator.createNewUUID();
       await FirebaseFirestore.instance.collection("uuidmap").add({
         'uuid': uuid,
         'type': "birthdaylist",
@@ -68,22 +67,6 @@ class BirthdayListRepository {
       });
       return uuid;
     }
-  }
-
-  Future<String> createNewUUID() async {
-    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random();
-    bool uuidFound = false;
-    while (!uuidFound) {
-      String uuid = String.fromCharCodes(Iterable.generate(6, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
-      QuerySnapshot uuidmapSnapshot =
-          await FirebaseFirestore.instance.collection("uuidmap").where("uuid", isEqualTo: uuid).get();
-      if (uuidmapSnapshot.size == 0) {
-        uuidFound = true;
-        return uuid;
-      }
-    }
-    return "";
   }
 
   Future<BirthdayList> loadExistingList(String eventId) async {
