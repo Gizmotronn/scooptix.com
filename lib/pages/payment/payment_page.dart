@@ -234,10 +234,39 @@ class _PaymentPageState extends State<PaymentPage> {
   double _calculateDiscount() {
     if (widget.discount == null) {
       return 0.0;
-    } else if (widget.discount.type == DiscountType.value) {
-      return widget.discount.amount.toDouble() * totalTicketQuantity / 100;
+    }
+    if (widget.discount.appliesToReleases.isEmpty) {
+      if (widget.discount.type == DiscountType.value) {
+        return widget.discount.amount.toDouble() * totalTicketQuantity / 100;
+      } else {
+        return subtotal * widget.discount.amount / 100 / 100;
+      }
     } else {
-      return subtotal * widget.discount.amount / 100 / 100;
+      double disc = 0.0;
+      widget.selectedTickets.forEach((key, value) {
+        if (widget.discount.appliesToReleases.contains(key.docId)) {
+          if (widget.discount.type == DiscountType.value) {
+            disc += widget.discount.amount.toDouble() * value / 100;
+          } else {
+            disc += (widget.discount.amount / 100 * key.price) * value;
+          }
+        }
+      });
+      return disc;
+    }
+  }
+
+  int _discountAppliesTo() {
+    if (widget.discount.appliesToReleases.isEmpty) {
+      return totalTicketQuantity;
+    } else {
+      int counter = 0;
+      widget.selectedTickets.forEach((key, value) {
+        if (widget.discount.appliesToReleases.contains(key.docId)) {
+          counter++;
+        }
+      });
+      return counter;
     }
   }
 
@@ -341,7 +370,7 @@ class _PaymentPageState extends State<PaymentPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${widget.discount.type == DiscountType.value ? "\$" + (widget.discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : widget.discount.amount.toString() + "%"})",
+                  "Discount (${widget.discount.type == DiscountType.value ? "\$" + (widget.discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : widget.discount.amount.toString() + "%"})",
                   style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text("-\$${_calculateDiscount().toStringAsFixed(2)}",

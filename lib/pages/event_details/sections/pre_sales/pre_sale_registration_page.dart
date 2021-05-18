@@ -220,44 +220,20 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   }
 
   Widget _buildLevel(BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return LevalCard(
-          icon: AppolloSvgIcon.level1,
-          children: [
-            AutoSizeText('Level ${index.toString()}',
-                    style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                .paddingBottom(4),
-            AutoSizeText('10 Referrals',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                .paddingBottom(8),
-            AutoSizeText("""Free drink on arrival*
-1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                .paddingBottom(8),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildTrophy(BuildContext context) {
-    return ListView.builder(
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemCount: 3,
         itemBuilder: (context, index) {
           return LevalCard(
-            icon: AppolloSvgIcon.trophy1,
+            icon: AppolloSvgIcon.level1,
             children: [
-              AutoSizeText('${index.toString()}. Place',
+              AutoSizeText('Level ${index.toString()}',
                       style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
                   .paddingBottom(4),
-              AutoSizeText('Leaderboard',
+              AutoSizeText('10 Referrals',
                       style: Theme.of(context)
                           .textTheme
                           .subtitle1
@@ -268,7 +244,39 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
 +2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
                   .paddingBottom(8),
             ],
-          );
-        });
+          ).paddingRight(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing / 2);
+        },
+      ),
+    );
+  }
+
+  Widget _buildTrophy(BuildContext context) {
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            return LevalCard(
+              icon: AppolloSvgIcon.trophy1,
+              children: [
+                AutoSizeText('${(index + 1).toString()}. Place',
+                        style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
+                    .paddingBottom(4),
+                AutoSizeText('Leaderboard',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle1
+                            .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
+                    .paddingBottom(8),
+                AutoSizeText("""Free drink on arrival*
+1 x 25% Discounted ticket
++2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
+                    .paddingBottom(8),
+              ],
+            ).paddingRight(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing / 2);
+          }),
+    );
   }
 }

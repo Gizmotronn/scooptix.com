@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import '../../../UI/theme.dart';
@@ -76,6 +77,8 @@ class EventInfo extends StatelessWidget {
                     MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
               ).paddingBottom(MyTheme.cardPadding),
               IconText(text: event.address ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
+              IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)
+                  .paddingBottom(8),
               IconText(text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}', icon: AppolloSvgIcon.clock)
                   .paddingBottom(8),
               IconText(

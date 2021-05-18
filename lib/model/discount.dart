@@ -7,6 +7,7 @@ class Discount {
   int maxUses;
   int timesUsed;
   String code;
+  List<String> appliesToReleases = [];
 
   Discount._();
 
@@ -34,8 +35,15 @@ class Discount {
       discount.timesUsed = data["times_used"];
       discount.code = data["code"];
 
+      if (data.containsKey("applies_to_releases")) {
+        print("app");
+        discount.appliesToReleases = (data["applies_to_releases"] as List<dynamic>).cast<String>();
+        print("app done");
+      }
+
       return discount;
-    } catch (_) {
+    } catch (e) {
+      print(e);
       return null;
     }
   }

@@ -78,7 +78,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                 color: MyTheme.appolloRed,
               ),
             ),
-          ).paddingTop(16).paddingRight(16).paddingTop(8),
+          ).paddingRight(16).paddingTop(8),
           SingleChildScrollView(
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),

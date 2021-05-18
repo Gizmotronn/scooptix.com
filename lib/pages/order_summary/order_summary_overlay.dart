@@ -128,7 +128,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : discount.amount.toString() + "%"})",
+                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount.amount.toString() + "%"})",
                   style: MyTheme.lightTextTheme.bodyText2,
                 ),
                 SizedBox(
@@ -205,10 +205,39 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
   double _calculateDiscount() {
     if (discount == null) {
       return 0.0;
-    } else if (discount.type == DiscountType.value) {
-      return discount.amount.toDouble() * totalTicketQuantity / 100;
+    }
+    if (discount.appliesToReleases.isEmpty) {
+      if (discount.type == DiscountType.value) {
+        return discount.amount.toDouble() * totalTicketQuantity / 100;
+      } else {
+        return subtotal * discount.amount / 100 / 100;
+      }
     } else {
-      return subtotal * discount.amount / 100 / 100;
+      double disc = 0.0;
+      widget.selectedTickets.forEach((key, value) {
+        if (discount.appliesToReleases.contains(key.docId)) {
+          if (discount.type == DiscountType.value) {
+            disc += discount.amount.toDouble() * value / 100;
+          } else {
+            disc += (discount.amount / 100 * key.price) * value;
+          }
+        }
+      });
+      return disc;
+    }
+  }
+
+  int _discountAppliesTo() {
+    if (discount.appliesToReleases.isEmpty) {
+      return totalTicketQuantity;
+    } else {
+      int counter = 0;
+      widget.selectedTickets.forEach((key, value) {
+        if (discount.appliesToReleases.contains(key.docId)) {
+          counter++;
+        }
+      });
+      return counter;
     }
   }
 
