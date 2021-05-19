@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/pages/my_ticktes/ticket_event_page.dart';
+import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
 class MyTicketCard extends StatelessWidget {
@@ -16,7 +17,13 @@ class MyTicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (c) => TicketEventPage()));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (c) => TicketEventPage(
+                      ticket: ticket,
+                      isTicketPass: isPastTicket,
+                    )));
       },
       child: Row(
         children: [
@@ -33,8 +40,7 @@ class MyTicketCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            // fullDate(tickets[index].event.date) ?? '',
-                            'Date me her',
+                            fullDate(ticket.event.date) ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 2,
                             style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
@@ -43,8 +49,7 @@ class MyTicketCard extends StatelessWidget {
                       ],
                     ),
                     AutoSizeText(
-                      // tickets[index].event.name ?? '',
-                      'Pauls Event',
+                      ticket.event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       overflow: TextOverflow.clip,
@@ -55,8 +60,7 @@ class MyTicketCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            // tickets[index].event.address ?? '',
-                            'Port Harcout Nnigetia',
+                            ticket.event.address ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 2,
                             style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloWhite),
@@ -75,7 +79,7 @@ class MyTicketCard extends StatelessWidget {
               height: MediaQuery.of(context).size.width / 1.9 / 2,
               color: isPastTicket ? MyTheme.appolloRed : MyTheme.appolloGreen,
               width: MediaQuery.of(context).size.width * 0.25,
-              child: _checkTicket().paddingAll(8),
+              child: _checkTicket(isPastTicket).paddingAll(8),
             ).paddingLeft(2.5),
           ),
         ],
@@ -83,9 +87,14 @@ class MyTicketCard extends StatelessWidget {
     );
   }
 
-  Widget _checkTicket() {
-    //Check for different tickerss
-    return _qrCard('Admit One', 'View Event');
+  Widget _checkTicket(bool isPassTicket) {
+    if (isPastTicket && !ticket.isAttended) {
+      return _qrCard('Did Not Attend', 'Expired Event');
+    }
+    if (isPastTicket && ticket.isAttended) {
+      return _qrCard('Attended', 'Expired Event');
+    }
+    return _qrCard("Admit One", 'View Event');
   }
 
   Widget _qrCard(String title, String subTitle) {
@@ -93,14 +102,14 @@ class MyTicketCard extends StatelessWidget {
       children: [
         Text(
           title,
-          style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.lightTextTheme.caption.copyWith(color: MyTheme.appolloWhite),
         ),
         Expanded(
           child: SvgPicture.asset(AppolloSvgIcon.qrScan).paddingAll(4),
         ),
         Text(
           subTitle,
-          style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
+          style: MyTheme.lightTextTheme.caption.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
         ),
       ],
     );

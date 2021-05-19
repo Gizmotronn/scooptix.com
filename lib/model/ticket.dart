@@ -6,4 +6,5 @@ class Ticket {
   Event event;
   DateTime dateIssued;
   TicketRelease release;
+  bool isAttended = false;
 }

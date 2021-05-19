@@ -6,8 +6,8 @@ import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
 class TicketEventPage extends StatelessWidget {
   final Ticket ticket;
-
-  const TicketEventPage({Key key, this.ticket}) : super(key: key);
+  final bool isTicketPass;
+  const TicketEventPage({Key key, this.ticket, this.isTicketPass}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -53,7 +53,7 @@ class TicketEventPage extends StatelessWidget {
             width: size.width,
             child: Center(
                 child: Text(
-              '${ticket.release.name}',
+              '${ticket.release.ticketName}',
               style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white),
             )),
           ),
@@ -64,10 +64,11 @@ class TicketEventPage extends StatelessWidget {
           Container(
             height: 40,
             width: size.width,
-            color: MyTheme.appolloGreen,
+            color:
+                !isTicketPass ? MyTheme.appolloGreen : (ticket.isAttended ? MyTheme.appolloGreen : MyTheme.appolloRed),
             child: Center(
                 child: Text(
-              'Admit One',
+              !isTicketPass ? "Admit One" : (ticket.isAttended ? 'Attended' : 'Did Not Attend'),
               style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white),
             )),
           ),
@@ -104,7 +105,7 @@ class TicketEventPage extends StatelessWidget {
             '${ticket.event.name}',
             style: Theme.of(context)
                 .textTheme
-                .subtitle2
+                .bodyText1
                 .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500),
           ),
         ],
@@ -123,7 +124,7 @@ class TicketEventPage extends StatelessWidget {
             '${ticket.event.address}',
             style: Theme.of(context)
                 .textTheme
-                .subtitle2
+                .bodyText1
                 .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500),
           ),
         ],
@@ -134,7 +135,6 @@ class TicketEventPage extends StatelessWidget {
   Widget _qrCode(Size size) {
     return Container(
       height: size.height * 0.30,
-      width: size.width * 0.50,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: SizedBox(
         child: QrImage(
