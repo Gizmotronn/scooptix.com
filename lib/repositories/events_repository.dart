@@ -23,7 +23,7 @@ class EventsRepository {
     _instance = null;
   }
 
-  List<Event> events = <Event>[];
+  List<Event> events = [];
 
   Future<Event> loadEventById(String id) async {
     try {
@@ -53,6 +53,7 @@ class EventsRepository {
       event.releaseManagers.add(rm);
     }));
 
+    events.add(event);
     return event;
   }
 

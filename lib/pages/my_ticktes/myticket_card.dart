@@ -10,19 +10,21 @@ import 'package:ticketapp/utilities/svg/icon.dart';
 class MyTicketCard extends StatelessWidget {
   final Ticket ticket;
   final bool isPastTicket;
+  final BuildContext sheetContext;
 
-  const MyTicketCard({Key key, @required this.ticket, this.isPastTicket = false}) : super(key: key);
+  const MyTicketCard({Key key, @required this.ticket, this.isPastTicket = false, this.sheetContext}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.push(
-            context,
+            sheetContext,
             MaterialPageRoute(
                 builder: (c) => TicketEventPage(
                       ticket: ticket,
                       isTicketPass: isPastTicket,
+                      parentContext: context,
                     )));
       },
       child: Row(
@@ -88,10 +90,10 @@ class MyTicketCard extends StatelessWidget {
   }
 
   Widget _checkTicket(bool isPassTicket) {
-    if (isPastTicket && !ticket.isAttended) {
+    if (isPastTicket && !ticket.wasUsed) {
       return _qrCard('Did Not Attend', 'Expired Event');
     }
-    if (isPastTicket && ticket.isAttended) {
+    if (isPastTicket && ticket.wasUsed) {
       return _qrCard('Attended', 'Expired Event');
     }
     return _qrCard("Admit One", 'View Event');

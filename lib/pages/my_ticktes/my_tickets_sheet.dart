@@ -105,53 +105,48 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
               ),
             ),
           ),
-          body: Tickets(bloc: bloc),
+          body: BlocBuilder<MyTicketsBloc, MyTicketsState>(
+            cubit: bloc,
+            builder: (context, state) {
+              if (state is StateTicketOverview) {
+                return state.tickets.isEmpty
+                    ? _noTicket(context)
+                    : SingleChildScrollView(
+                        child: Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _headerText('Tickets', color: MyTheme.appolloGreen)
+                                  .paddingBottom(MyTheme.cardPadding)
+                                  .paddingTop(MyTheme.elementSpacing),
+                              _tickets(sheetContext,
+                                  tickets: state.tickets
+                                      .where(
+                                          (ticket) => ticket.event.date.isAfter(DateTime.now().add(Duration(hours: 8))))
+                                      .toList(),
+                                  isPastTicket: false),
+                              _headerText('Past Event Tickets', color: MyTheme.appolloOrange)
+                                  .paddingBottom(MyTheme.cardPadding),
+                              _tickets(sheetContext,
+                                  tickets: state.tickets
+                                      .where((ticket) =>
+                                          ticket.event.date.isBefore(DateTime.now().add(Duration(hours: 8))))
+                                      .toList(),
+                                  isPastTicket: true),
+                            ],
+                          ).paddingHorizontal(MyTheme.elementSpacing),
+                        ),
+                      );
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
         );
       });
     });
-  }
-}
-
-class Tickets extends StatelessWidget {
-  final MyTicketsBloc bloc;
-
-  const Tickets({Key key, this.bloc}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<MyTicketsBloc, MyTicketsState>(
-      cubit: bloc,
-      builder: (context, state) {
-        if (state is StateTicketOverview) {
-          return state.tickets.isEmpty
-              ? _noTicket(context)
-              : SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _headerText('Tickets', color: MyTheme.appolloGreen)
-                            .paddingBottom(MyTheme.cardPadding)
-                            .paddingTop(16),
-                        _tickets(context,
-                            tickets: state.tickets
-                                .where((ticket) => ticket.event.date.isBefore(DateTime.now().add(Duration(days: 14))))
-                                .toList(),
-                            isPastTicket: false),
-                        _headerText('Past Event Tickets', color: MyTheme.appolloOrange)
-                            .paddingBottom(MyTheme.cardPadding),
-                        _tickets(context,
-                            tickets: state.tickets
-                                .where((ticket) => ticket.event.date.isAfter(DateTime.now().add(Duration(days: 14))))
-                                .toList(),
-                            isPastTicket: true),
-                      ],
-                    ).paddingHorizontal(16),
-                  ),
-                );
-        }
-        return Container();
-      },
-    );
   }
 
   Widget _headerText(String text, {Color color}) {
@@ -159,14 +154,15 @@ class Tickets extends StatelessWidget {
         style: MyTheme.lightTextTheme.headline4.copyWith(color: color, fontWeight: FontWeight.w600));
   }
 
-  Widget _tickets(BuildContext context, {List<Ticket> tickets, bool isPastTicket}) => Column(
-        children: List.generate(
-          tickets.length,
-          (index) => MyTicketCard(
-            ticket: tickets[index],
-            isPastTicket: isPastTicket,
-          ).paddingBottom(16),
-        ),
+  Widget _tickets(BuildContext sheetContext, {List<Ticket> tickets, bool isPastTicket}) => ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: tickets.length,
+        itemBuilder: (c, index) => MyTicketCard(
+          sheetContext: sheetContext,
+          ticket: tickets[index],
+          isPastTicket: isPastTicket,
+        ).paddingBottom(MyTheme.elementSpacing),
       );
 
   Widget _noTicket(BuildContext context) => Column(
@@ -178,10 +174,7 @@ class Tickets extends StatelessWidget {
             children: [
               _headerText('Tickets', color: MyTheme.appolloGreen).paddingBottom(MyTheme.cardPadding).paddingTop(16),
               AutoSizeText(
-                """You do not currently have a ticket to an event.
-
-Once you purchase a ticket it will be displayed here so its always easy to find.
-              """,
+                "You do not currently have a ticket to an event.\n\nOnce you purchase a ticket it will be displayed here so it's always easy to find.",
                 style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w300),
               ),
             ],
@@ -191,8 +184,8 @@ Once you purchase a ticket it will be displayed here so its always easy to find.
               child: SvgPicture.asset(
                 AppolloSvgIcon.tickets,
                 width: MediaQuery.of(context).size.height * 0.3,
-              )).paddingAll(16),
+              )).paddingAll(MyTheme.elementSpacing),
           SizedBox.shrink(),
         ],
-      ).paddingHorizontal(16);
+      ).paddingHorizontal(MyTheme.elementSpacing);
 }

@@ -7,7 +7,8 @@ import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 class TicketEventPage extends StatelessWidget {
   final Ticket ticket;
   final bool isTicketPass;
-  const TicketEventPage({Key key, this.ticket, this.isTicketPass}) : super(key: key);
+  final BuildContext parentContext;
+  const TicketEventPage({Key key, this.ticket, this.isTicketPass, this.parentContext}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -15,10 +16,10 @@ class TicketEventPage extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyTheme.appolloCardColorLight,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: InkWell(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pop(parentContext);
           },
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -47,28 +48,31 @@ class TicketEventPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            height: 40,
-            color: MyTheme.appolloGreen,
-            width: size.width,
-            child: Center(
-                child: Text(
-              '${ticket.release.ticketName}',
-              style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white),
-            )),
+          Column(
+            children: [
+              Container(
+                height: 50,
+                color: MyTheme.appolloGreen,
+                width: size.width,
+                child: Center(
+                    child: Text(
+                  '${ticket.release.ticketName}',
+                  style: MyTheme.lightTextTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                )),
+              ).paddingBottom(MyTheme.elementSpacing),
+              _eventDate().paddingBottom(MyTheme.elementSpacing),
+              _eventName(context).paddingBottom(MyTheme.elementSpacing),
+              _whereEvent(context).paddingBottom(MyTheme.elementSpacing),
+            ],
           ),
-          _eventDate(),
-          _eventName(context),
-          _whereEvent(context),
-          _qrCode(size),
+          _qrCode(size).paddingBottom(MyTheme.elementSpacing),
           Container(
             height: 40,
             width: size.width,
-            color:
-                !isTicketPass ? MyTheme.appolloGreen : (ticket.isAttended ? MyTheme.appolloGreen : MyTheme.appolloRed),
+            color: !isTicketPass ? MyTheme.appolloGreen : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
             child: Center(
                 child: Text(
-              !isTicketPass ? "Admit One" : (ticket.isAttended ? 'Attended' : 'Did Not Attend'),
+              !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
               style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white),
             )),
           ),
@@ -91,7 +95,7 @@ class TicketEventPage extends StatelessWidget {
           "${time(ticket.event.date) + ' - ' + time(ticket.event.endTime)}\n${date(ticket.event.date)}",
         )
       ],
-    ).paddingHorizontal(16);
+    ).paddingHorizontal(MyTheme.elementSpacing);
   }
 
   Widget _eventName(BuildContext context) {
@@ -103,13 +107,10 @@ class TicketEventPage extends StatelessWidget {
           _header(context, title: 'Event'),
           Text(
             '${ticket.event.name}',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500),
+            style: MyTheme.lightTextTheme.bodyText1,
           ),
         ],
-      ).paddingHorizontal(16),
+      ).paddingHorizontal(MyTheme.elementSpacing),
     );
   }
 
@@ -120,15 +121,9 @@ class TicketEventPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _header(context, title: 'Where'),
-          Text(
-            '${ticket.event.address}',
-            style: Theme.of(context)
-                .textTheme
-                .bodyText1
-                .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500),
-          ),
+          Text('${ticket.event.address}', style: MyTheme.lightTextTheme.bodyText1),
         ],
-      ).paddingHorizontal(16),
+      ).paddingHorizontal(MyTheme.elementSpacing),
     );
   }
 
@@ -143,7 +138,7 @@ class TicketEventPage extends StatelessWidget {
           version: QrVersions.auto,
         ),
       ).paddingAll(8),
-    ).paddingAll(16);
+    ).paddingAll(MyTheme.elementSpacing);
   }
 
   Widget _header(BuildContext context, {String title}) => Text(

@@ -2,9 +2,24 @@ import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 
 class Ticket {
+  Ticket();
   String docId;
   Event event;
   DateTime dateIssued;
   TicketRelease release;
-  bool isAttended = false;
+  bool wasUsed = false;
+
+  factory Ticket.fromMap(String id, Event event, TicketRelease release, Map<String, dynamic> data) {
+    Ticket ticket = Ticket();
+    ticket.docId = id;
+    ticket.event = event;
+    ticket.release = release;
+    if (data.containsKey("requesttime")) {
+      ticket.dateIssued = DateTime.fromMillisecondsSinceEpoch(data["requesttime"].millisecondsSinceEpoch);
+    }
+    if (data.containsKey("response")) {
+      ticket.wasUsed = data["response"] == "granted" ? true : false;
+    }
+    return ticket;
+  }
 }

@@ -66,11 +66,12 @@ class TicketRepository {
       ticketSnapshot.docs.forEach((ticketDoc) async {
         Ticket ticket;
         try {
-          ticket = Ticket()
-            ..event =
-                EventsRepository.instance.events.firstWhere((element) => element.docID == ticketDoc.data()["eventref"])
-            ..docId = ticketDoc.id
-            ..dateIssued = DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
+          ticket = Ticket.fromMap(
+              ticketDoc.id,
+              EventsRepository.instance.events.firstWhere((element) => element.docID == ticketDoc.data()["eventref"]),
+              null,
+              ticketDoc.data());
+
           if (ticket.event != null) {
             try {
               print("option 1");
@@ -90,6 +91,7 @@ class TicketRepository {
         } catch (e, s) {
           BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
           print(e);
+          print(s);
         }
       });
       return tickets;
@@ -115,10 +117,7 @@ class TicketRepository {
       ticketSnapshot.docs.forEach((ticketDoc) {
         Ticket ticket;
         try {
-          ticket = Ticket()
-            ..event = event
-            ..docId = ticketDoc.id
-            ..dateIssued = DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
+          ticket = Ticket.fromMap(ticketDoc.id, event, null, ticketDoc.data());
           try {
             print("option 1");
             ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
@@ -136,6 +135,7 @@ class TicketRepository {
         } catch (e, s) {
           BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
           print(e);
+          print(s);
         }
       });
       return tickets;
