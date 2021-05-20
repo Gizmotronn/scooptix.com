@@ -16,29 +16,34 @@ class LevalCard extends StatelessWidget {
     return SizedBox(
       height: 255,
       width: 250,
-      child: Container(
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Positioned(
-              top: -50,
-              left: 15,
-              right: 15,
-              child: SizedBox(
-                height: 250,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SvgPicture.asset(icon, height: iconSize ?? 90, width: iconSize ?? 90)
-                        .paddingBottom(MyTheme.cardPadding),
-                    Column(children: children),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ).paddingAll(MyTheme.cardPadding),
-      ).appolloTransparentCard(),
+      child: Stack(
+        children: [
+          Positioned(
+              top: 25,
+              left: 0,
+              right: 0,
+              height: 220,
+              child: Container(
+                height: 220,
+                width: 250,
+              ).appolloTransparentCard()),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            height: 90,
+            child: SvgPicture.asset(icon, height: iconSize ?? 90, width: iconSize ?? 90)
+                .paddingBottom(MyTheme.cardPadding),
+          ),
+          Positioned(
+              top: 95,
+              left: 0,
+              right: 0,
+              height: 160,
+              child: Container(
+                  width: 250, height: 160, child: Column(children: children).paddingAll(MyTheme.elementSpacing))),
+        ],
+      ),
     );
   }
 }

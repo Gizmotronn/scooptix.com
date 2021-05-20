@@ -171,11 +171,16 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     },
                     color: MyTheme.appolloGreen,
                   ),
-        _subtitle(context, 'Pre-Sale Perks').paddingTop(32).paddingBottom(60),
-        _buildLevel(context).paddingHorizontal(32).paddingBottom(32),
-        _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(60),
-        _buildTrophy(context).paddingHorizontal(32).paddingBottom(32),
-        AppolloDivider().paddingTop(32),
+        SizedBox(
+          height: MyTheme.elementSpacing * 2,
+        ),
+        _subtitle(context, 'Pre-Sale Perks')
+            .paddingTop(MyTheme.elementSpacing)
+            .paddingBottom(MyTheme.elementSpacing * 2),
+        _buildLevel(context).paddingBottom(MyTheme.elementSpacing),
+        _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(MyTheme.elementSpacing * 2),
+        _buildTrophy(context),
+        AppolloDivider(),
       ],
     );
   }

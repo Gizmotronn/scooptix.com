@@ -1,9 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <g id="Group_2114" data-name="Group 2114" transform="translate(-9158 22303.5)">
-    <g id="Path_4065" data-name="Path 4065" transform="translate(9155 -22306.5)" fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M27,15A12,12,0,1,1,15,3,12,12,0,0,1,27,15Z" stroke="none"/>
-      <path d="M 15 25 C 20.5140209197998 25 25 20.5140209197998 25 15 C 25 9.485980033874512 20.5140209197998 5 15 5 C 9.485980033874512 5 5 9.485980033874512 5 15 C 5 20.5140209197998 9.485980033874512 25 15 25 M 15 27 C 8.372579574584961 27 3 21.62742042541504 3 15 C 3 8.372579574584961 8.372579574584961 3 15 3 C 21.62742042541504 3 27 8.372579574584961 27 15 C 27 21.62742042541504 21.62742042541504 27 15 27 Z" stroke="none" fill="#fff"/>
-    </g>
-    <path id="Path_4066" data-name="Path 4066" d="M18,9v7.834l5.222,2.611" transform="translate(9152 -22307)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-  </g>
-</svg>
+<svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-3 -3)"><path d="m27 15a12 12 0 1 1 -12-12 12 12 0 0 1 12 12z"/><path d="m15 25c5.51402092 0 10-4.48597908 10-10 0-5.51401997-4.48597908-10-10-10-5.51401997 0-10 4.48598003-10 10 0 5.51402092 4.48598003 10 10 10m0 2c-6.62742043 0-12-5.37257957-12-12s5.37257957-12 12-12 12 5.37257957 12 12-5.37257957 12-12 12z" fill="#fff"/></g><path d="m18 9v7.834l5.222 2.611" stroke="#fff" stroke-width="2" transform="translate(-6 -3.5)"/></g></svg>

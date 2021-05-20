@@ -109,10 +109,13 @@ class _WrapperPageState extends State<WrapperPage> {
             }),
         body: Stack(
           children: [
-            Navigator(
-              key: WrapperPage.navigatorKey,
-              initialRoute: LandingPage.routeName,
-              onGenerateRoute: GeneratedRoute.onGenerateRoute,
+            WillPopScope(
+              onWillPop: () async => false,
+              child: Navigator(
+                key: WrapperPage.navigatorKey,
+                initialRoute: LandingPage.routeName,
+                onGenerateRoute: GeneratedRoute.onGenerateRoute,
+              ),
             ),
             WrapperPage.drawerOpen ? BlurBackground() : SizedBox(),
           ],
