@@ -38,7 +38,7 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
                 color: MyTheme.appolloRed,
               ),
             ),
-          ).paddingTop(16).paddingRight(16).paddingBottom(8),
+          ),
           SizedBox(
             height: screenSize.height - 58,
             child: AuthenticationPage(

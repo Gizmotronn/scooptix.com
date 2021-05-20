@@ -204,7 +204,6 @@ class MakeBooking extends StatelessWidget {
                           ],
                         ),
                         Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             /*Align(
                               alignment: Alignment.center,

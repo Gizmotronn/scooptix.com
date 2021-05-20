@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:js/js.dart';
-import 'package:ticketapp/src/interops/facebook_interop.dart' as fb;
+import 'file:///C:/Work/Appollo/ticketapp/ticket-app/lib/services/facebook_interop.dart' as fb;
 
 class MessagerShare {
   static Future<void> shareToMessager(String link, String msg) async {

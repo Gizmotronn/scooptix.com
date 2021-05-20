@@ -50,14 +50,11 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
     var removedEvent = events.removeAt(0);
 
     await _animationController.forward();
+
     setState(() {
       beginOffset = Offset(0, 0);
       endOffset = Offset(2, 0);
-    });
-    setState(() {
       heroEvent = removedEvent;
-    });
-    setState(() {
       events.add(removedEvent);
     });
     await _animationController.reverse();
@@ -68,12 +65,13 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
   }
 
   void _animatedCard() {
+    print("animated");
     if (_timer != null) {
       _timer.cancel();
     }
     _timer = Timer.periodic(Duration(seconds: 6), (timer) async {
       slideList();
-      if (visibilityPercentage < 30) {
+      if (visibilityPercentage <= 25) {
         _timer?.cancel();
         timer?.cancel();
       }
@@ -92,39 +90,44 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
         var visiblePercentage = info.visibleFraction * 100;
-        setState(() {
-          visibilityPercentage = visiblePercentage.toInt();
-        });
-        if (visibilityPercentage > 25) {
+
+        if (visiblePercentage.toInt() > 25 && visibilityPercentage <= 25) {
           _animatedCard();
+        }
+        if (visibilityPercentage != visiblePercentage.toInt()) {
+          setState(() {
+            visibilityPercentage = visiblePercentage.toInt();
+          });
         }
       },
       key: ValueKey('visible-key2'),
-      child: Container(
-        child: Column(children: [
-          const SizedBox(height: kToolbarHeight + 8),
-          heroEvent == null
-              ? SizedBox()
-              : SlideTransition(
-                  position: Tween<Offset>(begin: beginOffset, end: endOffset)
-                      .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AspectRatio(
-                          aspectRatio: 1.9,
-                          child: ExpandImageCard(
-                            imageUrl: heroEvent.coverImageURL,
-                            borderRadius: BorderRadius.zero,
-                          )).paddingBottom(16),
-                      heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent).paddingBottom(16),
-                    ],
+      child: Builder(builder: (context) {
+        return Container(
+          child: Column(children: [
+            const SizedBox(height: kToolbarHeight + 8),
+            heroEvent == null
+                ? SizedBox()
+                : SlideTransition(
+                    position: Tween<Offset>(begin: beginOffset, end: endOffset)
+                        .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AspectRatio(
+                            aspectRatio: 1.9,
+                            child: ExpandImageCard(
+                              imageUrl: heroEvent.coverImageURL,
+                              borderRadius: BorderRadius.zero,
+                            )).paddingBottom(16),
+                        heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent).paddingBottom(16),
+                      ],
+                    ),
                   ),
-                ),
-          _buildButton(),
-          SizedBox(height: 50, child: _inComingEvents(context)).paddingBottom(16).paddingHorizontal(16),
-        ]),
-      ),
+            _buildButton(),
+            SizedBox(height: 50, child: _inComingEvents(context)).paddingBottom(16).paddingHorizontal(16),
+          ]),
+        );
+      }),
     );
   }
 

@@ -37,55 +37,60 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    return ResponsiveBuilder(builder: (context, size) {
-      if (size.isDesktop || size.isTablet) {
-        return Scaffold(
-          backgroundColor: MyTheme.appolloWhite,
-          body: BlocProvider(
-            create: (_) => bloc,
-            child: Container(
-              color: MyTheme.appolloBackgroundColor,
-              width: screenSize.width,
-              height: screenSize.height,
-              child: Stack(
-                children: [
-                  BlocProvider.value(
-                    value: bloc,
-                    child: EventOverviewHome(bloc: bloc, events: widget.events),
-                  ),
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: ResponsiveBuilder(builder: (context, size) {
+        if (size.isDesktop || size.isTablet) {
+          return Scaffold(
+            backgroundColor: MyTheme.appolloWhite,
+            body: BlocProvider(
+              create: (_) => bloc,
+              child: Container(
+                color: MyTheme.appolloBackgroundColor,
+                width: screenSize.width,
+                height: screenSize.height,
+                child: Stack(
+                  children: [
+                    BlocProvider.value(
+                      value: bloc,
+                      child: EventOverviewHome(bloc: bloc, events: widget.events),
+                    ),
 
-                  /// TODO More Events page with fliters and map
-                  // MoreEventsFliterMapPage(events: events),
-                  EventOverviewAppbar(),
-                ],
+                    /// TODO More Events page with fliters and map
+                    // MoreEventsFliterMapPage(events: events),
+                    EventOverviewAppbar(),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      } else {
-        return Scaffold(
-          extendBodyBehindAppBar: true,
-          backgroundColor: MyTheme.appolloWhite,
-          appBar: AppolloAppBar(),
-          body: BlocProvider(
-            create: (_) => bloc,
-            child: Container(
-              color: MyTheme.appolloBackgroundColor,
-              width: screenSize.width,
-              height: screenSize.height,
-              child: Stack(
-                children: [
-                  BlocProvider.value(
-                    value: bloc,
-                    child: EventOverviewHome(bloc: bloc, events: widget.events),
-                  ),
-                ],
+          );
+        } else {
+          return Scaffold(
+            extendBodyBehindAppBar: true,
+            backgroundColor: MyTheme.appolloWhite,
+            appBar: AppolloAppBar(),
+            body: BlocProvider(
+              create: (_) => bloc,
+              child: Container(
+                color: MyTheme.appolloBackgroundColor,
+                width: screenSize.width,
+                height: screenSize.height,
+                child: Stack(
+                  children: [
+                    BlocProvider.value(
+                      value: bloc,
+                      child: EventOverviewHome(bloc: bloc, events: widget.events),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }
-    });
+          );
+        }
+      }),
+    );
   }
 }
 

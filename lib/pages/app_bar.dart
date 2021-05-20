@@ -50,12 +50,19 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                       AppolloSvgIcon.menuIcon,
                       height: 40,
                     )),
-                Text("appollo",
-                    style: MyTheme.lightTextTheme.subtitle1.copyWith(
-                        fontFamily: "cocon",
-                        color: Colors.white,
-                        fontSize: 20,
-                        shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)])),
+                InkWell(
+                  onTap: () {
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
+                        arguments: EventsRepository.instance.events);
+                  },
+                  child: Text("appollo",
+                      style: MyTheme.lightTextTheme.subtitle1.copyWith(
+                          fontFamily: "cocon",
+                          color: Colors.white,
+                          fontSize: 20,
+                          shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)])),
+                ),
                 ValueListenableBuilder(
                     valueListenable: UserRepository.instance.currentUserNotifier,
                     builder: (context, value, child) {

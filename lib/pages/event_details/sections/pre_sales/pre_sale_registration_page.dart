@@ -208,7 +208,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   Widget _buildCountdown() {
     return Countdown(
       width: 432,
-      duration: widget.event.date.difference(DateTime.now()),
+      duration: widget.event.preSale.registrationStartDate.difference(DateTime.now()),
     );
   }
 
@@ -228,7 +228,11 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         itemCount: 3,
         itemBuilder: (context, index) {
           return LevalCard(
-            icon: AppolloSvgIcon.level1,
+            icon: index == 0
+                ? AppolloSvgIcon.level1
+                : index == 1
+                    ? AppolloSvgIcon.level2
+                    : AppolloSvgIcon.level3,
             children: [
               AutoSizeText('Level ${index.toString()}',
                       style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
@@ -259,7 +263,11 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           itemCount: 3,
           itemBuilder: (context, index) {
             return LevalCard(
-              icon: AppolloSvgIcon.trophy1,
+              icon: index == 0
+                  ? AppolloSvgIcon.trophy1
+                  : index == 1
+                      ? AppolloSvgIcon.trophy2
+                      : AppolloSvgIcon.trophy3,
               children: [
                 AutoSizeText('${(index + 1).toString()}. Place',
                         style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))

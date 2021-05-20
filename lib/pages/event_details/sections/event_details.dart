@@ -46,7 +46,7 @@ class _EventDataState extends State<EventData> {
       Menu('Detail', false, id: 1),
     ];
 
-    if (widget.event.preSaleEnabled) {
+    if (widget.event.preSaleAvailable) {
       _tabButtons.add(Menu('Pre-Sale', false, id: 2));
     }
     if (widget.event.releaseManagers.isNotEmpty) {

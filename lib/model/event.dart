@@ -53,6 +53,7 @@ class Event {
   PreSale preSale;
 
   bool get preSaleEnabled => preSale != null && preSale.enabled;
+  bool get preSaleAvailable => preSaleEnabled && preSale.registrationEndDate.isAfter(DateTime.now());
 
   List<TicketRelease> getTicketReleases() {
     List<TicketRelease> release = [];

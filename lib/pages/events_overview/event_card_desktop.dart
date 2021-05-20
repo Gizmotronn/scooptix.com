@@ -143,7 +143,7 @@ class EventCardDesktop extends StatelessWidget {
                           child: AutoSizeText(
                             fullDate(event.date) ?? '',
                             textAlign: TextAlign.start,
-                            maxLines: 2,
+                            maxLines: 1,
                             style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
@@ -175,7 +175,7 @@ class EventCardDesktop extends StatelessWidget {
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
-                    ).paddingBottom(4),
+                    ),
                   ],
                 ).paddingAll(14),
                 Align(

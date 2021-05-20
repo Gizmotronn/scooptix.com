@@ -9,6 +9,7 @@ import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
+import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -151,7 +152,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               }
                             } else {
                               AlertGenerator.showAlert(
-                                  context: context,
+                                  context: WrapperPage.mainScaffold.currentContext,
                                   title: "Please accept our T & C",
                                   content:
                                       "To proceed with your purchase, you have to agree to our terms and conditions",
@@ -499,12 +500,33 @@ class _PaymentPageState extends State<PaymentPage> {
                 width: MyTheme.drawerSize,
                 child: Column(
                   children: [
-                    Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Add a Payment Method",
-                          style: MyTheme.lightTextTheme.headline6,
-                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 40,
+                        ),
+                        Align(
+                            alignment: Alignment.topCenter,
+                            child: Text(
+                              "Add a Payment Method",
+                              style: MyTheme.lightTextTheme.headline6,
+                            )),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              addNewPaymentMethod = false;
+                            });
+                          },
+                          child: Align(
+                              alignment: Alignment.topRight,
+                              child: Text(
+                                "close",
+                                style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloRed),
+                              )),
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: MyTheme.elementSpacing,
                     ),

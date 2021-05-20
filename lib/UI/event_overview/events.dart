@@ -17,16 +17,28 @@ class AppolloEvents extends StatelessWidget {
         if (size.isDesktop || size.isTablet) {
           return Align(
             alignment: Alignment.topCenter,
-            child: Wrap(
-              children: events.map((event) => EventCardDesktop(event: event)).toList(),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: events.length,
+              itemBuilder: (context, index) {
+                return EventCardDesktop(event: events[index]);
+              },
+              gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
+                childAspectRatio: 1.1,
+                maxCrossAxisExtent: 380,
+              ),
             ).paddingAll(6),
           );
         } else {
           return Align(
             alignment: Alignment.topCenter,
-            child: Column(
-              children:
-                  events.map((event) => EventCardMobile(event: event).paddingBottom(MyTheme.elementSpacing)).toList(),
+            child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: events.length,
+              itemBuilder: (context, index) =>
+                  EventCardMobile(event: events[index]).paddingBottom(MyTheme.elementSpacing),
             ).paddingHorizontal(MyTheme.elementSpacing / 2).paddingTop(MyTheme.elementSpacing),
           );
         }

@@ -43,15 +43,17 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
         events.add(e);
       }
     });
-    event = events.first;
-    _controller = AnimationController(vsync: this, duration: MyTheme.animationDuration);
-    _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
-    Future.delayed(Duration(milliseconds: 1000), () {
-      final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
-      setState(() => position = featureEventCardWidth * 0.2);
-      _animatedCard();
-    });
+    if (events.length != 0) {
+      event = events.first;
+      _controller = AnimationController(vsync: this, duration: MyTheme.animationDuration);
+      _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
+      _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
+      Future.delayed(Duration(milliseconds: 1000), () {
+        final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
+        setState(() => position = featureEventCardWidth * 0.2);
+        _animatedCard();
+      });
+    }
     super.initState();
   }
 
@@ -100,6 +102,9 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
 
   @override
   Widget build(BuildContext context) {
+    if (events.length == 0) {
+      return SizedBox.shrink();
+    }
     final screenSize = MediaQuery.of(context).size;
     final height = screenSize.height * 0.4;
     final width = screenSize.width * 0.55;

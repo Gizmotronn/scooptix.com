@@ -132,7 +132,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         "LINK COPIED",
                                         style: MyTheme.lightTextTheme.headline6,
                                       ),
-                                      color: MyTheme.appolloBackgroundColor,
+                                      color: MyTheme.appolloBackgroundColorLight,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
                                           Share.share("appollo.io/invite?id=${state.birthdayList.uuid}",
