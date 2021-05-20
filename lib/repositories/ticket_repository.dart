@@ -50,36 +50,48 @@ class TicketRepository {
         .collection("users")
         .doc(uid)
         .collection("tickets")
-        .where("date", isGreaterThan: DateTime.now().subtract(Duration(days: 14)))
+        .where("eventdate", isGreaterThan: DateTime.now().subtract(Duration(days: 14)))
         .get();
 
     if (ticketSnapshot.size == 0) {
       return [];
     } else {
+      List<Future<Event>> futures = [];
+      ticketSnapshot.docs.forEach((ticketDoc) {
+        futures.add(EventsRepository.instance.loadEventById(ticketDoc.data()["eventref"]));
+      });
+
+      await Future.wait(futures);
+
       ticketSnapshot.docs.forEach((ticketDoc) async {
         Ticket ticket;
         try {
-          ticket = Ticket()
-            ..event = await EventsRepository.instance.loadEventById(ticketDoc.data()["eventref"])
-            ..docId = ticketDoc.id
-            ..dateIssued = DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
-          try {
-            print("option 1");
-            ticket.release = ticket.event.getRelease(ticketDoc.data()["ticket_release_id"]);
+          ticket = Ticket.fromMap(
+              ticketDoc.id,
+              EventsRepository.instance.events.firstWhere((element) => element.docID == ticketDoc.data()["eventref"]),
+              null,
+              ticketDoc.data());
 
-            tickets.add(ticket);
-          } catch (_) {
-            // From the old version, tickets won't have a ticket_release_id
-            // All our tickets should be single restricted so this should work until there are no more old tickets
-            if (ticket.release == null) {
-              print("get single release");
-              ticket.release = ticket.event.getReleasesWithSingleTicketRestriction()[0];
+          if (ticket.event != null) {
+            try {
+              print("option 1");
+              ticket.release = ticket.event.getRelease(ticketDoc.data()["ticket_release_id"]);
+
+              tickets.add(ticket);
+            } catch (_) {
+              // From the old version, tickets won't have a ticket_release_id
+              // All our tickets should be single restricted so this should work until there are no more old tickets
+              if (ticket.release == null) {
+                print("get single release");
+                ticket.release = ticket.event.getReleasesWithSingleTicketRestriction()[0];
+              }
+              tickets.add(ticket);
             }
-            tickets.add(ticket);
           }
         } catch (e, s) {
           BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
           print(e);
+          print(s);
         }
       });
       return tickets;
@@ -105,10 +117,7 @@ class TicketRepository {
       ticketSnapshot.docs.forEach((ticketDoc) {
         Ticket ticket;
         try {
-          ticket = Ticket()
-            ..event = event
-            ..docId = ticketDoc.id
-            ..dateIssued = DateTime.fromMillisecondsSinceEpoch(ticketDoc.data()["requesttime"].millisecondsSinceEpoch);
+          ticket = Ticket.fromMap(ticketDoc.id, event, null, ticketDoc.data());
           try {
             print("option 1");
             ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
@@ -126,6 +135,7 @@ class TicketRepository {
         } catch (e, s) {
           BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
           print(e);
+          print(s);
         }
       });
       return tickets;
