@@ -55,41 +55,32 @@ class EventCardMobile extends StatelessWidget {
 
   Widget _buildTag() {
     return Positioned(
-      right: 0,
-      top: 0,
-      child: Container(
-        height: 35,
-        decoration: BoxDecoration(
-          color: MyTheme.appolloRed,
-          borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
-        ),
-        child: Center(
-          child: ValueListenableBuilder<User>(
-              valueListenable: UserRepository.instance.currentUserNotifier,
-              builder: (context, user, child) {
-                return FavoriteHeartButton(
-                  onTap: (v) {
-                    if (!v) {
-                      if (user == null) {
-                        showCupertinoModalBottomSheet(
-                            context: context,
-                            backgroundColor: MyTheme.appolloBackgroundColor,
-                            expand: true,
-                            builder: (context) => AuthenticationPage());
-                      } else {
-                        ///TODO Add event as favorite to user
-                        print('Event added to favorite');
-                        user.toggleFavourite(event.docID);
-                      }
-                    }
-                  },
-                  enable: user != null ? true : false,
-                  //TODO if event is favorited, should pass true
-                  isFavorite: _checkFavorite(user),
-                );
-              }),
-        ),
-      ),
+      right: 3,
+      top: 3,
+      child: ValueListenableBuilder<User>(
+          valueListenable: UserRepository.instance.currentUserNotifier,
+          builder: (context, user, child) {
+            return FavoriteHeartButton(
+              onTap: (v) {
+                if (!v) {
+                  if (user == null) {
+                    showCupertinoModalBottomSheet(
+                        context: context,
+                        backgroundColor: MyTheme.appolloBackgroundColor,
+                        expand: true,
+                        builder: (context) => AuthenticationPage());
+                  } else {
+                    ///TODO Add event as favorite to user
+                    print('Event added to favorite');
+                    user.toggleFavourite(event.docID);
+                  }
+                }
+              },
+              enable: user != null ? true : false,
+              //TODO if event is favorited, should pass true
+              isFavorite: _checkFavorite(user),
+            );
+          }),
     );
   }
 
@@ -129,26 +120,29 @@ class EventCardMobile extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         child: event.coverImageURL == null
             ? SizedBox()
-            : Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: ExtendedImage.network(
-                      event.coverImageURL,
-                      cache: true,
-                      loadStateChanged: (state) {
-                        switch (state.extendedImageLoadState) {
-                          case LoadState.loading:
-                            return Container(color: Colors.white);
-                          case LoadState.completed:
-                            return state.completedWidget;
-                          case LoadState.failed:
-                            return Container(color: Colors.white);
-                          default:
-                            return Container(color: Colors.white);
-                        }
-                      },
-                    ).image,
-                    fit: BoxFit.cover,
+            : ClipPath(
+                clipper: ImageClipper(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: ExtendedImage.network(
+                        event.coverImageURL,
+                        cache: true,
+                        loadStateChanged: (state) {
+                          switch (state.extendedImageLoadState) {
+                            case LoadState.loading:
+                              return Container(color: Colors.white);
+                            case LoadState.completed:
+                              return state.completedWidget;
+                            case LoadState.failed:
+                              return Container(color: Colors.white);
+                            default:
+                              return Container(color: Colors.white);
+                          }
+                        },
+                      ).image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -162,5 +156,25 @@ class EventCardMobile extends StatelessWidget {
     } else {
       return false;
     }
+  }
+}
+
+class ImageClipper extends CustomClipper<Path> {
+  @override
+  getClip(Size size) {
+    Path path = Path();
+
+    path.lineTo(size.width * 0.8, 0);
+    path.arcToPoint(Offset(size.width, 40));
+    path.lineTo(size.width, size.height);
+    path.lineTo(0, size.height);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper oldClipper) {
+    return false;
   }
 }
