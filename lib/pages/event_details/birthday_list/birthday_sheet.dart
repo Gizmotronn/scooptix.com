@@ -9,11 +9,12 @@ import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/responsive_table/DatatableHeader.dart';
 import 'package:ticketapp/UI/responsive_table/ResponsiveDatatable.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
 
@@ -37,7 +38,7 @@ class BirthdaySheet extends StatefulWidget {
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
-          builder: (context) => AuthenticationPage(
+          builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext);
                   showCupertinoModalBottomSheet(
@@ -78,7 +79,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
               value,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: MyTheme.lightTextTheme.bodyText2,
+              style: MyTheme.textTheme.bodyText2,
             );
           }),
       DatatableHeader(
@@ -115,28 +116,28 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           if (state is StateExistingList) {
                             return Text(
                               "Booking Created",
-                              style: MyTheme.lightTextTheme.headline5,
+                              style: MyTheme.textTheme.headline5,
                             );
                           } else if (state is StateNoList) {
                             return Text(
                               "Create Your Booking",
-                              style: MyTheme.lightTextTheme.headline5,
+                              style: MyTheme.textTheme.headline5,
                             );
                           } else if (state is StateTooFarAway) {
                             return Text(
                               "Unable To Create Booking",
-                              style: MyTheme.lightTextTheme.headline5,
+                              style: MyTheme.textTheme.headline5,
                             );
                           } else {
                             return Text(
                               "Birthday Booking",
-                              style: MyTheme.lightTextTheme.headline5,
+                              style: MyTheme.textTheme.headline5,
                             );
                           }
                         }),
                     Text(
                       "Done",
-                      style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
                     )
                   ],
                 ),
@@ -161,7 +162,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AutoSizeText("Invite your friends",
-                                      style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloGreen))
+                                      style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
                                   .paddingBottom(MyTheme.elementSpacing)
                                   .paddingTop(MyTheme.elementSpacing / 2),
                               AutoSizeText(
@@ -171,7 +172,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                       "Guests need to open the link and accept your invite by following the instructions.")
                                   .paddingBottom(MyTheme.elementSpacing),
                               AutoSizeText("Invitation Link",
-                                      style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                                      style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
                                   .paddingBottom(MyTheme.elementSpacing * 0.5),
                               OnTapAnimationButton(
                                 fill: true,
@@ -180,7 +181,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 onTapColor: MyTheme.appolloGreen,
                                 onTapContent: Text(
                                   "LINK COPIED",
-                                  style: MyTheme.lightTextTheme.headline6,
+                                  style: MyTheme.textTheme.headline6,
                                 ),
                                 color: MyTheme.appolloBackgroundColor,
                                 onTap: () {
@@ -195,12 +196,12 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                   alignment: Alignment.centerLeft,
                                   child: AutoSizeText(
                                     "appollo.io/invite?id=${state.birthdayList.uuid}",
-                                    style: MyTheme.lightTextTheme.bodyText2,
+                                    style: MyTheme.textTheme.bodyText2,
                                   ),
                                 ),
                               ).paddingBottom(MyTheme.elementSpacing),
                               AutoSizeText("RSVP's",
-                                      style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                                      style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
                                   .paddingBottom(MyTheme.elementSpacing * 0.5),
                               ClipRRect(
                                 borderRadius:
@@ -227,7 +228,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             AutoSizeText("Celebrate in style!",
-                                    style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloGreen))
+                                    style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
                                 .paddingBottom(MyTheme.elementSpacing)
                                 .paddingTop(MyTheme.elementSpacing / 2),
                             ListView.builder(
@@ -246,14 +247,14 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                     Center(
                                         child: Text(
                                       widget.event.birthdayEventData.benefits[index],
-                                      style: MyTheme.lightTextTheme.bodyText1,
+                                      style: MyTheme.textTheme.bodyText1,
                                     )),
                                   ],
                                 ).paddingBottom(8);
                               },
                             ).paddingBottom(MyTheme.elementSpacing),
                             AutoSizeText("How many guests are you inviting?",
-                                    style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                                    style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
                                 .paddingBottom(MyTheme.elementSpacing),
                             ReactiveForm(
                               formGroup: form,
@@ -275,8 +276,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                       color: MyTheme.appolloGreen,
                                       child: Text(
                                         "Create",
-                                        style: MyTheme.lightTextTheme.button
-                                            .copyWith(color: MyTheme.appolloBackgroundColor),
+                                        style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                                       ),
                                       onTap: () {
                                         if (form.valid) {
@@ -294,10 +294,10 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AutoSizeText("Unable to create your birthday list.",
-                                      maxLines: 2, style: MyTheme.lightTextTheme.headline2)
+                                      maxLines: 2, style: MyTheme.textTheme.headline2)
                                   .paddingBottom(MyTheme.elementSpacing),
                               AutoSizeText("Your birthday is too far away!",
-                                      style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+                                      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
                                   .paddingBottom(MyTheme.elementSpacing),
                               AutoSizeText(
                                   "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
@@ -309,7 +309,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircularProgressIndicator().paddingBottom(8),
+                            AppolloProgressIndicator().paddingBottom(8),
                             Text("Creating your birthday list ...")
                           ],
                         );
@@ -318,7 +318,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            CircularProgressIndicator().paddingBottom(8),
+                            AppolloProgressIndicator().paddingBottom(8),
                             Text("Loading Birthday List Data ...")
                           ],
                         );
@@ -329,10 +329,10 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text("Events Powered By", style: MyTheme.lightTextTheme.bodyText2.copyWith(color: Colors.grey))
+                  Text("Events Powered By", style: MyTheme.textTheme.bodyText2.copyWith(color: Colors.grey))
                       .paddingRight(4),
                   Text("appollo",
-                      style: MyTheme.lightTextTheme.subtitle1.copyWith(
+                      style: MyTheme.textTheme.subtitle1.copyWith(
                         fontFamily: "cocon",
                         color: MyTheme.appolloPurple,
                         fontSize: 18,
@@ -348,14 +348,14 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
     if (widget.event.birthdayEventData.price == 0) {
       return AutoSizeText(
         "You can create this birthday list free of charge!",
-        style: MyTheme.lightTextTheme.bodyText1,
+        style: MyTheme.textTheme.bodyText1,
       );
     } else {
       return Column(
         children: [
           AutoSizeText(
             "Order Summary",
-            style: MyTheme.lightTextTheme.headline4,
+            style: MyTheme.textTheme.headline4,
           ),
         ],
       );

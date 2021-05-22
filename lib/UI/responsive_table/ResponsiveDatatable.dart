@@ -217,7 +217,7 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
                                   AutoSizeText(
                                     "${header.text}",
                                     maxLines: 1,
-                                    style: MyTheme.lightTextTheme.subtitle1.copyWith(fontWeight: FontWeight.w600),
+                                    style: MyTheme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600),
                                     textAlign: header.textAlign,
                                   ),
                                   if (widget.sortColumn != null && widget.sortColumn == header.value)
@@ -279,7 +279,7 @@ class _ResponsiveDatatableState extends State<ResponsiveDatatable> {
                                       : Container(
                                           child: Text(
                                             "${data[header.value]}",
-                                            style: MyTheme.lightTextTheme.bodyText2,
+                                            style: MyTheme.textTheme.bodyText2,
                                             textAlign: header.textAlign,
                                           ),
                                         ),

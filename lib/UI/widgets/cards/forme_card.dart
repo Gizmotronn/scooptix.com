@@ -22,40 +22,38 @@ class ForMeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: MyTheme.appolloBackgroundColorLight,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgIcon(svgIcon, size: 50).paddingBottom(8),
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                children: [
-                  AutoSizeText(
-                    title,
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headline6.copyWith(color: color, fontWeight: FontWeight.w400),
-                  ).paddingBottom(8),
-                  AutoSizeText(
-                    subTitle,
-                    maxLines: 4,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontSize: 10),
-                  ).paddingBottom(8),
-                  Container(
-                    child: child ?? Container(),
-                  )
-                ],
-              ),
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: MyTheme.appolloBackgroundColorLight,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgIcon(svgIcon, size: 50).paddingBottom(8),
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                AutoSizeText(
+                  title,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: MyTheme.textTheme.headline6.copyWith(color: color, fontWeight: FontWeight.w400),
+                ).paddingBottom(8),
+                AutoSizeText(
+                  subTitle,
+                  maxLines: 4,
+                  textAlign: TextAlign.center,
+                  style: MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontSize: 10),
+                ).paddingBottom(8),
+                Container(
+                  child: child ?? Container(),
+                )
+              ],
             ),
-          ],
-        ).paddingAll(8),
+          ),
+        ],
       ).paddingAll(8),
     );
   }

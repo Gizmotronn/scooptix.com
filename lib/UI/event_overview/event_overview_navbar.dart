@@ -17,7 +17,6 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
   List<Menu> _menu = [
     Menu('All', true),
     Menu('Free', false),
-    Menu('For me', false),
     Menu('Today', false),
     Menu('This Weekend', false),
     Menu('This Week', false),
@@ -29,6 +28,14 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
     if (widget.bloc != null) {
       widget.bloc.add(TabberNavEvent(index: 0, title: 'All'));
     }
+    // Only add for me on desktop
+    Future.delayed(Duration(milliseconds: 1)).then((value) {
+      if (getValueForScreenType(context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
+        setState(() {
+          _menu.insert(2, Menu('For me', false));
+        });
+      }
+    });
     super.initState();
   }
 

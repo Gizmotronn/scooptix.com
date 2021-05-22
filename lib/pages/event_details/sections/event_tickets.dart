@@ -38,7 +38,7 @@ class _EventTicketsState extends State<EventTickets> {
       children: [
         AutoSizeText(
           'Tickets',
-          style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(30),
         ClipRRect(
           borderRadius: BorderRadius.circular(5),

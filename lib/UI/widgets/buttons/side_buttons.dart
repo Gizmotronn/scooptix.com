@@ -28,7 +28,7 @@ class SideButton extends StatelessWidget {
           child: Center(
             child: AutoSizeText(
               title ?? '',
-              style: MyTheme.lightTextTheme.button.copyWith(
+              style: MyTheme.textTheme.button.copyWith(
                   fontSize: size.deviceScreenType == DeviceScreenType.desktop ? null : 12,
                   color: highlight
                       ? active

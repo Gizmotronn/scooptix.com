@@ -1,6 +1,5 @@
 part of 'events_overview_bloc.dart';
 
-@immutable
 abstract class EventsOverviewEvent extends Equatable {
   const EventsOverviewEvent();
   @override

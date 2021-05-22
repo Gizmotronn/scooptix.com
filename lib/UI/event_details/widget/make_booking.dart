@@ -262,7 +262,7 @@ class MakeBooking extends StatelessWidget {
               ),*/
             ],
           ),
-        ).appolloCard().paddingHorizontal(MyTheme.elementSpacing),
+        ).appolloBlurCard().paddingHorizontal(MyTheme.elementSpacing),
       );
 
   VoidCallback _tryOpenBirthdayDrawer() {

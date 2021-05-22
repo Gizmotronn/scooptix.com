@@ -22,7 +22,7 @@ class EventGallary extends StatelessWidget {
         children: [
           AutoSizeText(
             'Event Gallery',
-            style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(MyTheme.elementSpacing),
           GridView.builder(
               shrinkWrap: true,

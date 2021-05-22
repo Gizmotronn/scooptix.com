@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/mobile_view.dart';
@@ -85,7 +86,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
               },
             );
           }
-          return Center(child: CircularProgressIndicator());
+          return Center(child: AppolloProgressIndicator());
         },
       ),
     );

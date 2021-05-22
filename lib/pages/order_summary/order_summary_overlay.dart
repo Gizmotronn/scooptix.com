@@ -58,7 +58,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
       children: [
         AutoSizeText(
           "Order Summary",
-          style: MyTheme.lightTextTheme.headline2,
+          style: MyTheme.textTheme.headline2,
         ).paddingBottom(MyTheme.elementSpacing),
         _buildMainContent().paddingBottom(MyTheme.elementSpacing),
         _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
@@ -84,7 +84,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                 },
                 child: Text(
                   "CHECKOUT",
-                  style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                  style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                 ),
               ),
             ),
@@ -112,12 +112,12 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.lightTextTheme.bodyText2),
+              Text("Subtotal", style: MyTheme.textTheme.bodyText2),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${(subtotal / 100).toStringAsFixed(2)}", style: MyTheme.lightTextTheme.bodyText2)))
+                      child: Text("\$${(subtotal / 100).toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2)))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -129,11 +129,10 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
               children: [
                 Text(
                   "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount.amount.toString() + "%"})",
-                  style: MyTheme.lightTextTheme.bodyText2,
+                  style: MyTheme.textTheme.bodyText2,
                 ),
                 SizedBox(
-                    child:
-                        Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.lightTextTheme.bodyText2))
+                    child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -144,14 +143,14 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.lightTextTheme.bodyText2,
+                style: MyTheme.textTheme.bodyText2,
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2)))
+                      child:
+                          Text("\$${_calculateAppolloFees().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2)))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -161,14 +160,14 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.lightTextTheme.bodyText2),
+              Text("Total", style: MyTheme.textTheme.bodyText2),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2)))
+                          style: MyTheme.textTheme.bodyText2)))
             ],
           ),
         ).paddingBottom(8),
@@ -185,13 +184,13 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(key.ticketName + " x $value", style: MyTheme.lightTextTheme.bodyText2),
+            Text(key.ticketName + " x $value", style: MyTheme.textTheme.bodyText2),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.lightTextTheme.bodyText2)))
+                    child:
+                        Text("\$${(key.price * value / 100).toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2)))
           ],
         ),
       ).paddingBottom(8));
@@ -290,7 +289,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                             child: AutoSizeText(
                               state.discount.code,
-                              style: MyTheme.lightTextTheme.caption
+                              style: MyTheme.textTheme.caption
                                   .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
                             ),
                           ),
@@ -323,7 +322,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                             child: AutoSizeText(
                               "This code is invalid",
-                              style: MyTheme.lightTextTheme.caption.copyWith(fontWeight: FontWeight.w400),
+                              style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],

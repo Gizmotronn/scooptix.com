@@ -26,7 +26,7 @@ class AppolloEvents extends StatelessWidget {
               },
               gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
                 childAspectRatio: 1.1,
-                maxCrossAxisExtent: 380,
+                maxCrossAxisExtent: 430,
               ),
             ).paddingAll(6),
           );
@@ -34,12 +34,13 @@ class AppolloEvents extends StatelessWidget {
           return Align(
             alignment: Alignment.topCenter,
             child: ListView.builder(
+              padding: EdgeInsets.only(top: MyTheme.elementSpacing),
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: events.length,
               itemBuilder: (context, index) =>
-                  EventCardMobile(event: events[index]).paddingBottom(MyTheme.elementSpacing),
-            ).paddingHorizontal(MyTheme.elementSpacing / 2).paddingTop(MyTheme.elementSpacing),
+                  EventCardMobile(event: events[index]).paddingBottom(MyTheme.elementSpacing * 3),
+            ).paddingHorizontal(MyTheme.elementSpacing / 2),
           );
         }
       },

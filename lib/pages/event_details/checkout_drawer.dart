@@ -90,11 +90,11 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Order Confirmation", style: MyTheme.lightTextTheme.headline2)
+                      Text("Order Confirmation", style: MyTheme.textTheme.headline2)
                           .paddingBottom(MyTheme.elementSpacing),
                       Text(
                         widget.event.name,
-                        style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
                       ).paddingBottom(MyTheme.elementSpacing),
                       SizedBox(
                         width: MyTheme.drawerSize,
@@ -107,15 +107,15 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                               children: [
                                 Text(
                                   "Date:",
-                                  style: MyTheme.lightTextTheme.bodyText1,
+                                  style: MyTheme.textTheme.bodyText1,
                                 ).paddingBottom(8),
                                 Text(
                                   "Duration:",
-                                  style: MyTheme.lightTextTheme.bodyText1,
+                                  style: MyTheme.textTheme.bodyText1,
                                 ).paddingBottom(8),
                                 Text(
                                   "Location:",
-                                  style: MyTheme.lightTextTheme.bodyText1,
+                                  style: MyTheme.textTheme.bodyText1,
                                 ),
                               ],
                             ),
@@ -129,21 +129,21 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                                 children: [
                                   AutoSizeText(
                                     DateFormat.yMMMMd().format(widget.event.date),
-                                    style: MyTheme.lightTextTheme.bodyText2,
+                                    style: MyTheme.textTheme.bodyText2,
                                   ).paddingBottom(8),
                                   if (widget.event.endTime != null)
                                     AutoSizeText(
                                       "${DateFormat.jm().format(widget.event.date)} - ${DateFormat.jm().format(widget.event.endTime)} (${widget.event.endTime.difference(widget.event.date).inHours} Hours)",
-                                      style: MyTheme.lightTextTheme.bodyText2,
+                                      style: MyTheme.textTheme.bodyText2,
                                     ).paddingBottom(8),
                                   if (widget.event.endTime == null)
                                     AutoSizeText(
                                       "${DateFormat.jm().format(widget.event.date)} ",
-                                      style: MyTheme.lightTextTheme.bodyText2,
+                                      style: MyTheme.textTheme.bodyText2,
                                     ).paddingBottom(8),
                                   AutoSizeText(
                                     widget.event.address ?? widget.event.venueName,
-                                    style: MyTheme.lightTextTheme.bodyText2,
+                                    style: MyTheme.textTheme.bodyText2,
                                   ),
                                 ],
                               ),
@@ -155,8 +155,8 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                               (widget.event as MemberInvite).promoter.docId ==
                                   UserRepository.instance.currentUser().firebaseUserID
                           ? Center(
-                              child: Text("You can't invite yourself to this event",
-                                  style: MyTheme.lightTextTheme.bodyText2))
+                              child:
+                                  Text("You can't invite yourself to this event", style: MyTheme.textTheme.bodyText2))
                           : PaymentPage(
                               widget.event,
                               maxHeight: screenSize.height - 296,
@@ -169,10 +169,10 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("Events Powered By", style: MyTheme.lightTextTheme.bodyText2.copyWith(color: Colors.grey))
+                      Text("Events Powered By", style: MyTheme.textTheme.bodyText2.copyWith(color: Colors.grey))
                           .paddingRight(4),
                       Text("appollo",
-                          style: MyTheme.lightTextTheme.subtitle1.copyWith(
+                          style: MyTheme.textTheme.subtitle1.copyWith(
                             fontFamily: "cocon",
                             color: MyTheme.appolloPurple,
                             fontSize: 18,

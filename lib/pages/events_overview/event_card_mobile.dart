@@ -5,7 +5,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
@@ -68,7 +68,7 @@ class EventCardMobile extends StatelessWidget {
                         context: context,
                         backgroundColor: MyTheme.appolloBackgroundColor,
                         expand: true,
-                        builder: (context) => AuthenticationPage());
+                        builder: (context) => AuthenticationPageWrapper());
                   } else {
                     ///TODO Add event as favorite to user
                     print('Event added to favorite');
@@ -96,7 +96,7 @@ class EventCardMobile extends StatelessWidget {
                   fullDate(event.date) ?? '',
                   textAlign: TextAlign.start,
                   maxLines: 2,
-                  style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
+                  style: MyTheme.textTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
                 ).paddingBottom(8),
               ),
             ],
@@ -106,7 +106,7 @@ class EventCardMobile extends StatelessWidget {
             textAlign: TextAlign.start,
             maxLines: 2,
             overflow: TextOverflow.clip,
-            style: MyTheme.lightTextTheme.headline5,
+            style: MyTheme.textTheme.headline5,
           ),
         ],
       ).paddingAll(MyTheme.elementSpacing),

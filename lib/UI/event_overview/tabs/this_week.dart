@@ -73,7 +73,7 @@ class _ThisWeekState extends State<ThisWeek> {
               (index) => Builder(
                 builder: (context) {
                   if (widget.events
-                      .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
+                      .where((event) => fullDateWithDay(event.date).contains(_daysMenu[index].title))
                       .toList()
                       .isEmpty) {
                     return SizedBox();
@@ -94,7 +94,7 @@ class _ThisWeekState extends State<ThisWeek> {
                                   tag1: "${_daysMenu[index].title}'s Events", tag2: " | ${_daysMenu[index].fullDate}"),
                               AppolloEvents(
                                 events: widget.events
-                                    .where((event) => fullDate(event.date).contains(_daysMenu[index].title))
+                                    .where((event) => fullDateWithDay(event.date).contains(_daysMenu[index].title))
                                     .toList(),
                               ),
                               HoverAppolloButton(
@@ -159,7 +159,10 @@ class _ThisWeekState extends State<ThisWeek> {
         itemBuilder: (context, index) => SideButton(
           title: "${_daysMenu[index].title} ${_daysMenu[index].subtitle}",
           isTap: _daysMenu[index].isTap,
-          onTap: widget.events.where((event) => fullDate(event.date).contains(_daysMenu[index].title)).toList().isEmpty
+          onTap: widget.events
+                  .where((event) => fullDateWithDay(event.date).contains(_daysMenu[index].title))
+                  .toList()
+                  .isEmpty
               ? null
               : () async {
                   setState(() {

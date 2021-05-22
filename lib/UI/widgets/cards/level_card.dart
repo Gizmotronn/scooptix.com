@@ -26,7 +26,7 @@ class LevalCard extends StatelessWidget {
               child: Container(
                 height: 220,
                 width: 250,
-              ).appolloTransparentCard()),
+              ).appolloCard(borderRadius: BorderRadius.circular(8), color: MyTheme.appolloCardColor)),
           Positioned(
             top: 0,
             left: 0,

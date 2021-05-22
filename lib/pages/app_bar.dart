@@ -8,8 +8,7 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
-
-import 'authentication/authentication_page.dart';
+import 'authentication/authentication_sheet_wrapper.dart';
 import 'events_overview/events_overview_page.dart';
 
 class AppolloAppBar extends StatefulWidget implements PreferredSizeWidget {
@@ -17,7 +16,7 @@ class AppolloAppBar extends StatefulWidget implements PreferredSizeWidget {
   _AppolloAppBarState createState() => _AppolloAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(56.0);
+  Size get preferredSize => Size.fromHeight(74.0);
 }
 
 class _AppolloAppBarState extends State<AppolloAppBar> {
@@ -30,46 +29,48 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
     return AppBar(
       titleSpacing: 0.0,
       automaticallyImplyLeading: false,
+      elevation: 0,
       backgroundColor: MyTheme.appolloBackgroundColor,
+      centerTitle: true,
+      toolbarHeight: 74,
       title: Container(
+        padding: EdgeInsets.symmetric(horizontal: 15),
         width: MyTheme.maxWidth,
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: Center(
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                      Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                          arguments: EventsRepository.instance.events);
-                    },
-                    child: SvgPicture.asset(
-                      AppolloSvgIcon.menuIcon,
-                      height: 40,
-                    )),
-                InkWell(
+        height: widget.preferredSize.height,
+        child: Center(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              InkWell(
                   onTap: () {
                     Navigator.popUntil(context, (route) => route.isFirst);
                     Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
                         arguments: EventsRepository.instance.events);
                   },
-                  child: Text("appollo",
-                      style: MyTheme.lightTextTheme.subtitle1.copyWith(
-                          fontFamily: "cocon",
-                          color: Colors.white,
-                          fontSize: 20,
-                          shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)])),
-                ),
-                ValueListenableBuilder(
-                    valueListenable: UserRepository.instance.currentUserNotifier,
-                    builder: (context, value, child) {
-                      return _buildProfileButton();
-                    })
-              ],
-            ),
+                  child: SvgPicture.asset(
+                    AppolloSvgIcon.menuIcon,
+                    height: 48,
+                  )),
+              InkWell(
+                onTap: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
+                      arguments: EventsRepository.instance.events);
+                },
+                child: Text("appollo",
+                    style: MyTheme.textTheme.subtitle1.copyWith(
+                      fontFamily: "cocon",
+                      color: Colors.white,
+                      fontSize: 26,
+                    )),
+              ),
+              ValueListenableBuilder(
+                  valueListenable: UserRepository.instance.currentUserNotifier,
+                  builder: (context, value, child) {
+                    return _buildProfileButton();
+                  })
+            ],
           ),
         ),
       ),
@@ -84,7 +85,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
               context: context,
               backgroundColor: MyTheme.appolloBackgroundColor,
               expand: true,
-              builder: (context) => AuthenticationPage());
+              builder: (context) => AuthenticationPageWrapper());
         },
         child: CircleAvatar(
           radius: 18,
@@ -110,13 +111,13 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
           onTap: () {
             showCupertinoModalBottomSheet(
                 context: context,
-                backgroundColor: MyTheme.appolloBackgroundColor,
+                backgroundColor: MyTheme.appolloBackgroundColorLight,
                 expand: true,
-                builder: (context) => AuthenticationPage());
+                builder: (context) => AuthenticationPageWrapper());
           },
           child: Text(
             "Sign In",
-            style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+            style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
           ));
     }
   }

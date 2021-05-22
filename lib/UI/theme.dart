@@ -42,7 +42,7 @@ extension WidgetPaddingX on Widget {
 }
 
 extension AppolloCards on Container {
-  Container appolloCard({Color color, BorderRadiusGeometry borderRadius, Clip clip}) {
+  Container appolloBlurCard({Color color, BorderRadiusGeometry borderRadius, Clip clip}) {
     return Container(
       child: ClipRRect(
         clipBehavior: clip ?? Clip.antiAlias,
@@ -61,10 +61,10 @@ extension AppolloCards on Container {
     );
   }
 
-  Container appolloTransparentCard({Color color, BorderRadiusGeometry borderRadius}) {
+  Container appolloCard({Color color, BorderRadius borderRadius}) {
     return Container(
       decoration: ShapeDecoration(
-          color: color ?? MyTheme.appolloCardColor.withAlpha(200),
+          color: color ?? MyTheme.appolloCardColor,
           shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5)))),
       child: this.child,
     );
@@ -76,7 +76,7 @@ class MyTheme {
   static double elementSpacing = 20.0;
   static double cardPadding = 32;
   static double drawerSize = 432;
-  static double bottomNavBarHeight = 56;
+  static double bottomNavBarHeight = 64;
 
   static Duration animationDuration = Duration(milliseconds: 300);
 
@@ -101,9 +101,10 @@ class MyTheme {
   static Color appolloLightCardColor = Color(0xFF4D4D7E);
   static Color appolloCardColor = Color(0xFF2B2B57);
   static Color appolloCardColorLight = Color(0xFF343454);
-  static Color appolloTextFieldColor = Color(0xFF22223A);
+  static Color appolloTextFieldColor = Color(0xFF282840);
+  static Color appolloBottomBarColor = Color(0xFF383854);
 
-  static TextTheme lightTextTheme = TextTheme(
+  static TextTheme textTheme = TextTheme(
       bodyText1: TextStyle(
               fontFamily: "montserrat",
               fontSize: 13.6, // 16
@@ -185,7 +186,100 @@ class MyTheme {
               fontFamily: "montserrat",
               fontSize: 14,
               letterSpacing: 0.75,
+              color: appolloBackgroundColor,
+              fontWeight: FontWeight.w500)
+          .withZoomFix, // 14
+      overline: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 10.8,
+              letterSpacing: 0.5,
               color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix);
+
+  static TextTheme mobileTextTheme = TextTheme(
+      bodyText1: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 13.6, // 16
+              letterSpacing: 0.5,
+              color: appolloWhite,
+              fontWeight: FontWeight.w500)
+          .withZoomFix,
+      bodyText2: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 11.9, // 16
+              letterSpacing: 0.25,
+              color: appolloWhite,
+              fontWeight: FontWeight.w500)
+          .withZoomFix,
+      subtitle1: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 15.3, // 18
+              letterSpacing: 0.15,
+              color: appolloWhite,
+              fontWeight: FontWeight.w500)
+          .withZoomFix,
+      subtitle2: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 11.2, // 14
+              letterSpacing: 0.1,
+              color: appolloWhite,
+              fontWeight: FontWeight.w500)
+          .withZoomFix,
+      headline1: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 38.4, // 48
+              letterSpacing: -1.0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix,
+      headline2: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 27.2, // 32
+              letterSpacing: -0.25,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix,
+      headline3: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 21,
+              letterSpacing: 0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w600) // 24
+          .withZoomFix,
+      headline4: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 20.4,
+              letterSpacing: 0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 24
+      headline5: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 18.0,
+              letterSpacing: 0,
+              color: appolloWhite,
+              fontWeight: FontWeight.w600)
+          .withZoomFix, // 20
+      headline6: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 17,
+              letterSpacing: 0.25,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 16
+      caption: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 10.8,
+              letterSpacing: 0.4,
+              color: appolloWhite,
+              fontWeight: FontWeight.w400)
+          .withZoomFix, // 12
+      button: TextStyle(
+              fontFamily: "montserrat",
+              fontSize: 19,
+              letterSpacing: 0.75,
+              color: appolloBackgroundColor,
               fontWeight: FontWeight.w500)
           .withZoomFix, // 14
       overline: TextStyle(
@@ -296,6 +390,8 @@ class MyTheme {
       accentColor: MyTheme.appolloGreen,
       buttonColor: MyTheme.appolloGreen,
       hintColor: MyTheme.appolloWhite,
+      indicatorColor: MyTheme.appolloGreen,
+      splashColor: MyTheme.appolloGreen,
       canvasColor: Color(0xff2c2c2c),
       inputDecorationTheme: InputDecorationTheme(
           fillColor: Colors.grey[800].withAlpha(50),
@@ -308,6 +404,7 @@ class MyTheme {
           unselectedIconTheme: IconThemeData(color: Colors.black)),
       visualDensity: VisualDensity.adaptivePlatformDensity,
       unselectedWidgetColor: MyTheme.appolloWhite,
-      textTheme: lightTextTheme,
-      primaryTextTheme: lightTextTheme);
+      textTheme: textTheme,
+      primaryTextTheme: textTheme,
+      textSelectionTheme: TextSelectionThemeData(cursorColor: MyTheme.appolloGreen));
 }

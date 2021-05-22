@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
@@ -62,7 +63,7 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
-      child: CircularProgressIndicator().paddingBottom(8),
+      child: AppolloProgressIndicator().paddingBottom(8),
     );
   }
 }

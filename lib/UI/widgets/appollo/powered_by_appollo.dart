@@ -17,13 +17,13 @@ class PoweredByAppollo extends StatelessWidget {
         ),
         Text(
           "Powered by",
-          style: MyTheme.lightTextTheme.caption.copyWith(
+          style: MyTheme.textTheme.caption.copyWith(
               color: Colors.grey[200],
               fontWeight: FontWeight.w300,
               shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]),
         ),
         Text("appollo",
-            style: MyTheme.lightTextTheme.subtitle1.copyWith(
+            style: MyTheme.textTheme.subtitle1.copyWith(
                 fontFamily: "cocon",
                 color: Colors.white,
                 fontSize: 20,

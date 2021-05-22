@@ -52,7 +52,7 @@ class BookingCard extends StatelessWidget {
             ),
           ],
         ).paddingAll(MyTheme.cardPadding),
-      ).appolloCard(),
+      ).appolloBlurCard(),
     );
   }
 }
@@ -70,8 +70,8 @@ class IconText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SvgPicture.asset(icon, height: iconSize ?? 18, width: iconSize ?? 18).paddingRight(8),
-        Expanded(child: AutoSizeText('$text', style: textStyle ?? Theme.of(context).textTheme.caption)),
+        SvgPicture.asset(icon, height: iconSize ?? 24, width: iconSize ?? 24).paddingRight(8),
+        Expanded(child: AutoSizeText('$text', style: textStyle ?? MyTheme.textTheme.bodyText1)),
       ],
     ).paddingBottom(4);
   }

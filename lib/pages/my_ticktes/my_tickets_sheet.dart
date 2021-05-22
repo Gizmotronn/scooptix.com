@@ -4,9 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/ticket.dart';
-import 'package:ticketapp/pages/authentication/authentication_page.dart';
+import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/pages/my_ticktes/bloc/my_tickets_bloc.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
@@ -29,7 +30,7 @@ class MyTicketsSheet extends StatefulWidget {
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColor,
           expand: true,
-          builder: (context) => AuthenticationPage(
+          builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext);
                   showCupertinoModalBottomSheet(
@@ -93,11 +94,11 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
                       SizedBox.shrink(),
                       Text(
                         "My Tickets",
-                        style: MyTheme.lightTextTheme.headline5,
+                        style: MyTheme.textTheme.headline5,
                       ),
                       Text(
-                        "Close",
-                        style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                        "Done",
+                        style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
                       )
                     ],
                   ),
@@ -120,11 +121,12 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
                                   .paddingBottom(MyTheme.cardPadding)
                                   .paddingTop(MyTheme.elementSpacing),
                               _tickets(sheetContext,
-                                  tickets: state.tickets
-                                      .where(
-                                          (ticket) => ticket.event.date.isAfter(DateTime.now().add(Duration(hours: 8))))
-                                      .toList(),
-                                  isPastTicket: false),
+                                      tickets: state.tickets
+                                          .where((ticket) =>
+                                              ticket.event.date.isAfter(DateTime.now().add(Duration(hours: 8))))
+                                          .toList(),
+                                      isPastTicket: false)
+                                  .paddingBottom(MyTheme.elementSpacing * 2),
                               _headerText('Past Event Tickets', color: MyTheme.appolloOrange)
                                   .paddingBottom(MyTheme.cardPadding),
                               _tickets(sheetContext,
@@ -139,7 +141,7 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
                       );
               } else {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: AppolloProgressIndicator(),
                 );
               }
             },
@@ -150,8 +152,7 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
   }
 
   Widget _headerText(String text, {Color color}) {
-    return AutoSizeText(text,
-        style: MyTheme.lightTextTheme.headline4.copyWith(color: color, fontWeight: FontWeight.w600));
+    return AutoSizeText(text, style: MyTheme.textTheme.headline4.copyWith(color: color, fontWeight: FontWeight.w600));
   }
 
   Widget _tickets(BuildContext sheetContext, {List<Ticket> tickets, bool isPastTicket}) => ListView.builder(

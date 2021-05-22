@@ -3,7 +3,6 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../UI/theme.dart';
-import '../../../model/event.dart';
 
 class EventDetailNavbar extends StatelessWidget {
   const EventDetailNavbar({
@@ -77,7 +76,7 @@ class EventDetailNavbar extends StatelessWidget {
               ),
             ],
           ),
-        ).appolloCard(
+        ).appolloBlurCard(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(5),
             topRight: Radius.circular(5),

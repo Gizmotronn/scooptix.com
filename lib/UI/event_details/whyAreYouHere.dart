@@ -35,7 +35,7 @@ class WhyAreYouHereWidget extends StatelessWidget {
             children: [
               AutoSizeText(
                 text,
-                style: MyTheme.lightTextTheme.bodyText2,
+                style: MyTheme.textTheme.bodyText2,
                 textAlign: getValueForScreenType(
                     context: context,
                     watch: TextAlign.center,

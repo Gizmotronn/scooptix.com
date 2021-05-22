@@ -1,6 +1,7 @@
 import "dart:async";
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/order_summary/bloc/ticket_bloc.dart';
 
@@ -196,7 +197,7 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
     if (textFieldState == DiscountTextfieldState.loading) {
       return Transform.scale(
         scale: 0.5,
-        child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation(MyTheme.appolloWhite)),
+        child: AppolloButtonProgressIndicator(),
       );
     } else if (textFieldState == DiscountTextfieldState.applied || textFieldState == DiscountTextfieldState.invalid) {
       return Icon(Icons.close, color: MyTheme.appolloWhite, size: 18);

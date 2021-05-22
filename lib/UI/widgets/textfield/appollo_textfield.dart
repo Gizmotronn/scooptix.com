@@ -131,7 +131,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
         children: [
           AnimatedContainer(
             duration: MyTheme.animationDuration,
-            height: 55,
+            height: 48,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               color: textFieldState == AppolloTextfieldState.hover ||
@@ -189,22 +189,22 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                 keyboardType: widget.keyboardType,
                 focusNode: _focusNode,
                 inputFormatters: widget.inputFormatters,
-                style: Theme.of(context).textTheme.bodyText1,
+                style: MyTheme.textTheme.bodyText1,
                 decoration: InputDecoration(
                   filled: true,
                   hintText: widget.hintText,
                   suffix: widget.suffixIcon,
                   fillColor: Colors.transparent,
-                  contentPadding: const EdgeInsets.only(left: 8),
+                  contentPadding: const EdgeInsets.only(left: 8, bottom: 4),
                   errorBorder: InputBorder.none,
-                  errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                  errorStyle: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
                   focusedBorder: InputBorder.none,
-                  hintStyle: Theme.of(context).textTheme.button.copyWith(
+                  hintStyle: MyTheme.textTheme.button.copyWith(
                       color:
                           textFieldState == AppolloTextfieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
                   enabledBorder: InputBorder.none,
                   labelText: widget.labelText,
-                  labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: _buildLabelColor()),
+                  labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
                   disabledBorder: InputBorder.none,
                 ),
               );
@@ -213,7 +213,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
           widget.errorText.isEmpty
               ? SizedBox()
               : AutoSizeText(widget.errorText,
-                  style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed, fontSize: 6)),
+                  style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed, fontSize: 6)),
         ],
       ),
     );

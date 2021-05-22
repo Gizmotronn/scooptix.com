@@ -34,14 +34,14 @@ class DownloadAppolloWidget extends StatelessWidget {
                       },
                       child: Text(
                         "Download the appollo app",
-                        style: MyTheme.lightTextTheme.button,
+                        style: MyTheme.textTheme.button,
                       ),
                     ),
                   ),
                 )
               ],
             ),
-          ).appolloCard(),
+          ).appolloBlurCard(),
         );
       } else {
         return SizedBox(
@@ -51,11 +51,11 @@ class DownloadAppolloWidget extends StatelessWidget {
               children: [
                 Text(
                   "Keep your Tickets with you, get the app!",
-                  style: MyTheme.lightTextTheme.headline5,
+                  style: MyTheme.textTheme.headline5,
                 ).paddingBottom(MyTheme.elementSpacing),
                 Text(
                   "Install the appollo app on iOS or Android, sign in the withe same account and keep your tickets with you.",
-                  style: MyTheme.lightTextTheme.bodyText2,
+                  style: MyTheme.textTheme.bodyText2,
                 ).paddingBottom(MyTheme.elementSpacing),
               ],
             ));

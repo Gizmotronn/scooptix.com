@@ -52,7 +52,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
               .paddingHorizontal(MyTheme.elementSpacing),
         ],
       ).paddingVertical(MyTheme.elementSpacing),
-    ).appolloCard(color: MyTheme.appolloBackgroundColorLight);
+    ).appolloBlurCard(color: MyTheme.appolloBackgroundColorLight);
   }
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {

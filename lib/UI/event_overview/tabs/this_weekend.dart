@@ -73,7 +73,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
               (index) => Builder(
                 builder: (context) {
                   if (widget.events
-                      .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
+                      .where((event) => fullDateWithDay(event.date).contains(_weekendMenu[index].title))
                       .toList()
                       .isEmpty) {
                     return SizedBox();
@@ -95,7 +95,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
                                   tag2: ' | ${_weekendMenu[index].fullDate}'),
                               AppolloEvents(
                                   events: widget.events
-                                      .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
+                                      .where((event) => fullDateWithDay(event.date).contains(_weekendMenu[index].title))
                                       .toList()),
                               HoverAppolloButton(
                                 title: 'See More Events',
@@ -130,7 +130,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
               title: "${_weekendMenu[index].title} ${_weekendMenu[index].subtitle}",
               isTap: _weekendMenu[index].isTap,
               onTap: widget.events
-                      .where((event) => fullDate(event.date).contains(_weekendMenu[index].title))
+                      .where((event) => fullDateWithDay(event.date).contains(_weekendMenu[index].title))
                       .toList()
                       .isEmpty
                   ? null

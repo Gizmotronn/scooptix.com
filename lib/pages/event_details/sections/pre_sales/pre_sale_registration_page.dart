@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/event_details/widget/counter.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
@@ -71,8 +72,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           children: [
             AutoSizeText(
               'Pre-Sale Registration',
-              style:
-                  MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(32),
             AutoSizeText(
                     "Registering for presale is easy, signup or sign in and we will hold your ticket under your account. You will receive an email when presale tickets have gone on sale.",
@@ -110,8 +110,8 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           duration: widget.event.date.difference(DateTime.now()),
         ).paddingBottom(32),
         state is StateLoading
-            ? Container(child: Center(child: CircularProgressIndicator()).paddingAll(8))
-                .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
+            ? Container(child: Center(child: AppolloProgressIndicator()).paddingAll(8))
+                .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
             : state is StateRegistered
                 ? InkWell(
                     onTap: () {
@@ -137,9 +137,9 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     child: Container(
                             child: Text(
                       "You are registered for pre-sale, click for details",
-                      style: MyTheme.lightTextTheme.headline6,
+                      style: MyTheme.textTheme.headline6,
                     ).paddingAll(12))
-                        .appolloTransparentCard(color: MyTheme.appolloCardColor.withAlpha(120)),
+                        .appolloCard(color: MyTheme.appolloCardColor.withAlpha(120)),
                   )
                 : AppolloButton.regularButton(
                     width: 400,
@@ -190,7 +190,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
       children: [
         AutoSizeText(
           'Countdown to Pre-Sale Registration',
-          style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildCountdown().paddingBottom(MyTheme.elementSpacing),
         /* TODO AppolloButton.wideButton(
@@ -220,7 +220,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: MyTheme.lightTextTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
     );
   }
 

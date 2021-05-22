@@ -27,7 +27,7 @@ class GetTicketsSheet extends StatelessWidget {
             minFontSize: 11,
             overflow: TextOverflow.clip,
             maxLines: 1,
-            style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+            style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
           ).paddingHorizontal(MyTheme.elementSpacing),
           InkWell(
             onTap: () {
@@ -42,7 +42,7 @@ class GetTicketsSheet extends StatelessWidget {
               child: Center(
                   child: Text(
                 "Get Tickets",
-                style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
               )),
             ),
           ),

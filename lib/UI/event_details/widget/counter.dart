@@ -78,7 +78,7 @@ class _CountdownState extends State<Countdown> {
                       type(context, 'Days'),
                     ],
                   ).paddingHorizontal(4),
-                ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingRight(8),
+                ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingRight(8),
               ),
             Expanded(
               child: Container(
@@ -90,7 +90,7 @@ class _CountdownState extends State<Countdown> {
                     type(context, 'Hours'),
                   ],
                 ).paddingHorizontal(4),
-              ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingRight(8),
+              ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingRight(8),
             ),
             Expanded(
               child: Container(
@@ -102,7 +102,7 @@ class _CountdownState extends State<Countdown> {
                     type(context, 'Minutes'),
                   ],
                 ).paddingHorizontal(4),
-              ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50)),
+              ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)),
             ),
             if (_duration.inDays == 0)
               Expanded(
@@ -115,11 +115,11 @@ class _CountdownState extends State<Countdown> {
                       type(context, 'Seconds'),
                     ],
                   ).paddingHorizontal(4),
-                ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingLeft(8),
+                ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingLeft(8),
               ),
           ],
         ).paddingAll(8),
-      ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50)),
+      ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)),
     );
   }
 }

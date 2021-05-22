@@ -116,7 +116,7 @@ class EventCardDesktop extends StatelessWidget {
                       : preSale
                           ? "Pre Sale"
                           : tag,
-                  style: MyTheme.lightTextTheme.bodyText2)
+                  style: MyTheme.textTheme.bodyText2)
               .paddingHorizontal(14),
         ),
       ),
@@ -141,10 +141,10 @@ class EventCardDesktop extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            fullDate(event.date) ?? '',
+                            fullDateWithDay(event.date) ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
                         ValueListenableBuilder<User>(
@@ -212,10 +212,10 @@ class EventCardDesktop extends StatelessWidget {
               children: [
                 Expanded(
                   child: AutoSizeText(
-                    fullDate(event.date) ?? '',
+                    fullDateWithDay(event.date) ?? '',
                     textAlign: TextAlign.start,
                     maxLines: 2,
-                    style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed),
+                    style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloRed),
                   ).paddingBottom(8),
                 ),
               ],
@@ -330,7 +330,7 @@ class EventCard2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      fullDate(event.date) ?? '',
+                      fullDateWithDay(event.date) ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       style: Theme.of(context)

@@ -10,6 +10,7 @@ import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/pages/my_ticktes/my_tickets_sheet.dart';
 import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
+import 'UI/event_overview/tabs/for_me.dart';
 import 'services/bugsnag_wrapper.dart';
 import 'utilities/svg/icon.dart';
 import 'dart:html' as js;
@@ -90,6 +91,12 @@ class _WrapperPageState extends State<WrapperPage> {
   @override
   Widget build(BuildContext context) {
     MyTheme.elementSpacing = getValueForScreenType(context: context, watch: 12, mobile: 12, desktop: 20, tablet: 20);
+    MyTheme.textTheme = getValueForScreenType(
+        context: context,
+        watch: MyTheme.mobileTextTheme,
+        mobile: MyTheme.mobileTextTheme,
+        tablet: MyTheme.textTheme,
+        desktop: MyTheme.textTheme);
     return Scaffold(
         bottomNavigationBar: _buildBottomNavBar(),
         key: WrapperPage.mainScaffold,
@@ -128,24 +135,27 @@ class _WrapperPageState extends State<WrapperPage> {
         if (size.isDesktop || size.isTablet) {
           return SizedBox.shrink();
         } else {
-          MyTheme.bottomNavBarHeight = js.window.navigator.userAgent.contains("iPhone") ? 80 : 56;
+          MyTheme.bottomNavBarHeight = js.window.navigator.userAgent.contains("iPhone") ? 80 : 64;
           return Container(
-            color: MyTheme.appolloCardColor,
+            color: MyTheme.appolloBottomBarColor,
             height: MyTheme.bottomNavBarHeight,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
+                  height: 64,
                   color: Colors.transparent,
                   child: Align(
-                    alignment: Alignment.topCenter,
+                    alignment: Alignment.center,
                     child: BottomNavigationBar(
                       elevation: 0,
                       selectedItemColor: MyTheme.appolloGreen,
                       items: _navBarsItems(),
+                      selectedFontSize: 11,
+                      unselectedFontSize: 11,
                       type: BottomNavigationBarType.fixed,
                       currentIndex: selectedIndex,
-                      backgroundColor: MyTheme.appolloWhite.withAlpha(20),
+                      backgroundColor: Colors.transparent,
                       iconSize: 24,
                       showSelectedLabels: true,
                       showUnselectedLabels: true,
@@ -155,8 +165,14 @@ class _WrapperPageState extends State<WrapperPage> {
                         });
                         switch (selectedIndex) {
                           case 0:
+                            Navigator.of(WrapperPage.navigatorKey.currentContext)
+                                .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
                             break;
                           case 1:
+                            Navigator.of(WrapperPage.navigatorKey.currentContext)
+                                .push(MaterialPageRoute(builder: (context) => EventsForMe()));
+                            break;
+                          case 2:
                             MyTicketsSheet.openMyTicketsSheet();
                         }
                       },
@@ -165,7 +181,7 @@ class _WrapperPageState extends State<WrapperPage> {
                 ),
                 Expanded(
                   child: Container(
-                    color: MyTheme.appolloWhite.withAlpha(20),
+                    color: MyTheme.appolloBottomBarColor,
                   ),
                 ),
               ],
@@ -179,16 +195,20 @@ class _WrapperPageState extends State<WrapperPage> {
   List<BottomNavigationBarItem> _navBarsItems() {
     return [
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.home, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.homeGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloSvgIcon.home, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloSvgIcon.home, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "Home"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.ticket, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.ticketGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloSvgIcon.heartOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloSvgIcon.heartOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
+          label: "For Me"),
+      BottomNavigationBarItem(
+          icon: SvgPicture.asset(AppolloSvgIcon.ticket, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloSvgIcon.ticket, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "My Tickets"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.reward, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.rewardGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloSvgIcon.reward, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloSvgIcon.reward, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "Rewards"),
     ];
   }

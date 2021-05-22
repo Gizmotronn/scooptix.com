@@ -23,7 +23,7 @@ class _TicketCardState extends State<TicketCard> {
     return Container(
       width: 260,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+        borderRadius: BorderRadius.all(Radius.circular(8)),
         color: MyTheme.appolloCardColor,
       ),
       child: Column(
@@ -105,13 +105,13 @@ class _TicketCardState extends State<TicketCard> {
     } else if (widget.release.getNextRelease() != null) {
       return AutoSizeText(
               "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.getNextRelease().releaseStart)}",
-              style: MyTheme.lightTextTheme.subtitle1,
+              style: MyTheme.textTheme.subtitle1,
               textAlign: TextAlign.center)
           .paddingAll(8)
           .paddingTop(MyTheme.elementSpacing);
     } else {
       return AutoSizeText("There are currently no tickets of this type available.",
-              style: MyTheme.lightTextTheme.subtitle1, textAlign: TextAlign.center)
+              style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
           .paddingAll(8)
           .paddingTop(MyTheme.elementSpacing);
     }

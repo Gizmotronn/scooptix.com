@@ -51,8 +51,7 @@ class EventInfo extends StatelessWidget {
             children: [
               AutoSizeText(
                 event.name,
-                style:
-                    MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
               ).paddingBottom(8),
               AutoSizeText.rich(
                   TextSpan(
@@ -60,12 +59,12 @@ class EventInfo extends StatelessWidget {
                     children: [
                       TextSpan(
                           text: ' ${organizer?.getFullName() ?? ''}',
-                          style: MyTheme.lightTextTheme.bodyText2
+                          style: MyTheme.textTheme.bodyText2
                               .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
                     ],
                   ),
-                  style: MyTheme.lightTextTheme.bodyText2
-                      .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
+                  style:
+                      MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
             ],
           ),
           Column(
@@ -73,8 +72,7 @@ class EventInfo extends StatelessWidget {
             children: [
               AutoSizeText(
                 'Event Details',
-                style:
-                    MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
               ).paddingBottom(MyTheme.cardPadding),
               IconText(text: event.address ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
               IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)

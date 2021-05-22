@@ -67,23 +67,25 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
             ),
           );
         } else {
-          return Scaffold(
-            extendBodyBehindAppBar: true,
-            backgroundColor: MyTheme.appolloWhite,
-            appBar: AppolloAppBar(),
-            body: BlocProvider(
-              create: (_) => bloc,
-              child: Container(
-                color: MyTheme.appolloBackgroundColor,
-                width: screenSize.width,
-                height: screenSize.height,
-                child: Stack(
-                  children: [
-                    BlocProvider.value(
-                      value: bloc,
-                      child: EventOverviewHome(bloc: bloc, events: widget.events),
-                    ),
-                  ],
+          return SafeArea(
+            child: Scaffold(
+              extendBodyBehindAppBar: true,
+              backgroundColor: MyTheme.appolloWhite,
+              appBar: AppolloAppBar(),
+              body: BlocProvider(
+                create: (_) => bloc,
+                child: Container(
+                  color: MyTheme.appolloBackgroundColor,
+                  width: screenSize.width,
+                  height: screenSize.height,
+                  child: Stack(
+                    children: [
+                      BlocProvider.value(
+                        value: bloc,
+                        child: EventOverviewHome(bloc: bloc, events: widget.events),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

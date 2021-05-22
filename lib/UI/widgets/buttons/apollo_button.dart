@@ -16,8 +16,8 @@ class AppolloButton {
       ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
           constraints: BoxConstraints(
-              minHeight: height ?? size.isDesktop ? 40 : 35,
-              maxHeight: height ?? size.isDesktop ? 40 : 35,
+              minHeight: height ?? size.isDesktop ? 40 : 48,
+              maxHeight: height ?? size.isDesktop ? 40 : 48,
               minWidth: width ?? 130,
               maxWidth: width ?? double.infinity),
           child: TextButton(
@@ -149,17 +149,19 @@ class HoverAppolloButton extends StatefulWidget {
   final double maxHeight;
   final double minWidth;
   final double maxWidth;
+  final Function onTap;
 
   const HoverAppolloButton(
       {Key key,
       this.title,
       @required this.hoverColor,
-      this.color,
+      @required this.color,
       this.fill = false,
       this.minHeight,
       this.maxHeight,
       this.minWidth,
-      this.maxWidth})
+      this.maxWidth,
+      this.onTap})
       : super(key: key);
 
   @override
@@ -171,7 +173,7 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: widget.onTap,
       onHover: (v) => setState(() => isHover = v),
       child: ConstrainedBox(
         constraints: BoxConstraints(
@@ -193,9 +195,9 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
           child: Center(
             child: AutoSizeText(
               widget.title ?? '',
-              style: Theme.of(context).textTheme.button.copyWith(
-                    color: isHover ? MyTheme.appolloWhite : widget.color,
-                  ),
+              style: MyTheme.textTheme.button.copyWith(
+                color: isHover ? MyTheme.appolloWhite : MyTheme.textTheme.button.color,
+              ),
             ),
           ),
         ),

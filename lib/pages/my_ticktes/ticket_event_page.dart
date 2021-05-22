@@ -31,11 +31,11 @@ class TicketEventPage extends StatelessWidget {
                   SizedBox.shrink(),
                   Text(
                     "Event Ticket",
-                    style: MyTheme.lightTextTheme.headline5,
+                    style: MyTheme.textTheme.headline5,
                   ),
                   Text(
                     "Done",
-                    style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                    style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
                   )
                 ],
               ),
@@ -51,13 +51,13 @@ class TicketEventPage extends StatelessWidget {
           Column(
             children: [
               Container(
-                height: 50,
+                height: 64,
                 color: MyTheme.appolloGreen,
                 width: size.width,
                 child: Center(
                     child: Text(
                   '${ticket.release.ticketName}',
-                  style: MyTheme.lightTextTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                  style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
                 )),
               ).paddingBottom(MyTheme.elementSpacing),
               _eventDate().paddingBottom(MyTheme.elementSpacing),
@@ -67,13 +67,13 @@ class TicketEventPage extends StatelessWidget {
           ),
           _qrCode(size).paddingBottom(MyTheme.elementSpacing),
           Container(
-            height: 40,
+            height: 64,
             width: size.width,
             color: !isTicketPass ? MyTheme.appolloGreen : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
             child: Center(
                 child: Text(
               !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
-              style: Theme.of(context).textTheme.headline3.copyWith(color: Colors.white),
+              style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
             )),
           ),
         ],
@@ -86,11 +86,11 @@ class TicketEventPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("appollo",
-            style: MyTheme.lightTextTheme.subtitle1.copyWith(
-                fontFamily: "cocon",
-                color: Colors.white,
-                fontSize: 20,
-                shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)])),
+            style: MyTheme.textTheme.subtitle1.copyWith(
+              fontFamily: "cocon",
+              color: Colors.white,
+              fontSize: 24,
+            )),
         Text(
           "${time(ticket.event.date) + ' - ' + time(ticket.event.endTime)}\n${date(ticket.event.date)}",
         )
@@ -107,7 +107,7 @@ class TicketEventPage extends StatelessWidget {
           _header(context, title: 'Event'),
           Text(
             '${ticket.event.name}',
-            style: MyTheme.lightTextTheme.bodyText1,
+            style: MyTheme.textTheme.bodyText1,
           ),
         ],
       ).paddingHorizontal(MyTheme.elementSpacing),
@@ -121,7 +121,7 @@ class TicketEventPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _header(context, title: 'Where'),
-          Text('${ticket.event.address}', style: MyTheme.lightTextTheme.bodyText1),
+          Text('${ticket.event.address}', style: MyTheme.textTheme.bodyText1),
         ],
       ).paddingHorizontal(MyTheme.elementSpacing),
     );

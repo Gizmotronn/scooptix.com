@@ -12,9 +12,8 @@ import '../theme.dart';
 
 class SignUpForm extends StatefulWidget {
   final FormGroup form;
-  final TextTheme textTheme;
 
-  const SignUpForm({Key key, @required this.form, @required this.textTheme}) : super(key: key);
+  const SignUpForm({Key key, @required this.form}) : super(key: key);
 
   @override
   _SignUpFormState createState() => _SignUpFormState();
@@ -31,13 +30,13 @@ class _SignUpFormState extends State<SignUpForm> {
             AutoSizeText(
               "Create an account",
               textAlign: TextAlign.center,
-              style: widget.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+              style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
             ).paddingBottom(MyTheme.elementSpacing),
             AutoSizeText(
               "Tell us about yourself",
               textAlign: TextAlign.center,
-              style: widget.textTheme.headline4.copyWith(color: MyTheme.appolloOrange),
-            ).paddingBottom(MyTheme.elementSpacing),
+              style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange),
+            ).paddingBottom(MyTheme.elementSpacing * 2),
 
             Column(
               children: [
@@ -49,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ValidationMessage.required: 'Please provide a name',
                   },
                   // decoration: InputDecoration(labelText: "First Name"),
-                ).paddingBottom(MyTheme.elementSpacing),
+                ).paddingBottom(MyTheme.elementSpacing * 2),
                 AppolloTextfield(
                   labelText: "Last Name",
                   textfieldType: TextFieldType.reactive,
@@ -63,12 +62,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ).paddingBottom(MyTheme.elementSpacing * 2),
 
             Column(
-              crossAxisAlignment: getValueForScreenType(
-                  context: context,
-                  watch: CrossAxisAlignment.center,
-                  mobile: CrossAxisAlignment.center,
-                  tablet: CrossAxisAlignment.start,
-                  desktop: CrossAxisAlignment.start),
+              crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(
@@ -81,8 +75,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
-                            watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
+                            mobile: MediaQuery.of(context).size.width / 3 - 8,
+                            watch: MediaQuery.of(context).size.width / 3 - 8),
                         child: AppolloTextfield(
                           labelText: 'Day',
                           textfieldType: TextFieldType.reactive,
@@ -108,8 +102,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
-                            watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
+                            mobile: MediaQuery.of(context).size.width / 3 - 30,
+                            watch: MediaQuery.of(context).size.width / 3 - 30),
                         child: AppolloTextfield(
                           labelText: 'Month',
                           textfieldType: TextFieldType.reactive,
@@ -134,8 +128,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3,
-                            watch: (MyTheme.maxWidth - MyTheme.cardPadding * 4 - 30) / 3),
+                            mobile: MediaQuery.of(context).size.width / 3 - 30,
+                            watch: MediaQuery.of(context).size.width / 3 - 30),
                         child: AppolloTextfield(
                           labelText: 'Year',
                           textfieldType: TextFieldType.reactive,
@@ -173,7 +167,7 @@ class _SignUpFormState extends State<SignUpForm> {
                         value: e,
                         child: Text(
                           e.toDisplayString(),
-                          style: widget.textTheme.bodyText1,
+                          style: MyTheme.textTheme.bodyText1,
                         ),
                       );
                     }).toList(),
@@ -187,14 +181,14 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             AutoSizeText(
               "Terms & Conditions",
-              style: widget.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+              style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: MyTheme.elementSpacing,
             ),
             AutoSizeText(
               "We require this information to issue your ticket. Please note that providing incorrect information may invalidate you ticket.\n\nWe’ll save this data for you so you’ll only need to provide it once. ",
-              style: widget.textTheme.caption,
+              style: MyTheme.textTheme.caption,
               textAlign: TextAlign.center,
             ),
             SizedBox(
@@ -228,7 +222,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       },
                       child: Text(
                         "I accept the terms & conditions",
-                        style: widget.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
+                        style: MyTheme.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
                       )),
                 ],
               ),

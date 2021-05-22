@@ -11,6 +11,7 @@ class AppolloSvgIcon {
   static String clock = 'assets/icons/clock.svg';
   static String dot = 'assets/icons/dot.svg';
   static String heart = 'assets/icons/heart.svg';
+  static String heartOutline = 'assets/icons/heart_outline.svg';
   static String hamBurgerIcon = 'assets/icons/hamburger.svg';
   static String home = 'assets/icons/home.svg';
   static String homeGreen = 'assets/icons/home_green.svg';

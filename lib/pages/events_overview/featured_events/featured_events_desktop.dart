@@ -240,7 +240,7 @@ class FeaturedEventText extends StatelessWidget {
           "${event?.description ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.bodyText1,
+          style: MyTheme.textTheme.bodyText1,
         ).paddingBottom(8),
         AppolloButton.regularButton(
             color: MyTheme.appolloGreen,
@@ -259,16 +259,16 @@ class FeaturedEventText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeText(
-          event?.date == null ? '' : fullDate(event?.date),
+          event?.date == null ? '' : fullDateWithDay(event?.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.headline6.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
+          style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
         ).paddingBottom(8),
         AutoSizeText(
           event?.name ?? '',
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloWhite),
         ).paddingBottom(4),
       ],
     );

@@ -42,10 +42,10 @@ class MyTicketCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            fullDate(ticket.event.date) ?? '',
+                            fullDateWithDay(ticket.event.date) ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
                       ],
@@ -55,7 +55,7 @@ class MyTicketCard extends StatelessWidget {
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       overflow: TextOverflow.clip,
-                      style: MyTheme.lightTextTheme.headline5,
+                      style: MyTheme.textTheme.headline5,
                     ),
                     Spacer(),
                     Row(
@@ -65,7 +65,7 @@ class MyTicketCard extends StatelessWidget {
                             ticket.event.address ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: MyTheme.lightTextTheme.subtitle2.copyWith(color: MyTheme.appolloWhite),
+                            style: MyTheme.textTheme.subtitle2.copyWith(color: MyTheme.appolloWhite),
                           ),
                         ),
                       ],
@@ -91,12 +91,12 @@ class MyTicketCard extends StatelessWidget {
 
   Widget _checkTicket(bool isPassTicket) {
     if (isPastTicket && !ticket.wasUsed) {
-      return _qrCard('Did Not Attend', 'Expired Event');
+      return _qrCard('Did Not Attend', 'Expired');
     }
     if (isPastTicket && ticket.wasUsed) {
-      return _qrCard('Attended', 'Expired Event');
+      return _qrCard('Attended', 'Expired');
     }
-    return _qrCard("Admit One", 'View Event');
+    return _qrCard("Admit One", 'View Ticket');
   }
 
   Widget _qrCard(String title, String subTitle) {
@@ -104,14 +104,14 @@ class MyTicketCard extends StatelessWidget {
       children: [
         Text(
           title,
-          style: MyTheme.lightTextTheme.caption.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloWhite),
         ),
         Expanded(
           child: SvgPicture.asset(AppolloSvgIcon.qrScan).paddingAll(4),
         ),
         Text(
           subTitle,
-          style: MyTheme.lightTextTheme.caption.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
         ),
       ],
     );

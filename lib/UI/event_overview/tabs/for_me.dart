@@ -1,15 +1,20 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/forme_card.dart';
+import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
+import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
+import '../../../main.dart';
 import '../event_overview_home.dart';
 import '../side_buttons.dart';
 
@@ -24,8 +29,8 @@ class EventsForMe extends StatefulWidget {
 
 class _EventsForMeState extends State<EventsForMe> {
   List<Menu> _forMe = [
-    Menu('Event you may liked', false, id: 0, svgIcon: AppolloSvgIcon.calender),
-    Menu('Favourite Organizers', false, id: 1, svgIcon: AppolloSvgIcon.people),
+    Menu('Events you may like', false, id: 0, svgIcon: AppolloSvgIcon.calender),
+    Menu('Favourite Organisers', false, id: 1, svgIcon: AppolloSvgIcon.people),
     Menu('Events you liked', false, id: 2, svgIcon: AppolloSvgIcon.heart),
   ];
 
@@ -36,107 +41,146 @@ class _EventsForMeState extends State<EventsForMe> {
     final screenSize = MediaQuery.of(context).size;
     return SizedBox(
       width: screenSize.width * 0.8,
-      child: UserRepository.instance.currentUser() != null
-          ? Column(
-              children: [
-                _forMeNav().paddingBottom(16),
-                BoxOffset(
-                  boxOffset: (offset) => setState(() => positions[_forMe[0].id] = offset.dy),
-                  child: AppolloBackgroundCard(
-                    child: Column(
-                      children: [
-                        _forMeTags(context, tag: 'Event you may liked', icon: AppolloSvgIcon.calender),
-                        const SizedBox(height: 300),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: kToolbarHeight),
-                BoxOffset(
-                  boxOffset: (offset) => setState(() => positions[_forMe[1].id] = offset.dy),
-                  child: AppolloBackgroundCard(
-                    child: Column(
-                      children: [
-                        _forMeTags(context, tag: 'Favourite Organizers', icon: AppolloSvgIcon.people),
-                        const SizedBox(height: 300),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: kToolbarHeight),
-                BoxOffset(
-                  boxOffset: (offset) => setState(() => positions[_forMe[2].id] = offset.dy),
-                  child: AppolloBackgroundCard(
-                    child: Column(
-                      children: [
-                        _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
-                        AppolloEvents(
-                            events: EventsRepository.instance.events
-                                .where((element) =>
-                                    UserRepository.instance.currentUser().favourites.contains(element.docID))
-                                .toList()),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: kToolbarHeight),
-              ],
-            )
-          : Container(
-              height: screenSize.height * 0.5,
-              child: _buildForMe(),
-            ),
+      child: ValueListenableBuilder(
+        valueListenable: UserRepository.instance.currentUserNotifier,
+        builder: (c, u, w) {
+          return u != null ? _buildForMeLoggedIn() : _buildForMeNotLoggedIn();
+        },
+      ),
     );
   }
 
-  Widget _buildForMe() {
-    return Column(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              ForMeCard(
-                title: 'Curated Events',
-                color: MyTheme.appolloGreen,
-                subTitle:
-                    'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
-                svgIcon: AppolloSvgIcon.calender,
-              ),
-              ForMeCard(
-                title: 'Follow your favourite organisers',
-                subTitle:
-                    'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
-                color: MyTheme.appolloOrange,
-                svgIcon: AppolloSvgIcon.people,
-              ),
-              ForMeCard(
-                title: 'Like an event',
-                subTitle:
-                    'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
-                color: MyTheme.appolloRed,
-                svgIcon: AppolloSvgIcon.heart,
-              ),
-            ],
-          ),
-        ),
-        ForMeCard(
-          title: 'Create an acount and discover the best event based on your preferences',
-          subTitle:
-              'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
-          svgIcon: AppolloSvgIcon.person,
-          color: MyTheme.appolloPurple,
-          child: HoverAppolloButton(
-            title: 'Sign In',
-            color: MyTheme.appolloPurple,
-            hoverColor: MyTheme.appolloPurple,
-            maxHeight: 30,
-            minHeight: 25,
-            maxWidth: 120,
-            minWidth: 100,
-            fill: false,
-          ).paddingTop(4),
-        ),
-      ],
+  Widget _buildForMeNotLoggedIn() {
+    Size screenSize = MediaQuery.of(context).size;
+    return ResponsiveBuilder(
+      builder: (context, size) {
+        if (size.isDesktop || size.isTablet) {
+          return Container(
+            //height: screenSize.height * 0.5,
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    SizedBox(
+                      height: screenSize.height * 0.25,
+                      width: screenSize.width * 0.8 / 3 - MyTheme.elementSpacing * 2 / 3,
+                      child: ForMeCard(
+                        title: 'Curated Events',
+                        color: MyTheme.appolloGreen,
+                        subTitle:
+                            'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
+                        svgIcon: AppolloSvgIcon.calender,
+                      ),
+                    ).paddingRight(MyTheme.elementSpacing),
+                    SizedBox(
+                      height: screenSize.height * 0.25,
+                      width: screenSize.width * 0.8 / 3 - MyTheme.elementSpacing * 2 / 3,
+                      child: ForMeCard(
+                        title: 'Follow your favourite organisers',
+                        subTitle:
+                            'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
+                        color: MyTheme.appolloOrange,
+                        svgIcon: AppolloSvgIcon.people,
+                      ),
+                    ).paddingRight(MyTheme.elementSpacing),
+                    SizedBox(
+                      height: screenSize.height * 0.25,
+                      width: screenSize.width * 0.8 / 3 - MyTheme.elementSpacing * 2 / 3,
+                      child: ForMeCard(
+                        title: 'Like an event',
+                        subTitle:
+                            'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
+                        color: MyTheme.appolloRed,
+                        svgIcon: AppolloSvgIcon.heart,
+                      ),
+                    ),
+                  ],
+                ).paddingBottom(MyTheme.elementSpacing),
+                SizedBox(
+                  height: screenSize.height * 0.25,
+                  child: ForMeCard(
+                    title: 'Create an account and discover the best event based on your preferences',
+                    subTitle:
+                        'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
+                    svgIcon: AppolloSvgIcon.person,
+                    color: MyTheme.appolloPurple,
+                    child: HoverAppolloButton(
+                      onTap: () {
+                        WrapperPage.endDrawer.value = AuthenticationDrawer();
+                        WrapperPage.mainScaffold.currentState.openEndDrawer();
+                      },
+                      title: 'Create An Account',
+                      color: MyTheme.appolloGreen,
+                      hoverColor: MyTheme.appolloGreen,
+                      maxWidth: 210,
+                      minWidth: 210,
+                      fill: true,
+                    ).paddingTop(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing),
+                  ),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return SizedBox(
+            height: size.screenSize.height,
+            child: SingleChildScrollView(
+              child: Container(
+                child: Column(
+                  children: [
+                    ForMeCard(
+                      title: 'Curated Events',
+                      color: MyTheme.appolloGreen,
+                      subTitle:
+                          'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
+                      svgIcon: AppolloSvgIcon.calender,
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    ForMeCard(
+                      title: 'Follow your favourite organisers',
+                      subTitle:
+                          'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
+                      color: MyTheme.appolloOrange,
+                      svgIcon: AppolloSvgIcon.people,
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    ForMeCard(
+                      title: 'Like an event',
+                      subTitle:
+                          'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
+                      color: MyTheme.appolloRed,
+                      svgIcon: AppolloSvgIcon.heart,
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    ForMeCard(
+                      title: 'Create an account and discover the best event based on your preferences',
+                      subTitle:
+                          'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
+                      svgIcon: AppolloSvgIcon.person,
+                      color: MyTheme.appolloPurple,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 4.0, left: MyTheme.elementSpacing, right: MyTheme.elementSpacing),
+                        child: HoverAppolloButton(
+                          onTap: () {
+                            showCupertinoModalBottomSheet(
+                                context: context,
+                                backgroundColor: MyTheme.appolloBackgroundColor,
+                                expand: true,
+                                builder: (context) => AuthenticationPageWrapper());
+                          },
+                          title: 'Create An Account',
+                          color: MyTheme.appolloGreen,
+                          hoverColor: MyTheme.appolloGreen,
+                          maxWidth: 400,
+                          minWidth: 400,
+                          fill: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ).paddingAll(MyTheme.elementSpacing),
+              ).appolloCard(color: MyTheme.appolloBackgroundColor, borderRadius: BorderRadius.circular(5)),
+            ),
+          );
+        }
+      },
     );
   }
 
@@ -172,6 +216,99 @@ class _EventsForMeState extends State<EventsForMe> {
           },
         ).paddingHorizontal(16),
       ),
+    );
+  }
+
+  Widget _buildForMeLoggedIn() {
+    return ResponsiveBuilder(
+      builder: (context, size) {
+        if (size.isTablet || size.isDesktop) {
+          return Column(
+            children: [
+              _forMeNav().paddingBottom(16),
+              BoxOffset(
+                boxOffset: (offset) => setState(() => positions[_forMe[0].id] = offset.dy),
+                child: AppolloBackgroundCard(
+                  child: Column(
+                    children: [
+                      _forMeTags(context, tag: 'Events you may like', icon: AppolloSvgIcon.calender),
+                      const SizedBox(height: 300),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: kToolbarHeight),
+              BoxOffset(
+                boxOffset: (offset) => setState(() => positions[_forMe[1].id] = offset.dy),
+                child: AppolloBackgroundCard(
+                  child: Column(
+                    children: [
+                      _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloSvgIcon.people),
+                      const SizedBox(height: 300),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: kToolbarHeight),
+              BoxOffset(
+                boxOffset: (offset) => setState(() => positions[_forMe[2].id] = offset.dy),
+                child: AppolloBackgroundCard(
+                  child: Column(
+                    children: [
+                      _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
+                      AppolloEvents(
+                          events: EventsRepository.instance.events
+                              .where(
+                                  (element) => UserRepository.instance.currentUser().favourites.contains(element.docID))
+                              .toList()),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: kToolbarHeight),
+            ],
+          );
+        } else {
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing / 2),
+            color: MyTheme.appolloBackgroundColor,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    child: Column(
+                      children: [
+                        _forMeTags(context, tag: 'Events you may like', icon: AppolloSvgIcon.calender),
+                        AppolloEvents(events: EventsRepository.instance.events.take(5).toList()),
+                      ],
+                    ),
+                  ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
+                  Container(
+                    child: Column(
+                      children: [
+                        _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloSvgIcon.people),
+                        AppolloEvents(events: EventsRepository.instance.events.take(5).toList()),
+                      ],
+                    ),
+                  ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
+                  Container(
+                    child: Column(
+                      children: [
+                        _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
+                        AppolloEvents(
+                            events: EventsRepository.instance.events
+                                .where((element) =>
+                                    UserRepository.instance.currentUser().favourites.contains(element.docID))
+                                .toList()),
+                      ],
+                    ),
+                  ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
+                ],
+              ),
+            ),
+          );
+        }
+      },
     );
   }
 }

@@ -47,9 +47,8 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
   }
 
   slideList() async {
-    var removedEvent = events.removeAt(0);
-
     await _animationController.forward();
+    var removedEvent = events.removeAt(0);
 
     setState(() {
       beginOffset = Offset(0, 0);
@@ -65,7 +64,6 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
   }
 
   void _animatedCard() {
-    print("animated");
     if (_timer != null) {
       _timer.cancel();
     }
@@ -104,7 +102,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       child: Builder(builder: (context) {
         return Container(
           child: Column(children: [
-            const SizedBox(height: kToolbarHeight + 8),
+            const SizedBox(height: kToolbarHeight),
             heroEvent == null
                 ? SizedBox()
                 : SlideTransition(
@@ -138,8 +136,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       children: [
         AppolloButton.regularButton(
             color: MyTheme.appolloGreen,
-            child: AutoSizeText('Get Ticket',
-                maxLines: 2, style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBlack)),
+            child: AutoSizeText('Get Ticket', maxLines: 2, style: MyTheme.textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
                   arg: heroEvent.docID, queryParams: {'id': heroEvent.docID});
@@ -174,7 +171,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
         width: size.width * 0.233,
         child: ExpandImageCard(
           imageUrl: events[index].coverImageURL,
-        ).paddingRight(2.5).paddingLeft(index == 4 ? 30 : 0),
+        ).paddingRight(4).paddingLeft(index == 4 ? 30 : 0),
       ),
     );
   }
@@ -199,22 +196,22 @@ class FeaturedEventTextMobile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeText(
-          event?.date == null ? '' : fullDate(event?.date),
+          event?.date == null ? '' : fullDateWithDay(event?.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.caption.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
+          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
         ).paddingBottom(8),
         AutoSizeText(
           event?.name ?? '',
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.textTheme.headline3.copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(8),
         AutoSizeText(
           "${event?.description ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.lightTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w400),
+          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400),
         ).paddingBottom(8)
       ],
     );

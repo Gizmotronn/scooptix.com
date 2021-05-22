@@ -13,14 +13,14 @@ class AlertGenerator {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: MyTheme.appolloBackgroundColor,
-        title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.lightTextTheme.headline5)),
-        content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.lightTextTheme.bodyText2)),
+        title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.textTheme.headline5)),
+        content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.textTheme.bodyText2)),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           TextButton(
             child: Text(
               buttonText,
-              style: MyTheme.lightTextTheme.bodyText2,
+              style: MyTheme.textTheme.bodyText2,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -46,14 +46,14 @@ class AlertGenerator {
       context: context,
       builder: (_) => AlertDialog(
         backgroundColor: MyTheme.theme.backgroundColor,
-        title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.lightTextTheme.headline5)),
-        content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.lightTextTheme.bodyText2)),
+        title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.textTheme.headline5)),
+        content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.textTheme.bodyText2)),
         actions: <Widget>[
           // usually buttons at the bottom of the dialog
           TextButton(
             child: Text(
               buttonText1,
-              style: MyTheme.lightTextTheme.subtitle2,
+              style: MyTheme.textTheme.subtitle2,
             ),
             onPressed: () {
               response = true;
@@ -61,7 +61,7 @@ class AlertGenerator {
             },
           ),
           TextButton(
-            child: Text(buttonText2, style: MyTheme.lightTextTheme.bodyText2),
+            child: Text(buttonText2, style: MyTheme.textTheme.bodyText2),
             onPressed: () {
               response = false;
               Navigator.pop(context);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/payment/payment_page.dart';
+import 'package:ticketapp/utilities/svg/icon.dart';
 
 class PaymentSheetWrapper extends StatefulWidget {
   final Event event;
@@ -27,7 +29,18 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: MyTheme.appolloCardColorLight,
-        automaticallyImplyLeading: true,
+        leading: InkWell(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: SvgPicture.asset(
+            AppolloSvgIcon.arrowBackOutline,
+            color: MyTheme.appolloWhite,
+            height: 36,
+            width: 36,
+            fit: BoxFit.scaleDown,
+          ),
+        ),
         centerTitle: true,
         title: Container(
           width: MediaQuery.of(context).size.width,
@@ -43,7 +56,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
                       alignment: Alignment.center,
                       child: Text(
                         "Order Summary",
-                        style: MyTheme.lightTextTheme.headline5,
+                        style: MyTheme.textTheme.headline5,
                       ),
                     ),
                   ),
@@ -55,7 +68,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
                       },
                       child: Text(
                         "Close",
-                        style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
                       ),
                     ),
                   )

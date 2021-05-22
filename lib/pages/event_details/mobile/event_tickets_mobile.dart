@@ -61,7 +61,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
         children: [
           AutoSizeText(
             'Tickets',
-            style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(
             width: MediaQuery.of(context).size.width,

@@ -23,7 +23,7 @@ class DateWidget extends StatelessWidget {
                   child: Container(
                     color: MyTheme.appolloRed,
                     width: MyTheme.maxWidth,
-                    child: Center(child: Text(DateFormat.MMM().format(date), style: MyTheme.lightTextTheme.subtitle2)),
+                    child: Center(child: Text(DateFormat.MMM().format(date), style: MyTheme.textTheme.subtitle2)),
                   ),
                 ),
                 SizedBox(
@@ -31,7 +31,7 @@ class DateWidget extends StatelessWidget {
                   child: Center(
                     child: Text(
                       DateFormat.d().format(date),
-                      style: MyTheme.lightTextTheme.headline4,
+                      style: MyTheme.textTheme.headline4,
                     ),
                   ),
                 )

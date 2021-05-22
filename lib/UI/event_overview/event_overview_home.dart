@@ -11,6 +11,7 @@ import 'package:ticketapp/UI/event_overview/tabs/for_me.dart';
 import 'package:ticketapp/UI/event_overview/tabs/this_week.dart';
 import 'package:ticketapp/UI/event_overview/tabs/this_weekend.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import 'package:ticketapp/pages/events_overview/featured_events/featured_events.dart';
@@ -122,7 +123,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
         return SizedBox(
           height: 300,
           child: Center(
-            child: CircularProgressIndicator(),
+            child: AppolloProgressIndicator(),
           ),
         );
       },

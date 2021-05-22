@@ -6,6 +6,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
@@ -107,7 +108,7 @@ class _PaymentPageState extends State<PaymentPage> {
             if (state is StatePaymentError) {
               return Column(
                 children: [
-                  Text(state.message, style: MyTheme.lightTextTheme.bodyText2).paddingBottom(MyTheme.elementSpacing),
+                  Text(state.message, style: MyTheme.textTheme.bodyText2).paddingBottom(MyTheme.elementSpacing),
                   SizedBox(
                     height: 34,
                     width: MyTheme.drawerSize,
@@ -118,7 +119,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       onPressed: () {
                         bloc.add(EventCancelPayment());
                       },
-                      child: Text("Go back", style: MyTheme.lightTextTheme.bodyText2),
+                      child: Text("Go back", style: MyTheme.textTheme.bodyText2),
                     ),
                   )
                 ],
@@ -126,7 +127,7 @@ class _PaymentPageState extends State<PaymentPage> {
             } else if (state is StatePaymentCompleted) {
               return Text(
                 "Payment Successful",
-                style: MyTheme.lightTextTheme.bodyText2,
+                style: MyTheme.textTheme.bodyText2,
               );
             } else if (state is StatePaymentOptionAvailable) {
               return Column(
@@ -162,7 +163,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           },
                           child: Text(
                             "PURCHASE",
-                            style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                            style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                           ),
                         ),
                       ),
@@ -171,15 +172,15 @@ class _PaymentPageState extends State<PaymentPage> {
                 ],
               );
             } else if (state is StateFreeTicketAlreadyOwned) {
-              return Text("You already own a free ticket for this event. Free Tickets are limit to 1 per customer.");
+              return Text("You already own a free ticket for this event. Free Tickets are limited to 1 per customer.");
             } else if (state is StateLoadingPaymentMethod) {
               return Column(
                 children: [
-                  Text("Fetching payment methods", style: MyTheme.lightTextTheme.bodyText2),
+                  Text("Fetching payment methods", style: MyTheme.textTheme.bodyText2),
                   SizedBox(
                     height: MyTheme.elementSpacing,
                   ),
-                  CircularProgressIndicator(),
+                  AppolloProgressIndicator(),
                 ],
               );
             } else if (state is StateLoadingPaymentIntent) {
@@ -187,12 +188,12 @@ class _PaymentPageState extends State<PaymentPage> {
                 children: [
                   Text(
                     "Finalizing your payment",
-                    style: MyTheme.lightTextTheme.bodyText2,
+                    style: MyTheme.textTheme.bodyText2,
                   ),
                   SizedBox(
                     height: MyTheme.elementSpacing,
                   ),
-                  CircularProgressIndicator(),
+                  AppolloProgressIndicator(),
                   SizedBox(
                     height: MyTheme.elementSpacing,
                   ),
@@ -204,12 +205,12 @@ class _PaymentPageState extends State<PaymentPage> {
                   _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
                   Text(
                     "Setting up secure payment",
-                    style: MyTheme.lightTextTheme.bodyText2,
+                    style: MyTheme.textTheme.bodyText2,
                   ),
                   SizedBox(
                     height: MyTheme.elementSpacing,
                   ),
-                  CircularProgressIndicator(),
+                  AppolloProgressIndicator(),
                 ],
               );
             }
@@ -287,7 +288,7 @@ class _PaymentPageState extends State<PaymentPage> {
     if (state is StateFreeTicketSelected) {
       return Text(
         "This ticket is free!",
-        style: MyTheme.lightTextTheme.headline6,
+        style: MyTheme.textTheme.headline6,
       ).paddingBottom(MyTheme.elementSpacing);
     } else if (state is StatePaidTickets) {
       return Column(
@@ -310,7 +311,7 @@ class _PaymentPageState extends State<PaymentPage> {
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
                 "Payment Method",
-                style: MyTheme.lightTextTheme.subtitle1.copyWith(color: MyTheme.appolloOrange),
+                style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloOrange),
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
@@ -354,13 +355,13 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+              Text("Subtotal", style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100 - _calculateDiscount()).toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -372,10 +373,10 @@ class _PaymentPageState extends State<PaymentPage> {
               children: [
                 Text(
                   "Discount (${widget.discount.type == DiscountType.value ? "\$" + (widget.discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : widget.discount.amount.toString() + "%"})",
-                  style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
+                  style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text("-\$${_calculateDiscount().toStringAsFixed(2)}",
-                    style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))
+                    style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -386,14 +387,14 @@ class _PaymentPageState extends State<PaymentPage> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -403,14 +404,14 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+              Text("Total", style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -452,7 +453,7 @@ class _PaymentPageState extends State<PaymentPage> {
               },
               child: Text(
                 "I accept the terms & conditions",
-                style: MyTheme.lightTextTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
+                style: MyTheme.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
               )),
         ],
       ),
@@ -469,13 +470,13 @@ class _PaymentPageState extends State<PaymentPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(key.ticketName + " x $value",
-                style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+                style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.lightTextTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                        style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));
@@ -510,7 +511,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             alignment: Alignment.topCenter,
                             child: Text(
                               "Add a Payment Method",
-                              style: MyTheme.lightTextTheme.headline6,
+                              style: MyTheme.textTheme.headline6,
                             )),
                         InkWell(
                           onTap: () {
@@ -522,7 +523,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               alignment: Alignment.topRight,
                               child: Text(
                                 "close",
-                                style: MyTheme.lightTextTheme.bodyText1.copyWith(color: MyTheme.appolloRed),
+                                style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloRed),
                               )),
                         ),
                       ],
@@ -623,7 +624,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           ),
                           Text(
                             "Save my credit card details",
-                            style: MyTheme.lightTextTheme.bodyText2,
+                            style: MyTheme.textTheme.bodyText2,
                           ),
                         ],
                       ),
@@ -669,10 +670,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                     }
                                   },
                                   child: state is StateLoadingPaymentMethod || cardLoading
-                                      ? CircularProgressIndicator()
+                                      ? AppolloButtonProgressIndicator()
                                       : Text(
                                           "Add Card",
-                                          style: MyTheme.lightTextTheme.button,
+                                          style: MyTheme.textTheme.button,
                                         ),
                                 ),
                               ).paddingBottom(8),
@@ -708,7 +709,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             },
                             child: Text(
                               "Add Card",
-                              style: MyTheme.lightTextTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                              style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                             ),
                           ),
                         );
@@ -717,15 +718,15 @@ class _PaymentPageState extends State<PaymentPage> {
                   ],
                 ).paddingAll(MyTheme.elementSpacing),
               )
-                .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
+                .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
                 .paddingBottom(MyTheme.elementSpacing)
             : Container(
                     child: Center(
                         child: Text(
                 "Add a Payment Method",
-                style: MyTheme.lightTextTheme.subtitle1.copyWith(color: MyTheme.appolloGreen),
+                style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloGreen),
               ).paddingAll(8)))
-                .appolloTransparentCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120)),
+                .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120)),
       ),
     ).paddingBottom(MyTheme.elementSpacing);
   }

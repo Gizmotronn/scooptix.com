@@ -22,13 +22,12 @@ class EventDescription extends StatelessWidget {
             children: [
               AutoSizeText(
                 'Event Details',
-                style:
-                    MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 30),
               AutoSizeText("${event?.description ?? ''}",
                   textAlign: TextAlign.center,
-                  style: MyTheme.lightTextTheme.bodyText1.copyWith(fontWeight: FontWeight.w400)),
+                  style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400)),
             ],
           ).paddingHorizontal(32),
           const SizedBox(height: 30),
