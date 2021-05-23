@@ -148,199 +148,178 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
         body: Container(
           padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
           height: screenSize.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: BlocBuilder<BirthdayListBloc, BirthdayListState>(
-                    cubit: bloc,
-                    builder: (c, state) {
-                      if (state is StateExistingList) {
-                        return Container(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              AutoSizeText("Invite your friends",
-                                      style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
-                                  .paddingBottom(MyTheme.elementSpacing)
-                                  .paddingTop(MyTheme.elementSpacing / 2),
-                              AutoSizeText(
-                                      "Below you will find your invitation link. Copy the link and give it to anyone you wish to invite")
-                                  .paddingBottom(MyTheme.elementSpacing),
-                              AutoSizeText(
-                                      "Guests need to open the link and accept your invite by following the instructions.")
-                                  .paddingBottom(MyTheme.elementSpacing),
-                              AutoSizeText("Invitation Link",
-                                      style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
-                                  .paddingBottom(MyTheme.elementSpacing * 0.5),
-                              OnTapAnimationButton(
-                                fill: true,
-                                border: true,
-                                width: screenSize.width,
-                                onTapColor: MyTheme.appolloGreen,
-                                onTapContent: Text(
-                                  "LINK COPIED",
-                                  style: MyTheme.textTheme.headline6,
-                                ),
-                                color: MyTheme.appolloBackgroundColor,
-                                onTap: () {
-                                  if (PlatformDetector.isMobile()) {
-                                    Share.share("appollo.io/invite?id=${state.birthdayList.uuid}",
-                                        subject: 'Appollo Event Invitation');
-                                  } else {
-                                    FlutterClipboard.copy("appollo.io/invite?id=${state.birthdayList.uuid}");
-                                  }
-                                },
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: AutoSizeText(
-                                    "appollo.io/invite?id=${state.birthdayList.uuid}",
-                                    style: MyTheme.textTheme.bodyText2,
-                                  ),
-                                ),
-                              ).paddingBottom(MyTheme.elementSpacing),
-                              AutoSizeText("RSVP's",
-                                      style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
-                                  .paddingBottom(MyTheme.elementSpacing * 0.5),
-                              ClipRRect(
+          child: BlocBuilder<BirthdayListBloc, BirthdayListState>(
+              cubit: bloc,
+              builder: (c, state) {
+                if (state is StateExistingList) {
+                  return Container(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText("Invite your friends",
+                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
+                            .paddingBottom(MyTheme.elementSpacing * 2)
+                            .paddingTop(MyTheme.elementSpacing),
+                        AutoSizeText(
+                                "Below you will find your invitation link. Copy the link and give it to anyone you wish to invite")
+                            .paddingBottom(MyTheme.elementSpacing),
+                        AutoSizeText(
+                                "Guests need to open the link and accept your invite by following the instructions.")
+                            .paddingBottom(MyTheme.elementSpacing),
+                        AutoSizeText("Invitation Link",
+                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                            .paddingBottom(MyTheme.elementSpacing * 0.5),
+                        OnTapAnimationButton(
+                          fill: true,
+                          border: true,
+                          width: screenSize.width,
+                          onTapColor: MyTheme.appolloGreen,
+                          onTapContent: Text(
+                            "LINK COPIED",
+                            style: MyTheme.textTheme.headline6,
+                          ),
+                          color: MyTheme.appolloBackgroundColor,
+                          onTap: () {
+                            if (PlatformDetector.isMobile()) {
+                              Share.share("appollo.io/invite?id=${state.birthdayList.uuid}",
+                                  subject: 'Appollo Event Invitation');
+                            } else {
+                              FlutterClipboard.copy("appollo.io/invite?id=${state.birthdayList.uuid}");
+                            }
+                          },
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: AutoSizeText(
+                              "appollo.io/invite?id=${state.birthdayList.uuid}",
+                              style: MyTheme.textTheme.bodyText2,
+                            ),
+                          ),
+                        ).paddingBottom(MyTheme.elementSpacing),
+                        AutoSizeText("RSVP's",
+                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                            .paddingBottom(MyTheme.elementSpacing * 0.5),
+                        ClipRRect(
+                          borderRadius:
+                              BorderRadius.only(bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
+                          child: ResponsiveDatatable(
+                            headers: _headers,
+                            useDesktopView: true,
+                            source: _buildAttendeeTable(state.birthdayList.attendees),
+                            listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor),
+                            itemPaddingVertical: 8,
+                            headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            headerDecoration: BoxDecoration(
+                                color: MyTheme.appolloPurple,
                                 borderRadius:
-                                    BorderRadius.only(bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
-                                child: ResponsiveDatatable(
-                                  headers: _headers,
-                                  useDesktopView: true,
-                                  source: _buildAttendeeTable(state.birthdayList.attendees),
-                                  listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
-                                  itemPaddingVertical: 8,
-                                  headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                  headerDecoration: BoxDecoration(
-                                      color: MyTheme.appolloPurple,
-                                      borderRadius:
-                                          BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))),
-                                ),
-                              ),
-                            ],
+                                    BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))),
                           ),
-                        );
-                      } else if (state is StateNoList) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            AutoSizeText("Celebrate in style!",
-                                    style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
-                                .paddingBottom(MyTheme.elementSpacing)
-                                .paddingTop(MyTheme.elementSpacing / 2),
-                            ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget.event.birthdayEventData.benefits.length,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Center(
-                                      child: Container(
-                                        decoration: ShapeDecoration(shape: CircleBorder(), color: MyTheme.appolloGreen),
-                                        height: 12,
-                                        width: 12,
-                                      ).paddingRight(MyTheme.elementSpacing),
-                                    ),
-                                    Center(
-                                        child: Text(
-                                      widget.event.birthdayEventData.benefits[index],
-                                      style: MyTheme.textTheme.bodyText1,
-                                    )),
-                                  ],
-                                ).paddingBottom(8);
-                              },
-                            ).paddingBottom(MyTheme.elementSpacing),
-                            AutoSizeText("How many guests are you inviting?",
-                                    style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
-                                .paddingBottom(MyTheme.elementSpacing),
-                            ReactiveForm(
-                              formGroup: form,
-                              child: AppolloTextfield(
-                                      controller: guestController,
-                                      formControlName: "numGuests",
-                                      validator: (v) =>
-                                          v.isEmpty ? "Please enter an estimate of the number of guests" : null,
-                                      labelText: "Guests",
-                                      textfieldType: TextFieldType.reactive)
-                                  .paddingBottom(MyTheme.elementSpacing),
-                            ),
-                            _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
-                            Expanded(
-                              child: Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: AppolloButton.regularButton(
-                                      fill: true,
-                                      color: MyTheme.appolloGreen,
-                                      child: Text(
-                                        "Create",
-                                        style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
-                                      ),
-                                      onTap: () {
-                                        if (form.valid) {
-                                          bloc.add(EventCreateList(widget.event, int.tryParse(guestController.text)));
-                                        } else {
-                                          form.markAllAsTouched();
-                                        }
-                                      })),
-                            ),
-                          ],
-                        );
-                      } else if (state is StateTooFarAway) {
-                        return Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        ),
+                      ],
+                    ),
+                  );
+                } else if (state is StateNoList) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AutoSizeText("Celebrate in style!",
+                              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
+                          .paddingBottom(MyTheme.elementSpacing * 2)
+                          .paddingTop(MyTheme.elementSpacing),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: widget.event.birthdayEventData.benefits.length,
+                        itemBuilder: (context, index) {
+                          return Row(
                             children: [
-                              AutoSizeText("Unable to create your birthday list.",
-                                      maxLines: 2, style: MyTheme.textTheme.headline2)
-                                  .paddingBottom(MyTheme.elementSpacing),
-                              AutoSizeText("Your birthday is too far away!",
-                                      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
-                                  .paddingBottom(MyTheme.elementSpacing),
-                              AutoSizeText(
-                                  "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
+                              Center(
+                                child: Container(
+                                  decoration: ShapeDecoration(shape: CircleBorder(), color: MyTheme.appolloGreen),
+                                  height: 12,
+                                  width: 12,
+                                ).paddingRight(MyTheme.elementSpacing),
+                              ),
+                              Center(
+                                  child: Text(
+                                widget.event.birthdayEventData.benefits[index],
+                                style: MyTheme.textTheme.bodyText1,
+                              )),
                             ],
-                          ),
-                        );
-                      } else if (state is StateCreatingList) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AppolloProgressIndicator().paddingBottom(8),
-                            Text("Creating your birthday list ...")
-                          ],
-                        );
-                      } else {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AppolloProgressIndicator().paddingBottom(8),
-                            Text("Loading Birthday List Data ...")
-                          ],
-                        );
-                      }
-                    }),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text("Events Powered By", style: MyTheme.textTheme.bodyText2.copyWith(color: Colors.grey))
-                      .paddingRight(4),
-                  Text("appollo",
-                      style: MyTheme.textTheme.subtitle1.copyWith(
-                        fontFamily: "cocon",
-                        color: MyTheme.appolloPurple,
-                        fontSize: 18,
-                      ))
-                ],
-              ).paddingBottom(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing),
-            ],
-          ),
+                          ).paddingBottom(8);
+                        },
+                      ).paddingBottom(MyTheme.elementSpacing),
+                      AutoSizeText("How many guests are you inviting?",
+                              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                          .paddingBottom(MyTheme.elementSpacing),
+                      ReactiveForm(
+                        formGroup: form,
+                        child: AppolloTextfield(
+                                controller: guestController,
+                                formControlName: "numGuests",
+                                validator: (v) => v.isEmpty ? "Please enter an estimate of the number of guests" : null,
+                                labelText: "Guests",
+                                textfieldType: TextFieldType.reactive)
+                            .paddingBottom(MyTheme.elementSpacing),
+                      ),
+                      _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
+                      Expanded(
+                        child: Align(
+                            alignment: Alignment.bottomRight,
+                            child: AppolloButton.regularButton(
+                                width: screenSize.width,
+                                fill: true,
+                                color: MyTheme.appolloGreen,
+                                child: Text(
+                                  "Create",
+                                  style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                                ),
+                                onTap: () {
+                                  if (form.valid) {
+                                    bloc.add(EventCreateList(widget.event, int.tryParse(guestController.text)));
+                                  } else {
+                                    form.markAllAsTouched();
+                                  }
+                                })).paddingBottom(MyTheme.elementSpacing * 2),
+                      ),
+                    ],
+                  );
+                } else if (state is StateTooFarAway) {
+                  return Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText("Unable to create your birthday list.",
+                                maxLines: 2, style: MyTheme.textTheme.headline2)
+                            .paddingBottom(MyTheme.elementSpacing * 2),
+                        AutoSizeText("Your birthday is too far away!",
+                                style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+                            .paddingBottom(MyTheme.elementSpacing),
+                        AutoSizeText(
+                            "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
+                      ],
+                    ).paddingTop(MyTheme.elementSpacing),
+                  );
+                } else if (state is StateCreatingList) {
+                  return SizedBox(
+                    width: screenSize.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [AppolloProgressIndicator().paddingBottom(8), Text("Creating your birthday list ...")],
+                    ),
+                  );
+                } else {
+                  return SizedBox(
+                    width: screenSize.width,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [AppolloProgressIndicator().paddingBottom(8), Text("Loading Birthday List Data ...")],
+                    ),
+                  );
+                }
+              }),
         ));
   }
 

@@ -8,6 +8,7 @@ import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
+import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
@@ -140,29 +141,27 @@ class _PaymentPageState extends State<PaymentPage> {
                       children: [
                         _buildTAndC().paddingBottom(MyTheme.elementSpacing),
                         SizedBox(
-                          height: 38,
                           width: MyTheme.drawerSize,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: MyTheme.appolloGreen,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                            onPressed: () {
-                              if (_termsConditions) {
-                                if (state is StateFreeTicketSelected) {
-                                  bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
-                                } else {
-                                  bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
-                                }
-                              } else {
-                                AlertGenerator.showAlert(
-                                    context: WrapperPage.mainScaffold.currentContext,
-                                    title: "Please accept our T & C",
-                                    content:
-                                        "To proceed with your purchase, you have to agree to our terms and conditions",
-                                    buttonText: "Ok",
-                                    popTwice: false);
-                              }
-                            },
+                          child: AppolloButton.regularButton(
+                            onTap: PaymentRepository.instance.paymentMethodId == null
+                                ? null
+                                : () {
+                                    if (_termsConditions) {
+                                      if (state is StateFreeTicketSelected) {
+                                        bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
+                                      } else {
+                                        bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
+                                      }
+                                    } else {
+                                      AlertGenerator.showAlert(
+                                          context: WrapperPage.mainScaffold.currentContext,
+                                          title: "Please accept our T & C",
+                                          content:
+                                              "To proceed with your purchase, you have to agree to our terms and conditions",
+                                          buttonText: "Ok",
+                                          popTwice: false);
+                                    }
+                                  },
                             child: Text(
                               "PURCHASE",
                               style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),

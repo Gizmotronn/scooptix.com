@@ -191,7 +191,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                   style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                                 ),
                               ),
-                            ),
+                            ).paddingBottom(MyTheme.elementSpacing),
                           ],
                         ).paddingBottom(MyTheme.elementSpacing),
                       ),

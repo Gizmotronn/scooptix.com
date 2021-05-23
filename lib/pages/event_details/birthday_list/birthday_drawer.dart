@@ -157,7 +157,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       child: ResponsiveDatatable(
                                         headers: _headers,
                                         source: _buildAttendeeTable(state.birthdayList.attendees),
-                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
+                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor),
                                         itemPaddingVertical: 8,
                                         headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                         headerDecoration: BoxDecoration(

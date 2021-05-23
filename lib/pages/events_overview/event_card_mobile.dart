@@ -164,8 +164,8 @@ class ImageClipper extends CustomClipper<Path> {
   getClip(Size size) {
     Path path = Path();
 
-    path.lineTo(size.width * 0.8, 0);
-    path.arcToPoint(Offset(size.width, 40));
+    path.lineTo(size.width - 30, 0);
+    path.arcToPoint(Offset(size.width, 30));
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();

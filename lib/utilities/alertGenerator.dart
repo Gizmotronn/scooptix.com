@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ticketapp/main.dart';
 import '../UI/theme.dart';
 import 'package:ticketapp/UI/theme.dart';
 
@@ -31,7 +32,7 @@ class AlertGenerator {
     );
     // In some cases, we want to pop the alert as well as the page from which the alert was called from
     if (popTwice) {
-      Navigator.pop(context);
+      Navigator.pop(WrapperPage.mainScaffold.currentContext);
     }
   }
 
