@@ -52,86 +52,89 @@ class _RewardCenterState extends State<RewardCenterPage> {
               ),
             );
           }
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Open Competitions",
-                style: getValueForScreenType(
-                    context: context,
-                    watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                    mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                    tablet: MyTheme.textTheme.headline4,
-                    desktop: MyTheme.textTheme.headline4),
-              ).paddingTop(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing * 2),
-              ListView.builder(
-                itemCount: state.preSales.length,
-                shrinkWrap: true,
-                itemBuilder: (c, index) {
-                  return Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Competition Closes ${date(state.preSales[index].event.preSale.registrationEndDate)}",
-                          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
-                        ).paddingBottom(MyTheme.elementSpacing / 2),
-                        Text(
-                          state.preSales[index].event.name,
-                          style: MyTheme.textTheme.headline5,
-                        ).paddingBottom(MyTheme.elementSpacing * 2),
-                        Text("Invitation Link",
-                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
-                            .paddingBottom(MyTheme.elementSpacing),
-                        OnTapAnimationButton(
-                          fill: true,
-                          border: true,
-                          width: screenSize.width,
-                          onTapColor: MyTheme.appolloGreen,
-                          onTapContent: Text(
-                            "LINK COPIED",
-                            style: MyTheme.textTheme.headline6,
-                          ),
-                          color: MyTheme.appolloBackgroundColorLight,
-                          onTap: () {
-                            if (PlatformDetector.isMobile()) {
-                              Share.share("appollo.io/invite?id=${state.preSales[index].uuid}",
-                                  subject: 'Appollo Event Invitation');
-                            } else {
-                              FlutterClipboard.copy("appollo.io/invite?id=${state.preSales[index].uuid}");
-                            }
-                          },
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: AutoSizeText(
-                              "appollo.io/invite?id=${state.preSales[index].uuid}",
-                              style: MyTheme.textTheme.bodyText2,
-                            ),
-                          ),
-                        ).paddingBottom(MyTheme.elementSpacing),
-                        AppolloButton.regularButton(
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Open Competitions",
+                  style: getValueForScreenType(
+                      context: context,
+                      watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                      mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                      tablet: MyTheme.textTheme.headline4,
+                      desktop: MyTheme.textTheme.headline4),
+                ).paddingTop(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing * 2),
+                ListView.builder(
+                  itemCount: state.preSales.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (c, index) {
+                    return Container(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Competition Closes ${date(state.preSales[index].event.preSale.registrationEndDate)}",
+                            style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                          ).paddingBottom(MyTheme.elementSpacing / 2),
+                          Text(
+                            state.preSales[index].event.name,
+                            style: MyTheme.textTheme.headline5,
+                          ).paddingBottom(MyTheme.elementSpacing * 2),
+                          Text("Invitation Link",
+                                  style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                              .paddingBottom(MyTheme.elementSpacing),
+                          OnTapAnimationButton(
                             fill: true,
-                            width: MediaQuery.of(context).size.width,
-                            color: MyTheme.appolloGreen,
-                            child: Text(
-                              "View Competition Details",
-                              style: MyTheme.textTheme.button,
+                            border: true,
+                            width: screenSize.width,
+                            onTapColor: MyTheme.appolloGreen,
+                            onTapContent: Text(
+                              "LINK COPIED",
+                              style: MyTheme.textTheme.headline6,
                             ),
+                            color: MyTheme.appolloBackgroundColorLight,
                             onTap: () {
-                              if (getValueForScreenType(
-                                  context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
-                                PreSaleSheet.openPreSaleSheet(null, event: state.preSales[index].event);
+                              if (PlatformDetector.isMobile()) {
+                                Share.share("appollo.io/invite?id=${state.preSales[index].uuid}",
+                                    subject: 'Appollo Event Invitation');
                               } else {
-                                WrapperPage.endDrawer.value =
-                                    PreSaleDrawer(bloc: null, event: state.preSales[index].event);
+                                FlutterClipboard.copy("appollo.io/invite?id=${state.preSales[index].uuid}");
                               }
-                            })
-                      ],
-                    ).paddingAll(MyTheme.elementSpacing),
-                  ).appolloCard().paddingBottom(MyTheme.elementSpacing);
-                },
-              ),
-            ],
+                            },
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: AutoSizeText(
+                                "appollo.io/invite?id=${state.preSales[index].uuid}",
+                                style: MyTheme.textTheme.bodyText2,
+                              ),
+                            ),
+                          ).paddingBottom(MyTheme.elementSpacing),
+                          AppolloButton.regularButton(
+                              fill: true,
+                              width: MediaQuery.of(context).size.width,
+                              color: MyTheme.appolloGreen,
+                              child: Text(
+                                "View Competition Details",
+                                style: MyTheme.textTheme.button,
+                              ),
+                              onTap: () {
+                                if (getValueForScreenType(
+                                    context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
+                                  PreSaleSheet.openPreSaleSheet(null, event: state.preSales[index].event);
+                                } else {
+                                  WrapperPage.endDrawer.value =
+                                      PreSaleDrawer(bloc: null, event: state.preSales[index].event);
+                                }
+                              })
+                        ],
+                      ).paddingAll(MyTheme.elementSpacing),
+                    ).appolloCard().paddingBottom(MyTheme.elementSpacing);
+                  },
+                ),
+              ],
+            ),
           );
         } else {
           return Center(

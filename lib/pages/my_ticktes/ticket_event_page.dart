@@ -71,43 +71,45 @@ class TicketEventPage extends StatelessWidget {
                 ),
               ),
             ),
-            body: Container(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      height: 64,
-                      color: MyTheme.appolloGreen,
-                      width: size.screenSize.width,
-                      child: Center(
-                          child: Text(
-                        '${ticket.release.ticketName}',
-                        style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
-                      )),
-                    ).paddingBottom(MyTheme.elementSpacing),
-                    _eventDate().paddingBottom(MyTheme.elementSpacing),
-                    _eventName(context).paddingBottom(MyTheme.elementSpacing),
-                    _eventLocation(context).paddingBottom(MyTheme.elementSpacing),
-                  ],
-                ),
-                _qrCodeMobile(size.screenSize).paddingBottom(MyTheme.elementSpacing),
-                Container(
-                  height: 64,
-                  width: size.screenSize.width,
-                  color: !isTicketPass
-                      ? MyTheme.appolloGreen
-                      : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
-                  child: Center(
-                      child: Text(
-                    !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
-                    style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
-                  )),
-                ),
-              ],
-            )),
+            body: SingleChildScrollView(
+              child: Container(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        height: 64,
+                        color: MyTheme.appolloGreen,
+                        width: size.screenSize.width,
+                        child: Center(
+                            child: Text(
+                          '${ticket.release.ticketName}',
+                          style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                        )),
+                      ).paddingBottom(MyTheme.elementSpacing),
+                      _eventDate().paddingBottom(MyTheme.elementSpacing),
+                      _eventName(context).paddingBottom(MyTheme.elementSpacing),
+                      _eventLocation(context).paddingBottom(MyTheme.elementSpacing),
+                    ],
+                  ),
+                  _qrCodeMobile(size.screenSize).paddingBottom(MyTheme.elementSpacing),
+                  Container(
+                    height: 64,
+                    width: size.screenSize.width,
+                    color: !isTicketPass
+                        ? MyTheme.appolloGreen
+                        : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
+                    child: Center(
+                        child: Text(
+                      !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
+                      style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                    )),
+                  ).paddingBottom(MyTheme.elementSpacing),
+                ],
+              )),
+            ),
           );
         }
       },

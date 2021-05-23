@@ -742,7 +742,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     child: SvgIcon("icons/apple_icon.svg", color: MyTheme.textTheme.bodyText2.color, size: 70)),
               ),
             ],
-          ),
+          ).paddingBottom(MyTheme.elementSpacing),
         ],
       ).paddingTop(MyTheme.elementSpacing);
     } else {

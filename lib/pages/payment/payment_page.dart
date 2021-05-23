@@ -92,7 +92,7 @@ class _PaymentPageState extends State<PaymentPage> {
           listener: (c, state) {
             if (state is StatePaymentCompleted) {
               AlertGenerator.showAlert(
-                      context: context,
+                      context: WrapperPage.mainScaffold.currentContext,
                       title: "Order successful",
                       content: state.message,
                       buttonText: "Ok",
@@ -131,46 +131,48 @@ class _PaymentPageState extends State<PaymentPage> {
                 style: MyTheme.textTheme.bodyText2,
               );
             } else if (state is StatePaymentOptionAvailable) {
-              return Column(
-                children: [
-                  _buildPaymentWidgets(state),
-                  if (state is! StateFreeTicketSelected) _buildAddPaymentWidget(state),
-                  Column(
-                    children: [
-                      _buildTAndC().paddingBottom(MyTheme.elementSpacing),
-                      SizedBox(
-                        height: 38,
-                        width: MyTheme.drawerSize,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              primary: MyTheme.appolloGreen,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                          onPressed: () {
-                            if (_termsConditions) {
-                              if (state is StateFreeTicketSelected) {
-                                bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
+              return SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildPaymentWidgets(state),
+                    if (state is! StateFreeTicketSelected) _buildAddPaymentWidget(state),
+                    Column(
+                      children: [
+                        _buildTAndC().paddingBottom(MyTheme.elementSpacing),
+                        SizedBox(
+                          height: 38,
+                          width: MyTheme.drawerSize,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                primary: MyTheme.appolloGreen,
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                            onPressed: () {
+                              if (_termsConditions) {
+                                if (state is StateFreeTicketSelected) {
+                                  bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
+                                } else {
+                                  bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
+                                }
                               } else {
-                                bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
+                                AlertGenerator.showAlert(
+                                    context: WrapperPage.mainScaffold.currentContext,
+                                    title: "Please accept our T & C",
+                                    content:
+                                        "To proceed with your purchase, you have to agree to our terms and conditions",
+                                    buttonText: "Ok",
+                                    popTwice: false);
                               }
-                            } else {
-                              AlertGenerator.showAlert(
-                                  context: WrapperPage.mainScaffold.currentContext,
-                                  title: "Please accept our T & C",
-                                  content:
-                                      "To proceed with your purchase, you have to agree to our terms and conditions",
-                                  buttonText: "Ok",
-                                  popTwice: false);
-                            }
-                          },
-                          child: Text(
-                            "PURCHASE",
-                            style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                            },
+                            child: Text(
+                              "PURCHASE",
+                              style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               );
             } else if (state is StateFreeTicketAlreadyOwned) {
               return Text("You already own a free ticket for this event. Free Tickets are limited to 1 per customer.");
@@ -186,6 +188,7 @@ class _PaymentPageState extends State<PaymentPage> {
               );
             } else if (state is StateLoadingPaymentIntent) {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     "Finalizing your payment",
