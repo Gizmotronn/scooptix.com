@@ -1,15 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/forme_card.dart';
+import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import '../../../pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
@@ -122,12 +123,13 @@ class _EventsForMeState extends State<EventsForMe> {
             ),
           );
         } else {
-          return SizedBox(
+          return Container(
             height: size.screenSize.height,
             child: SingleChildScrollView(
               child: Container(
                 child: Column(
                   children: [
+                    AppolloAppBar(),
                     ForMeCard(
                       title: 'Curated Events',
                       color: MyTheme.appolloGreen,
@@ -159,7 +161,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         padding: EdgeInsets.only(top: 4.0, left: MyTheme.elementSpacing, right: MyTheme.elementSpacing),
                         child: HoverAppolloButton(
                           onTap: () {
-                            showCupertinoModalBottomSheet(
+                            showAppolloModalBottomSheet(
                                 context: context,
                                 backgroundColor: MyTheme.appolloBackgroundColor,
                                 expand: true,
@@ -175,10 +177,10 @@ class _EventsForMeState extends State<EventsForMe> {
                       ),
                     ),
                   ],
-                ).paddingAll(MyTheme.elementSpacing),
-              ).appolloCard(color: MyTheme.appolloBackgroundColor, borderRadius: BorderRadius.circular(5)),
+                ).paddingHorizontal(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing),
+              ),
             ),
-          );
+          ).appolloCard(color: MyTheme.appolloBackgroundColor, borderRadius: BorderRadius.circular(5));
         }
       },
     );
@@ -275,6 +277,7 @@ class _EventsForMeState extends State<EventsForMe> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  AppolloAppBar(),
                   Container(
                     child: Column(
                       children: [

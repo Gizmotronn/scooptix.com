@@ -7,7 +7,6 @@ import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/event_overview/event_top_nav.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 class EventOverviewPage extends StatefulWidget {
@@ -67,25 +66,17 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
             ),
           );
         } else {
-          return SafeArea(
-            child: Scaffold(
-              extendBodyBehindAppBar: true,
-              backgroundColor: MyTheme.appolloWhite,
-              appBar: AppolloAppBar(),
-              body: BlocProvider(
-                create: (_) => bloc,
-                child: Container(
-                  color: MyTheme.appolloBackgroundColor,
-                  width: screenSize.width,
-                  height: screenSize.height,
-                  child: Stack(
-                    children: [
-                      BlocProvider.value(
-                        value: bloc,
-                        child: EventOverviewHome(bloc: bloc, events: widget.events),
-                      ),
-                    ],
-                  ),
+          return Scaffold(
+            backgroundColor: MyTheme.appolloWhite,
+            body: BlocProvider(
+              create: (_) => bloc,
+              child: Container(
+                color: MyTheme.appolloBackgroundColor,
+                width: screenSize.width,
+                height: screenSize.height,
+                child: BlocProvider.value(
+                  value: bloc,
+                  child: EventOverviewHome(bloc: bloc, events: widget.events),
                 ),
               ),
             ),

@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/main.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import '../../../pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_sheet.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -225,8 +225,7 @@ class MakeBooking extends StatelessWidget {
                               color: MyTheme.appolloGreen,
                               child: AutoSizeText(
                                 'CREATE BIRTHDAY LIST',
-                                style:
-                                    Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                                style: MyTheme.textTheme.button,
                               ),
                               onTap: () {
                                 if (getValueForScreenType(
@@ -242,7 +241,7 @@ class MakeBooking extends StatelessWidget {
                                     UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
                                   }
                                 } else {
-                                  BirthdaySheet.openMyTicketsSheet(event);
+                                  BirthdaySheet.openBirthdaySheet(event);
                                 }
                               },
                             ),
@@ -262,7 +261,7 @@ class MakeBooking extends StatelessWidget {
               ),*/
             ],
           ),
-        ).appolloBlurCard().paddingHorizontal(MyTheme.elementSpacing),
+        ).appolloCard(color: MyTheme.appolloCardColor).paddingHorizontal(MyTheme.elementSpacing),
       );
 
   VoidCallback _tryOpenBirthdayDrawer() {

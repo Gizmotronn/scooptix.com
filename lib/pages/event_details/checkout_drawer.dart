@@ -11,7 +11,7 @@ import 'package:ticketapp/pages/payment/payment_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../main.dart';
-import 'authentication_drawer.dart';
+import '../authentication/authentication_drawer.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class CheckoutDrawer extends StatefulWidget {

@@ -140,7 +140,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
                 ).paddingAll(16),
                 _buildFeaturedText(screenSize),
               ],
-            ),
+            ).paddingBottom(MyTheme.elementSpacing),
     );
   }
 

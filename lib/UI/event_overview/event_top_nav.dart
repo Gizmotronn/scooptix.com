@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import 'package:ticketapp/pages/my_ticktes/my_tickets_drawer.dart';
+import 'package:ticketapp/pages/reward_center/reward_center_drawer.dart';
+import '../../pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -71,7 +73,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                   if (user != null) {
                     return Row(
                       children: [
-                        Badge(
+                        /*Badge(
                             badgeContent: Text('10'),
                             showBadge: true,
                             alignment: Alignment.topRight,
@@ -82,19 +84,27 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                             showBadge: true,
                             alignment: Alignment.topRight,
                             position: BadgePosition.topEnd(end: 5),
-                            child: SideButton(title: 'My Reminders', onTap: () {}).paddingRight(8)),
+                            child: SideButton(title: 'My Reminders', onTap: () {}).paddingRight(8)),*/
                         Badge(
                             badgeContent: Text('0'),
                             showBadge: false,
                             alignment: Alignment.topRight,
                             position: BadgePosition.topEnd(end: 5),
-                            child: SideButton(title: 'My Rewards', onTap: () {}).paddingRight(8)),
+                            child: SideButton(
+                                title: 'My Rewards',
+                                onTap: () {
+                                  RewardCenterDrawer.openRewardCenterDrawer();
+                                }).paddingRight(8)),
                         Badge(
                             badgeContent: Text('0'),
                             showBadge: false,
                             alignment: Alignment.topRight,
                             position: BadgePosition.topEnd(end: 5),
-                            child: SideButton(title: 'My Tickets', onTap: () {}).paddingRight(8)),
+                            child: SideButton(
+                                title: 'My Tickets',
+                                onTap: () {
+                                  MyTicketsDrawer.openMyTicketsDrawer();
+                                }).paddingRight(8)),
                         _appolloCreateEventDropDown(context).paddingRight(8),
                         _appolloHelpDropDown(context).paddingRight(16),
                         _showUserAvatar(context, user).paddingRight(50),

@@ -14,6 +14,7 @@ class CardButton extends StatefulWidget {
   final BorderRadius borderRadius;
 
   final double width;
+  final double height;
 
   const CardButton(
       {Key key,
@@ -24,7 +25,8 @@ class CardButton extends StatefulWidget {
       this.deactiveColor,
       this.activeColorText,
       this.deactiveColorText,
-      this.width})
+      this.width,
+      this.height})
       : super(key: key);
 
   @override
@@ -46,7 +48,7 @@ class _CardButtonState extends State<CardButton> {
         setState(() => isHover = v);
       },
       child: Container(
-        height: 40,
+        height: widget.height ?? 34,
         width: widget.width,
         decoration: BoxDecoration(
           color: isHover ? activeColor : deactiveColor,

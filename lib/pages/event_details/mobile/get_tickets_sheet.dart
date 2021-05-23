@@ -22,23 +22,25 @@ class GetTicketsSheet extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          AutoSizeText(
-            name,
-            minFontSize: 11,
-            overflow: TextOverflow.clip,
-            maxLines: 1,
-            style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-          ).paddingHorizontal(MyTheme.elementSpacing),
-          InkWell(
-            onTap: () {
-              controller.animateTo(position - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
-            },
-            child: Container(
-              decoration: ShapeDecoration(
-                  color: MyTheme.appolloOrange,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(6)))),
-              height: 50,
-              width: MediaQuery.of(context).size.width / 3,
+          Flexible(
+            child: AutoSizeText(
+              name,
+              minFontSize: 11,
+              overflow: TextOverflow.clip,
+              maxLines: 1,
+              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+            ).paddingHorizontal(MyTheme.elementSpacing),
+          ),
+          Container(
+            decoration: ShapeDecoration(
+                color: MyTheme.appolloOrange,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(6)))),
+            height: 50,
+            width: MediaQuery.of(context).size.width / 3 < 140 ? 140 : MediaQuery.of(context).size.width / 3,
+            child: InkWell(
+              onTap: () {
+                controller.animateTo(position - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+              },
               child: Center(
                   child: Text(
                 "Get Tickets",

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/backgrounds/events_details_background.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/organizer.dart';
-import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 
 import 'mobile/event_details.dart';
@@ -24,8 +23,6 @@ class _EventDetailsMobilePageState extends State<EventDetailsMobilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppolloAppBar(),
       body: Stack(
         children: [
           EventDetailBackground(coverImageURL: widget.event.coverImageURL),

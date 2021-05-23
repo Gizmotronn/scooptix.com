@@ -102,7 +102,6 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       child: Builder(builder: (context) {
         return Container(
           child: Column(children: [
-            const SizedBox(height: kToolbarHeight),
             heroEvent == null
                 ? SizedBox()
                 : SlideTransition(

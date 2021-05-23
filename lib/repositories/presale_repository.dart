@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/pre_sale_invite.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_registration.dart';
+import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/model/user.dart';
@@ -50,7 +51,6 @@ class PreSaleRepository {
 
   Future<PreSaleRegistration> registerForPreSale(Event event) async {
     PreSaleRegistration preSale = await isRegisteredForPreSale(event);
-    print("checked");
     if (preSale == null) {
       String uuid = await UUIDGenerator.createNewUUID();
       await FirebaseFirestore.instance
@@ -75,6 +75,8 @@ class PreSaleRepository {
         "uuid": uuid,
         "type": PreSaleInvite.toDBString(),
         "event": event.docID,
+        "eventdate": event.date,
+        "presale_end": event.preSale.registrationEndDate,
         "date": DateTime.now(),
         "promoter": UserRepository.instance.currentUser().firebaseUserID,
         "points": 1,
@@ -88,5 +90,26 @@ class PreSaleRepository {
     } else {
       return preSale;
     }
+  }
+
+  Future<List<PreSaleRegistration>> loadPreSaleRegistrations(String userId) async {
+    QuerySnapshot mapSnapshot = await FirebaseFirestore.instance
+        .collection("uuidmap")
+        .where("promoter", isEqualTo: userId)
+        .where("type", isEqualTo: PreSaleInvite.toDBString())
+        .where("eventdate", isGreaterThan: DateTime.now())
+        .get();
+
+    List<PreSaleRegistration> preSales = [];
+
+    await Future.forEach(mapSnapshot.docs, (doc) async {
+      preSales.add(PreSaleRegistration()
+        ..docId = doc.id
+        ..uuid = doc.data()["uuid"]
+        ..points = doc.data()["points"]
+        ..event = await EventsRepository.instance.loadEventById(doc.data()["event"]));
+    });
+
+    return preSales;
   }
 }

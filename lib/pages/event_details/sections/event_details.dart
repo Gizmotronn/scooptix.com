@@ -228,6 +228,7 @@ class _EventDataState extends State<EventData> {
               (index) => CardButton(
                 title: _tabButtons[index].title,
                 width: 175,
+                height: 40,
                 borderRadius: BorderRadius.circular(5),
                 activeColor: MyTheme.appolloGreen,
                 deactiveColor: MyTheme.appolloGrey.withAlpha(140),

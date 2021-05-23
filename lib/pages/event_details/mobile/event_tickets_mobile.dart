@@ -87,13 +87,11 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                           });
                         }
                         if (selectedTickets.isNotEmpty) {
-                          showBottomSheet(
-                              context: context,
-                              builder: (c) => OrderSummarySheet(
-                                    selectedTickets: selectedTickets,
-                                    event: widget.event,
-                                    collapsed: true,
-                                  ));
+                          OrderSummarySheet.openOrderSummarySheetCollapsed(
+                            context: context,
+                            selectedTickets: selectedTickets,
+                            event: widget.event,
+                          );
                         } else {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
                             showBottomSheet(

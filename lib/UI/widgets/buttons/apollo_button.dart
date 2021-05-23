@@ -48,6 +48,7 @@ class OnTapAnimationButton extends StatefulWidget {
   final Color onTapColor;
   final Widget onTapContent;
   final Widget child;
+  final Widget suffixIcon;
 
   OnTapAnimationButton(
       {this.width,
@@ -58,7 +59,8 @@ class OnTapAnimationButton extends StatefulWidget {
       this.border = true,
       this.onTapColor,
       this.onTapContent,
-      this.child});
+      this.child,
+      this.suffixIcon});
 
   @override
   _OnTapAnimationButtonState createState() => _OnTapAnimationButtonState();
@@ -117,6 +119,7 @@ class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with Single
                 child: widget.child,
               ),
             ),
+            if (widget.suffixIcon != null) Positioned(top: 8, bottom: 8, right: 8, child: widget.suffixIcon),
             Positioned(
               top: 0,
               height: widget.height ?? size.isDesktop ? 40 : 35,

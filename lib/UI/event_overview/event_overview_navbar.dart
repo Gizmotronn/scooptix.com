@@ -43,7 +43,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return Container(
-      height: 50,
+      height: 40,
       child: ResponsiveBuilder(
         builder: (c, size) {
           if (size.isDesktop || size.isTablet) {

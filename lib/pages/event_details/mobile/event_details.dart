@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_details/widget/make_booking.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/model/organizer.dart';
+import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/event_details/mobile/event_info.dart';
 import 'package:ticketapp/pages/event_details/sections/event_description.dart';
 import 'package:ticketapp/pages/event_details/sections/event_gallery.dart';
@@ -36,6 +37,9 @@ class _EventDataMobileState extends State<EventDataMobile> {
     return Container(
       child: Column(
         children: [
+          AppolloAppBar(
+            backgroundColor: MyTheme.appolloBackgroundColorLight,
+          ).paddingBottom(MyTheme.elementSpacing),
           _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
           EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
           PreSaleRegistrationPage(event: widget.event),
@@ -51,7 +55,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
               .paddingBottom(MyTheme.elementSpacing * 2)
               .paddingHorizontal(MyTheme.elementSpacing),
         ],
-      ).paddingVertical(MyTheme.elementSpacing),
+      ).paddingBottom(MyTheme.elementSpacing),
     ).appolloBlurCard(color: MyTheme.appolloBackgroundColorLight);
   }
 

@@ -11,6 +11,7 @@ import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/pages/my_ticktes/my_tickets_sheet.dart';
 import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 import 'UI/event_overview/tabs/for_me.dart';
+import 'pages/reward_center/reward_center_sheet.dart';
 import 'services/bugsnag_wrapper.dart';
 import 'utilities/svg/icon.dart';
 import 'dart:html' as js;
@@ -173,7 +174,15 @@ class _WrapperPageState extends State<WrapperPage> {
                                 .push(MaterialPageRoute(builder: (context) => EventsForMe()));
                             break;
                           case 2:
+                            Navigator.of(WrapperPage.navigatorKey.currentContext)
+                                .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
                             MyTicketsSheet.openMyTicketsSheet();
+                            break;
+                          case 3:
+                            Navigator.of(WrapperPage.navigatorKey.currentContext)
+                                .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
+                            RewardCenterSheet.openRewardCenterSheet();
+                            break;
                         }
                       },
                     ),

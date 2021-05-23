@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_navbar.dart';
 import 'package:ticketapp/UI/event_overview/tabs/all_events.dart';
@@ -13,6 +14,7 @@ import 'package:ticketapp/UI/event_overview/tabs/this_weekend.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/events_overview/bloc/events_overview_bloc.dart';
 import 'package:ticketapp/pages/events_overview/featured_events/featured_events.dart';
 
@@ -40,6 +42,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
             controller: scrollController,
             child: Column(
               children: [
+                _buildAppBar(),
                 _eventOverview(screenSize).paddingBottom(16),
                 _buildBody(context, screenSize).paddingBottom(16),
                 EventOverviewFooter(),
@@ -141,6 +144,16 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
           ],
         ),
       );
+
+  Widget _buildAppBar() {
+    if (getValueForScreenType(context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
+      return AppolloAppBar(
+        backgroundColor: MyTheme.appolloBackgroundColorLight,
+      );
+    } else {
+      return SizedBox.shrink();
+    }
+  }
 }
 
 // ignore: must_be_immutable

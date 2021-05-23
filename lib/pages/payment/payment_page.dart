@@ -2,17 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
+import 'package:ticketapp/utilities/svg/icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
@@ -292,30 +293,20 @@ class _PaymentPageState extends State<PaymentPage> {
       ).paddingBottom(MyTheme.elementSpacing);
     } else if (state is StatePaidTickets) {
       return Column(
-        crossAxisAlignment: getValueForScreenType(
-            context: context,
-            watch: CrossAxisAlignment.center,
-            mobile: CrossAxisAlignment.center,
-            tablet: CrossAxisAlignment.start,
-            desktop: CrossAxisAlignment.start),
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            crossAxisAlignment: getValueForScreenType(
-                context: context,
-                watch: CrossAxisAlignment.center,
-                mobile: CrossAxisAlignment.center,
-                tablet: CrossAxisAlignment.start,
-                desktop: CrossAxisAlignment.start),
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
-                "Payment Method",
+                "Select Payment Method",
                 style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloOrange),
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
-                      color: MyTheme.appolloGrey.withAlpha(40),
+                      color: MyTheme.appolloBackgroundColor,
                       child: SizedBox(
                           width: MyTheme.drawerSize,
                           height: 38,
@@ -324,7 +315,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             children: [
                               Row(
                                 children: [
-                                  SvgIcon("icons/credit_card.svg", size: 26).paddingLeft(8),
+                                  SvgPicture.asset(AppolloSvgIcon.creditCard, color: MyTheme.appolloWhite, height: 26)
+                                      .paddingLeft(8),
                                   Text("Credit Card").paddingLeft(8),
                                 ],
                               ),
@@ -348,6 +340,10 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget _buildPriceBreakdown() {
     return Column(
       children: [
+        Text(
+          "Order Confirmation",
+          style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
+        ).paddingBottom(MyTheme.elementSpacing),
         _buildSelectedTickets(),
         AppolloDivider(),
         SizedBox(
@@ -717,9 +713,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     }),
                   ],
                 ).paddingAll(MyTheme.elementSpacing),
-              )
-                .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
-                .paddingBottom(MyTheme.elementSpacing)
+              ).appolloCard(color: MyTheme.appolloBackgroundColor).paddingBottom(MyTheme.elementSpacing)
             : Container(
                     child: Center(
                         child: Text(

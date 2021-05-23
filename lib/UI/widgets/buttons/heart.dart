@@ -27,8 +27,8 @@ class _FavoriteHeartButtonState extends State<FavoriteHeartButton> with SingleTi
     _animationController = AnimationController(vsync: this, duration: MyTheme.animationDuration);
     _colorAnimation = ColorTween(begin: MyTheme.appolloWhite, end: MyTheme.appolloRed).animate(_animationController);
     _sizeAnimation = TweenSequence(<TweenSequenceItem<double>>[
-      TweenSequenceItem<double>(tween: Tween(begin: 25, end: 20), weight: 15),
-      TweenSequenceItem<double>(tween: Tween(begin: 20, end: 25), weight: 15)
+      TweenSequenceItem<double>(tween: Tween(begin: 22, end: 17), weight: 15),
+      TweenSequenceItem<double>(tween: Tween(begin: 17, end: 22), weight: 15)
     ]).animate(_animationController);
 
     if (widget.isFavorite) {
@@ -59,8 +59,8 @@ class _FavoriteHeartButtonState extends State<FavoriteHeartButton> with SingleTi
       animation: _animationController,
       builder: (context, snapshot) {
         return Container(
-          width: 30,
-          height: 30,
+          width: 20,
+          height: 20,
           child: InkWell(
               child: Icon(
                 isFavorite ? Icons.favorite : Icons.favorite_border,

@@ -3,12 +3,12 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/responsive_table/DatatableHeader.dart';
 import 'package:ticketapp/UI/responsive_table/ResponsiveDatatable.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
@@ -26,22 +26,22 @@ class BirthdaySheet extends StatefulWidget {
   BirthdaySheet._(this.event);
 
   /// Makes sure the user is logged in before opening the My Ticket Sheet
-  static openMyTicketsSheet(Event event) {
+  static openBirthdaySheet(Event event) {
     if (UserRepository.instance.isLoggedIn) {
-      showCupertinoModalBottomSheet(
+      showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           builder: (context) => BirthdaySheet._(event));
     } else {
-      showCupertinoModalBottomSheet(
+      showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext);
-                  showCupertinoModalBottomSheet(
+                  showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,

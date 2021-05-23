@@ -245,7 +245,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                color: MyTheme.appolloGreen,
+                color: MyTheme.appolloBackgroundColorLight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -449,7 +449,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                color: MyTheme.appolloGreen,
+                color: MyTheme.appolloBackgroundColorLight,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
@@ -515,7 +515,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     if (state is StateLoginFailed) {
       text = "Password doesn't match, please try again";
     } else if (state is StateExistingUserEmail) {
-      text = "Welcome back! Please enter your password.";
+      text = "Please enter your password.";
     } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
       text = "Please confirm your email address";
     } else if (state is StateNewUserEmailsConfirmed) {
@@ -541,9 +541,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     AutoSizeText(
                       "Sign up or sign in",
                       style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloWhite),
-                    ).paddingBottom(MyTheme.cardPadding),
+                    ).paddingBottom(MyTheme.elementSpacing * 2),
                     AutoSizeText(
-                      "Get your ticket in just a few steps",
+                      "Let's start with your email.",
                       style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
                     ),
                   ],
@@ -577,7 +577,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           text,
           textAlign: TextAlign.left,
           style: MyTheme.textTheme.headline6
-              .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite),
+              .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloGreen),
           minFontSize: 12,
         ),
       ),

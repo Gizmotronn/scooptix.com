@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/pages/my_ticktes/ticket_event_page.dart';
@@ -31,10 +32,15 @@ class MyTicketCard extends StatelessWidget {
         children: [
           Expanded(
             child: ClipPath(
-              clipper: TicketClipper(isCard1: true),
+              clipper: TicketClipper(clipClockwise: true),
               child: Container(
                 color: MyTheme.appolloCardColorLight,
-                height: MediaQuery.of(context).size.width / 1.9 / 2,
+                height: getValueForScreenType(
+                    context: context,
+                    watch: MediaQuery.of(context).size.width / 1.9 / 2,
+                    mobile: MediaQuery.of(context).size.width / 1.9 / 2,
+                    tablet: 120,
+                    desktop: 120),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -78,9 +84,19 @@ class MyTicketCard extends StatelessWidget {
           ClipPath(
             clipper: TicketClipper(),
             child: Container(
-              height: MediaQuery.of(context).size.width / 1.9 / 2,
+              height: getValueForScreenType(
+                  context: context,
+                  watch: MediaQuery.of(context).size.width / 1.9 / 2,
+                  mobile: MediaQuery.of(context).size.width / 1.9 / 2,
+                  tablet: 120,
+                  desktop: 120),
               color: isPastTicket ? MyTheme.appolloRed : MyTheme.appolloGreen,
-              width: MediaQuery.of(context).size.width * 0.25,
+              width: getValueForScreenType(
+                  context: context,
+                  watch: MediaQuery.of(context).size.width * 0.25,
+                  mobile: MediaQuery.of(context).size.width * 0.25,
+                  tablet: MyTheme.drawerSize * 0.25,
+                  desktop: MyTheme.drawerSize * 0.25),
               child: _checkTicket(isPastTicket).paddingAll(8),
             ).paddingLeft(2.5),
           ),
@@ -119,22 +135,22 @@ class MyTicketCard extends StatelessWidget {
 }
 
 class TicketClipper extends CustomClipper<Path> {
-  final bool isCard1;
-  const TicketClipper({this.isCard1 = false});
+  final bool clipClockwise;
+  const TicketClipper({this.clipClockwise = false});
   final double radius = 8;
 
   @override
   Path getClip(Size size) {
     Path path = Path()
       ..moveTo(0, radius)
-      ..arcToPoint(Offset(radius, 0), radius: Radius.circular(radius), clockwise: isCard1)
+      ..arcToPoint(Offset(radius, 0), radius: Radius.circular(radius), clockwise: clipClockwise)
       ..lineTo(size.width - radius, 0)
       ..arcToPoint(Offset(size.width, radius), radius: Radius.circular(radius), clockwise: false)
       ..lineTo(size.width, size.height - radius)
       ..arcToPoint(Offset(size.width - radius, size.height), radius: Radius.circular(radius), clockwise: false)
       ..lineTo(size.width - radius, size.height)
       ..lineTo(radius, size.height)
-      ..arcToPoint(Offset(0, size.height - radius), radius: Radius.circular(radius), clockwise: isCard1)
+      ..arcToPoint(Offset(0, size.height - radius), radius: Radius.circular(radius), clockwise: clipClockwise)
       ..close();
     return path;
   }

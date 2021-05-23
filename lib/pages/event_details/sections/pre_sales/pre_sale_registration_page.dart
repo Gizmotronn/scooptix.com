@@ -1,13 +1,16 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_details/widget/counter.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import '../../../authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/bloc/pre_sale_bloc.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_drawer.dart';
+import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_sheet.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../../../UI/theme.dart';
@@ -115,23 +118,33 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
             : state is StateRegistered
                 ? InkWell(
                     onTap: () {
-                      if (state is StateNotLoggedIn) {
-                        WrapperPage.endDrawer.value = AuthenticationDrawer(
-                          onAutoAuthenticated: () {
-                            bloc.add(EventRegister(widget.event));
-                            WrapperPage.endDrawer.value = PreSaleDrawer(
-                              bloc: bloc,
-                            );
-                            WrapperPage.mainScaffold.currentState.openEndDrawer();
-                          },
-                        );
-                        WrapperPage.mainScaffold.currentState.openEndDrawer();
-                      } else {
+                      if (getValueForScreenType(
+                          context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
                         bloc.add(EventRegister(widget.event));
-                        WrapperPage.endDrawer.value = PreSaleDrawer(
-                          bloc: bloc,
-                        );
-                        WrapperPage.mainScaffold.currentState.openEndDrawer();
+                        showAppolloModalBottomSheet(
+                            context: WrapperPage.navigatorKey.currentContext,
+                            backgroundColor: MyTheme.appolloBackgroundColorLight,
+                            expand: true,
+                            builder: (context) => PreSaleSheet.openPreSaleSheet(bloc));
+                      } else {
+                        if (state is StateNotLoggedIn) {
+                          WrapperPage.endDrawer.value = AuthenticationDrawer(
+                            onAutoAuthenticated: () {
+                              bloc.add(EventRegister(widget.event));
+                              WrapperPage.endDrawer.value = PreSaleDrawer(
+                                bloc: bloc,
+                              );
+                              WrapperPage.mainScaffold.currentState.openEndDrawer();
+                            },
+                          );
+                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                        } else {
+                          bloc.add(EventRegister(widget.event));
+                          WrapperPage.endDrawer.value = PreSaleDrawer(
+                            bloc: bloc,
+                          );
+                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                        }
                       }
                     },
                     child: Container(
@@ -141,36 +154,44 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     ).paddingAll(12))
                         .appolloCard(color: MyTheme.appolloCardColor.withAlpha(120)),
                   )
-                : AppolloButton.regularButton(
-                    width: 400,
-                    child: Center(
-                      child: Text(
-                        'REGISTER FOR PRE-SALE',
-                        style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                : Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
+                    child: AppolloButton.regularButton(
+                      width: 400,
+                      child: Center(
+                        child: Text(
+                          'REGISTER FOR PRE-SALE',
+                          style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                        ),
                       ),
-                    ),
-                    onTap: () {
-                      if (state is StateNotLoggedIn) {
-                        WrapperPage.endDrawer.value = AuthenticationDrawer(
-                          onAutoAuthenticated: () {
+                      onTap: () {
+                        if (getValueForScreenType(
+                            context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
+                          bloc.add(EventRegister(widget.event));
+                          PreSaleSheet.openPreSaleSheet(bloc);
+                        } else {
+                          if (state is StateNotLoggedIn) {
+                            WrapperPage.endDrawer.value = AuthenticationDrawer(
+                              onAutoAuthenticated: () {
+                                bloc.add(EventRegister(widget.event));
+                                WrapperPage.endDrawer.value = PreSaleDrawer(
+                                  bloc: bloc,
+                                );
+                                WrapperPage.mainScaffold.currentState.openEndDrawer();
+                              },
+                            );
+                            WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          } else {
                             bloc.add(EventRegister(widget.event));
                             WrapperPage.endDrawer.value = PreSaleDrawer(
                               bloc: bloc,
                             );
                             WrapperPage.mainScaffold.currentState.openEndDrawer();
-                          },
-                        );
-                        WrapperPage.mainScaffold.currentState.openEndDrawer();
-                      } else {
-                        bloc.add(EventRegister(widget.event));
-                        WrapperPage.endDrawer.value = PreSaleDrawer(
-                          bloc: bloc,
-                        );
-                        WrapperPage.mainScaffold.currentState.openEndDrawer();
-                      }
-                    },
-                    color: MyTheme.appolloGreen,
-                  ),
+                          }
+                        }
+                      },
+                      color: MyTheme.appolloGreen,
+                    )),
         SizedBox(
           height: MyTheme.elementSpacing * 2,
         ),
@@ -190,7 +211,8 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
       children: [
         AutoSizeText(
           'Countdown to Pre-Sale Registration',
-          style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          textAlign: TextAlign.center,
+          style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildCountdown().paddingBottom(MyTheme.elementSpacing),
         /* TODO AppolloButton.wideButton(

@@ -9,6 +9,8 @@ class AppolloSvgIcon {
   static String calenderOutline = 'assets/icons/calender_outline.svg';
   static String clipboard = 'assets/icons/clipboard-outline.svg';
   static String clock = 'assets/icons/clock.svg';
+  static String copy = 'assets/icons/copy.svg';
+  static String creditCard = 'assets/icons/credit_card.svg';
   static String dot = 'assets/icons/dot.svg';
   static String heart = 'assets/icons/heart.svg';
   static String heartOutline = 'assets/icons/heart_outline.svg';

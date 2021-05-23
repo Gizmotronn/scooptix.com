@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/user.dart';
@@ -64,7 +64,7 @@ class EventCardMobile extends StatelessWidget {
               onTap: (v) {
                 if (!v) {
                   if (user == null) {
-                    showCupertinoModalBottomSheet(
+                    showAppolloModalBottomSheet(
                         context: context,
                         backgroundColor: MyTheme.appolloBackgroundColor,
                         expand: true,

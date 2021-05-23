@@ -36,7 +36,7 @@ class _SignUpFormState extends State<SignUpForm> {
               "Tell us about yourself",
               textAlign: TextAlign.center,
               style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange),
-            ).paddingBottom(MyTheme.elementSpacing * 2),
+            ).paddingBottom(MyTheme.elementSpacing),
 
             Column(
               children: [
@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     ValidationMessage.required: 'Please provide a name',
                   },
                   // decoration: InputDecoration(labelText: "First Name"),
-                ).paddingBottom(MyTheme.elementSpacing * 2),
+                ).paddingBottom(MyTheme.elementSpacing),
                 AppolloTextfield(
                   labelText: "Last Name",
                   textfieldType: TextFieldType.reactive,
@@ -59,7 +59,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   // decoration: InputDecoration(labelText: "Last Name"),
                 ),
               ],
-            ).paddingBottom(MyTheme.elementSpacing * 2),
+            ).paddingBottom(MyTheme.elementSpacing),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +154,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 ),
                 SizedBox(
-                  height: MyTheme.elementSpacing * 2,
+                  height: MyTheme.elementSpacing,
                 ),
                 SizedBox(
                   width: (MyTheme.maxWidth - MyTheme.cardPadding * 4) + 8,

@@ -2,9 +2,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/textfield/discount_textfield.dart';
@@ -20,9 +20,50 @@ class OrderSummarySheet extends StatefulWidget {
   final bool collapsed;
   final Event event;
   final Map<TicketRelease, int> selectedTickets;
+  OrderSummarySheet._({this.collapsed, this.event, this.selectedTickets});
 
-  const OrderSummarySheet({Key key, this.collapsed = false, @required this.event, @required this.selectedTickets})
-      : super(key: key);
+  static openOrderSummarySheetCollapsed({BuildContext context, Event event, Map<TicketRelease, int> selectedTickets}) {
+    showBottomSheet(
+        context: context,
+        backgroundColor: MyTheme.appolloBackgroundColor,
+        builder: (context) => OrderSummarySheet._(
+              collapsed: true,
+              event: event,
+              selectedTickets: selectedTickets,
+            ));
+  }
+
+  /// Makes sure the user is logged in before opening the Expanded Order Summary Sheet
+  static openOrderSummarySheetExpanded({BuildContext context, Event event, Map<TicketRelease, int> selectedTickets}) {
+    if (UserRepository.instance.isLoggedIn) {
+      showAppolloModalBottomSheet(
+          context: context,
+          backgroundColor: MyTheme.appolloBackgroundColor,
+          expand: true,
+          builder: (context) => OrderSummarySheet._(
+                collapsed: false,
+                event: event,
+                selectedTickets: selectedTickets,
+              ));
+    } else {
+      showAppolloModalBottomSheet(
+          context: context,
+          backgroundColor: MyTheme.appolloBackgroundColor,
+          expand: true,
+          builder: (context) => AuthenticationPageWrapper(
+                onAutoAuthenticated: (autoLoggedIn) {
+                  Navigator.pop(context);
+                  showAppolloModalBottomSheet(
+                      context: context,
+                      backgroundColor: MyTheme.appolloBackgroundColor,
+                      expand: true,
+                      builder: (context) =>
+                          OrderSummarySheet._(collapsed: false, event: event, selectedTickets: selectedTickets));
+                },
+              ));
+    }
+  }
+
   @override
   _OrderSummarySheetState createState() => _OrderSummarySheetState();
 }
@@ -58,14 +99,11 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
     if (widget.collapsed) {
       return InkWell(
         onTap: () {
-          showCupertinoModalBottomSheet(
-              context: context,
-              backgroundColor: MyTheme.appolloBackgroundColor,
-              builder: (c) => OrderSummarySheet(
-                    selectedTickets: widget.selectedTickets,
-                    event: widget.event,
-                    collapsed: false,
-                  ));
+          OrderSummarySheet.openOrderSummarySheetExpanded(
+            context: context,
+            selectedTickets: widget.selectedTickets,
+            event: widget.event,
+          );
         },
         child: Container(
           decoration: ShapeDecoration(
@@ -142,51 +180,48 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                   Expanded(
                     child: Align(
                       alignment: Alignment.bottomCenter,
-                      child: SizedBox(
+                      child: AppolloButton.regularButton(
                         width: MediaQuery.of(context).size.width,
-                        height: 38,
-                        child: AppolloButton.regularButton(
-                          onTap: () {
-                            if (!UserRepository.instance.isLoggedIn) {
-                              showCupertinoModalBottomSheet(
-                                  context: context,
-                                  backgroundColor: MyTheme.appolloBackgroundColor,
-                                  expand: true,
-                                  builder: (c) => AuthenticationPageWrapper(
-                                        onAutoAuthenticated: (autoLoggedIn) {
-                                          Navigator.pop(context);
-                                          Navigator.push(
-                                              sheetContext,
-                                              MaterialPageRoute(
-                                                  builder: (c) => PaymentSheetWrapper(
-                                                        event: widget.event,
-                                                        discount: discount,
-                                                        selectedTickets: widget.selectedTickets,
-                                                        maxHeight: MediaQuery.of(context).size.height,
-                                                        parentContext: context,
-                                                      )));
-                                        },
-                                      ));
-                            } else if (widget.selectedTickets.isNotEmpty) {
-                              Navigator.push(
-                                  sheetContext,
-                                  MaterialPageRoute(
-                                      builder: (c) => PaymentSheetWrapper(
-                                            event: widget.event,
-                                            discount: discount,
-                                            selectedTickets: widget.selectedTickets,
-                                            maxHeight: MediaQuery.of(context).size.height,
-                                            parentContext: context,
-                                          )));
-                            }
-                          },
-                          child: Text(
-                            "PROCEED TO CHECKOUT",
-                            style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
-                          ),
+                        onTap: () {
+                          if (!UserRepository.instance.isLoggedIn) {
+                            showAppolloModalBottomSheet(
+                                context: context,
+                                backgroundColor: MyTheme.appolloBackgroundColor,
+                                expand: true,
+                                builder: (c) => AuthenticationPageWrapper(
+                                      onAutoAuthenticated: (autoLoggedIn) {
+                                        Navigator.pop(context);
+                                        Navigator.push(
+                                            sheetContext,
+                                            MaterialPageRoute(
+                                                builder: (c) => PaymentSheetWrapper(
+                                                      event: widget.event,
+                                                      discount: discount,
+                                                      selectedTickets: widget.selectedTickets,
+                                                      maxHeight: MediaQuery.of(context).size.height,
+                                                      parentContext: context,
+                                                    )));
+                                      },
+                                    ));
+                          } else if (widget.selectedTickets.isNotEmpty) {
+                            Navigator.push(
+                                sheetContext,
+                                MaterialPageRoute(
+                                    builder: (c) => PaymentSheetWrapper(
+                                          event: widget.event,
+                                          discount: discount,
+                                          selectedTickets: widget.selectedTickets,
+                                          maxHeight: MediaQuery.of(context).size.height,
+                                          parentContext: context,
+                                        )));
+                          }
+                        },
+                        child: Text(
+                          "PROCEED TO CHECKOUT",
+                          style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                         ),
                       ),
-                    ),
+                    ).paddingBottom(MyTheme.elementSpacing),
                   ),
                 ],
               ).paddingAll(MyTheme.elementSpacing),
@@ -231,7 +266,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
               children: [
                 Text(
                   "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : discount.amount.toString() + "%"})",
-                  style: MyTheme.textTheme.bodyText2,
+                  style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                     child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2))

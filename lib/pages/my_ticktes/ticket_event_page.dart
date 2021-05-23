@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
@@ -11,73 +12,105 @@ class TicketEventPage extends StatelessWidget {
   const TicketEventPage({Key key, this.ticket, this.isTicketPass, this.parentContext}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: MyTheme.appolloCardColorLight,
-        automaticallyImplyLeading: true,
-        title: InkWell(
-          onTap: () {
-            Navigator.pop(parentContext);
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing, vertical: MyTheme.elementSpacing),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return ResponsiveBuilder(
+      builder: (c, size) {
+        if (size.isDesktop || size.isTablet) {
+          return Container(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
                 children: [
-                  SizedBox.shrink(),
-                  Text(
-                    "Event Ticket",
-                    style: MyTheme.textTheme.headline5,
-                  ),
-                  Text(
-                    "Done",
-                    style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
-                  )
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Event Ticket",
+                        style: MyTheme.textTheme.headline2,
+                      )
+                          .paddingBottom(MyTheme.elementSpacing * 2)
+                          .paddingTop(MyTheme.elementSpacing)
+                          .paddingLeft(MyTheme.elementSpacing)),
+                  _eventDate().paddingBottom(MyTheme.elementSpacing),
+                  _eventName(context).paddingBottom(MyTheme.elementSpacing),
+                  _eventLocation(context).paddingBottom(MyTheme.elementSpacing),
                 ],
               ),
-            ),
-          ),
-        ),
-      ),
-      body: Container(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 64,
-                color: MyTheme.appolloGreen,
-                width: size.width,
-                child: Center(
-                    child: Text(
-                  '${ticket.release.ticketName}',
-                  style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
-                )),
-              ).paddingBottom(MyTheme.elementSpacing),
-              _eventDate().paddingBottom(MyTheme.elementSpacing),
-              _eventName(context).paddingBottom(MyTheme.elementSpacing),
-              _whereEvent(context).paddingBottom(MyTheme.elementSpacing),
+              Expanded(child: _qrCodeDesktop(size.screenSize).paddingBottom(MyTheme.elementSpacing)),
             ],
-          ),
-          _qrCode(size).paddingBottom(MyTheme.elementSpacing),
-          Container(
-            height: 64,
-            width: size.width,
-            color: !isTicketPass ? MyTheme.appolloGreen : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
-            child: Center(
-                child: Text(
-              !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
-              style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+          ));
+        } else {
+          return Scaffold(
+            appBar: AppBar(
+              elevation: 0,
+              backgroundColor: MyTheme.appolloCardColorLight,
+              automaticallyImplyLeading: true,
+              title: InkWell(
+                onTap: () {
+                  Navigator.pop(parentContext);
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing, vertical: MyTheme.elementSpacing),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox.shrink(),
+                        Text(
+                          "Event Ticket",
+                          style: MyTheme.textTheme.headline5,
+                        ),
+                        Text(
+                          "Done",
+                          style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            body: Container(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  children: [
+                    Container(
+                      height: 64,
+                      color: MyTheme.appolloGreen,
+                      width: size.screenSize.width,
+                      child: Center(
+                          child: Text(
+                        '${ticket.release.ticketName}',
+                        style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                      )),
+                    ).paddingBottom(MyTheme.elementSpacing),
+                    _eventDate().paddingBottom(MyTheme.elementSpacing),
+                    _eventName(context).paddingBottom(MyTheme.elementSpacing),
+                    _eventLocation(context).paddingBottom(MyTheme.elementSpacing),
+                  ],
+                ),
+                _qrCodeMobile(size.screenSize).paddingBottom(MyTheme.elementSpacing),
+                Container(
+                  height: 64,
+                  width: size.screenSize.width,
+                  color: !isTicketPass
+                      ? MyTheme.appolloGreen
+                      : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
+                  child: Center(
+                      child: Text(
+                    !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
+                    style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                  )),
+                ),
+              ],
             )),
-          ),
-        ],
-      )),
+          );
+        }
+      },
     );
   }
 
@@ -114,7 +147,7 @@ class TicketEventPage extends StatelessWidget {
     );
   }
 
-  Widget _whereEvent(BuildContext context) {
+  Widget _eventLocation(BuildContext context) {
     return Align(
       alignment: Alignment.topLeft,
       child: Column(
@@ -127,7 +160,7 @@ class TicketEventPage extends StatelessWidget {
     );
   }
 
-  Widget _qrCode(Size size) {
+  Widget _qrCodeMobile(Size size) {
     return Container(
       height: size.height * 0.30,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
@@ -139,6 +172,77 @@ class TicketEventPage extends StatelessWidget {
         ),
       ).paddingAll(8),
     ).paddingAll(MyTheme.elementSpacing);
+  }
+
+  Widget _qrCodeDesktop(Size size) {
+    return Center(
+      child: SizedBox(
+        height: MyTheme.drawerSize * 0.8 + 33 + 33,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: MyTheme.drawerSize * 0.1,
+              right: MyTheme.drawerSize * 0.1,
+              child: Container(
+                padding: EdgeInsets.only(top: 4),
+                height: 40,
+                decoration: ShapeDecoration(
+                    color: MyTheme.appolloGreen,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)))),
+                width: MyTheme.drawerSize * 0.8,
+                child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Text(
+                      '${ticket.release.ticketName}',
+                      style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600),
+                    )),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: MyTheme.drawerSize * 0.1,
+              right: MyTheme.drawerSize * 0.1,
+              child: Container(
+                padding: EdgeInsets.only(bottom: 4),
+                decoration: ShapeDecoration(
+                    color: !isTicketPass
+                        ? MyTheme.appolloGreen
+                        : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8)))),
+                height: 40,
+                width: MyTheme.drawerSize * 0.8,
+                child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Text(
+                      !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
+                      style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600),
+                    )),
+              ),
+            ),
+            Positioned(
+              top: 34,
+              left: MyTheme.drawerSize * 0.1,
+              right: MyTheme.drawerSize * 0.1,
+              child: Container(
+                width: MyTheme.drawerSize * 0.8,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
+                child: SizedBox(
+                  child: QrImage(
+                    backgroundColor: MyTheme.appolloWhite,
+                    data: '${ticket.event.docID} ${ticket.docId}',
+                    version: QrVersions.auto,
+                  ),
+                ).paddingAll(8),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _header(BuildContext context, {String title}) => Text(

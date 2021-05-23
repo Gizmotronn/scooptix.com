@@ -7,7 +7,7 @@ import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/pages/event_details/authentication_drawer.dart';
+import '../authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/navigator_services.dart';
@@ -144,7 +144,7 @@ class EventCardDesktop extends StatelessWidget {
                             fullDateWithDay(event.date) ?? '',
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
                         ValueListenableBuilder<User>(
@@ -174,10 +174,10 @@ class EventCardDesktop extends StatelessWidget {
                       event.name ?? '',
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w500),
                     ),
                   ],
-                ).paddingAll(14),
+                ).paddingHorizontal(14).paddingTop(8),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: CardButton(

@@ -120,7 +120,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
             children: [
               AutoSizeText(
                 '${widget.title}',
-                style: Theme.of(context).textTheme.button.copyWith(
+                style: MyTheme.textTheme.bodyText1.copyWith(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: _isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
@@ -182,7 +182,7 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
                 children: [
                   AutoSizeText(
                     '${widget.title}',
-                    style: Theme.of(context).textTheme.button.copyWith(
+                    style: MyTheme.textTheme.bodyText1.copyWith(
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
                         color: widget.isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
@@ -248,10 +248,8 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
   Widget _hoverText(BuildContext context, {String title, bool isHover}) {
     return Text(
       title,
-      style: Theme.of(context)
-          .textTheme
-          .button
-          .copyWith(fontSize: 12, fontWeight: isHover ? FontWeight.w600 : FontWeight.w400),
+      style:
+          MyTheme.textTheme.bodyText1.copyWith(fontSize: 12, fontWeight: isHover ? FontWeight.w600 : FontWeight.w400),
     );
   }
 }
