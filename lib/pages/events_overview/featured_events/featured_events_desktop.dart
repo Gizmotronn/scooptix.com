@@ -188,9 +188,12 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
       opacity: animation,
       child: Container(
         height: featureEventCardHeight / 4,
-        child: ExpandImageCard(
-          imageUrl: events[index].coverImageURL,
-        ).paddingAll(2.5),
+        child: AspectRatio(
+          aspectRatio: 1.9,
+          child: ExpandImageCard(
+            imageUrl: events[index].coverImageURL,
+          ).paddingAll(2.5),
+        ),
       ),
     );
   }

@@ -22,8 +22,8 @@ class AllEvents extends StatelessWidget {
     return Container(
       width: getValueForScreenType(
           context: context,
-          desktop: screenSize.width * 0.8,
-          tablet: screenSize.width * 0.8,
+          desktop: MyTheme.maxWidth,
+          tablet: MyTheme.maxWidth,
           mobile: screenSize.width,
           watch: screenSize.width),
       child: Column(

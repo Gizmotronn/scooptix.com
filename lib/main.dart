@@ -91,7 +91,9 @@ class _WrapperPageState extends State<WrapperPage> {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
     MyTheme.elementSpacing = getValueForScreenType(context: context, watch: 12, mobile: 12, desktop: 20, tablet: 20);
+    MyTheme.maxWidth = screenSize.width * 0.625 < 880 ? 880 : screenSize.width * 0.625;
     MyTheme.textTheme = getValueForScreenType(
         context: context,
         watch: MyTheme.mobileTextTheme,

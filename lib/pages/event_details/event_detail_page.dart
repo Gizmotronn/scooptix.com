@@ -44,8 +44,6 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    MyTheme.maxWidth = screenSize.width < 1050 ? screenSize.width : 1050;
     MyTheme.cardPadding = getValueForScreenType(context: context, watch: 8, mobile: 8, tablet: 20, desktop: 20);
 
     return Scaffold(

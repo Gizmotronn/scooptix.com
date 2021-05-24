@@ -127,7 +127,7 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
           ),
         ),
         child: SizedBox(
-          height: 38,
+          height: 48,
           width: widget.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,10 +141,11 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                       fillColor: Colors.transparent,
                       enabledBorder: InputBorder.none,
                       border: InputBorder.none,
+                      contentPadding: EdgeInsets.all(8),
                       labelText:
                           "Discount Code ${textFieldState == DiscountTextfieldState.applied ? "- " + _text.toUpperCase() : ''}",
                       labelStyle: Theme.of(context).textTheme.bodyText1,
-                      isDense: true),
+                      isDense: false),
                   controller: textFieldState == DiscountTextfieldState.applied ||
                           textFieldState == DiscountTextfieldState.invalid
                       ? TextEditingController(
@@ -152,24 +153,23 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                       : widget._discountController,
                 ).paddingRight(8),
               ),
-              Expanded(
-                child: SizedBox(
-                  height: 46,
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                        primary: _buildActionColor(),
-                        backgroundColor: _buildActionColor(),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-                    onPressed: () {
-                      if (widget._discountController.text != "") {
-                        setState(() => textFieldState = DiscountTextfieldState.loading);
-                        _listenToStateChanges();
-                        widget.bloc.add(EventApplyDiscount(widget.event, widget._discountController.text));
-                        widget._discountController.text = "";
-                      }
-                    },
-                    child: _buildAction(),
-                  ),
+              SizedBox(
+                height: 48,
+                width: 48,
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                      primary: _buildActionColor(),
+                      backgroundColor: _buildActionColor(),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
+                  onPressed: () {
+                    if (widget._discountController.text != "") {
+                      setState(() => textFieldState = DiscountTextfieldState.loading);
+                      _listenToStateChanges();
+                      widget.bloc.add(EventApplyDiscount(widget.event, widget._discountController.text));
+                      widget._discountController.text = "";
+                    }
+                  },
+                  child: _buildAction(),
                 ),
               )
             ],
@@ -200,11 +200,11 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
         child: AppolloButtonProgressIndicator(),
       );
     } else if (textFieldState == DiscountTextfieldState.applied || textFieldState == DiscountTextfieldState.invalid) {
-      return Icon(Icons.close, color: MyTheme.appolloWhite, size: 18);
+      return Icon(Icons.close, color: MyTheme.appolloWhite, size: 24);
     } else if (textFieldState == DiscountTextfieldState.typing ||
         textFieldState == DiscountTextfieldState.error ||
         textFieldState == DiscountTextfieldState.filled) {
-      return Icon(Icons.add, color: MyTheme.appolloWhite, size: 18);
+      return Icon(Icons.add, color: MyTheme.appolloWhite, size: 24);
     } else {
       return SizedBox.shrink();
     }

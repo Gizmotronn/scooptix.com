@@ -121,7 +121,6 @@ class _CustomDropdownState extends State<CustomDropdown> {
               AutoSizeText(
                 '${widget.title}',
                 style: MyTheme.textTheme.bodyText1.copyWith(
-                    fontSize: 12,
                     fontWeight: FontWeight.w400,
                     color: _isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
               ),
@@ -132,7 +131,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
                     color: MyTheme.appolloWhite),
               ),
             ],
-          ).paddingAll(4)),
+          ).paddingAll(13)),
     );
   }
 }

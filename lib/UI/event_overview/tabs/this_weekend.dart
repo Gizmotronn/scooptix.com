@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/no_events.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/event.dart';
@@ -97,12 +96,12 @@ class _ThisWeekendState extends State<ThisWeekend> {
                                   events: widget.events
                                       .where((event) => fullDateWithDay(event.date).contains(_weekendMenu[index].title))
                                       .toList()),
-                              HoverAppolloButton(
+                              /* HoverAppolloButton(
                                 title: 'See More Events',
                                 color: MyTheme.appolloGreen,
                                 hoverColor: MyTheme.appolloGreen,
                                 fill: false,
-                              ).paddingBottom(16),
+                              ).paddingBottom(16),*/
                             ],
                           ),
                         ),

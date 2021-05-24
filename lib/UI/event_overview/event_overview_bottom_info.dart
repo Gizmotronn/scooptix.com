@@ -51,7 +51,7 @@ class EventOverviewFooter extends StatelessWidget {
           child: Center(
             child: SizedBox(
                 width: screenSize.width * 0.8,
-                height: screenSize.height * 0.3,
+                height: 250,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

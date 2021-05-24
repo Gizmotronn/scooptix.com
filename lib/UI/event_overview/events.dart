@@ -22,11 +22,14 @@ class AppolloEvents extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: events.length,
               itemBuilder: (context, index) {
-                return EventCardDesktop(event: events[index]);
+                return EventCardDesktop(
+                    event: events[index],
+                    width: MyTheme.maxWidth /
+                        ((MyTheme.maxWidth / 250).floor() > 4 ? 4 : (MyTheme.maxWidth / 250).floor()));
               },
-              gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
-                childAspectRatio: 1.1,
-                maxCrossAxisExtent: 430,
+              gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                childAspectRatio: 1,
+                crossAxisCount: (MyTheme.maxWidth / 250).floor() > 4 ? 4 : (MyTheme.maxWidth / 250).floor(),
               ),
             ).paddingAll(6),
           );
