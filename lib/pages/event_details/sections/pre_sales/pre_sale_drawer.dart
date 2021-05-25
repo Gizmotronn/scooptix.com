@@ -9,7 +9,7 @@ class PreSaleDrawer extends StatefulWidget {
   final PreSaleBloc bloc;
   final Event event;
 
-  const PreSaleDrawer({Key key, this.bloc, this.event}) : super(key: key);
+  const PreSaleDrawer({Key key, this.bloc, @required this.event}) : super(key: key);
 
   @override
   _PreSaleDrawerState createState() => _PreSaleDrawerState();
@@ -65,7 +65,10 @@ class _PreSaleDrawerState extends State<PreSaleDrawer> {
             ),
           ).paddingTop(8),
           Expanded(
-            child: PreSalePage(bloc: bloc).paddingHorizontal(MyTheme.elementSpacing),
+            child: PreSalePage(
+              bloc: bloc,
+              event: widget.event,
+            ).paddingHorizontal(MyTheme.elementSpacing),
           ),
         ],
       ),

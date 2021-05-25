@@ -46,7 +46,7 @@ class EventOverviewFooter extends StatelessWidget {
       if (size.isTablet || size.isDesktop) {
         return Container(
           width: screenSize.width,
-          height: screenSize.height * 0.3,
+          height: 300,
           color: MyTheme.appolloBlack,
           child: Center(
             child: SizedBox(

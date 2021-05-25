@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/events_overview/featured_events/featured_events_desktop.dart';
 import 'package:ticketapp/pages/events_overview/featured_events/featured_events_mobile.dart';
@@ -33,7 +34,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: kToolbarHeight + 20),
-                  Container(width: screenSize.width * 0.8, child: FeaturedEventsDesktop(events: events)),
+                  Container(width: MyTheme.maxWidth, child: FeaturedEventsDesktop(events: events)),
                 ],
               )
             ],

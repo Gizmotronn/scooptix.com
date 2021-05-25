@@ -8,7 +8,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_prizes_widget.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
@@ -18,8 +18,9 @@ import 'bloc/pre_sale_bloc.dart';
 
 class PreSalePage extends StatelessWidget {
   final PreSaleBloc bloc;
+  final Event event;
 
-  const PreSalePage({Key key, this.bloc}) : super(key: key);
+  const PreSalePage({Key key, this.bloc, @required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -90,17 +91,7 @@ class PreSalePage extends StatelessWidget {
               ).paddingBottom(MyTheme.elementSpacing * 2),
               AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange))
                   .paddingBottom(MyTheme.elementSpacing),
-              PreSalePrizesWidget(prizes: [
-                PreSalePrize()
-                  ..name = "First Prize"
-                  ..prizes = ["5 Free Tickets", "\$50 Bar Card"],
-                PreSalePrize()
-                  ..name = "Second Prize"
-                  ..prizes = ["3 Free Tickets", "\$30 Bar Card"],
-                PreSalePrize()
-                  ..name = "Third Prize"
-                  ..prizes = ["1 Free Ticket", "\$10 Bar Card"]
-              ]),
+              PreSalePrizesWidget(prizes: event.preSale.prizes),
               AutoSizeText(
                       "Winners are drawn at random once pre sale closes, and will be notified by email. Each referral point you earn rewards you with another entry, increasing your odds of winning.")
                   .paddingBottom(MyTheme.elementSpacing),

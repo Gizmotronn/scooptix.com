@@ -49,7 +49,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
           if (size.isDesktop || size.isTablet) {
             return Center(
               child: SizedBox(
-                width: screenSize.width * 0.8 - MyTheme.elementSpacing * 2,
+                width: MyTheme.maxWidth - MyTheme.elementSpacing * 4,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: List.generate(

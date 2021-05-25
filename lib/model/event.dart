@@ -1,4 +1,5 @@
 import 'package:ticketapp/model/pre_sale/pre_sale.dart';
+import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
 
 import 'birthday_lists/birthday_event_data.dart';
 import 'release_manager.dart';
@@ -23,6 +24,7 @@ class Event {
 
   String docID;
   String name;
+  String summary;
   String description;
   String coverImageURL = "";
   String address;
@@ -155,6 +157,9 @@ class Event {
       if (data.containsKey("description")) {
         event.description = data["description"];
       }
+      if (data.containsKey("summary")) {
+        event.summary = data["summary"];
+      }
       if (data.containsKey("coverimage")) {
         event.coverImageURL = data["coverimage"];
       }
@@ -245,6 +250,20 @@ class Event {
                   data["presale_data"]["registration_start_date"].millisecondsSinceEpoch),
               registrationEndDate: DateTime.fromMillisecondsSinceEpoch(
                   data["presale_data"]["registration_end_date"].millisecondsSinceEpoch));
+          if (data["presale_data"].containsKey("prizes")) {
+            data["presale_data"]["prizes"].forEach((prizeData) {
+              if (prizeData["type"] == "ranked") {
+                event.preSale.prizes.add(PreSaleRankedPrize()
+                  ..name = prizeData["name"]
+                  ..rank = prizeData["rank"]
+                  ..prizes = (prizeData["prizes"] as List<dynamic>).cast<String>().toList());
+              } else {
+                event.preSale.prizes.add(PreSaleRafflePrize()
+                  ..name = prizeData["name"]
+                  ..prizes = (prizeData["prizes"] as List<dynamic>).cast<String>().toList());
+              }
+            });
+          }
         } catch (_) {
           event.preSale = null;
         }

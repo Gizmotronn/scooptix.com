@@ -154,6 +154,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppolloButton.regularButton(
+                fill: false,
+                color: MyTheme.appolloBackgroundColorLight,
                 child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());

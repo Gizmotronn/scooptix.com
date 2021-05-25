@@ -102,6 +102,9 @@ class _PreSaleSheetState extends State<PreSaleSheet> {
             ),
           ),
         ),
-        body: PreSalePage(bloc: bloc).paddingAll(MyTheme.elementSpacing));
+        body: PreSalePage(
+          bloc: bloc,
+          event: widget.event,
+        ).paddingAll(MyTheme.elementSpacing));
   }
 }

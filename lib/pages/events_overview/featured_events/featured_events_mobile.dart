@@ -204,10 +204,10 @@ class FeaturedEventTextMobile extends StatelessWidget {
           event?.name ?? '',
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline3.copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(8),
         AutoSizeText(
-          "${event?.description ?? ''}",
+          "${event?.summary ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
           style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400),

@@ -133,6 +133,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                               bloc.add(EventRegister(widget.event));
                               WrapperPage.endDrawer.value = PreSaleDrawer(
                                 bloc: bloc,
+                                event: widget.event,
                               );
                               WrapperPage.mainScaffold.currentState.openEndDrawer();
                             },
@@ -142,6 +143,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                           bloc.add(EventRegister(widget.event));
                           WrapperPage.endDrawer.value = PreSaleDrawer(
                             bloc: bloc,
+                            event: widget.event,
                           );
                           WrapperPage.mainScaffold.currentState.openEndDrawer();
                         }
@@ -176,6 +178,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                                 bloc.add(EventRegister(widget.event));
                                 WrapperPage.endDrawer.value = PreSaleDrawer(
                                   bloc: bloc,
+                                  event: widget.event,
                                 );
                                 WrapperPage.mainScaffold.currentState.openEndDrawer();
                               },
@@ -185,6 +188,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                             bloc.add(EventRegister(widget.event));
                             WrapperPage.endDrawer.value = PreSaleDrawer(
                               bloc: bloc,
+                              event: widget.event,
                             );
                             WrapperPage.mainScaffold.currentState.openEndDrawer();
                           }

@@ -120,7 +120,10 @@ class _WrapperPageState extends State<WrapperPage> {
         body: Stack(
           children: [
             WillPopScope(
-              onWillPop: () async => false,
+              onWillPop: () async {
+                WrapperPage.navigatorKey.currentState.maybePop();
+                return false;
+              },
               child: Navigator(
                 key: WrapperPage.navigatorKey,
                 initialRoute: LandingPage.routeName,

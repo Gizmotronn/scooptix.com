@@ -49,8 +49,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
       _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
       _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
       Future.delayed(Duration(milliseconds: 1000), () {
-        final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
-        setState(() => position = featureEventCardWidth * 0.2);
+        setState(() => position = 0);
         _animatedCard();
       });
     }
@@ -85,7 +84,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
       }
       _controller.reverse();
       final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
-      setState(() => position = featureEventCardWidth * 0.2);
+      setState(() => position = 0);
       if (visibilityPercentage < 30) {
         _timer?.cancel();
         timer?.cancel();
@@ -107,7 +106,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
     }
     final screenSize = MediaQuery.of(context).size;
     final height = screenSize.height * 0.4;
-    final width = screenSize.width * 0.55;
+    final width = MyTheme.maxWidth * 0.75;
 
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
@@ -240,7 +239,7 @@ class FeaturedEventText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AutoSizeText(
-          "${event?.description ?? ''}",
+          "${event?.summary ?? ''}",
           textAlign: TextAlign.start,
           maxLines: 2,
           style: MyTheme.textTheme.bodyText1,
