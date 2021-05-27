@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/event_details/widget/make_booking.dart';
+import '../bookings/make_booking.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/app_bar.dart';

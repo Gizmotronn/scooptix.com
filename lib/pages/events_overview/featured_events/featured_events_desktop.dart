@@ -173,8 +173,14 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
             opacity: _fadeAnimation,
             child: ScaleTransition(
               scale: _scaleAnimation,
-              child: Container(
-                child: ExpandImageCard(imageUrl: event?.coverImageURL).paddingAll(2.5),
+              child: InkWell(
+                onTap: () {
+                  NavigationService.navigateTo(EventDetailPage.routeName,
+                      arg: event.docID, queryParams: {'id': event.docID});
+                },
+                child: Container(
+                  child: ExpandImageCard(imageUrl: event?.coverImageURL).paddingAll(2.5),
+                ),
               ),
             ),
           );
@@ -246,7 +252,7 @@ class FeaturedEventText extends StatelessWidget {
         ).paddingBottom(8),
         AppolloButton.regularButton(
             color: MyTheme.appolloGreen,
-            child: AutoSizeText('Get Your Ticket', maxLines: 2, style: Theme.of(context).textTheme.button),
+            child: AutoSizeText('View Event', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
                   arg: event.docID, queryParams: {'id': event.docID});

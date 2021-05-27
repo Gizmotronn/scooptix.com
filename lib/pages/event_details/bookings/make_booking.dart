@@ -1,8 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/main.dart';
-import '../../../pages/authentication/authentication_drawer.dart';
+import 'package:ticketapp/model/bookings/booking_data.dart';
+import 'package:ticketapp/pages/event_details/bookings/bloc/bookings_bloc.dart';
+import '../../authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_sheet.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -12,7 +15,7 @@ import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
 import '../../../utilities/svg/icon.dart';
 
-class MakeBooking extends StatelessWidget {
+class MakeBooking extends StatefulWidget {
   const MakeBooking({
     Key key,
     @required this.event,
@@ -21,20 +24,49 @@ class MakeBooking extends StatelessWidget {
   final Event event;
 
   @override
+  _MakeBookingState createState() => _MakeBookingState();
+}
+
+class _MakeBookingState extends State<MakeBooking> {
+  BookingsBloc bloc;
+
+  @override
+  void initState() {
+    bloc = BookingsBloc();
+    bloc.add(EventLoadBookingData(widget.event));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    bloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          /* AutoSizeText(
+    return BlocBuilder<BookingsBloc, BookingsState>(
+      cubit: bloc,
+      builder: (context, state) {
+        if (state is StateBookingData) {
+          return Container(
+            child: Column(
+              children: [
+                /* AutoSizeText(
             'Make A Booking',
             style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(32),
           _vipBoothPackages(context).paddingBottom(32),
           _privateRoomPackages(context).paddingBottom(32),*/
-          _birthdayListBookings(context).paddingBottom(32),
-          _createBookingList(context).paddingBottom(32),
-        ],
-      ),
+                _birthdayListBookings(context).paddingBottom(32),
+                _createBookingList(state.booking).paddingBottom(32),
+              ],
+            ),
+          );
+        } else {
+          return SizedBox.shrink();
+        }
+      },
     );
   }
 
@@ -165,7 +197,7 @@ class MakeBooking extends StatelessWidget {
     );
   }
 
-  Widget _createBookingList(BuildContext context) => SizedBox(
+  Widget _createBookingList(BookingData booking) => SizedBox(
         height: 320,
         child: Container(
           child: Row(
@@ -179,47 +211,45 @@ class MakeBooking extends StatelessWidget {
                         Column(
                           children: [
                             AutoSizeText('Create A Birthday List',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline4
+                                    style: MyTheme.textTheme.headline4
                                         .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
                                 .paddingBottom(32),
                             AutoSizeText(
                                     "Celebrate your birthday in style by creating a Birthday List for you and your closest friends and get the VIP experience.",
                                     textAlign: TextAlign.center,
-                                    style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                                    style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
                                 .paddingBottom(16),
-                            Column(children: [
-                              IconText(
-                                text: 'VIP Entry for each Guest',
-                                iconSize: 8,
-                                icon: AppolloSvgIcon.dot,
-                              ),
-                              IconText(
-                                text: 'Valid from 8pm - 10pm',
-                                iconSize: 8,
-                                icon: AppolloSvgIcon.dot,
-                              ),
-                            ])
+                            ListView.builder(
+                                shrinkWrap: true,
+                                itemBuilder: (c, index) {
+                                  return IconText(
+                                    text: booking.benefits[index],
+                                    iconSize: 8,
+                                    icon: AppolloSvgIcon.dot,
+                                  );
+                                },
+                                itemCount: booking.benefits.length)
                           ],
                         ),
                         Column(
                           children: [
-                            /*Align(
-                              alignment: Alignment.center,
-                              child: AutoSizeText.rich(
-                                      TextSpan(text: '\$500', children: [
-                                        TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)
-                                      ]),
-                                      style:
-                                          Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
-                                  .paddingBottom(MyTheme.cardPadding),
-                            ),*/
-                            Align(
-                              alignment: Alignment.center,
-                              child: AutoSizeText("Free of charge!", style: Theme.of(context).textTheme.headline4)
-                                  .paddingBottom(MyTheme.elementSpacing),
-                            ),
+                            if (booking.price != 0)
+                              Align(
+                                alignment: Alignment.center,
+                                child: AutoSizeText.rich(
+                                        TextSpan(text: '\$${(booking.price / 100).toStringAsFixed(2)}', children: [
+                                          TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)
+                                        ]),
+                                        style:
+                                            Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
+                                    .paddingBottom(MyTheme.cardPadding),
+                              ),
+                            if (booking.price == 0)
+                              Align(
+                                alignment: Alignment.center,
+                                child: AutoSizeText("Free of charge!", style: Theme.of(context).textTheme.headline4)
+                                    .paddingBottom(MyTheme.elementSpacing),
+                              ),
                             AppolloButton.regularButton(
                               width: 400,
                               color: MyTheme.appolloGreen,
@@ -232,7 +262,7 @@ class MakeBooking extends StatelessWidget {
                                     context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
                                   if (UserRepository.instance.isLoggedIn) {
                                     WrapperPage.endDrawer.value = BirthdayDrawer(
-                                      event: event,
+                                      event: widget.event,
                                     );
                                     WrapperPage.mainScaffold.currentState.openEndDrawer();
                                   } else {
@@ -241,7 +271,7 @@ class MakeBooking extends StatelessWidget {
                                     UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
                                   }
                                 } else {
-                                  BirthdaySheet.openBirthdaySheet(event);
+                                  BirthdaySheet.openBirthdaySheet(widget.event);
                                 }
                               },
                             ),
@@ -268,7 +298,7 @@ class MakeBooking extends StatelessWidget {
     return () {
       if (UserRepository.instance.isLoggedIn) {
         WrapperPage.endDrawer.value = BirthdayDrawer(
-          event: event,
+          event: widget.event,
         );
         WrapperPage.mainScaffold.currentState.openEndDrawer();
       }

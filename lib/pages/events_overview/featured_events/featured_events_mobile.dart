@@ -112,9 +112,15 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
                       children: [
                         AspectRatio(
                             aspectRatio: 1.9,
-                            child: ExpandImageCard(
-                              imageUrl: heroEvent.coverImageURL,
-                              borderRadius: BorderRadius.zero,
+                            child: InkWell(
+                              onTap: () {
+                                NavigationService.navigateTo(EventDetailPage.routeName,
+                                    arg: heroEvent.docID, queryParams: {'id': heroEvent.docID});
+                              },
+                              child: ExpandImageCard(
+                                imageUrl: heroEvent.coverImageURL,
+                                borderRadius: BorderRadius.zero,
+                              ),
                             )).paddingBottom(16),
                         heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent).paddingBottom(16),
                       ],
@@ -135,7 +141,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       children: [
         AppolloButton.regularButton(
             color: MyTheme.appolloGreen,
-            child: AutoSizeText('Get Ticket', maxLines: 2, style: MyTheme.textTheme.button),
+            child: AutoSizeText('View Event', maxLines: 2, style: MyTheme.textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
                   arg: heroEvent.docID, queryParams: {'id': heroEvent.docID});

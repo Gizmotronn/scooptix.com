@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
+import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/uuid_generator.dart';
@@ -42,6 +43,18 @@ class BirthdayListRepository {
 
   dispose() {
     _instance = null;
+  }
+
+  Future<BookingData> loadBookingData(Event event) async {
+    QuerySnapshot bookingsSnapshot =
+        await FirebaseFirestore.instance.collection("ticketevents").doc(event.docID).collection("bookings").get();
+    if (bookingsSnapshot.size > 0) {
+      return BookingData()
+        ..docId = bookingsSnapshot.docs[0].id
+        ..benefits = bookingsSnapshot.docs[0].data()["benefits"].cast<String>().toList();
+    } else {
+      return null;
+    }
   }
 
   Future<String> createOrLoadUUIDMap(Event event, String creatorId, String message, int numGuests) async {

@@ -14,7 +14,7 @@ import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/side_buttons.dart';
 import '../../../model/event.dart';
 import 'detail_with_button.dart';
-import '../../../UI/event_details/widget/make_booking.dart';
+import '../bookings/make_booking.dart';
 import 'event_description.dart';
 import 'event_gallery.dart';
 import 'event_nav_bar.dart';

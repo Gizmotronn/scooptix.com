@@ -159,15 +159,15 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                     fillColor: Colors.transparent,
                     contentPadding: const EdgeInsets.only(left: 8),
                     errorBorder: InputBorder.none,
-                    errorStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                    errorStyle: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
                     focusedBorder: InputBorder.none,
-                    hintStyle: Theme.of(context).textTheme.button.copyWith(
+                    hintStyle: MyTheme.textTheme.button.copyWith(
                         color: textFieldState == AppolloTextfieldState.initial
                             ? MyTheme.appolloGrey
                             : MyTheme.appolloWhite),
                     enabledBorder: InputBorder.none,
                     labelText: widget.labelText,
-                    labelStyle: Theme.of(context).textTheme.bodyText1.copyWith(color: _buildLabelColor()),
+                    labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
                     disabledBorder: InputBorder.none,
                   ),
                 );
