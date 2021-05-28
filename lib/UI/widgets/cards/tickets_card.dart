@@ -86,16 +86,12 @@ class _TicketCardState extends State<TicketCard> {
                               "${widget.release.getActiveRelease().releaseEnd.difference(DateTime.now()).inHours} HOURS")
                       .paddingBottom(16),
                 Column(
-                  children: List.generate(
-                      widget.release.getActiveRelease().includedPerks.length,
-                      (index) =>
-                          DotPoint(text: widget.release.getActiveRelease().includedPerks[index], isActive: true)),
+                  children: List.generate(widget.release.includedPerks.length,
+                      (index) => DotPoint(text: widget.release.includedPerks[index], isActive: true)),
                 ),
                 Column(
-                  children: List.generate(
-                      widget.release.getActiveRelease().includedPerks.length,
-                      (index) =>
-                          DotPoint(text: widget.release.getActiveRelease().excludedPerks[index], isActive: false)),
+                  children: List.generate(widget.release.includedPerks.length,
+                      (index) => DotPoint(text: widget.release.excludedPerks[index], isActive: false)),
                 ),
               ],
             ),

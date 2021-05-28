@@ -58,7 +58,33 @@ class EventsRepository {
   }
 
   List<Event> getRecurringEvents(String recurringEventId) {
-    return events.where((element) => element.recurringEventId == recurringEventId).toList();
+    try {
+      return events.where((element) => element.recurringEventId == recurringEventId).toList();
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<Event> loadNextRecurringEvent(String recurringEventId) async {
+    List<Event> recurringEvents = getRecurringEvents(recurringEventId);
+    if (recurringEvents.any((element) => element.recurringEventId == recurringEventId)) {
+      List<Event> recEvents = recurringEvents.where((element) => element.recurringEventId == recurringEventId);
+      recEvents.sort((a, b) => a.date.isBefore(b.date) ? -1 : 1);
+      return recEvents[0];
+    } else {
+      QuerySnapshot recEvent = await FirebaseFirestore.instance
+          .collection("events")
+          .where("recurring_event_id", isEqualTo: recurringEventId)
+          .where("date", isGreaterThan: DateTime.now())
+          .orderBy("date")
+          .limit(1)
+          .get();
+      if (recEvent.size > 0) {
+        return await loadEventById(recEvent.docs[0].id);
+      } else {
+        return null;
+      }
+    }
   }
 
   /// Loads all TicketReleases for the given release manager. Should be used to load releases for ReleaseManagers

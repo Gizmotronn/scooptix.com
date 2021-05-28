@@ -6,6 +6,7 @@ import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/link_type/overview.dart';
 import 'package:ticketapp/model/link_type/pre_sale_invite.dart';
+import 'package:ticketapp/model/link_type/recurring_event.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
@@ -53,6 +54,12 @@ class LinkRepository {
             ..uuid = uuid
             ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
             ..event = await EventsRepository.instance.loadEventById(uuidMapSnapshot.docs[0].data()["event"]);
+        } else if (type == RecurringEventLinkType.toDBString()) {
+          linkType = RecurringEventLinkType()
+            ..uuid = uuid
+            ..recurringEventId = uuidMapSnapshot.docs[0].data()["recurring_event_id"]
+            ..event = await EventsRepository.instance
+                .loadNextRecurringEvent(uuidMapSnapshot.docs[0].data()["recurring_event_id"]);
         }
       }
       return linkType;

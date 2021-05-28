@@ -4,7 +4,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
-import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/repositories/birthdaylist_repository.dart';
 import 'package:ticketapp/repositories/ticket_repository.dart';

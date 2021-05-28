@@ -12,6 +12,8 @@ class ReleaseManager {
   bool absorbFees = false;
   bool autoRelease = false;
   bool singleTicketRestriction = false;
+  List<String> includedPerks = [];
+  List<String> excludedPerks = [];
 
   ReleaseManager._();
 
@@ -76,6 +78,12 @@ class ReleaseManager {
       }
       if (data.containsKey("auto_release")) {
         rm.autoRelease = data["auto_release"];
+      }
+      if (data.containsKey("included_perks")) {
+        rm.includedPerks = data["included_perks"].cast<String>().toList();
+      }
+      if (data.containsKey("excluded_perks")) {
+        rm.excludedPerks = data["excluded_perks"].cast<String>().toList();
       }
       if (data.containsKey("entry_start")) {
         rm.entryStart = DateTime.fromMillisecondsSinceEpoch(data["entry_start"].millisecondsSinceEpoch);
