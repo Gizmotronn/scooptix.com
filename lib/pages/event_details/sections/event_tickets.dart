@@ -23,7 +23,7 @@ class EventTickets extends StatefulWidget {
 class _EventTicketsState extends State<EventTickets> {
   final Map<TicketRelease, int> selectedTickets = {};
   final double height = 580;
-  final double checkoutWidth = 295;
+  final double checkoutWidth = 305;
 
   final List<Color> ticketColor = [
     MyTheme.appolloGreen,

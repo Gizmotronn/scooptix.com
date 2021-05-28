@@ -81,7 +81,7 @@ class EventInfo extends StatelessWidget {
                   .paddingBottom(8),
               IconText(
                   text:
-                      'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price)} - BF',
+                      'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price / 100)} + BF',
                   icon: AppolloSvgIcon.ticket),
             ],
           )
