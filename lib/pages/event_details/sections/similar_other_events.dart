@@ -24,10 +24,12 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
   @override
   void initState() {
     final events = EventsRepository.instance.events;
-    _similarEvents = events
+    /*_similarEvents = events
         .where((event) => event.name.contains(widget.event.name) || event.tags.contains(widget.event.tags))
+        .toList();*/
+    _otherEventsByThisOrganizer = events
+        .where((event) => event.organizer == widget.event.organizer && event.docID != widget.event.docID)
         .toList();
-    _otherEventsByThisOrganizer = events.where((event) => event.organizer == widget.event.organizer).toList();
     super.initState();
   }
 

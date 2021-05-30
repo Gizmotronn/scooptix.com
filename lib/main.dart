@@ -6,6 +6,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/pages/my_ticktes/my_tickets_sheet.dart';
@@ -179,13 +180,15 @@ class _WrapperPageState extends State<WrapperPage> {
                                 .push(MaterialPageRoute(builder: (context) => EventsForMe()));
                             break;
                           case 2:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext)
-                                .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
+                            Navigator.of(WrapperPage.navigatorKey.currentContext).popUntil((route) =>
+                                route.settings.name == EventOverviewPage.routeName ||
+                                route.settings.name.startsWith(EventDetailPage.routeName + "?"));
                             MyTicketsSheet.openMyTicketsSheet();
                             break;
                           case 3:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext)
-                                .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
+                            Navigator.of(WrapperPage.navigatorKey.currentContext).popUntil((route) =>
+                                route.settings.name == EventOverviewPage.routeName ||
+                                route.settings.name.startsWith(EventDetailPage.routeName + "?"));
                             RewardCenterSheet.openRewardCenterSheet();
                             break;
                         }

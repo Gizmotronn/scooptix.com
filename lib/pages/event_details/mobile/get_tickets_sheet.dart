@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 
 /// Shown at the bottom of the screen containing the event name and a button that scrolls to the ticket selection
-class GetTicketsSheet extends StatelessWidget {
-  final String name;
+class QuickAccessSheet extends StatelessWidget {
+  final String mainText;
   final ScrollController controller;
+  final String buttonText;
   final double position;
 
-  const GetTicketsSheet({Key key, this.name, this.controller, this.position}) : super(key: key);
+  const QuickAccessSheet({Key key, this.mainText, this.controller, this.position, this.buttonText}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class GetTicketsSheet extends StatelessWidget {
         children: [
           Flexible(
             child: AutoSizeText(
-              name,
+              mainText,
               minFontSize: 11,
               overflow: TextOverflow.clip,
               maxLines: 1,
@@ -43,7 +44,7 @@ class GetTicketsSheet extends StatelessWidget {
               },
               child: Center(
                   child: Text(
-                "Get Tickets",
+                buttonText,
                 style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
               )),
             ),

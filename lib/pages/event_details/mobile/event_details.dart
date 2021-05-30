@@ -42,7 +42,11 @@ class _EventDataMobileState extends State<EventDataMobile> {
           ).paddingBottom(MyTheme.elementSpacing),
           _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
           EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
-          if (widget.event.preSaleEnabled) PreSaleRegistrationPage(event: widget.event),
+          if (widget.event.preSaleEnabled)
+            PreSaleRegistrationPage(
+              event: widget.event,
+              scrollController: widget.scrollController,
+            ),
           EventTicketsMobile(
             event: widget.event,
             scrollController: widget.scrollController,

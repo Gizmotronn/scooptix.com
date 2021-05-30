@@ -8,4 +8,6 @@ class PreSale {
   List<PreSalePrize> prizes = [];
 
   PreSale({this.enabled, this.registrationStartDate, this.registrationEndDate});
+
+  bool get hasPrizes => prizes.isNotEmpty;
 }

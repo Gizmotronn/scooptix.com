@@ -37,13 +37,18 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showBottomSheet(
-          context: context,
-          builder: (c) => GetTicketsSheet(
-                controller: widget.scrollController,
-                name: widget.event.name,
-                position: position,
-              ));
+      if (!widget.event.preSaleEnabled ||
+          widget.event.preSale.registrationStartDate.isAfter(DateTime.now()) ||
+          widget.event.preSale.registrationEndDate.isBefore(DateTime.now())) {
+        showBottomSheet(
+            context: context,
+            builder: (c) => QuickAccessSheet(
+                  controller: widget.scrollController,
+                  mainText: widget.event.name,
+                  buttonText: "Get Tickets",
+                  position: position,
+                ));
+      }
     });
 
     super.initState();
@@ -94,13 +99,18 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                           );
                         } else {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            showBottomSheet(
-                                context: context,
-                                builder: (c) => GetTicketsSheet(
-                                      controller: widget.scrollController,
-                                      name: widget.event.name,
-                                      position: position,
-                                    ));
+                            if (!widget.event.preSaleEnabled ||
+                                widget.event.preSale.registrationStartDate.isAfter(DateTime.now()) ||
+                                widget.event.preSale.registrationEndDate.isBefore(DateTime.now())) {
+                              showBottomSheet(
+                                  context: context,
+                                  builder: (c) => QuickAccessSheet(
+                                        controller: widget.scrollController,
+                                        mainText: widget.event.name,
+                                        buttonText: "Get Tickets",
+                                        position: position,
+                                      ));
+                            }
                           });
                         }
                       });

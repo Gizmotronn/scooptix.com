@@ -5,8 +5,10 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_details/widget/counter.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
+import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/event_details/mobile/get_tickets_sheet.dart';
 import '../../../authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/bloc/pre_sale_bloc.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_drawer.dart';
@@ -21,7 +23,8 @@ import '../../../../utilities/svg/icon.dart';
 
 class PreSaleRegistrationPage extends StatefulWidget {
   final Event event;
-  const PreSaleRegistrationPage({Key key, this.event}) : super(key: key);
+  final ScrollController scrollController;
+  const PreSaleRegistrationPage({Key key, this.event, this.scrollController}) : super(key: key);
 
   @override
   _PreSaleRegistrationPageState createState() => _PreSaleRegistrationPageState();
@@ -29,6 +32,7 @@ class PreSaleRegistrationPage extends StatefulWidget {
 
 class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   PreSaleBloc bloc;
+  double position = 0.0;
 
   @override
   void initState() {
@@ -36,6 +40,21 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
     bloc.add(EventCheckStatus(widget.event));
     UserRepository.instance.currentUserNotifier.addListener(() {
       bloc.add(EventCheckStatus(widget.event));
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (getValueForScreenType(context: context, watch: true, mobile: true, tablet: false, desktop: false) &&
+          widget.event.preSaleEnabled &&
+          widget.event.preSale.registrationStartDate.isBefore(DateTime.now()) &&
+          widget.event.preSale.registrationEndDate.isAfter(DateTime.now())) {
+        showBottomSheet(
+            context: context,
+            builder: (c) => QuickAccessSheet(
+                  controller: widget.scrollController,
+                  mainText: "Register for Pre-Sale",
+                  buttonText: "Register",
+                  position: position,
+                ));
+      }
     });
     super.initState();
   }
@@ -48,13 +67,20 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PreSaleBloc, PreSaleState>(
-      cubit: bloc,
-      builder: (context, state) {
-        return Container(
-          child: buildPreSale(context, state),
-        );
+    return BoxOffset(
+      boxOffset: (offset) {
+        if (position == 0.0) {
+          setState(() => position = offset.dy);
+        }
       },
+      child: BlocBuilder<PreSaleBloc, PreSaleState>(
+        cubit: bloc,
+        builder: (context, state) {
+          return Container(
+            child: buildPreSale(context, state),
+          );
+        },
+      ),
     );
   }
 
@@ -78,34 +104,36 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
               style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(32),
             AutoSizeText(
-                    "Registering for presale is easy, signup or sign in and we will hold your ticket under your account. You will receive an email when presale tickets have gone on sale.",
+                    "Sign up for pre-sale alerts and get the chance to purchase tickets before they go on sale to the general public. We will send you a notification when pre-sale tickets go on sale, so you don’t have to worry about missing out.",
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                    style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
                 .paddingBottom(8),
-            AutoSizeText(
-                    "Share your link to unlock extra perks and earn points for each person that signs up for presale, or buys a ticket using your link.",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500))
-                .paddingBottom(8),
+            if (widget.event.preSale.hasPrizes)
+              AutoSizeText(
+                      "Share your link to unlock extra perks and earn points for each person that signs up for presale, or buys a ticket using your link.",
+                      textAlign: TextAlign.center,
+                      style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                  .paddingBottom(8),
           ],
         ).paddingHorizontal(32),
-        AutoSizeText.rich(
-            TextSpan(
-              text: 'Check the',
-              children: [
-                TextSpan(
-                    text: ' Prize Pool ',
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption
-                        .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloOrange)),
-                TextSpan(
-                    text: 'to see what you could win by sharing your link with friends.',
-                    style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
-              ],
-            ),
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
+        if (widget.event.preSale.hasPrizes)
+          AutoSizeText.rich(
+              TextSpan(
+                text: 'Check the',
+                children: [
+                  TextSpan(
+                      text: ' Prize Pool ',
+                      style: Theme.of(context)
+                          .textTheme
+                          .caption
+                          .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloOrange)),
+                  TextSpan(
+                      text: 'to see what you could win by sharing your link with friends.',
+                      style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
+                ],
+              ),
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
         const SizedBox(height: 32),
         _subtitle(context, 'Pre-Sale Closes In').paddingBottom(32),
         Countdown(
@@ -199,12 +227,14 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         SizedBox(
           height: MyTheme.elementSpacing * 2,
         ),
-        _subtitle(context, 'Pre-Sale Perks')
-            .paddingTop(MyTheme.elementSpacing)
-            .paddingBottom(MyTheme.elementSpacing * 2),
-        _buildLevel(context).paddingBottom(MyTheme.elementSpacing),
-        _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(MyTheme.elementSpacing * 2),
-        _buildTrophy(context),
+        if (widget.event.preSale.hasPrizes)
+          _subtitle(context, 'Pre-Sale Perks')
+              .paddingTop(MyTheme.elementSpacing)
+              .paddingBottom(MyTheme.elementSpacing * 2),
+        if (widget.event.preSale.hasPrizes) _buildLevel(context).paddingBottom(MyTheme.elementSpacing),
+        if (widget.event.preSale.hasPrizes)
+          _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(MyTheme.elementSpacing * 2),
+        if (widget.event.preSale.hasPrizes) _buildTrophy(context),
         AppolloDivider(),
       ],
     );

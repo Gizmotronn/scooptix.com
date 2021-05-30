@@ -67,14 +67,14 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
             ).paddingBottom(MyTheme.cardPadding),
             IconText(text: DateFormat("MMMM dd. yyy").format(widget.event.date), icon: AppolloSvgIcon.calenderOutline)
                 .paddingBottom(8),
-            IconText(text: widget.event.address ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
+            IconText(text: widget.event.address.trimLeft() ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
             IconText(
                     text: '${time(widget.event?.date) ?? ''} - ${time(widget.event?.endTime) ?? ''}',
                     icon: AppolloSvgIcon.clock)
                 .paddingBottom(8),
             IconText(
                 text:
-                    'Ticket Price: ${money(widget.event.getAllReleases().isEmpty ? 0 : widget.event.getAllReleases().first.price)} - BF',
+                    'Ticket Price: ${money(widget.event.getAllReleases().isEmpty ? 0 : widget.event.getAllReleases().first.price / 100)} + BF',
                 icon: AppolloSvgIcon.ticket),
           ],
         )

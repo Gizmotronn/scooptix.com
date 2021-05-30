@@ -74,7 +74,7 @@ class EventInfo extends StatelessWidget {
                 'Event Details',
                 style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
               ).paddingBottom(MyTheme.cardPadding),
-              IconText(text: event.address ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
+              IconText(text: event.address.trimLeft() ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
               IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)
                   .paddingBottom(8),
               IconText(text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}', icon: AppolloSvgIcon.clock)

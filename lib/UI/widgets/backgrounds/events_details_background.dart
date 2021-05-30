@@ -15,8 +15,8 @@ class EventDetailBackground extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
 
     return Positioned(
-      width: screenSize.width * 1.01,
-      height: screenSize.height * 1.01,
+      width: screenSize.width,
+      height: screenSize.height,
       child: coverImageURL == null
           ? SizedBox()
           : Container(

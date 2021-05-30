@@ -40,23 +40,25 @@ class PreSalePage extends StatelessWidget {
               AutoSizeText(
                       "You have registered for pre-sale. You will be notified once ticket sales start and may also receive special pre-sale offers from the event organiser.")
                   .paddingBottom(MyTheme.elementSpacing),
-              AutoSizeText(
-                      "Increase your chance of winning by simply sharing your referral code with your friends, family or followers.")
-                  .paddingBottom(MyTheme.elementSpacing),
-              Container(
-                width: MyTheme.drawerSize,
-                decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    AutoSizeText(
-                      "Current Points",
-                      style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
-                    ),
-                    AutoSizeText(state.preSale.points.toString())
-                  ],
-                ).paddingAll(MyTheme.elementSpacing / 2 + 4),
-              ).appolloCard().paddingBottom(MyTheme.elementSpacing * 2),
+              if (event.preSale.hasPrizes)
+                AutoSizeText(
+                        "Increase your chance of winning by simply sharing your referral code with your friends, family or followers.")
+                    .paddingBottom(MyTheme.elementSpacing),
+              if (event.preSale.hasPrizes)
+                Container(
+                  width: MyTheme.drawerSize,
+                  decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AutoSizeText(
+                        "Current Points",
+                        style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
+                      ),
+                      AutoSizeText(state.preSale.points.toString())
+                    ],
+                  ).paddingAll(MyTheme.elementSpacing / 2 + 4),
+                ).appolloCard().paddingBottom(MyTheme.elementSpacing * 2),
               AutoSizeText("Referral Link", style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange))
                   .paddingBottom(MyTheme.elementSpacing),
               OnTapAnimationButton(
@@ -89,12 +91,14 @@ class PreSalePage extends StatelessWidget {
                   ),
                 ),
               ).paddingBottom(MyTheme.elementSpacing * 2),
-              AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange))
-                  .paddingBottom(MyTheme.elementSpacing),
-              PreSalePrizesWidget(prizes: event.preSale.prizes),
-              AutoSizeText(
-                      "Winners are drawn at random once pre sale closes, and will be notified by email. Each referral point you earn rewards you with another entry, increasing your odds of winning.")
-                  .paddingBottom(MyTheme.elementSpacing),
+              if (event.preSale.hasPrizes)
+                AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange))
+                    .paddingBottom(MyTheme.elementSpacing),
+              if (event.preSale.hasPrizes) PreSalePrizesWidget(prizes: event.preSale.prizes),
+              if (event.preSale.hasPrizes)
+                AutoSizeText(
+                        "Winners are drawn at random once pre sale closes, and will be notified by email. Each referral point you earn rewards you with another entry, increasing your odds of winning.")
+                    .paddingBottom(MyTheme.elementSpacing),
             ],
           );
         } else {
