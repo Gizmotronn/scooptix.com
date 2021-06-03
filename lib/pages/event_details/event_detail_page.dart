@@ -52,7 +52,7 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
           valueListenable: EventDetailPage.fab,
           builder: (context, value, child) {
             if (value != null) {
-              return Padding(padding: EdgeInsets.only(bottom: 54), child: value);
+              return Padding(padding: EdgeInsets.only(bottom: 62), child: value);
             } else {
               return SizedBox.shrink();
             }

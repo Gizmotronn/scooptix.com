@@ -118,8 +118,10 @@ class MyTicketCard extends StatelessWidget {
   Widget _qrCard(String title, String subTitle) {
     return Column(
       children: [
-        Text(
+        AutoSizeText(
           title,
+          maxLines: 1,
+          minFontSize: 5,
           style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloWhite),
         ),
         Expanded(

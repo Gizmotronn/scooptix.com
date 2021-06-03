@@ -58,7 +58,7 @@ class _CardButtonState extends State<CardButton> {
         child: Center(
             child: AutoSizeText(
           widget.title ?? '',
-          style: Theme.of(context).textTheme.button.copyWith(color: isHover ? activeColorText : deactiveColorText),
+          style: MyTheme.textTheme.button.copyWith(color: isHover ? activeColorText : deactiveColorText),
         )),
       ),
     );

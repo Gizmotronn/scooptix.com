@@ -17,7 +17,7 @@ class AppolloAppBar extends StatefulWidget {
   @override
   _AppolloAppBarState createState() => _AppolloAppBarState();
 
-  Size get preferredSize => Size.fromHeight(74.0);
+  Size get preferredSize => Size.fromHeight(MyTheme.appBarHeight);
 }
 
 class _AppolloAppBarState extends State<AppolloAppBar> {

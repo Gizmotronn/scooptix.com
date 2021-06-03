@@ -347,7 +347,7 @@ class _PaymentPageState extends State<PaymentPage> {
           style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildSelectedTickets(),
-        AppolloDivider(),
+        AppolloDivider(verticalPadding: MyTheme.elementSpacing),
         SizedBox(
           width: MyTheme.drawerSize,
           child: Row(
@@ -395,7 +395,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
-        ).paddingBottom(MyTheme.elementSpacing),
+        ),
         AppolloDivider(),
         SizedBox(
           width: MyTheme.drawerSize,

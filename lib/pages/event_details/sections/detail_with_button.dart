@@ -20,87 +20,96 @@ class EventInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          height: 300,
+        Flexible(
           child: Row(
             children: [
               _buildImage(),
-              SizedBox(width: MyTheme.cardPadding),
+              SizedBox(width: MyTheme.elementSpacing),
               _buildContent(context),
             ],
-          ).paddingBottom(MyTheme.cardPadding),
+          ).paddingBottom(MyTheme.elementSpacing),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: buttons,
-        ).paddingBottom(MyTheme.cardPadding),
+        SizedBox(
+          height: 80,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: buttons,
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildContent(BuildContext context) {
     return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                event.name,
-                style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
-              ).paddingBottom(8),
-              AutoSizeText.rich(
-                  TextSpan(
-                    text: 'Organised by',
-                    children: [
-                      TextSpan(
-                          text: ' ${organizer?.getFullName() ?? ''}',
-                          style: MyTheme.textTheme.bodyText2
-                              .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
-                    ],
-                  ),
-                  style:
-                      MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
-            ],
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              AutoSizeText(
-                'Event Details',
-                style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
-              ).paddingBottom(MyTheme.cardPadding),
-              IconText(text: event.address.trimLeft() ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
-              IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)
-                  .paddingBottom(8),
-              IconText(text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}', icon: AppolloSvgIcon.clock)
-                  .paddingBottom(8),
-              IconText(
-                  text:
-                      'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price / 100)} + BF',
-                  icon: AppolloSvgIcon.ticket),
-            ],
-          )
-        ],
+      child: SizedBox(
+        height: MyTheme.maxWidth / 2 / 1.9,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                AutoSizeText(
+                  event.name,
+                  style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                ).paddingBottom(8),
+                AutoSizeText.rich(
+                    TextSpan(
+                      text: 'Organised by',
+                      children: [
+                        TextSpan(
+                            text: ' ${organizer?.getFullName() ?? ''}',
+                            style: MyTheme.textTheme.subtitle1
+                                .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
+                      ],
+                    ),
+                    style:
+                        MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
+              ],
+            ).paddingBottom(MyTheme.elementSpacing),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  AutoSizeText(
+                    'Event Details',
+                    style:
+                        MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                  ).paddingBottom(MyTheme.elementSpacing / 2),
+                  IconText(text: event.address.trimLeft() ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
+                  IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)
+                      .paddingBottom(8),
+                  IconText(
+                          text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}',
+                          icon: AppolloSvgIcon.clock)
+                      .paddingBottom(8),
+                  IconText(
+                      text:
+                          'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price / 100)} + BF',
+                      icon: AppolloSvgIcon.ticket),
+                ],
+              ),
+            )
+          ],
+        ).paddingVertical(4),
       ),
     );
   }
 
   Widget _buildImage() {
     return Expanded(
-      child: AspectRatio(
-        aspectRatio: 1.9,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            image: DecorationImage(
-              image: ExtendedImage.network(event.coverImageURL, cache: true).image,
-              fit: BoxFit.cover,
-            ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: AspectRatio(
+          aspectRatio: 1.9,
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: ExtendedImage.network(event.coverImageURL, cache: true),
           ),
         ),
       ),

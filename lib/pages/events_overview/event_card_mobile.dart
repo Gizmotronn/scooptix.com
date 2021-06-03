@@ -104,12 +104,12 @@ class EventCardMobile extends StatelessWidget {
           AutoSizeText(
             event.name ?? '',
             textAlign: TextAlign.start,
-            maxLines: 2,
+            maxLines: 3,
             overflow: TextOverflow.clip,
             style: MyTheme.textTheme.headline5,
           ),
         ],
-      ).paddingAll(MyTheme.elementSpacing),
+      ).paddingAll(MyTheme.elementSpacing / 2),
     );
   }
 

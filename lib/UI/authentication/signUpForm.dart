@@ -30,12 +30,22 @@ class _SignUpFormState extends State<SignUpForm> {
             AutoSizeText(
               "Create an account",
               textAlign: TextAlign.center,
-              style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+              style: getValueForScreenType(
+                  context: context,
+                  watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                  mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                  tablet: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+                  desktop: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen)),
             ).paddingBottom(MyTheme.elementSpacing),
             AutoSizeText(
               "Tell us about yourself",
               textAlign: TextAlign.center,
-              style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange),
+              style: getValueForScreenType(
+                  context: context,
+                  watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                  mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                  tablet: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+                  desktop: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen)),
             ).paddingBottom(MyTheme.elementSpacing),
 
             Column(
@@ -181,7 +191,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             AutoSizeText(
               "Terms & Conditions",
-              style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: MyTheme.elementSpacing,

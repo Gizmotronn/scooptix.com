@@ -148,8 +148,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                   child: Container(
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing, vertical: MyTheme.elementSpacing),
+                      padding: EdgeInsets.symmetric(vertical: MyTheme.elementSpacing),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -249,13 +248,13 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+              Text("Subtotal", style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -266,10 +265,10 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
               children: [
                 Text(
                   "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : discount.amount.toString() + "%"})",
-                  style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
+                  style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
-                    child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2))
+                    child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText1))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -279,30 +278,30 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600),
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
-        ).paddingBottom(MyTheme.elementSpacing),
+        ),
         AppolloDivider(),
         SizedBox(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+              Text("Total", style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -319,13 +318,13 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(key.ticketName + " x $value",
-                style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+                style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
                     child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                        style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));

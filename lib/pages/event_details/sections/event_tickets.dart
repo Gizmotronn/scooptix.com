@@ -22,8 +22,8 @@ class EventTickets extends StatefulWidget {
 
 class _EventTicketsState extends State<EventTickets> {
   final Map<TicketRelease, int> selectedTickets = {};
-  final double height = 580;
-  final double checkoutWidth = 305;
+  final double height = 670;
+  final double checkoutWidth = 315;
 
   final List<Color> ticketColor = [
     MyTheme.appolloGreen,
@@ -39,17 +39,20 @@ class _EventTicketsState extends State<EventTickets> {
         AutoSizeText(
           'Tickets',
           style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
-        ).paddingBottom(30),
+        ).paddingBottom(MyTheme.elementSpacing * 2),
         ClipRRect(
           borderRadius: BorderRadius.circular(5),
           child: Container(
-            constraints: BoxConstraints(minHeight: height, minWidth: 500, maxHeight: height, maxWidth: 800),
+            constraints: BoxConstraints(minHeight: height, minWidth: 500, maxHeight: height, maxWidth: 1000),
             decoration: BoxDecoration(),
             child: Row(children: [
               Expanded(
                 flex: 70,
                 child: Container(
-                  color: MyTheme.appolloBackgroundColor,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
+                    color: MyTheme.appolloBackgroundColor,
+                  ),
                   child: Column(
                     children: [
                       _header(context, text: widget.event.name),
@@ -59,7 +62,7 @@ class _EventTicketsState extends State<EventTickets> {
                         child: Container(
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.only(right: 8),
+                              padding: EdgeInsets.only(right: 6, left: 6),
                               itemCount: widget.event.releaseManagers.length,
                               itemBuilder: (c, index) {
                                 final Color color = ticketColor[index % ticketColor.length];
@@ -91,7 +94,7 @@ class _EventTicketsState extends State<EventTickets> {
                 flex: 30,
                 child: Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+                      borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
                       color: MyTheme.appolloCardColorLight,
                     ),
                     child: OrderSummaryOverlay(
@@ -112,7 +115,7 @@ class _EventTicketsState extends State<EventTickets> {
     return Container(
       height: 45,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(5)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(16)),
         color: MyTheme.appolloPurple,
       ),
       child: Center(

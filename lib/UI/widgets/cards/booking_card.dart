@@ -70,7 +70,7 @@ class IconText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SvgPicture.asset(icon, height: iconSize ?? 24, width: iconSize ?? 24).paddingRight(8),
+        SvgPicture.asset(icon, height: iconSize ?? 24, width: iconSize ?? 24).paddingRight(MyTheme.elementSpacing / 2),
         Expanded(child: AutoSizeText('$text', style: textStyle ?? MyTheme.textTheme.bodyText1)),
       ],
     ).paddingBottom(4);

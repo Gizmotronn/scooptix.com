@@ -56,7 +56,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
               .paddingBottom(MyTheme.elementSpacing)
               .paddingHorizontal(MyTheme.elementSpacing),
           SimilarOtherEvents(event: widget.event)
-              .paddingBottom(MyTheme.elementSpacing * 2)
+              .paddingBottom(MyTheme.elementSpacing * 3)
               .paddingHorizontal(MyTheme.elementSpacing),
         ],
       ).paddingBottom(MyTheme.elementSpacing),

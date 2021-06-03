@@ -11,12 +11,14 @@ class Countdown extends StatefulWidget {
     this.onFinish,
     this.interval = const Duration(seconds: 1),
     this.width = 400,
+    this.height = 150,
   }) : super(key: key);
 
   final Duration duration;
   final Duration interval;
   final void Function() onFinish;
   final double width;
+  final double height;
   @override
   _CountdownState createState() => _CountdownState();
 }
@@ -49,8 +51,7 @@ class _CountdownState extends State<Countdown> {
     });
   }
 
-  Widget type(BuildContext context, String s) =>
-      AutoSizeText(s, style: Theme.of(context).textTheme.caption.copyWith(fontSize: 2)).paddingBottom(8);
+  Widget type(BuildContext context, String s) => AutoSizeText(s, style: MyTheme.textTheme.bodyText1).paddingBottom(8);
 
   Widget timer(BuildContext context, String s) {
     return AutoSizeText(
@@ -63,6 +64,7 @@ class _CountdownState extends State<Countdown> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
+      height: widget.height,
       child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

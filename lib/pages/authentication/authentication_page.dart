@@ -205,7 +205,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                     ),
                   );
                 }
-              }).paddingTop(MyTheme.cardPadding),
+              }).paddingTop(MyTheme.elementSpacing),
         );
       }),
     );

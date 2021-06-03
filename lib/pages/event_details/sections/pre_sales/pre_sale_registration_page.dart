@@ -6,6 +6,7 @@ import 'package:ticketapp/UI/event_details/widget/counter.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
+import 'package:ticketapp/UI/widgets/cards/level_card_mobile.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/mobile/get_tickets_sheet.dart';
@@ -18,7 +19,7 @@ import 'package:ticketapp/repositories/user_repository.dart';
 import '../../../../UI/theme.dart';
 import '../../../../UI/widgets/appollo/appolloDivider.dart';
 import '../../../../UI/widgets/buttons/apollo_button.dart';
-import '../../../../UI/widgets/cards/level_card.dart';
+import '../../../../UI/widgets/cards/level_card_desktop.dart';
 import '../../../../utilities/svg/icon.dart';
 
 class PreSaleRegistrationPage extends StatefulWidget {
@@ -101,45 +102,44 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           children: [
             AutoSizeText(
               'Pre-Sale Registration',
-              style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
-            ).paddingBottom(32),
+              style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            ).paddingBottom(MyTheme.elementSpacing * 2),
             AutoSizeText(
                     "Sign up for pre-sale alerts and get the chance to purchase tickets before they go on sale to the general public. We will send you a notification when pre-sale tickets go on sale, so you don’t have to worry about missing out.",
                     textAlign: TextAlign.center,
-                    style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                    style: MyTheme.textTheme.subtitle1)
                 .paddingBottom(8),
             if (widget.event.preSale.hasPrizes)
               AutoSizeText(
                       "Share your link to unlock extra perks and earn points for each person that signs up for presale, or buys a ticket using your link.",
                       textAlign: TextAlign.center,
-                      style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                      style: MyTheme.textTheme.subtitle1)
                   .paddingBottom(8),
           ],
-        ).paddingHorizontal(32),
+        ).paddingHorizontal(MyTheme.elementSpacing),
         if (widget.event.preSale.hasPrizes)
           AutoSizeText.rich(
-              TextSpan(
-                text: 'Check the',
-                children: [
                   TextSpan(
-                      text: ' Prize Pool ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .caption
-                          .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloOrange)),
-                  TextSpan(
-                      text: 'to see what you could win by sharing your link with friends.',
-                      style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
-                ],
-              ),
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
-        const SizedBox(height: 32),
-        _subtitle(context, 'Pre-Sale Closes In').paddingBottom(32),
+                    text: 'Check the',
+                    children: [
+                      TextSpan(
+                          text: ' Prize Pool ',
+                          style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloOrange)),
+                      TextSpan(
+                          text: 'to see what you could win by sharing your link with friends.',
+                          style: MyTheme.textTheme.subtitle1),
+                    ],
+                  ),
+                  textAlign: TextAlign.center,
+                  style: MyTheme.textTheme.subtitle1)
+              .paddingHorizontal(MyTheme.elementSpacing),
+        SizedBox(height: MyTheme.elementSpacing),
+        _subtitle(context, 'Pre-Sale Closes In').paddingBottom(MyTheme.elementSpacing),
         Countdown(
-          width: 280,
+          width: 416,
+          height: getValueForScreenType(context: context, mobile: 110, watch: 110, tablet: 150, desktop: 150),
           duration: widget.event.date.difference(DateTime.now()),
-        ).paddingBottom(32),
+        ).paddingBottom(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing),
         state is StateLoading
             ? Container(child: Center(child: AppolloProgressIndicator()).paddingAll(8))
                 .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
@@ -187,11 +187,11 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
                     child: AppolloButton.regularButton(
-                      width: 400,
+                      width: 416,
                       child: Center(
                         child: Text(
                           'REGISTER FOR PRE-SALE',
-                          style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                          style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                         ),
                       ),
                       onTap: () {
@@ -224,17 +224,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       },
                       color: MyTheme.appolloGreen,
                     )),
-        SizedBox(
-          height: MyTheme.elementSpacing * 2,
-        ),
-        if (widget.event.preSale.hasPrizes)
-          _subtitle(context, 'Pre-Sale Perks')
-              .paddingTop(MyTheme.elementSpacing)
-              .paddingBottom(MyTheme.elementSpacing * 2),
-        if (widget.event.preSale.hasPrizes) _buildLevel(context).paddingBottom(MyTheme.elementSpacing),
-        if (widget.event.preSale.hasPrizes)
-          _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(MyTheme.elementSpacing * 2),
-        if (widget.event.preSale.hasPrizes) _buildTrophy(context),
+        _buildPrizes(),
         AppolloDivider(),
       ],
     );
@@ -280,15 +270,15 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
     );
   }
 
-  Widget _buildLevel(BuildContext context) {
+  Widget _buildLevelDesktop(BuildContext context) {
     return SizedBox(
-      height: 300,
+      height: 330,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         shrinkWrap: true,
         itemCount: 3,
         itemBuilder: (context, index) {
-          return LevalCard(
+          return LevelCardDesktop(
             icon: index == 0
                 ? AppolloSvgIcon.level1
                 : index == 1
@@ -296,18 +286,16 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     : AppolloSvgIcon.level3,
             children: [
               AutoSizeText('Level ${index.toString()}',
-                      style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                  .paddingBottom(4),
+                      style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w500))
+                  .paddingBottom(MyTheme.elementSpacing / 2),
               AutoSizeText('10 Referrals',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1
-                          .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                  .paddingBottom(8),
+                      style: MyTheme.textTheme.headline4
+                          .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
+                  .paddingBottom(MyTheme.elementSpacing),
               AutoSizeText("""Free drink on arrival*
 1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                  .paddingBottom(8),
++2 Entries in the prize draw""", textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1)
+                  .paddingBottom(MyTheme.elementSpacing / 2),
             ],
           ).paddingRight(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing / 2);
         },
@@ -315,15 +303,47 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
     );
   }
 
-  Widget _buildTrophy(BuildContext context) {
+  Widget _buildLevelMobile(BuildContext context) {
     return SizedBox(
       height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        shrinkWrap: true,
+        itemCount: 3,
+        itemBuilder: (context, index) {
+          return LevelCardMobile(
+            icon: index == 0
+                ? AppolloSvgIcon.level1
+                : index == 1
+                    ? AppolloSvgIcon.level2
+                    : AppolloSvgIcon.level3,
+            children: [
+              AutoSizeText('Level ${index.toString()}',
+                  style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
+              AutoSizeText('10 Referrals',
+                      style: MyTheme.textTheme.headline4
+                          .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
+                  .paddingBottom(MyTheme.elementSpacing),
+              AutoSizeText("""Free drink on arrival*
+1 x 25% Discounted ticket
++2 Entries in the prize draw""", textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1)
+                  .paddingBottom(MyTheme.elementSpacing / 2),
+            ],
+          ).paddingRight(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing / 2);
+        },
+      ).paddingHorizontal(MyTheme.elementSpacing / 2),
+    );
+  }
+
+  Widget _buildTrophyDesktop(BuildContext context) {
+    return SizedBox(
+      height: 330,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
           itemCount: 3,
           itemBuilder: (context, index) {
-            return LevalCard(
+            return LevelCardDesktop(
               icon: index == 0
                   ? AppolloSvgIcon.trophy1
                   : index == 1
@@ -331,21 +351,89 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       : AppolloSvgIcon.trophy3,
               children: [
                 AutoSizeText('${(index + 1).toString()}. Place',
-                        style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w600))
-                    .paddingBottom(4),
+                        style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600))
+                    .paddingBottom(MyTheme.elementSpacing / 2),
                 AutoSizeText('Leaderboard',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle1
+                        style: MyTheme.textTheme.headline4
                             .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
-                    .paddingBottom(8),
+                    .paddingBottom(MyTheme.elementSpacing),
                 AutoSizeText("""Free drink on arrival*
 1 x 25% Discounted ticket
-+2 Entries in the prize draw""", textAlign: TextAlign.left, style: Theme.of(context).textTheme.bodyText2)
-                    .paddingBottom(8),
++2 Entries in the prize draw""", textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1)
+                    .paddingBottom(MyTheme.elementSpacing / 2),
               ],
             ).paddingRight(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing / 2);
           }),
     );
+  }
+
+  Widget _buildTrophyMobile(BuildContext context) {
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          itemCount: 3,
+          itemBuilder: (context, index) {
+            return LevelCardMobile(
+              icon: index == 0
+                  ? AppolloSvgIcon.trophy1
+                  : index == 1
+                      ? AppolloSvgIcon.trophy2
+                      : AppolloSvgIcon.trophy3,
+              children: [
+                AutoSizeText('${(index + 1).toString()}. Place',
+                        style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600))
+                    .paddingBottom(MyTheme.elementSpacing / 2),
+                AutoSizeText('Leaderboard',
+                        style: MyTheme.textTheme.headline4
+                            .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
+                    .paddingBottom(MyTheme.elementSpacing),
+                AutoSizeText("""Free drink on arrival*
+1 x 25% Discounted ticket
++2 Entries in the prize draw""", textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1)
+                    .paddingBottom(MyTheme.elementSpacing / 2),
+              ],
+            ).paddingRight(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing / 2);
+          }).paddingHorizontal(MyTheme.elementSpacing / 2),
+    );
+  }
+
+  Widget _buildPrizes() {
+    if (!widget.event.preSale.hasPrizes) {
+      return SizedBox.shrink();
+    } else {
+      return ResponsiveBuilder(builder: (context, size) {
+        if (size.isTablet || size.isDesktop) {
+          return Column(
+            children: [
+              SizedBox(
+                height: MyTheme.elementSpacing * 2,
+              ),
+              _subtitle(context, 'Pre-Sale Perks')
+                  .paddingTop(MyTheme.elementSpacing)
+                  .paddingBottom(MyTheme.elementSpacing * 2),
+              _buildLevelDesktop(context).paddingBottom(MyTheme.elementSpacing * 2),
+              _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(MyTheme.elementSpacing * 2),
+              _buildTrophyDesktop(context),
+            ],
+          );
+        } else {
+          return Column(
+            children: [
+              SizedBox(
+                height: MyTheme.elementSpacing * 2,
+              ),
+              _subtitle(context, 'Pre-Sale Perks')
+                  .paddingTop(MyTheme.elementSpacing)
+                  .paddingBottom(MyTheme.elementSpacing * 2),
+              _buildLevelMobile(context).paddingBottom(MyTheme.elementSpacing * 2),
+              _subtitle(context, 'Pre-Sale Prize Pool').paddingBottom(MyTheme.elementSpacing * 2),
+              _buildTrophyMobile(context),
+            ],
+          );
+        }
+      });
+    }
   }
 }

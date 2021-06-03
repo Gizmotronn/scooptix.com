@@ -19,7 +19,7 @@ import 'dart:html' as js;
 
 void main() {
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
-    ScreenBreakpoints(desktop: 900, tablet: 600, watch: 370),
+    ScreenBreakpoints(desktop: 1200, tablet: 1000, watch: 370),
   );
   WidgetsFlutterBinding.ensureInitialized();
   BugsnagNotifier.instance.init('1f1b3215263ed87f7e83c4927e7ba05b');
@@ -94,7 +94,7 @@ class _WrapperPageState extends State<WrapperPage> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     MyTheme.elementSpacing = getValueForScreenType(context: context, watch: 12, mobile: 12, desktop: 20, tablet: 20);
-    MyTheme.maxWidth = screenSize.width * 0.625 < 880 ? 880 : screenSize.width * 0.625;
+    MyTheme.maxWidth = screenSize.width * 0.625 < 1150 ? 1150 : screenSize.width * 0.625;
     MyTheme.textTheme = getValueForScreenType(
         context: context,
         watch: MyTheme.mobileTextTheme,
@@ -182,12 +182,14 @@ class _WrapperPageState extends State<WrapperPage> {
                           case 2:
                             Navigator.of(WrapperPage.navigatorKey.currentContext).popUntil((route) =>
                                 route.settings.name == EventOverviewPage.routeName ||
+                                route.settings.name == null ||
                                 route.settings.name.startsWith(EventDetailPage.routeName + "?"));
                             MyTicketsSheet.openMyTicketsSheet();
                             break;
                           case 3:
                             Navigator.of(WrapperPage.navigatorKey.currentContext).popUntil((route) =>
                                 route.settings.name == EventOverviewPage.routeName ||
+                                route.settings.name == null ||
                                 route.settings.name.startsWith(EventDetailPage.routeName + "?"));
                             RewardCenterSheet.openRewardCenterSheet();
                             break;

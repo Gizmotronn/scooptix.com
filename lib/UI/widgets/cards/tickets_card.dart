@@ -21,9 +21,9 @@ class _TicketCardState extends State<TicketCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 260,
+      width: 305,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(8)),
+        borderRadius: BorderRadius.all(Radius.circular(16)),
         color: MyTheme.appolloCardColor,
       ),
       child: Column(
@@ -34,20 +34,21 @@ class _TicketCardState extends State<TicketCard> {
           if (widget.release.getActiveRelease() != null) _incrementPurchaseQuatity(),
         ],
       ),
-    ).paddingVertical(8).paddingLeft(8);
+    ).paddingVertical(16).paddingLeft(10);
   }
 
   Widget _header(BuildContext context, {String text, Color color}) {
     return Container(
-      height: 30,
+      height: 36,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(5), topRight: Radius.circular(5)),
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
         color: color,
       ),
       child: Center(
         child: Text(
           text,
-          style: Theme.of(context).textTheme.headline6.copyWith(color: MyTheme.appolloBackgroundColor),
+          style:
+              MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloBackgroundColor, fontWeight: FontWeight.w600),
         ),
       ),
     );
@@ -103,13 +104,11 @@ class _TicketCardState extends State<TicketCard> {
               "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.getNextRelease().releaseStart)}",
               style: MyTheme.textTheme.subtitle1,
               textAlign: TextAlign.center)
-          .paddingAll(8)
-          .paddingTop(MyTheme.elementSpacing);
+          .paddingAll(MyTheme.elementSpacing);
     } else {
       return AutoSizeText("There are currently no tickets of this type available.",
               style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
-          .paddingAll(8)
-          .paddingTop(MyTheme.elementSpacing);
+          .paddingAll(MyTheme.elementSpacing);
     }
   }
 
@@ -119,11 +118,11 @@ class _TicketCardState extends State<TicketCard> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          AutoSizeText(tagName, style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w400))
+          AutoSizeText(tagName, style: MyTheme.textTheme.subtitle1.copyWith(fontWeight: FontWeight.w400))
               .paddingBottom(8),
           AutoSizeText.rich(
-              TextSpan(text: '\$$price', children: [TextSpan(text: '+BF', style: Theme.of(context).textTheme.caption)]),
-              style: Theme.of(context).textTheme.headline2.copyWith(
+              TextSpan(text: '\$$price', children: [TextSpan(text: '+BF', style: MyTheme.textTheme.caption)]),
+              style: MyTheme.textTheme.headline2.copyWith(
                   fontWeight: FontWeight.bold,
                   decoration: lineThrough ? TextDecoration.lineThrough : TextDecoration.none)),
         ],
@@ -134,7 +133,7 @@ class _TicketCardState extends State<TicketCard> {
           borderRadius: BorderRadius.circular(5),
           border: Border.all(width: 0.5, color: MyTheme.appolloDarkRed),
         ),
-        height: 30,
+        height: 36,
         child: Row(
           children: [
             Container(
@@ -144,19 +143,15 @@ class _TicketCardState extends State<TicketCard> {
               ),
               child: Center(
                   child: Text('Save \$$savePrice',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: MyTheme.appolloBackgroundColor, fontSize: 10))
+                          style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloBackgroundColor))
                       .paddingHorizontal(4)),
             ),
             Expanded(
               child: Center(
-                  child: Text('PRICE INCREASE IN $countdown',
-                          style: Theme.of(context)
-                              .textTheme
-                              .caption
-                              .copyWith(color: MyTheme.appolloDarkRed, fontSize: 8.5))
+                  child: AutoSizeText('PRICE INCREASE IN $countdown',
+                          maxLines: 1,
+                          minFontSize: 5,
+                          style: MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloDarkRed))
                       .paddingHorizontal(4)),
             ),
           ],
@@ -186,7 +181,7 @@ class _TicketCardState extends State<TicketCard> {
                   child: Icon(Icons.remove, size: 15, color: MyTheme.appolloWhite).paddingAll(4),
                 ),
               ),
-              Text("${quantity.toString()}").paddingHorizontal(12),
+              SizedBox(width: 50, child: Center(child: Text("${quantity.toString()}"))),
               InkWell(
                 onTap: () {
                   if (widget.release.getActiveRelease().price != 0 || quantity == 0) {

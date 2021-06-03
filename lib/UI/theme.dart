@@ -52,7 +52,7 @@ extension AppolloCards on Container {
           child: Container(
             decoration: ShapeDecoration(
               color: color ?? MyTheme.appolloBackgroundColor.withAlpha(90),
-              shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(5))),
+              shape: RoundedRectangleBorder(borderRadius: borderRadius ?? BorderRadius.all(Radius.circular(16))),
             ),
             child: this.child,
           ),
@@ -72,11 +72,12 @@ extension AppolloCards on Container {
 }
 
 class MyTheme {
-  static double maxWidth = 1080.0;
+  static double maxWidth = 1150.0;
   static double elementSpacing = 20.0;
   static double cardPadding = 32;
   static double drawerSize = 432;
   static double bottomNavBarHeight = 64;
+  static double appBarHeight = 74;
 
   static Duration animationDuration = Duration(milliseconds: 300);
 
@@ -164,9 +165,9 @@ class MyTheme {
       headline5: TextStyle(
               fontFamily: "montserrat",
               fontSize: 17.0,
-              letterSpacing: 0,
+              letterSpacing: 0.25,
               color: appolloWhite,
-              fontWeight: FontWeight.w600)
+              fontWeight: FontWeight.w400)
           .withZoomFix, // 20
       headline6: TextStyle(
               fontFamily: "montserrat",
@@ -184,7 +185,7 @@ class MyTheme {
           .withZoomFix, // 12
       button: TextStyle(
               fontFamily: "montserrat",
-              fontSize: 14,
+              fontSize: 16,
               letterSpacing: 0.75,
               color: appolloBackgroundColor,
               fontWeight: FontWeight.w500)

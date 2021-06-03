@@ -51,11 +51,11 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
                   children: [
                     TextSpan(
                         text: ' ${widget.organizer?.getFullName() ?? ''}',
-                        style: MyTheme.textTheme.bodyText2
+                        style: MyTheme.textTheme.subtitle1
                             .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
                   ],
                 ),
-                style: MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
+                style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
           ],
         ).paddingBottom(MyTheme.elementSpacing),
         Column(
@@ -64,7 +64,7 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
             AutoSizeText(
               'Event Details',
               style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
-            ).paddingBottom(MyTheme.cardPadding),
+            ).paddingBottom(MyTheme.elementSpacing),
             IconText(text: DateFormat("MMMM dd. yyy").format(widget.event.date), icon: AppolloSvgIcon.calenderOutline)
                 .paddingBottom(8),
             IconText(text: widget.event.address.trimLeft() ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),

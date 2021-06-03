@@ -58,7 +58,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
       children: [
         AutoSizeText(
           "Order Summary",
-          style: MyTheme.textTheme.headline2,
+          style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildMainContent().paddingBottom(MyTheme.elementSpacing),
         _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
@@ -98,7 +98,13 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     return BlocBuilder<TicketBloc, TicketState>(
         cubit: bloc,
         builder: (c, state) {
-          return _buildPriceBreakdown();
+          if (widget.selectedTickets.isEmpty) {
+            return Center(
+              child: Text("No Tickets Selected"),
+            ).paddingTop(250);
+          } else {
+            return _buildPriceBreakdown();
+          }
         });
   }
 
@@ -112,12 +118,13 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.textTheme.bodyText2),
+              Text("Subtotal", style: MyTheme.textTheme.bodyText1),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${(subtotal / 100).toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2)))
+                      child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
+                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
@@ -129,10 +136,11 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
               children: [
                 Text(
                   "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount.amount.toString() + "%"})",
-                  style: MyTheme.textTheme.bodyText2,
+                  style: MyTheme.textTheme.bodyText1,
                 ),
                 SizedBox(
-                    child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2))
+                    child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}",
+                        style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -143,31 +151,31 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.textTheme.bodyText2,
+                style: MyTheme.textTheme.bodyText1,
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child:
-                          Text("\$${_calculateAppolloFees().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2)))
+                      child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
+                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
-        ).paddingBottom(MyTheme.elementSpacing),
+        ),
         AppolloDivider(),
         SizedBox(
           width: widget.maxWidth,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.textTheme.bodyText2),
+              Text("Total", style: MyTheme.textTheme.bodyText1),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2)))
+                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -184,13 +192,13 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(key.ticketName + " x $value", style: MyTheme.textTheme.bodyText2),
+            Text(key.ticketName + " x $value", style: MyTheme.textTheme.bodyText1),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child:
-                        Text("\$${(key.price * value / 100).toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText2)))
+                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));
@@ -267,69 +275,73 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
           }
         },
         builder: (context, state) {
-          return Column(
-            children: [
-              DiscountTextField(
-                discountController: _discountController,
-                bloc: bloc,
-                state: state,
-                width: widget.maxWidth,
-                event: widget.event,
-              ).paddingBottom(8),
-              if (state is StateDiscountApplied)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: AppolloCard(
-                      color: MyTheme.appolloGreen.withAlpha(90),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                            child: AutoSizeText(
-                              state.discount.code,
-                              style: MyTheme.textTheme.caption
-                                  .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
+          if (widget.selectedTickets.isEmpty) {
+            return SizedBox.shrink();
+          } else {
+            return Column(
+              children: [
+                DiscountTextField(
+                  discountController: _discountController,
+                  bloc: bloc,
+                  state: state,
+                  width: widget.maxWidth,
+                  event: widget.event,
+                ).paddingBottom(8),
+                if (state is StateDiscountApplied)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: AppolloCard(
+                        color: MyTheme.appolloGreen.withAlpha(90),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                              child: AutoSizeText(
+                                state.discount.code,
+                                style: MyTheme.textTheme.caption
+                                    .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
+                              ),
                             ),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              setState(() {
-                                discount = null;
-                                bloc.add(EventRemoveDiscount());
-                              });
-                            },
-                            child: Icon(
-                              Icons.close,
-                              color: MyTheme.appolloLightBlue,
-                              size: 14,
-                            ).paddingLeft(4).paddingRight(8),
-                          )
-                        ],
-                      )),
-                ),
-              if (state is StateDiscountCodeInvalid)
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: AppolloCard(
-                      color: MyTheme.appolloRed.withAlpha(90),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
-                            child: AutoSizeText(
-                              "This code is invalid",
-                              style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w400),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  discount = null;
+                                  bloc.add(EventRemoveDiscount());
+                                });
+                              },
+                              child: Icon(
+                                Icons.close,
+                                color: MyTheme.appolloLightBlue,
+                                size: 14,
+                              ).paddingLeft(4).paddingRight(8),
+                            )
+                          ],
+                        )),
+                  ),
+                if (state is StateDiscountCodeInvalid)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: AppolloCard(
+                        color: MyTheme.appolloRed.withAlpha(90),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+                              child: AutoSizeText(
+                                "This code is invalid",
+                                style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w400),
+                              ),
                             ),
-                          ),
-                        ],
-                      )),
-                ),
-            ],
-          );
+                          ],
+                        )),
+                  ),
+              ],
+            );
+          }
         });
   }
 }

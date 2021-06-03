@@ -53,7 +53,7 @@ class PreSalePage extends StatelessWidget {
                     children: [
                       AutoSizeText(
                         "Current Points",
-                        style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
                       ),
                       AutoSizeText(state.preSale.points.toString())
                     ],
@@ -73,7 +73,7 @@ class PreSalePage extends StatelessWidget {
                 ),
                 onTapContent: Text(
                   "LINK COPIED",
-                  style: MyTheme.textTheme.headline6,
+                  style: MyTheme.textTheme.headline5,
                 ),
                 color: MyTheme.appolloBottomBarColor.withAlpha(150),
                 onTap: () {

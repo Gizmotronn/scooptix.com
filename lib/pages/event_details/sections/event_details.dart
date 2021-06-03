@@ -75,7 +75,7 @@ class _EventDataState extends State<EventData> {
             color: MyTheme.appolloGrey.withAlpha(80),
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.arrow_downward, color: MyTheme.appolloGreen, size: 28).paddingAll(4),
+          child: Icon(Icons.arrow_downward, color: MyTheme.appolloGreen, size: 34).paddingAll(6),
         ),
       );
     });
@@ -96,7 +96,7 @@ class _EventDataState extends State<EventData> {
           onTap: () async {
             scrolling = true;
             await widget.scrollController
-                .animateTo(positions[0] - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+                .animateTo(positions[0] - 120, duration: MyTheme.animationDuration, curve: Curves.easeIn);
             if (EventDetailPage.fab.value != null) {
               EventDetailPage.fab.value = null;
             }
@@ -107,7 +107,7 @@ class _EventDataState extends State<EventData> {
               color: MyTheme.appolloGrey.withAlpha(80),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.arrow_downward, color: MyTheme.appolloGreen, size: 28).paddingAll(4),
+            child: Icon(Icons.arrow_downward, color: MyTheme.appolloGreen, size: 34).paddingAll(6),
           ),
         );
       }
@@ -228,8 +228,8 @@ class _EventDataState extends State<EventData> {
               (index) => CardButton(
                 title: _tabButtons[index].title,
                 width: 175,
-                height: 40,
-                borderRadius: BorderRadius.circular(5),
+                height: 44,
+                borderRadius: BorderRadius.circular(8),
                 activeColor: MyTheme.appolloGreen,
                 deactiveColor: MyTheme.appolloGrey.withAlpha(140),
                 activeColorText: MyTheme.appolloWhite,
@@ -258,22 +258,19 @@ class _EventDataState extends State<EventData> {
             width: MyTheme.maxWidth,
             child: AspectRatio(
               aspectRatio: 1.9,
-              child: Card(
-                color: Colors.transparent,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                  child: ExtendedImage.network(widget.event.coverImageURL ?? "", cache: true, fit: BoxFit.cover,
-                      loadStateChanged: (ExtendedImageState state) {
-                    switch (state.extendedImageLoadState) {
-                      case LoadState.loading:
-                        return Container(color: Colors.white);
-                      case LoadState.completed:
-                        return state.completedWidget;
-                      default:
-                        return Container(color: Colors.white);
-                    }
-                  }),
-                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                child: ExtendedImage.network(widget.event.coverImageURL ?? "", cache: true, fit: BoxFit.cover,
+                    loadStateChanged: (ExtendedImageState state) {
+                  switch (state.extendedImageLoadState) {
+                    case LoadState.loading:
+                      return Container(color: Colors.white);
+                    case LoadState.completed:
+                      return state.completedWidget;
+                    default:
+                      return Container(color: Colors.white);
+                  }
+                }),
               ),
             ),
           ).paddingTop(10),

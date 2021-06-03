@@ -221,7 +221,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   }
 
   Widget _appolloLogo() => Text("appollo",
-      style: MyTheme.textTheme.subtitle1.copyWith(fontFamily: "cocon", color: Colors.white, fontSize: 25, shadows: [
+      style: MyTheme.textTheme.subtitle1.copyWith(fontFamily: "cocon", color: Colors.white, fontSize: 34, shadows: [
         BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1),
       ]));
 

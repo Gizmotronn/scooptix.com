@@ -472,8 +472,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             AutoSizeText(
               "Welcome, please enter your email to continue.",
               style: MyTheme.textTheme.bodyText2.copyWith(
-                  color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite,
-                  fontWeight: FontWeight.w400),
+                color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite,
+              ),
               minFontSize: 12,
             ),
             SizedBox(
@@ -495,7 +495,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         child: AutoSizeText(
           text,
           textAlign: TextAlign.left,
-          style: MyTheme.textTheme.headline6
+          style: MyTheme.textTheme.headline5
               .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloGreen),
           minFontSize: 12,
         ),
@@ -623,7 +623,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     } else if (state is StateInitial) {
       return Column(
         children: [
-          _buildDivider().paddingVertical(12),
+          _buildDivider(),
           SizedBox(
             height: getValueForScreenType(
                 context: context,

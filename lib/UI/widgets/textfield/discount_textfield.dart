@@ -127,7 +127,7 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
           ),
         ),
         child: SizedBox(
-          height: 48,
+          height: 54,
           width: widget.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -141,10 +141,10 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                       fillColor: Colors.transparent,
                       enabledBorder: InputBorder.none,
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(8),
+                      contentPadding: EdgeInsets.all(MyTheme.elementSpacing),
                       labelText:
-                          "Discount Code ${textFieldState == DiscountTextfieldState.applied ? "- " + _text.toUpperCase() : ''}",
-                      labelStyle: Theme.of(context).textTheme.bodyText1,
+                          "Promo Code ${textFieldState == DiscountTextfieldState.applied ? "- " + _text.toUpperCase() : ''}",
+                      labelStyle: MyTheme.textTheme.headline6,
                       isDense: false),
                   controller: textFieldState == DiscountTextfieldState.applied ||
                           textFieldState == DiscountTextfieldState.invalid

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/pages/event_details/bookings/bloc/bookings_bloc.dart';
@@ -58,8 +59,9 @@ class _MakeBookingState extends State<MakeBooking> {
           ).paddingBottom(32),
           _vipBoothPackages(context).paddingBottom(32),
           _privateRoomPackages(context).paddingBottom(32),*/
-                _birthdayListBookings(context).paddingBottom(32),
-                _createBookingList(state.booking).paddingBottom(32),
+                _birthdayListBookings(context).paddingBottom(MyTheme.elementSpacing),
+                _createBookingList(state.booking),
+                AppolloDivider(),
               ],
             ),
           );
@@ -185,7 +187,7 @@ class _MakeBookingState extends State<MakeBooking> {
         AutoSizeText(
             "If you wish to create a birthday list for the event please choose from one of the packages available below and follow the instructions.",
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500)),
+            style: MyTheme.textTheme.bodyText1),
       ],
     ).paddingHorizontal(32);
   }
@@ -193,105 +195,91 @@ class _MakeBookingState extends State<MakeBooking> {
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: Theme.of(context).textTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
     );
   }
 
   Widget _createBookingList(BookingData booking) => SizedBox(
         height: 320,
+        width: 1040,
         child: Container(
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                  flex: 7,
-                  child: Container(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          children: [
-                            AutoSizeText('Create A Birthday List',
-                                    style: MyTheme.textTheme.headline4
-                                        .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
-                                .paddingBottom(32),
-                            AutoSizeText(
-                                    "Celebrate your birthday in style by creating a Birthday List for you and your closest friends and get the VIP experience.",
-                                    textAlign: TextAlign.center,
-                                    style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
-                                .paddingBottom(16),
-                            ListView.builder(
-                                shrinkWrap: true,
-                                itemBuilder: (c, index) {
-                                  return IconText(
-                                    text: booking.benefits[index],
-                                    iconSize: 8,
-                                    icon: AppolloSvgIcon.dot,
-                                  );
-                                },
-                                itemCount: booking.benefits.length)
-                          ],
-                        ),
-                        Column(
-                          children: [
-                            if (booking.price != 0)
-                              Align(
-                                alignment: Alignment.center,
-                                child: AutoSizeText.rich(
-                                        TextSpan(text: '\$${(booking.price / 100).toStringAsFixed(2)}', children: [
-                                          TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)
-                                        ]),
-                                        style:
-                                            Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
-                                    .paddingBottom(MyTheme.cardPadding),
-                              ),
-                            if (booking.price == 0)
-                              Align(
-                                alignment: Alignment.center,
-                                child: AutoSizeText("Free of charge!", style: Theme.of(context).textTheme.headline4)
-                                    .paddingBottom(MyTheme.elementSpacing),
-                              ),
-                            AppolloButton.regularButton(
-                              width: 400,
-                              color: MyTheme.appolloGreen,
-                              child: AutoSizeText(
-                                'CREATE BIRTHDAY LIST',
-                                style: MyTheme.textTheme.button,
-                              ),
-                              onTap: () {
-                                if (getValueForScreenType(
-                                    context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
-                                  if (UserRepository.instance.isLoggedIn) {
-                                    WrapperPage.endDrawer.value = BirthdayDrawer(
-                                      event: widget.event,
-                                    );
-                                    WrapperPage.mainScaffold.currentState.openEndDrawer();
-                                  } else {
-                                    WrapperPage.endDrawer.value = AuthenticationDrawer();
-                                    WrapperPage.mainScaffold.currentState.openEndDrawer();
-                                    UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
-                                  }
-                                } else {
-                                  BirthdaySheet.openBirthdaySheet(widget.event);
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    ).paddingAll(MyTheme.cardPadding),
-                  )),
-              /*Expanded(
-                flex: 3,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topRight: Radius.circular(5), bottomRight: Radius.circular(5)),
+              Column(
+                children: [
+                  AutoSizeText('Create A Birthday List',
+                          style: MyTheme.textTheme.headline4
+                              .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
+                      .paddingBottom(MyTheme.elementSpacing * 2),
+                  AutoSizeText(
+                          "Celebrate your birthday in style by creating a Birthday List for you and your closest friends and get the VIP experience.",
+                          textAlign: TextAlign.center,
+                          style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                      .paddingBottom(MyTheme.elementSpacing),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemBuilder: (c, index) {
+                        return IconText(
+                          text: booking.benefits[index],
+                          iconSize: 8,
+                          icon: AppolloSvgIcon.dot,
+                        );
+                      },
+                      itemCount: booking.benefits.length)
+                ],
+              ),
+              Column(
+                children: [
+                  if (booking.price != 0)
+                    Align(
+                      alignment: Alignment.center,
+                      child: AutoSizeText.rich(
+                              TextSpan(
+                                  text: '\$${(booking.price / 100).toStringAsFixed(2)}',
+                                  children: [TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)]),
+                              style: Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
+                          .paddingBottom(MyTheme.cardPadding),
+                    ),
+                  if (booking.price == 0)
+                    Align(
+                      alignment: Alignment.center,
+                      child: AutoSizeText("Free of charge!",
+                              style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600))
+                          .paddingBottom(MyTheme.elementSpacing),
+                    ),
+                  AppolloButton.regularButton(
+                    width: 400,
+                    color: MyTheme.appolloGreen,
+                    child: AutoSizeText(
+                      'CREATE BIRTHDAY LIST',
+                      style: MyTheme.textTheme.button,
+                    ),
+                    onTap: () {
+                      if (getValueForScreenType(
+                          context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
+                        if (UserRepository.instance.isLoggedIn) {
+                          WrapperPage.endDrawer.value = BirthdayDrawer(
+                            event: widget.event,
+                          );
+                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                        } else {
+                          WrapperPage.endDrawer.value = AuthenticationDrawer();
+                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
+                        }
+                      } else {
+                        BirthdaySheet.openBirthdaySheet(widget.event);
+                      }
+                    },
                   ),
-                  child: SvgPicture.asset(AppolloSvgIcon.cakewithbg, fit: BoxFit.cover),
-                ),
-              ),*/
+                ],
+              ),
             ],
-          ),
-        ).appolloCard(color: MyTheme.appolloCardColor).paddingHorizontal(MyTheme.elementSpacing),
+          ).paddingAll(MyTheme.elementSpacing),
+        )
+            .appolloCard(color: MyTheme.appolloCardColor, borderRadius: BorderRadius.circular(16))
+            .paddingHorizontal(MyTheme.elementSpacing),
       );
 
   VoidCallback _tryOpenBirthdayDrawer() {
