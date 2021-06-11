@@ -98,20 +98,16 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     return BlocBuilder<TicketBloc, TicketState>(
         cubit: bloc,
         builder: (c, state) {
-          if (widget.selectedTickets.isEmpty) {
-            return Center(
-              child: Text("No Tickets Selected"),
-            ).paddingTop(250);
-          } else {
-            return _buildPriceBreakdown();
-          }
+          return _buildPriceBreakdown();
         });
   }
 
   Widget _buildPriceBreakdown() {
     return Column(
       children: [
-        _buildSelectedTickets(),
+        if (widget.selectedTickets.isEmpty)
+          Text("No Tickets Selected", style: MyTheme.textTheme.bodyText1).paddingBottom(MyTheme.elementSpacing / 2),
+        if (widget.selectedTickets.isNotEmpty) _buildSelectedTickets(),
         AppolloDivider(),
         SizedBox(
           width: widget.maxWidth,
@@ -127,7 +123,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                           style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
-        ).paddingBottom(MyTheme.elementSpacing),
+        ).paddingBottom(MyTheme.elementSpacing / 2),
         if (discount != null && discount.enoughLeft(totalTicketQuantity))
           SizedBox(
             width: widget.maxWidth,
@@ -143,7 +139,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                         style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)))
               ],
             ),
-          ).paddingBottom(MyTheme.elementSpacing),
+          ).paddingBottom(MyTheme.elementSpacing / 2),
         SizedBox(
           width: widget.maxWidth,
           child: Row(
@@ -201,7 +197,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                         style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
-      ).paddingBottom(8));
+      ).paddingBottom(MyTheme.elementSpacing / 2));
     });
 
     return Column(
@@ -222,11 +218,12 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     } else {
       double disc = 0.0;
       widget.selectedTickets.forEach((key, value) {
-        if (discount.appliesToReleases.contains(key.docId)) {
+        // If it's a single event discount, this will hold the release docId, otherwise the recurring UUID
+        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId)) {
           if (discount.type == DiscountType.value) {
             disc += discount.amount.toDouble() * value / 100;
           } else {
-            disc += (discount.amount / 100 * key.price) * value;
+            disc += (discount.amount / 100 / 100 * key.price) * value;
           }
         }
       });
@@ -240,8 +237,9 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     } else {
       int counter = 0;
       widget.selectedTickets.forEach((key, value) {
-        if (discount.appliesToReleases.contains(key.docId)) {
-          counter++;
+        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId) ||
+            discount.appliesToReleases.contains(widget.event.getReleaseManager(key).recurringUUID)) {
+          counter += value;
         }
       });
       return counter;

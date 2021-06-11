@@ -137,11 +137,19 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                 child: TextFormField(
                   focusNode: _focusNode,
                   onChanged: (v) => setState(() => _text = v),
+                  onFieldSubmitted: (v) {
+                    if (widget._discountController.text != "") {
+                      setState(() => textFieldState = DiscountTextfieldState.loading);
+                      _listenToStateChanges();
+                      widget.bloc.add(EventApplyDiscount(widget.event, widget._discountController.text));
+                      widget._discountController.text = "";
+                    }
+                  },
                   decoration: InputDecoration(
                       fillColor: Colors.transparent,
                       enabledBorder: InputBorder.none,
                       border: InputBorder.none,
-                      contentPadding: EdgeInsets.all(MyTheme.elementSpacing),
+                      contentPadding: EdgeInsets.only(left: MyTheme.elementSpacing),
                       labelText:
                           "Promo Code ${textFieldState == DiscountTextfieldState.applied ? "- " + _text.toUpperCase() : ''}",
                       labelStyle: MyTheme.textTheme.headline6,
@@ -154,8 +162,8 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                 ).paddingRight(8),
               ),
               SizedBox(
-                height: 48,
-                width: 48,
+                height: 54,
+                width: 54,
                 child: TextButton(
                   style: TextButton.styleFrom(
                       primary: _buildActionColor(),

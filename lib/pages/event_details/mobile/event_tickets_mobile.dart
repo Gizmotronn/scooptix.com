@@ -6,6 +6,7 @@ import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/order_summary/order_summary_sheet.dart';
+import 'package:ticketapp/repositories/payment_repository.dart';
 import '../../../UI/theme.dart';
 import 'get_tickets_sheet.dart';
 
@@ -36,6 +37,13 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
 
   @override
   void initState() {
+    PaymentRepository.instance.releaseDataUpdatedStream.stream.listen((data) {
+      if (data) {
+        setState(() {
+          selectedTickets.clear();
+        });
+      }
+    });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!widget.event.preSaleEnabled ||
           widget.event.preSale.registrationStartDate.isAfter(DateTime.now()) ||

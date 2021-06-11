@@ -31,15 +31,14 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
   Stream<EventsOverviewState> _handleSelectedTabEvent(TabberNavEvent event) async* {
     if (event.index == 0) {
       yield LoadingEventsState();
-      final allEvents = EventsRepository.instance.events;
-      List<Event> upcomingEvents = await EventsRepository.instance.loadUpcomingEvents();
+      final allEvents = EventsRepository.instance.upcomingEvents;
 
       yield AllEventsState(allEvents);
     } else if (event.index == 1) {
       yield LoadingEventsState();
       List<Event> events = [];
 
-      EventsRepository.instance.events.forEach((event) {
+      EventsRepository.instance.upcomingEvents.forEach((event) {
         List<TicketRelease> release = event.getAllReleases();
         release.forEach((r) {
           if (r.price == 0) {
@@ -55,7 +54,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
       yield ForMeEventsState();
     } else if (event.index == 3) {
       yield LoadingEventsState();
-      final events = EventsRepository.instance.events;
+      final events = EventsRepository.instance.upcomingEvents;
       final todayEvent = events
           .where((event) => event.date.day == DateTime.now().day && event.date.month == DateTime.now().month)
           .toList();
@@ -63,14 +62,14 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
       yield TodayEventsState(todayEvent);
     } else if (event.index == 4) {
       yield LoadingEventsState();
-      final events = EventsRepository.instance.events;
+      final events = EventsRepository.instance.upcomingEvents;
       final thisWeekEndEvents =
           events.where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 7)))).toList();
 
       yield ThisWeekendEventsState(thisWeekEndEvents);
     } else if (event.index == 5) {
       yield LoadingEventsState();
-      final events = EventsRepository.instance.events;
+      final events = EventsRepository.instance.upcomingEvents;
       final thisWeekEvent =
           events.where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 7)))).toList();
 
@@ -78,7 +77,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
     } else if (event.index == 6) {
       yield LoadingEventsState();
 
-      List<Event> events = await EventsRepository.instance.loadUpcomingEvents();
+      List<Event> events = EventsRepository.instance.upcomingEvents;
       yield UpcomingEventsState(events);
     }
   }

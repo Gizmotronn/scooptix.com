@@ -9,6 +9,7 @@ import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/level_card_mobile.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/pages/event_details/mobile/get_tickets_sheet.dart';
 import '../../../authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/bloc/pre_sale_bloc.dart';
@@ -148,12 +149,22 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     onTap: () {
                       if (getValueForScreenType(
                           context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
-                        bloc.add(EventRegister(widget.event));
-                        showAppolloModalBottomSheet(
-                            context: WrapperPage.navigatorKey.currentContext,
-                            backgroundColor: MyTheme.appolloBackgroundColorLight,
-                            expand: true,
-                            builder: (context) => PreSaleSheet.openPreSaleSheet(bloc));
+                        if (state is StateNotLoggedIn) {
+                          showAppolloModalBottomSheet(
+                              context: WrapperPage.navigatorKey.currentContext,
+                              backgroundColor: MyTheme.appolloBackgroundColorLight,
+                              expand: true,
+                              builder: (context) => AuthenticationPageWrapper(
+                                    onAutoAuthenticated: (autoLoggedIn) {
+                                      Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                                      bloc.add(EventRegister(widget.event));
+                                      PreSaleSheet.openPreSaleSheet(bloc, event: widget.event);
+                                    },
+                                  ));
+                        } else {
+                          bloc.add(EventRegister(widget.event));
+                          PreSaleSheet.openPreSaleSheet(bloc, event: widget.event);
+                        }
                       } else {
                         if (state is StateNotLoggedIn) {
                           WrapperPage.endDrawer.value = AuthenticationDrawer(
@@ -181,8 +192,11 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                             child: Text(
                       "You are registered for pre-sale, click for details",
                       style: MyTheme.textTheme.headline6,
+                      textAlign: TextAlign.center,
                     ).paddingAll(12))
-                        .appolloCard(color: MyTheme.appolloCardColor.withAlpha(120)),
+                        .appolloCard(
+                            color: MyTheme.appolloCardColor.withAlpha(120), borderRadius: BorderRadius.circular(16))
+                        .paddingHorizontal(MyTheme.elementSpacing),
                   )
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
@@ -197,8 +211,22 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       onTap: () {
                         if (getValueForScreenType(
                             context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
-                          bloc.add(EventRegister(widget.event));
-                          PreSaleSheet.openPreSaleSheet(bloc);
+                          if (state is StateNotLoggedIn) {
+                            showAppolloModalBottomSheet(
+                                context: WrapperPage.navigatorKey.currentContext,
+                                backgroundColor: MyTheme.appolloBackgroundColorLight,
+                                expand: true,
+                                builder: (context) => AuthenticationPageWrapper(
+                                      onAutoAuthenticated: (autoLoggedIn) {
+                                        Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                                        bloc.add(EventRegister(widget.event));
+                                        PreSaleSheet.openPreSaleSheet(bloc, event: widget.event);
+                                      },
+                                    ));
+                          } else {
+                            bloc.add(EventRegister(widget.event));
+                            PreSaleSheet.openPreSaleSheet(bloc, event: widget.event);
+                          }
                         } else {
                           if (state is StateNotLoggedIn) {
                             WrapperPage.endDrawer.value = AuthenticationDrawer(

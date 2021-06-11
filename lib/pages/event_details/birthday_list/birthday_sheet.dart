@@ -32,6 +32,7 @@ class BirthdaySheet extends StatefulWidget {
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
+          settings: RouteSettings(name: "birthday_sheet"),
           builder: (context) => BirthdaySheet._(event));
     } else {
       showAppolloModalBottomSheet(
@@ -45,6 +46,7 @@ class BirthdaySheet extends StatefulWidget {
                       context: WrapperPage.navigatorKey.currentContext,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
+                      settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => BirthdaySheet._(event));
                 },
               ));

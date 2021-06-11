@@ -68,6 +68,7 @@ class EventCardMobile extends StatelessWidget {
                         context: context,
                         backgroundColor: MyTheme.appolloBackgroundColor,
                         expand: true,
+                        settings: RouteSettings(name: "authentication_sheet"),
                         builder: (context) => AuthenticationPageWrapper());
                   } else {
                     ///TODO Add event as favorite to user

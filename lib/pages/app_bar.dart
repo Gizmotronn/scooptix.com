@@ -79,6 +79,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
               context: context,
               backgroundColor: MyTheme.appolloBackgroundColor,
               expand: true,
+              settings: RouteSettings(name: "authentication_sheet"),
               builder: (context) => AuthenticationPageWrapper());
         },
         child: CircleAvatar(
@@ -107,6 +108,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                 context: context,
                 backgroundColor: MyTheme.appolloBackgroundColorLight,
                 expand: true,
+                settings: RouteSettings(name: "authentication_sheet"),
                 builder: (context) => AuthenticationPageWrapper());
           },
           child: Text(

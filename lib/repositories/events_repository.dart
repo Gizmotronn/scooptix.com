@@ -25,10 +25,15 @@ class EventsRepository {
 
   List<Event> events = [];
 
+  List<Event> get upcomingEvents =>
+      events.where((element) => element.date.isAfter(DateTime.now().subtract(Duration(hours: 8)))).toList();
+
   Future<Event> loadEventById(String id) async {
     try {
       return events.firstWhere((element) => element.docID == id);
-    } catch (_) {}
+    } catch (_) {
+      print("could not find event with id $id");
+    }
     print(id);
     DocumentSnapshot eventSnapshot = await FirebaseFirestore.instance.collection("events").doc(id).get();
     DocumentSnapshot ticketEventSnapshot = await FirebaseFirestore.instance.collection("ticketevents").doc(id).get();

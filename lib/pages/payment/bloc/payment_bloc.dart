@@ -25,7 +25,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     PaymentEvent event,
   ) async* {
     if (event is EventLoadAvailableReleases) {
-      PaymentRepository.instance.dispose();
+      PaymentRepository.instance.clear();
       yield* _loadReleases(event.selectedTickets, event.event);
     } else if (event is EventConfirmSetupIntent) {
       yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard, event.event);
@@ -78,6 +78,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (result == null) {
         yield StatePaymentError(errorMessage);
       } else if (result["status"] == "succeeded") {
+        PaymentRepository.instance.releaseDataUpdatedStream.add(true);
         // If there were free tickets to process as well, do this here.
         // This assures that free tickets are only issued if the paid tickets were issued successfully.
         // Issuing free tickets should never fail.
@@ -88,7 +89,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         }
         yield StatePaymentCompleted(
             "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.");
-        PaymentRepository.instance.dispose();
+        PaymentRepository.instance.clear();
       } else {
         yield StatePaymentError(result.toString());
       }

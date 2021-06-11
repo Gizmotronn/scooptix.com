@@ -92,7 +92,9 @@ class _CountdownState extends State<Countdown> {
                     type(context, 'Hours'),
                   ],
                 ).paddingHorizontal(4),
-              ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingRight(8),
+              )
+                  .appolloCard(color: MyTheme.appolloGrey.withAlpha(50), borderRadius: BorderRadius.circular(8))
+                  .paddingRight(8),
             ),
             Expanded(
               child: Container(
@@ -104,7 +106,7 @@ class _CountdownState extends State<Countdown> {
                     type(context, 'Minutes'),
                   ],
                 ).paddingHorizontal(4),
-              ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)),
+              ).appolloCard(color: MyTheme.appolloGrey.withAlpha(50), borderRadius: BorderRadius.circular(8)),
             ),
             if (_duration.inDays == 0)
               Expanded(
@@ -117,7 +119,9 @@ class _CountdownState extends State<Countdown> {
                       type(context, 'Seconds'),
                     ],
                   ).paddingHorizontal(4),
-                ).appolloBlurCard(color: MyTheme.appolloGrey.withAlpha(50)).paddingLeft(8),
+                )
+                    .appolloCard(color: MyTheme.appolloGrey.withAlpha(50), borderRadius: BorderRadius.circular(8))
+                    .paddingLeft(8),
               ),
           ],
         ).paddingAll(8),

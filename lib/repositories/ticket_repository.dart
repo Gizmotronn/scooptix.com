@@ -57,8 +57,13 @@ class TicketRepository {
       return [];
     } else {
       List<Future<Event>> futures = [];
+      List<String> loadedEvents = [];
       ticketSnapshot.docs.forEach((ticketDoc) {
-        futures.add(EventsRepository.instance.loadEventById(ticketDoc.data()["eventref"]));
+        // Make sure we don't load events multiple times
+        if (!loadedEvents.contains(ticketDoc.data()["eventref"])) {
+          futures.add(EventsRepository.instance.loadEventById(ticketDoc.data()["eventref"]));
+          loadedEvents.add(ticketDoc.data()["eventref"]);
+        }
       });
 
       await Future.wait(futures);

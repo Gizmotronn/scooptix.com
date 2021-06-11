@@ -14,6 +14,7 @@ class ReleaseManager {
   bool singleTicketRestriction = false;
   List<String> includedPerks = [];
   List<String> excludedPerks = [];
+  String recurringUUID;
 
   ReleaseManager._();
 
@@ -93,6 +94,9 @@ class ReleaseManager {
       }
       if (data.containsKey("single_ticket_restriction")) {
         rm.singleTicketRestriction = data["single_ticket_restriction"];
+      }
+      if (data.containsKey("recurring_uuid")) {
+        rm.recurringUUID = data["recurring_uuid"];
       }
     } catch (e, s) {
       print(e);

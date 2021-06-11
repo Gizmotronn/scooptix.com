@@ -40,6 +40,7 @@ class OrderSummarySheet extends StatefulWidget {
           context: context,
           backgroundColor: MyTheme.appolloBackgroundColor,
           expand: true,
+          settings: RouteSettings(name: "order_summary_sheet"),
           builder: (context) => OrderSummarySheet._(
                 collapsed: false,
                 event: event,
@@ -57,6 +58,7 @@ class OrderSummarySheet extends StatefulWidget {
                       context: context,
                       backgroundColor: MyTheme.appolloBackgroundColor,
                       expand: true,
+                      settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) =>
                           OrderSummarySheet._(collapsed: false, event: event, selectedTickets: selectedTickets));
                 },
@@ -264,7 +266,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x $totalTicketQuantity" : discount.amount.toString() + "%"})",
+                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount.amount.toString() + "%"})",
                   style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
@@ -338,10 +340,41 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
   double _calculateDiscount() {
     if (discount == null) {
       return 0.0;
-    } else if (discount.type == DiscountType.value) {
-      return discount.amount.toDouble() * totalTicketQuantity / 100;
+    }
+    if (discount.appliesToReleases.isEmpty) {
+      if (discount.type == DiscountType.value) {
+        return discount.amount.toDouble() * totalTicketQuantity / 100;
+      } else {
+        return subtotal * discount.amount / 100 / 100;
+      }
     } else {
-      return subtotal * discount.amount / 100 / 100;
+      double disc = 0.0;
+      widget.selectedTickets.forEach((key, value) {
+        // If it's a single event discount, this will hold the release docId, otherwise the recurring UUID
+        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId)) {
+          if (discount.type == DiscountType.value) {
+            disc += discount.amount.toDouble() * value / 100;
+          } else {
+            disc += (discount.amount / 100 / 100 * key.price) * value;
+          }
+        }
+      });
+      return disc;
+    }
+  }
+
+  int _discountAppliesTo() {
+    if (discount.appliesToReleases.isEmpty) {
+      return totalTicketQuantity;
+    } else {
+      int counter = 0;
+      widget.selectedTickets.forEach((key, value) {
+        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId) ||
+            discount.appliesToReleases.contains(widget.event.getReleaseManager(key).recurringUUID)) {
+          counter += value;
+        }
+      });
+      return counter;
     }
   }
 

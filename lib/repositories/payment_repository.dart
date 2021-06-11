@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -22,11 +23,16 @@ class PaymentRepository {
     return _instance;
   }
 
-  dispose() {
+  clear() {
     clientSecret = null;
     paymentMethodId = null;
     last4 = null;
     saveCreditCard = false;
+  }
+
+  dispose() {
+    clear();
+    releaseDataUpdatedStream.close();
   }
 
   PaymentRepository._();
@@ -35,6 +41,8 @@ class PaymentRepository {
   String paymentMethodId;
   String last4;
   bool saveCreditCard = false;
+
+  StreamController<bool> releaseDataUpdatedStream = StreamController.broadcast();
 
   /// Checks if the payment is valid an confirms the payment with stripe.
   /// Ticket creation and final validity check are handled by the stripe webhook CF

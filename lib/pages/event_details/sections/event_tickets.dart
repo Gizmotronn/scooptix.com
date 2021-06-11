@@ -4,6 +4,7 @@ import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/order_summary/order_summary_overlay.dart';
+import 'package:ticketapp/repositories/payment_repository.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
@@ -30,6 +31,18 @@ class _EventTicketsState extends State<EventTickets> {
     MyTheme.appolloOrange,
     MyTheme.appolloYellow,
   ];
+
+  @override
+  void initState() {
+    PaymentRepository.instance.releaseDataUpdatedStream.stream.listen((data) {
+      if (data) {
+        setState(() {
+          selectedTickets.clear();
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

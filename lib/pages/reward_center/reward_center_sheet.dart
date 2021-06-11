@@ -16,6 +16,7 @@ class RewardCenterSheet extends StatefulWidget {
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
+          settings: RouteSettings(name: "reward_center_sheet"),
           builder: (context) => RewardCenterSheet._());
     } else {
       showAppolloModalBottomSheet(
@@ -29,6 +30,7 @@ class RewardCenterSheet extends StatefulWidget {
                       context: WrapperPage.navigatorKey.currentContext,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
+                      settings: RouteSettings(name: "reward_center_sheet"),
                       builder: (context) => RewardCenterSheet._());
                 },
               ));

@@ -7,8 +7,6 @@ abstract class PaymentEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class EventCancelPayment extends PaymentEvent {}
-
 class EventConfirmSetupIntent extends PaymentEvent {
   final PaymentMethod paymentMethod;
   final bool saveCreditCard;

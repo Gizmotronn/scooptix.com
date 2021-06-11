@@ -16,6 +16,7 @@ class MyTicketsSheet extends StatefulWidget {
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColor,
           expand: true,
+          settings: RouteSettings(name: "tickets_sheet"),
           builder: (context) => MyTicketsSheet._());
     } else {
       showAppolloModalBottomSheet(
@@ -29,6 +30,7 @@ class MyTicketsSheet extends StatefulWidget {
                       context: WrapperPage.navigatorKey.currentContext,
                       backgroundColor: MyTheme.appolloBackgroundColor,
                       expand: true,
+                      settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => MyTicketsSheet._());
                 },
               ));

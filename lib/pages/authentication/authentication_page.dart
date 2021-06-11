@@ -57,6 +57,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
     return Container(
       padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
       // height: screenSize.height - 58,
+      width: screenSize.width,
       child: LayoutBuilder(builder: (context, constraints) {
         return SizedBox(
           height: constraints.maxHeight,

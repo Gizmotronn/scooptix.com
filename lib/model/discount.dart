@@ -35,10 +35,8 @@ class Discount {
       discount.timesUsed = data["times_used"];
       discount.code = data["code"];
 
-      if (data.containsKey("applies_to_releases")) {
-        print("app");
-        discount.appliesToReleases = (data["applies_to_releases"] as List<dynamic>).cast<String>();
-        print("app done");
+      if (data.containsKey("applies_to")) {
+        discount.appliesToReleases = (data["applies_to"] as List<dynamic>).cast<String>().toList();
       }
 
       return discount;

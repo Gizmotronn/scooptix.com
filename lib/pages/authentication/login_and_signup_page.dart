@@ -79,6 +79,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               );
             } else {
               return Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   _buildEmailAndPWFields(state, screenSize),
                   SizedBox(

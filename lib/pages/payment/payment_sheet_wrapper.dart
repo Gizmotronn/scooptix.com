@@ -80,10 +80,13 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
       ),
       body: Padding(
         padding: EdgeInsets.all(MyTheme.elementSpacing),
-        child: PaymentPage(widget.event,
-            discount: widget.discount,
-            selectedTickets: widget.selectedTickets,
-            maxHeight: MediaQuery.of(context).size.height),
+        child: PaymentPage(
+          widget.event,
+          discount: widget.discount,
+          selectedTickets: widget.selectedTickets,
+          maxHeight: MediaQuery.of(context).size.height,
+          parentContext: widget.parentContext,
+        ),
       ),
     );
   }

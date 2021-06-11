@@ -15,12 +15,13 @@ class PreSaleSheet extends StatefulWidget {
   PreSaleSheet._(this.bloc, {this.event});
 
   /// Makes sure the user is logged in before opening the My Ticket Sheet
-  static openPreSaleSheet(PreSaleBloc bloc, {Event event}) {
+  static openPreSaleSheet(PreSaleBloc bloc, {@required Event event}) {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
+          settings: RouteSettings(name: "presale_sheet"),
           builder: (context) => PreSaleSheet._(
                 bloc,
                 event: event,
@@ -37,6 +38,7 @@ class PreSaleSheet extends StatefulWidget {
                       context: WrapperPage.navigatorKey.currentContext,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
+                      settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => PreSaleSheet._(bloc, event: event));
                 },
               ));

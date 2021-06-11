@@ -27,8 +27,10 @@ class PaymentPage extends StatefulWidget {
   final Map<TicketRelease, int> selectedTickets;
   final Discount discount;
   final double maxHeight;
+  final BuildContext parentContext;
 
-  const PaymentPage(this.event, {Key key, @required this.selectedTickets, this.discount, @required this.maxHeight})
+  const PaymentPage(this.event,
+      {Key key, @required this.selectedTickets, this.discount, @required this.maxHeight, this.parentContext})
       : super(key: key);
 
   @override
@@ -97,8 +99,10 @@ class _PaymentPageState extends State<PaymentPage> {
                       title: "Order successful",
                       content: state.message,
                       buttonText: "Ok",
-                      popTwice: true)
-                  .then((_) {});
+                      popTwice: false)
+                  .then((_) {
+                Navigator.pop(widget.parentContext ?? context);
+              });
             } else if (state is StateCardUpdated) {
               setState(() {
                 addNewPaymentMethod = false;
@@ -119,17 +123,19 @@ class _PaymentPageState extends State<PaymentPage> {
                         primary: MyTheme.appolloGreen,
                       ),
                       onPressed: () {
-                        bloc.add(EventCancelPayment());
+                        Navigator.pop(context);
                       },
-                      child: Text("Go back", style: MyTheme.textTheme.bodyText2),
+                      child: Text("Go back", style: MyTheme.textTheme.button),
                     ),
                   )
                 ],
               );
             } else if (state is StatePaymentCompleted) {
-              return Text(
-                "Payment Successful",
-                style: MyTheme.textTheme.bodyText2,
+              return Center(
+                child: Text(
+                  "Payment Successful",
+                  style: MyTheme.textTheme.bodyText2,
+                ),
               );
             } else if (state is StatePaymentOptionAvailable) {
               return SingleChildScrollView(
@@ -186,21 +192,23 @@ class _PaymentPageState extends State<PaymentPage> {
                 ],
               );
             } else if (state is StateLoadingPaymentIntent) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Finalizing your payment",
-                    style: MyTheme.textTheme.bodyText2,
-                  ),
-                  SizedBox(
-                    height: MyTheme.elementSpacing,
-                  ),
-                  AppolloProgressIndicator(),
-                  SizedBox(
-                    height: MyTheme.elementSpacing,
-                  ),
-                ],
+              return Center(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Finalizing your payment",
+                      style: MyTheme.textTheme.bodyText2,
+                    ),
+                    SizedBox(
+                      height: MyTheme.elementSpacing,
+                    ),
+                    AppolloProgressIndicator(),
+                    SizedBox(
+                      height: MyTheme.elementSpacing,
+                    ),
+                  ],
+                ),
               );
             } else {
               return Column(
@@ -249,11 +257,11 @@ class _PaymentPageState extends State<PaymentPage> {
     } else {
       double disc = 0.0;
       widget.selectedTickets.forEach((key, value) {
-        if (widget.discount.appliesToReleases.contains(key.docId)) {
+        if (widget.discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId)) {
           if (widget.discount.type == DiscountType.value) {
             disc += widget.discount.amount.toDouble() * value / 100;
           } else {
-            disc += (widget.discount.amount / 100 * key.price) * value;
+            disc += (widget.discount.amount / 100 / 100 * key.price) * value;
           }
         }
       });
@@ -295,11 +303,11 @@ class _PaymentPageState extends State<PaymentPage> {
       ).paddingBottom(MyTheme.elementSpacing);
     } else if (state is StatePaidTickets) {
       return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
@@ -358,7 +366,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${(subtotal / 100 - _calculateDiscount()).toStringAsFixed(2)}",
+                      child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
                           style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),

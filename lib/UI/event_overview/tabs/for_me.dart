@@ -165,6 +165,7 @@ class _EventsForMeState extends State<EventsForMe> {
                                 context: context,
                                 backgroundColor: MyTheme.appolloBackgroundColor,
                                 expand: true,
+                                settings: RouteSettings(name: "authentication_sheet"),
                                 builder: (context) => AuthenticationPageWrapper());
                           },
                           title: 'Create An Account',
