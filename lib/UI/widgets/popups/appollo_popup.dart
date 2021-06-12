@@ -198,47 +198,42 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
               alignment: Alignment.topCenter,
               key: ValueKey(widget.isExpanded),
               height: widget.isExpanded ? null : 0,
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Container(
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(
-                            widget.items.length,
-                            (index) => InkWell(
-                              onTap: () {},
-                              onTapDown: (v) {
-                                if (widget.onChange(widget.items[index].title, index) != null) {
-                                  widget.onChange(widget.items[index].title, index);
-                                }
-                              },
-                              onHover: (value) {
-                                for (var i = 0; i < widget.items.length; i++) {
-                                  setState(() {
-                                    widget.items[i].isTap = false;
-                                  });
-                                }
-                                setState(() {
-                                  widget.items[index].isTap = value;
-                                });
-                              },
-                              child: _hoverText(
-                                context,
-                                title: widget.items[index].title,
-                                isHover: widget.items[index].isTap,
-                              ).paddingBottom(8),
-                            ),
-                          )),
-                    ),
-                  )
-                ],
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        widget.items.length,
+                        (index) => InkWell(
+                          onTap: () {},
+                          onTapDown: (v) {
+                            if (widget.onChange(widget.items[index].title, index) != null) {
+                              widget.onChange(widget.items[index].title, index);
+                            }
+                          },
+                          onHover: (value) {
+                            for (var i = 0; i < widget.items.length; i++) {
+                              setState(() {
+                                widget.items[i].isTap = false;
+                              });
+                            }
+                            setState(() {
+                              widget.items[index].isTap = value;
+                            });
+                          },
+                          child: _hoverText(
+                            context,
+                            title: widget.items[index].title,
+                            isHover: widget.items[index].isTap,
+                          ).paddingBottom(8),
+                        ),
+                      )),
+                ),
               ),
             )
           ],
-        ).paddingHorizontal(4).paddingTop(4),
+        ).paddingAll(13),
       ),
     );
   }
