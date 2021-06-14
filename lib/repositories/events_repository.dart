@@ -25,8 +25,9 @@ class EventsRepository {
 
   List<Event> events = [];
 
-  List<Event> get upcomingEvents =>
-      events.where((element) => element.date.isAfter(DateTime.now().subtract(Duration(hours: 8)))).toList();
+  List<Event> get upcomingPublicEvents => events
+      .where((element) => !element.isPrivateEvent && element.date.isAfter(DateTime.now().subtract(Duration(hours: 8))))
+      .toList();
 
   Future<Event> loadEventById(String id) async {
     try {

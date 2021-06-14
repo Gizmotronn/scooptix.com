@@ -18,7 +18,7 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
   void initState() {
     super.initState();
 
-    events.addAll(EventsRepository.instance.events);
+    events.addAll(EventsRepository.instance.upcomingPublicEvents);
   }
 
   @override

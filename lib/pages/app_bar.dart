@@ -41,7 +41,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                 onTap: () {
                   Navigator.popUntil(context, (route) => route.isFirst);
                   Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                      arguments: EventsRepository.instance.events);
+                      arguments: EventsRepository.instance.upcomingPublicEvents);
                 },
                 child: SvgPicture.asset(
                   AppolloSvgIcon.menuIcon,
@@ -51,7 +51,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
               onTap: () {
                 Navigator.popUntil(context, (route) => route.isFirst);
                 Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                    arguments: EventsRepository.instance.events);
+                    arguments: EventsRepository.instance.upcomingPublicEvents);
               },
               child: Text("appollo",
                   style: MyTheme.textTheme.subtitle1.copyWith(

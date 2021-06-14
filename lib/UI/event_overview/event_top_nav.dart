@@ -61,7 +61,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                     onTap: () {
                       Navigator.popUntil(context, (route) => route.isFirst);
                       Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                          arguments: EventsRepository.instance.events);
+                          arguments: EventsRepository.instance.upcomingPublicEvents);
                     },
                     child: _appolloLogo().paddingHorizontal(50)),
                 //TODO: _appolloSearchBar(context, screenSize),

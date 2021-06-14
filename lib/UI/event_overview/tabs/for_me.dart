@@ -283,7 +283,7 @@ class _EventsForMeState extends State<EventsForMe> {
                     child: Column(
                       children: [
                         _forMeTags(context, tag: 'Events you may like', icon: AppolloSvgIcon.calender),
-                        AppolloEvents(events: EventsRepository.instance.events.take(5).toList()),
+                        AppolloEvents(events: EventsRepository.instance.upcomingPublicEvents.take(5).toList()),
                       ],
                     ),
                   ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
@@ -291,7 +291,7 @@ class _EventsForMeState extends State<EventsForMe> {
                     child: Column(
                       children: [
                         _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloSvgIcon.people),
-                        AppolloEvents(events: EventsRepository.instance.events.take(5).toList()),
+                        AppolloEvents(events: EventsRepository.instance.upcomingPublicEvents.take(5).toList()),
                       ],
                     ),
                   ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),

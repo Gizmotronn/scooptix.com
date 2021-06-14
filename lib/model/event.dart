@@ -41,7 +41,7 @@ class Event {
   List<String> tags = <String>[];
   List<String> images = <String>[];
   bool isSignedUp = false;
-  bool isMockEvent = false;
+  bool isPrivateEvent = false;
   bool newPriorityPassesAllowed = false;
   bool newQPassesAllowed = false;
   bool allowsBirthdaySignUps = false;
@@ -184,8 +184,8 @@ class Event {
       if (data.containsKey("issignedup")) {
         event.isSignedUp = data["issignedup"];
       }
-      if (data.containsKey("ismockevent")) {
-        event.isMockEvent = data["ismockevent"];
+      if (data.containsKey("private_event")) {
+        event.isPrivateEvent = data["private_event"];
       }
       if (data.containsKey("prioritypassavailable")) {
         event.newPriorityPassesAllowed = data["prioritypassavailable"];
