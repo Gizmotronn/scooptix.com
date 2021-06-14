@@ -149,7 +149,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         SizedBox(
                           width: MyTheme.drawerSize,
                           child: AppolloButton.regularButton(
-                            onTap: PaymentRepository.instance.paymentMethodId == null
+                            onTap: state is! StateFreeTicketSelected &&
+                                    PaymentRepository.instance.paymentMethodId == null
                                 ? null
                                 : () {
                                     if (_termsConditions) {

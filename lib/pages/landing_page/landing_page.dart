@@ -2,8 +2,10 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
+import 'package:ticketapp/model/link_type/birthdayList.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
+import 'package:ticketapp/model/link_type/pre_sale_invite.dart';
 import 'package:ticketapp/model/link_type/recurring_event.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
@@ -57,7 +59,10 @@ class _LandingPageState extends State<LandingPage> {
     } else if (link is AdvertisementLink) {
       NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event.docID});
     } else if (link is RecurringEventLinkType) {
-      print(link.event);
+      if (link.event != null) {
+        NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event.docID});
+      }
+    } else if (link is PreSaleInvite || link is Booking) {
       if (link.event != null) {
         NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event.docID});
       }

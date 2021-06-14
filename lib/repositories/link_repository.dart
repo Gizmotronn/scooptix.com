@@ -34,7 +34,8 @@ class LinkRepository {
           await FirebaseFirestore.instance.collection("uuidmap").where("uuid", isEqualTo: uuid).get();
       if (uuidMapSnapshot.size > 0) {
         String type = uuidMapSnapshot.docs[0].data()["type"];
-        if (type == BirthdayList.toDBString() || type == Booking.toDBString()) {
+        //TODO: remove birthdaylist once port to bookings is finished
+        if (type == BirthdayList.toDBString() || type == Booking.toDBString() || type == "birthdaylist") {
           linkType = Booking()
             ..uuid = uuid
             ..promoter = await UserRepository.instance.loadPromoter(uuidMapSnapshot.docs[0].data()["promoter"])
