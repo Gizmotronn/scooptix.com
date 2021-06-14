@@ -54,7 +54,7 @@ class TicketRelease {
       release.ticketName = releaseManagerName;
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error loading ticket release \n $e", s, severity: ErrorSeverity.error);
     }
 
     return release;

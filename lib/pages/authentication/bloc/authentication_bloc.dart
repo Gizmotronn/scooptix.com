@@ -133,7 +133,6 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       if (retry) {
         yield* _signInWithGoogle(retry: false);
       } else {
-        BugsnagNotifier.instance.notify(e, s);
         yield StateErrorSignUp(SignUpError.UserCancelled);
         yield StateInitial();
       }

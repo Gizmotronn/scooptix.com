@@ -94,7 +94,7 @@ class TicketRepository {
             }
           }
         } catch (e, s) {
-          BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+          BugsnagNotifier.instance.notify("Error loading my tickets \n $e", s, severity: ErrorSeverity.error);
           print(e);
           print(s);
         }
@@ -124,7 +124,6 @@ class TicketRepository {
         try {
           ticket = Ticket.fromMap(ticketDoc.id, event, null, ticketDoc.data());
           try {
-            print("option 1");
             ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
 
             tickets.add(ticket);
@@ -132,13 +131,12 @@ class TicketRepository {
             // From the old version, tickets won't have a ticket_release_id
             // All our tickets should be single restricted so this should work until there are no more old tickets
             if (ticket.release == null) {
-              print("get single release");
               ticket.release = event.getReleasesWithSingleTicketRestriction()[0];
             }
             tickets.add(ticket);
           }
         } catch (e, s) {
-          BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+          BugsnagNotifier.instance.notify("Error loading tickets \n $e", s, severity: ErrorSeverity.error);
           print(e);
           print(s);
         }
@@ -231,12 +229,13 @@ class TicketRepository {
         print(response.body);
       } on SocketException catch (ex) {
         print(ex);
-        BugsnagNotifier.instance.notify(ex, StackTrace.empty, severity: ErrorSeverity.error);
+        BugsnagNotifier.instance
+            .notify("Error confirming ticket \n $ex", StackTrace.empty, severity: ErrorSeverity.error);
       }
 
       return tickets;
     } catch (e, s) {
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error during issue tickets \n $e", s, severity: ErrorSeverity.error);
       print(e);
       return [];
     }
@@ -312,14 +311,15 @@ class TicketRepository {
         print(response.body);
       } on SocketException catch (ex) {
         print(ex);
-        BugsnagNotifier.instance.notify(ex, StackTrace.empty, severity: ErrorSeverity.error);
+        BugsnagNotifier.instance
+            .notify("Error confirming ticket \n $ex", StackTrace.empty, severity: ErrorSeverity.error);
       }
 
       ticket.docId = ticketDoc.id;
       ticket.release = release;
       return ticket;
     } catch (e, s) {
-      BugsnagNotifier.instance.notify("acceptInvitation\n" + e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error accepting invitation \n" + e, s, severity: ErrorSeverity.error);
       print(e);
       return null;
     }
@@ -384,7 +384,7 @@ class TicketRepository {
       }
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error incrementing link open counter \n $e", s, severity: ErrorSeverity.error);
     }
   }
 
@@ -400,7 +400,8 @@ class TicketRepository {
       }
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance
+          .notify("Error incrementing link accepted counter \n $e", s, severity: ErrorSeverity.error);
     }
   }
 
@@ -417,7 +418,8 @@ class TicketRepository {
       }
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance
+          .notify("Error incrementing tickets bought counter \n $e", s, severity: ErrorSeverity.error);
     }
   }
 }

@@ -99,8 +99,7 @@ class ReleaseManager {
         rm.recurringUUID = data["recurring_uuid"];
       }
     } catch (e, s) {
-      print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error loading release manager \n $e", s, severity: ErrorSeverity.error);
     }
     return rm;
   }

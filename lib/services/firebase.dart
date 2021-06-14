@@ -73,7 +73,7 @@ class FBServices {
     } catch (e, s) {
       print("Error during signup");
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error during signup \n $e", s, severity: ErrorSeverity.error);
       return null;
     }
   }
@@ -84,7 +84,7 @@ class FBServices {
       return authResult.user;
     } catch (e, s) {
       print(e.message);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.info);
+      BugsnagNotifier.instance.notify("Error during login \n $e", s, severity: ErrorSeverity.info);
       return null;
     }
   }

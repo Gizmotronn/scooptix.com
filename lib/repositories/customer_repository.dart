@@ -42,7 +42,7 @@ class CustomerRepository {
       return userRef;
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error creating customer \n $e", s, severity: ErrorSeverity.error);
       return null;
     }
   }
@@ -85,7 +85,7 @@ class CustomerRepository {
       }, SetOptions(merge: true));
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error adding customer action \n $e", s, severity: ErrorSeverity.error);
     }
   }
 }
