@@ -640,7 +640,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 onTap: () {
                   widget.bloc.add(EventGoogleSignIn());
                 },
-                child: SvgIcon("icons/google_icon.svg", size: 70),
+                child: SvgIcon("assets/icons/google_icon.svg", size: 70),
               ),
               SizedBox(
                 width: 12,
@@ -649,7 +649,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 onTap: () {
                   widget.bloc.add(EventFacebookSignIn());
                 },
-                child: SvgIcon("icons/facebook_icon.svg", size: 70),
+                child: SvgIcon("assets/icons/facebook_icon.svg", size: 70),
               ),
               SizedBox(
                 width: 12,
@@ -659,7 +659,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   widget.bloc.add(EventAppleSignIn());
                 },
                 child: Container(
-                    child: SvgIcon("icons/apple_icon.svg", color: MyTheme.textTheme.bodyText2.color, size: 70)),
+                    child: SvgIcon("assets/icons/apple_icon.svg", color: MyTheme.textTheme.bodyText2.color, size: 70)),
               ),
             ],
           ).paddingBottom(MyTheme.elementSpacing),
