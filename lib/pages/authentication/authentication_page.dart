@@ -112,7 +112,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                           children: [
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 InkWell(
                                   onTap: () async {
@@ -153,7 +153,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                           }
                                         }),
                                   ),
-                                ),
+                                ).paddingRight(MyTheme.elementSpacing),
                                 SizedBox(
                                   width: MyTheme.drawerSize / 1.7,
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

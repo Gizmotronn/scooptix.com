@@ -15,6 +15,7 @@ import '../../../UI/widgets/buttons/side_buttons.dart';
 import '../../../model/event.dart';
 import 'detail_with_button.dart';
 import '../bookings/make_booking.dart';
+import 'event_custom_info.dart';
 import 'event_description.dart';
 import 'event_gallery.dart';
 import 'event_nav_bar.dart';
@@ -189,6 +190,7 @@ class _EventDataState extends State<EventData> {
               boxOffset: (offset) => setState(() => positions[1] = offset.dy),
               child: EventDescription(event: widget.event),
             ),
+          EventCustomInfo(event: widget.event),
           if (positions.containsKey(2))
             BoxOffset(
               boxOffset: (offset) => setState(() => positions[2] = offset.dy),

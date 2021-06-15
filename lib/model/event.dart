@@ -1,3 +1,4 @@
+import 'package:ticketapp/model/custom_event_info.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
 
@@ -53,6 +54,7 @@ class Event {
   EventOccurrence occurrence;
   BirthdayEventData birthdayEventData;
   PreSale preSale;
+  List<CustomEventInfo> customEventInfo = [];
 
   bool get preSaleEnabled => preSale != null && preSale.enabled;
   bool get preSaleAvailable => preSaleEnabled && preSale.registrationEndDate.isAfter(DateTime.now());
@@ -268,6 +270,16 @@ class Event {
           event.preSale = null;
         }
       }
+
+      if (data.containsKey("custom_info")) {
+        data["custom_info"].forEach((info) {
+          CustomEventInfo eventInfo = CustomEventInfo.fromMap(info);
+          if (eventInfo != null) {
+            event.customEventInfo.add(eventInfo);
+          }
+        });
+      }
+
       event.docID = docId;
 
       return event;

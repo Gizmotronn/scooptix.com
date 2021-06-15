@@ -39,16 +39,15 @@ class _EventsForMeState extends State<EventsForMe> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return SizedBox(
-      width: screenSize.width * 0.8,
+      width: MyTheme.maxWidth,
       child: ValueListenableBuilder(
         valueListenable: UserRepository.instance.currentUserNotifier,
         builder: (c, u, w) {
           return u != null ? _buildForMeLoggedIn() : _buildForMeNotLoggedIn();
         },
       ),
-    );
+    ).paddingTop(MyTheme.elementSpacing / 2).paddingLeft(MyTheme.elementSpacing).paddingRight(MyTheme.elementSpacing);
   }
 
   Widget _buildForMeNotLoggedIn() {
@@ -63,8 +62,8 @@ class _EventsForMeState extends State<EventsForMe> {
                 Row(
                   children: [
                     SizedBox(
-                      height: screenSize.height * 0.25,
-                      width: screenSize.width * 0.8 / 3 - MyTheme.elementSpacing * 2 / 3,
+                      height: 240,
+                      width: MyTheme.maxWidth / 3 - MyTheme.elementSpacing * 2 / 3,
                       child: ForMeCard(
                         title: 'Curated Events',
                         color: MyTheme.appolloGreen,
@@ -74,8 +73,8 @@ class _EventsForMeState extends State<EventsForMe> {
                       ),
                     ).paddingRight(MyTheme.elementSpacing),
                     SizedBox(
-                      height: screenSize.height * 0.25,
-                      width: screenSize.width * 0.8 / 3 - MyTheme.elementSpacing * 2 / 3,
+                      height: 240,
+                      width: MyTheme.maxWidth / 3 - MyTheme.elementSpacing * 2 / 3,
                       child: ForMeCard(
                         title: 'Follow your favourite organisers',
                         subTitle:
@@ -85,8 +84,8 @@ class _EventsForMeState extends State<EventsForMe> {
                       ),
                     ).paddingRight(MyTheme.elementSpacing),
                     SizedBox(
-                      height: screenSize.height * 0.25,
-                      width: screenSize.width * 0.8 / 3 - MyTheme.elementSpacing * 2 / 3,
+                      height: 240,
+                      width: MyTheme.maxWidth / 3 - MyTheme.elementSpacing * 2 / 3,
                       child: ForMeCard(
                         title: 'Like an event',
                         subTitle:
@@ -98,7 +97,7 @@ class _EventsForMeState extends State<EventsForMe> {
                   ],
                 ).paddingBottom(MyTheme.elementSpacing),
                 SizedBox(
-                  height: screenSize.height * 0.25,
+                  height: 240,
                   child: ForMeCard(
                     title: 'Create an account and discover the best event based on your preferences',
                     subTitle:

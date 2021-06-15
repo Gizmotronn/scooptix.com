@@ -57,12 +57,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
     }
 
     return Container(
-      width: getValueForScreenType(
-          context: context,
-          desktop: screenSize.width * 0.8,
-          tablet: screenSize.width * 0.8,
-          mobile: screenSize.width,
-          watch: screenSize.width),
+      width: MyTheme.maxWidth,
       child: Column(
         children: [
           _weekendNav().paddingBottom(16),
@@ -148,7 +143,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
           ),
         ),
       ],
-    ).paddingTop(8);
+    );
   }
 
   Widget _eventTags(context, {String tag1, String tag2}) => Container(
@@ -179,5 +174,5 @@ class _ThisWeekendState extends State<ThisWeekend> {
                 style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
-      ).paddingHorizontal(16).paddingTop(8);
+      ).paddingHorizontal(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing);
 }

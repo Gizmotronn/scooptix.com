@@ -105,16 +105,16 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                                 onTap: () {
                                   MyTicketsDrawer.openMyTicketsDrawer();
                                 }).paddingRight(8)),
-                        _appolloCreateEventDropDown(context).paddingRight(8),
-                        _appolloHelpDropDown(context).paddingRight(16),
+                        _appolloHelpDropDown(context).paddingRight(8),
+                        _appolloCreateEventDropDown(context).paddingRight(16),
                         _showUserAvatar(context, user).paddingRight(50),
                       ],
                     ).paddingVertical(4);
                   }
                   return Row(
                     children: [
-                      _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
                       _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
+                      _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
                       _signInButton(context),
                     ],
                   );
@@ -275,8 +275,8 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         },
         child: Row(
           children: [
-            Text('${user.getFullName() ?? 'Test User'}',
-                    style: Theme.of(context).textTheme.button.copyWith(fontSize: 12, fontWeight: FontWeight.w400))
+            Text('${user.getFullName() ?? ''}',
+                    style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400))
                 .paddingRight(16),
             SizedBox(
               width: 50,

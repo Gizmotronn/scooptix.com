@@ -23,7 +23,7 @@ class SideButton extends StatelessWidget {
       onTap: onTap,
       child: ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
-          height: size.deviceScreenType == DeviceScreenType.desktop ? 35 : 25,
+          height: size.deviceScreenType == DeviceScreenType.desktop ? 30 : 25,
           child: Row(
             children: [
               icon ?? SizedBox(),

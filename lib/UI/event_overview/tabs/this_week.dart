@@ -51,18 +51,12 @@ class _ThisWeekState extends State<ThisWeek> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     if (widget.events.isEmpty) {
       return NoEvents();
     }
 
     return Container(
-      width: getValueForScreenType(
-          context: context,
-          desktop: screenSize.width * 0.8,
-          tablet: screenSize.width * 0.8,
-          mobile: screenSize.width,
-          watch: screenSize.width),
+      width: MyTheme.maxWidth,
       child: Column(
         children: [
           _daysNav().paddingBottom(16),
@@ -146,7 +140,7 @@ class _ThisWeekState extends State<ThisWeek> {
                 style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
-      ).paddingHorizontal(16).paddingTop(16);
+      ).paddingHorizontal(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing);
 
   Widget _daysNav() {
     return SizedBox(

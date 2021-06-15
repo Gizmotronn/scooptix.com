@@ -221,7 +221,7 @@ class FeaturedEventText extends StatelessWidget {
           height: 225,
           width: 400,
           decoration: BoxDecoration(
-            color: MyTheme.appolloCardColor.withOpacity(.5),
+            color: MyTheme.appolloCardColor.withOpacity(.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(

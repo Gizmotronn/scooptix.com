@@ -24,7 +24,7 @@ class ForMeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
+        borderRadius: BorderRadius.circular(8),
         color: MyTheme.appolloBackgroundColorLight,
       ),
       child: Column(

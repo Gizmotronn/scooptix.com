@@ -20,7 +20,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
     Menu('Today', false),
     Menu('This Weekend', false),
     Menu('This Week', false),
-    Menu('Upcoming', false),
+    //Menu('Upcoming', false),
   ];
 
   @override
