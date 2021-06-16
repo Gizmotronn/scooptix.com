@@ -5,42 +5,35 @@ import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../theme.dart';
 
-enum AppolloTextfieldState { initial, hover, typing, filled, diabled, error }
+enum AppolloTextFieldState { initial, hover, typing, filled, disabled, error }
 enum TextFieldType { reactive, regular }
 
-class AppolloTextfield extends StatefulWidget {
+class AppolloTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String hintText;
   final String errorText;
-  final TextFieldType textfieldType;
+  final TextFieldType textFieldType;
   final TextInputType keyboardType;
   final Map<String, String> Function(AbstractControl<dynamic>) validationMessages;
   final List<TextInputFormatter> inputFormatters;
   final String formControlName;
   final FocusNode focusNode;
   final Function onChanged;
-
   final List<String> autofillHints;
-
   final bool autofocus;
-
   final Function(String) onFieldSubmitted;
-
   final Function(String) validator;
-
   final Widget suffixIcon;
-
   final AutovalidateMode autovalidateMode;
-
   final bool obscureText;
 
-  const AppolloTextfield(
+  const AppolloTextField(
       {Key key,
       this.controller,
       @required this.labelText,
       this.errorText = '',
-      @required this.textfieldType,
+      @required this.textFieldType,
       this.keyboardType,
       this.validationMessages,
       this.inputFormatters,
@@ -51,45 +44,37 @@ class AppolloTextfield extends StatefulWidget {
       this.validator,
       this.suffixIcon,
       this.autovalidateMode,
-      this.obscureText,
+      this.obscureText = false,
       this.focusNode,
       this.onChanged,
       this.hintText})
       : super(key: key);
   @override
-  _AppolloTextfieldState createState() => _AppolloTextfieldState();
+  _AppolloTextFieldState createState() => _AppolloTextFieldState();
 }
 
-class _AppolloTextfieldState extends State<AppolloTextfield> {
-  AppolloTextfieldState textFieldState = AppolloTextfieldState.initial;
+class _AppolloTextFieldState extends State<AppolloTextField> {
+  AppolloTextFieldState textFieldState = AppolloTextFieldState.initial;
   String _text = '';
 
   FocusNode _focusNode;
   @override
   void initState() {
     if (widget.errorText.isNotEmpty) {
-      textFieldState = AppolloTextfieldState.error;
+      textFieldState = AppolloTextFieldState.error;
     }
 
     _focusNode = widget.focusNode ?? FocusNode();
     _focusNode.addListener(() {
       setState(() {
         if (_focusNode.hasFocus) {
-          if (widget.errorText.isNotEmpty) {
-            textFieldState = AppolloTextfieldState.error;
-          } else {
-            textFieldState = AppolloTextfieldState.typing;
+          if (textFieldState != AppolloTextFieldState.error) {
+            textFieldState = AppolloTextFieldState.typing;
           }
-        } else if (_text.isNotEmpty) {
-          if (widget.errorText.isNotEmpty) {
-            textFieldState = AppolloTextfieldState.error;
-          } else {
-            textFieldState = AppolloTextfieldState.filled;
-          }
-        } else if (widget.errorText.isNotEmpty) {
-          textFieldState = AppolloTextfieldState.error;
         } else {
-          textFieldState = AppolloTextfieldState.initial;
+          if (textFieldState != AppolloTextFieldState.error) {
+            textFieldState = AppolloTextFieldState.initial;
+          }
         }
       });
     });
@@ -101,29 +86,23 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
   Widget build(BuildContext context) {
     return MouseRegion(
       onHover: (isHover) {
-        if (widget.errorText.isNotEmpty) {
+        if (textFieldState != AppolloTextFieldState.error) {
           setState(() {
-            textFieldState = AppolloTextfieldState.error;
-          });
-        } else if (_text.isEmpty) {
-          setState(() {
-            textFieldState = AppolloTextfieldState.hover;
+            textFieldState = AppolloTextFieldState.hover;
           });
         }
       },
       onExit: (v) {
-        if (widget.errorText.isNotEmpty) {
-          setState(() {
-            textFieldState = AppolloTextfieldState.error;
-          });
-        } else if (_text.isEmpty) {
-          setState(() {
-            if (_focusNode.hasFocus) {
-              textFieldState = AppolloTextfieldState.typing;
-            } else {
-              textFieldState = AppolloTextfieldState.initial;
-            }
-          });
+        if (textFieldState != AppolloTextFieldState.error) {
+          if (_text.isEmpty) {
+            setState(() {
+              if (_focusNode.hasFocus) {
+                textFieldState = AppolloTextFieldState.typing;
+              } else {
+                textFieldState = AppolloTextFieldState.initial;
+              }
+            });
+          }
         }
       },
       child: Column(
@@ -131,12 +110,12 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
         children: [
           AnimatedContainer(
             duration: MyTheme.animationDuration,
-            height: 48,
+            height: textFieldState == AppolloTextFieldState.error ? 64 : 48,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
-              color: textFieldState == AppolloTextfieldState.hover ||
-                      textFieldState == AppolloTextfieldState.typing ||
-                      textFieldState == AppolloTextfieldState.error
+              color: textFieldState == AppolloTextFieldState.hover ||
+                      textFieldState == AppolloTextFieldState.typing ||
+                      textFieldState == AppolloTextFieldState.error
                   ? MyTheme.appolloBackgroundColor
                   : MyTheme.appolloTextFieldColor,
               border: Border.all(
@@ -145,14 +124,37 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
               ),
             ),
             child: Builder(builder: (context) {
-              if (widget.textfieldType == TextFieldType.reactive) {
+              if (widget.textFieldType == TextFieldType.reactive) {
                 return ReactiveTextField(
                   formControlName: widget.formControlName,
                   keyboardType: widget.keyboardType,
                   validationMessages: widget.validationMessages,
                   inputFormatters: widget.inputFormatters,
                   focusNode: _focusNode,
-                  style: Theme.of(context).textTheme.bodyText1,
+                  onSubmitted: () {
+                    if (widget.onFieldSubmitted != null) {
+                      widget.onFieldSubmitted("");
+                    }
+                  },
+                  showErrors: (control) {
+                    if (control.invalid && control.touched) {
+                      Future.delayed(Duration(milliseconds: 1)).then((value) {
+                        setState(() {
+                          textFieldState = AppolloTextFieldState.error;
+                        });
+                      });
+                      return true;
+                    } else {
+                      Future.delayed(Duration(milliseconds: 1)).then((value) {
+                        setState(() {
+                          textFieldState = AppolloTextFieldState.typing;
+                        });
+                      });
+                      return false;
+                    }
+                  },
+                  obscureText: widget.obscureText,
+                  style: MyTheme.textTheme.bodyText1,
                   decoration: InputDecoration(
                     filled: true,
                     hintText: widget.hintText,
@@ -162,10 +164,11 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                     errorStyle: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
                     focusedBorder: InputBorder.none,
                     hintStyle: MyTheme.textTheme.button.copyWith(
-                        color: textFieldState == AppolloTextfieldState.initial
+                        color: textFieldState == AppolloTextFieldState.initial
                             ? MyTheme.appolloGrey
                             : MyTheme.appolloWhite),
                     enabledBorder: InputBorder.none,
+                    focusedErrorBorder: InputBorder.none,
                     labelText: widget.labelText,
                     labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
                     disabledBorder: InputBorder.none,
@@ -175,7 +178,18 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
               return TextFormField(
                 autofillHints: widget.autofillHints,
                 autofocus: widget.autofocus ?? false,
-                onFieldSubmitted: widget.onFieldSubmitted,
+                onFieldSubmitted: (v) {
+                  if (widget.onFieldSubmitted != null) {
+                    widget.onFieldSubmitted(v);
+                  }
+                  if (widget.validator != null) {
+                    if (widget.validator(v) != null) {
+                      setState(() {
+                        textFieldState = AppolloTextFieldState.error;
+                      });
+                    }
+                  }
+                },
                 autovalidateMode: widget.autovalidateMode,
                 validator: widget.validator,
                 obscureText: widget.obscureText ?? false,
@@ -201,7 +215,7 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
                   focusedBorder: InputBorder.none,
                   hintStyle: MyTheme.textTheme.button.copyWith(
                       color:
-                          textFieldState == AppolloTextfieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
+                          textFieldState == AppolloTextFieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
                   enabledBorder: InputBorder.none,
                   labelText: widget.labelText,
                   labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
@@ -210,32 +224,28 @@ class _AppolloTextfieldState extends State<AppolloTextfield> {
               );
             }).paddingAll(4),
           ),
-          widget.errorText.isEmpty
-              ? SizedBox()
-              : AutoSizeText(widget.errorText,
-                  style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed, fontSize: 6)),
         ],
       ),
     );
   }
 
   Color _buildLabelColor() {
-    if (textFieldState == AppolloTextfieldState.filled) {
+    if (textFieldState == AppolloTextFieldState.filled) {
       return MyTheme.appolloGreen;
-    } else if (textFieldState == AppolloTextfieldState.error) {
+    } else if (textFieldState == AppolloTextFieldState.error) {
       return MyTheme.appolloRed;
-    } else if (textFieldState == AppolloTextfieldState.initial) {
+    } else if (textFieldState == AppolloTextFieldState.initial) {
       return MyTheme.appolloGrey;
     }
     return MyTheme.appolloWhite;
   }
 
   Color _buildOutlineColor() {
-    if (textFieldState == AppolloTextfieldState.hover || textFieldState == AppolloTextfieldState.typing) {
+    if (textFieldState == AppolloTextFieldState.hover || textFieldState == AppolloTextFieldState.typing) {
       return MyTheme.appolloWhite;
-    } else if (textFieldState == AppolloTextfieldState.error) {
+    } else if (textFieldState == AppolloTextFieldState.error) {
       return MyTheme.appolloRed;
-    } else if (textFieldState == AppolloTextfieldState.filled) {
+    } else if (textFieldState == AppolloTextFieldState.filled) {
       return MyTheme.appolloGreen;
     } else {
       return Colors.transparent;

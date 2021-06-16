@@ -256,12 +256,12 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           .paddingBottom(MyTheme.elementSpacing),
                       ReactiveForm(
                         formGroup: form,
-                        child: AppolloTextfield(
+                        child: AppolloTextField(
                                 controller: guestController,
                                 formControlName: "numGuests",
                                 validator: (v) => v.isEmpty ? "Please enter an estimate of the number of guests" : null,
                                 labelText: "Guests",
-                                textfieldType: TextFieldType.reactive)
+                                textFieldType: TextFieldType.reactive)
                             .paddingBottom(MyTheme.elementSpacing),
                       ),
                       _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),

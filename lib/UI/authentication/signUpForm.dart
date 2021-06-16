@@ -50,18 +50,18 @@ class _SignUpFormState extends State<SignUpForm> {
 
             Column(
               children: [
-                AppolloTextfield(
+                AppolloTextField(
                   labelText: "First Name",
-                  textfieldType: TextFieldType.reactive,
+                  textFieldType: TextFieldType.reactive,
                   formControlName: 'fname',
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide a name',
                   },
                   // decoration: InputDecoration(labelText: "First Name"),
                 ).paddingBottom(MyTheme.elementSpacing),
-                AppolloTextfield(
+                AppolloTextField(
                   labelText: "Last Name",
-                  textfieldType: TextFieldType.reactive,
+                  textFieldType: TextFieldType.reactive,
                   formControlName: 'lname',
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide a name',
@@ -87,9 +87,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: MediaQuery.of(context).size.width / 3 - 8,
                             watch: MediaQuery.of(context).size.width / 3 - 8),
-                        child: AppolloTextfield(
+                        child: AppolloTextField(
                           labelText: 'Day',
-                          textfieldType: TextFieldType.reactive,
+                          textFieldType: TextFieldType.reactive,
                           formControlName: 'dobDay',
                           keyboardType: TextInputType.number,
                           validationMessages: (control) => {
@@ -114,9 +114,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: MediaQuery.of(context).size.width / 3 - 30,
                             watch: MediaQuery.of(context).size.width / 3 - 30),
-                        child: AppolloTextfield(
+                        child: AppolloTextField(
                           labelText: 'Month',
-                          textfieldType: TextFieldType.reactive,
+                          textFieldType: TextFieldType.reactive,
                           formControlName: 'dobMonth',
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a month',
@@ -140,9 +140,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: MediaQuery.of(context).size.width / 3 - 30,
                             watch: MediaQuery.of(context).size.width / 3 - 30),
-                        child: AppolloTextfield(
+                        child: AppolloTextField(
                           labelText: 'Year',
-                          textfieldType: TextFieldType.reactive,
+                          textFieldType: TextFieldType.reactive,
                           formControlName: 'dobYear',
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a year',

@@ -16,9 +16,6 @@ class CustomEventInfo {
       eventInfo.headline = data["headline"];
       eventInfo.imageUrls = data["image_urls"].cast<String>().toList();
       eventInfo.targetUrls = data["target_urls"].cast<String>().toList();
-
-      print(eventInfo.imageUrls);
-      print(eventInfo.targetUrls);
       return eventInfo;
     } catch (e, s) {
       print(e);

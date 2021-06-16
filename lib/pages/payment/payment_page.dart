@@ -540,8 +540,8 @@ class _PaymentPageState extends State<PaymentPage> {
                     ),
                     SizedBox(
                       width: MyTheme.drawerSize,
-                      child: AppolloTextfield(
-                        textfieldType: TextFieldType.regular,
+                      child: AppolloTextField(
+                        textFieldType: TextFieldType.regular,
                         labelText: "Credit Card Number",
                         validator: (v) => v.length != 16 ? "Please enter a valid credit card number" : null,
                         autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
@@ -563,8 +563,8 @@ class _PaymentPageState extends State<PaymentPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Expanded(
-                            child: AppolloTextfield(
-                              textfieldType: TextFieldType.regular,
+                            child: AppolloTextField(
+                              textFieldType: TextFieldType.regular,
                               labelText: "MM",
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
@@ -582,8 +582,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             ).paddingRight(MyTheme.elementSpacing),
                           ),
                           Expanded(
-                            child: AppolloTextfield(
-                              textfieldType: TextFieldType.regular,
+                            child: AppolloTextField(
+                              textFieldType: TextFieldType.regular,
                               labelText: "YY",
                               onChanged: (v) {
                                 if (v.length == 2) {
@@ -601,8 +601,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             ).paddingRight(MyTheme.elementSpacing),
                           ),
                           Expanded(
-                            child: AppolloTextfield(
-                              textfieldType: TextFieldType.regular,
+                            child: AppolloTextField(
+                              textFieldType: TextFieldType.regular,
                               labelText: "CVC",
                               focusNode: focusCVC,
                               inputFormatters: [

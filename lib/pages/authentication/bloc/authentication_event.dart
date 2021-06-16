@@ -32,9 +32,6 @@ class EventLogout extends AuthenticationEvent {}
 class EventEmailProvided extends AuthenticationEvent {
   final String email;
   const EventEmailProvided(this.email);
-
-  @override
-  List<Object> get props => [email];
 }
 
 class EventLoginPressed extends AuthenticationEvent {

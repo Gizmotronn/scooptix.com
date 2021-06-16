@@ -29,14 +29,13 @@ class LoginAndSignupPage extends StatefulWidget {
 
 class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
   FormGroup form;
+  FormGroup passwordsForm;
+  FormGroup initialEmailForm;
+  FormGroup confirmEmailForm;
+  FormGroup loginForm;
+
   final int animationTime = 400;
 
-  // Not using a reactive form for the login since we're using custom logic for the email field.
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _confirmEmailController = TextEditingController();
-  final TextEditingController _pwController = TextEditingController();
-  final TextEditingController _confirmPwController = TextEditingController();
-  bool _validatePW = false;
   bool _termsAccepted = false;
 
   @override
@@ -50,6 +49,28 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
       'gender': FormControl<Gender>(validators: [Validators.required], value: Gender.Female),
       'terms': FormControl<bool>(validators: [Validators.equals(true)], value: _termsAccepted),
     });
+
+    passwordsForm = FormGroup({
+      'password': FormControl<String>(validators: [Validators.required, Validators.minLength(8)]),
+      'repeat': FormControl<String>(validators: [Validators.required, Validators.minLength(8)]),
+    }, validators: [
+      Validators.mustMatch("password", "repeat")
+    ]);
+
+    initialEmailForm = FormGroup({
+      'email': FormControl<String>(validators: [Validators.required, Validators.email]),
+    });
+
+    loginForm = FormGroup({
+      'password': FormControl<String>(validators: [Validators.required, Validators.minLength(8)]),
+    });
+
+    confirmEmailForm = FormGroup({
+      'email': FormControl<String>(validators: [Validators.required, Validators.email]),
+      'repeat': FormControl<String>(validators: [Validators.required, Validators.email]),
+    }, validators: [
+      Validators.mustMatch("email", "repeat")
+    ]);
     super.initState();
   }
 
@@ -61,7 +82,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           cubit: widget.bloc,
           listener: (c, state) {
             if (state is StateNewSSOUser) {
-              _emailController.text = state.email;
+              confirmEmailForm.value["email"] = state.email;
               form.controls["fname"].value = state.firstName;
               form.controls["lname"].value = state.lastName;
             }
@@ -144,7 +165,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 child: AppolloButton.regularButton(
                   child: Text("Login", style: MyTheme.textTheme.button),
                   onTap: () {
-                    widget.bloc.add(EventLoginPressed(_emailController.text, _pwController.text));
+                    widget.bloc.add(EventLoginPressed(initialEmailForm.value["email"], loginForm.value["password"]));
                   },
                 ),
               ).paddingBottom(8),
@@ -165,7 +186,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               AppolloButton.regularButton(
                 child: Text("Login", style: MyTheme.textTheme.button),
                 onTap: () {
-                  widget.bloc.add(EventLoginPressed(_emailController.text, _pwController.text));
+                  widget.bloc.add(EventLoginPressed(initialEmailForm.value["email"], loginForm.value["password"]));
                 },
               ),
             ],
@@ -187,12 +208,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 child: AppolloButton.regularButton(
                   child: Text("Next", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor)),
                   onTap: () {
-                    if (_pwController.text.length >= 8 && _pwController.text == _confirmPwController.text) {
+                    passwordsForm.markAllAsTouched();
+                    if (!passwordsForm.hasErrors) {
                       widget.bloc.add(EventPasswordsConfirmed());
-                    } else {
-                      setState(() {
-                        _validatePW = true;
-                      });
                     }
                   },
                 ),
@@ -217,12 +235,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 color: MyTheme.appolloGreen,
                 child: Text("Next", style: MyTheme.textTheme.button),
                 onTap: () {
-                  if (_pwController.text.length >= 8 && _pwController.text == _confirmPwController.text) {
+                  passwordsForm.markAllAsTouched();
+                  if (!passwordsForm.hasErrors) {
                     widget.bloc.add(EventPasswordsConfirmed());
-                  } else {
-                    setState(() {
-                      _validatePW = true;
-                    });
                   }
                 },
               ),
@@ -244,7 +259,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 child: AppolloButton.regularButton(
                   child: Text("Next", style: MyTheme.textTheme.button),
                   onTap: () {
-                    if (_emailController.text == _confirmEmailController.text) {
+                    if (!confirmEmailForm.hasErrors) {
                       if (state is StateNewSSOUser) {
                         widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
                       } else {
@@ -270,7 +285,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               AppolloButton.regularButton(
                 child: Text("Next", style: MyTheme.textTheme.button),
                 onTap: () {
-                  if (_emailController.text == _confirmEmailController.text) {
+                  if (!confirmEmailForm.hasErrors) {
                     if (state is StateNewSSOUser) {
                       widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
                     } else {
@@ -292,8 +307,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             child: AppolloButton.regularButton(
               child: Text("Next", style: MyTheme.textTheme.button),
               onTap: () {
-                print(widget.bloc.state);
-                widget.bloc.add(EventEmailProvided(_emailController.text));
+                initialEmailForm.markAllAsTouched();
+                if (!initialEmailForm.hasErrors) {
+                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]));
+                }
               },
             ),
           ).paddingBottom(8).paddingTop(MyTheme.elementSpacing);
@@ -314,8 +331,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     )
                   : Text("Next", style: MyTheme.textTheme.button),
               onTap: () {
-                print(widget.bloc);
-                widget.bloc.add(EventEmailProvided(_emailController.text));
+                initialEmailForm.markAllAsTouched();
+                if (!initialEmailForm.hasErrors) {
+                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]));
+                }
               },
             ),
           );
@@ -341,8 +360,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                         DateTime dob = DateTime(form.controls["dobYear"].value, form.controls["dobMonth"].value,
                             form.controls["dobDay"].value);
                         widget.bloc.add(EventCreateNewUser(
-                            _emailController.text,
-                            _pwController.text,
+                            confirmEmailForm.value["email"],
+                            passwordsForm.value["password"],
                             form.controls["fname"].value,
                             form.controls["lname"].value,
                             dob,
@@ -351,9 +370,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                       } catch (_) {}
                     } else {
                       form.markAllAsTouched();
-                      setState(() {
-                        _validatePW = true;
-                      });
+
                       if (!_termsAccepted) {
                         AlertGenerator.showAlert(
                             context: WrapperPage.mainScaffold.currentContext,
@@ -394,8 +411,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                       DateTime dob = DateTime(form.controls["dobYear"].value, form.controls["dobMonth"].value,
                           form.controls["dobDay"].value);
                       widget.bloc.add(EventCreateNewUser(
-                          _emailController.text,
-                          _pwController.text,
+                          confirmEmailForm.value["email"],
+                          passwordsForm.value["password"],
                           form.controls["fname"].value,
                           form.controls["lname"].value,
                           dob,
@@ -404,9 +421,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     } catch (_) {}
                   } else {
                     form.markAllAsTouched();
-                    setState(() {
-                      _validatePW = true;
-                    });
+
                     if (!_termsAccepted) {
                       AlertGenerator.showAlert(
                           context: context,
@@ -508,78 +523,95 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
   /// Returns 2 TextInputFields when an unused email was provided for email confirmation
   _buildEmailField(AuthenticationState state, Size screenSize) {
     if (state is StateInitial)
-      return Container(
-        key: ValueKey(1),
-        constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-        child: Focus(
-          child: AppolloTextfield(
-            textfieldType: TextFieldType.regular,
-            autofillHints: [AutofillHints.email],
-            controller: _emailController,
-            onFieldSubmitted: (v) {
-              widget.bloc.add(EventEmailProvided(_emailController.text));
-            },
-            labelText: "Email",
-            autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
-            validator: (v) => state is StateInvalidEmail ? "Please enter a valid email address" : null,
+      return ReactiveForm(
+        formGroup: initialEmailForm,
+        child: Container(
+          key: ValueKey(1),
+          constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+          child: Focus(
+            child: AppolloTextField(
+              formControlName: "email",
+              textFieldType: TextFieldType.reactive,
+              autofillHints: [AutofillHints.email],
+              validationMessages: (control) => {
+                ValidationMessage.required: 'Please provide an email',
+                ValidationMessage.email: 'Please provide a valid email',
+              },
+              onFieldSubmitted: (v) {
+                initialEmailForm.markAllAsTouched();
+                if (!initialEmailForm.hasErrors) {
+                  setState(() {
+                    confirmEmailForm.controls["email"].value = initialEmailForm.value["email"];
+                  });
+                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]));
+                }
+              },
+              labelText: "Email",
+            ),
           ),
         ),
       );
     // Prompt confirm email
     else if (state is StateNewUserEmail || state is StateNewSSOUser) {
-      return Column(
-        children: [
-          Container(
-            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: Focus(
-              child: AppolloTextfield(
-                textfieldType: TextFieldType.regular,
-                labelText: "Email",
-                autofillHints: [AutofillHints.email],
-                controller: _emailController,
-                onFieldSubmitted: (v) {
-                  if (_emailController.text == _confirmEmailController.text) {
-                    if (state is StateNewSSOUser) {
-                      widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
-                    } else {
-                      widget.bloc.add(EventEmailsConfirmed());
+      return ReactiveForm(
+        formGroup: confirmEmailForm,
+        child: Column(
+          children: [
+            Container(
+              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+              child: Focus(
+                child: AppolloTextField(
+                  textFieldType: TextFieldType.reactive,
+                  formControlName: "email",
+                  labelText: "Email",
+                  validationMessages: (control) => {
+                    ValidationMessage.required: 'Please provide an email',
+                    ValidationMessage.email: 'Please provide a valid email',
+                  },
+                  autofillHints: [AutofillHints.email],
+                  onFieldSubmitted: (v) {
+                    if (!confirmEmailForm.hasErrors) {
+                      if (state is StateNewSSOUser) {
+                        widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
+                      } else {
+                        widget.bloc.add(EventEmailsConfirmed());
+                      }
                     }
-                  }
-                },
-
-                autovalidateMode: state is StateInvalidEmail ? AutovalidateMode.always : AutovalidateMode.disabled,
-                // validator: (v) => val.Validator.validateEmail(_emailController.text),
+                  },
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 12,
-          ),
-          Container(
-            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: Focus(
-              child: AppolloTextfield(
-                labelText: "Confirm Email",
-                textfieldType: TextFieldType.regular,
-                autofillHints: [AutofillHints.email],
-                autofocus: true,
-                controller: _confirmEmailController,
-                onFieldSubmitted: (v) {
-                  if (_emailController.text == _confirmEmailController.text) {
-                    if (state is StateNewSSOUser) {
-                      widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
-                    } else {
-                      widget.bloc.add(EventEmailsConfirmed());
-                    }
-                  }
-                },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (v) =>
-                    _confirmEmailController.text == _emailController.text ? null : "Please make sure your emails match",
-              ),
+            SizedBox(
+              height: 12,
             ),
-          )
-        ],
+            Container(
+              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+              child: Focus(
+                child: AppolloTextField(
+                  labelText: "Confirm Email",
+                  textFieldType: TextFieldType.reactive,
+                  validationMessages: (control) => {
+                    ValidationMessage.required: 'Please provide an email',
+                    ValidationMessage.email: 'Please provide a valid email',
+                    ValidationMessage.mustMatch: "Emails must match"
+                  },
+                  formControlName: "repeat",
+                  autofillHints: [AutofillHints.email],
+                  autofocus: true,
+                  onFieldSubmitted: (v) {
+                    if (!confirmEmailForm.hasErrors) {
+                      if (state is StateNewSSOUser) {
+                        widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
+                      } else {
+                        widget.bloc.add(EventEmailsConfirmed());
+                      }
+                    }
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       );
     } else {
       return SizedBox.shrink();
@@ -726,61 +758,62 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         ],
       );
     } else if (state is StateNewUserEmailsConfirmed) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          _buildHeadline(state, screenSize),
-          SizedBox(
-            height: MyTheme.elementSpacing,
-          ),
-          Container(
-            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: AppolloTextfield(
-              textfieldType: TextFieldType.regular,
-              autofillHints: [AutofillHints.password],
-              controller: _pwController,
-              autofocus: true,
-              obscureText: true,
-              // validator: (val) => val.Validator.validatePassword(v),
-              autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
-              onFieldSubmitted: (v) {
-                if (_pwController.text.length >= 8 && _confirmPwController.text == _pwController.text) {
-                  widget.bloc.add(EventPasswordsConfirmed());
-                } else {
-                  setState(() {
-                    _validatePW = true;
-                  });
-                }
-              },
-              labelText: "Password",
+      return ReactiveForm(
+        formGroup: passwordsForm,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _buildHeadline(state, screenSize),
+            SizedBox(
+              height: MyTheme.elementSpacing,
             ),
-          ),
-          SizedBox(
-            height: MyTheme.elementSpacing,
-          ),
-          Container(
-            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: AppolloTextfield(
-              textfieldType: TextFieldType.regular,
-              autofillHints: [AutofillHints.password],
-              controller: _confirmPwController,
-              obscureText: true,
-              validator: (v) =>
-                  _confirmPwController.text == _pwController.text ? null : "Please make sure your passwords match",
-              autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
-              onFieldSubmitted: (v) {
-                if (_pwController.text.length >= 8 && _confirmPwController.text == _pwController.text) {
-                  widget.bloc.add(EventPasswordsConfirmed());
-                } else {
-                  setState(() {
-                    _validatePW = true;
-                  });
-                }
-              },
-              labelText: "Confirm Password",
+            Container(
+              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+              child: AppolloTextField(
+                formControlName: 'password',
+                textFieldType: TextFieldType.reactive,
+                autofillHints: [AutofillHints.password],
+                validationMessages: (control) => {
+                  ValidationMessage.minLength: 'Your password must be at least 8 characters long',
+                },
+                autofocus: true,
+                obscureText: true,
+                onFieldSubmitted: (v) {
+                  if (passwordsForm.valid) {
+                    widget.bloc.add(EventPasswordsConfirmed());
+                  } else {
+                    passwordsForm.markAllAsTouched();
+                  }
+                },
+                labelText: "Password",
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: MyTheme.elementSpacing,
+            ),
+            Container(
+              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+              child: AppolloTextField(
+                formControlName: 'repeat',
+                textFieldType: TextFieldType.reactive,
+                autofillHints: [AutofillHints.password],
+                validationMessages: (control) => {
+                  ValidationMessage.minLength: 'Your password must be at least 8 characters long',
+                  ValidationMessage.mustMatch: 'Your passwords must match',
+                },
+                obscureText: true,
+                onFieldSubmitted: (v) {
+                  if (passwordsForm.valid) {
+                    widget.bloc.add(EventPasswordsConfirmed());
+                  } else {
+                    passwordsForm.markAllAsTouched();
+                  }
+                },
+                labelText: "Confirm Password",
+              ),
+            ),
+          ],
+        ),
       );
     } else {
       return Column(
@@ -790,23 +823,26 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           SizedBox(
             height: MyTheme.elementSpacing,
           ),
-          Container(
-            constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-            child: AppolloTextfield(
-              textfieldType: TextFieldType.regular,
-
-              autofillHints: [AutofillHints.password],
-              controller: _pwController,
-              obscureText: true,
-              labelText: "Password",
-              autofocus: true,
-              // validator: (v) => val.Validator.validatePassword(v),
-              autovalidateMode: _validatePW ? AutovalidateMode.always : AutovalidateMode.disabled,
-              onFieldSubmitted: (v) {
-                if (state is StateExistingUserEmail) {
-                  widget.bloc.add(EventLoginPressed(_emailController.text, _pwController.text));
-                }
-              },
+          ReactiveForm(
+            formGroup: loginForm,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
+              child: AppolloTextField(
+                textFieldType: TextFieldType.reactive,
+                formControlName: "password",
+                autofillHints: [AutofillHints.password],
+                obscureText: true,
+                labelText: "Password",
+                validationMessages: (control) => {
+                  ValidationMessage.minLength: 'Your password is at least 8 characters long',
+                },
+                autofocus: true,
+                onFieldSubmitted: (v) {
+                  if (state is StateExistingUserEmail) {
+                    widget.bloc.add(EventLoginPressed(initialEmailForm.value["email"], loginForm.value["password"]));
+                  }
+                },
+              ),
             ),
           ),
           state is StateExistingUserEmail
@@ -820,17 +856,17 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                       ),
                       InkWell(
                           onTap: () {
-                            if (_emailController.text != "") {
+                            if (initialEmailForm.value["email"] != "") {
                               AlertGenerator.showAlertWithChoice(
                                       context: context,
                                       title: "Reset your password",
                                       content:
-                                          "Need to reset your password? We'll send out an email to ${_emailController.text} with further instructions",
+                                          "Need to reset your password? We'll send out an email to ${initialEmailForm.value["email"]} with further instructions",
                                       buttonText1: "Reset",
                                       buttonText2: "Cancel")
                                   .then((value) {
                                 if (value != null && value) {
-                                  FBServices.instance.resetPassword(_emailController.text);
+                                  FBServices.instance.resetPassword(initialEmailForm.value["email"]);
                                 }
                               });
                             }

@@ -42,7 +42,9 @@ class Validator {
   }
 
   static String validatePasswordRepeat(String value, String password) {
-    if (value != password) {
+    if (password.length < 8) {
+      return "Password must be at least 8 characters long";
+    } else if (value != password) {
       return "Your passwords don't match!";
     } else {
       return null;

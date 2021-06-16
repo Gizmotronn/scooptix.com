@@ -10,6 +10,7 @@ import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/pages/landing_page/landing_page.dart';
 import 'package:ticketapp/pages/my_ticktes/my_tickets_sheet.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 import 'UI/event_overview/tabs/for_me.dart';
 import 'pages/reward_center/reward_center_sheet.dart';
@@ -80,8 +81,7 @@ class _WrapperPageState extends State<WrapperPage> {
   @override
   void initState() {
     // Used to sign in current user session
-    // Disbaled for DEV, doesn't work with hot reload
-    //UserRepository.instance.signInCurrentUser();
+    UserRepository.instance.signInCurrentUser();
     super.initState();
   }
 

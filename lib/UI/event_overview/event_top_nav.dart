@@ -259,9 +259,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
           color: MyTheme.appolloGreen,
           child: Center(
             child: Text('Login Or Sign Up',
-                    style: Theme.of(context)
-                        .textTheme
-                        .button
+                    style: MyTheme.textTheme.button
                         .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor))
                 .paddingHorizontal(16),
           ),

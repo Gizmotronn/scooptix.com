@@ -54,6 +54,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     print("checking user status");
     yield StateLoadingUserData();
     bool isInUse = await FBServices.instance.isEmailInUse(email);
+    print(isInUse);
     if (isInUse == null) {
       yield StateInvalidEmail();
     } else if (isInUse) {
