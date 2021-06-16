@@ -82,7 +82,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           cubit: widget.bloc,
           listener: (c, state) {
             if (state is StateNewSSOUser) {
-              confirmEmailForm.value["email"] = state.email;
+              confirmEmailForm.controls["email"].value = state.email;
               form.controls["fname"].value = state.firstName;
               form.controls["lname"].value = state.lastName;
             }
