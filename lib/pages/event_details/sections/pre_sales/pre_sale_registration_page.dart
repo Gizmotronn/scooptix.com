@@ -135,7 +135,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                   style: MyTheme.textTheme.subtitle1)
               .paddingHorizontal(MyTheme.elementSpacing),
         SizedBox(height: MyTheme.elementSpacing),
-        _subtitle(context, 'Pre-Sale Closes In').paddingBottom(MyTheme.elementSpacing),
+        _subtitle(context, 'Pre-Sale Registration Closes In').paddingBottom(MyTheme.elementSpacing),
         Countdown(
           width: 416,
           height: getValueForScreenType(context: context, mobile: 110, watch: 110, tablet: 150, desktop: 150),
