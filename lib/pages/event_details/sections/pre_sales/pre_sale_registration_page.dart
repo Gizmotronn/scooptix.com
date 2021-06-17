@@ -139,7 +139,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         Countdown(
           width: 416,
           height: getValueForScreenType(context: context, mobile: 110, watch: 110, tablet: 150, desktop: 150),
-          duration: widget.event.date.difference(DateTime.now()),
+          duration: widget.event.preSale.registrationEndDate.difference(DateTime.now()),
         ).paddingBottom(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing),
         state is StateLoading
             ? Container(child: Center(child: AppolloProgressIndicator()).paddingAll(8))

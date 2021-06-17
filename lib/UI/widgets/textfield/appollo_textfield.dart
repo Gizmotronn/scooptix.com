@@ -217,6 +217,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                       color:
                           textFieldState == AppolloTextFieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
                   enabledBorder: InputBorder.none,
+                  focusedErrorBorder: InputBorder.none,
                   labelText: widget.labelText,
                   labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
                   disabledBorder: InputBorder.none,
