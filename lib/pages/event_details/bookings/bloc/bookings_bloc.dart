@@ -24,6 +24,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
   Stream<BookingsState> _loadBookingData(Event event) async* {
     yield StateLoading();
     BookingData booking = await BirthdayListRepository.instance.loadBookingData(event);
+    print(booking);
     if (booking != null) {
       yield StateBookingData(booking);
     } else {

@@ -30,7 +30,8 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
     yield StateLoading();
     BirthdayList bDayList = await BirthdayListRepository.instance.loadExistingList(event.docID);
     if (bDayList == null) {
-      if (UserRepository.instance.currentUser().dob.difference(event.date).inDays.abs() % 365.25 > 14) {
+      if (UserRepository.instance.currentUser().dob.difference(event.date).inDays.abs() % 365.25 > 14 &&
+          UserRepository.instance.currentUser().dob.difference(event.date).inDays.abs() % 365.25 - 365.25 < -14) {
         yield StateTooFarAway();
       } else {
         yield StateNoList();

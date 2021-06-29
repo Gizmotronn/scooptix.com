@@ -7,4 +7,6 @@ class OverviewLinkType extends LinkType {
   static String toDBString() {
     return "overview";
   }
+
+  String get dbString => "overview";
 }

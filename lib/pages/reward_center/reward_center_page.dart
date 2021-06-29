@@ -97,16 +97,16 @@ class _RewardCenterState extends State<RewardCenterPage> {
                             color: MyTheme.appolloBackgroundColorLight,
                             onTap: () {
                               if (PlatformDetector.isMobile()) {
-                                Share.share("appollo.io/invite?id=${state.preSales[index].uuid}",
+                                Share.share("appollo.io?id=${state.preSales[index].uuid}",
                                     subject: 'Appollo Event Invitation');
                               } else {
-                                FlutterClipboard.copy("appollo.io/invite?id=${state.preSales[index].uuid}");
+                                FlutterClipboard.copy("appollo.io?id=${state.preSales[index].uuid}");
                               }
                             },
                             child: Align(
                               alignment: Alignment.centerLeft,
                               child: AutoSizeText(
-                                "appollo.io/invite?id=${state.preSales[index].uuid}",
+                                "appollo.io?id=${state.preSales[index].uuid}",
                                 style: MyTheme.textTheme.bodyText2,
                               ),
                             ),

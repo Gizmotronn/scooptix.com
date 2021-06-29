@@ -1,7 +1,8 @@
 import 'package:ticketapp/model/custom_event_info.dart';
+import 'package:ticketapp/model/link_type/invitation.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
-
+import 'package:ticketapp/repositories/link_repository.dart';
 import 'birthday_lists/birthday_event_data.dart';
 import 'release_manager.dart';
 import 'ticket_release.dart';
@@ -58,6 +59,31 @@ class Event {
 
   bool get preSaleEnabled => preSale != null && preSale.enabled;
   bool get preSaleAvailable => preSaleEnabled && preSale.registrationEndDate.isAfter(DateTime.now());
+
+  /// Returns a list of release managers only including managers that are valid for the current link type
+  /// For example: Tickets for Loyalty Member invites should not be shown to regular page visitors.
+  List<ReleaseManager> getLinkTypeValidReleaseManagers() {
+    List<ReleaseManager> validManagers = [];
+    releaseManagers.forEach((element) {
+      if (element.availableFor == null) {
+        validManagers.add(element);
+      } else {
+        if (LinkRepository.instance.linkType is Invitation) {
+          if (LinkRepository.instance.linkType.event.docID == this.docID) {
+            if (element.isAvailableFor(LinkRepository.instance.linkType.dbString)) {
+              validManagers.add(element);
+            }
+          }
+        } else {
+          if (element.isAvailableFor(LinkRepository.instance.linkType.dbString)) {
+            validManagers.add(element);
+          }
+        }
+      }
+    });
+
+    return validManagers;
+  }
 
   List<TicketRelease> getTicketReleases() {
     List<TicketRelease> release = [];

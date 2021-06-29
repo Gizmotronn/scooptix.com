@@ -76,23 +76,26 @@ class _EventTicketsState extends State<EventTickets> {
                           child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               padding: EdgeInsets.only(right: 6, left: 6),
-                              itemCount: widget.event.releaseManagers.length,
+                              itemCount: widget.event.getLinkTypeValidReleaseManagers().length,
                               itemBuilder: (c, index) {
                                 final Color color = ticketColor[index % ticketColor.length];
                                 return TicketCard(
-                                    release: widget.event.releaseManagers[index],
+                                    release: widget.event.getLinkTypeValidReleaseManagers()[index],
                                     color: color,
                                     onQuantityChanged: (q) {
                                       if (q == 0 &&
-                                          selectedTickets
-                                              .containsKey(widget.event.releaseManagers[index].getActiveRelease())) {
+                                          selectedTickets.containsKey(widget.event
+                                              .getLinkTypeValidReleaseManagers()[index]
+                                              .getActiveRelease())) {
                                         setState(() {
-                                          selectedTickets
-                                              .remove(widget.event.releaseManagers[index].getActiveRelease());
+                                          selectedTickets.remove(
+                                              widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease());
                                         });
                                       } else if (q != 0) {
                                         setState(() {
-                                          selectedTickets[widget.event.releaseManagers[index].getActiveRelease()] = q;
+                                          selectedTickets[widget.event
+                                              .getLinkTypeValidReleaseManagers()[index]
+                                              .getActiveRelease()] = q;
                                         });
                                       }
                                     });

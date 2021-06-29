@@ -88,19 +88,20 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
   }
 
   Widget buildTickets(BuildContext context) {
-    if (widget.event.releaseManagers.length == 1) {
+    if (widget.event.getLinkTypeValidReleaseManagers().length == 1) {
       return Center(
         child: TicketCard(
-            release: widget.event.releaseManagers[0],
+            release: widget.event.getLinkTypeValidReleaseManagers()[0],
             color: ticketColor[0],
             onQuantityChanged: (q) {
-              if (q == 0 && selectedTickets.containsKey(widget.event.releaseManagers[0].getActiveRelease())) {
+              if (q == 0 &&
+                  selectedTickets.containsKey(widget.event.getLinkTypeValidReleaseManagers()[0].getActiveRelease())) {
                 setState(() {
-                  selectedTickets.remove(widget.event.releaseManagers[0].getActiveRelease());
+                  selectedTickets.remove(widget.event.getLinkTypeValidReleaseManagers()[0].getActiveRelease());
                 });
               } else if (q != 0) {
                 setState(() {
-                  selectedTickets[widget.event.releaseManagers[0].getActiveRelease()] = q;
+                  selectedTickets[widget.event.getLinkTypeValidReleaseManagers()[0].getActiveRelease()] = q;
                 });
               }
               if (selectedTickets.isNotEmpty) {
@@ -131,20 +132,22 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
       return ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: EdgeInsets.only(right: 8),
-          itemCount: widget.event.releaseManagers.length,
+          itemCount: widget.event.getLinkTypeValidReleaseManagers().length,
           itemBuilder: (c, index) {
             final Color color = ticketColor[index % ticketColor.length];
             return TicketCard(
-                release: widget.event.releaseManagers[index],
+                release: widget.event.getLinkTypeValidReleaseManagers()[index],
                 color: color,
                 onQuantityChanged: (q) {
-                  if (q == 0 && selectedTickets.containsKey(widget.event.releaseManagers[index].getActiveRelease())) {
+                  if (q == 0 &&
+                      selectedTickets
+                          .containsKey(widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease())) {
                     setState(() {
-                      selectedTickets.remove(widget.event.releaseManagers[index].getActiveRelease());
+                      selectedTickets.remove(widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease());
                     });
                   } else if (q != 0) {
                     setState(() {
-                      selectedTickets[widget.event.releaseManagers[index].getActiveRelease()] = q;
+                      selectedTickets[widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease()] = q;
                     });
                   }
                   if (selectedTickets.isNotEmpty) {

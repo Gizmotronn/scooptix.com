@@ -9,4 +9,6 @@ class RecurringEventLinkType extends LinkType {
   static String toDBString() {
     return "recurring_event";
   }
+
+  String get dbString => "recurring_event";
 }

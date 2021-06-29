@@ -31,7 +31,7 @@ class _TicketCardState extends State<TicketCard> {
         children: [
           _header(context, text: widget.release.name ?? '', color: widget.color),
           _content(context),
-          if (widget.release.getActiveRelease() != null) _incrementPurchaseQuatity(),
+          if (widget.release.getActiveRelease() != null) _incrementPurchaseQuantity(),
         ],
       ),
     ).paddingVertical(16).paddingLeft(10);
@@ -158,7 +158,7 @@ class _TicketCardState extends State<TicketCard> {
         ),
       );
 
-  Widget _incrementPurchaseQuatity() => Row(
+  Widget _incrementPurchaseQuantity() => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text('Purchase Quantity'),

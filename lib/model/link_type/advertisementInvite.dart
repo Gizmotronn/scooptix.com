@@ -7,4 +7,6 @@ class AdvertisementLink extends LinkType {
   static String toDBString() {
     return "advertisement";
   }
+
+  String get dbString => "advertisement";
 }

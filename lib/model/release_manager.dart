@@ -16,7 +16,18 @@ class ReleaseManager {
   List<String> excludedPerks = [];
   String recurringUUID;
 
+  /// Stores the link types this release is available for
+  List<String> availableFor;
+
   ReleaseManager._();
+
+  bool isAvailableFor(String linkType) {
+    if (availableFor == null || availableFor.contains(linkType)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   TicketRelease getActiveRelease() {
     // Sort by earliest release start first
@@ -97,6 +108,12 @@ class ReleaseManager {
       }
       if (data.containsKey("recurring_uuid")) {
         rm.recurringUUID = data["recurring_uuid"];
+      }
+      if (data.containsKey("available_for")) {
+        rm.availableFor = [];
+        data["available_for"].forEach((e) {
+          rm.availableFor.add(e);
+        });
       }
     } catch (e, s) {
       BugsnagNotifier.instance.notify("Error loading release manager \n $e", s, severity: ErrorSeverity.error);
