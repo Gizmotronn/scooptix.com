@@ -73,33 +73,42 @@ class _EventTicketsState extends State<EventTickets> {
                           text: "${fullDateWithYear(widget.event.date)} - ${time(widget.event.endTime)}"),
                       Expanded(
                         child: Container(
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              padding: EdgeInsets.only(right: 6, left: 6),
-                              itemCount: widget.event.getLinkTypeValidReleaseManagers().length,
-                              itemBuilder: (c, index) {
-                                final Color color = ticketColor[index % ticketColor.length];
-                                return TicketCard(
-                                    release: widget.event.getLinkTypeValidReleaseManagers()[index],
-                                    color: color,
-                                    onQuantityChanged: (q) {
-                                      if (q == 0 &&
-                                          selectedTickets.containsKey(widget.event
-                                              .getLinkTypeValidReleaseManagers()[index]
-                                              .getActiveRelease())) {
-                                        setState(() {
-                                          selectedTickets.remove(
-                                              widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease());
+                          child: widget.event.getLinkTypeValidReleaseManagers().length == 0
+                              ? Center(
+                                  child: Text(
+                                    "There are no tickets available for purchase online.\n\nTickets might be sold at the door or be available by invitation or through bookings.",
+                                    textAlign: TextAlign.center,
+                                    style: MyTheme.textTheme.bodyText1,
+                                  ),
+                                )
+                              : ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: EdgeInsets.only(right: 6, left: 6),
+                                  itemCount: widget.event.getLinkTypeValidReleaseManagers().length,
+                                  itemBuilder: (c, index) {
+                                    final Color color = ticketColor[index % ticketColor.length];
+                                    return TicketCard(
+                                        release: widget.event.getLinkTypeValidReleaseManagers()[index],
+                                        color: color,
+                                        onQuantityChanged: (q) {
+                                          if (q == 0 &&
+                                              selectedTickets.containsKey(widget.event
+                                                  .getLinkTypeValidReleaseManagers()[index]
+                                                  .getActiveRelease())) {
+                                            setState(() {
+                                              selectedTickets.remove(widget.event
+                                                  .getLinkTypeValidReleaseManagers()[index]
+                                                  .getActiveRelease());
+                                            });
+                                          } else if (q != 0) {
+                                            setState(() {
+                                              selectedTickets[widget.event
+                                                  .getLinkTypeValidReleaseManagers()[index]
+                                                  .getActiveRelease()] = q;
+                                            });
+                                          }
                                         });
-                                      } else if (q != 0) {
-                                        setState(() {
-                                          selectedTickets[widget.event
-                                              .getLinkTypeValidReleaseManagers()[index]
-                                              .getActiveRelease()] = q;
-                                        });
-                                      }
-                                    });
-                              }),
+                                  }),
                         ),
                       ),
                     ],
@@ -137,10 +146,8 @@ class _EventTicketsState extends State<EventTickets> {
       child: Center(
         child: Text(
           text,
-          style: Theme.of(context)
-              .textTheme
-              .headline4
-              .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor),
+          style:
+              MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor),
         ).paddingVertical(8),
       ),
     );
