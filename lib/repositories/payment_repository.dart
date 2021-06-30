@@ -16,7 +16,6 @@ class PaymentRepository {
   static PaymentRepository get instance {
     if (_instance == null) {
       _instance = new PaymentRepository._();
-      _instance.releaseDataUpdatedStream = StreamController.broadcast();
       Stripe.init(
           "pk_test_51HFJF6CE1hbokQY3T40M55NEswDQti67gfDeSVUTvymGQI5TnDeesnK0n0R1lYLn0B09at5jPgeHebh65bMCtGwL00RipFf2qB",
           returnUrlForSca: "https://appollo.io/success");
@@ -34,7 +33,6 @@ class PaymentRepository {
   dispose() {
     clear();
     releaseDataUpdatedStream.close();
-    _instance = null;
   }
 
   PaymentRepository._();
@@ -44,7 +42,7 @@ class PaymentRepository {
   String last4;
   bool saveCreditCard = false;
 
-  StreamController<bool> releaseDataUpdatedStream;
+  StreamController<bool> releaseDataUpdatedStream = StreamController.broadcast();
 
   /// Checks if the payment is valid an confirms the payment with stripe.
   /// Ticket creation and final validity check are handled by the stripe webhook CF

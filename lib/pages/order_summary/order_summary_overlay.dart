@@ -251,8 +251,8 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
       return 0.0;
     } else {
       double fee = subtotal / 100 * widget.event.feePercent / 100;
-      if (fee < 1.0) {
-        fee = 1.0;
+      if (fee < 0.5) {
+        fee = 0.5;
       }
       return fee;
     }
