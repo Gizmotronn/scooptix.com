@@ -110,7 +110,6 @@ class _PaymentPageState extends State<PaymentPage> {
             }
           },
           builder: (c, state) {
-            print(state);
             if (state is StatePaymentError) {
               return Column(
                 children: [

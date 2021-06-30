@@ -49,7 +49,7 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
         .createOrLoadUUIDMap(event, UserRepository.instance.currentUser().firebaseUserID, "", numGuests);
     // Issue ticket for list creator
     // TODO: select correct ticket release
-    TicketRepository.instance.issueTickets(event, event.getManagersWithActiveReleases()[0].getActiveRelease(), 1, null);
+    TicketRepository.instance.acceptInvitation(event, event.getManagersWithActiveReleases()[0].getActiveRelease());
     yield StateExistingList(BirthdayList()
       ..uuid = uuid
       ..estGuests = numGuests
