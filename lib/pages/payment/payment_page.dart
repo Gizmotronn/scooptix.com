@@ -137,47 +137,51 @@ class _PaymentPageState extends State<PaymentPage> {
                 ),
               );
             } else if (state is StatePaymentOptionAvailable) {
-              return SingleChildScrollView(
-                child: Column(
-                  children: [
-                    _buildPaymentWidgets(state),
-                    if (state is! StateFreeTicketSelected) _buildAddPaymentWidget(state),
-                    Column(
-                      children: [
-                        _buildTAndC().paddingBottom(MyTheme.elementSpacing),
-                        SizedBox(
-                          width: MyTheme.drawerSize,
-                          child: AppolloButton.regularButton(
-                            onTap: state is! StateFreeTicketSelected &&
-                                    PaymentRepository.instance.paymentMethodId == null
-                                ? null
-                                : () {
-                                    if (_termsConditions) {
-                                      if (state is StateFreeTicketSelected) {
-                                        bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
-                                      } else {
-                                        bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
-                                      }
+              return Column(
+                children: [
+                  _buildPaymentWidgets(state),
+                  if (state is! StateFreeTicketSelected) _buildAddPaymentWidget(state),
+                  Column(
+                    children: [
+                      _buildTAndC().paddingBottom(MyTheme.elementSpacing),
+                      SizedBox(
+                        width: MyTheme.drawerSize,
+                        child: AppolloButton.regularButton(
+                          onTap: state is! StateFreeTicketSelected && PaymentRepository.instance.paymentMethodId == null
+                              ? () {
+                                  AlertGenerator.showAlert(
+                                      context: WrapperPage.mainScaffold.currentContext,
+                                      title: "Missing Payment Method",
+                                      content: "Please add a payment method before proceeding",
+                                      buttonText: "Ok",
+                                      popTwice: false);
+                                }
+                              : () {
+                                  if (_termsConditions) {
+                                    if (state is StateFreeTicketSelected) {
+                                      bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
                                     } else {
-                                      AlertGenerator.showAlert(
-                                          context: WrapperPage.mainScaffold.currentContext,
-                                          title: "Please accept our T & C",
-                                          content:
-                                              "To proceed with your purchase, you have to agree to our terms and conditions",
-                                          buttonText: "Ok",
-                                          popTwice: false);
+                                      bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
                                     }
-                                  },
-                            child: Text(
-                              "PURCHASE",
-                              style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
-                            ),
+                                  } else {
+                                    AlertGenerator.showAlert(
+                                        context: WrapperPage.mainScaffold.currentContext,
+                                        title: "Please accept our T & C",
+                                        content:
+                                            "To proceed with your purchase, you have to agree to our terms and conditions",
+                                        buttonText: "Ok",
+                                        popTwice: false);
+                                  }
+                                },
+                          child: Text(
+                            "PURCHASE",
+                            style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               );
             } else if (state is StateFreeTicketAlreadyOwned) {
               return Text("You already own a free ticket for this event. Free Tickets are limited to 1 per customer.");
@@ -233,7 +237,23 @@ class _PaymentPageState extends State<PaymentPage> {
     return ResponsiveBuilder(builder: (context, constraints) {
       if (constraints.deviceScreenType == DeviceScreenType.mobile ||
           constraints.deviceScreenType == DeviceScreenType.watch) {
-        return data;
+        return SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: widget.maxHeight,
+          child: SingleChildScrollView(
+              child: Column(
+            children: [
+              // Makes padding scroll probably
+              SizedBox(
+                height: MyTheme.elementSpacing,
+              ),
+              data,
+              SizedBox(
+                height: MyTheme.elementSpacing,
+              ),
+            ],
+          )),
+        );
       } else {
         return SizedBox(
           width: MyTheme.drawerSize,
@@ -544,6 +564,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         labelText: "Credit Card Number",
                         validator: (v) => v.length != 16 ? "Please enter a valid credit card number" : null,
                         autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
+                        keyboardType: TextInputType.number,
                         inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
                         controller: _ccnumberController,
                         onChanged: (v) {
@@ -565,6 +586,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             child: AppolloTextField(
                               textFieldType: TextFieldType.regular,
                               labelText: "MM",
+                              keyboardType: TextInputType.number,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,
                                 LengthLimitingTextInputFormatter(2)
@@ -584,6 +606,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             child: AppolloTextField(
                               textFieldType: TextFieldType.regular,
                               labelText: "YY",
+                              keyboardType: TextInputType.number,
                               onChanged: (v) {
                                 if (v.length == 2) {
                                   focusCVC.requestFocus();
@@ -603,6 +626,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             child: AppolloTextField(
                               textFieldType: TextFieldType.regular,
                               labelText: "CVC",
+                              keyboardType: TextInputType.number,
                               focusNode: focusCVC,
                               inputFormatters: [
                                 FilteringTextInputFormatter.digitsOnly,

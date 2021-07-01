@@ -79,7 +79,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(MyTheme.elementSpacing),
+        padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
         child: PaymentPage(
           widget.event,
           discount: widget.discount,
