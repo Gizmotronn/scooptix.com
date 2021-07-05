@@ -135,7 +135,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                 "There are no tickets available for purchase online.\n\nTickets might be sold at the door or be available by invitation or through bookings.",
                 textAlign: TextAlign.center,
                 style: MyTheme.textTheme.bodyText1,
-              ),
+              ).paddingLeft(MyTheme.elementSpacing).paddingRight(MyTheme.elementSpacing),
             )
           : ListView.builder(
               scrollDirection: Axis.horizontal,

@@ -28,16 +28,13 @@ class _EventDetailsMobilePageState extends State<EventDetailsMobilePage> {
           EventDetailBackground(coverImageURL: widget.event.coverImageURL),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: SingleChildScrollView(
-              controller: widget.scrollController,
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: EventDataMobile(
-                  event: widget.event,
-                  organizer: widget.organizer,
-                  scrollController: widget.scrollController,
-                  bloc: widget.bloc,
-                ),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: EventDataMobile(
+                event: widget.event,
+                organizer: widget.organizer,
+                scrollController: widget.scrollController,
+                bloc: widget.bloc,
               ),
             ),
           ),

@@ -35,32 +35,35 @@ class _EventDataMobileState extends State<EventDataMobile> {
 
   Widget _mainBody(BuildContext context, Size screenSize) {
     return Container(
-      child: Column(
-        children: [
-          AppolloAppBar(
-            backgroundColor: MyTheme.appolloBackgroundColorLight,
-          ).paddingBottom(MyTheme.elementSpacing),
-          _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
-          EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
-          if (widget.event.preSaleEnabled)
-            PreSaleRegistrationPage(
+      child: SingleChildScrollView(
+        controller: widget.scrollController,
+        child: Column(
+          children: [
+            AppolloAppBar(
+              backgroundColor: MyTheme.appolloBackgroundColorLight,
+            ).paddingBottom(MyTheme.elementSpacing),
+            _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
+            EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
+            if (widget.event.preSaleEnabled)
+              PreSaleRegistrationPage(
+                event: widget.event,
+                scrollController: widget.scrollController,
+              ),
+            EventTicketsMobile(
               event: widget.event,
               scrollController: widget.scrollController,
             ),
-          EventTicketsMobile(
-            event: widget.event,
-            scrollController: widget.scrollController,
-          ),
-          if (widget.event.allowsBirthdaySignUps) MakeBooking(event: widget.event),
-          EventGallary(event: widget.event)
-              .paddingBottom(MyTheme.elementSpacing)
-              .paddingHorizontal(MyTheme.elementSpacing),
-          SimilarOtherEvents(event: widget.event)
-              .paddingBottom(MyTheme.elementSpacing * 3)
-              .paddingHorizontal(MyTheme.elementSpacing),
-        ],
-      ).paddingBottom(MyTheme.elementSpacing),
-    ).appolloBlurCard(color: MyTheme.appolloBackgroundColorLight);
+            if (widget.event.allowsBirthdaySignUps) MakeBooking(event: widget.event),
+            EventGallary(event: widget.event)
+                .paddingBottom(MyTheme.elementSpacing)
+                .paddingHorizontal(MyTheme.elementSpacing),
+            SimilarOtherEvents(event: widget.event)
+                .paddingBottom(MyTheme.elementSpacing * 3)
+                .paddingHorizontal(MyTheme.elementSpacing),
+          ],
+        ).paddingBottom(MyTheme.elementSpacing),
+      ),
+    ).appolloBlurCard(color: MyTheme.appolloBackgroundColorLight, borderRadius: BorderRadius.circular(0));
   }
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {
