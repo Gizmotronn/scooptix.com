@@ -227,7 +227,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
 
   Widget _appolloCreateEventDropDown(BuildContext context) {
     return Container(
-        child: CustomDropdown(
+        child: AppolloDropdown(
       item: createEventOptions,
       title: 'Create an Event',
       onChange: (s, v) {
@@ -238,7 +238,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   }
 
   Widget _appolloHelpDropDown(BuildContext context) => Container(
-        child: CustomDropdown(
+        child: AppolloDropdown(
           title: 'Help',
           width: 100,
           item: helpOptions,

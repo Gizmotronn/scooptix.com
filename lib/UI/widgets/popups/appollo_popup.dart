@@ -8,19 +8,19 @@ import '../../theme.dart';
 
 typedef OnChange = Function(String title, int index);
 
-class CustomDropdown extends StatefulWidget {
+class AppolloDropdown extends StatefulWidget {
   final String title;
   final double width;
   final OnChange onChange;
   final List<Menu> item;
 
-  CustomDropdown({Key key, this.title, this.width = 3.5, @required this.item, this.onChange}) : super(key: key);
+  AppolloDropdown({Key key, this.title, this.width = 3.5, @required this.item, this.onChange}) : super(key: key);
 
   @override
-  _CustomDropdownState createState() => _CustomDropdownState();
+  _AppolloDropdownState createState() => _AppolloDropdownState();
 }
 
-class _CustomDropdownState extends State<CustomDropdown> {
+class _AppolloDropdownState extends State<AppolloDropdown> {
   bool _isExpanded = false;
   bool _isHover = false;
   OverlayEntry _overlayEntry;
@@ -56,7 +56,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
             left: widgetOffset.dx,
             width: widgetSize.width + widget.width,
             top: widgetOffset.dy - 1,
-            child: AppolloDropdown(
+            child: AppolloDropdownContent(
               title: widget.title,
               onChange: widget.onChange,
               isExpanded: _isExpanded,
@@ -136,14 +136,14 @@ class _CustomDropdownState extends State<CustomDropdown> {
   }
 }
 
-class AppolloDropdown extends StatefulWidget {
+class AppolloDropdownContent extends StatefulWidget {
   final String title;
   final bool isExpanded;
   final Function onTap;
   final List<Menu> items;
   final OnChange onChange;
 
-  const AppolloDropdown({
+  const AppolloDropdownContent({
     Key key,
     @required this.title,
     @required this.isExpanded,
@@ -153,10 +153,10 @@ class AppolloDropdown extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _AppolloDropdownState createState() => _AppolloDropdownState();
+  _AppolloDropdownContentState createState() => _AppolloDropdownContentState();
 }
 
-class _AppolloDropdownState extends State<AppolloDropdown> {
+class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
   bool _isHover = false;
 
   @override

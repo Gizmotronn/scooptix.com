@@ -1,6 +1,7 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
@@ -68,8 +69,10 @@ class _EventDataState extends State<EventData> {
     Future.delayed(Duration(milliseconds: 1)).then((_) {
       EventDetailPage.fab.value = InkWell(
         onTap: () {
-          widget.scrollController
-              .animateTo(positions[0] - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+          widget.scrollController.animateTo(
+              positions[0] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
+              duration: MyTheme.animationDuration,
+              curve: Curves.easeIn);
         },
         child: Container(
           decoration: BoxDecoration(
@@ -142,7 +145,7 @@ class _EventDataState extends State<EventData> {
         mainText: "Register for Pre-Sale",
         buttonText: "Register",
         scrollController: widget.scrollController,
-        offset: positions[2] - 90,
+        offset: positions[2] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
       );
     } else {
       return EventDetailNavbar(
@@ -150,7 +153,7 @@ class _EventDataState extends State<EventData> {
         mainText: widget.event.name,
         buttonText: "Get Tickets",
         scrollController: widget.scrollController,
-        offset: positions[3] - 90,
+        offset: positions[3] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
       );
     }
   }
