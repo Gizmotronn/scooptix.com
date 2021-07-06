@@ -147,7 +147,7 @@ class _EventDataState extends State<EventData> {
         scrollController: widget.scrollController,
         offset: positions[2] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
       );
-    } else if(event.getLinkTypeValidReleaseManagers().length > 0) {
+    } else if (event.getLinkTypeValidReleaseManagers().length > 0) {
       return EventDetailNavbar(
         imageURL: event.coverImageURL,
         mainText: widget.event.name,

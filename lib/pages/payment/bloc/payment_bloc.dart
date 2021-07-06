@@ -55,7 +55,11 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (response != null) {
         if (response.statusCode == 200) {
           PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-          yield* _confirmPayment(freeReleases: freeReleases, event: event);
+          yield* _confirmPayment(
+              freeReleases: freeReleases,
+              event: event,
+              ticketQuantity:
+                  paidReleases.values.fold(0, (a, b) => a + b) + freeReleases.values.fold(0, (a, b) => a + b));
         } else {
           yield StatePaymentError("An unknown error occurred. Please try again.");
         }
@@ -68,7 +72,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
     }
   }
 
-  Stream<PaymentState> _confirmPayment({Map<TicketRelease, int> freeReleases, Event event}) async* {
+  Stream<PaymentState> _confirmPayment(
+      {Map<TicketRelease, int> freeReleases, Event event, int ticketQuantity = 1}) async* {
     assert(freeReleases == null || (freeReleases != null && event != null));
 
     String errorMessage = "An unknown error occurred. Please try again.";
@@ -78,6 +83,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (result == null) {
         yield StatePaymentError(errorMessage);
       } else if (result["status"] == "succeeded") {
+        TicketRepository.instance.incrementLinkTicketsBoughtCounter(event, ticketQuantity);
         PaymentRepository.instance.releaseDataUpdatedStream.add(true);
         // If there were free tickets to process as well, do this here.
         // This assures that free tickets are only issued if the paid tickets were issued successfully.

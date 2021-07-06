@@ -152,6 +152,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                       return false;
                     }
                   },
+                  autofocus: widget.autofocus ?? false,
                   obscureText: widget.obscureText,
                   style: MyTheme.textTheme.bodyText1,
                   decoration: InputDecoration(
