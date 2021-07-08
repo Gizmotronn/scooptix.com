@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
 import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
@@ -37,45 +38,55 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
 
   OverlayEntry _createDrop() {
     return OverlayEntry(builder: (context) {
-      return Stack(
-        children: [
-          GestureDetector(
-            onTap: () {
-              _overlayEntry.remove();
-              setState(() {
-                _isExpanded = false;
-              });
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
-              color: Colors.transparent,
-            ),
-          ),
-          Positioned(
-            left: widgetOffset.dx,
-            width: widgetSize.width + widget.width,
-            top: widgetOffset.dy - 1,
-            child: AppolloDropdownContent(
-              title: widget.title,
-              onChange: widget.onChange,
-              isExpanded: _isExpanded,
-              items: widget.item,
+      return Listener(
+        onPointerSignal: (signal) {
+          if (signal is PointerScrollEvent) {
+            _overlayEntry.remove();
+            setState(() {
+              _isExpanded = false;
+            });
+          }
+        },
+        child: Stack(
+          children: [
+            GestureDetector(
               onTap: () {
+                _overlayEntry.remove();
                 setState(() {
-                  if (_isExpanded) {
-                    _overlayEntry.remove();
-                  } else {
-                    _getWidgetInfo();
-                    _overlayEntry = _createDrop();
-                    Overlay.of(context).insert(_overlayEntry);
-                  }
-                  _isExpanded = !_isExpanded;
+                  _isExpanded = false;
                 });
               },
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.width,
+                color: Colors.transparent,
+              ),
             ),
-          ),
-        ],
+            Positioned(
+              left: widgetOffset.dx,
+              width: widgetSize.width + widget.width,
+              top: widgetOffset.dy - 1,
+              child: AppolloDropdownContent(
+                title: widget.title,
+                onChange: widget.onChange,
+                isExpanded: _isExpanded,
+                items: widget.item,
+                onTap: () {
+                  setState(() {
+                    if (_isExpanded) {
+                      _overlayEntry.remove();
+                    } else {
+                      _getWidgetInfo();
+                      _overlayEntry = _createDrop();
+                      Overlay.of(context).insert(_overlayEntry);
+                    }
+                    _isExpanded = !_isExpanded;
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
       );
     });
   }
