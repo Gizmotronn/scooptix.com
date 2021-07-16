@@ -122,7 +122,7 @@ class EventsRepository {
         .where("date",
             isGreaterThanOrEqualTo:
                 DateTime.now().subtract(Duration(hours: 8))) 
-    .where("status", isEqualTo: "published")// Also include events that have recently started
+    .where("status", whereIn: ["published", "live"])// Also include events that have recently started
         //.limit(10) // if there are a lot of events, it might make sense to limit the number of events loaded here and load them incrementally when needed.
         .get();
     await Future.wait(eventsSnapshot.docs.map((e) async {
