@@ -219,7 +219,7 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
                         (index) => InkWell(
                           onTap: () {},
                           onTapDown: (v) {
-                            if (widget.onChange(widget.items[index].title, index) != null) {
+                            if (widget.onChange != null) {
                               widget.onChange(widget.items[index].title, index);
                             }
                           },

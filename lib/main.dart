@@ -110,7 +110,8 @@ class _WrapperPageState extends State<WrapperPage> {
       behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
         PointerDeviceKind.touch,
         PointerDeviceKind.mouse,
-      }),child: Scaffold(
+      }),
+      child: Scaffold(
           bottomNavigationBar: _buildBottomNavBar(),
           key: WrapperPage.mainScaffold,
           onEndDrawerChanged: (d) {
