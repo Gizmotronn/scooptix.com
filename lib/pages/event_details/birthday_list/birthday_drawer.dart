@@ -134,16 +134,16 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       color: MyTheme.appolloBackgroundColorLight,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
-                                          Share.share("appollo.io?id=${state.birthdayList.uuid}",
+                                          Share.share("appollo.io/?id=${state.birthdayList.uuid}",
                                               subject: 'Appollo Event Invitation');
                                         } else {
-                                          FlutterClipboard.copy("appollo.io?id=${state.birthdayList.uuid}");
+                                          FlutterClipboard.copy("appollo.io/?id=${state.birthdayList.uuid}");
                                         }
                                       },
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: AutoSizeText(
-                                          "appollo.io?id=${state.birthdayList.uuid}",
+                                          "appollo.io/?id=${state.birthdayList.uuid}",
                                           style: MyTheme.textTheme.bodyText2,
                                         ),
                                       ),

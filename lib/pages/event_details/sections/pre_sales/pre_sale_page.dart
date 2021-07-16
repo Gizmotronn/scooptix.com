@@ -78,15 +78,15 @@ class PreSalePage extends StatelessWidget {
                 color: MyTheme.appolloBottomBarColor.withAlpha(150),
                 onTap: () {
                   if (PlatformDetector.isMobile()) {
-                    Share.share("appollo.io?id=${state.preSale.uuid}", subject: 'Appollo Event Invitation');
+                    Share.share("appollo.io/?id=${state.preSale.uuid}", subject: 'Appollo Event Invitation');
                   } else {
-                    FlutterClipboard.copy("appollo.io?id=${state.preSale.uuid}");
+                    FlutterClipboard.copy("appollo.io/?id=${state.preSale.uuid}");
                   }
                 },
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
-                    "appollo.io?id=${state.preSale.uuid}",
+                    "appollo.io/?id=${state.preSale.uuid}",
                     style: MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloGrey),
                   ),
                 ),

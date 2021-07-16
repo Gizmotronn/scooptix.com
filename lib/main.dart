@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -105,39 +106,44 @@ class _WrapperPageState extends State<WrapperPage> {
         mobile: MyTheme.mobileTextTheme,
         tablet: MyTheme.textTheme,
         desktop: MyTheme.textTheme);
-    return Scaffold(
-        bottomNavigationBar: _buildBottomNavBar(),
-        key: WrapperPage.mainScaffold,
-        onEndDrawerChanged: (d) {
-          setState(() {
-            WrapperPage.drawerOpen = d;
-          });
-        },
-        endDrawer: ValueListenableBuilder(
-            valueListenable: WrapperPage.endDrawer,
-            builder: (context, value, child) {
-              if (value != null) {
-                return value;
-              } else {
-                return SizedBox.shrink();
-              }
-            }),
-        body: Stack(
-          children: [
-            WillPopScope(
-              onWillPop: () async {
-                WrapperPage.navigatorKey.currentState.maybePop();
-                return false;
-              },
-              child: Navigator(
-                key: WrapperPage.navigatorKey,
-                initialRoute: LandingPage.routeName,
-                onGenerateRoute: GeneratedRoute.onGenerateRoute,
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      }),child: Scaffold(
+          bottomNavigationBar: _buildBottomNavBar(),
+          key: WrapperPage.mainScaffold,
+          onEndDrawerChanged: (d) {
+            setState(() {
+              WrapperPage.drawerOpen = d;
+            });
+          },
+          endDrawer: ValueListenableBuilder(
+              valueListenable: WrapperPage.endDrawer,
+              builder: (context, value, child) {
+                if (value != null) {
+                  return value;
+                } else {
+                  return SizedBox.shrink();
+                }
+              }),
+          body: Stack(
+            children: [
+              WillPopScope(
+                onWillPop: () async {
+                  WrapperPage.navigatorKey.currentState.maybePop();
+                  return false;
+                },
+                child: Navigator(
+                  key: WrapperPage.navigatorKey,
+                  initialRoute: LandingPage.routeName,
+                  onGenerateRoute: GeneratedRoute.onGenerateRoute,
+                ),
               ),
-            ),
-            WrapperPage.drawerOpen ? BlurBackground() : SizedBox(),
-          ],
-        ));
+              WrapperPage.drawerOpen ? BlurBackground() : SizedBox(),
+            ],
+          )),
+    );
   }
 
   Widget _buildBottomNavBar() {
