@@ -3,6 +3,7 @@ class Organizer {
   String lastName;
   String description;
   String coverImage = "";
+  String organizationName = "";
 
   Organizer._();
 
@@ -28,6 +29,9 @@ class Organizer {
     }
     if (data.containsKey("description")) {
       organizer.description = data["description"];
+    }
+    if (data.containsKey("name")) {
+      organizer.organizationName = data["name"];
     }
 
     return organizer;

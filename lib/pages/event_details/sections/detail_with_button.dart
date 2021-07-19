@@ -62,7 +62,7 @@ class EventInfo extends StatelessWidget {
                       text: 'Organised by',
                       children: [
                         TextSpan(
-                            text: ' ${organizer?.getFullName() ?? ''}',
+                            text: ' ${organizer?.organizationName}',
                             style: MyTheme.textTheme.subtitle1
                                 .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
                       ],

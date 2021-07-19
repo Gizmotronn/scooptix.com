@@ -50,7 +50,7 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
                   text: 'Organised by',
                   children: [
                     TextSpan(
-                        text: ' ${widget.organizer?.getFullName() ?? ''}',
+                        text: ' ${widget.organizer?.organizationName}',
                         style: MyTheme.textTheme.subtitle1
                             .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
                   ],
