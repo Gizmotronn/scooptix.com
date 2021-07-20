@@ -105,8 +105,8 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
       return SizedBox.shrink();
     }
     final screenSize = MediaQuery.of(context).size;
-    final height = screenSize.height * 0.4;
-    final width = MyTheme.maxWidth * 0.75;
+    final double height = 380;
+    final width = MyTheme.maxWidth * 0.9;
 
     return VisibilityDetector(
       onVisibilityChanged: (VisibilityInfo info) {
@@ -129,11 +129,11 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
               children: [
                 Container(
                   height: height,
-                  width: width,
+                  // width: width,
                   child: Row(
                     children: [
-                      Expanded(flex: 2, child: _inComingEvents()),
-                      Expanded(flex: 7, child: _heroEvent()),
+                      SizedBox(height: 380, width: 190, child: _inComingEvents()),
+                      SizedBox(height: 380, child: AspectRatio(aspectRatio: 1.9, child: _heroEvent())),
                     ],
                   ),
                 ).paddingAll(16),
@@ -144,7 +144,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
   }
 
   Widget _buildFeaturedText(Size screenSize) {
-    final featureEventCardHeight = screenSize.height * 0.4;
+    final featureEventCardHeight = 380;
 
     return AnimatedPositioned(
       duration: MyTheme.animationDuration,
@@ -169,6 +169,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
 
   Widget _heroEvent() => Builder(
         builder: (context) {
+          final double featureEventCardHeight = 380;
           return FadeTransition(
             opacity: _fadeAnimation,
             child: ScaleTransition(
@@ -179,7 +180,9 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
                       arg: event.docID, queryParams: {'id': event.docID});
                 },
                 child: Container(
-                  child: ExpandImageCard(imageUrl: event?.coverImageURL).paddingAll(2.5),
+                  height: featureEventCardHeight,
+                  child: AspectRatio(
+                      aspectRatio: 1.9, child: ExpandImageCard(imageUrl: event?.coverImageURL).paddingAll(2.5)),
                 ),
               ),
             ),
@@ -188,7 +191,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
       );
 
   Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
-    final featureEventCardHeight = MediaQuery.of(context).size.height * 0.4;
+    final featureEventCardHeight = 380;
     return FadeTransition(
       opacity: animation,
       child: Container(

@@ -127,7 +127,9 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
                     ),
                   ),
             _buildButton(),
-            SizedBox(height: 50, child: _inComingEvents(context)).paddingBottom(16).paddingHorizontal(16),
+            SizedBox(height: MediaQuery.of(context).size.width / 4 / 1.9, child: _inComingEvents(context))
+                .paddingBottom(16)
+                .paddingHorizontal(16),
           ]),
         );
       }),
@@ -173,10 +175,13 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
               end: _animationController.status == AnimationStatus.forward && index == 0 ? Offset(-5, 0) : Offset(0, 0))
           .animate(_animationController),
       child: SizedBox(
-        width: size.width * 0.233,
-        child: ExpandImageCard(
-          imageUrl: events[index].coverImageURL,
-        ).paddingRight(4).paddingLeft(index == 4 ? 30 : 0),
+        width: size.width * 0.25 - 8,
+        child: AspectRatio(
+          aspectRatio: 1.9,
+          child: ExpandImageCard(
+            imageUrl: events[index].coverImageURL,
+          ).paddingRight(index == 3 ? 0 : 8),
+        ),
       ),
     );
   }

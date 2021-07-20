@@ -130,7 +130,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         yield StateErrorSignUp(SignUpError.Unknown);
         yield StateInitial();
       }
-    } catch (e, s) {
+    } catch (e) {
       if (retry) {
         yield* _signInWithGoogle(retry: false);
       } else {
