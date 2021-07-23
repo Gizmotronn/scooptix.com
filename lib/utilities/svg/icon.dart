@@ -4,7 +4,6 @@ class AppolloSvgIcon {
   static String arrowdown = 'assets/icons/arrow-ios-downward-outline.svg';
   static String arrowup = 'assets/icons/arrow-ios-upward-outline.svg';
   static String cake = 'assets/icons/cake.svg';
-  static String cakewithbg = 'assets/icons/cake_with_bg.svg';
   static String calender = 'assets/icons/calender.svg';
   static String calenderOutline = 'assets/icons/calender_outline.svg';
   static String clipboard = 'assets/icons/clipboard-outline.svg';
