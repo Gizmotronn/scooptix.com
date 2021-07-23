@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 import '../model/event.dart';
@@ -123,19 +125,21 @@ class EventsRepository {
         .where("status", whereIn: ["published", "live"]) // Also include events that have recently started
         //.limit(10) // if there are a lot of events, it might make sense to limit the number of events loaded here and load them incrementally when needed.
         .get();
+
     await Future.wait(eventsSnapshot.docs.map((e) async {
       Event event = Event.fromMap(e.id, e.data());
       if (event != null && !events.any((element) => element.docID == e.id)) {
-        DocumentSnapshot ticketEventSnapshot =
-            await FirebaseFirestore.instance.collection("ticketevents").doc(e.id).get();
+            FirebaseFirestore.instance.collection("ticketevents").doc(e.id).get().then((ticketEventSnapshot){
+              if (ticketEventSnapshot.exists) {
+                event.feePercent =
+                ticketEventSnapshot.data().containsKey("fee_percent") ? ticketEventSnapshot.data()["fee_percent"] : 10.0;
+              }
+            });
 
         QuerySnapshot releaseManagerSnapshot =
             await FirebaseFirestore.instance.collection("ticketevents").doc(e.id).collection("release_managers").get();
 
-        if (ticketEventSnapshot.exists) {
-          event.feePercent =
-              ticketEventSnapshot.data().containsKey("fee_percent") ? ticketEventSnapshot.data()["fee_percent"] : 10.0;
-        }
+
         await Future.wait(releaseManagerSnapshot.docs.map((element) async {
           ReleaseManager rm = ReleaseManager.fromMap(element.id, element.data());
           rm.releases.addAll(await EventsRepository.instance.loadReleasesForManager(event.docID, rm));

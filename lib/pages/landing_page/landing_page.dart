@@ -34,6 +34,10 @@ class _LandingPageState extends State<LandingPage> {
       uuid = uri.queryParameters["id"];
     }
 
+    if(uuid == ""){
+      _preloadEventsAndNavigate();
+    }
+
     // If an event link was used, load this event and forward the user to the event details page.
     LinkRepository.instance.loadLinkType(uuid).then((value) {
       if (value == null) {
@@ -73,7 +77,13 @@ class _LandingPageState extends State<LandingPage> {
   Widget build(BuildContext context) {
     return Align(
       alignment: Alignment.center,
-      child: AppolloProgressIndicator().paddingBottom(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          AppolloProgressIndicator().paddingBottom(8),
+          Text("Loading Events ...")
+        ],
+      ),
     );
   }
 }
