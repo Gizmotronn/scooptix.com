@@ -55,6 +55,9 @@ class Event {
   BirthdayEventData? birthdayEventData;
   PreSale? preSale;
   List<CustomEventInfo> customEventInfo = [];
+  // We use this as an indicator that event tickets are still loading asynchronously
+  // This means we don't have to wait on
+  bool ticketsStillLoading = false;
 
   bool get preSaleEnabled => preSale != null && preSale!.enabled;
   bool get preSaleAvailable => preSaleEnabled && preSale!.registrationEndDate.isAfter(DateTime.now());

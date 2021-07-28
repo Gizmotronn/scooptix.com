@@ -126,7 +126,6 @@ class EventsRepository {
   /// Fetches all upcoming events from the database
   /// Events are also cached in [events] and can be accessed there if sure the required events are already loaded
   Future<List<Event>> loadUpcomingEvents() async {
-    print("loading events");
     QuerySnapshot<Map<String, dynamic>> eventsSnapshot = await FirebaseFirestore.instance
         .collection("events")
         .where("date", isGreaterThanOrEqualTo: DateTime.now().subtract(Duration(hours: 8)))

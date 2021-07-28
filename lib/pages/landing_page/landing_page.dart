@@ -56,8 +56,8 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   _manageLinkType(LinkType link) async {
-    final events = await EventsRepository.instance.loadUpcomingEvents();
-    NavigationService.navigateTo(EventOverviewPage.routeName, arg: events);
+    EventsRepository.instance.loadUpcomingEvents();
+    //NavigationService.navigateTo(EventOverviewPage.routeName, arg: events);
     if (link is MemberInvite) {
       NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event!.docID!});
     } else if (link is AdvertisementLink) {

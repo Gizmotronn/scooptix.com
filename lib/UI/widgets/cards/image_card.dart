@@ -19,7 +19,12 @@ class ExpandImageCard extends StatelessWidget {
         : Container(
             decoration: BoxDecoration(
                 borderRadius: borderRadius ?? BorderRadius.circular(8),
-                image: DecorationImage(fit: BoxFit.cover, image: ExtendedImage.network(imageUrl!).image)),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: ExtendedImage.network(
+                      imageUrl!,
+                      cache: true,
+                    ).image)),
           );
   }
 }

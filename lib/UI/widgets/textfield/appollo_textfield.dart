@@ -20,8 +20,9 @@ class AppolloTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final Function? onChanged;
   final List<String>? autofillHints;
-  final bool? autofocus;
+  final bool autofocus;
   final Function(String?)? onFieldSubmitted;
+  final Function()? onFieldSubmittedReactive;
   final String? Function(String?)? validator;
   final Widget? suffixIcon;
   final AutovalidateMode? autovalidateMode;
@@ -32,16 +33,17 @@ class AppolloTextField extends StatefulWidget {
   AppolloTextField._(
       {Key? key,
       this.controller,
-      @required this.labelText,
+      required this.labelText,
       this.errorText = '',
-      @required this.textFieldType,
+      required this.textFieldType,
       this.keyboardType,
       this.validationMessages,
       this.inputFormatters,
       this.formControl,
       this.autofillHints,
-      this.autofocus,
+      this.autofocus = false,
       this.onFieldSubmitted,
+      this.onFieldSubmittedReactive,
       this.validator,
       this.suffixIcon,
       this.autovalidateMode,
@@ -60,8 +62,8 @@ class AppolloTextField extends StatefulWidget {
       inputFormatters,
       required formControl,
       autofillHints,
-      autofocus,
-      onFieldSubmitted,
+      autofocus = false,
+      Function()? onFieldSubmitted,
       suffixIcon,
       obscureText = false,
       focusNode,
@@ -76,7 +78,7 @@ class AppolloTextField extends StatefulWidget {
       formControl: formControl,
       autofillHints: autofillHints,
       autofocus: autofocus,
-      onFieldSubmitted: onFieldSubmitted,
+      onFieldSubmittedReactive: onFieldSubmitted,
       suffixIcon: suffixIcon,
       obscureText: obscureText,
       focusNode: focusNode,
@@ -161,7 +163,6 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
 
   @override
   Widget build(BuildContext context) {
-    print(textFieldState);
     return MouseRegion(
       onHover: (isHover) {
         if (textFieldState != AppolloTextFieldState.error &&
@@ -218,12 +219,14 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                       return ReactiveTextField(
                         formControl: widget.formControl,
                         keyboardType: widget.keyboardType,
+                        autofillHints: widget.autofillHints,
+                        autofocus: widget.autofocus,
                         validationMessages: widget.validationMessages,
                         inputFormatters: widget.inputFormatters,
                         focusNode: _focusNode,
                         onSubmitted: () {
-                          if (widget.onFieldSubmitted != null) {
-                            widget.onFieldSubmitted!("");
+                          if (widget.onFieldSubmittedReactive != null) {
+                            widget.onFieldSubmittedReactive!();
                           }
                         },
                         showErrors: (control) {
@@ -251,7 +254,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                           return false;
                         },
                         obscureText: widget.obscureText,
-                        style: MyTheme.textTheme.bodyText1,
+                        style: MyTheme.mobileTextTheme.bodyText1,
                         decoration: InputDecoration(
                           filled: true,
                           hintText: widget.hintText,
@@ -260,16 +263,16 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                           contentPadding: const EdgeInsets.only(left: 8),
                           errorBorder: InputBorder.none,
                           isDense: true,
-                          errorStyle: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
+                          errorStyle: MyTheme.mobileTextTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
                           focusedBorder: InputBorder.none,
-                          hintStyle: MyTheme.textTheme.button!.copyWith(
+                          hintStyle: MyTheme.mobileTextTheme.button!.copyWith(
                               color: textFieldState == AppolloTextFieldState.initial
                                   ? MyTheme.appolloGrey
                                   : MyTheme.appolloGreen),
                           enabledBorder: InputBorder.none,
                           focusedErrorBorder: InputBorder.none,
                           labelText: widget.labelText,
-                          labelStyle: MyTheme.textTheme.bodyText1!
+                          labelStyle: MyTheme.mobileTextTheme.bodyText1!
                               .copyWith(color: _buildLabelColor(), fontSize: 14, fontWeight: FontWeight.w500),
                           disabledBorder: InputBorder.none,
                         ),
@@ -278,7 +281,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                     return TextFormField(
                       key: widget.formState,
                       autofillHints: widget.autofillHints,
-                      autofocus: widget.autofocus ?? false,
+                      autofocus: widget.autofocus,
                       onFieldSubmitted: (v) {
                         if (widget.onFieldSubmitted != null) {
                           widget.onFieldSubmitted!(v);
@@ -304,7 +307,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                       keyboardType: widget.keyboardType,
                       focusNode: _focusNode,
                       inputFormatters: widget.inputFormatters,
-                      style: MyTheme.textTheme.bodyText1,
+                      style: MyTheme.mobileTextTheme.bodyText1,
                       decoration: InputDecoration(
                         filled: true,
                         hintText: widget.hintText,
@@ -314,16 +317,16 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                         hoverColor: Colors.transparent,
                         contentPadding: const EdgeInsets.only(left: 8, bottom: 4),
                         errorBorder: InputBorder.none,
-                        errorStyle: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
+                        errorStyle: MyTheme.mobileTextTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
                         focusedBorder: InputBorder.none,
-                        hintStyle: MyTheme.textTheme.button!.copyWith(
+                        hintStyle: MyTheme.mobileTextTheme.button!.copyWith(
                             color: textFieldState == AppolloTextFieldState.initial
                                 ? MyTheme.appolloBlack
                                 : MyTheme.appolloGrey),
                         enabledBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
                         labelText: widget.labelText,
-                        labelStyle: MyTheme.textTheme.bodyText1!
+                        labelStyle: MyTheme.mobileTextTheme.bodyText1!
                             .copyWith(color: _buildLabelColor(), fontSize: 16, fontWeight: FontWeight.w600),
                         disabledBorder: InputBorder.none,
                       ),
@@ -340,7 +343,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                           _text = "";
                           if (widget.textFieldType == TextFieldType.reactive) {
                             if (widget.formControl != null) {
-                              widget.formControl!.reset();
+                              widget.formControl!.value = "";
                             }
                           } else {
                             if (widget.controller != null) {

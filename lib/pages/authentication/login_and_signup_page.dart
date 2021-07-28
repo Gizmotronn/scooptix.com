@@ -520,7 +520,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ValidationMessage.required: 'Please provide an email',
               ValidationMessage.email: 'Please provide a valid email',
             },
-            onFieldSubmitted: (v) {
+            onFieldSubmitted: () {
               initialEmailForm.markAllAsTouched();
               if (!initialEmailForm.hasErrors) {
                 setState(() {
@@ -551,7 +551,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     ValidationMessage.email: 'Please provide a valid email',
                   },
                   autofillHints: [AutofillHints.email, AutofillHints.newUsername],
-                  onFieldSubmitted: (v) {
+                  onFieldSubmitted: () {
                     if (!confirmEmailForm.hasErrors) {
                       widget.bloc.add(EventEmailsConfirmed());
                     }
@@ -576,7 +576,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   formControl: confirmEmailForm.controls["repeat"],
                   autofillHints: [AutofillHints.email, AutofillHints.newUsername],
                   autofocus: true,
-                  onFieldSubmitted: (v) {
+                  onFieldSubmitted: () {
                     if (!confirmEmailForm.hasErrors) {
                       widget.bloc.add(EventEmailsConfirmed());
                     }
@@ -693,7 +693,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 },
                 autofocus: true,
                 obscureText: true,
-                onFieldSubmitted: (v) {
+                onFieldSubmitted: () {
                   if (passwordsForm.valid) {
                     widget.bloc.add(EventPasswordsConfirmed());
                   } else {
@@ -716,7 +716,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   ValidationMessage.mustMatch: 'Your passwords must match',
                 },
                 obscureText: true,
-                onFieldSubmitted: (v) {
+                onFieldSubmitted: () {
                   if (passwordsForm.valid) {
                     widget.bloc.add(EventPasswordsConfirmed());
                   } else {
@@ -750,7 +750,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   ValidationMessage.minLength: 'Your password is at least 8 characters long',
                 },
                 autofocus: true,
-                onFieldSubmitted: (v) {
+                onFieldSubmitted: () {
                   if (state is StateExistingUserEmail) {
                     widget.bloc.add(EventLoginPressed(
                         initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
