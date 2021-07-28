@@ -343,7 +343,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                           _text = "";
                           if (widget.textFieldType == TextFieldType.reactive) {
                             if (widget.formControl != null) {
-                              widget.formControl!.value = "";
+                              widget.formControl!.reset();
                             }
                           } else {
                             if (widget.controller != null) {

@@ -47,7 +47,6 @@ class _PaymentPageState extends State<PaymentPage> {
 
   bool _termsConditions = false;
   bool _saveCreditCard = false;
-  bool validateCC = false;
   late double subtotal;
   int? totalTicketQuantity;
   bool addNewPaymentMethod = false;
@@ -58,7 +57,8 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     form = FormGroup({
-      'ccnumber': FormControl<String>(validators: [Validators.maxLength(16), Validators.minLength(16)]),
+      'ccnumber':
+          FormControl<String>(validators: [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
       'month': FormControl<int>(validators: [Validators.max(12), Validators.min(1)]),
       'year': FormControl<int>(validators: [Validators.max(50), Validators.min(21)]),
       'cvc': FormControl<int>(validators: [Validators.min(0), Validators.max(9999)]),
@@ -688,29 +688,30 @@ class _PaymentPageState extends State<PaymentPage> {
                                       primary: MyTheme.appolloGreen,
                                     ),
                                     onPressed: () async {
-                                      try {
-                                        setState(() {
-                                          cardLoading = true;
-                                        });
-                                        StripeCard card = StripeCard(
-                                            number: form.value["ccnumber"] as String,
-                                            cvc: (form.value["cvc"] as int).toString(),
-                                            last4: (form.value["ccnumber"] as String).substring(12),
-                                            expMonth: form.value["month"] as int,
-                                            expYear: form.value["year"] as int);
-                                        Map<String, dynamic> data =
-                                            await Stripe.instance.api.createPaymentMethodFromCard(card);
-                                        PaymentMethod pm =
-                                            PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                        bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
-                                      } catch (_) {
-                                        setState(() {
-                                          validateCC = true;
-                                        });
-                                      } finally {
-                                        setState(() {
-                                          cardLoading = false;
-                                        });
+                                      form.markAllAsTouched();
+                                      if (form.valid) {
+                                        try {
+                                          setState(() {
+                                            cardLoading = true;
+                                          });
+                                          StripeCard card = StripeCard(
+                                              number: form.value["ccnumber"] as String,
+                                              cvc: (form.value["cvc"] as int).toString(),
+                                              last4: (form.value["ccnumber"] as String).substring(12),
+                                              expMonth: form.value["month"] as int,
+                                              expYear: form.value["year"] as int);
+                                          Map<String, dynamic> data =
+                                              await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                          PaymentMethod pm =
+                                              PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                          bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
+                                        } catch (e) {
+                                          print(e);
+                                        } finally {
+                                          setState(() {
+                                            cardLoading = false;
+                                          });
+                                        }
                                       }
                                     },
                                     child: state is StateLoadingPaymentMethod || cardLoading
@@ -733,31 +734,31 @@ class _PaymentPageState extends State<PaymentPage> {
                                   primary: MyTheme.appolloGreen,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                               onPressed: () async {
-                                try {
-                                  setState(() {
-                                    cardLoading = true;
-                                  });
-                                  StripeCard card = StripeCard(
-                                      number: form.value["ccnumber"] as String,
-                                      cvc: (form.value["cvc"] as int).toString(),
-                                      last4: (form.value["ccnumber"] as String).substring(12),
-                                      expMonth: form.value["month"] as int,
-                                      expYear: form.value["year"] as int);
-                                  Map<String, dynamic> data =
-                                      await Stripe.instance.api.createPaymentMethodFromCard(card);
-                                  PaymentMethod pm =
-                                      PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                  print(pm.id);
-                                  bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
-                                } catch (e) {
-                                  print(e);
-                                  setState(() {
-                                    validateCC = true;
-                                  });
-                                } finally {
-                                  setState(() {
-                                    cardLoading = false;
-                                  });
+                                form.markAllAsTouched();
+                                if (form.valid) {
+                                  try {
+                                    setState(() {
+                                      cardLoading = true;
+                                    });
+                                    StripeCard card = StripeCard(
+                                        number: form.value["ccnumber"] as String,
+                                        cvc: (form.value["cvc"] as int).toString(),
+                                        last4: (form.value["ccnumber"] as String).substring(12),
+                                        expMonth: form.value["month"] as int,
+                                        expYear: form.value["year"] as int);
+                                    Map<String, dynamic> data =
+                                        await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                    PaymentMethod pm =
+                                        PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                    print(pm.id);
+                                    bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
+                                  } catch (e) {
+                                    print(e);
+                                  } finally {
+                                    setState(() {
+                                      cardLoading = false;
+                                    });
+                                  }
                                 }
                               },
                               child: Text(
