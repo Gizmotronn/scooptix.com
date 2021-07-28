@@ -1,22 +1,22 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../theme.dart';
 
 class ForMeCard extends StatelessWidget {
   final String title;
   final String subTitle;
-  final Color color;
+  final Color? color;
   final String svgIcon;
 
-  final Widget child;
+  final Widget? child;
   const ForMeCard({
-    Key key,
-    @required this.title,
-    @required this.subTitle,
+    Key? key,
+    required this.title,
+    required this.subTitle,
     this.color,
-    @required this.svgIcon,
+    required this.svgIcon,
     this.child,
   }) : super(key: key);
 
@@ -30,7 +30,7 @@ class ForMeCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgIcon(svgIcon, size: 50).paddingBottom(8),
+          SvgPicture.asset(svgIcon, height: 50, width: 50).paddingBottom(8),
           Align(
             alignment: Alignment.center,
             child: Column(
@@ -39,13 +39,13 @@ class ForMeCard extends StatelessWidget {
                   title,
                   maxLines: 2,
                   textAlign: TextAlign.center,
-                  style: MyTheme.textTheme.headline6.copyWith(color: color, fontWeight: FontWeight.w400),
+                  style: MyTheme.textTheme.headline6!.copyWith(color: color, fontWeight: FontWeight.w400),
                 ).paddingBottom(8),
                 AutoSizeText(
                   subTitle,
                   maxLines: 4,
                   textAlign: TextAlign.center,
-                  style: MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloWhite, fontSize: 10),
+                  style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.appolloWhite, fontSize: 10),
                 ).paddingBottom(8),
                 Container(
                   child: child ?? Container(),

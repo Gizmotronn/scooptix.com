@@ -16,7 +16,7 @@ class ThisWeekend extends StatefulWidget {
   final List<Event> events;
   final ScrollController scrollController;
 
-  const ThisWeekend({Key key, this.events, this.scrollController}) : super(key: key);
+  const ThisWeekend({Key? key, required this.events, required this.scrollController}) : super(key: key);
 
   @override
   _ThisWeekendState createState() => _ThisWeekendState();
@@ -78,7 +78,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
                       BoxOffset(
                         boxOffset: (offset) {
                           setState(() {
-                            positions[_weekendMenu[index].id] = offset.dy;
+                            positions[_weekendMenu[index].id!] = offset.dy;
                           });
                         },
                         child: AppolloBackgroundCard(
@@ -146,14 +146,14 @@ class _ThisWeekendState extends State<ThisWeekend> {
     );
   }
 
-  Widget _eventTags(context, {String tag1, String tag2}) => Container(
+  Widget _eventTags(context, {required String tag1, required String tag2}) => Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AutoSizeText.rich(
                 TextSpan(
-                  text: tag1 ?? '',
+                  text: tag1,
                   children: [
                     if (getValueForScreenType<bool>(
                       context: context,
@@ -163,15 +163,15 @@ class _ThisWeekendState extends State<ThisWeekend> {
                       tablet: true,
                     ))
                       TextSpan(
-                        text: " $tag2" ?? '',
+                        text: " $tag2",
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
                       ),
                   ],
                 ),
-                style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
+                style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
       ).paddingHorizontal(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing);

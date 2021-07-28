@@ -5,20 +5,20 @@ import 'package:ticketapp/model/user.dart';
 import 'bugsnag_wrapper.dart';
 
 class FBServices {
-  static FBServices _instance;
+  static FBServices? _instance;
 
   static FBServices get instance {
     if (_instance == null) {
       _instance = new FBServices._();
     }
-    return _instance;
+    return _instance!;
   }
 
   FBServices._();
 
   auth.FirebaseAuth _auth = auth.FirebaseAuth.instance;
 
-  Future<bool> isEmailInUse(String email) async {
+  Future<bool?> isEmailInUse(String email) async {
     if (!email.contains("@") || email.split(".").length < 2) {
       return null;
     }
@@ -40,14 +40,14 @@ class FBServices {
     await _auth.sendPasswordResetEmail(email: email);
   }
 
-  Future<String> createNewUser(
-      String email, String password, String firstName, String lastName, DateTime dob, Gender gender, String uid) async {
+  Future<String?> createNewUser(String email, String password, String firstName, String lastName, DateTime dob,
+      Gender gender, String? uid) async {
     try {
       if (uid == null) {
         auth.UserCredential authResult = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-        auth.User fbuser = authResult.user;
+        auth.User? fbuser = authResult.user;
 
-        await FirebaseFirestore.instance.collection('users').doc(fbuser.uid).set({
+        await FirebaseFirestore.instance.collection('users').doc(fbuser!.uid).set({
           'firstname': firstName,
           'lastname': lastName,
           'email': email,
@@ -78,29 +78,26 @@ class FBServices {
     }
   }
 
-  Future<auth.User> logIn(String email, String password) async {
+  Future<auth.User?> logIn(String email, String password) async {
     try {
       auth.UserCredential authResult = await _auth.signInWithEmailAndPassword(email: email, password: password);
       return authResult.user;
     } catch (e, s) {
-      print(e.message);
+      print(e);
       BugsnagNotifier.instance.notify("Error during login \n $e", s, severity: ErrorSeverity.info);
       return null;
     }
   }
 
-  Future<auth.User> signInWithFacebook(String token) async {
+  Future<auth.User?> signInWithFacebook(String token) async {
     final auth.AuthCredential credential = auth.FacebookAuthProvider.credential(
       token,
     );
-    final auth.User user = (await _auth.signInWithCredential(credential)).user;
-    assert(user.email != null);
-    assert(user.displayName != null);
-    assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
+    final auth.User? user = (await _auth.signInWithCredential(credential)).user;
 
-    final auth.User currentUser = _auth.currentUser;
-    assert(user.uid == currentUser.uid);
+    await user!.getIdToken();
+
+    final auth.User? currentUser = _auth.currentUser;
     return currentUser;
   }
 }

@@ -19,11 +19,11 @@ class EventSSOEmailsConfirmed extends AuthenticationEvent {
 
 class EventPasswordsConfirmed extends AuthenticationEvent {}
 
-class EventGoogleSignIn extends AuthenticationEvent {}
+/*class EventGoogleSignIn extends AuthenticationEvent {}
 
 class EventFacebookSignIn extends AuthenticationEvent {}
 
-class EventAppleSignIn extends AuthenticationEvent {}
+class EventAppleSignIn extends AuthenticationEvent {}*/
 
 class EventPageLoad extends AuthenticationEvent {}
 
@@ -55,7 +55,7 @@ class EventCreateNewUser extends AuthenticationEvent {
   final String lastName;
   final DateTime dob;
   final Gender gender;
-  final String uid;
+  final String? uid;
 
   const EventCreateNewUser(this.email, this.pw, this.firstName, this.lastName, this.dob, this.gender, this.uid);
 }

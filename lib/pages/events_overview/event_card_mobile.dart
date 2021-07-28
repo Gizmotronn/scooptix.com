@@ -15,14 +15,14 @@ import '../../UI/theme.dart';
 class EventCardMobile extends StatelessWidget {
   final Event event;
 
-  const EventCardMobile({Key key, this.event}) : super(key: key);
+  const EventCardMobile({Key? key, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         // NavigationService.navigateTo(EventDetail.routeName);
-        NavigationService.navigateTo(EventDetailPage.routeName, arg: event.docID, queryParams: {'id': event.docID});
+        NavigationService.navigateTo(EventDetailPage.routeName, arg: event.docID, queryParams: {'id': event.docID!});
       },
       child: Container(
           height: MediaQuery.of(context).size.width / 1.9 / 2,
@@ -57,7 +57,7 @@ class EventCardMobile extends StatelessWidget {
     return Positioned(
       right: 3,
       top: 3,
-      child: ValueListenableBuilder<User>(
+      child: ValueListenableBuilder<User?>(
           valueListenable: UserRepository.instance.currentUserNotifier,
           builder: (context, user, child) {
             return FavoriteHeartButton(
@@ -73,7 +73,7 @@ class EventCardMobile extends StatelessWidget {
                   } else {
                     ///TODO Add event as favorite to user
                     print('Event added to favorite');
-                    user.toggleFavourite(event.docID);
+                    user.toggleFavourite(event.docID!);
                   }
                 }
               },
@@ -94,16 +94,16 @@ class EventCardMobile extends StatelessWidget {
             children: [
               Expanded(
                 child: AutoSizeText(
-                  fullDate(event.date) ?? '',
+                  fullDate(event.date),
                   textAlign: TextAlign.start,
                   maxLines: 2,
-                  style: MyTheme.textTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
+                  style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloRed),
                 ).paddingBottom(8),
               ),
             ],
           ),
           AutoSizeText(
-            event.name ?? '',
+            event.name,
             textAlign: TextAlign.start,
             maxLines: 3,
             overflow: TextOverflow.clip,
@@ -119,7 +119,7 @@ class EventCardMobile extends StatelessWidget {
       aspectRatio: 1.9,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: event.coverImageURL == null
+        child: event.coverImageURL == ""
             ? SizedBox()
             : ClipPath(
                 clipper: ImageClipper(),
@@ -151,9 +151,9 @@ class EventCardMobile extends StatelessWidget {
     ).paddingAll(MyTheme.elementSpacing / 2);
   }
 
-  bool _checkFavorite(User user) {
+  bool _checkFavorite(User? user) {
     if (user != null) {
-      return user.favourites.contains(event.docID) ?? false;
+      return user.favourites.contains(event.docID);
     } else {
       return false;
     }

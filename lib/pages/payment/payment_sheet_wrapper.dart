@@ -10,12 +10,17 @@ import 'package:ticketapp/utilities/svg/icon.dart';
 class PaymentSheetWrapper extends StatefulWidget {
   final Event event;
   final Map<TicketRelease, int> selectedTickets;
-  final Discount discount;
-  final double maxHeight;
+  final Discount? discount;
+  final double? maxHeight;
   final BuildContext parentContext;
 
   const PaymentSheetWrapper(
-      {Key key, this.event, this.selectedTickets, this.discount, this.maxHeight, this.parentContext})
+      {Key? key,
+      required this.event,
+      required this.selectedTickets,
+      this.discount,
+      this.maxHeight,
+      required this.parentContext})
       : super(key: key);
 
   @override
@@ -68,7 +73,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
                       },
                       child: Text(
                         "Close",
-                        style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                       ),
                     ),
                   )

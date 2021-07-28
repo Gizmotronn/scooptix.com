@@ -12,7 +12,8 @@ class EventDetailsMobilePage extends StatefulWidget {
   final ScrollController scrollController;
   final EventsOverviewBloc bloc;
 
-  const EventDetailsMobilePage({Key key, this.bloc, this.event, this.organizer, this.scrollController})
+  const EventDetailsMobilePage(
+      {Key? key, required this.bloc, required this.event, required this.organizer, required this.scrollController})
       : super(key: key);
 
   @override

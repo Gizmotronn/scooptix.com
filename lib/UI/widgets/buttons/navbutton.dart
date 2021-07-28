@@ -5,10 +5,10 @@ import '../../theme.dart';
 
 class NavbarButton extends StatelessWidget {
   final String title;
-  final Function onTap;
+  final Function() onTap;
   final bool isTap;
 
-  const NavbarButton({Key key, @required this.title, @required this.onTap, @required this.isTap}) : super(key: key);
+  const NavbarButton({Key? key, required this.title, required this.onTap, required this.isTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class NavbarButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AutoSizeText(title ?? '',
-                    style: MyTheme.textTheme.bodyText1
+            AutoSizeText(title,
+                    style: MyTheme.textTheme.bodyText1!
                         .copyWith(color: isTap ? MyTheme.appolloGreen : MyTheme.appolloWhite))
                 .paddingBottom(4),
             Container(

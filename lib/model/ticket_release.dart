@@ -5,13 +5,13 @@ class TicketRelease {
   String name = "";
   String description = "";
   String ticketName = "";
-  DateTime entryStart;
-  DateTime entryEnd;
-  DateTime releaseStart;
-  DateTime releaseEnd;
+  DateTime? entryStart;
+  DateTime? entryEnd;
+  DateTime? releaseStart;
+  DateTime? releaseEnd;
   int maxTickets = 0;
   int ticketsBought = 0;
-  int price;
+  int? price;
 
   int ticketsLeft() {
     return maxTickets - ticketsBought;
@@ -55,6 +55,7 @@ class TicketRelease {
     } catch (e, s) {
       print(e);
       BugsnagNotifier.instance.notify("Error loading ticket release \n $e", s, severity: ErrorSeverity.error);
+      throw Exception("Error loading ticket release");
     }
 
     return release;

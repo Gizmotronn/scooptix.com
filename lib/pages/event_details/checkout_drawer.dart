@@ -17,9 +17,10 @@ import '../authentication/authentication_drawer.dart';
 class CheckoutDrawer extends StatefulWidget {
   final Event event;
   final Map<TicketRelease, int> selectedTickets;
-  final Discount discount;
+  final Discount? discount;
 
-  const CheckoutDrawer({Key key, @required this.event, this.selectedTickets, this.discount}) : super(key: key);
+  const CheckoutDrawer({Key? key, required this.event, required this.selectedTickets, required this.discount})
+      : super(key: key);
 
   @override
   _CheckoutDrawerState createState() => _CheckoutDrawerState();
@@ -45,7 +46,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
           discount: widget.discount,
           selectedTickets: widget.selectedTickets,
         );
-        WrapperPage.mainScaffold.currentState.openEndDrawer();
+        WrapperPage.mainScaffold.currentState!.openEndDrawer();
       }
       UserRepository.instance.currentUserNotifier.removeListener(_tryOpenCheckoutDrawer());
     };
@@ -94,7 +95,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                           .paddingBottom(MyTheme.elementSpacing),
                       Text(
                         widget.event.name,
-                        style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
                       ).paddingBottom(MyTheme.elementSpacing),
                       SizedBox(
                         width: MyTheme.drawerSize,
@@ -133,7 +134,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                                   ).paddingBottom(8),
                                   if (widget.event.endTime != null)
                                     AutoSizeText(
-                                      "${DateFormat.jm().format(widget.event.date)} - ${DateFormat.jm().format(widget.event.endTime)} (${widget.event.endTime.difference(widget.event.date).inHours} Hours)",
+                                      "${DateFormat.jm().format(widget.event.date)} - ${DateFormat.jm().format(widget.event.endTime!)} (${widget.event.endTime!.difference(widget.event.date).inHours} Hours)",
                                       style: MyTheme.textTheme.bodyText2,
                                     ).paddingBottom(8),
                                   if (widget.event.endTime == null)
@@ -142,7 +143,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                                       style: MyTheme.textTheme.bodyText2,
                                     ).paddingBottom(8),
                                   AutoSizeText(
-                                    widget.event.address ?? widget.event.venueName,
+                                    widget.event.address == "" ? widget.event.venueName : widget.event.address,
                                     style: MyTheme.textTheme.bodyText2,
                                   ),
                                 ],
@@ -152,8 +153,8 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                         ),
                       ).paddingBottom(MyTheme.elementSpacing),
                       widget.event is MemberInvite &&
-                              (widget.event as MemberInvite).promoter.docId ==
-                                  UserRepository.instance.currentUser().firebaseUserID
+                              (widget.event as MemberInvite).promoter!.docId ==
+                                  UserRepository.instance.currentUser()!.firebaseUserID
                           ? Center(
                               child:
                                   Text("You can't invite yourself to this event", style: MyTheme.textTheme.bodyText2))
@@ -169,10 +170,10 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("Events Powered By", style: MyTheme.textTheme.bodyText2.copyWith(color: Colors.grey))
+                      Text("Events Powered By", style: MyTheme.textTheme.bodyText2!.copyWith(color: Colors.grey))
                           .paddingRight(4),
                       Text("appollo",
-                          style: MyTheme.textTheme.subtitle1.copyWith(
+                          style: MyTheme.textTheme.subtitle1!.copyWith(
                             fontFamily: "cocon",
                             color: MyTheme.appolloPurple,
                             fontSize: 18,

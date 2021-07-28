@@ -18,7 +18,7 @@ class OrderSummaryOverlay extends StatefulWidget {
   final Map<TicketRelease, int> selectedTickets;
   final double maxWidth;
 
-  const OrderSummaryOverlay(this.event, {Key key, @required this.selectedTickets, @required this.maxWidth})
+  const OrderSummaryOverlay(this.event, {Key? key, required this.selectedTickets, required this.maxWidth})
       : super(key: key);
 
   @override
@@ -27,9 +27,9 @@ class OrderSummaryOverlay extends StatefulWidget {
 
 class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
   TicketBloc bloc = TicketBloc();
-  double subtotal;
-  int totalTicketQuantity;
-  Discount discount;
+  late double subtotal;
+  late int totalTicketQuantity;
+  Discount? discount;
   TextEditingController _discountController = TextEditingController();
 
   @override
@@ -48,7 +48,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     subtotal = 0;
     totalTicketQuantity = 0;
     widget.selectedTickets.forEach((release, quantity) {
-      subtotal += release.price * quantity;
+      subtotal += release.price! * quantity;
     });
     if (widget.selectedTickets.isNotEmpty) {
       totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
@@ -58,7 +58,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
       children: [
         AutoSizeText(
           "Order Summary",
-          style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildMainContent().paddingBottom(MyTheme.elementSpacing),
         _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
@@ -79,12 +79,12 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                       discount: discount,
                       selectedTickets: widget.selectedTickets,
                     );
-                    WrapperPage.mainScaffold.currentState.openEndDrawer();
+                    WrapperPage.mainScaffold.currentState!.openEndDrawer();
                   }
                 },
                 child: Text(
                   "CHECKOUT",
-                  style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                 ),
               ),
             ),
@@ -96,7 +96,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
 
   Widget _buildMainContent() {
     return BlocBuilder<TicketBloc, TicketState>(
-        cubit: bloc,
+        bloc: bloc,
         builder: (c, state) {
           return _buildPriceBreakdown();
         });
@@ -120,23 +120,23 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing / 2),
-        if (discount != null && discount.enoughLeft(totalTicketQuantity))
+        if (discount != null && discount!.enoughLeft(totalTicketQuantity))
           SizedBox(
             width: widget.maxWidth,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount.amount.toString() + "%"})",
+                  "Discount (${discount!.type == DiscountType.value ? "\$" + (discount!.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount!.amount.toString() + "%"})",
                   style: MyTheme.textTheme.bodyText1,
                 ),
                 SizedBox(
                     child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}",
-                        style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)))
+                        style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600)))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing / 2),
@@ -154,7 +154,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ),
@@ -171,7 +171,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -193,8 +193,8 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                    child: Text("\$${(key.price! * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(MyTheme.elementSpacing / 2));
@@ -209,21 +209,21 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
     if (discount == null) {
       return 0.0;
     }
-    if (discount.appliesToReleases.isEmpty) {
-      if (discount.type == DiscountType.value) {
-        return discount.amount.toDouble() * totalTicketQuantity / 100;
+    if (discount!.appliesToReleases.isEmpty) {
+      if (discount!.type == DiscountType.value) {
+        return discount!.amount.toDouble() * totalTicketQuantity / 100;
       } else {
-        return subtotal * discount.amount / 100 / 100;
+        return subtotal * discount!.amount / 100 / 100;
       }
     } else {
       double disc = 0.0;
       widget.selectedTickets.forEach((key, value) {
         // If it's a single event discount, this will hold the release docId, otherwise the recurring UUID
-        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId)) {
-          if (discount.type == DiscountType.value) {
-            disc += discount.amount.toDouble() * value / 100;
+        if (discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.docId!)) {
+          if (discount!.type == DiscountType.value) {
+            disc += discount!.amount.toDouble() * value / 100;
           } else {
-            disc += (discount.amount / 100 / 100 * key.price) * value;
+            disc += (discount!.amount / 100 / 100 * key.price!) * value;
           }
         }
       });
@@ -232,13 +232,13 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
   }
 
   int _discountAppliesTo() {
-    if (discount.appliesToReleases.isEmpty) {
+    if (discount!.appliesToReleases.isEmpty) {
       return totalTicketQuantity;
     } else {
       int counter = 0;
       widget.selectedTickets.forEach((key, value) {
-        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId) ||
-            discount.appliesToReleases.contains(widget.event.getReleaseManager(key).recurringUUID)) {
+        if (discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.docId!) ||
+            discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.recurringUUID!)) {
           counter += value;
         }
       });
@@ -260,7 +260,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
 
   Widget _buildDiscountCode() {
     return BlocConsumer<TicketBloc, TicketState>(
-        cubit: bloc,
+        bloc: bloc,
         listener: (c, state) {
           if (state is StateDiscountApplied) {
             setState(() {
@@ -298,7 +298,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                               child: AutoSizeText(
                                 state.discount.code,
-                                style: MyTheme.textTheme.caption
+                                style: MyTheme.textTheme.caption!
                                     .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
                               ),
                             ),
@@ -331,7 +331,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                               child: AutoSizeText(
                                 "This code is invalid",
-                                style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w400),
+                                style: MyTheme.textTheme.caption!.copyWith(fontWeight: FontWeight.w400),
                               ),
                             ),
                           ],

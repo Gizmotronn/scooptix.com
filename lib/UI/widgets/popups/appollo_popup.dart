@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
 import '../../theme.dart';
@@ -15,7 +15,8 @@ class AppolloDropdown extends StatefulWidget {
   final OnChange onChange;
   final List<Menu> item;
 
-  AppolloDropdown({Key key, this.title, this.width = 3.5, @required this.item, this.onChange}) : super(key: key);
+  AppolloDropdown({Key? key, required this.title, this.width = 3.5, required this.item, required this.onChange})
+      : super(key: key);
 
   @override
   _AppolloDropdownState createState() => _AppolloDropdownState();
@@ -24,11 +25,11 @@ class AppolloDropdown extends StatefulWidget {
 class _AppolloDropdownState extends State<AppolloDropdown> {
   bool _isExpanded = false;
   bool _isHover = false;
-  OverlayEntry _overlayEntry;
-  GlobalKey actionKey;
+  late OverlayEntry _overlayEntry;
+  late GlobalKey actionKey;
 
-  Size widgetSize;
-  Offset widgetOffset;
+  late Size widgetSize;
+  late Offset widgetOffset;
 
   @override
   void initState() {
@@ -78,7 +79,7 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
                     } else {
                       _getWidgetInfo();
                       _overlayEntry = _createDrop();
-                      Overlay.of(context).insert(_overlayEntry);
+                      Overlay.of(context)!.insert(_overlayEntry);
                     }
                     _isExpanded = !_isExpanded;
                   });
@@ -92,7 +93,7 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
   }
 
   void _getWidgetInfo() {
-    RenderBox renderBox = actionKey.currentContext.findRenderObject() as RenderBox;
+    RenderBox renderBox = actionKey.currentContext!.findRenderObject() as RenderBox;
     widgetSize = Size(renderBox.size.width, renderBox.size.height);
     final offset = renderBox.localToGlobal(Offset.zero);
     widgetOffset = Offset(offset.dx, offset.dy);
@@ -114,7 +115,7 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
           } else {
             _getWidgetInfo();
             _overlayEntry = _createDrop();
-            Overlay.of(context).insert(_overlayEntry);
+            Overlay.of(context)!.insert(_overlayEntry);
           }
           _isExpanded = !_isExpanded;
         });
@@ -131,14 +132,14 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
             children: [
               AutoSizeText(
                 '${widget.title}',
-                style: MyTheme.textTheme.bodyText1.copyWith(
+                style: MyTheme.textTheme.bodyText1!.copyWith(
                     fontWeight: FontWeight.w400,
                     color: _isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
               ),
               const SizedBox(width: 10),
               Container(
                 height: 20,
-                child: SvgIcon(_isExpanded ? AppolloSvgIcon.arrowup : AppolloSvgIcon.arrowdown,
+                child: SvgPicture.asset(_isExpanded ? AppolloSvgIcon.arrowup : AppolloSvgIcon.arrowdown,
                     color: MyTheme.appolloWhite),
               ),
             ],
@@ -150,17 +151,17 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
 class AppolloDropdownContent extends StatefulWidget {
   final String title;
   final bool isExpanded;
-  final Function onTap;
+  final Function() onTap;
   final List<Menu> items;
   final OnChange onChange;
 
   const AppolloDropdownContent({
-    Key key,
-    @required this.title,
-    @required this.isExpanded,
-    this.onTap,
-    this.items,
-    @required this.onChange,
+    Key? key,
+    required this.title,
+    required this.isExpanded,
+    required this.onTap,
+    required this.items,
+    required this.onChange,
   }) : super(key: key);
 
   @override
@@ -192,14 +193,14 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
                 children: [
                   AutoSizeText(
                     '${widget.title}',
-                    style: MyTheme.textTheme.bodyText1.copyWith(
+                    style: MyTheme.textTheme.bodyText1!.copyWith(
                         fontWeight: FontWeight.w400,
                         color: widget.isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
                   ),
                   const SizedBox(width: 10),
                   Container(
                     height: 20,
-                    child: SvgIcon(widget.isExpanded ? AppolloSvgIcon.arrowup : AppolloSvgIcon.arrowdown,
+                    child: SvgPicture.asset(widget.isExpanded ? AppolloSvgIcon.arrowup : AppolloSvgIcon.arrowdown,
                         color: MyTheme.appolloWhite),
                   ),
                 ],
@@ -219,9 +220,9 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
                         (index) => InkWell(
                           onTap: () {},
                           onTapDown: (v) {
-                            if (widget.onChange != null) {
-                              widget.onChange(widget.items[index].title, index);
-                            }
+                            //if (widget.onChange != null) {
+                            widget.onChange(widget.items[index].title, index);
+                            //  }
                           },
                           onHover: (value) {
                             for (var i = 0; i < widget.items.length; i++) {
@@ -249,10 +250,10 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
     );
   }
 
-  Widget _hoverText(BuildContext context, {String title, bool isHover}) {
+  Widget _hoverText(BuildContext context, {required String title, required bool isHover}) {
     return Text(
       title,
-      style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: isHover ? FontWeight.w600 : FontWeight.w400),
+      style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: isHover ? FontWeight.w600 : FontWeight.w400),
     );
   }
 }

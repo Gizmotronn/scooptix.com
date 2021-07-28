@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../../theme.dart';
 
 class AppolloCard extends StatelessWidget {
-  final Widget child;
-  final Color color;
+  final Widget? child;
+  final Color? color;
 
-  const AppolloCard({Key key, @required this.child, this.color}) : super(key: key);
+  const AppolloCard({Key? key, required this.child, this.color}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AppolloCard extends StatelessWidget {
 class AppolloBackgroundCard extends StatelessWidget {
   final Widget child;
 
-  const AppolloBackgroundCard({Key key, this.child}) : super(key: key);
+  const AppolloBackgroundCard({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +47,7 @@ class BoxOffset extends StatefulWidget {
   final Widget child;
   final Function(Offset offset) boxOffset;
 
-  const BoxOffset({Key key, this.child, this.boxOffset}) : super(key: key);
+  const BoxOffset({Key? key, required this.child, required this.boxOffset}) : super(key: key);
 
   @override
   _BoxOffsetState createState() => _BoxOffsetState();
@@ -58,7 +58,7 @@ class _BoxOffsetState extends State<BoxOffset> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       final box = context.findRenderObject() as RenderBox;
       Offset newOffset = box.localToGlobal(Offset.zero);
       if (newOffset != offset) {

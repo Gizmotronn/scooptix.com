@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/utilities/images/images.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
@@ -13,8 +13,8 @@ import 'event_card_desktop.dart';
 
 class MoreEventsFliterMapPage extends StatelessWidget {
   const MoreEventsFliterMapPage({
-    Key key,
-    this.events,
+    Key? key,
+    required this.events,
   }) : super(key: key);
   final List<Event> events;
   @override
@@ -75,7 +75,7 @@ class MoreEventsFliterMapPage extends StatelessWidget {
 
 class EventSearchFliter extends StatelessWidget {
   const EventSearchFliter({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -85,7 +85,7 @@ class EventSearchFliter extends StatelessWidget {
       children: [
         AutoSizeText(
           'Fliters',
-          style: Theme.of(context).textTheme.caption.copyWith(fontSize: 16, color: MyTheme.appolloGrey),
+          style: Theme.of(context).textTheme.caption!.copyWith(fontSize: 16, color: MyTheme.appolloGrey),
         ).paddingBottom(16),
         _buildLocation(context),
         _buildPriceRange(context),
@@ -103,9 +103,10 @@ class EventSearchFliter extends StatelessWidget {
         _textFieldTitle(context, 'Location'),
         FliterTextField(
           title: 'Perth, Australie',
-          prefixIcon: SvgIcon(
+          prefixIcon: SvgPicture.asset(
             AppolloSvgIcon.perthGps,
-            size: 16,
+            height: 16,
+            width: 16,
             color: MyTheme.appolloGrey,
           ),
         ).paddingBottom(16),
@@ -123,18 +124,20 @@ class EventSearchFliter extends StatelessWidget {
             Expanded(
                 child: FliterTextField(
               title: 'From',
-              suffixIcon: SvgIcon(
+              suffixIcon: SvgPicture.asset(
                 AppolloSvgIcon.calenderOutline,
-                size: 16,
+                height: 16,
+                width: 16,
                 color: MyTheme.appolloGrey,
               ),
             ).paddingRight(8)),
             Expanded(
                 child: FliterTextField(
                     title: 'To',
-                    suffixIcon: SvgIcon(
+                    suffixIcon: SvgPicture.asset(
                       AppolloSvgIcon.calenderOutline,
-                      size: 16,
+                      height: 16,
+                      width: 16,
                       color: MyTheme.appolloGrey,
                     )).paddingLeft(8)),
           ],
@@ -162,7 +165,7 @@ class EventSearchFliter extends StatelessWidget {
   Widget _textFieldTitle(BuildContext context, String title) {
     return AutoSizeText(title,
             style:
-                Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloBlack, fontWeight: FontWeight.w500))
+                Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloBlack, fontWeight: FontWeight.w500))
         .paddingBottom(12);
   }
 
@@ -176,7 +179,7 @@ class EventSearchFliter extends StatelessWidget {
             child: DropdownButton(
               isExpanded: true,
               hint: AutoSizeText('Select',
-                  style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
+                  style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
               onChanged: (v) {},
               items: [
                 DropdownMenuItem(child: Text('Type'), value: 'Type'),
@@ -197,7 +200,7 @@ class EventSearchFliter extends StatelessWidget {
             child: DropdownButton(
               isExpanded: true,
               hint: AutoSizeText('Select',
-                  style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
+                  style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey, fontSize: 14)),
               onChanged: (v) {},
               items: [
                 DropdownMenuItem(child: Text('Category1'), value: 'Category1'),
@@ -211,10 +214,10 @@ class EventSearchFliter extends StatelessWidget {
 
 class FliterTextField extends StatelessWidget {
   final String title;
-  final Widget prefixIcon;
-  final Widget suffixIcon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
 
-  const FliterTextField({Key key, this.title, this.prefixIcon, this.suffixIcon}) : super(key: key);
+  const FliterTextField({Key? key, required this.title, this.prefixIcon, this.suffixIcon}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -241,7 +244,7 @@ class FliterTextField extends StatelessWidget {
           prefixIcon: prefixIcon,
           suffixIcon: suffixIcon,
           hintText: title,
-          hintStyle: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey, fontSize: 14),
+          hintStyle: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey, fontSize: 14),
         ),
       ),
     );
@@ -250,7 +253,7 @@ class FliterTextField extends StatelessWidget {
 
 class MoreEventSearch extends StatelessWidget {
   const MoreEventSearch({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -277,7 +280,8 @@ class MoreEventSearch extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(height: 22, child: SvgIcon(AppolloSvgIcon.searchOutline, color: MyTheme.appolloBlack)),
+                  Container(
+                      height: 22, child: SvgPicture.asset(AppolloSvgIcon.searchOutline, color: MyTheme.appolloBlack)),
                   Container(
                     child: Expanded(
                       child: TextField(

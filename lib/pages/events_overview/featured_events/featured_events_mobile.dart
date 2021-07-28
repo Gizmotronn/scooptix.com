@@ -13,7 +13,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEventsMobile extends StatefulWidget {
   final List<Event> events;
-  const FeaturedEventsMobile({Key key, this.events}) : super(key: key);
+  const FeaturedEventsMobile({Key? key, required this.events}) : super(key: key);
   @override
   _FeaturedEventsMobileState createState() => _FeaturedEventsMobileState();
 }
@@ -23,12 +23,12 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
 
   Duration _animationDuration = Duration(milliseconds: 300);
   List<Event> events = [];
-  Event heroEvent;
+  Event? heroEvent;
 
-  AnimationController _animationController;
+  late AnimationController _animationController;
   int visibilityPercentage = 0;
 
-  Timer _timer;
+  Timer? _timer;
   int count = 0;
 
   Offset beginOffset = Offset(0, 0);
@@ -65,13 +65,13 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
 
   void _animatedCard() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
     _timer = Timer.periodic(Duration(seconds: 6), (timer) async {
       slideList();
       if (visibilityPercentage <= 25) {
         _timer?.cancel();
-        timer?.cancel();
+        timer.cancel();
       }
     });
   }
@@ -79,7 +79,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
   @override
   void dispose() {
     _animationController.dispose();
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
@@ -115,14 +115,14 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
                             child: InkWell(
                               onTap: () {
                                 NavigationService.navigateTo(EventDetailPage.routeName,
-                                    arg: heroEvent.docID, queryParams: {'id': heroEvent.docID});
+                                    arg: heroEvent!.docID, queryParams: {'id': heroEvent!.docID!});
                               },
                               child: ExpandImageCard(
-                                imageUrl: heroEvent.coverImageURL,
+                                imageUrl: heroEvent!.coverImageURL,
                                 borderRadius: BorderRadius.zero,
                               ),
                             )).paddingBottom(16),
-                        heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent).paddingBottom(16),
+                        heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent!).paddingBottom(16),
                       ],
                     ),
                   ),
@@ -146,7 +146,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
             child: AutoSizeText('View Event', maxLines: 2, style: MyTheme.textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
-                  arg: heroEvent.docID, queryParams: {'id': heroEvent.docID});
+                  arg: heroEvent!.docID, queryParams: {'id': heroEvent!.docID!});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],
@@ -190,7 +190,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
 class FeaturedEventTextMobile extends StatelessWidget {
   final Event event;
 
-  const FeaturedEventTextMobile({Key key, @required this.event}) : super(key: key);
+  const FeaturedEventTextMobile({Key? key, required this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -206,22 +206,22 @@ class FeaturedEventTextMobile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeText(
-          event?.date == null ? '' : fullDateWithDay(event?.date),
+          fullDateWithDay(event.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
+          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloRed),
         ).paddingBottom(8),
         AutoSizeText(
-          event?.name ?? '',
+          event.name,
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(8),
         AutoSizeText(
-          "${event?.summary ?? ''}",
+          "${event.summary}",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400),
+          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
         ).paddingBottom(8)
       ],
     );

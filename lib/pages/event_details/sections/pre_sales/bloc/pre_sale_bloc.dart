@@ -35,7 +35,7 @@ class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
       yield StateNotLoggedIn();
     } else {
       yield StateLoading();
-      PreSaleRegistration preSale = await PreSaleRepository.instance.isRegisteredForPreSale(event);
+      PreSaleRegistration? preSale = await PreSaleRepository.instance.isRegisteredForPreSale(event);
       if (preSale != null) {
         yield StateRegistered(preSale);
       } else {

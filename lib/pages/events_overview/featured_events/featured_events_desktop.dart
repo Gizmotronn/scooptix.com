@@ -13,7 +13,7 @@ import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEventsDesktop extends StatefulWidget {
   final List<Event> events;
-  const FeaturedEventsDesktop({Key key, @required this.events}) : super(key: key);
+  const FeaturedEventsDesktop({Key? key, required this.events}) : super(key: key);
 
   @override
   _FeaturedEventsDesktopState createState() => _FeaturedEventsDesktopState();
@@ -22,19 +22,19 @@ class FeaturedEventsDesktop extends StatefulWidget {
 class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with SingleTickerProviderStateMixin {
   GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
 
-  AnimationController _controller;
-  Animation<double> _fadeAnimation;
-  Animation<double> _scaleAnimation;
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
 
   List<Event> events = [];
-  Event event;
+  late Event event;
 
   int count = 0;
   double position = 0;
 
   int visibilityPercentage = 0;
 
-  Timer _timer;
+  Timer? _timer;
 
   @override
   void initState() {
@@ -58,11 +58,11 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
 
   void _animatedCard() {
     if (_timer != null) {
-      _timer.cancel();
+      _timer!.cancel();
     }
     _timer = Timer.periodic(Duration(seconds: 6), (timer) async {
       if (!this.mounted) {
-        _timer.cancel();
+        _timer!.cancel();
         count = 0;
         return;
       }
@@ -74,20 +74,19 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
         count++;
         event = events[count];
       });
-      _list.currentState.removeItem(count, (_, animation) => _buildItem(context, count, animation),
+      _list.currentState!.removeItem(count, (_, animation) => _buildItem(context, count, animation),
           duration: MyTheme.animationDuration);
       events.removeAt(count);
       events.insert(0, event);
-      _list.currentState.insertItem(0);
+      _list.currentState!.insertItem(0);
       if (count >= 3) {
         setState(() => count = 0);
       }
       _controller.reverse();
-      final featureEventCardWidth = MediaQuery.of(context).size.width * 0.55;
       setState(() => position = 0);
       if (visibilityPercentage < 30) {
         _timer?.cancel();
-        timer?.cancel();
+        timer.cancel();
       }
     });
   }
@@ -95,7 +94,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
   @override
   void dispose() {
     _controller.dispose();
-    _timer.cancel();
+    _timer!.cancel();
     super.dispose();
   }
 
@@ -177,12 +176,12 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
               child: InkWell(
                 onTap: () {
                   NavigationService.navigateTo(EventDetailPage.routeName,
-                      arg: event.docID, queryParams: {'id': event.docID});
+                      arg: event.docID, queryParams: {'id': event.docID!});
                 },
                 child: Container(
                   height: featureEventCardHeight,
                   child: AspectRatio(
-                      aspectRatio: 1.9, child: ExpandImageCard(imageUrl: event?.coverImageURL).paddingAll(2.5)),
+                      aspectRatio: 1.9, child: ExpandImageCard(imageUrl: event.coverImageURL).paddingAll(2.5)),
                 ),
               ),
             ),
@@ -210,7 +209,7 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
 class FeaturedEventText extends StatelessWidget {
   final Event event;
 
-  const FeaturedEventText({Key key, @required this.event}) : super(key: key);
+  const FeaturedEventText({Key? key, required this.event}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
@@ -248,7 +247,7 @@ class FeaturedEventText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AutoSizeText(
-          "${event?.summary ?? ''}",
+          "${event.summary}",
           textAlign: TextAlign.start,
           maxLines: 2,
           style: MyTheme.textTheme.bodyText1,
@@ -258,7 +257,7 @@ class FeaturedEventText extends StatelessWidget {
             child: AutoSizeText('View Event', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
-                  arg: event.docID, queryParams: {'id': event.docID});
+                  arg: event.docID, queryParams: {'id': event.docID!});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],
@@ -270,16 +269,16 @@ class FeaturedEventText extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         AutoSizeText(
-          event?.date == null ? '' : fullDateWithDay(event?.date),
+          fullDateWithDay(event.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
+          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
         ).paddingBottom(8),
         AutoSizeText(
-          event?.name ?? '',
+          event.name,
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloWhite),
         ).paddingBottom(4),
       ],
     );

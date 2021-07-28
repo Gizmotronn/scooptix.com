@@ -7,13 +7,11 @@ import 'package:ticketapp/UI/authentication/signUpForm.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
 import 'package:ticketapp/utilities/alertGenerator.dart';
-import 'dart:html' as js;
 import 'bloc/authentication_bloc.dart';
 
 class LoginAndSignupPage extends StatefulWidget {
@@ -21,18 +19,18 @@ class LoginAndSignupPage extends StatefulWidget {
 
   final AuthenticationBloc bloc;
 
-  const LoginAndSignupPage({Key key, @required this.bloc}) : super(key: key);
+  const LoginAndSignupPage({Key? key, required this.bloc}) : super(key: key);
 
   @override
   _LoginAndSignupPageState createState() => _LoginAndSignupPageState();
 }
 
 class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
-  FormGroup form;
-  FormGroup passwordsForm;
-  FormGroup initialEmailForm;
-  FormGroup confirmEmailForm;
-  FormGroup loginForm;
+  late FormGroup form;
+  late FormGroup passwordsForm;
+  late FormGroup initialEmailForm;
+  late FormGroup confirmEmailForm;
+  late FormGroup loginForm;
 
   final int animationTime = 400;
 
@@ -41,8 +39,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
   @override
   void initState() {
     form = FormGroup({
-      'fname': FormControl(validators: [Validators.required]),
-      'lname': FormControl(validators: [Validators.required]),
+      'fname': FormControl<String>(validators: [Validators.required]),
+      'lname': FormControl<String>(validators: [Validators.required]),
       'dobDay': FormControl<int>(validators: [Validators.required, Validators.max(31)]),
       'dobMonth': FormControl<int>(validators: [Validators.required, Validators.max(12)]),
       'dobYear': FormControl<int>(validators: [Validators.required, Validators.max(2009), Validators.min(1900)]),
@@ -78,15 +76,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return SingleChildScrollView(
-      child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-          cubit: widget.bloc,
-          listener: (c, state) {
-            if (state is StateNewSSOUser) {
-              confirmEmailForm.controls["email"].value = state.email;
-              form.controls["fname"].value = state.firstName;
-              form.controls["lname"].value = state.lastName;
-            }
-          },
+      child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          bloc: widget.bloc,
           builder: (c, state) {
             if (state is StatePasswordsConfirmed) {
               return Column(
@@ -165,7 +156,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 child: AppolloButton.regularButton(
                   child: Text("Login", style: MyTheme.textTheme.button),
                   onTap: () {
-                    widget.bloc.add(EventLoginPressed(initialEmailForm.value["email"], loginForm.value["password"]));
+                    widget.bloc.add(EventLoginPressed(
+                        initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
                   },
                 ),
               ).paddingBottom(8),
@@ -178,7 +170,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               AppolloButton.regularButton(
                 fill: false,
                 color: MyTheme.appolloBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
@@ -186,7 +178,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               AppolloButton.regularButton(
                 child: Text("Login", style: MyTheme.textTheme.button),
                 onTap: () {
-                  widget.bloc.add(EventLoginPressed(initialEmailForm.value["email"], loginForm.value["password"]));
+                  widget.bloc.add(EventLoginPressed(
+                      initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
                 },
               ),
             ],
@@ -206,7 +199,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               SizedBox(
                 width: screenSize.width,
                 child: AppolloButton.regularButton(
-                  child: Text("Next", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor)),
+                  child: Text("Next", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor)),
                   onTap: () {
                     passwordsForm.markAllAsTouched();
                     if (!passwordsForm.hasErrors) {
@@ -225,7 +218,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               AppolloButton.regularButton(
                 fill: false,
                 color: MyTheme.appolloBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
@@ -247,7 +240,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
       });
 
       // User is logged in
-    } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+    } else if (state is StateNewUserEmail) {
       return ResponsiveBuilder(builder: (context, constraints) {
         if (constraints.deviceScreenType == DeviceScreenType.mobile ||
             constraints.deviceScreenType == DeviceScreenType.watch) {
@@ -260,11 +253,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   child: Text("Next", style: MyTheme.textTheme.button),
                   onTap: () {
                     if (!confirmEmailForm.hasErrors) {
-                      if (state is StateNewSSOUser) {
-                        widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
-                      } else {
-                        widget.bloc.add(EventEmailsConfirmed());
-                      }
+                      widget.bloc.add(EventEmailsConfirmed());
                     }
                   },
                 ),
@@ -277,7 +266,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
@@ -286,11 +275,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 child: Text("Next", style: MyTheme.textTheme.button),
                 onTap: () {
                   if (!confirmEmailForm.hasErrors) {
-                    if (state is StateNewSSOUser) {
-                      widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
-                    } else {
-                      widget.bloc.add(EventEmailsConfirmed());
-                    }
+                    widget.bloc.add(EventEmailsConfirmed());
                   }
                 },
               ),
@@ -309,7 +294,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               onTap: () {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
-                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]));
+                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]! as String));
                 }
               },
             ),
@@ -333,7 +318,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               onTap: () {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
-                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]));
+                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"] as String));
                 }
               },
             ),
@@ -357,15 +342,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   onTap: () {
                     if (form.valid) {
                       try {
-                        DateTime dob = DateTime(form.controls["dobYear"].value, form.controls["dobMonth"].value,
-                            form.controls["dobDay"].value);
+                        DateTime dob = DateTime(form.controls["dobYear"]!.value as int,
+                            form.controls["dobMonth"]!.value as int, form.controls["dobDay"]!.value as int);
                         widget.bloc.add(EventCreateNewUser(
-                            confirmEmailForm.value["email"],
-                            passwordsForm.value["password"],
-                            form.controls["fname"].value,
-                            form.controls["lname"].value,
+                            confirmEmailForm.value["email"] as String,
+                            passwordsForm.value["password"] as String,
+                            form.controls["fname"]!.value as String,
+                            form.controls["lname"]!.value as String,
                             dob,
-                            form.controls["gender"].value,
+                            form.controls["gender"]!.value as Gender,
                             state.uid));
                       } catch (_) {}
                     } else {
@@ -373,7 +358,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
 
                       if (!_termsAccepted) {
                         AlertGenerator.showAlert(
-                            context: WrapperPage.mainScaffold.currentContext,
+                            context: WrapperPage.mainScaffold.currentContext!,
                             title: "Missing info",
                             content: "Please accept our terms & conditions to sign up",
                             buttonText: "Ok",
@@ -393,7 +378,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               AppolloButton.regularButton(
                 fill: false,
                 color: MyTheme.appolloBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
@@ -408,15 +393,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 onTap: () {
                   if (form.valid) {
                     try {
-                      DateTime dob = DateTime(form.controls["dobYear"].value, form.controls["dobMonth"].value,
-                          form.controls["dobDay"].value);
+                      DateTime dob = DateTime(form.controls["dobYear"]!.value as int,
+                          form.controls["dobMonth"]!.value as int, form.controls["dobDay"]!.value as int);
                       widget.bloc.add(EventCreateNewUser(
-                          confirmEmailForm.value["email"],
-                          passwordsForm.value["password"],
-                          form.controls["fname"].value,
-                          form.controls["lname"].value,
+                          confirmEmailForm.value["email"] as String,
+                          passwordsForm.value["password"] as String,
+                          form.controls["fname"]!.value as String,
+                          form.controls["lname"]!.value as String,
                           dob,
-                          form.controls["gender"].value,
+                          form.controls["gender"]!.value as Gender,
                           state.uid));
                     } catch (_) {}
                   } else {
@@ -451,7 +436,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
       text = "Password doesn't match, please try again";
     } else if (state is StateExistingUserEmail) {
       text = "Please enter your password.";
-    } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+    } else if (state is StateNewUserEmail) {
       text = "Please confirm your email address";
     } else if (state is StateNewUserEmailsConfirmed) {
       text = "Please create a password.";
@@ -467,7 +452,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 return AutoSizeText(
                   "Let's start with your email.",
                   maxLines: 1,
-                  style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
                 ).paddingBottom(MyTheme.elementSpacing);
               } else {
                 return Column(
@@ -475,11 +460,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   children: [
                     AutoSizeText(
                       "Sign up or sign in",
-                      style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloWhite),
+                      style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloWhite),
                     ).paddingBottom(MyTheme.elementSpacing * 2),
                     AutoSizeText(
                       "Let's start with your email.",
-                      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
                     ),
                   ],
                 ).paddingBottom(MyTheme.elementSpacing * 0.5);
@@ -487,7 +472,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             }),
             AutoSizeText(
               "Welcome, please enter your email to continue.",
-              style: MyTheme.textTheme.bodyText2.copyWith(
+              style: MyTheme.textTheme.bodyText2!.copyWith(
                 color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite,
               ),
               minFontSize: 12,
@@ -511,7 +496,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         child: AutoSizeText(
           text,
           textAlign: TextAlign.left,
-          style: MyTheme.textTheme.headline5
+          style: MyTheme.textTheme.headline5!
               .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloGreen),
           minFontSize: 12,
         ),
@@ -526,33 +511,30 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
       return ReactiveForm(
         formGroup: initialEmailForm,
         child: Container(
-          key: ValueKey(1),
           constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-          child: Focus(
-            child: AppolloTextField(
-              formControlName: "email",
-              textFieldType: TextFieldType.reactive,
-              autofillHints: [AutofillHints.email],
-              validationMessages: (control) => {
-                ValidationMessage.required: 'Please provide an email',
-                ValidationMessage.email: 'Please provide a valid email',
-              },
-              onFieldSubmitted: (v) {
-                initialEmailForm.markAllAsTouched();
-                if (!initialEmailForm.hasErrors) {
-                  setState(() {
-                    confirmEmailForm.controls["email"].value = initialEmailForm.value["email"];
-                  });
-                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]));
-                }
-              },
-              labelText: "Email",
-            ),
+          child: AppolloTextField.reactive(
+            formControl: initialEmailForm.controls["email"],
+            keyboardType: TextInputType.emailAddress,
+            autofillHints: [AutofillHints.email, AutofillHints.username],
+            validationMessages: (control) => {
+              ValidationMessage.required: 'Please provide an email',
+              ValidationMessage.email: 'Please provide a valid email',
+            },
+            onFieldSubmitted: (v) {
+              initialEmailForm.markAllAsTouched();
+              if (!initialEmailForm.hasErrors) {
+                setState(() {
+                  confirmEmailForm.controls["email"]!.value = initialEmailForm.value["email"];
+                });
+                widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"] as String));
+              }
+            },
+            labelText: "Email",
           ),
         ),
       );
     // Prompt confirm email
-    else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+    else if (state is StateNewUserEmail) {
       return ReactiveForm(
         formGroup: confirmEmailForm,
         child: Column(
@@ -560,22 +542,18 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
               child: Focus(
-                child: AppolloTextField(
-                  textFieldType: TextFieldType.reactive,
-                  formControlName: "email",
+                child: AppolloTextField.reactive(
+                  formControl: confirmEmailForm.controls["email"],
                   labelText: "Email",
+                  keyboardType: TextInputType.emailAddress,
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide an email',
                     ValidationMessage.email: 'Please provide a valid email',
                   },
-                  autofillHints: [AutofillHints.email],
+                  autofillHints: [AutofillHints.email, AutofillHints.newUsername],
                   onFieldSubmitted: (v) {
                     if (!confirmEmailForm.hasErrors) {
-                      if (state is StateNewSSOUser) {
-                        widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
-                      } else {
-                        widget.bloc.add(EventEmailsConfirmed());
-                      }
+                      widget.bloc.add(EventEmailsConfirmed());
                     }
                   },
                 ),
@@ -587,24 +565,20 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
               child: Focus(
-                child: AppolloTextField(
+                child: AppolloTextField.reactive(
                   labelText: "Confirm Email",
-                  textFieldType: TextFieldType.reactive,
+                  keyboardType: TextInputType.emailAddress,
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide an email',
                     ValidationMessage.email: 'Please provide a valid email',
                     ValidationMessage.mustMatch: "Emails must match"
                   },
-                  formControlName: "repeat",
-                  autofillHints: [AutofillHints.email],
+                  formControl: confirmEmailForm.controls["repeat"],
+                  autofillHints: [AutofillHints.email, AutofillHints.newUsername],
                   autofocus: true,
                   onFieldSubmitted: (v) {
                     if (!confirmEmailForm.hasErrors) {
-                      if (state is StateNewSSOUser) {
-                        widget.bloc.add(EventSSOEmailsConfirmed(state.uid));
-                      } else {
-                        widget.bloc.add(EventEmailsConfirmed());
-                      }
+                      widget.bloc.add(EventEmailsConfirmed());
                     }
                   },
                 ),
@@ -618,88 +592,30 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     }
   }
 
+  bool showSSOInfo = false;
+
   Widget _buildSSO(AuthenticationState state, Size screenSize) {
-    if ((js.window.navigator.userAgent.contains("iPhone") && !js.window.navigator.userAgent.contains("Safari")) ||
-        js.window.navigator.userAgent.contains("wv")) {
-      return Container();
-    }
-    if (state is StateLoadingSSO) {
-      return SizedBox(
-        height: 180,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppolloProgressIndicator(),
-            AutoSizeText(
-              "Please log in using the popup",
-              style: MyTheme.textTheme.bodyText2,
-            ),
-            AutoSizeText("Can't see any popup? Please make sure your browser isn't blocking it.",
-                style: MyTheme.textTheme.bodyText2),
-          ],
-        ),
-      ).paddingTop(MyTheme.elementSpacing);
-    } else if (state is StateLoadingCreateUser) {
-      return SizedBox(
-        height: 180,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            AppolloProgressIndicator(),
-            AutoSizeText(
-              "Setting up your account ...",
-              style: MyTheme.textTheme.bodyText2,
-            ),
-          ],
-        ),
-      ).paddingTop(MyTheme.elementSpacing);
-    } else if (state is StateInitial) {
-      return Column(
-        children: [
-          _buildDivider(),
-          SizedBox(
-            height: getValueForScreenType(
-                context: context,
-                watch: screenSize.height * 0.08,
-                mobile: screenSize.height * 0.08,
-                tablet: 0,
-                desktop: 0),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () {
-                  widget.bloc.add(EventGoogleSignIn());
-                },
-                child: SvgIcon("assets/icons/google_icon.svg", size: 70),
-              ),
-              SizedBox(
-                width: 12,
-              ),
-              InkWell(
-                onTap: () {
-                  widget.bloc.add(EventFacebookSignIn());
-                },
-                child: SvgIcon("assets/icons/facebook_icon.svg", size: 70),
-              ),
-              SizedBox(
-                width: 12,
-              ),
-              InkWell(
-                onTap: () {
-                  widget.bloc.add(EventAppleSignIn());
-                },
-                child: Container(
-                    child: SvgIcon("assets/icons/apple_icon.svg", color: MyTheme.textTheme.bodyText2.color, size: 70)),
-              ),
-            ],
-          ).paddingBottom(MyTheme.elementSpacing),
-        ],
-      ).paddingTop(MyTheme.elementSpacing);
-    } else {
-      return SizedBox.shrink();
-    }
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        AnimatedSwitcher(
+          duration: MyTheme.animationDuration,
+          child: showSSOInfo
+              ? Text(
+                  "SSO logins are unfortunately no longer available. Please create a new account using the same email address to access your old account, or create a new one with a different email address. Sorry for any inconvenience.",
+                  textAlign: TextAlign.center,
+                )
+              : InkWell(
+                  onTap: () {
+                    setState(() {
+                      showSSOInfo = true;
+                    });
+                  },
+                  child: Text("Looking for SSO logins?")),
+        )
+      ],
+    ).paddingAll(MyTheme.elementSpacing);
   }
 
   Widget _buildDivider() {
@@ -714,7 +630,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           child: Center(
             child: AutoSizeText(
               "OR",
-              style: MyTheme.textTheme.bodyText1.copyWith(color: Colors.white),
+              style: MyTheme.textTheme.bodyText1!.copyWith(color: Colors.white),
             ).paddingAll(8),
           ),
         ).paddingHorizontal(16),
@@ -725,9 +641,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
 
   /// Builds TextInputFields for the initial email fields as well as email and password confirmation
   _buildEmailAndPWFields(AuthenticationState state, Size screenSize) {
-    if (state is StateLoadingSSO || state is StateLoadingCreateUser) {
+    if (state is StateLoadingCreateUser) {
       return Container();
-    } else if (state is StateNewUserEmail || state is StateNewSSOUser) {
+    } else if (state is StateNewUserEmail) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -769,10 +685,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             ),
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-              child: AppolloTextField(
-                formControlName: 'password',
-                textFieldType: TextFieldType.reactive,
-                autofillHints: [AutofillHints.password],
+              child: AppolloTextField.reactive(
+                formControl: passwordsForm.controls['password'],
+                autofillHints: [AutofillHints.newPassword],
                 validationMessages: (control) => {
                   ValidationMessage.minLength: 'Your password must be at least 8 characters long',
                 },
@@ -793,10 +708,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             ),
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-              child: AppolloTextField(
-                formControlName: 'repeat',
-                textFieldType: TextFieldType.reactive,
-                autofillHints: [AutofillHints.password],
+              child: AppolloTextField.reactive(
+                formControl: passwordsForm.controls['repeat'],
+                autofillHints: [AutofillHints.newPassword],
                 validationMessages: (control) => {
                   ValidationMessage.minLength: 'Your password must be at least 8 characters long',
                   ValidationMessage.mustMatch: 'Your passwords must match',
@@ -827,9 +741,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             formGroup: loginForm,
             child: Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-              child: AppolloTextField(
-                textFieldType: TextFieldType.reactive,
-                formControlName: "password",
+              child: AppolloTextField.reactive(
+                formControl: loginForm.controls["password"],
                 autofillHints: [AutofillHints.password],
                 obscureText: true,
                 labelText: "Password",
@@ -839,7 +752,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 autofocus: true,
                 onFieldSubmitted: (v) {
                   if (state is StateExistingUserEmail) {
-                    widget.bloc.add(EventLoginPressed(initialEmailForm.value["email"], loginForm.value["password"]));
+                    widget.bloc.add(EventLoginPressed(
+                        initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
                   }
                 },
               ),
@@ -866,7 +780,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                                       buttonText2: "Cancel")
                                   .then((value) {
                                 if (value != null && value) {
-                                  FBServices.instance.resetPassword(initialEmailForm.value["email"]);
+                                  FBServices.instance.resetPassword(initialEmailForm.value["email"] as String);
                                 }
                               });
                             }
@@ -895,7 +809,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 primary: MyTheme.appolloBackgroundColorLight,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
               ),
-              child: Text("Back", style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloGreen)),
+              child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
               onPressed: () {
                 widget.bloc.add(EventChangeEmail());
               },

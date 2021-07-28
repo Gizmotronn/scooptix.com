@@ -1,5 +1,5 @@
 class AttendeeTicket {
-  String docId;
-  String name;
-  DateTime dateAccepted;
+  String? docId;
+  String? name;
+  DateTime? dateAccepted;
 }

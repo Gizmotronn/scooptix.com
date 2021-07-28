@@ -20,9 +20,9 @@ import '../event_overview_home.dart';
 import '../side_buttons.dart';
 
 class EventsForMe extends StatefulWidget {
-  final ScrollController scrollController;
+  final ScrollController? scrollController;
 
-  const EventsForMe({Key key, this.scrollController}) : super(key: key);
+  const EventsForMe({Key? key, this.scrollController}) : super(key: key);
 
   @override
   _EventsForMeState createState() => _EventsForMeState();
@@ -107,7 +107,7 @@ class _EventsForMeState extends State<EventsForMe> {
                     child: HoverAppolloButton(
                       onTap: () {
                         WrapperPage.endDrawer.value = AuthenticationDrawer();
-                        WrapperPage.mainScaffold.currentState.openEndDrawer();
+                        WrapperPage.mainScaffold.currentState!.openEndDrawer();
                       },
                       title: 'Create An Account',
                       color: MyTheme.appolloGreen,
@@ -186,12 +186,12 @@ class _EventsForMeState extends State<EventsForMe> {
     );
   }
 
-  Widget _forMeTags(context, {@required String icon, @required String tag}) => Container(
+  Widget _forMeTags(context, {required String icon, required String tag}) => Container(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(icon, height: 24, width: 24).paddingRight(8),
-            AutoSizeText(tag ?? '', style: Theme.of(context).textTheme.headline3.copyWith(color: MyTheme.appolloWhite))
+            AutoSizeText(tag, style: Theme.of(context).textTheme.headline3!.copyWith(color: MyTheme.appolloWhite))
                 .paddingBottom(4),
           ],
         ),
@@ -204,7 +204,7 @@ class _EventsForMeState extends State<EventsForMe> {
         _forMe.length,
         (index) => SideButton(
           title: "${_forMe[index].title}",
-          icon: SvgPicture.asset(_forMe[index].svgIcon, height: 16, width: 16).paddingRight(8),
+          icon: SvgPicture.asset(_forMe[index].svgIcon!, height: 16, width: 16).paddingRight(8),
           isTap: _forMe[index].isTap,
           onTap: () async {
             setState(() {
@@ -213,8 +213,10 @@ class _EventsForMeState extends State<EventsForMe> {
               }
               _forMe[index].isTap = true;
             });
-            await widget.scrollController
-                .animateTo(positions[index], curve: Curves.linear, duration: MyTheme.animationDuration);
+            if (widget.scrollController != null) {
+              await widget.scrollController!
+                  .animateTo(positions[index], curve: Curves.linear, duration: MyTheme.animationDuration);
+            }
           },
         ).paddingHorizontal(16),
       ),
@@ -229,7 +231,7 @@ class _EventsForMeState extends State<EventsForMe> {
             children: [
               _forMeNav().paddingBottom(16),
               BoxOffset(
-                boxOffset: (offset) => setState(() => positions[_forMe[0].id] = offset.dy),
+                boxOffset: (offset) => setState(() => positions[_forMe[0].id!] = offset.dy),
                 child: AppolloBackgroundCard(
                   child: Column(
                     children: [
@@ -241,7 +243,7 @@ class _EventsForMeState extends State<EventsForMe> {
               ),
               const SizedBox(height: kToolbarHeight),
               BoxOffset(
-                boxOffset: (offset) => setState(() => positions[_forMe[1].id] = offset.dy),
+                boxOffset: (offset) => setState(() => positions[_forMe[1].id!] = offset.dy),
                 child: AppolloBackgroundCard(
                   child: Column(
                     children: [
@@ -253,15 +255,15 @@ class _EventsForMeState extends State<EventsForMe> {
               ),
               const SizedBox(height: kToolbarHeight),
               BoxOffset(
-                boxOffset: (offset) => setState(() => positions[_forMe[2].id] = offset.dy),
+                boxOffset: (offset) => setState(() => positions[_forMe[2].id!] = offset.dy),
                 child: AppolloBackgroundCard(
                   child: Column(
                     children: [
                       _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
                       AppolloEvents(
                           events: EventsRepository.instance.events
-                              .where(
-                                  (element) => UserRepository.instance.currentUser().favourites.contains(element.docID))
+                              .where((element) =>
+                                  UserRepository.instance.currentUser()!.favourites.contains(element.docID))
                               .toList()),
                     ],
                   ),
@@ -301,7 +303,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         AppolloEvents(
                             events: EventsRepository.instance.events
                                 .where((element) =>
-                                    UserRepository.instance.currentUser().favourites.contains(element.docID))
+                                    UserRepository.instance.currentUser()!.favourites.contains(element.docID))
                                 .toList()),
                       ],
                     ),

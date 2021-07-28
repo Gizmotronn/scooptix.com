@@ -15,8 +15,8 @@ class EventTickets extends StatefulWidget {
   final Event event;
 
   EventTickets({
-    Key key,
-    this.event,
+    Key? key,
+    required this.event,
   }) : super(key: key);
 
   @override
@@ -53,7 +53,7 @@ class _EventTicketsState extends State<EventTickets> {
       children: [
         AutoSizeText(
           'Tickets',
-          style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing * 2),
         ClipRRect(
           borderRadius: BorderRadius.circular(5),
@@ -72,7 +72,8 @@ class _EventTicketsState extends State<EventTickets> {
                     children: [
                       _header(context, text: widget.event.name),
                       _subHeader(context,
-                          text: "${fullDateWithYear(widget.event.date)} - ${time(widget.event.endTime)}"),
+                          text:
+                              "${fullDateWithYear(widget.event.date)} - ${widget.event.endTime != null ? time(widget.event.endTime!) : ""}"),
                       Expanded(
                         child: Container(
                           child: widget.event.getLinkTypeValidReleaseManagers().length == 0
@@ -106,7 +107,7 @@ class _EventTicketsState extends State<EventTickets> {
                                             setState(() {
                                               selectedTickets[widget.event
                                                   .getLinkTypeValidReleaseManagers()[index]
-                                                  .getActiveRelease()] = q;
+                                                  .getActiveRelease()!] = q;
                                             });
                                           }
                                         });
@@ -138,7 +139,7 @@ class _EventTicketsState extends State<EventTickets> {
     ));
   }
 
-  Widget _header(BuildContext context, {String text}) {
+  Widget _header(BuildContext context, {required String text}) {
     return Container(
       height: 45,
       decoration: BoxDecoration(
@@ -149,17 +150,18 @@ class _EventTicketsState extends State<EventTickets> {
         child: Text(
           text,
           style:
-              MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor),
+              MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor),
         ).paddingVertical(8),
       ),
     );
   }
 
-  Widget _subHeader(BuildContext context, {String text}) {
+  Widget _subHeader(BuildContext context, {required String text}) {
     return Center(
       child: Text(
         text,
-        style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w400, color: MyTheme.appolloWhite),
+        style:
+            Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.w400, color: MyTheme.appolloWhite),
       ).paddingBottom(MyTheme.elementSpacing).paddingTop(8),
     );
   }

@@ -12,7 +12,7 @@ class AllEvents extends StatelessWidget {
   final List<Event> events;
   final AutoSizeText headline;
 
-  const AllEvents({Key key, this.events, this.headline}) : super(key: key);
+  const AllEvents({Key? key, required this.events, required this.headline}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -51,7 +51,7 @@ class AllEvents extends StatelessWidget {
             AutoSizeText("${events.length.toString()} Events",
                 style: Theme.of(context)
                     .textTheme
-                    .headline4
+                    .headline4!
                     .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500)),
           ],
         ),

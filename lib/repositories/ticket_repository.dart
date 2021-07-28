@@ -15,13 +15,13 @@ import 'package:http/http.dart' as http;
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class TicketRepository {
-  static TicketRepository _instance;
+  static TicketRepository? _instance;
 
   static TicketRepository get instance {
     if (_instance == null) {
       _instance = TicketRepository._();
     }
-    return _instance;
+    return _instance!;
   }
 
   TicketRepository._();
@@ -30,8 +30,8 @@ class TicketRepository {
     _instance = null;
   }
 
-  Future<Discount> loadDiscount(Event event, String code) async {
-    QuerySnapshot discountSnapshot = await FirebaseFirestore.instance
+  Future<Discount?> loadDiscount(Event event, String code) async {
+    QuerySnapshot<Map<String, dynamic>> discountSnapshot = await FirebaseFirestore.instance
         .collection("ticketevents")
         .doc(event.docID)
         .collection("discounts")
@@ -40,7 +40,12 @@ class TicketRepository {
     if (discountSnapshot.size == 0) {
       return null;
     } else {
-      return Discount.fromMap(discountSnapshot.docs[0].id, discountSnapshot.docs[0].data());
+      try {
+        Discount d = Discount.fromMap(discountSnapshot.docs[0].id, discountSnapshot.docs[0].data());
+        return d;
+      } catch (_) {
+        return null;
+      }
     }
   }
 
@@ -56,13 +61,13 @@ class TicketRepository {
     if (ticketSnapshot.size == 0) {
       return [];
     } else {
-      List<Future<Event>> futures = [];
+      List<Future<Event?>> futures = [];
       List<String> loadedEvents = [];
       ticketSnapshot.docs.forEach((ticketDoc) {
         // Make sure we don't load events multiple times
-        if (!loadedEvents.contains(ticketDoc.data()["eventref"])) {
-          futures.add(EventsRepository.instance.loadEventById(ticketDoc.data()["eventref"]));
-          loadedEvents.add(ticketDoc.data()["eventref"]);
+        if (!loadedEvents.contains(ticketDoc.get("eventref"))) {
+          futures.add(EventsRepository.instance.loadEventById(ticketDoc.get("eventref")));
+          loadedEvents.add(ticketDoc.get("eventref"));
         }
       });
 
@@ -72,15 +77,16 @@ class TicketRepository {
         Ticket ticket;
         try {
           ticket = Ticket.fromMap(
-              ticketDoc.id,
-              EventsRepository.instance.events.firstWhere((element) => element.docID == ticketDoc.data()["eventref"]),
-              null,
-              ticketDoc.data());
+              id: ticketDoc.id,
+              event:
+                  EventsRepository.instance.events.firstWhere((element) => element.docID == ticketDoc.get("eventref")),
+              release: null,
+              data: ticketDoc.data() as Map<String, dynamic>);
 
           if (ticket.event != null) {
             try {
               print("option 1");
-              ticket.release = ticket.event.getRelease(ticketDoc.data()["ticket_release_id"]);
+              ticket.release = ticket.event!.getRelease(ticketDoc.get("ticket_release_id"));
 
               tickets.add(ticket);
             } catch (_) {
@@ -88,7 +94,7 @@ class TicketRepository {
               // All our tickets should be single restricted so this should work until there are no more old tickets
               if (ticket.release == null) {
                 print("get single release");
-                ticket.release = ticket.event.getReleasesWithSingleTicketRestriction()[0];
+                ticket.release = ticket.event!.getReleasesWithSingleTicketRestriction()[0];
               }
               tickets.add(ticket);
             }
@@ -103,9 +109,9 @@ class TicketRepository {
     }
   }
 
-  Future<List<Ticket>> loadTickets(String uid, Event event, {TicketRelease release}) async {
+  Future<List<Ticket>> loadTickets(String uid, Event event, {TicketRelease? release}) async {
     List<Ticket> tickets = [];
-    Query q = FirebaseFirestore.instance
+    Query<Map<String, dynamic>> q = FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
         .collection("tickets")
@@ -115,16 +121,16 @@ class TicketRepository {
       q = q.where("ticket_release_id", isEqualTo: release.docId);
     }
 
-    QuerySnapshot ticketSnapshot = await q.get();
+    QuerySnapshot<Map<String, dynamic>> ticketSnapshot = await q.get();
     if (ticketSnapshot.size == 0) {
       return [];
     } else {
       ticketSnapshot.docs.forEach((ticketDoc) {
         Ticket ticket;
         try {
-          ticket = Ticket.fromMap(ticketDoc.id, event, null, ticketDoc.data());
+          ticket = Ticket.fromMap(id: ticketDoc.id, event: event, release: null, data: ticketDoc.data());
           try {
-            ticket.release = event.getRelease(ticketDoc.data()["ticket_release_id"]);
+            ticket.release = event.getRelease(ticketDoc.get("ticket_release_id"));
 
             tickets.add(ticket);
           } catch (_) {
@@ -148,7 +154,7 @@ class TicketRepository {
   /// Paid ticket processing
   /// Creates tickets for the user and stores it in the user's 'ticket' subcollection and in the ticketevent's 'tickets' subcollection
   /// Calls a cloud function to handle the confirmation email.
-  Future<List<Ticket>> issueTickets(Event event, TicketRelease release, int quantity, Discount discount) async {
+  Future<List<Ticket>> issueTickets(Event event, TicketRelease release, int quantity, Discount? discount) async {
     try {
       List<String> ticketDocIds = [];
       List<Ticket> tickets = [];
@@ -167,15 +173,15 @@ class TicketRepository {
           "type": LinkRepository.instance.linkType.dbString,
           "ticketnumber": i,
           "valid": true,
-          "requestee": UserRepository.instance.currentUser().firebaseUserID,
+          "requestee": UserRepository.instance.currentUser()!.firebaseUserID,
           "requesttime": ticket.dateIssued,
-          "useremail": UserRepository.instance.currentUser().email,
-          "firstname": UserRepository.instance.currentUser().firstname,
-          "lastname": UserRepository.instance.currentUser().lastname,
-          "dob": UserRepository.instance.currentUser().dob,
-          "gender": UserRepository.instance.currentUser().gender.toDBString(),
+          "useremail": UserRepository.instance.currentUser()!.email,
+          "firstname": UserRepository.instance.currentUser()!.firstname,
+          "lastname": UserRepository.instance.currentUser()!.lastname,
+          "dob": UserRepository.instance.currentUser()!.dob,
+          "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
           if (LinkRepository.instance.linkType is Invitation)
-            "promoter": (LinkRepository.instance.linkType as Invitation).promoter.docId,
+            "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
           if (LinkRepository.instance.linkType is AdvertisementLink)
             "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
           if (discount != null) "discount_id": discount.docId,
@@ -186,7 +192,7 @@ class TicketRepository {
 
         FirebaseFirestore.instance
             .collection("users")
-            .doc(UserRepository.instance.currentUser().firebaseUserID)
+            .doc(UserRepository.instance.currentUser()!.firebaseUserID)
             .collection("tickets")
             .doc(ticketDoc.id)
             .set({
@@ -199,7 +205,7 @@ class TicketRepository {
           "valid": true,
           "requesttime": ticket.dateIssued,
           if (LinkRepository.instance.linkType is Invitation)
-            "promoter": (LinkRepository.instance.linkType as Invitation).promoter.docId,
+            "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
           if (LinkRepository.instance.linkType is AdvertisementLink)
             "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
           "onWaitList": false,
@@ -221,7 +227,7 @@ class TicketRepository {
       http.Response response;
       try {
         response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
-          "uid": UserRepository.instance.currentUser().firebaseUserID,
+          "uid": UserRepository.instance.currentUser()!.firebaseUserID,
           "eventId": event.docID,
           "ticketId": ticketDocIds[0]
         });
@@ -259,15 +265,15 @@ class TicketRepository {
         "imageURL": event.coverImageURL,
         "type": LinkRepository.instance.linkType.dbString,
         "valid": true,
-        "requestee": UserRepository.instance.currentUser().firebaseUserID,
+        "requestee": UserRepository.instance.currentUser()!.firebaseUserID,
         "requesttime": ticket.dateIssued,
-        "useremail": UserRepository.instance.currentUser().email,
-        "firstname": UserRepository.instance.currentUser().firstname,
-        "lastname": UserRepository.instance.currentUser().lastname,
-        "dob": UserRepository.instance.currentUser().dob,
-        "gender": UserRepository.instance.currentUser().gender.toDBString(),
+        "useremail": UserRepository.instance.currentUser()!.email,
+        "firstname": UserRepository.instance.currentUser()!.firstname,
+        "lastname": UserRepository.instance.currentUser()!.lastname,
+        "dob": UserRepository.instance.currentUser()!.dob,
+        "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
         if (LinkRepository.instance.linkType is Invitation)
-          "promoter": (LinkRepository.instance.linkType as Invitation).promoter.docId,
+          "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
         if (LinkRepository.instance.linkType is AdvertisementLink)
           "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
         "onWaitList": false,
@@ -277,7 +283,7 @@ class TicketRepository {
 
       await FirebaseFirestore.instance
           .collection("users")
-          .doc(UserRepository.instance.currentUser().firebaseUserID)
+          .doc(UserRepository.instance.currentUser()!.firebaseUserID)
           .collection("tickets")
           .doc(ticketDoc.id)
           .set({
@@ -289,7 +295,7 @@ class TicketRepository {
         "valid": true,
         "requesttime": ticket.dateIssued,
         if (LinkRepository.instance.linkType is Invitation)
-          "promoter": (LinkRepository.instance.linkType as Invitation).promoter.docId,
+          "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
         if (LinkRepository.instance.linkType is AdvertisementLink)
           "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
         "onWaitList": false,
@@ -303,7 +309,7 @@ class TicketRepository {
       http.Response response;
       try {
         response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
-          "uid": UserRepository.instance.currentUser().firebaseUserID,
+          "uid": UserRepository.instance.currentUser()!.firebaseUserID,
           "eventId": event.docID,
           "ticketId": ticketDoc.id
         });
@@ -319,7 +325,7 @@ class TicketRepository {
       ticket.release = release;
       return ticket;
     } catch (e, s) {
-      BugsnagNotifier.instance.notify("Error accepting invitation \n" + e, s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error accepting invitation \n" + e.toString(), s, severity: ErrorSeverity.error);
       print(e);
       return null;
     }
@@ -336,8 +342,8 @@ class TicketRepository {
     await Future.wait(passSnaphot.docs.map((e) async {
       attendees.add(AttendeeTicket()
         ..docId = e.id
-        ..name = e.data()["firstname"] + " " + e.data()["lastname"]
-        ..dateAccepted = DateTime.fromMillisecondsSinceEpoch(e.data()["requesttime"].millisecondsSinceEpoch));
+        ..name = e.get("firstname") + " " + e.get("lastname")
+        ..dateAccepted = DateTime.fromMillisecondsSinceEpoch(e.get("requesttime").millisecondsSinceEpoch));
     }));
     return attendees;
   }
@@ -374,7 +380,7 @@ class TicketRepository {
   incrementLinkOpenedCounter(Event event) async {
     try {
       if (LinkRepository.instance.linkType is AdvertisementLink) {
-        AdvertisementLink link = LinkRepository.instance.linkType;
+        AdvertisementLink link = LinkRepository.instance.linkType as AdvertisementLink;
         FirebaseFirestore.instance
             .collection("ticketevents")
             .doc(event.docID)

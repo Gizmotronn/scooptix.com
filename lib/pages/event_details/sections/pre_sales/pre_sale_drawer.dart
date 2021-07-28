@@ -6,17 +6,17 @@ import '../../../../main.dart';
 import 'bloc/pre_sale_bloc.dart';
 
 class PreSaleDrawer extends StatefulWidget {
-  final PreSaleBloc bloc;
+  final PreSaleBloc? bloc;
   final Event event;
 
-  const PreSaleDrawer({Key key, this.bloc, @required this.event}) : super(key: key);
+  const PreSaleDrawer({Key? key, this.bloc, required this.event}) : super(key: key);
 
   @override
   _PreSaleDrawerState createState() => _PreSaleDrawerState();
 }
 
 class _PreSaleDrawerState extends State<PreSaleDrawer> {
-  PreSaleBloc bloc;
+  late PreSaleBloc bloc;
 
   @override
   void initState() {
@@ -24,7 +24,7 @@ class _PreSaleDrawerState extends State<PreSaleDrawer> {
       bloc = PreSaleBloc();
       bloc.add(EventCheckStatus(widget.event));
     } else {
-      bloc = widget.bloc;
+      bloc = widget.bloc!;
     }
     super.initState();
   }
@@ -55,7 +55,7 @@ class _PreSaleDrawerState extends State<PreSaleDrawer> {
             alignment: Alignment.topRight,
             child: InkWell(
               onTap: () {
-                Navigator.pop(WrapperPage.mainScaffold.currentContext);
+                Navigator.pop(WrapperPage.mainScaffold.currentContext!);
               },
               child: Icon(
                 Icons.close,

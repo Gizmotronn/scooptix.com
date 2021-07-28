@@ -13,7 +13,7 @@ import '../theme.dart';
 class SignUpForm extends StatefulWidget {
   final FormGroup form;
 
-  const SignUpForm({Key key, @required this.form}) : super(key: key);
+  const SignUpForm({Key? key, required this.form}) : super(key: key);
 
   @override
   _SignUpFormState createState() => _SignUpFormState();
@@ -32,37 +32,35 @@ class _SignUpFormState extends State<SignUpForm> {
               textAlign: TextAlign.center,
               style: getValueForScreenType(
                   context: context,
-                  watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                  mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                  tablet: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
-                  desktop: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen)),
+                  watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                  mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                  tablet: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
+                  desktop: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen)),
             ).paddingBottom(MyTheme.elementSpacing),
             AutoSizeText(
               "Tell us about yourself",
               textAlign: TextAlign.center,
               style: getValueForScreenType(
                   context: context,
-                  watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                  mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                  tablet: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen),
-                  desktop: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen)),
+                  watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                  mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                  tablet: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
+                  desktop: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen)),
             ).paddingBottom(MyTheme.elementSpacing),
 
             Column(
               children: [
-                AppolloTextField(
+                AppolloTextField.reactive(
                   labelText: "First Name",
-                  textFieldType: TextFieldType.reactive,
-                  formControlName: 'fname',
+                  formControl: widget.form.controls['fname'],
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide a name',
                   },
                   // decoration: InputDecoration(labelText: "First Name"),
                 ).paddingBottom(MyTheme.elementSpacing),
-                AppolloTextField(
+                AppolloTextField.reactive(
                   labelText: "Last Name",
-                  textFieldType: TextFieldType.reactive,
-                  formControlName: 'lname',
+                  formControl: widget.form.controls['lname'],
                   validationMessages: (control) => {
                     ValidationMessage.required: 'Please provide a name',
                   },
@@ -87,10 +85,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: MediaQuery.of(context).size.width / 3 - 8,
                             watch: MediaQuery.of(context).size.width / 3 - 8),
-                        child: AppolloTextField(
+                        child: AppolloTextField.reactive(
                           labelText: 'Day',
-                          textFieldType: TextFieldType.reactive,
-                          formControlName: 'dobDay',
+                          formControl: widget.form.controls["dobDay"],
                           keyboardType: TextInputType.number,
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a day',
@@ -114,10 +111,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: MediaQuery.of(context).size.width / 3 - 30,
                             watch: MediaQuery.of(context).size.width / 3 - 30),
-                        child: AppolloTextField(
+                        child: AppolloTextField.reactive(
                           labelText: 'Month',
-                          textFieldType: TextFieldType.reactive,
-                          formControlName: 'dobMonth',
+                          formControl: widget.form.controls["dobMonth"],
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a month',
                             ValidationMessage.max: 'Please provide a valid month',
@@ -140,10 +136,9 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: MediaQuery.of(context).size.width / 3 - 30,
                             watch: MediaQuery.of(context).size.width / 3 - 30),
-                        child: AppolloTextField(
+                        child: AppolloTextField.reactive(
                           labelText: 'Year',
-                          textFieldType: TextFieldType.reactive,
-                          formControlName: 'dobYear',
+                          formControl: widget.form.controls["dobYear"],
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide a year',
                             ValidationMessage.max: 'Please provide a valid year',
@@ -191,7 +186,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             AutoSizeText(
               "Terms & Conditions",
-              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: MyTheme.elementSpacing,
@@ -232,7 +227,7 @@ class _SignUpFormState extends State<SignUpForm> {
                       },
                       child: Text(
                         "I accept the terms & conditions",
-                        style: MyTheme.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
+                        style: MyTheme.textTheme.bodyText2!.copyWith(decoration: TextDecoration.underline),
                       )),
                 ],
               ),

@@ -1,13 +1,13 @@
 enum DiscountType { value, percent }
 
 class Discount {
-  String docId;
-  int amount;
-  DiscountType type;
-  int maxUses;
-  int timesUsed;
-  String code;
-  List<String> appliesToReleases = [];
+  late String docId;
+  late int amount;
+  late DiscountType type;
+  late int maxUses;
+  late int timesUsed;
+  late String code;
+  late List<String> appliesToReleases = [];
 
   Discount._();
 
@@ -28,7 +28,7 @@ class Discount {
         discount.type = DiscountType.value;
         discount.amount = data["discount_value"];
       } else {
-        return null;
+        throw Exception("Couldn't load Discount, no type given");
       }
 
       discount.maxUses = data["max_uses"];
@@ -42,7 +42,7 @@ class Discount {
       return discount;
     } catch (e) {
       print(e);
-      return null;
+      throw Exception("Couldn't load Discount");
     }
   }
 }

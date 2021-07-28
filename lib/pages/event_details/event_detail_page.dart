@@ -16,17 +16,17 @@ import 'sections/event_details.dart';
 class EventDetailPage extends StatefulWidget {
   static const String routeName = '/event';
   final String id;
-  static ValueNotifier<Widget> fab = ValueNotifier<Widget>(null);
+  static ValueNotifier<Widget?> fab = ValueNotifier<Widget?>(null);
 
-  const EventDetailPage({Key key, this.id}) : super(key: key);
+  const EventDetailPage({Key? key, required this.id}) : super(key: key);
 
   @override
   _EventDetailPageState createState() => _EventDetailPageState();
 }
 
 class _EventDetailPageState extends State<EventDetailPage> with TickerProviderStateMixin {
-  EventsOverviewBloc bloc;
-  ScrollController _scrollController;
+  late EventsOverviewBloc bloc;
+  late ScrollController _scrollController;
 
   @override
   void initState() {
@@ -52,13 +52,13 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
           valueListenable: EventDetailPage.fab,
           builder: (context, value, child) {
             if (value != null) {
-              return Padding(padding: EdgeInsets.only(bottom: 62), child: value);
+              return Padding(padding: EdgeInsets.only(bottom: 62), child: value as Widget?);
             } else {
               return SizedBox.shrink();
             }
           }),
       body: BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
-        cubit: bloc,
+        bloc: bloc,
         builder: (context, state) {
           if (state is ErrorEventDetailState) {
             return ErrorPage(state.message);
@@ -93,11 +93,11 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
 
 class EventPageDesktopView extends StatelessWidget {
   const EventPageDesktopView({
-    Key key,
-    @required ScrollController scrollController,
-    @required this.bloc,
-    @required this.event,
-    @required this.organizer,
+    Key? key,
+    required ScrollController scrollController,
+    required this.bloc,
+    required this.event,
+    required this.organizer,
   })  : _scrollController = scrollController,
         super(key: key);
 

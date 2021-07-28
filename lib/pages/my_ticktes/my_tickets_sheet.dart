@@ -13,21 +13,21 @@ class MyTicketsSheet extends StatefulWidget {
   static openMyTicketsSheet() {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
-          context: WrapperPage.navigatorKey.currentContext,
+          context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColor,
           expand: true,
           settings: RouteSettings(name: "tickets_sheet"),
           builder: (context) => MyTicketsSheet._());
     } else {
       showAppolloModalBottomSheet(
-          context: WrapperPage.navigatorKey.currentContext,
+          context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColor,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
-                  Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                  Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
-                      context: WrapperPage.navigatorKey.currentContext,
+                      context: WrapperPage.navigatorKey.currentContext!,
                       backgroundColor: MyTheme.appolloBackgroundColor,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
@@ -69,7 +69,7 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
                       ),
                       Text(
                         "Done",
-                        style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                       )
                     ],
                   ),

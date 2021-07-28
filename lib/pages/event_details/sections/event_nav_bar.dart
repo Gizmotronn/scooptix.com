@@ -6,15 +6,15 @@ import '../../../UI/theme.dart';
 
 class EventDetailNavbar extends StatelessWidget {
   const EventDetailNavbar({
-    Key key,
+    Key? key,
     this.imageURL,
-    this.mainText,
-    this.buttonText,
-    this.scrollController,
-    this.offset,
+    required this.mainText,
+    required this.buttonText,
+    required this.scrollController,
+    required this.offset,
   }) : super(key: key);
 
-  final String imageURL;
+  final String? imageURL;
   final String mainText;
   final String buttonText;
   final ScrollController scrollController;
@@ -57,7 +57,7 @@ class EventDetailNavbar extends StatelessWidget {
                     AutoSizeText(
                       mainText,
                       maxLines: 1,
-                      style: MyTheme.textTheme.headline2
+                      style: MyTheme.textTheme.headline2!
                           .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
                     ),
                   ],
@@ -73,7 +73,7 @@ class EventDetailNavbar extends StatelessWidget {
                         color: MyTheme.appolloGreen, borderRadius: BorderRadius.only(topRight: Radius.circular(5))),
                     child: Center(
                       child: Text(buttonText,
-                              style: MyTheme.textTheme.button.copyWith(
+                              style: MyTheme.textTheme.button!.copyWith(
                                   fontWeight: FontWeight.w500, fontSize: 18, color: MyTheme.appolloBackgroundColor))
                           .paddingHorizontal(16),
                     ),

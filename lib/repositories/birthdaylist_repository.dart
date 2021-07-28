@@ -30,13 +30,13 @@ extension PassTypeExtension on PassType {
 }
 
 class BirthdayListRepository {
-  static BirthdayListRepository _instance;
+  static BirthdayListRepository? _instance;
 
   static BirthdayListRepository get instance {
     if (_instance == null) {
       _instance = BirthdayListRepository._();
     }
-    return _instance;
+    return _instance!;
   }
 
   BirthdayListRepository._();
@@ -45,13 +45,13 @@ class BirthdayListRepository {
     _instance = null;
   }
 
-  Future<BookingData> loadBookingData(Event event) async {
+  Future<BookingData?> loadBookingData(Event event) async {
     QuerySnapshot bookingsSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(event.docID).collection("bookings").get();
     if (bookingsSnapshot.size > 0) {
       return BookingData()
         ..docId = bookingsSnapshot.docs[0].id
-        ..benefits = bookingsSnapshot.docs[0].data()["benefits"].cast<String>().toList();
+        ..benefits = bookingsSnapshot.docs[0].get("benefits").cast<String>().toList();
     } else {
       return null;
     }
@@ -65,7 +65,7 @@ class BirthdayListRepository {
         .where("type", isEqualTo: "birthdaylist")
         .get();
     if (uuidSnapshot.docs.length != 0) {
-      return uuidSnapshot.docs[0].data()["uuid"];
+      return uuidSnapshot.docs[0].get("uuid");
     } else {
       String uuid = await UUIDGenerator.createNewUUID();
       await FirebaseFirestore.instance.collection("uuidmap").add({
@@ -82,18 +82,18 @@ class BirthdayListRepository {
     }
   }
 
-  Future<BirthdayList> loadExistingList(String eventId) async {
+  Future<BirthdayList?> loadExistingList(String eventId) async {
     QuerySnapshot listSnapshot = await FirebaseFirestore.instance
         .collection("uuidmap")
         .where("event", isEqualTo: eventId)
-        .where("promoter", isEqualTo: UserRepository.instance.currentUser().firebaseUserID)
+        .where("promoter", isEqualTo: UserRepository.instance.currentUser()!.firebaseUserID)
         .where("type", isEqualTo: "birthdaylist")
         .get();
 
     if (listSnapshot.size == 0) {
       return null;
     } else {
-      return BirthdayList()..uuid = listSnapshot.docs[0].data()["uuid"];
+      return BirthdayList()..uuid = listSnapshot.docs[0].get("uuid");
     }
   }
 }

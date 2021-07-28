@@ -12,7 +12,7 @@ import '../../../model/event.dart';
 class SimilarOtherEvents extends StatefulWidget {
   final Event event;
 
-  const SimilarOtherEvents({Key key, this.event}) : super(key: key);
+  const SimilarOtherEvents({Key? key, required this.event}) : super(key: key);
   @override
   _SimilarOtherEventsState createState() => _SimilarOtherEventsState();
 }
@@ -55,13 +55,13 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
               /* children: [
                 TextSpan(
                   text: 'View All',
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(decoration: TextDecoration.underline),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(decoration: TextDecoration.underline),
                 )
               ],*/
             ),
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
           ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(
@@ -94,13 +94,13 @@ class _SimilarOtherEventsState extends State<SimilarOtherEvents> {
               /* children: [
                 TextSpan(
                   text: 'View All',
-                  style: Theme.of(context).textTheme.subtitle1.copyWith(decoration: TextDecoration.underline),
+                  style: Theme.of(context).textTheme.subtitle1!.copyWith(decoration: TextDecoration.underline),
                 )
               ],*/
             ),
             style: Theme.of(context)
                 .textTheme
-                .headline4
+                .headline4!
                 .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500),
           ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(

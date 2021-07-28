@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
@@ -25,12 +26,12 @@ import 'package:ticketapp/utilities/alertGenerator.dart';
 class PaymentPage extends StatefulWidget {
   final Event event;
   final Map<TicketRelease, int> selectedTickets;
-  final Discount discount;
+  final Discount? discount;
   final double maxHeight;
-  final BuildContext parentContext;
+  final BuildContext? parentContext;
 
   const PaymentPage(this.event,
-      {Key key, @required this.selectedTickets, this.discount, @required this.maxHeight, this.parentContext})
+      {Key? key, required this.selectedTickets, this.discount, required this.maxHeight, this.parentContext})
       : super(key: key);
 
   @override
@@ -38,11 +39,8 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  PaymentBloc bloc;
-  TextEditingController _ccnumberController = TextEditingController();
-  TextEditingController _monthController = TextEditingController();
-  TextEditingController _yearController = TextEditingController();
-  TextEditingController _cvcController = TextEditingController();
+  late PaymentBloc bloc;
+
   FocusNode focusMonth = FocusNode();
   FocusNode focusYear = FocusNode();
   FocusNode focusCVC = FocusNode();
@@ -50,13 +48,21 @@ class _PaymentPageState extends State<PaymentPage> {
   bool _termsConditions = false;
   bool _saveCreditCard = false;
   bool validateCC = false;
-  double subtotal;
-  int totalTicketQuantity;
+  late double subtotal;
+  int? totalTicketQuantity;
   bool addNewPaymentMethod = false;
   bool cardLoading = false;
 
+  late FormGroup form;
+
   @override
   void initState() {
+    form = FormGroup({
+      'ccnumber': FormControl<String>(validators: [Validators.maxLength(16), Validators.minLength(16)]),
+      'month': FormControl<int>(validators: [Validators.max(12), Validators.min(1)]),
+      'year': FormControl<int>(validators: [Validators.max(50), Validators.min(21)]),
+      'cvc': FormControl<int>(validators: [Validators.min(0), Validators.max(9999)]),
+    });
     bloc = PaymentBloc();
     bloc.add(EventLoadAvailableReleases(widget.selectedTickets, widget.event));
     Future.delayed(Duration(milliseconds: 1)).then((value) {
@@ -64,7 +70,7 @@ class _PaymentPageState extends State<PaymentPage> {
         AlertGenerator.showAlert(
             context: context,
             title: "Please note",
-            content: widget.event.ticketCheckoutMessage,
+            content: widget.event.ticketCheckoutMessage!,
             buttonText: "I Understand",
             popTwice: false);
       }
@@ -83,7 +89,7 @@ class _PaymentPageState extends State<PaymentPage> {
     subtotal = 0;
     totalTicketQuantity = 0;
     widget.selectedTickets.forEach((release, quantity) {
-      subtotal += release.price * quantity;
+      subtotal += release.price! * quantity;
     });
     if (widget.selectedTickets.isNotEmpty) {
       totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
@@ -91,11 +97,11 @@ class _PaymentPageState extends State<PaymentPage> {
     Column data = Column(
       children: [
         BlocConsumer<PaymentBloc, PaymentState>(
-          cubit: bloc,
+          bloc: bloc,
           listener: (c, state) {
             if (state is StatePaymentCompleted) {
               AlertGenerator.showAlert(
-                      context: WrapperPage.mainScaffold.currentContext,
+                      context: WrapperPage.mainScaffold.currentContext!,
                       title: "Order successful",
                       content: state.message,
                       buttonText: "Ok",
@@ -150,7 +156,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           onTap: state is! StateFreeTicketSelected && PaymentRepository.instance.paymentMethodId == null
                               ? () {
                                   AlertGenerator.showAlert(
-                                      context: WrapperPage.mainScaffold.currentContext,
+                                      context: WrapperPage.mainScaffold.currentContext!,
                                       title: "Missing Payment Method",
                                       content: "Please add a payment method before proceeding",
                                       buttonText: "Ok",
@@ -165,7 +171,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     }
                                   } else {
                                     AlertGenerator.showAlert(
-                                        context: WrapperPage.mainScaffold.currentContext,
+                                        context: WrapperPage.mainScaffold.currentContext!,
                                         title: "Please accept our T & C",
                                         content:
                                             "To proceed with your purchase, you have to agree to our terms and conditions",
@@ -175,7 +181,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 },
                           child: Text(
                             "PURCHASE",
-                            style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                           ),
                         ),
                       ),
@@ -268,20 +274,20 @@ class _PaymentPageState extends State<PaymentPage> {
     if (widget.discount == null) {
       return 0.0;
     }
-    if (widget.discount.appliesToReleases.isEmpty) {
-      if (widget.discount.type == DiscountType.value) {
-        return widget.discount.amount.toDouble() * totalTicketQuantity / 100;
+    if (widget.discount!.appliesToReleases.isEmpty) {
+      if (widget.discount!.type == DiscountType.value) {
+        return widget.discount!.amount.toDouble() * totalTicketQuantity! / 100;
       } else {
-        return subtotal * widget.discount.amount / 100 / 100;
+        return subtotal * widget.discount!.amount / 100 / 100;
       }
     } else {
       double disc = 0.0;
       widget.selectedTickets.forEach((key, value) {
-        if (widget.discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId)) {
-          if (widget.discount.type == DiscountType.value) {
-            disc += widget.discount.amount.toDouble() * value / 100;
+        if (widget.discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.docId)) {
+          if (widget.discount!.type == DiscountType.value) {
+            disc += widget.discount!.amount.toDouble() * value / 100;
           } else {
-            disc += (widget.discount.amount / 100 / 100 * key.price) * value;
+            disc += (widget.discount!.amount / 100 / 100 * key.price!) * value;
           }
         }
       });
@@ -289,13 +295,13 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
-  int _discountAppliesTo() {
-    if (widget.discount.appliesToReleases.isEmpty) {
+  int? _discountAppliesTo() {
+    if (widget.discount!.appliesToReleases.isEmpty) {
       return totalTicketQuantity;
     } else {
       int counter = 0;
       widget.selectedTickets.forEach((key, value) {
-        if (widget.discount.appliesToReleases.contains(key.docId)) {
+        if (widget.discount!.appliesToReleases.contains(key.docId)) {
           counter++;
         }
       });
@@ -331,8 +337,8 @@ class _PaymentPageState extends State<PaymentPage> {
             children: [
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
-                "Select Payment Method",
-                style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloOrange),
+                "Selected Payment Method",
+                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloOrange),
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
@@ -353,7 +359,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               Expanded(
                                   child: Align(
                                       alignment: Alignment.centerRight,
-                                      child: Text(PaymentRepository.instance.last4).paddingRight(8)))
+                                      child: Text(PaymentRepository.instance.last4!).paddingRight(8)))
                             ],
                           )),
                     ).paddingBottom(MyTheme.elementSpacing)
@@ -372,7 +378,7 @@ class _PaymentPageState extends State<PaymentPage> {
       children: [
         Text(
           "Order Confirmation",
-          style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloGreen),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildSelectedTickets(),
         AppolloDivider(verticalPadding: MyTheme.elementSpacing),
@@ -381,28 +387,28 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+              Text("Subtotal", style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
-        if (widget.discount != null && widget.discount.enoughLeft(totalTicketQuantity))
+        if (widget.discount != null && widget.discount!.enoughLeft(totalTicketQuantity!))
           SizedBox(
             width: MyTheme.drawerSize,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${widget.discount.type == DiscountType.value ? "\$" + (widget.discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : widget.discount.amount.toString() + "%"})",
-                  style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
+                  "Discount (${widget.discount!.type == DiscountType.value ? "\$" + (widget.discount!.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : widget.discount!.amount.toString() + "%"})",
+                  style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text("-\$${_calculateDiscount().toStringAsFixed(2)}",
-                    style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))
+                    style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -413,14 +419,14 @@ class _PaymentPageState extends State<PaymentPage> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600),
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ),
@@ -430,14 +436,14 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+              Text("Total", style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -454,7 +460,7 @@ class _PaymentPageState extends State<PaymentPage> {
             value: _termsConditions,
             onChanged: (v) {
               setState(() {
-                _termsConditions = v;
+                _termsConditions = v!;
               });
             },
           ).paddingRight(4),
@@ -479,7 +485,7 @@ class _PaymentPageState extends State<PaymentPage> {
               },
               child: Text(
                 "I accept the terms & conditions",
-                style: MyTheme.textTheme.bodyText2.copyWith(decoration: TextDecoration.underline),
+                style: MyTheme.textTheme.bodyText2!.copyWith(decoration: TextDecoration.underline),
               )),
         ],
       ),
@@ -496,13 +502,13 @@ class _PaymentPageState extends State<PaymentPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(key.ticketName + " x $value",
-                style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600)),
+                style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.textTheme.bodyText2.copyWith(fontWeight: FontWeight.w600))))
+                    child: Text("\$${(key.price! * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));
@@ -523,236 +529,254 @@ class _PaymentPageState extends State<PaymentPage> {
       child: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
         child: addNewPaymentMethod
-            ? Container(
-                width: MyTheme.drawerSize,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Align(
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              "Add a Payment Method",
-                              style: MyTheme.textTheme.headline6,
-                            )),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              addNewPaymentMethod = false;
-                            });
-                          },
-                          child: Align(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                "close",
-                                style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloRed),
-                              )),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: MyTheme.elementSpacing,
-                    ),
-                    SizedBox(
-                      width: MyTheme.drawerSize,
-                      child: AppolloTextField(
-                        textFieldType: TextFieldType.regular,
-                        labelText: "Credit Card Number",
-                        validator: (v) => v.length != 16 ? "Please enter a valid credit card number" : null,
-                        autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(16)],
-                        controller: _ccnumberController,
-                        onChanged: (v) {
-                          if (v.length == 16) {
-                            focusMonth.requestFocus();
-                          }
-                        },
-                      ),
-                    ),
-                    SizedBox(
-                      height: MyTheme.elementSpacing * 0.5,
-                    ),
-                    SizedBox(
-                      width: MyTheme.drawerSize,
-                      child: Row(
+            ? ReactiveForm(
+                formGroup: form,
+                child: Container(
+                  width: MyTheme.drawerSize,
+                  child: Column(
+                    children: [
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: AppolloTextField(
-                              textFieldType: TextFieldType.regular,
-                              labelText: "MM",
-                              keyboardType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(2)
-                              ],
-                              onChanged: (v) {
-                                if (v.length == 2) {
-                                  focusYear.requestFocus();
-                                }
-                              },
-                              controller: _monthController,
-                              focusNode: focusMonth,
-                              validator: (v) => int.tryParse(v) < 1 || int.tryParse(v) > 12 ? "Invalid month" : null,
-                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                            ).paddingRight(MyTheme.elementSpacing),
+                          SizedBox(
+                            width: 40,
                           ),
-                          Expanded(
-                            child: AppolloTextField(
-                              textFieldType: TextFieldType.regular,
-                              labelText: "YY",
-                              keyboardType: TextInputType.number,
-                              onChanged: (v) {
-                                if (v.length == 2) {
-                                  focusCVC.requestFocus();
-                                }
-                              },
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(2)
-                              ],
-                              controller: _yearController,
-                              focusNode: focusYear,
-                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                              validator: (v) => int.tryParse(v) < 20 || int.tryParse(v) > 99 ? "Invalid year" : null,
-                            ).paddingRight(MyTheme.elementSpacing),
-                          ),
-                          Expanded(
-                            child: AppolloTextField(
-                              textFieldType: TextFieldType.regular,
-                              labelText: "CVC",
-                              keyboardType: TextInputType.number,
-                              focusNode: focusCVC,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(4)
-                              ],
-                              controller: _cvcController,
-                              validator: (v) => v.length < 3 || v.length > 4 ? "Please enter a valid CVC number" : null,
-                              autovalidateMode: validateCC ? AutovalidateMode.always : AutovalidateMode.disabled,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ).paddingBottom(MyTheme.elementSpacing),
-                    SizedBox(
-                      width: MyTheme.drawerSize,
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: _saveCreditCard,
-                            onChanged: (v) {
+                          Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                "Add a Payment Method",
+                                style: MyTheme.textTheme.headline6,
+                              )),
+                          InkWell(
+                            onTap: () {
                               setState(() {
-                                _saveCreditCard = v;
+                                addNewPaymentMethod = false;
                               });
                             },
-                          ),
-                          Text(
-                            "Save my credit card details",
-                            style: MyTheme.textTheme.bodyText2,
+                            child: Align(
+                                alignment: Alignment.topRight,
+                                child: Text(
+                                  "close",
+                                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloRed),
+                                )),
                           ),
                         ],
                       ),
-                    ).paddingBottom(MyTheme.elementSpacing),
-                    ResponsiveBuilder(builder: (context, constraints) {
-                      if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                          constraints.deviceScreenType == DeviceScreenType.watch) {
-                        return SizedBox(
-                          width: MyTheme.drawerSize,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                width: MyTheme.drawerSize,
-                                height: 38,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: MyTheme.appolloGreen,
-                                  ),
-                                  onPressed: () async {
-                                    try {
-                                      setState(() {
-                                        cardLoading = true;
-                                      });
-                                      StripeCard card = StripeCard(
-                                          number: _ccnumberController.text,
-                                          cvc: _cvcController.text,
-                                          last4: _ccnumberController.text.substring(12),
-                                          expMonth: int.tryParse(_monthController.text),
-                                          expYear: int.tryParse(_yearController.text));
-                                      Map<String, dynamic> data =
-                                          await Stripe.instance.api.createPaymentMethodFromCard(card);
-                                      PaymentMethod pm =
-                                          PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                      bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
-                                    } catch (_) {
-                                      setState(() {
-                                        validateCC = true;
-                                      });
-                                    } finally {
-                                      setState(() {
-                                        cardLoading = false;
-                                      });
-                                    }
-                                  },
-                                  child: state is StateLoadingPaymentMethod || cardLoading
-                                      ? AppolloButtonProgressIndicator()
-                                      : Text(
-                                          "Add Card",
-                                          style: MyTheme.textTheme.button,
-                                        ),
-                                ),
-                              ).paddingBottom(8),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return SizedBox(
-                          width: MyTheme.drawerSize,
-                          height: 38,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                primary: MyTheme.appolloGreen,
-                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                            onPressed: () async {
-                              try {
-                                StripeCard card = StripeCard(
-                                    number: _ccnumberController.text,
-                                    cvc: _cvcController.text,
-                                    last4: _ccnumberController.text.substring(12),
-                                    expMonth: int.tryParse(_monthController.text),
-                                    expYear: int.tryParse(_yearController.text));
-                                Map<String, dynamic> data = await Stripe.instance.api.createPaymentMethodFromCard(card);
-                                PaymentMethod pm =
-                                    PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
-                                print(pm.id);
-                                bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
-                              } catch (_) {
-                                setState(() {
-                                  validateCC = true;
-                                });
-                              }
-                            },
-                            child: Text(
-                              "Add Card",
-                              style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                      SizedBox(
+                        height: MyTheme.elementSpacing,
+                      ),
+                      SizedBox(
+                        width: MyTheme.drawerSize,
+                        child: AppolloTextField.reactive(
+                          labelText: "Credit Card Number",
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            LengthLimitingTextInputFormatter(16)
+                          ],
+                          formControl: form.controls["ccnumber"],
+                          validationMessages: (control) => {
+                            ValidationMessage.minLength: 'Invalid Credit Card Number',
+                            ValidationMessage.maxLength: 'Invalid Credit Card Number',
+                          },
+                          onChanged: (v) {
+                            if (v.length == 16) {
+                              focusMonth.requestFocus();
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: MyTheme.elementSpacing * 0.5,
+                      ),
+                      SizedBox(
+                        width: MyTheme.drawerSize,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: AppolloTextField.reactive(
+                                formControl: form.controls["month"],
+                                labelText: "MM",
+                                keyboardType: TextInputType.number,
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(2)
+                                ],
+                                validationMessages: (control) => {
+                                  ValidationMessage.min: 'Invalid Month',
+                                  ValidationMessage.max: 'Invalid Month',
+                                },
+                                onChanged: (v) {
+                                  if (v.length == 2) {
+                                    focusYear.requestFocus();
+                                  }
+                                },
+                                focusNode: focusMonth,
+                              ).paddingRight(MyTheme.elementSpacing),
                             ),
-                          ),
-                        );
-                      }
-                    }),
-                  ],
-                ).paddingAll(MyTheme.elementSpacing),
-              ).appolloCard(color: MyTheme.appolloBackgroundColor).paddingBottom(MyTheme.elementSpacing)
+                            Expanded(
+                              child: AppolloTextField.reactive(
+                                formControl: form.controls["year"],
+                                labelText: "YY",
+                                keyboardType: TextInputType.number,
+                                onChanged: (v) {
+                                  if (v.length == 2) {
+                                    focusCVC.requestFocus();
+                                  }
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(2)
+                                ],
+                                validationMessages: (control) => {
+                                  ValidationMessage.min: 'Invalid Year',
+                                  ValidationMessage.max: 'Invalid Year',
+                                },
+                                focusNode: focusYear,
+                              ).paddingRight(MyTheme.elementSpacing),
+                            ),
+                            Expanded(
+                              child: AppolloTextField.reactive(
+                                formControl: form.controls["cvc"],
+                                labelText: "CVC",
+                                keyboardType: TextInputType.number,
+                                focusNode: focusCVC,
+                                validationMessages: (control) => {
+                                  ValidationMessage.minLength: 'Please provide a valid CVC code',
+                                  ValidationMessage.maxLength: 'Please provide a valid CVC code',
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ).paddingBottom(MyTheme.elementSpacing),
+                      SizedBox(
+                        width: MyTheme.drawerSize,
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: _saveCreditCard,
+                              onChanged: (v) {
+                                setState(() {
+                                  _saveCreditCard = v!;
+                                });
+                              },
+                            ),
+                            Text(
+                              "Save my credit card details",
+                              style: MyTheme.textTheme.bodyText2,
+                            ),
+                          ],
+                        ),
+                      ).paddingBottom(MyTheme.elementSpacing),
+                      ResponsiveBuilder(builder: (context, constraints) {
+                        if (constraints.deviceScreenType == DeviceScreenType.mobile ||
+                            constraints.deviceScreenType == DeviceScreenType.watch) {
+                          return SizedBox(
+                            width: MyTheme.drawerSize,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  width: MyTheme.drawerSize,
+                                  height: 38,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      primary: MyTheme.appolloGreen,
+                                    ),
+                                    onPressed: () async {
+                                      try {
+                                        setState(() {
+                                          cardLoading = true;
+                                        });
+                                        StripeCard card = StripeCard(
+                                            number: form.value["ccnumber"] as String,
+                                            cvc: (form.value["cvc"] as int).toString(),
+                                            last4: (form.value["ccnumber"] as String).substring(12),
+                                            expMonth: form.value["month"] as int,
+                                            expYear: form.value["year"] as int);
+                                        Map<String, dynamic> data =
+                                            await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                        PaymentMethod pm =
+                                            PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                        bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
+                                      } catch (_) {
+                                        setState(() {
+                                          validateCC = true;
+                                        });
+                                      } finally {
+                                        setState(() {
+                                          cardLoading = false;
+                                        });
+                                      }
+                                    },
+                                    child: state is StateLoadingPaymentMethod || cardLoading
+                                        ? AppolloButtonProgressIndicator()
+                                        : Text(
+                                            "Add Card",
+                                            style: MyTheme.textTheme.button,
+                                          ),
+                                  ),
+                                ).paddingBottom(8),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return SizedBox(
+                            width: MyTheme.drawerSize,
+                            height: 38,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: MyTheme.appolloGreen,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                              onPressed: () async {
+                                try {
+                                  setState(() {
+                                    cardLoading = true;
+                                  });
+                                  StripeCard card = StripeCard(
+                                      number: form.value["ccnumber"] as String,
+                                      cvc: (form.value["cvc"] as int).toString(),
+                                      last4: (form.value["ccnumber"] as String).substring(12),
+                                      expMonth: form.value["month"] as int,
+                                      expYear: form.value["year"] as int);
+                                  Map<String, dynamic> data =
+                                      await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                  PaymentMethod pm =
+                                      PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                  print(pm.id);
+                                  bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
+                                } catch (e) {
+                                  print(e);
+                                  setState(() {
+                                    validateCC = true;
+                                  });
+                                } finally {
+                                  setState(() {
+                                    cardLoading = false;
+                                  });
+                                }
+                              },
+                              child: Text(
+                                "Add Card",
+                                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                              ),
+                            ),
+                          );
+                        }
+                      }),
+                    ],
+                  ).paddingAll(MyTheme.elementSpacing),
+                ).appolloCard(color: MyTheme.appolloBackgroundColor).paddingBottom(MyTheme.elementSpacing),
+              )
             : Container(
                     child: Center(
                         child: Text(
-                "Add a Payment Method",
-                style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloGreen),
+                "Change Payment Method",
+                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloGreen),
               ).paddingAll(8)))
                 .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120)),
       ),

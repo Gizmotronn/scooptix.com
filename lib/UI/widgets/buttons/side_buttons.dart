@@ -5,13 +5,13 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../theme.dart';
 
 class SideButton extends StatelessWidget {
-  final String title;
+  final String? title;
   final bool highlight;
-  final Function onTap;
-  final Color activeColor;
-  final Color disableColor;
+  final Function()? onTap;
+  final Color? activeColor;
+  final Color? disableColor;
 
-  const SideButton({Key key, this.title, this.highlight, this.onTap, this.activeColor, this.disableColor})
+  const SideButton({Key? key, this.title, required this.highlight, this.onTap, this.activeColor, this.disableColor})
       : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class SideButton extends StatelessWidget {
           child: Center(
             child: AutoSizeText(
               title ?? '',
-              style: MyTheme.textTheme.button.copyWith(
+              style: MyTheme.textTheme.button!.copyWith(
                   fontSize: size.deviceScreenType == DeviceScreenType.desktop ? null : 12,
                   color: highlight
                       ? active

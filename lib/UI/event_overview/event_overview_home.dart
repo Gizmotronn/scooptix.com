@@ -22,7 +22,7 @@ class EventOverviewHome extends StatefulWidget {
   final List<Event> events;
   final EventsOverviewBloc bloc;
 
-  const EventOverviewHome({Key key, this.events, this.bloc}) : super(key: key);
+  const EventOverviewHome({Key? key, required this.events, required this.bloc}) : super(key: key);
 
   @override
   _EventOverviewHomeState createState() => _EventOverviewHomeState();
@@ -56,7 +56,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
 
   Widget _buildBody(BuildContext context, Size screenSize) {
     return BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
-      cubit: widget.bloc,
+      bloc: widget.bloc,
       builder: (context, state) {
         if (state is AllEventsState) {
           return AllEvents(
@@ -64,13 +64,13 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
             headline: AutoSizeText.rich(
               TextSpan(
                   text: 'Events in',
-                  style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                  style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                   children: [
                     TextSpan(
                       text: ' Perth',
                       style: Theme.of(context)
                           .textTheme
-                          .headline4
+                          .headline4!
                           .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
                     ),
                   ]),
@@ -82,13 +82,13 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
               headline: AutoSizeText.rich(
                 TextSpan(
                     text: 'Free events in',
-                    style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                    style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                     children: [
                       TextSpan(
                         text: ' Perth',
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
                       ),
                     ]),
@@ -101,13 +101,13 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
               headline: AutoSizeText.rich(
                 TextSpan(
                     text: 'Events in',
-                    style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+                    style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
                     children: [
                       TextSpan(
                         text: ' Perth',
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
                       ),
                       TextSpan(
@@ -158,15 +158,15 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
 
 // ignore: must_be_immutable
 class Menu extends Equatable {
-  final int id;
+  final int? id;
   final String title;
-  final String subtitle;
-  final String fullDate;
-  final String svgIcon;
+  final String? subtitle;
+  final String? fullDate;
+  final String? svgIcon;
   bool isTap;
 
   Menu(this.title, this.isTap, {this.id, this.subtitle, this.fullDate, this.svgIcon});
 
   @override
-  List<Object> get props => [title];
+  List<Object> get props => [];
 }

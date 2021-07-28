@@ -15,7 +15,7 @@ part 'events_overview_event.dart';
 part 'events_overview_state.dart';
 
 class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> {
-  Event selectedEvent;
+  Event? selectedEvent;
 
   EventsOverviewBloc() : super(LoadingEventsState());
 
@@ -86,7 +86,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
     yield LoadingEventsState();
     try {
       final event = await EventsRepository.instance.loadEventById(e.id);
-      final organizer = await UserRepository.instance.loadOrganizer(event.organizer);
+      final organizer = await UserRepository.instance.loadOrganizer(event!.organizer!);
       TicketRepository.instance.incrementLinkOpenedCounter(event);
       yield EventDetailState(event, organizer);
     } catch (e) {

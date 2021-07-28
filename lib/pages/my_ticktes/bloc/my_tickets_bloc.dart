@@ -24,7 +24,7 @@ class MyTicketsBloc extends Bloc<MyTicketsEvent, MyTicketsState> {
   Stream<MyTicketsState> loadMyTickets() async* {
     yield StateLoading();
     List<Ticket> tickets =
-        await TicketRepository.instance.loadMyTickets(UserRepository.instance.currentUser().firebaseUserID);
+        await TicketRepository.instance.loadMyTickets(UserRepository.instance.currentUser()!.firebaseUserID);
     yield StateTicketOverview(tickets);
   }
 }

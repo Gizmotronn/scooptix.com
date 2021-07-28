@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 import '../../theme.dart';
 
 class CardButton extends StatefulWidget {
-  final Function onTap;
+  final Function() onTap;
 
   final String title;
-  final Color activeColor;
-  final Color deactiveColor;
-  final Color activeColorText;
-  final Color deactiveColorText;
-  final BorderRadius borderRadius;
+  final Color? activeColor;
+  final Color? deactiveColor;
+  final Color? activeColorText;
+  final Color? deactiveColorText;
+  final BorderRadius? borderRadius;
 
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
 
   const CardButton(
-      {Key key,
-      @required this.onTap,
-      @required this.title,
+      {Key? key,
+      required this.onTap,
+      required this.title,
       this.borderRadius,
       this.activeColor,
       this.deactiveColor,
@@ -57,8 +57,8 @@ class _CardButtonState extends State<CardButton> {
         ),
         child: Center(
             child: AutoSizeText(
-          widget.title ?? '',
-          style: MyTheme.textTheme.button.copyWith(color: isHover ? activeColorText : deactiveColorText),
+          widget.title,
+          style: MyTheme.textTheme.button!.copyWith(color: isHover ? activeColorText : deactiveColorText),
         )),
       ),
     );
@@ -66,11 +66,11 @@ class _CardButtonState extends State<CardButton> {
 }
 
 class ColorCard extends StatelessWidget {
-  final String title;
+  final String? title;
   final Color color;
   final Color textColor;
 
-  const ColorCard({Key key, this.color, this.title, this.textColor}) : super(key: key);
+  const ColorCard({Key? key, required this.color, this.title, required this.textColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +82,7 @@ class ColorCard extends StatelessWidget {
       child: Center(
           child: AutoSizeText(
         title ?? '',
-        style: Theme.of(context).textTheme.button.copyWith(color: textColor),
+        style: Theme.of(context).textTheme.button!.copyWith(color: textColor),
       )).paddingHorizontal(8).paddingVertical(4),
     );
   }

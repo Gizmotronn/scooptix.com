@@ -6,8 +6,8 @@ import '../../../UI/theme.dart';
 
 class Countdown extends StatefulWidget {
   const Countdown({
-    Key key,
-    @required this.duration,
+    Key? key,
+    required this.duration,
     this.onFinish,
     this.interval = const Duration(seconds: 1),
     this.width = 400,
@@ -16,7 +16,7 @@ class Countdown extends StatefulWidget {
 
   final Duration duration;
   final Duration interval;
-  final void Function() onFinish;
+  final void Function()? onFinish;
   final double width;
   final double height;
   @override
@@ -24,8 +24,8 @@ class Countdown extends StatefulWidget {
 }
 
 class _CountdownState extends State<Countdown> {
-  Timer _timer;
-  Duration _duration;
+  late Timer _timer;
+  late Duration _duration;
   @override
   void initState() {
     _duration = widget.duration;
@@ -36,7 +36,7 @@ class _CountdownState extends State<Countdown> {
 
   @override
   void dispose() {
-    _timer?.cancel();
+    _timer.cancel();
     super.dispose();
   }
 
@@ -44,7 +44,7 @@ class _CountdownState extends State<Countdown> {
     setState(() {
       if (_duration.inSeconds == 0) {
         timer.cancel();
-        if (widget.onFinish != null) widget.onFinish();
+        if (widget.onFinish != null) widget.onFinish!();
       } else {
         _duration = Duration(seconds: _duration.inSeconds - 1);
       }
@@ -55,8 +55,8 @@ class _CountdownState extends State<Countdown> {
 
   Widget timer(BuildContext context, String s) {
     return AutoSizeText(
-      s.length == 1 ? "0$s" : '${s ?? '00'}',
-      style: Theme.of(context).textTheme.headline1.copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.5),
+      s.length == 1 ? "0$s" : '$s',
+      style: Theme.of(context).textTheme.headline1!.copyWith(fontWeight: FontWeight.w600, letterSpacing: 1.5),
     ).paddingTop(8).paddingBottom(8);
   }
 

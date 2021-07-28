@@ -18,8 +18,8 @@ import '../../../utilities/svg/icon.dart';
 
 class MakeBooking extends StatefulWidget {
   const MakeBooking({
-    Key key,
-    @required this.event,
+    Key? key,
+    required this.event,
   }) : super(key: key);
 
   final Event event;
@@ -29,7 +29,7 @@ class MakeBooking extends StatefulWidget {
 }
 
 class _MakeBookingState extends State<MakeBooking> {
-  BookingsBloc bloc;
+  late BookingsBloc bloc;
 
   @override
   void initState() {
@@ -47,7 +47,7 @@ class _MakeBookingState extends State<MakeBooking> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingsBloc, BookingsState>(
-      cubit: bloc,
+      bloc: bloc,
       builder: (context, state) {
         if (state is StateBookingData) {
           return Container(
@@ -55,7 +55,7 @@ class _MakeBookingState extends State<MakeBooking> {
               children: [
                 /* AutoSizeText(
             'Make A Booking',
-            style: MyTheme.lightTextTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            style: MyTheme.lightTextTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(32),
           _vipBoothPackages(context).paddingBottom(32),
           _privateRoomPackages(context).paddingBottom(32),*/
@@ -79,7 +79,7 @@ class _MakeBookingState extends State<MakeBooking> {
         AutoSizeText(
                 "If you wish to book a VIP Booth for the event please choose from one of the packages available below and follow the instructions to secure your booth.",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w500))
             .paddingBottom(32),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -145,7 +145,7 @@ class _MakeBookingState extends State<MakeBooking> {
         AutoSizeText(
                 "If you wish to book a Private Room please choose from one of the packages available below and follow the instructions to secure your booking.",
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                style: Theme.of(context).textTheme.caption!.copyWith(fontWeight: FontWeight.w500))
             .paddingBottom(32),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -195,7 +195,7 @@ class _MakeBookingState extends State<MakeBooking> {
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
     );
   }
 
@@ -209,13 +209,13 @@ class _MakeBookingState extends State<MakeBooking> {
               Column(
                 children: [
                   AutoSizeText('Create A Birthday List',
-                          style: MyTheme.textTheme.headline4
+                          style: MyTheme.textTheme.headline4!
                               .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
                       .paddingBottom(MyTheme.elementSpacing * 2),
                   AutoSizeText(
                           "Celebrate your birthday in style by creating a Birthday List for you and your closest friends and get the VIP experience.",
                           textAlign: TextAlign.center,
-                          style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w500))
+                          style: MyTheme.textTheme.caption!.copyWith(fontWeight: FontWeight.w500))
                       .paddingBottom(MyTheme.elementSpacing),
                   ListView.builder(
                       shrinkWrap: true,
@@ -238,14 +238,14 @@ class _MakeBookingState extends State<MakeBooking> {
                               TextSpan(
                                   text: '\$${(booking.price / 100).toStringAsFixed(2)}',
                                   children: [TextSpan(text: '  +BF', style: Theme.of(context).textTheme.caption)]),
-                              style: Theme.of(context).textTheme.headline2.copyWith(fontWeight: FontWeight.w600))
+                              style: Theme.of(context).textTheme.headline2!.copyWith(fontWeight: FontWeight.w600))
                           .paddingBottom(MyTheme.cardPadding),
                     ),
                   if (booking.price == 0)
                     Align(
                       alignment: Alignment.center,
                       child: AutoSizeText("Free of charge!",
-                              style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600))
+                              style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600))
                           .paddingBottom(MyTheme.elementSpacing),
                     ),
                   AppolloButton.regularButton(
@@ -262,10 +262,10 @@ class _MakeBookingState extends State<MakeBooking> {
                           WrapperPage.endDrawer.value = BirthdayDrawer(
                             event: widget.event,
                           );
-                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          WrapperPage.mainScaffold.currentState!.openEndDrawer();
                         } else {
                           WrapperPage.endDrawer.value = AuthenticationDrawer();
-                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          WrapperPage.mainScaffold.currentState!.openEndDrawer();
                           UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
                         }
                       } else {
@@ -288,7 +288,7 @@ class _MakeBookingState extends State<MakeBooking> {
         WrapperPage.endDrawer.value = BirthdayDrawer(
           event: widget.event,
         );
-        WrapperPage.mainScaffold.currentState.openEndDrawer();
+        WrapperPage.mainScaffold.currentState!.openEndDrawer();
       }
       UserRepository.instance.currentUserNotifier.removeListener(_tryOpenBirthdayDrawer());
     };

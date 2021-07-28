@@ -28,8 +28,15 @@ class EventData extends StatefulWidget {
   final Organizer organizer;
   final ScrollController scrollController;
   final EventsOverviewBloc bloc;
-  final Function physics;
-  EventData({Key key, this.event, this.organizer, this.scrollController, this.bloc, this.physics}) : super(key: key);
+  final Function()? physics;
+  EventData(
+      {Key? key,
+      required this.event,
+      required this.organizer,
+      required this.scrollController,
+      required this.bloc,
+      this.physics})
+      : super(key: key);
 
   @override
   _EventDataState createState() => _EventDataState();
@@ -63,14 +70,14 @@ class _EventDataState extends State<EventData> {
 
     positions[0] = 0.0;
     _tabButtons.forEach((element) {
-      positions[element.id] = 0.0;
+      positions[element.id!] = 0.0;
     });
 
     Future.delayed(Duration(milliseconds: 1)).then((_) {
       EventDetailPage.fab.value = InkWell(
         onTap: () {
           widget.scrollController.animateTo(
-              positions[0] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
+              positions[0]! - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
               duration: MyTheme.animationDuration,
               curve: Curves.easeIn);
         },
@@ -100,7 +107,7 @@ class _EventDataState extends State<EventData> {
           onTap: () async {
             scrolling = true;
             await widget.scrollController
-                .animateTo(positions[0] - 120, duration: MyTheme.animationDuration, curve: Curves.easeIn);
+                .animateTo(positions[0]! - 120, duration: MyTheme.animationDuration, curve: Curves.easeIn);
             if (EventDetailPage.fab.value != null) {
               EventDetailPage.fab.value = null;
             }
@@ -138,14 +145,14 @@ class _EventDataState extends State<EventData> {
 
   Widget _buildNavBar(Event event) {
     if (event.preSaleEnabled &&
-        event.preSale.registrationStartDate.isBefore(DateTime.now()) &&
-        event.preSale.registrationEndDate.isAfter(DateTime.now())) {
+        event.preSale!.registrationStartDate.isBefore(DateTime.now()) &&
+        event.preSale!.registrationEndDate.isAfter(DateTime.now())) {
       return EventDetailNavbar(
         imageURL: event.coverImageURL,
         mainText: "Register for Pre-Sale",
         buttonText: "Register",
         scrollController: widget.scrollController,
-        offset: positions[2] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
+        offset: positions[2]! - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
       );
     } else if (event.getLinkTypeValidReleaseManagers().length > 0) {
       return EventDetailNavbar(
@@ -153,7 +160,7 @@ class _EventDataState extends State<EventData> {
         mainText: widget.event.name,
         buttonText: "Get Tickets",
         scrollController: widget.scrollController,
-        offset: positions[3] - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
+        offset: positions[3]! - getValueForScreenType(context: context, watch: 30, mobile: 30, tablet: 90, desktop: 90),
       );
     } else {
       return SizedBox.shrink();
@@ -199,7 +206,10 @@ class _EventDataState extends State<EventData> {
           if (positions.containsKey(2))
             BoxOffset(
               boxOffset: (offset) => setState(() => positions[2] = offset.dy),
-              child: PreSaleRegistrationPage(event: widget.event),
+              child: PreSaleRegistrationPage(
+                event: widget.event,
+                scrollController: widget.scrollController,
+              ),
             ),
           if (positions.containsKey(3))
             BoxOffset(
@@ -242,7 +252,7 @@ class _EventDataState extends State<EventData> {
                 activeColorText: MyTheme.appolloWhite,
                 deactiveColorText: MyTheme.appolloGreen,
                 onTap: () async {
-                  await widget.scrollController.animateTo(positions[_tabButtons[index].id] - 100,
+                  await widget.scrollController.animateTo(positions[_tabButtons[index].id]! - 100,
                       curve: Curves.linear, duration: MyTheme.animationDuration);
                 },
               ),
@@ -267,7 +277,7 @@ class _EventDataState extends State<EventData> {
               aspectRatio: 1.9,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(12)),
-                child: ExtendedImage.network(widget.event.coverImageURL ?? "", cache: true, fit: BoxFit.cover,
+                child: ExtendedImage.network(widget.event.coverImageURL, cache: true, fit: BoxFit.cover,
                     loadStateChanged: (ExtendedImageState state) {
                   switch (state.extendedImageLoadState) {
                     case LoadState.loading:
@@ -292,7 +302,7 @@ class _EventDataState extends State<EventData> {
     if (widget.event.occurrence == EventOccurrence.Single) {
       return SizedBox.shrink();
     } else {
-      List<Event> recurringEvents = EventsRepository.instance.getRecurringEvents(widget.event.recurringEventId);
+      List<Event> recurringEvents = EventsRepository.instance.getRecurringEvents(widget.event.recurringEventId!);
       return Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -305,7 +315,7 @@ class _EventDataState extends State<EventData> {
               title: DateFormat('EEE dd. MMM').format(recurringEvents[index].date),
               highlight: recurringEvents[index].docID == widget.event.docID,
               onTap: () {
-                widget.bloc.add(LoadEventDetailEvent(recurringEvents[index].docID));
+                widget.bloc.add(LoadEventDetailEvent(recurringEvents[index].docID!));
               },
             ),
           ),

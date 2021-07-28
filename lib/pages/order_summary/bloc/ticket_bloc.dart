@@ -25,7 +25,7 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
 
   Stream<TicketState> _applyDiscount(Event event, String code) async* {
     yield StateDiscountCodeLoading();
-    Discount discount = await TicketRepository.instance.loadDiscount(event, code);
+    Discount? discount = await TicketRepository.instance.loadDiscount(event, code);
     if (discount == null) {
       yield StateDiscountCodeInvalid();
     } else {

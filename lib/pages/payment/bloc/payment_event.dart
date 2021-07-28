@@ -22,7 +22,7 @@ class EventConfirmPayment extends PaymentEvent {
 
 class EventRequestPI extends PaymentEvent {
   final Map<TicketRelease, int> selectedRelease;
-  final Discount discount;
+  final Discount? discount;
   final Event event;
 
   const EventRequestPI(this.selectedRelease, this.discount, this.event);

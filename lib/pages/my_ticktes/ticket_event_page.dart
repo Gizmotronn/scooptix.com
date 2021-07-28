@@ -9,7 +9,8 @@ class TicketEventPage extends StatelessWidget {
   final Ticket ticket;
   final bool isTicketPass;
   final BuildContext parentContext;
-  const TicketEventPage({Key key, this.ticket, this.isTicketPass, this.parentContext}) : super(key: key);
+  const TicketEventPage({Key? key, required this.ticket, required this.isTicketPass, required this.parentContext})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
@@ -63,7 +64,7 @@ class TicketEventPage extends StatelessWidget {
                         ),
                         Text(
                           "Done",
-                          style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                          style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                         )
                       ],
                     ),
@@ -88,8 +89,8 @@ class TicketEventPage extends StatelessWidget {
                             width: size.screenSize.width,
                             child: Center(
                                 child: Text(
-                              '${ticket.release.ticketName}',
-                              style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                              '${ticket.release!.ticketName}',
+                              style: MyTheme.textTheme.headline2!.copyWith(fontWeight: FontWeight.w600),
                             )),
                           ).paddingBottom(MyTheme.elementSpacing),
                           _eventDate().paddingBottom(MyTheme.elementSpacing),
@@ -107,7 +108,7 @@ class TicketEventPage extends StatelessWidget {
                         child: Center(
                             child: Text(
                           !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
-                          style: MyTheme.textTheme.headline2.copyWith(fontWeight: FontWeight.w600),
+                          style: MyTheme.textTheme.headline2!.copyWith(fontWeight: FontWeight.w600),
                         )),
                       ),
                     ],
@@ -124,13 +125,13 @@ class TicketEventPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("appollo",
-            style: MyTheme.textTheme.subtitle1.copyWith(
+            style: MyTheme.textTheme.subtitle1!.copyWith(
               fontFamily: "cocon",
               color: Colors.white,
               fontSize: 24,
             )),
         Text(
-          "${time(ticket.event.date) + ' - ' + time(ticket.event.endTime)}\n${date(ticket.event.date)}",
+          "${time(ticket.event!.date)} - ${ticket.event!.endTime != null ? time(ticket.event!.endTime!) : ""}\n${date(ticket.event!.date)}",
         )
       ],
     ).paddingHorizontal(MyTheme.elementSpacing);
@@ -144,7 +145,7 @@ class TicketEventPage extends StatelessWidget {
         children: [
           _header(context, title: 'Event'),
           Text(
-            '${ticket.event.name}',
+            '${ticket.event!.name}',
             style: MyTheme.textTheme.bodyText1,
           ),
         ],
@@ -159,7 +160,7 @@ class TicketEventPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _header(context, title: 'Where'),
-          Text('${ticket.event.address}', style: MyTheme.textTheme.bodyText1),
+          Text('${ticket.event!.address}', style: MyTheme.textTheme.bodyText1),
         ],
       ).paddingHorizontal(MyTheme.elementSpacing),
     );
@@ -172,7 +173,7 @@ class TicketEventPage extends StatelessWidget {
       child: SizedBox(
         child: QrImage(
           backgroundColor: MyTheme.appolloWhite,
-          data: '${ticket.event.docID} ${ticket.docId}',
+          data: '${ticket.event!.docID} ${ticket.docId}',
           version: QrVersions.auto,
         ),
       ).paddingAll(8),
@@ -200,8 +201,8 @@ class TicketEventPage extends StatelessWidget {
                 child: Align(
                     alignment: Alignment.topCenter,
                     child: Text(
-                      '${ticket.release.ticketName}',
-                      style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600),
+                      '${ticket.release!.ticketName}',
+                      style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600),
                     )),
               ),
             ),
@@ -224,7 +225,7 @@ class TicketEventPage extends StatelessWidget {
                     alignment: Alignment.bottomCenter,
                     child: Text(
                       !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
-                      style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600),
+                      style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600),
                     )),
               ),
             ),
@@ -238,7 +239,7 @@ class TicketEventPage extends StatelessWidget {
                 child: SizedBox(
                   child: QrImage(
                     backgroundColor: MyTheme.appolloWhite,
-                    data: '${ticket.event.docID} ${ticket.docId}',
+                    data: '${ticket.event!.docID} ${ticket.docId}',
                     version: QrVersions.auto,
                   ),
                 ).paddingAll(8),
@@ -250,8 +251,9 @@ class TicketEventPage extends StatelessWidget {
     );
   }
 
-  Widget _header(BuildContext context, {String title}) => Text(
+  Widget _header(BuildContext context, {required String title}) => Text(
         title,
-        style: Theme.of(context).textTheme.headline5.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+        style:
+            Theme.of(context).textTheme.headline5!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
       ).paddingVertical(8);
 }

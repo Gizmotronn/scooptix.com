@@ -6,18 +6,26 @@ import '../../theme.dart';
 
 class AppolloButton {
   static regularButton(
-          {@required Widget child,
-          double width,
-          double height,
-          Color color,
-          @required Function onTap,
+          {required Widget child,
+          double? width,
+          double? height,
+          Color? color,
+          required Function() onTap,
           bool fill = true,
           bool border = true}) =>
       ResponsiveBuilder(builder: (context, SizingInformation size) {
         return Container(
           constraints: BoxConstraints(
-              minHeight: height ?? size.isDesktop ? 40 : 48,
-              maxHeight: height ?? size.isDesktop ? 40 : 48,
+              minHeight: height == null
+                  ? size.isDesktop
+                      ? 40
+                      : 48
+                  : height,
+              maxHeight: height == null
+                  ? size.isDesktop
+                      ? 40
+                      : 48
+                  : height,
               minWidth: width ?? 130,
               maxWidth: width ?? double.infinity),
           child: TextButton(
@@ -39,27 +47,27 @@ class AppolloButton {
 }
 
 class OnTapAnimationButton extends StatefulWidget {
-  final double width;
-  final double height;
-  final Color color;
+  final double? width;
+  final double? height;
+  final Color? color;
   final Function onTap;
   final bool fill;
   final bool border;
   final Color onTapColor;
   final Widget onTapContent;
   final Widget child;
-  final Widget suffixIcon;
+  final Widget? suffixIcon;
 
   OnTapAnimationButton(
       {this.width,
       this.height,
       this.color,
-      @required this.onTap,
+      required this.onTap,
       this.fill = true,
       this.border = true,
-      this.onTapColor,
-      this.onTapContent,
-      this.child,
+      required this.onTapColor,
+      required this.onTapContent,
+      required this.child,
       this.suffixIcon});
 
   @override
@@ -67,7 +75,7 @@ class OnTapAnimationButton extends StatefulWidget {
 }
 
 class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with SingleTickerProviderStateMixin {
-  AnimationController opacityController;
+  late AnimationController opacityController;
   double opacity = 0.0;
 
   @override
@@ -88,8 +96,16 @@ class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with Single
     return ResponsiveBuilder(builder: (context, SizingInformation size) {
       return Container(
         constraints: BoxConstraints(
-          minHeight: widget.height ?? size.isDesktop ? 40 : 35,
-          maxHeight: widget.height ?? size.isDesktop ? 40 : 35,
+          minHeight: widget.height == null
+              ? size.isDesktop
+                  ? 40
+                  : 35
+              : widget.height!,
+          maxHeight: widget.height == null
+              ? size.isDesktop
+                  ? 40
+                  : 35
+              : widget.height!,
           minWidth: widget.width ?? 130,
           maxWidth: widget.width ?? 200,
         ),
@@ -119,10 +135,14 @@ class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with Single
                 child: widget.child,
               ),
             ),
-            if (widget.suffixIcon != null) Positioned(top: 8, bottom: 8, right: 8, child: widget.suffixIcon),
+            if (widget.suffixIcon != null) Positioned(top: 8, bottom: 8, right: 8, child: widget.suffixIcon!),
             Positioned(
               top: 0,
-              height: widget.height ?? size.isDesktop ? 40 : 35,
+              height: widget.height == null
+                  ? size.isDesktop
+                      ? 40
+                      : 35
+                  : widget.height!,
               left: 0,
               right: 0,
               child: IgnorePointer(
@@ -148,23 +168,23 @@ class HoverAppolloButton extends StatefulWidget {
   final Color hoverColor;
   final Color color;
   final bool fill;
-  final double minHeight;
-  final double maxHeight;
-  final double minWidth;
-  final double maxWidth;
-  final Function onTap;
+  final double? minHeight;
+  final double? maxHeight;
+  final double? minWidth;
+  final double? maxWidth;
+  final Function() onTap;
 
   const HoverAppolloButton(
-      {Key key,
-      this.title,
-      @required this.hoverColor,
-      @required this.color,
+      {Key? key,
+      required this.title,
+      required this.hoverColor,
+      required this.color,
       this.fill = false,
       this.minHeight,
       this.maxHeight,
       this.minWidth,
       this.maxWidth,
-      this.onTap})
+      required this.onTap})
       : super(key: key);
 
   @override
@@ -197,9 +217,9 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
           ),
           child: Center(
             child: AutoSizeText(
-              widget.title ?? '',
-              style: MyTheme.textTheme.button.copyWith(
-                color: isHover ? MyTheme.appolloWhite : MyTheme.textTheme.button.color,
+              widget.title,
+              style: MyTheme.textTheme.button!.copyWith(
+                color: isHover ? MyTheme.appolloWhite : MyTheme.textTheme.button!.color,
               ),
             ),
           ),

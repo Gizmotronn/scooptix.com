@@ -7,16 +7,16 @@ class FavoriteHeartButton extends StatefulWidget {
   final Function(bool) onTap;
   final bool enable;
 
-  const FavoriteHeartButton({Key key, @required this.isFavorite, @required this.onTap, @required this.enable})
+  const FavoriteHeartButton({Key? key, required this.isFavorite, required this.onTap, required this.enable})
       : super(key: key);
   @override
   _FavoriteHeartButtonState createState() => _FavoriteHeartButtonState();
 }
 
 class _FavoriteHeartButtonState extends State<FavoriteHeartButton> with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
-  Animation<Color> _colorAnimation;
-  Animation<double> _sizeAnimation;
+  late AnimationController _animationController;
+  late Animation<Color?> _colorAnimation;
+  late Animation<double> _sizeAnimation;
 
   bool isFavorite = false;
 

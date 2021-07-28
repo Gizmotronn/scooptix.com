@@ -13,7 +13,7 @@ class GeneratedRoute {
   static Route<dynamic> onGenerateRoute(RouteSettings routeSettings) {
     final routeName = routeSettings.name;
     final arg = routeSettings.arguments;
-    final routeData = routeSettings.name.getRouteData;
+    final routeData = routeSettings.name!.getRouteData;
 
     switch (routeData.route) {
       case LandingPage.routeName:

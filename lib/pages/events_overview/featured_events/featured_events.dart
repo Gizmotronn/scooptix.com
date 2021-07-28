@@ -23,7 +23,6 @@ class _FeaturedEventsState extends State<FeaturedEvents> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return ResponsiveBuilder(
       builder: (context, size) {
         if (size.isDesktop || size.isTablet) {

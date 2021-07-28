@@ -5,11 +5,11 @@ import '../../theme.dart';
 
 class LevelCardMobile extends StatelessWidget {
   final String icon;
-  final double iconSize;
+  final double? iconSize;
 
   final List<Widget> children;
 
-  const LevelCardMobile({Key key, @required this.children, @required this.icon, this.iconSize}) : super(key: key);
+  const LevelCardMobile({Key? key, required this.children, required this.icon, this.iconSize}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

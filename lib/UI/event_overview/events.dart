@@ -8,7 +8,7 @@ import '../theme.dart';
 class AppolloEvents extends StatelessWidget {
   final List<Event> events;
 
-  const AppolloEvents({Key key, @required this.events}) : super(key: key);
+  const AppolloEvents({Key? key, required this.events}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

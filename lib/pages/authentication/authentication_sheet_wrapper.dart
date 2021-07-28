@@ -8,18 +8,17 @@ import 'authentication_page.dart';
 import 'bloc/authentication_bloc.dart';
 
 class AuthenticationPageWrapper extends StatefulWidget {
-  final BuildContext parentContext;
-  final Function onAutoAuthenticated;
+  final BuildContext? parentContext;
+  final Function(bool)? onAutoAuthenticated;
 
-  const AuthenticationPageWrapper({Key key, this.parentContext, this.onAutoAuthenticated}) : super(key: key);
+  const AuthenticationPageWrapper({Key? key, this.parentContext, this.onAutoAuthenticated}) : super(key: key);
 
   @override
   _AuthenticationPageWrapperState createState() => _AuthenticationPageWrapperState();
 }
 
 class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
-  Function onBack;
-  AuthenticationBloc bloc;
+  late AuthenticationBloc bloc;
 
   @override
   void initState() {
@@ -41,7 +40,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
         backgroundColor: MyTheme.appolloBottomBarColor,
         centerTitle: true,
         leading: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-          cubit: bloc,
+          bloc: bloc,
           builder: (c, state) {
             print(state);
             if (state is StateNewUserEmail) {
@@ -114,7 +113,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                       },
                       child: Text(
                         "Done",
-                        style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                       ),
                     ),
                   )

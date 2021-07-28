@@ -109,16 +109,16 @@ class Venue {
   Venue();
 
   String docID = "";
-  String name;
-  String address;
-  String description;
-  String coverImageURL;
-  List<VenueType> venueType;
-  int distance;
+  String? name;
+  String? address;
+  String? description;
+  String? coverImageURL;
+  List<VenueType>? venueType;
+  int? distance;
   num rating = 0;
   double lastCalculatedDistance = 9999;
   List<String> openinghours = <String>[];
-  bool isSignedUp;
+  bool? isSignedUp;
   List<String> events = <String>[];
   List<String> images = <String>[];
   List<VenueServices> services = <VenueServices>[];
@@ -143,7 +143,7 @@ class Venue {
 
     bool qpassAvailable = false;
     bool prioritypassAvailable = false;
-    num rating;
+    num? rating;
     List<VenueType> venueType = <VenueType>[];
 
     List<VenueServices> services = <VenueServices>[];
@@ -292,7 +292,7 @@ class Venue {
       }
 
       venue.venueType = venueType;
-      venue.rating = rating;
+      venue.rating = rating ?? 0;
       venue.venueType = venueType;
       venue.images = images;
       venue.events = events;
@@ -312,29 +312,29 @@ class Venue {
       venue.venueCategory = venueCategory;
 
       return venue;
-    } catch (e, s) {
+    } catch (e) {
       // print("Error creating venue from data");
       // print(e);
       // print(data);
       // BugsnagNotifier.instance.notify(e, s, severity: ErrorSeverity.error);
-      return null;
+      throw Exception("Couldn't load venue");
     }
   }
 
   bool isSubscribedToHub(HubSubscriprions sub) {
     switch (sub) {
       case HubSubscriprions.PriorityPass:
-        if (hubSubscriptions.containsKey("prioritypass") && hubSubscriptions["prioritypass"]) {
+        if (hubSubscriptions.containsKey("prioritypass") && hubSubscriptions["prioritypass"]!) {
           return true;
         }
         break;
       case HubSubscriprions.QPass:
-        if (hubSubscriptions.containsKey("qpass") && hubSubscriptions["qpass"]) {
+        if (hubSubscriptions.containsKey("qpass") && hubSubscriptions["qpass"]!) {
           return true;
         }
         break;
       case HubSubscriprions.CheckIn:
-        if (hubSubscriptions.containsKey("checkinbenefits") && hubSubscriptions["checkinbenefits"]) {
+        if (hubSubscriptions.containsKey("checkinbenefits") && hubSubscriptions["checkinbenefits"]!) {
           return true;
         }
         break;

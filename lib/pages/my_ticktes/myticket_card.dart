@@ -13,7 +13,8 @@ class MyTicketCard extends StatelessWidget {
   final bool isPastTicket;
   final BuildContext sheetContext;
 
-  const MyTicketCard({Key key, @required this.ticket, this.isPastTicket = false, this.sheetContext}) : super(key: key);
+  const MyTicketCard({Key? key, required this.ticket, this.isPastTicket = false, required this.sheetContext})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +49,16 @@ class MyTicketCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            fullDateWithDay(ticket.event.date) ?? '',
+                            fullDateWithDay(ticket.event!.date),
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: MyTheme.textTheme.subtitle2.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
                       ],
                     ),
                     AutoSizeText(
-                      ticket.event.name ?? '',
+                      ticket.event!.name,
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       overflow: TextOverflow.clip,
@@ -68,10 +69,10 @@ class MyTicketCard extends StatelessWidget {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            ticket.event.address ?? '',
+                            ticket.event!.address,
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: MyTheme.textTheme.subtitle2.copyWith(color: MyTheme.appolloWhite),
+                            style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloWhite),
                           ),
                         ),
                       ],
@@ -122,14 +123,14 @@ class MyTicketCard extends StatelessWidget {
           title,
           maxLines: 1,
           minFontSize: 5,
-          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloWhite),
         ),
         Expanded(
           child: SvgPicture.asset(AppolloSvgIcon.qrScan).paddingAll(4),
         ),
         Text(
           subTitle,
-          style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
         ),
       ],
     );

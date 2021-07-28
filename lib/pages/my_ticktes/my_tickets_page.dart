@@ -13,13 +13,13 @@ import 'myticket_card.dart';
 class MyTicketsPage extends StatefulWidget {
   final BuildContext parentContext;
 
-  const MyTicketsPage({Key key, this.parentContext}) : super(key: key);
+  const MyTicketsPage({Key? key, required this.parentContext}) : super(key: key);
   @override
   _MyTicketsPageState createState() => _MyTicketsPageState();
 }
 
 class _MyTicketsPageState extends State<MyTicketsPage> {
-  MyTicketsBloc bloc;
+  late MyTicketsBloc bloc;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MyTicketsBloc, MyTicketsState>(
-      cubit: bloc,
+      bloc: bloc,
       builder: (context, state) {
         if (state is StateTicketOverview) {
           return state.tickets.isEmpty
@@ -53,7 +53,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                         _tickets(widget.parentContext,
                                 tickets: state.tickets
                                     .where(
-                                        (ticket) => ticket.event.date.isAfter(DateTime.now().add(Duration(hours: 8))))
+                                        (ticket) => ticket.event!.date.isAfter(DateTime.now().add(Duration(hours: 8))))
                                     .toList(),
                                 isPastTicket: false)
                             .paddingBottom(MyTheme.elementSpacing * 2),
@@ -61,7 +61,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                             .paddingBottom(MyTheme.cardPadding),
                         _tickets(widget.parentContext,
                             tickets: state.tickets
-                                .where((ticket) => ticket.event.date.isBefore(DateTime.now().add(Duration(hours: 8))))
+                                .where((ticket) => ticket.event!.date.isBefore(DateTime.now().add(Duration(hours: 8))))
                                 .toList(),
                             isPastTicket: true),
                       ],
@@ -77,11 +77,12 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
     );
   }
 
-  Widget _headerText(String text, {Color color}) {
-    return AutoSizeText(text, style: MyTheme.textTheme.headline4.copyWith(color: color, fontWeight: FontWeight.w600));
+  Widget _headerText(String text, {required Color color}) {
+    return AutoSizeText(text, style: MyTheme.textTheme.headline4!.copyWith(color: color, fontWeight: FontWeight.w600));
   }
 
-  Widget _tickets(BuildContext sheetContext, {List<Ticket> tickets, bool isPastTicket}) => ListView.builder(
+  Widget _tickets(BuildContext sheetContext, {required List<Ticket> tickets, required bool isPastTicket}) =>
+      ListView.builder(
         physics: NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: tickets.length,
@@ -102,7 +103,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
               _headerText('Tickets', color: MyTheme.appolloGreen).paddingBottom(MyTheme.cardPadding).paddingTop(16),
               AutoSizeText(
                 "You do not currently have a ticket to an event.\n\nOnce you purchase a ticket it will be displayed here so it's always easy to find.",
-                style: Theme.of(context).textTheme.subtitle1.copyWith(fontWeight: FontWeight.w300),
+                style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w300),
               ),
             ],
           ),

@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
 class WrapperPage extends StatefulWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();
   static bool drawerOpen = false;
-  static ValueNotifier<Widget> endDrawer = ValueNotifier<Widget>(null);
+  static ValueNotifier<Widget?> endDrawer = ValueNotifier<Widget?>(null);
   static GlobalKey<ScaffoldState> mainScaffold = GlobalKey<ScaffoldState>();
 
   @override
@@ -106,45 +106,39 @@ class _WrapperPageState extends State<WrapperPage> {
         mobile: MyTheme.mobileTextTheme,
         tablet: MyTheme.textTheme,
         desktop: MyTheme.textTheme);
-    return ScrollConfiguration(
-      behavior: ScrollConfiguration.of(context).copyWith(dragDevices: {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      }),
-      child: Scaffold(
-          bottomNavigationBar: _buildBottomNavBar(),
-          key: WrapperPage.mainScaffold,
-          onEndDrawerChanged: (d) {
-            setState(() {
-              WrapperPage.drawerOpen = d;
-            });
-          },
-          endDrawer: ValueListenableBuilder(
-              valueListenable: WrapperPage.endDrawer,
-              builder: (context, value, child) {
-                if (value != null) {
-                  return value;
-                } else {
-                  return SizedBox.shrink();
-                }
-              }),
-          body: Stack(
-            children: [
-              WillPopScope(
-                onWillPop: () async {
-                  WrapperPage.navigatorKey.currentState.maybePop();
-                  return false;
-                },
-                child: Navigator(
-                  key: WrapperPage.navigatorKey,
-                  initialRoute: LandingPage.routeName,
-                  onGenerateRoute: GeneratedRoute.onGenerateRoute,
-                ),
+    return Scaffold(
+        bottomNavigationBar: _buildBottomNavBar(),
+        key: WrapperPage.mainScaffold,
+        onEndDrawerChanged: (d) {
+          setState(() {
+            WrapperPage.drawerOpen = d;
+          });
+        },
+        endDrawer: ValueListenableBuilder(
+            valueListenable: WrapperPage.endDrawer,
+            builder: (context, value, child) {
+              if (value != null) {
+                return value as Widget;
+              } else {
+                return SizedBox.shrink();
+              }
+            }),
+        body: Stack(
+          children: [
+            WillPopScope(
+              onWillPop: () async {
+                WrapperPage.navigatorKey.currentState!.maybePop();
+                return false;
+              },
+              child: Navigator(
+                key: WrapperPage.navigatorKey,
+                initialRoute: LandingPage.routeName,
+                onGenerateRoute: GeneratedRoute.onGenerateRoute,
               ),
-              WrapperPage.drawerOpen ? BlurBackground() : SizedBox(),
-            ],
-          )),
-    );
+            ),
+            WrapperPage.drawerOpen ? BlurBackground() : SizedBox(),
+          ],
+        ));
   }
 
   Widget _buildBottomNavBar() {
@@ -183,25 +177,25 @@ class _WrapperPageState extends State<WrapperPage> {
                         });
                         switch (selectedIndex) {
                           case 0:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext)
+                            Navigator.of(WrapperPage.navigatorKey.currentContext!)
                                 .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
                             break;
                           case 1:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext)
+                            Navigator.of(WrapperPage.navigatorKey.currentContext!)
                                 .push(MaterialPageRoute(builder: (context) => EventsForMe()));
                             break;
                           case 2:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext).popUntil((route) =>
+                            Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
                                 route.settings.name == EventOverviewPage.routeName ||
                                 route.settings.name == null ||
-                                route.settings.name.startsWith(EventDetailPage.routeName + "?"));
+                                route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
                             MyTicketsSheet.openMyTicketsSheet();
                             break;
                           case 3:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext).popUntil((route) =>
+                            Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
                                 route.settings.name == EventOverviewPage.routeName ||
                                 route.settings.name == null ||
-                                route.settings.name.startsWith(EventDetailPage.routeName + "?"));
+                                route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
                             RewardCenterSheet.openRewardCenterSheet();
                             break;
                         }

@@ -10,15 +10,15 @@ import 'package:ticketapp/repositories/user_repository.dart';
 import 'bloc/pre_sale_bloc.dart';
 
 class PreSaleSheet extends StatefulWidget {
-  final PreSaleBloc bloc;
+  final PreSaleBloc? bloc;
   final Event event;
-  PreSaleSheet._(this.bloc, {this.event});
+  PreSaleSheet._(this.bloc, {required this.event});
 
   /// Makes sure the user is logged in before opening the My Ticket Sheet
-  static openPreSaleSheet(PreSaleBloc bloc, {@required Event event}) {
+  static openPreSaleSheet(PreSaleBloc? bloc, {required Event event}) {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
-          context: WrapperPage.navigatorKey.currentContext,
+          context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           settings: RouteSettings(name: "presale_sheet"),
@@ -28,14 +28,14 @@ class PreSaleSheet extends StatefulWidget {
               ));
     } else {
       showAppolloModalBottomSheet(
-          context: WrapperPage.navigatorKey.currentContext,
+          context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
-                  Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                  Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
-                      context: WrapperPage.navigatorKey.currentContext,
+                      context: WrapperPage.navigatorKey.currentContext!,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
@@ -50,7 +50,7 @@ class PreSaleSheet extends StatefulWidget {
 }
 
 class _PreSaleSheetState extends State<PreSaleSheet> {
-  PreSaleBloc bloc;
+  late PreSaleBloc bloc;
 
   @override
   void initState() {
@@ -58,7 +58,7 @@ class _PreSaleSheetState extends State<PreSaleSheet> {
       bloc = PreSaleBloc();
       bloc.add(EventCheckStatus(widget.event));
     } else {
-      bloc = widget.bloc;
+      bloc = widget.bloc!;
     }
     super.initState();
   }
@@ -96,7 +96,7 @@ class _PreSaleSheetState extends State<PreSaleSheet> {
                     ),
                     Text(
                       "Done",
-                      style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                     )
                   ],
                 ),

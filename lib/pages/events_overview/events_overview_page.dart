@@ -13,7 +13,7 @@ class EventOverviewPage extends StatefulWidget {
   static const String routeName = '/events';
 
   final List<Event> events;
-  const EventOverviewPage({Key key, this.events}) : super(key: key);
+  const EventOverviewPage({Key? key, required this.events}) : super(key: key);
 
   @override
   _EventOverviewPageState createState() => _EventOverviewPageState();
@@ -89,7 +89,7 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
 
 class BlurBackground extends StatefulWidget {
   const BlurBackground({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

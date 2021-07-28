@@ -8,7 +8,7 @@ import '../../theme.dart';
 class DotPoint extends StatelessWidget {
   final String text;
   final bool isActive;
-  const DotPoint({Key key, @required this.text, this.isActive = true}) : super(key: key);
+  const DotPoint({Key? key, required this.text, this.isActive = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class DotPoint extends StatelessWidget {
             '$text',
             style: Theme.of(context)
                 .textTheme
-                .caption
+                .caption!
                 .copyWith(decoration: isActive ? TextDecoration.none : TextDecoration.lineThrough),
           ),
         ),

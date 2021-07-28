@@ -20,9 +20,10 @@ class OrderSummarySheet extends StatefulWidget {
   final bool collapsed;
   final Event event;
   final Map<TicketRelease, int> selectedTickets;
-  OrderSummarySheet._({this.collapsed, this.event, this.selectedTickets});
+  OrderSummarySheet._({required this.collapsed, required this.event, required this.selectedTickets});
 
-  static openOrderSummarySheetCollapsed({BuildContext context, Event event, Map<TicketRelease, int> selectedTickets}) {
+  static openOrderSummarySheetCollapsed(
+      {required BuildContext context, required Event event, required Map<TicketRelease, int> selectedTickets}) {
     showBottomSheet(
         context: context,
         backgroundColor: MyTheme.appolloBackgroundColor,
@@ -34,7 +35,8 @@ class OrderSummarySheet extends StatefulWidget {
   }
 
   /// Makes sure the user is logged in before opening the Expanded Order Summary Sheet
-  static openOrderSummarySheetExpanded({BuildContext context, Event event, Map<TicketRelease, int> selectedTickets}) {
+  static openOrderSummarySheetExpanded(
+      {required BuildContext context, required Event event, required Map<TicketRelease, int> selectedTickets}) {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: context,
@@ -72,9 +74,9 @@ class OrderSummarySheet extends StatefulWidget {
 
 class _OrderSummarySheetState extends State<OrderSummarySheet> {
   TicketBloc bloc = TicketBloc();
-  double subtotal;
-  int totalTicketQuantity;
-  Discount discount;
+  late double subtotal;
+  late int totalTicketQuantity;
+  Discount? discount;
   TextEditingController _discountController = TextEditingController();
 
   @override
@@ -93,7 +95,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
     subtotal = 0;
     totalTicketQuantity = 0;
     widget.selectedTickets.forEach((release, quantity) {
-      subtotal += release.price * quantity;
+      subtotal += release.price! * quantity;
     });
     if (widget.selectedTickets.isNotEmpty) {
       totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
@@ -126,7 +128,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 ),
                 Text(
                   "Open",
-                  style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                 )
               ],
             ),
@@ -161,7 +163,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                           ),
                           Text(
                             "Close",
-                            style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                            style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                           )
                         ],
                       ),
@@ -174,7 +176,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 children: [
                   AutoSizeText(
                     "Order Summary",
-                    style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                    style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
                   ).paddingBottom(MyTheme.elementSpacing),
                   _buildMainContent().paddingBottom(MyTheme.elementSpacing),
                   _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
@@ -219,7 +221,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                         },
                         child: Text(
                           "PROCEED TO CHECKOUT",
-                          style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                          style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                         ),
                       ),
                     ).paddingBottom(MyTheme.elementSpacing),
@@ -235,7 +237,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
 
   Widget _buildMainContent() {
     return BlocBuilder<TicketBloc, TicketState>(
-        cubit: bloc,
+        bloc: bloc,
         builder: (c, state) {
           return _buildPriceBreakdown();
         });
@@ -250,24 +252,24 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)),
+              Text("Subtotal", style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
-        if (discount != null && discount.enoughLeft(totalTicketQuantity))
+        if (discount != null && discount!.enoughLeft(totalTicketQuantity))
           SizedBox(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Discount (${discount.type == DiscountType.value ? "\$" + (discount.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount.amount.toString() + "%"})",
-                  style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600),
+                  "Discount (${discount!.type == DiscountType.value ? "\$" + (discount!.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : discount!.amount.toString() + "%"})",
+                  style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
                 ),
                 SizedBox(
                     child: Text("-\$${_calculateDiscount().toStringAsFixed(2)}", style: MyTheme.textTheme.bodyText1))
@@ -280,14 +282,14 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600),
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ),
@@ -296,14 +298,14 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)),
+              Text("Total", style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                           "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -320,13 +322,13 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(key.ticketName + " x $value",
-                style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600)),
+                style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text("\$${(key.price * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w600))))
+                    child: Text("\$${(key.price! * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));
@@ -341,21 +343,21 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
     if (discount == null) {
       return 0.0;
     }
-    if (discount.appliesToReleases.isEmpty) {
-      if (discount.type == DiscountType.value) {
-        return discount.amount.toDouble() * totalTicketQuantity / 100;
+    if (discount!.appliesToReleases.isEmpty) {
+      if (discount!.type == DiscountType.value) {
+        return discount!.amount.toDouble() * totalTicketQuantity / 100;
       } else {
-        return subtotal * discount.amount / 100 / 100;
+        return subtotal * discount!.amount / 100 / 100;
       }
     } else {
       double disc = 0.0;
       widget.selectedTickets.forEach((key, value) {
         // If it's a single event discount, this will hold the release docId, otherwise the recurring UUID
-        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId)) {
-          if (discount.type == DiscountType.value) {
-            disc += discount.amount.toDouble() * value / 100;
+        if (discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.docId)) {
+          if (discount!.type == DiscountType.value) {
+            disc += discount!.amount.toDouble() * value / 100;
           } else {
-            disc += (discount.amount / 100 / 100 * key.price) * value;
+            disc += (discount!.amount / 100 / 100 * key.price!) * value;
           }
         }
       });
@@ -364,13 +366,13 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
   }
 
   int _discountAppliesTo() {
-    if (discount.appliesToReleases.isEmpty) {
+    if (discount!.appliesToReleases.isEmpty) {
       return totalTicketQuantity;
     } else {
       int counter = 0;
       widget.selectedTickets.forEach((key, value) {
-        if (discount.appliesToReleases.contains(widget.event.getReleaseManager(key).docId) ||
-            discount.appliesToReleases.contains(widget.event.getReleaseManager(key).recurringUUID)) {
+        if (discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.docId) ||
+            discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.recurringUUID)) {
           counter += value;
         }
       });
@@ -392,7 +394,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
 
   Widget _buildDiscountCode() {
     return BlocConsumer<TicketBloc, TicketState>(
-        cubit: bloc,
+        bloc: bloc,
         listener: (c, state) {
           if (state is StateDiscountApplied) {
             setState(() {
@@ -427,7 +429,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                             child: AutoSizeText(
                               state.discount.code,
-                              style: MyTheme.textTheme.caption
+                              style: MyTheme.textTheme.caption!
                                   .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
                             ),
                           ),
@@ -460,7 +462,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                             padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
                             child: AutoSizeText(
                               "This code is invalid",
-                              style: MyTheme.textTheme.caption.copyWith(fontWeight: FontWeight.w400),
+                              style: MyTheme.textTheme.caption!.copyWith(fontWeight: FontWeight.w400),
                             ),
                           ),
                         ],

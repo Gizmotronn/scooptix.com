@@ -7,7 +7,7 @@ import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
 class PreSalePrizesWidget extends StatefulWidget {
   final List<PreSalePrize> prizes;
 
-  const PreSalePrizesWidget({Key key, @required this.prizes}) : super(key: key);
+  const PreSalePrizesWidget({Key? key, required this.prizes}) : super(key: key);
   @override
   _PreSalePrizesWidgetState createState() => _PreSalePrizesWidgetState();
 }
@@ -50,7 +50,7 @@ class _PreSalePrizesWidgetState extends State<PreSalePrizesWidget> {
               });
             }
           },
-          title: widget.prizes[index].name,
+          title: widget.prizes[index].name!,
           item:
               List.generate(widget.prizes[index].prizes.length, (i) => DotPoint(text: widget.prizes[index].prizes[i])),
         ),
@@ -62,14 +62,20 @@ class _PreSalePrizesWidgetState extends State<PreSalePrizesWidget> {
 class PreSalePoolCard extends StatefulWidget {
   final String title;
   final List<DotPoint> item;
-  final String trailingIcon;
+  final String? trailingIcon;
   final bool isExpanded;
   final BorderRadius radius;
 
-  final Function ontap;
+  final Function() ontap;
 
   const PreSalePoolCard(
-      {Key key, this.title, this.item, this.trailingIcon, this.isExpanded = false, this.radius, this.ontap})
+      {Key? key,
+      required this.title,
+      required this.item,
+      this.trailingIcon,
+      this.isExpanded = false,
+      required this.radius,
+      required this.ontap})
       : super(key: key);
 
   @override
@@ -91,7 +97,7 @@ class _PreSalePoolCardState extends State<PreSalePoolCard> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(widget.title, style: Theme.of(context).textTheme.bodyText1.copyWith(fontWeight: FontWeight.w500)),
+                Text(widget.title, style: Theme.of(context).textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w500)),
                 Icon(
                   widget.isExpanded ? Icons.remove : Icons.add,
                   size: 18,
@@ -115,7 +121,7 @@ class _PreSalePoolCardState extends State<PreSalePoolCard> {
                       Expanded(child: Column(children: widget.item)),
                       widget.trailingIcon == null
                           ? SizedBox.shrink()
-                          : SvgPicture.asset(widget.trailingIcon, height: 30),
+                          : SvgPicture.asset(widget.trailingIcon!, height: 30),
                     ],
                   ).paddingTop(4).paddingBottom(4)
                 ],

@@ -5,14 +5,14 @@ import 'package:ticketapp/UI/theme.dart';
 class DateWidget extends StatelessWidget {
   final DateTime date;
 
-  const DateWidget({Key key, this.date}) : super(key: key);
+  const DateWidget({Key? key, required this.date}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: Container(
-        color: Colors.grey[900].withAlpha(150),
+        color: Colors.grey[900]!.withAlpha(150),
         child: AspectRatio(
           aspectRatio: 1,
           child: LayoutBuilder(builder: (context, constraints) {

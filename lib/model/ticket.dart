@@ -3,13 +3,14 @@ import 'package:ticketapp/model/ticket_release.dart';
 
 class Ticket {
   Ticket();
-  String docId;
-  Event event;
-  DateTime dateIssued;
-  TicketRelease release;
+  String? docId;
+  Event? event;
+  DateTime? dateIssued;
+  TicketRelease? release;
   bool wasUsed = false;
 
-  factory Ticket.fromMap(String id, Event event, TicketRelease release, Map<String, dynamic> data) {
+  factory Ticket.fromMap(
+      {required String id, Event? event, TicketRelease? release, required Map<String, dynamic> data}) {
     Ticket ticket = Ticket();
     ticket.docId = id;
     ticket.event = event;

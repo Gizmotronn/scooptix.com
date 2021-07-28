@@ -2,41 +2,41 @@ import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class ReleaseManager {
-  String docId;
-  String name;
-  String description;
-  DateTime entryStart;
-  DateTime entryEnd;
-  int index;
+  String? docId;
+  String? name;
+  String? description;
+  DateTime? entryStart;
+  DateTime? entryEnd;
+  int? index;
   List<TicketRelease> releases = [];
   bool absorbFees = false;
   bool autoRelease = false;
   bool singleTicketRestriction = false;
   List<String> includedPerks = [];
   List<String> excludedPerks = [];
-  String recurringUUID;
+  String? recurringUUID;
 
   /// Stores the link types this release is available for
-  List<String> availableFor;
+  List<String>? availableFor;
 
   ReleaseManager._();
 
   bool isAvailableFor(String linkType) {
-    if (availableFor == null || availableFor.contains(linkType)) {
+    if (availableFor == null || availableFor!.contains(linkType)) {
       return true;
     } else {
       return false;
     }
   }
 
-  TicketRelease getActiveRelease() {
+  TicketRelease? getActiveRelease() {
     // Sort by earliest release start first
-    releases.sort((a, b) => a.releaseStart.isBefore(b.releaseStart) ? -1 : 1);
+    releases.sort((a, b) => a.releaseStart!.isBefore(b.releaseStart!) ? -1 : 1);
     for (int i = 0; i < releases.length; i++) {
       // If autorelease is true, we can ignore the release start time if the first release is already sold out
       // This is why we sort the releases first
-      if ((releases[i].releaseStart.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
-          releases[i].releaseEnd.isAfter(DateTime.now()) &&
+      if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+          releases[i].releaseEnd!.isAfter(DateTime.now()) &&
           releases[i].maxTickets > releases[i].ticketsBought) {
         return releases[i];
       }
@@ -45,25 +45,25 @@ class ReleaseManager {
   }
 
   /// Returns the next release that will be active, which might not be active right now
-  TicketRelease getNextRelease() {
+  TicketRelease? getNextRelease() {
     // Sort by earliest release start first
-    releases.sort((a, b) => a.releaseStart.isBefore(b.releaseStart) ? -1 : 1);
+    releases.sort((a, b) => a.releaseStart!.isBefore(b.releaseStart!) ? -1 : 1);
     for (int i = 0; i < releases.length; i++) {
       // If autorelease is true, we can ignore the release start time if the first release is already sold out
       // This is why we sort the releases first
-      if ((releases[i].releaseStart.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
-          releases[i].releaseEnd.isAfter(DateTime.now()) &&
+      if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+          releases[i].releaseEnd!.isAfter(DateTime.now()) &&
           releases[i].maxTickets > releases[i].ticketsBought) {
         return releases[i];
       }
     }
-    if (releases.any((element) => element.releaseEnd.isAfter(DateTime.now()))) {
-      return releases.firstWhere((element) => element.releaseEnd.isAfter(DateTime.now()));
+    if (releases.any((element) => element.releaseEnd!.isAfter(DateTime.now()))) {
+      return releases.firstWhere((element) => element.releaseEnd!.isAfter(DateTime.now()));
     }
     return null;
   }
 
-  int getFullPrice() {
+  int? getFullPrice() {
     return releases.isEmpty ? 0 : releases.last.price;
   }
 
@@ -112,7 +112,7 @@ class ReleaseManager {
       if (data.containsKey("available_for")) {
         rm.availableFor = [];
         data["available_for"].forEach((e) {
-          rm.availableFor.add(e);
+          rm.availableFor!.add(e);
         });
       }
     } catch (e, s) {

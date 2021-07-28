@@ -8,27 +8,29 @@ enum AppolloTextFieldState { initial, hover, typing, filled, disabled, error }
 enum TextFieldType { reactive, regular }
 
 class AppolloTextField extends StatefulWidget {
-  final TextEditingController controller;
-  final String labelText;
-  final String hintText;
+  final TextEditingController? controller;
+  final String? labelText;
+  final String? hintText;
   final String errorText;
-  final TextFieldType textFieldType;
-  final TextInputType keyboardType;
-  final Map<String, String> Function(AbstractControl<dynamic>) validationMessages;
-  final List<TextInputFormatter> inputFormatters;
-  final String formControlName;
-  final FocusNode focusNode;
-  final Function onChanged;
-  final List<String> autofillHints;
-  final bool autofocus;
-  final Function(String) onFieldSubmitted;
-  final Function(String) validator;
-  final Widget suffixIcon;
-  final AutovalidateMode autovalidateMode;
+  final TextFieldType? textFieldType;
+  final TextInputType? keyboardType;
+  final Map<String, String> Function(AbstractControl<dynamic>)? validationMessages;
+  final List<TextInputFormatter>? inputFormatters;
+  final FormControl? formControl;
+  final FocusNode? focusNode;
+  final Function? onChanged;
+  final List<String>? autofillHints;
+  final bool? autofocus;
+  final Function(String?)? onFieldSubmitted;
+  final String? Function(String?)? validator;
+  final Widget? suffixIcon;
+  final AutovalidateMode? autovalidateMode;
   final bool obscureText;
+  final GlobalKey<FormState> formState = GlobalKey<FormState>();
+  final double? maxWidth;
 
-  const AppolloTextField(
-      {Key key,
+  AppolloTextField._(
+      {Key? key,
       this.controller,
       @required this.labelText,
       this.errorText = '',
@@ -36,7 +38,7 @@ class AppolloTextField extends StatefulWidget {
       this.keyboardType,
       this.validationMessages,
       this.inputFormatters,
-      this.formControlName,
+      this.formControl,
       this.autofillHints,
       this.autofocus,
       this.onFieldSubmitted,
@@ -46,8 +48,80 @@ class AppolloTextField extends StatefulWidget {
       this.obscureText = false,
       this.focusNode,
       this.onChanged,
-      this.hintText})
+      this.hintText,
+      this.maxWidth})
       : super(key: key);
+
+  factory AppolloTextField.reactive(
+      {Key? key,
+      required labelText,
+      keyboardType,
+      validationMessages,
+      inputFormatters,
+      required formControl,
+      autofillHints,
+      autofocus,
+      onFieldSubmitted,
+      suffixIcon,
+      obscureText = false,
+      focusNode,
+      onChanged,
+      hintText,
+      maxWidth}) {
+    AppolloTextField tf = AppolloTextField._(
+      labelText: labelText,
+      textFieldType: TextFieldType.reactive,
+      validationMessages: validationMessages,
+      inputFormatters: inputFormatters,
+      formControl: formControl,
+      autofillHints: autofillHints,
+      autofocus: autofocus,
+      onFieldSubmitted: onFieldSubmitted,
+      suffixIcon: suffixIcon,
+      obscureText: obscureText,
+      focusNode: focusNode,
+      onChanged: onChanged,
+      hintText: hintText,
+      maxWidth: maxWidth,
+    );
+
+    return tf;
+  }
+
+  factory AppolloTextField.formField(
+      {Key? key,
+      required labelText,
+      required controller,
+      keyboardType,
+      inputFormatters,
+      autofillHints,
+      autofocus,
+      onFieldSubmitted,
+      suffixIcon,
+      obscureText = false,
+      focusNode,
+      onChanged,
+      hintText,
+      maxWidth}) {
+    AppolloTextField tf = AppolloTextField._(
+      labelText: labelText,
+      controller: controller,
+      textFieldType: TextFieldType.regular,
+      inputFormatters: inputFormatters,
+      autofillHints: autofillHints,
+      autofocus: autofocus,
+      onFieldSubmitted: onFieldSubmitted,
+      suffixIcon: suffixIcon,
+      obscureText: obscureText,
+      focusNode: focusNode,
+      onChanged: onChanged,
+      hintText: hintText,
+      maxWidth: maxWidth,
+    );
+
+    return tf;
+  }
+
   @override
   _AppolloTextFieldState createState() => _AppolloTextFieldState();
 }
@@ -56,7 +130,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
   AppolloTextFieldState textFieldState = AppolloTextFieldState.initial;
   String _text = '';
 
-  FocusNode _focusNode;
+  FocusNode? _focusNode;
   @override
   void initState() {
     if (widget.errorText.isNotEmpty) {
@@ -64,15 +138,19 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
     }
 
     _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(() {
+    _focusNode!.addListener(() {
       setState(() {
-        if (_focusNode.hasFocus) {
-          if (textFieldState != AppolloTextFieldState.error) {
+        if (_focusNode!.hasFocus) {
+          if (textFieldState != AppolloTextFieldState.error && textFieldState != AppolloTextFieldState.typing) {
             textFieldState = AppolloTextFieldState.typing;
           }
         } else {
           if (textFieldState != AppolloTextFieldState.error) {
-            textFieldState = AppolloTextFieldState.initial;
+            if (_text.isEmpty) {
+              textFieldState = AppolloTextFieldState.initial;
+            } else {
+              textFieldState = AppolloTextFieldState.filled;
+            }
           }
         }
       });
@@ -83,23 +161,32 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
 
   @override
   Widget build(BuildContext context) {
+    print(textFieldState);
     return MouseRegion(
       onHover: (isHover) {
-        if (textFieldState != AppolloTextFieldState.error) {
+        if (textFieldState != AppolloTextFieldState.error &&
+            textFieldState != AppolloTextFieldState.typing &&
+            textFieldState != AppolloTextFieldState.hover) {
           setState(() {
             textFieldState = AppolloTextFieldState.hover;
           });
         }
       },
       onExit: (v) {
-        if (textFieldState != AppolloTextFieldState.error) {
+        if (textFieldState != AppolloTextFieldState.error && !_focusNode!.hasFocus) {
           if (_text.isEmpty) {
             setState(() {
-              if (_focusNode.hasFocus) {
-                textFieldState = AppolloTextFieldState.typing;
+              if (_focusNode!.hasFocus) {
+                if (textFieldState != AppolloTextFieldState.typing) {
+                  textFieldState = AppolloTextFieldState.typing;
+                }
               } else {
                 textFieldState = AppolloTextFieldState.initial;
               }
+            });
+          } else {
+            setState(() {
+              textFieldState = AppolloTextFieldState.filled;
             });
           }
         }
@@ -109,121 +196,165 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
         children: [
           AnimatedContainer(
             duration: MyTheme.animationDuration,
-            height: textFieldState == AppolloTextFieldState.error ? 64 : 48,
+            width: widget.maxWidth ?? double.infinity,
+            height: textFieldState == AppolloTextFieldState.error ? 68 : 52,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: textFieldState == AppolloTextFieldState.hover ||
-                      textFieldState == AppolloTextFieldState.typing ||
-                      textFieldState == AppolloTextFieldState.error
+              borderRadius: BorderRadius.circular(8),
+              color: textFieldState == AppolloTextFieldState.hover || textFieldState == AppolloTextFieldState.typing
                   ? MyTheme.appolloBackgroundColor
-                  : MyTheme.appolloTextFieldColor,
+                  : textFieldState == AppolloTextFieldState.error
+                      ? MyTheme.appolloBackgroundColor
+                      : MyTheme.appolloTextFieldColor,
               border: Border.all(
-                width: 0.8,
+                width: 1.8,
                 color: _buildOutlineColor(),
               ),
             ),
-            child: Builder(builder: (context) {
-              if (widget.textFieldType == TextFieldType.reactive) {
-                return ReactiveTextField(
-                  formControlName: widget.formControlName,
-                  keyboardType: widget.keyboardType,
-                  validationMessages: widget.validationMessages,
-                  inputFormatters: widget.inputFormatters,
-                  focusNode: _focusNode,
-                  onSubmitted: () {
-                    if (widget.onFieldSubmitted != null) {
-                      widget.onFieldSubmitted("");
+            child: Row(
+              children: [
+                Expanded(
+                  child: Builder(builder: (context) {
+                    if (widget.textFieldType == TextFieldType.reactive) {
+                      return ReactiveTextField(
+                        formControl: widget.formControl,
+                        keyboardType: widget.keyboardType,
+                        validationMessages: widget.validationMessages,
+                        inputFormatters: widget.inputFormatters,
+                        focusNode: _focusNode,
+                        onSubmitted: () {
+                          if (widget.onFieldSubmitted != null) {
+                            widget.onFieldSubmitted!("");
+                          }
+                        },
+                        showErrors: (control) {
+                          if (control.touched) {
+                            if (control.invalid) {
+                              if (textFieldState != AppolloTextFieldState.error) {
+                                Future.delayed(Duration(milliseconds: 1)).then((value) {
+                                  setState(() {
+                                    textFieldState = AppolloTextFieldState.error;
+                                  });
+                                });
+                              }
+                              return true;
+                            } else {
+                              if (textFieldState != AppolloTextFieldState.typing) {
+                                Future.delayed(Duration(milliseconds: 1)).then((value) {
+                                  setState(() {
+                                    textFieldState = AppolloTextFieldState.typing;
+                                  });
+                                });
+                              }
+                              return false;
+                            }
+                          }
+                          return false;
+                        },
+                        obscureText: widget.obscureText,
+                        style: MyTheme.textTheme.bodyText1,
+                        decoration: InputDecoration(
+                          filled: true,
+                          hintText: widget.hintText,
+                          fillColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          contentPadding: const EdgeInsets.only(left: 8),
+                          errorBorder: InputBorder.none,
+                          isDense: true,
+                          errorStyle: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
+                          focusedBorder: InputBorder.none,
+                          hintStyle: MyTheme.textTheme.button!.copyWith(
+                              color: textFieldState == AppolloTextFieldState.initial
+                                  ? MyTheme.appolloGrey
+                                  : MyTheme.appolloGreen),
+                          enabledBorder: InputBorder.none,
+                          focusedErrorBorder: InputBorder.none,
+                          labelText: widget.labelText,
+                          labelStyle: MyTheme.textTheme.bodyText1!
+                              .copyWith(color: _buildLabelColor(), fontSize: 14, fontWeight: FontWeight.w500),
+                          disabledBorder: InputBorder.none,
+                        ),
+                      );
                     }
-                  },
-                  showErrors: (control) {
-                    if (control.invalid && control.touched) {
-                      Future.delayed(Duration(milliseconds: 1)).then((value) {
-                        setState(() {
-                          textFieldState = AppolloTextFieldState.error;
-                        });
-                      });
-                      return true;
-                    } else {
-                      Future.delayed(Duration(milliseconds: 1)).then((value) {
-                        setState(() {
-                          textFieldState = AppolloTextFieldState.typing;
-                        });
-                      });
-                      return false;
-                    }
-                  },
-                  autofocus: widget.autofocus ?? false,
-                  obscureText: widget.obscureText,
-                  style: MyTheme.textTheme.bodyText1,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: widget.hintText,
-                    fillColor: Colors.transparent,
-                    contentPadding: const EdgeInsets.only(left: 8),
-                    errorBorder: InputBorder.none,
-                    errorStyle: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
-                    focusedBorder: InputBorder.none,
-                    hintStyle: MyTheme.textTheme.button.copyWith(
-                        color: textFieldState == AppolloTextFieldState.initial
-                            ? MyTheme.appolloGrey
-                            : MyTheme.appolloWhite),
-                    enabledBorder: InputBorder.none,
-                    focusedErrorBorder: InputBorder.none,
-                    labelText: widget.labelText,
-                    labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
-                    disabledBorder: InputBorder.none,
-                  ),
-                );
-              }
-              return TextFormField(
-                autofillHints: widget.autofillHints,
-                autofocus: widget.autofocus ?? false,
-                onFieldSubmitted: (v) {
-                  if (widget.onFieldSubmitted != null) {
-                    widget.onFieldSubmitted(v);
-                  }
-                  if (widget.validator != null) {
-                    if (widget.validator(v) != null) {
-                      setState(() {
-                        textFieldState = AppolloTextFieldState.error;
-                      });
-                    }
-                  }
-                },
-                autovalidateMode: widget.autovalidateMode,
-                validator: widget.validator,
-                obscureText: widget.obscureText ?? false,
-                onChanged: (v) {
-                  if (widget.onChanged != null) {
-                    widget.onChanged(v);
-                  }
-                  setState(() => _text = v);
-                },
-                controller: widget.controller,
-                keyboardType: widget.keyboardType,
-                focusNode: _focusNode,
-                inputFormatters: widget.inputFormatters,
-                style: MyTheme.textTheme.bodyText1,
-                decoration: InputDecoration(
-                  filled: true,
-                  hintText: widget.hintText,
-                  suffix: widget.suffixIcon,
-                  fillColor: Colors.transparent,
-                  contentPadding: const EdgeInsets.only(left: 8, bottom: 4),
-                  errorBorder: InputBorder.none,
-                  errorStyle: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
-                  focusedBorder: InputBorder.none,
-                  hintStyle: MyTheme.textTheme.button.copyWith(
-                      color:
-                          textFieldState == AppolloTextFieldState.initial ? MyTheme.appolloGrey : MyTheme.appolloWhite),
-                  enabledBorder: InputBorder.none,
-                  focusedErrorBorder: InputBorder.none,
-                  labelText: widget.labelText,
-                  labelStyle: MyTheme.textTheme.bodyText1.copyWith(color: _buildLabelColor()),
-                  disabledBorder: InputBorder.none,
+                    return TextFormField(
+                      key: widget.formState,
+                      autofillHints: widget.autofillHints,
+                      autofocus: widget.autofocus ?? false,
+                      onFieldSubmitted: (v) {
+                        if (widget.onFieldSubmitted != null) {
+                          widget.onFieldSubmitted!(v);
+                        }
+                        if (widget.validator != null) {
+                          if (widget.validator!(v) != null) {
+                            setState(() {
+                              textFieldState = AppolloTextFieldState.error;
+                            });
+                          }
+                        }
+                      },
+                      autovalidateMode: widget.autovalidateMode,
+                      validator: widget.validator,
+                      obscureText: widget.obscureText,
+                      onChanged: (v) {
+                        if (widget.onChanged != null) {
+                          widget.onChanged!(v);
+                        }
+                        setState(() => _text = v);
+                      },
+                      controller: widget.controller,
+                      keyboardType: widget.keyboardType,
+                      focusNode: _focusNode,
+                      inputFormatters: widget.inputFormatters,
+                      style: MyTheme.textTheme.bodyText1,
+                      decoration: InputDecoration(
+                        filled: true,
+                        hintText: widget.hintText,
+                        suffix: widget.suffixIcon,
+                        fillColor: Colors.transparent,
+                        isDense: true,
+                        hoverColor: Colors.transparent,
+                        contentPadding: const EdgeInsets.only(left: 8, bottom: 4),
+                        errorBorder: InputBorder.none,
+                        errorStyle: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
+                        focusedBorder: InputBorder.none,
+                        hintStyle: MyTheme.textTheme.button!.copyWith(
+                            color: textFieldState == AppolloTextFieldState.initial
+                                ? MyTheme.appolloBlack
+                                : MyTheme.appolloGrey),
+                        enabledBorder: InputBorder.none,
+                        focusedErrorBorder: InputBorder.none,
+                        labelText: widget.labelText,
+                        labelStyle: MyTheme.textTheme.bodyText1!
+                            .copyWith(color: _buildLabelColor(), fontSize: 16, fontWeight: FontWeight.w600),
+                        disabledBorder: InputBorder.none,
+                      ),
+                    );
+                  }).paddingAll(8),
                 ),
-              );
-            }).paddingAll(4),
+                if (widget.suffixIcon != null) widget.suffixIcon!,
+                if (widget.suffixIcon == null &&
+                    (textFieldState == AppolloTextFieldState.typing || textFieldState == AppolloTextFieldState.error))
+                  InkWell(
+                      radius: 0,
+                      onTap: () {
+                        setState(() {
+                          _text = "";
+                          if (widget.textFieldType == TextFieldType.reactive) {
+                            if (widget.formControl != null) {
+                              widget.formControl!.reset();
+                            }
+                          } else {
+                            if (widget.controller != null) {
+                              widget.controller!.clear();
+                            }
+                          }
+                        });
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: MyTheme.appolloGrey,
+                      ).paddingRight(8))
+              ],
+            ),
           ),
         ],
       ),
@@ -234,18 +365,20 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
     if (textFieldState == AppolloTextFieldState.filled) {
       return MyTheme.appolloGreen;
     } else if (textFieldState == AppolloTextFieldState.error) {
-      return MyTheme.appolloRed;
+      return MyTheme.appolloWhite;
     } else if (textFieldState == AppolloTextFieldState.initial) {
-      return MyTheme.appolloGrey;
+      return MyTheme.appolloWhite;
     }
     return MyTheme.appolloWhite;
   }
 
   Color _buildOutlineColor() {
-    if (textFieldState == AppolloTextFieldState.hover || textFieldState == AppolloTextFieldState.typing) {
-      return MyTheme.appolloWhite;
+    if (textFieldState == AppolloTextFieldState.typing) {
+      return MyTheme.appolloGreen;
+    } else if (textFieldState == AppolloTextFieldState.hover) {
+      return MyTheme.appolloOrange;
     } else if (textFieldState == AppolloTextFieldState.error) {
-      return MyTheme.appolloRed;
+      return MyTheme.appolloDarkRed;
     } else if (textFieldState == AppolloTextFieldState.filled) {
       return MyTheme.appolloGreen;
     } else {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ErrorPage extends StatefulWidget {
   final String message;
 
-  const ErrorPage(this.message, {Key key}) : super(key: key);
+  const ErrorPage(this.message, {Key? key}) : super(key: key);
 
   @override
   _ErrorPageState createState() => _ErrorPageState();

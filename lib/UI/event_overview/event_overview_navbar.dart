@@ -6,9 +6,9 @@ import 'event_overview_home.dart';
 import 'package:ticketapp/UI/theme.dart';
 
 class EventOverviewNavigationBar extends StatefulWidget {
-  final EventsOverviewBloc bloc;
+  final EventsOverviewBloc? bloc;
 
-  const EventOverviewNavigationBar({Key key, this.bloc}) : super(key: key);
+  const EventOverviewNavigationBar({Key? key, this.bloc}) : super(key: key);
   @override
   _EventOverviewNavigationBarState createState() => _EventOverviewNavigationBarState();
 }
@@ -26,7 +26,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
   @override
   void initState() {
     if (widget.bloc != null) {
-      widget.bloc.add(TabberNavEvent(index: 0, title: 'All'));
+      widget.bloc!.add(TabberNavEvent(index: 0, title: 'All'));
     }
     // Only add for me on desktop
     Future.delayed(Duration(milliseconds: 1)).then((value) {
@@ -67,7 +67,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
                               _menu[index].isTap = true;
                             });
 
-                            widget.bloc.add(TabberNavEvent(index: index, title: _menu[index].title));
+                            widget.bloc!.add(TabberNavEvent(index: index, title: _menu[index].title));
                           },
                           isTap: _menu[index].isTap)),
                 ),
@@ -95,7 +95,7 @@ class _EventOverviewNavigationBarState extends State<EventOverviewNavigationBar>
                               _menu[index].isTap = true;
                             });
 
-                            widget.bloc.add(TabberNavEvent(index: index, title: _menu[index].title));
+                            widget.bloc!.add(TabberNavEvent(index: index, title: _menu[index].title));
                           },
                           isTap: _menu[index].isTap)
                       .paddingRight(MyTheme.elementSpacing),

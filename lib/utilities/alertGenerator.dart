@@ -5,11 +5,11 @@ import 'package:ticketapp/UI/theme.dart';
 
 class AlertGenerator {
   static Future<void> showAlert(
-      {@required BuildContext context,
-      @required String title,
-      @required String content,
-      @required String buttonText,
-      @required bool popTwice}) async {
+      {required BuildContext context,
+      required String title,
+      required String content,
+      required String buttonText,
+      required bool popTwice}) async {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
@@ -32,17 +32,17 @@ class AlertGenerator {
     );
     // In some cases, we want to pop the alert as well as the page from which the alert was called from
     if (popTwice) {
-      Navigator.pop(WrapperPage.mainScaffold.currentContext);
+      Navigator.pop(WrapperPage.mainScaffold.currentContext!);
     }
   }
 
-  static Future<bool> showAlertWithChoice(
-      {@required BuildContext context,
-      @required String title,
-      @required String content,
-      @required String buttonText1,
-      @required String buttonText2}) async {
-    bool response;
+  static Future<bool?> showAlertWithChoice(
+      {required BuildContext context,
+      required String title,
+      required String content,
+      required String buttonText1,
+      required String buttonText2}) async {
+    bool? response;
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(

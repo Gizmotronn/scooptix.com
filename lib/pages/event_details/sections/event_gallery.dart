@@ -7,8 +7,8 @@ import '../../../UI/theme.dart';
 
 class EventGallary extends StatelessWidget {
   const EventGallary({
-    Key key,
-    this.event,
+    Key? key,
+    required this.event,
   }) : super(key: key);
   final Event event;
 
@@ -22,7 +22,7 @@ class EventGallary extends StatelessWidget {
         children: [
           AutoSizeText(
             'Event Gallery',
-            style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(MyTheme.elementSpacing),
           GridView.builder(
               shrinkWrap: true,
@@ -37,7 +37,7 @@ class EventGallary extends StatelessWidget {
               itemBuilder: (ctx, index) => Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(6)),
-                      child: ExtendedImage.network(event.images[index] ?? "", cache: true, fit: BoxFit.cover,
+                      child: ExtendedImage.network(event.images[index], cache: true, fit: BoxFit.cover,
                           loadStateChanged: (ExtendedImageState state) {
                         switch (state.extendedImageLoadState) {
                           case LoadState.loading:

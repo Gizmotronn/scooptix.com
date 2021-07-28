@@ -11,9 +11,9 @@ import 'authentication/authentication_sheet_wrapper.dart';
 import 'events_overview/events_overview_page.dart';
 
 class AppolloAppBar extends StatefulWidget {
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
-  const AppolloAppBar({Key key, this.backgroundColor}) : super(key: key);
+  const AppolloAppBar({Key? key, this.backgroundColor}) : super(key: key);
   @override
   _AppolloAppBarState createState() => _AppolloAppBarState();
 
@@ -54,7 +54,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                     arguments: EventsRepository.instance.upcomingPublicEvents);
               },
               child: Text("appollo",
-                  style: MyTheme.textTheme.subtitle1.copyWith(
+                  style: MyTheme.textTheme.subtitle1!.copyWith(
                     fontFamily: "cocon",
                     color: Colors.white,
                     fontSize: 26,
@@ -84,7 +84,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
         },
         child: CircleAvatar(
           radius: 18,
-          backgroundImage: ExtendedImage.network(UserRepository.instance.currentUser().profileImageURL ?? "",
+          backgroundImage: ExtendedImage.network(UserRepository.instance.currentUser()!.profileImageURL,
               cache: true, fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {
             switch (state.extendedImageLoadState) {
               case LoadState.loading:
@@ -113,7 +113,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
           },
           child: Text(
             "Sign In",
-            style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+            style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
           ));
     }
   }

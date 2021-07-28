@@ -2,9 +2,6 @@ enum Gender { Female, Male, Other, Unknown }
 
 extension GenderExtension on Gender {
   String toDBString() {
-    if (this == null) {
-      return "unknown";
-    }
     return this.toString().split(".")[1].toLowerCase();
   }
 
@@ -15,21 +12,21 @@ extension GenderExtension on Gender {
 
 class User {
   String firebaseUserID = "";
-  String firstname;
-  String lastname;
-  String email;
-  bool receiveEmails;
-  DateTime dob;
-  String phone;
-  Gender gender;
+  String? firstname;
+  String? lastname;
+  String? email;
+  bool? receiveEmails;
+  DateTime? dob;
+  String? phone;
+  Gender? gender;
   Map<String, dynamic> userSettings = Map<String, dynamic>();
   List<String> favourites = <String>[];
-  String role;
+  String? role;
   String profileImageURL = "";
 
   String getFullName() {
-    if (firstname != null) {
-      return firstname + " " + lastname;
+    if (firstname != null && lastname != null) {
+      return firstname! + " " + lastname!;
     } else {
       return "";
     }

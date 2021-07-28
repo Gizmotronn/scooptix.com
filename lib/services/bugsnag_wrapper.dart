@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:device_info/device_info.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:package_info/package_info.dart';
 
@@ -18,21 +17,21 @@ enum ErrorSeverity {
 }
 
 class BugsnagNotifier {
-  String _apiKey;
-  String _releaseStage;
-  Map<String, String> _user;
-  Map<String, String> _innerPackageInfo;
-  Map<String, String> _innerDeviceInfo;
+  String? _apiKey;
+  String? _releaseStage;
+  Map<String, String>? _user;
+  Map<String, String>? _innerPackageInfo;
+  Map<String, String>? _innerDeviceInfo;
 
   /// Get the current user infomation
   Map<String, String> get user {
-    return this._user;
+    return this._user!;
   }
 
   /// Get the package information of the current device
   Future<Map<String, String>> get _packageInfo async {
     if (this._innerPackageInfo != null) {
-      return this._innerPackageInfo;
+      return this._innerPackageInfo!;
     }
 
     if (kIsWeb) {
@@ -45,13 +44,13 @@ class BugsnagNotifier {
         'version': packageInfo.version,
       };
     }
-    return this._innerPackageInfo;
+    return this._innerPackageInfo!;
   }
 
   /// Get the manufactuer, model, osName and osVersion of the device
   Future<Map<String, String>> get _deviceInfo async {
     if (this._innerDeviceInfo != null) {
-      return this._innerDeviceInfo;
+      return this._innerDeviceInfo!;
     }
 
     if (!kIsWeb) {
@@ -74,16 +73,16 @@ class BugsnagNotifier {
       }
     }
 
-    return this._innerDeviceInfo;
+    return this._innerDeviceInfo!;
   }
 
-  static BugsnagNotifier _instance;
+  static BugsnagNotifier? _instance;
 
   static BugsnagNotifier get instance {
     if (_instance == null) {
       _instance = BugsnagNotifier._();
     }
-    return _instance;
+    return _instance!;
   }
 
   BugsnagNotifier._();
@@ -105,9 +104,9 @@ class BugsnagNotifier {
   /// addUser(userId: 'USR123', userName: 'John Doe', userEmail: 'john.doe@example.com')
   /// ```
   void addUser({
-    @required String userId,
-    @required String userName,
-    @required String userEmail,
+    required String userId,
+    required String userName,
+    required String userEmail,
   }) {
     this._user = {
       'id': userId,
@@ -176,7 +175,7 @@ class BugsnagNotifier {
 
       Map<String, String> headers = {
         'Content-Type': 'application/json',
-        'Bugsnag-Api-Key': this._apiKey,
+        'Bugsnag-Api-Key': this._apiKey!,
         'Bugsnag-Payload-Version': '5',
         'Bugsnag-Sent-At': DateTime.now().toUtc().toIso8601String(),
       };
@@ -210,7 +209,7 @@ class BugsnagNotifier {
         body: jsonEncode(requestBody),
       );
 
-      if (response.body != null && !response.body.toLowerCase().contains('ok')) {
+      if (!response.body.toLowerCase().contains('ok')) {
         throw Exception('Bugsnag did not accept error request format.');
       }
     } catch (error, stackTrace) {

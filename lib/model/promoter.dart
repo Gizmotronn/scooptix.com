@@ -1,7 +1,7 @@
 class Promoter {
-  String docId;
-  String firstName;
-  String lastName;
+  late String docId;
+  late String firstName;
+  late String lastName;
 
   Promoter(this.docId, this.firstName, this.lastName);
   Promoter._();

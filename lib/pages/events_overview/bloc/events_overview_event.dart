@@ -10,7 +10,7 @@ class TabberNavEvent extends EventsOverviewEvent {
   final int index;
   final String title;
 
-  const TabberNavEvent({this.title, this.index = 0});
+  const TabberNavEvent({required this.title, this.index = 0});
 }
 
 class LoadEventDetailEvent extends EventsOverviewEvent {

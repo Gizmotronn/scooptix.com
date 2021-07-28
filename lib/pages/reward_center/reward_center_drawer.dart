@@ -13,13 +13,13 @@ class RewardCenterDrawer extends StatefulWidget {
       WrapperPage.endDrawer.value = AuthenticationDrawer(
         onAutoAuthenticated: () {
           WrapperPage.endDrawer.value = RewardCenterDrawer._();
-          WrapperPage.mainScaffold.currentState.openEndDrawer();
+          WrapperPage.mainScaffold.currentState!.openEndDrawer();
         },
       );
-      WrapperPage.mainScaffold.currentState.openEndDrawer();
+      WrapperPage.mainScaffold.currentState!.openEndDrawer();
     } else {
       WrapperPage.endDrawer.value = RewardCenterDrawer._();
-      WrapperPage.mainScaffold.currentState.openEndDrawer();
+      WrapperPage.mainScaffold.currentState!.openEndDrawer();
     }
   }
 
@@ -44,7 +44,7 @@ class _RewardCenterDrawerState extends State<RewardCenterDrawer> {
             alignment: Alignment.topRight,
             child: InkWell(
               onTap: () {
-                Navigator.pop(WrapperPage.mainScaffold.currentContext);
+                Navigator.pop(WrapperPage.mainScaffold.currentContext!);
               },
               child: Icon(
                 Icons.close,

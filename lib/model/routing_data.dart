@@ -2,7 +2,7 @@ class RouteData {
   final String route;
   final Map<String, String> _queryParameter;
 
-  RouteData({this.route, Map<String, String> queryParams}) : _queryParameter = queryParams;
+  RouteData({required this.route, required Map<String, String> queryParams}) : _queryParameter = queryParams;
 
   operator [](String key) => _queryParameter[key];
 }
@@ -10,7 +10,6 @@ class RouteData {
 extension RouteDataStringExtension on String {
   RouteData get getRouteData {
     var uriData = Uri.parse(this);
-    print("Params ${uriData.queryParameters} Path ${uriData.path}");
     return RouteData(queryParams: uriData.queryParameters, route: uriData.path);
   }
 }

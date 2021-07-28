@@ -1,15 +1,15 @@
 class Organizer {
-  String firstName;
-  String lastName;
-  String description;
+  String? firstName;
+  String? lastName;
+  String? description;
   String coverImage = "";
   String organizationName = "";
 
   Organizer._();
 
   String getFullName() {
-    if (firstName != null) {
-      return firstName + " " + lastName;
+    if (firstName != null && lastName != null) {
+      return firstName! + " " + lastName!;
     } else {
       return "";
     }

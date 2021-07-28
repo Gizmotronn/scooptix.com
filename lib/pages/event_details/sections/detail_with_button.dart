@@ -11,7 +11,7 @@ import '../../../model/event.dart';
 import '../../../utilities/svg/icon.dart';
 
 class EventInfo extends StatelessWidget {
-  const EventInfo({Key key, @required this.event, this.buttons, this.organizer}) : super(key: key);
+  const EventInfo({Key? key, required this.event, required this.buttons, required this.organizer}) : super(key: key);
 
   final Event event;
   final Organizer organizer;
@@ -55,20 +55,21 @@ class EventInfo extends StatelessWidget {
               children: [
                 AutoSizeText(
                   event.name,
-                  style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                  style:
+                      MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
                 ).paddingBottom(8),
                 AutoSizeText.rich(
                     TextSpan(
                       text: 'Organised by',
                       children: [
                         TextSpan(
-                            text: ' ${organizer?.organizationName}',
-                            style: MyTheme.textTheme.subtitle1
+                            text: ' ${organizer.organizationName}',
+                            style: MyTheme.textTheme.subtitle1!
                                 .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
                       ],
                     ),
-                    style:
-                        MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
+                    style: MyTheme.textTheme.subtitle1!
+                        .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
               ],
             ).paddingBottom(MyTheme.elementSpacing),
             Expanded(
@@ -79,18 +80,18 @@ class EventInfo extends StatelessWidget {
                   AutoSizeText(
                     'Event Details',
                     style:
-                        MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                        MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
                   ).paddingBottom(MyTheme.elementSpacing / 2),
-                  IconText(text: event.address.trimLeft() ?? '', icon: AppolloSvgIcon.pin).paddingBottom(8),
+                  IconText(text: event.address.trimLeft(), icon: AppolloSvgIcon.pin).paddingBottom(8),
                   IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)
                       .paddingBottom(8),
                   IconText(
-                          text: '${time(event?.date) ?? ''} - ${time(event?.endTime) ?? ''}',
+                          text: '${time(event.date)} - ${event.endTime != null ? time(event.endTime!) : ""}',
                           icon: AppolloSvgIcon.clock)
                       .paddingBottom(8),
                   IconText(
                       text:
-                          'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price / 100)} + BF',
+                          'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price! / 100)} + BF',
                       icon: AppolloSvgIcon.ticket),
                 ],
               ),

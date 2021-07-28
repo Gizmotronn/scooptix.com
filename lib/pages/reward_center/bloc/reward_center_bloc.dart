@@ -23,8 +23,8 @@ class RewardCenterBloc extends Bloc<RewardCenterEvent, RewardCenterState> {
 
   Stream<RewardCenterState> loadRewardCenterData() async* {
     yield StateLoading();
-    List<PreSaleRegistration> preSales =
-        await PreSaleRepository.instance.loadPreSaleRegistrations(UserRepository.instance.currentUser().firebaseUserID);
+    List<PreSaleRegistration> preSales = await PreSaleRepository.instance
+        .loadPreSaleRegistrations(UserRepository.instance.currentUser()!.firebaseUserID);
     yield StateRewards(preSales);
   }
 }

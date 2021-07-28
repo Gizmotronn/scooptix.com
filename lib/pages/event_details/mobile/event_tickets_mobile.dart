@@ -15,9 +15,9 @@ class EventTicketsMobile extends StatefulWidget {
   final ScrollController scrollController;
 
   EventTicketsMobile({
-    Key key,
-    @required this.event,
-    @required this.scrollController,
+    Key? key,
+    required this.event,
+    required this.scrollController,
   }) : super(key: key);
 
   @override
@@ -44,10 +44,10 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
         });
       }
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (!widget.event.preSaleEnabled ||
-          widget.event.preSale.registrationStartDate.isAfter(DateTime.now()) ||
-          widget.event.preSale.registrationEndDate.isBefore(DateTime.now())) {
+          widget.event.preSale!.registrationStartDate.isAfter(DateTime.now()) ||
+          widget.event.preSale!.registrationEndDate.isBefore(DateTime.now())) {
         showBottomSheet(
             context: context,
             builder: (c) => QuickAccessSheet(
@@ -74,7 +74,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
         children: [
           AutoSizeText(
             'Tickets',
-            style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
           ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(
             width: MediaQuery.of(context).size.width,
@@ -101,7 +101,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                 });
               } else if (q != 0) {
                 setState(() {
-                  selectedTickets[widget.event.getLinkTypeValidReleaseManagers()[0].getActiveRelease()] = q;
+                  selectedTickets[widget.event.getLinkTypeValidReleaseManagers()[0].getActiveRelease()!] = q;
                 });
               }
               if (selectedTickets.isNotEmpty) {
@@ -111,10 +111,10 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                   event: widget.event,
                 );
               } else {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
+                WidgetsBinding.instance!.addPostFrameCallback((_) {
                   if (!widget.event.preSaleEnabled ||
-                      widget.event.preSale.registrationStartDate.isAfter(DateTime.now()) ||
-                      widget.event.preSale.registrationEndDate.isBefore(DateTime.now())) {
+                      widget.event.preSale!.registrationStartDate.isAfter(DateTime.now()) ||
+                      widget.event.preSale!.registrationEndDate.isBefore(DateTime.now())) {
                     showBottomSheet(
                         context: context,
                         builder: (c) => QuickAccessSheet(
@@ -156,7 +156,8 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                         });
                       } else if (q != 0) {
                         setState(() {
-                          selectedTickets[widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease()] = q;
+                          selectedTickets[widget.event.getLinkTypeValidReleaseManagers()[index].getActiveRelease()!] =
+                              q;
                         });
                       }
                       if (selectedTickets.isNotEmpty) {
@@ -166,10 +167,10 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                           event: widget.event,
                         );
                       } else {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                        WidgetsBinding.instance!.addPostFrameCallback((_) {
                           if (!widget.event.preSaleEnabled ||
-                              widget.event.preSale.registrationStartDate.isAfter(DateTime.now()) ||
-                              widget.event.preSale.registrationEndDate.isBefore(DateTime.now())) {
+                              widget.event.preSale!.registrationStartDate.isAfter(DateTime.now()) ||
+                              widget.event.preSale!.registrationEndDate.isBefore(DateTime.now())) {
                             showBottomSheet(
                                 context: context,
                                 builder: (c) => QuickAccessSheet(

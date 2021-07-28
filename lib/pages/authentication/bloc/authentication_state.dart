@@ -17,18 +17,18 @@ class StateLoadingUserData extends StateInitial {}
 
 class StateLoadingLogin extends StateExistingUserEmail {}
 
-class StateLoadingSSO extends AuthenticationState {}
+/*class StateLoadingSSO extends AuthenticationState {}*/
 
 class StateLoadingCreateUser extends AuthenticationState {}
 
-class StateNewSSOUser extends AuthenticationState {
+/*class StateNewSSOUser extends AuthenticationState {
   final String email;
   final String firstName;
   final String lastName;
   final String uid;
 
   StateNewSSOUser(this.email, this.uid, this.firstName, this.lastName);
-}
+}*/
 
 class StateExistingUserEmail extends AuthenticationState {}
 
@@ -38,7 +38,7 @@ class StateNewUserEmailsConfirmed extends AuthenticationState {}
 
 class StatePasswordsConfirmed extends AuthenticationState {
   // Used for SSO, should be null for other authentication
-  final String uid;
+  final String? uid;
 
   const StatePasswordsConfirmed(this.uid);
 }

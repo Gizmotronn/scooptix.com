@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class DatatableHeader {
-  final String text;
-  final String value;
+  final String? text;
+  final String? value;
   final bool sortable;
   final bool editable;
   bool show;
   final TextAlign textAlign;
-  final int flex;
-  final Widget Function(dynamic value) headerBuilder;
-  final Widget Function(dynamic value, Map<String, dynamic> row) sourceBuilder;
+  final int? flex;
+  final Widget Function(dynamic value)? headerBuilder;
+  final Widget Function(dynamic value, Map<String, dynamic> row)? sourceBuilder;
 
   DatatableHeader({
     this.text,
     this.textAlign: TextAlign.center,
-    this.sortable,
+    this.sortable: true,
     this.value,
     this.show: true,
     this.editable: false,

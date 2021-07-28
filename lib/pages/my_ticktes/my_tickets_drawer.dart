@@ -13,13 +13,13 @@ class MyTicketsDrawer extends StatefulWidget {
       WrapperPage.endDrawer.value = AuthenticationDrawer(
         onAutoAuthenticated: () {
           WrapperPage.endDrawer.value = MyTicketsDrawer._();
-          WrapperPage.mainScaffold.currentState.openEndDrawer();
+          WrapperPage.mainScaffold.currentState!.openEndDrawer();
         },
       );
-      WrapperPage.mainScaffold.currentState.openEndDrawer();
+      WrapperPage.mainScaffold.currentState!.openEndDrawer();
     } else {
       WrapperPage.endDrawer.value = MyTicketsDrawer._();
-      WrapperPage.mainScaffold.currentState.openEndDrawer();
+      WrapperPage.mainScaffold.currentState!.openEndDrawer();
     }
   }
 
@@ -44,7 +44,7 @@ class _MyTicketsDrawerState extends State<MyTicketsDrawer> {
             alignment: Alignment.topRight,
             child: InkWell(
               onTap: () {
-                Navigator.pop(WrapperPage.mainScaffold.currentContext);
+                Navigator.pop(WrapperPage.mainScaffold.currentContext!);
               },
               child: Icon(
                 Icons.close,

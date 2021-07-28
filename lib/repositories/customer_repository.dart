@@ -8,13 +8,13 @@ import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class CustomerRepository {
-  static CustomerRepository _instance;
+  static CustomerRepository? _instance;
 
   static CustomerRepository get instance {
     if (_instance == null) {
       _instance = CustomerRepository._();
     }
-    return _instance;
+    return _instance!;
   }
 
   CustomerRepository._();
@@ -23,19 +23,19 @@ class CustomerRepository {
     _instance = null;
   }
 
-  Future<DocumentReference> createCustomer(String organizerId) async {
+  Future<DocumentReference?> createCustomer(String organizerId) async {
     try {
       DocumentReference userRef = FirebaseFirestore.instance
           .collection("organizers")
           .doc(organizerId)
           .collection("customers")
-          .doc(UserRepository.instance.currentUser().firebaseUserID);
+          .doc(UserRepository.instance.currentUser()!.firebaseUserID);
       await userRef.set({
-        "firstname": UserRepository.instance.currentUser().firstname,
-        "lastname": UserRepository.instance.currentUser().lastname,
-        "gender": UserRepository.instance.currentUser().gender.toDBString(),
-        "dob": UserRepository.instance.currentUser().dob,
-        "email": UserRepository.instance.currentUser().email,
+        "firstname": UserRepository.instance.currentUser()!.firstname,
+        "lastname": UserRepository.instance.currentUser()!.lastname,
+        "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
+        "dob": UserRepository.instance.currentUser()!.dob,
+        "email": UserRepository.instance.currentUser()!.email,
         "last_action": DateTime.now()
       });
 
@@ -53,11 +53,11 @@ class CustomerRepository {
           .collection("organizers")
           .doc(event.organizer)
           .collection("customers")
-          .doc(UserRepository.instance.currentUser().firebaseUserID)
+          .doc(UserRepository.instance.currentUser()!.firebaseUserID)
           .get();
-      DocumentReference userRef;
+      DocumentReference? userRef;
       if (!userSnapshot.exists) {
-        userRef = await createCustomer(event.organizer);
+        userRef = await createCustomer(event.organizer!);
       } else {
         userRef = userSnapshot.reference;
       }
@@ -72,7 +72,7 @@ class CustomerRepository {
         action = "promoter_invite_accepted";
       }
 
-      userRef.collection("actions").add({
+      userRef!.collection("actions").add({
         "event": event.docID,
         "date": DateTime.now(),
         "action": action,

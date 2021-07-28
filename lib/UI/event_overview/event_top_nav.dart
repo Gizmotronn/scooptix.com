@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:badges/badges.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
@@ -17,19 +18,17 @@ import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../utilities/svg/icon.dart';
 import '../theme.dart';
-import '../widgets/icons/svgicon.dart';
 import '../widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/icons/svgicon.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/utilities/svg/icon.dart';
 
 import 'event_overview_home.dart';
 
 class EventOverviewAppbar extends StatefulWidget {
-  final Color color;
+  final Color? color;
 
-  const EventOverviewAppbar({Key key, this.color}) : super(key: key);
+  const EventOverviewAppbar({Key? key, this.color}) : super(key: key);
   @override
   _EventOverviewAppbarState createState() => _EventOverviewAppbarState();
 }
@@ -68,7 +67,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 //TODO: _appolloSearchBar(context, screenSize),
               ],
             ).paddingVertical(4),
-            ValueListenableBuilder<User>(
+            ValueListenableBuilder<User?>(
                 valueListenable: UserRepository.instance.currentUserNotifier,
                 builder: (context, user, child) {
                   if (user != null) {
@@ -154,7 +153,8 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(height: 22, child: SvgIcon(AppolloSvgIcon.searchOutline, color: MyTheme.appolloWhite)),
+                    Container(
+                        height: 22, child: SvgPicture.asset(AppolloSvgIcon.searchOutline, color: MyTheme.appolloWhite)),
                     Container(
                       child: Expanded(
                         child: TextField(
@@ -197,9 +197,9 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 color: MyTheme.appolloWhite.withAlpha(120),
                 child: Row(
                   children: [
-                    Container(height: 16, child: SvgIcon(AppolloSvgIcon.perthGps, color: MyTheme.appolloWhite))
+                    Container(height: 16, child: SvgPicture.asset(AppolloSvgIcon.perthGps, color: MyTheme.appolloWhite))
                         .paddingRight(4),
-                    AutoSizeText('Perth, Australia', style: Theme.of(context).textTheme.button.copyWith(fontSize: 12)),
+                    AutoSizeText('Perth, Australia', style: Theme.of(context).textTheme.button!.copyWith(fontSize: 12)),
                   ],
                 ).paddingHorizontal(8),
               ),
@@ -210,7 +210,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 height: 25,
                 color: MyTheme.appolloGreen,
                 child: Center(
-                  child: AutoSizeText('Search', style: Theme.of(context).textTheme.button.copyWith(fontSize: 12))
+                  child: AutoSizeText('Search', style: Theme.of(context).textTheme.button!.copyWith(fontSize: 12))
                       .paddingHorizontal(8),
                 ),
               ),
@@ -222,7 +222,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   }
 
   Widget _appolloLogo() => Text("appollo",
-      style: MyTheme.textTheme.subtitle1.copyWith(fontFamily: "cocon", color: Colors.white, fontSize: 34, shadows: [
+      style: MyTheme.textTheme.subtitle1!.copyWith(fontFamily: "cocon", color: Colors.white, fontSize: 34, shadows: [
         BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1),
       ]));
 
@@ -254,14 +254,14 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   Widget _signInButton(context) => InkWell(
         onTap: () {
           WrapperPage.endDrawer.value = AuthenticationDrawer();
-          WrapperPage.mainScaffold.currentState.openEndDrawer();
+          WrapperPage.mainScaffold.currentState!.openEndDrawer();
         },
         child: Container(
           height: kToolbarHeight,
           color: MyTheme.appolloGreen,
           child: Center(
             child: Text('Login Or Sign Up',
-                    style: MyTheme.textTheme.button
+                    style: MyTheme.textTheme.button!
                         .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor))
                 .paddingHorizontal(16),
           ),
@@ -271,19 +271,18 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
   Widget _showUserAvatar(BuildContext context, User user) => InkWell(
         onTap: () {
           WrapperPage.endDrawer.value = AuthenticationDrawer();
-          WrapperPage.mainScaffold.currentState.openEndDrawer();
+          WrapperPage.mainScaffold.currentState!.openEndDrawer();
         },
         child: Row(
           children: [
-            Text('${user.getFullName() ?? ''}',
-                    style: MyTheme.textTheme.bodyText1.copyWith(fontWeight: FontWeight.w400))
+            Text('${user.getFullName()}', style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400))
                 .paddingRight(16),
             SizedBox(
               width: 50,
               child: CircleAvatar(
                 backgroundColor: MyTheme.appolloGreen,
                 radius: 50,
-                backgroundImage: ExtendedImage.network(UserRepository.instance.currentUser().profileImageURL ?? "",
+                backgroundImage: ExtendedImage.network(UserRepository.instance.currentUser()!.profileImageURL,
                     cache: true, fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {
                   switch (state.extendedImageLoadState) {
                     case LoadState.loading:

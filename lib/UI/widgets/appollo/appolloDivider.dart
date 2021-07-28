@@ -3,9 +3,9 @@ import 'package:responsive_builder/responsive_builder.dart';
 import '../../theme.dart';
 
 class AppolloDivider extends StatelessWidget {
-  final double verticalPadding;
+  final double? verticalPadding;
 
-  const AppolloDivider({Key key, this.verticalPadding}) : super(key: key);
+  const AppolloDivider({Key? key, this.verticalPadding}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

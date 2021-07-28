@@ -26,14 +26,14 @@ import '../../../../utilities/svg/icon.dart';
 class PreSaleRegistrationPage extends StatefulWidget {
   final Event event;
   final ScrollController scrollController;
-  const PreSaleRegistrationPage({Key key, this.event, this.scrollController}) : super(key: key);
+  const PreSaleRegistrationPage({Key? key, required this.event, required this.scrollController}) : super(key: key);
 
   @override
   _PreSaleRegistrationPageState createState() => _PreSaleRegistrationPageState();
 }
 
 class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
-  PreSaleBloc bloc;
+  late PreSaleBloc bloc;
   double position = 0.0;
 
   @override
@@ -43,11 +43,11 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
     UserRepository.instance.currentUserNotifier.addListener(() {
       bloc.add(EventCheckStatus(widget.event));
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
       if (getValueForScreenType(context: context, watch: true, mobile: true, tablet: false, desktop: false) &&
           widget.event.preSaleEnabled &&
-          widget.event.preSale.registrationStartDate.isBefore(DateTime.now()) &&
-          widget.event.preSale.registrationEndDate.isAfter(DateTime.now())) {
+          widget.event.preSale!.registrationStartDate.isBefore(DateTime.now()) &&
+          widget.event.preSale!.registrationEndDate.isAfter(DateTime.now())) {
         showBottomSheet(
             context: context,
             builder: (c) => QuickAccessSheet(
@@ -76,7 +76,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         }
       },
       child: BlocBuilder<PreSaleBloc, PreSaleState>(
-        cubit: bloc,
+        bloc: bloc,
         builder: (context, state) {
           return Container(
             child: buildPreSale(context, state),
@@ -87,9 +87,9 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   }
 
   Widget buildPreSale(BuildContext context, PreSaleState state) {
-    if (widget.event.preSale.registrationEndDate.isBefore(DateTime.now())) {
+    if (widget.event.preSale!.registrationEndDate.isBefore(DateTime.now())) {
       return SizedBox.shrink();
-    } else if (widget.event.preSale.registrationStartDate.isBefore(DateTime.now())) {
+    } else if (widget.event.preSale!.registrationStartDate.isBefore(DateTime.now())) {
       return buildPreSaleOpen(context, state);
     } else {
       return buildPreSaleNotOpenYet();
@@ -103,14 +103,14 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           children: [
             AutoSizeText(
               'Pre-Sale Registration',
-              style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(MyTheme.elementSpacing * 2),
             AutoSizeText(
                     "Sign up for pre-sale alerts and get the chance to purchase tickets before they go on sale to the general public. We will send you a notification when pre-sale tickets go on sale, so you don’t have to worry about missing out.",
                     textAlign: TextAlign.center,
                     style: MyTheme.textTheme.subtitle1)
                 .paddingBottom(8),
-            if (widget.event.preSale.hasPrizes)
+            if (widget.event.preSale!.hasPrizes)
               AutoSizeText(
                       "Share your link to unlock extra perks and earn points for each person that signs up for presale, or buys a ticket using your link.",
                       textAlign: TextAlign.center,
@@ -118,14 +118,14 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                   .paddingBottom(8),
           ],
         ).paddingHorizontal(MyTheme.elementSpacing),
-        if (widget.event.preSale.hasPrizes)
+        if (widget.event.preSale!.hasPrizes)
           AutoSizeText.rich(
                   TextSpan(
                     text: 'Check the',
                     children: [
                       TextSpan(
                           text: ' Prize Pool ',
-                          style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloOrange)),
+                          style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloOrange)),
                       TextSpan(
                           text: 'to see what you could win by sharing your link with friends.',
                           style: MyTheme.textTheme.subtitle1),
@@ -139,7 +139,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         Countdown(
           width: 416,
           height: getValueForScreenType(context: context, mobile: 110, watch: 110, tablet: 150, desktop: 150),
-          duration: widget.event.preSale.registrationEndDate.difference(DateTime.now()),
+          duration: widget.event.preSale!.registrationEndDate.difference(DateTime.now()),
         ).paddingBottom(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing),
         state is StateLoading
             ? Container(child: Center(child: AppolloProgressIndicator()).paddingAll(8))
@@ -151,12 +151,12 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                           context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
                         if (state is StateNotLoggedIn) {
                           showAppolloModalBottomSheet(
-                              context: WrapperPage.navigatorKey.currentContext,
+                              context: WrapperPage.navigatorKey.currentContext!,
                               backgroundColor: MyTheme.appolloBackgroundColorLight,
                               expand: true,
                               builder: (context) => AuthenticationPageWrapper(
                                     onAutoAuthenticated: (autoLoggedIn) {
-                                      Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                                      Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                                       bloc.add(EventRegister(widget.event));
                                       PreSaleSheet.openPreSaleSheet(bloc, event: widget.event);
                                     },
@@ -174,17 +174,17 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                                 bloc: bloc,
                                 event: widget.event,
                               );
-                              WrapperPage.mainScaffold.currentState.openEndDrawer();
+                              WrapperPage.mainScaffold.currentState!.openEndDrawer();
                             },
                           );
-                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          WrapperPage.mainScaffold.currentState!.openEndDrawer();
                         } else {
                           bloc.add(EventRegister(widget.event));
                           WrapperPage.endDrawer.value = PreSaleDrawer(
                             bloc: bloc,
                             event: widget.event,
                           );
-                          WrapperPage.mainScaffold.currentState.openEndDrawer();
+                          WrapperPage.mainScaffold.currentState!.openEndDrawer();
                         }
                       }
                     },
@@ -205,7 +205,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       child: Center(
                         child: Text(
                           'REGISTER FOR PRE-SALE',
-                          style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                          style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                         ),
                       ),
                       onTap: () {
@@ -213,12 +213,12 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                             context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
                           if (state is StateNotLoggedIn) {
                             showAppolloModalBottomSheet(
-                                context: WrapperPage.navigatorKey.currentContext,
+                                context: WrapperPage.navigatorKey.currentContext!,
                                 backgroundColor: MyTheme.appolloBackgroundColorLight,
                                 expand: true,
                                 builder: (context) => AuthenticationPageWrapper(
                                       onAutoAuthenticated: (autoLoggedIn) {
-                                        Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                                        Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                                         bloc.add(EventRegister(widget.event));
                                         PreSaleSheet.openPreSaleSheet(bloc, event: widget.event);
                                       },
@@ -236,17 +236,17 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                                   bloc: bloc,
                                   event: widget.event,
                                 );
-                                WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                WrapperPage.mainScaffold.currentState!.openEndDrawer();
                               },
                             );
-                            WrapperPage.mainScaffold.currentState.openEndDrawer();
+                            WrapperPage.mainScaffold.currentState!.openEndDrawer();
                           } else {
                             bloc.add(EventRegister(widget.event));
                             WrapperPage.endDrawer.value = PreSaleDrawer(
                               bloc: bloc,
                               event: widget.event,
                             );
-                            WrapperPage.mainScaffold.currentState.openEndDrawer();
+                            WrapperPage.mainScaffold.currentState!.openEndDrawer();
                           }
                         }
                       },
@@ -264,7 +264,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         AutoSizeText(
           'Countdown to Pre-Sale Registration',
           textAlign: TextAlign.center,
-          style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildCountdown().paddingBottom(MyTheme.elementSpacing),
         /* TODO AppolloButton.wideButton(
@@ -273,7 +273,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           child: Center(
             child: Text(
               'REMIND ME',
-              style: Theme.of(context).textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+              style: Theme.of(context).textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
             ),
           ),
           onTap: () {},
@@ -287,14 +287,14 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   Widget _buildCountdown() {
     return Countdown(
       width: 432,
-      duration: widget.event.preSale.registrationStartDate.difference(DateTime.now()),
+      duration: widget.event.preSale!.registrationStartDate.difference(DateTime.now()),
     );
   }
 
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
     );
   }
 
@@ -314,10 +314,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     : AppolloSvgIcon.level3,
             children: [
               AutoSizeText('Level ${index.toString()}',
-                      style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w500))
+                      style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500))
                   .paddingBottom(MyTheme.elementSpacing / 2),
               AutoSizeText('10 Referrals',
-                      style: MyTheme.textTheme.headline4
+                      style: MyTheme.textTheme.headline4!
                           .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
                   .paddingBottom(MyTheme.elementSpacing),
               AutoSizeText("""Free drink on arrival*
@@ -347,9 +347,9 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     : AppolloSvgIcon.level3,
             children: [
               AutoSizeText('Level ${index.toString()}',
-                  style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
+                  style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500)),
               AutoSizeText('10 Referrals',
-                      style: MyTheme.textTheme.headline4
+                      style: MyTheme.textTheme.headline4!
                           .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
                   .paddingBottom(MyTheme.elementSpacing),
               AutoSizeText("""Free drink on arrival*
@@ -379,10 +379,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       : AppolloSvgIcon.trophy3,
               children: [
                 AutoSizeText('${(index + 1).toString()}. Place',
-                        style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600))
+                        style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600))
                     .paddingBottom(MyTheme.elementSpacing / 2),
                 AutoSizeText('Leaderboard',
-                        style: MyTheme.textTheme.headline4
+                        style: MyTheme.textTheme.headline4!
                             .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
                     .paddingBottom(MyTheme.elementSpacing),
                 AutoSizeText("""Free drink on arrival*
@@ -411,10 +411,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       : AppolloSvgIcon.trophy3,
               children: [
                 AutoSizeText('${(index + 1).toString()}. Place',
-                        style: MyTheme.textTheme.headline4.copyWith(fontWeight: FontWeight.w600))
+                        style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600))
                     .paddingBottom(MyTheme.elementSpacing / 2),
                 AutoSizeText('Leaderboard',
-                        style: MyTheme.textTheme.headline4
+                        style: MyTheme.textTheme.headline4!
                             .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
                     .paddingBottom(MyTheme.elementSpacing),
                 AutoSizeText("""Free drink on arrival*
@@ -428,7 +428,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   }
 
   Widget _buildPrizes() {
-    if (!widget.event.preSale.hasPrizes) {
+    if (!widget.event.preSale!.hasPrizes) {
       return SizedBox.shrink();
     } else {
       return ResponsiveBuilder(builder: (context, size) {

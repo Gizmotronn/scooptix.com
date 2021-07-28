@@ -21,7 +21,7 @@ class RewardCenterPage extends StatefulWidget {
 }
 
 class _RewardCenterState extends State<RewardCenterPage> {
-  RewardCenterBloc bloc;
+  late RewardCenterBloc bloc;
 
   @override
   void initState() {
@@ -40,7 +40,7 @@ class _RewardCenterState extends State<RewardCenterPage> {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
     return BlocBuilder<RewardCenterBloc, RewardCenterState>(
-      cubit: bloc,
+      bloc: bloc,
       builder: (c, state) {
         if (state is StateRewards) {
           if (state.preSales.length == 0) {
@@ -60,8 +60,8 @@ class _RewardCenterState extends State<RewardCenterPage> {
                   "Open Competitions",
                   style: getValueForScreenType(
                       context: context,
-                      watch: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
-                      mobile: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                      watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                      mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
                       tablet: MyTheme.textTheme.headline4,
                       desktop: MyTheme.textTheme.headline4),
                 ).paddingTop(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing * 2),
@@ -75,15 +75,15 @@ class _RewardCenterState extends State<RewardCenterPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Competition Closes ${date(state.preSales[index].event.preSale.registrationEndDate)}",
-                            style: MyTheme.textTheme.caption.copyWith(color: MyTheme.appolloRed),
+                            "Competition Closes ${date(state.preSales[index].event!.preSale!.registrationEndDate)}",
+                            style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(MyTheme.elementSpacing / 2),
                           Text(
-                            state.preSales[index].event.name,
+                            state.preSales[index].event!.name,
                             style: MyTheme.textTheme.headline5,
                           ).paddingBottom(MyTheme.elementSpacing * 2),
                           Text("Invitation Link",
-                                  style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
                               .paddingBottom(MyTheme.elementSpacing),
                           OnTapAnimationButton(
                             fill: true,
@@ -122,10 +122,10 @@ class _RewardCenterState extends State<RewardCenterPage> {
                               onTap: () {
                                 if (getValueForScreenType(
                                     context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
-                                  PreSaleSheet.openPreSaleSheet(null, event: state.preSales[index].event);
+                                  PreSaleSheet.openPreSaleSheet(null, event: state.preSales[index].event!);
                                 } else {
                                   WrapperPage.endDrawer.value =
-                                      PreSaleDrawer(bloc: null, event: state.preSales[index].event);
+                                      PreSaleDrawer(bloc: null, event: state.preSales[index].event!);
                                 }
                               })
                         ],

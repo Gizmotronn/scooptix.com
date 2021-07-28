@@ -7,8 +7,8 @@ import '../../../UI/theme.dart';
 
 class EventDescription extends StatelessWidget {
   const EventDescription({
-    Key key,
-    this.event,
+    Key? key,
+    required this.event,
   }) : super(key: key);
 
   final Event event;
@@ -22,11 +22,10 @@ class EventDescription extends StatelessWidget {
             children: [
               AutoSizeText(
                 'Event Details',
-                style: MyTheme.textTheme.headline2.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: MyTheme.elementSpacing * 2),
-              AutoSizeText("${event?.description ?? ''}",
-                  textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1),
+              AutoSizeText("${event.description}", textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1),
             ],
           ).paddingHorizontal(MyTheme.elementSpacing),
           AppolloDivider(),

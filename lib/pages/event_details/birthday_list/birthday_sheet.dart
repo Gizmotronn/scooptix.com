@@ -29,21 +29,21 @@ class BirthdaySheet extends StatefulWidget {
   static openBirthdaySheet(Event event) {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
-          context: WrapperPage.navigatorKey.currentContext,
+          context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           settings: RouteSettings(name: "birthday_sheet"),
           builder: (context) => BirthdaySheet._(event));
     } else {
       showAppolloModalBottomSheet(
-          context: WrapperPage.navigatorKey.currentContext,
+          context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
-                  Navigator.pop(WrapperPage.navigatorKey.currentContext);
+                  Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
-                      context: WrapperPage.navigatorKey.currentContext,
+                      context: WrapperPage.navigatorKey.currentContext!,
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
@@ -58,15 +58,14 @@ class BirthdaySheet extends StatefulWidget {
 }
 
 class _BirthdaySheetState extends State<BirthdaySheet> {
-  BirthdayListBloc bloc;
-  FormGroup form;
-  TextEditingController guestController = TextEditingController();
+  late BirthdayListBloc bloc;
+  late FormGroup form;
   List<DatatableHeader> _headers = [];
 
   @override
   void initState() {
     form = FormGroup({
-      'numGuests': FormControl(validators: [Validators.required, Validators.number]),
+      'numGuests': FormControl<int>(validators: [Validators.required, Validators.number]),
     });
     _headers = [
       DatatableHeader(
@@ -113,7 +112,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                   children: [
                     SizedBox.shrink(),
                     BlocBuilder<BirthdayListBloc, BirthdayListState>(
-                        cubit: bloc,
+                        bloc: bloc,
                         builder: (c, state) {
                           if (state is StateExistingList) {
                             return Text(
@@ -139,7 +138,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                         }),
                     Text(
                       "Done",
-                      style: MyTheme.textTheme.bodyText1.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
                     )
                   ],
                 ),
@@ -151,7 +150,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
           padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
           height: screenSize.height,
           child: BlocBuilder<BirthdayListBloc, BirthdayListState>(
-              cubit: bloc,
+              bloc: bloc,
               builder: (c, state) {
                 if (state is StateExistingList) {
                   return Container(
@@ -160,7 +159,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText("Invite your friends",
-                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen))
                             .paddingBottom(MyTheme.elementSpacing * 2)
                             .paddingTop(MyTheme.elementSpacing),
                         AutoSizeText(
@@ -170,7 +169,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 "Guests need to open the link and accept your invite by following the instructions.")
                             .paddingBottom(MyTheme.elementSpacing),
                         AutoSizeText("Invitation Link",
-                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
                             .paddingBottom(MyTheme.elementSpacing * 0.5),
                         OnTapAnimationButton(
                           fill: true,
@@ -199,7 +198,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           ),
                         ).paddingBottom(MyTheme.elementSpacing),
                         AutoSizeText("RSVP's",
-                                style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
                             .paddingBottom(MyTheme.elementSpacing * 0.5),
                         ClipRRect(
                           borderRadius:
@@ -226,12 +225,12 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText("Celebrate in style!",
-                              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen))
+                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen))
                           .paddingBottom(MyTheme.elementSpacing * 2)
                           .paddingTop(MyTheme.elementSpacing),
                       ListView.builder(
                         shrinkWrap: true,
-                        itemCount: widget.event.birthdayEventData.benefits.length,
+                        itemCount: widget.event.birthdayEventData!.benefits.length,
                         itemBuilder: (context, index) {
                           return Row(
                             children: [
@@ -244,7 +243,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                               ),
                               Center(
                                   child: Text(
-                                widget.event.birthdayEventData.benefits[index],
+                                widget.event.birthdayEventData!.benefits[index],
                                 style: MyTheme.textTheme.bodyText1,
                               )),
                             ],
@@ -252,17 +251,18 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                         },
                       ).paddingBottom(MyTheme.elementSpacing),
                       AutoSizeText("How many guests are you inviting?",
-                              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloOrange))
+                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
                           .paddingBottom(MyTheme.elementSpacing),
                       ReactiveForm(
                         formGroup: form,
-                        child: AppolloTextField(
-                                controller: guestController,
-                                formControlName: "numGuests",
-                                validator: (v) => v.isEmpty ? "Please enter an estimate of the number of guests" : null,
-                                labelText: "Guests",
-                                textFieldType: TextFieldType.reactive)
-                            .paddingBottom(MyTheme.elementSpacing),
+                        child: AppolloTextField.reactive(
+                          formControl: form.controls["numGuests"],
+                          validationMessages: (control) => {
+                            ValidationMessage.required: 'Please provide an estimate',
+                            ValidationMessage.number: 'Please provide an estimate',
+                          },
+                          labelText: "Guests",
+                        ).paddingBottom(MyTheme.elementSpacing),
                       ),
                       _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
                       Expanded(
@@ -274,11 +274,11 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 color: MyTheme.appolloGreen,
                                 child: Text(
                                   "Create",
-                                  style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                                 ),
                                 onTap: () {
                                   if (form.valid) {
-                                    bloc.add(EventCreateList(widget.event, int.tryParse(guestController.text)));
+                                    bloc.add(EventCreateList(widget.event, form.value["numGuests"] as int));
                                   } else {
                                     form.markAllAsTouched();
                                   }
@@ -295,7 +295,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 maxLines: 2, style: MyTheme.textTheme.headline2)
                             .paddingBottom(MyTheme.elementSpacing * 2),
                         AutoSizeText("Your birthday is too far away!",
-                                style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+                                style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
                             .paddingBottom(MyTheme.elementSpacing),
                         AutoSizeText(
                             "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
@@ -326,7 +326,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
   }
 
   Widget _buildOrderSummary() {
-    if (widget.event.birthdayEventData.price == 0) {
+    if (widget.event.birthdayEventData!.price == 0) {
       return AutoSizeText(
         "You can create this birthday list free of charge!",
         style: MyTheme.textTheme.bodyText1,
@@ -346,7 +346,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
   List<Map<String, dynamic>> _buildAttendeeTable(List<AttendeeTicket> attendees) {
     List<Map<String, dynamic>> tableData = [];
     attendees.forEach((element) {
-      tableData.add({"name": element.name, "date": DateFormat("MMM dd.").format(element.dateAccepted)});
+      tableData.add({"name": element.name, "date": DateFormat("MMM dd.").format(element.dateAccepted!)});
     });
     return tableData;
   }

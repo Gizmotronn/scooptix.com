@@ -16,7 +16,7 @@ class ThisWeek extends StatefulWidget {
   final List<Event> events;
   final ScrollController scrollController;
 
-  const ThisWeek({Key key, this.events, this.scrollController}) : super(key: key);
+  const ThisWeek({Key? key, required this.events, required this.scrollController}) : super(key: key);
 
   @override
   _ThisWeekState createState() => _ThisWeekState();
@@ -77,7 +77,7 @@ class _ThisWeekState extends State<ThisWeek> {
                       BoxOffset(
                         boxOffset: (offset) {
                           setState(() {
-                            positions[_daysMenu[index].id] = offset.dy;
+                            positions[_daysMenu[index].id!] = offset.dy;
                           });
                         },
                         child: AppolloBackgroundCard(
@@ -112,7 +112,7 @@ class _ThisWeekState extends State<ThisWeek> {
     );
   }
 
-  Widget _eventTags(context, {String tag1, String tag2}) => Container(
+  Widget _eventTags(context, {String? tag1, String? tag2}) => Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,15 +129,15 @@ class _ThisWeekState extends State<ThisWeek> {
                       tablet: true,
                     ))
                       TextSpan(
-                        text: " $tag2" ?? '',
+                        text: " $tag2",
                         style: Theme.of(context)
                             .textTheme
-                            .headline4
+                            .headline4!
                             .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
                       ),
                   ],
                 ),
-                style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500)),
+                style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500)),
           ],
         ),
       ).paddingHorizontal(MyTheme.elementSpacing).paddingTop(MyTheme.elementSpacing);

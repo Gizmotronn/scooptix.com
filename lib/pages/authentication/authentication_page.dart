@@ -16,24 +16,24 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationPage extends StatefulWidget {
   static const String routeName = '/auth';
-  final Function onAutoAuthenticated;
-  final AuthenticationBloc bloc; // HACK: Allows the auth sheet wrapper access to the bloc state
+  final Function(bool)? onAutoAuthenticated;
+  final AuthenticationBloc? bloc; // HACK: Allows the auth sheet wrapper access to the bloc state
 
-  const AuthenticationPage({Key key, this.onAutoAuthenticated, this.bloc}) : super(key: key);
+  const AuthenticationPage({Key? key, this.onAutoAuthenticated, this.bloc}) : super(key: key);
   @override
   _AuthenticationPageState createState() => _AuthenticationPageState();
 }
 
 class _AuthenticationPageState extends State<AuthenticationPage> with TickerProviderStateMixin {
-  profile.ProfileBloc profileBloc;
-  AuthenticationBloc signUpBloc;
+  profile.ProfileBloc? profileBloc;
+  late AuthenticationBloc signUpBloc;
 
   final int animationTime = 400;
 
   @override
   void initState() {
     if (widget.bloc != null) {
-      signUpBloc = widget.bloc;
+      signUpBloc = widget.bloc!;
     } else {
       signUpBloc = AuthenticationBloc();
     }
@@ -44,7 +44,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
   @override
   void dispose() {
     if (profileBloc != null) {
-      profileBloc.close();
+      profileBloc!.close();
       profileBloc = null;
     }
     signUpBloc.close();
@@ -62,16 +62,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
         return SizedBox(
           height: constraints.maxHeight,
           child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
-              cubit: signUpBloc,
+              bloc: signUpBloc,
               listener: (c, state) {
                 if (state is StateAutoLoggedIn) {
                   if (widget.onAutoAuthenticated != null) {
-                    widget.onAutoAuthenticated(true);
+                    widget.onAutoAuthenticated!(true);
                   }
                 }
                 if (state is StateLoggedIn) {
                   if (widget.onAutoAuthenticated != null) {
-                    widget.onAutoAuthenticated(false);
+                    widget.onAutoAuthenticated!(false);
                   }
                   if (profileBloc == null) {
                     profileBloc = profile.ProfileBloc();
@@ -91,7 +91,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                           children: [
                             Text(
                               "Welcome Back",
-                              style: Theme.of(context).textTheme.headline2.copyWith(color: MyTheme.appolloGreen),
+                              style: Theme.of(context).textTheme.headline2!.copyWith(color: MyTheme.appolloGreen),
                             ).paddingBottom(MyTheme.elementSpacing),
                             /*  InkWell(
                                         onTap: () {
@@ -116,22 +116,22 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    Uint8List imageData = await ImageUtil.pickImage();
+                                    Uint8List? imageData = await ImageUtil.pickImage();
                                     if (imageData != null) {
-                                      profileBloc.add(profile.EventUploadProfileImage(imageData));
+                                      profileBloc!.add(profile.EventUploadProfileImage(imageData));
                                     }
                                   },
                                   child: SizedBox(
                                     width: 50,
                                     height: 50,
                                     child: BlocBuilder<profile.ProfileBloc, profile.ProfileState>(
-                                        cubit: profileBloc,
+                                        bloc: profileBloc,
                                         builder: (context, state) {
                                           if (state is profile.StateInitial) {
                                             return CircleAvatar(
                                               radius: 50,
                                               backgroundImage: ExtendedImage.network(
-                                                  UserRepository.instance.currentUser().profileImageURL ?? "",
+                                                  UserRepository.instance.currentUser()!.profileImageURL,
                                                   cache: true,
                                                   fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {
                                                 switch (state.extendedImageLoadState) {
@@ -160,7 +160,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                     SizedBox(
                                       width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser().firstname} ${UserRepository.instance.currentUser().lastname}",
+                                        "${UserRepository.instance.currentUser()!.firstname} ${UserRepository.instance.currentUser()!.lastname}",
                                         maxLines: 1,
                                         style: Theme.of(context).textTheme.headline6,
                                       ),
@@ -168,7 +168,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                     SizedBox(
                                       width: MyTheme.drawerSize / 1.7,
                                       child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser().email}",
+                                        "${UserRepository.instance.currentUser()!.email}",
                                         maxLines: 1,
                                         style: Theme.of(context).textTheme.bodyText2,
                                       ),
@@ -189,7 +189,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                 fill: true,
                                 child: Text(
                                   "Logout",
-                                  style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                                 ),
                               ),
                             ).paddingBottom(MyTheme.elementSpacing),

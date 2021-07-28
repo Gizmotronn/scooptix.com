@@ -7,7 +7,7 @@ import '../theme.dart';
 
 class EventOverviewFooter extends StatelessWidget {
   EventOverviewFooter({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final Map<String, String> info = {
@@ -70,14 +70,14 @@ class EventOverviewFooter extends StatelessWidget {
                             info.length,
                             (index) => InkWell(
                                   onTap: () async {
-                                    if (await canLaunch(info[info.keys.toList()[index]])) {
-                                      await launch(info[info.keys.toList()[index]]);
+                                    if (await canLaunch(info[info.keys.toList()[index]]!)) {
+                                      await launch(info[info.keys.toList()[index]]!);
                                     }
                                   },
                                   child: AutoSizeText(info.keys.toList()[index],
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText2
+                                              .bodyText2!
                                               .copyWith(fontWeight: FontWeight.w400))
                                       .paddingVertical(4),
                                 )),
@@ -86,7 +86,7 @@ class EventOverviewFooter extends StatelessWidget {
                     AutoSizeText(
                         '© 2021 appollo Group pty Ltd. Trademarks and brands are the property of their respective owners.',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey))
+                        style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey))
                   ],
                 ).paddingVertical(8)),
           ),
@@ -108,12 +108,12 @@ class EventOverviewFooter extends StatelessWidget {
                     info.length,
                     (index) => InkWell(
                           onTap: () async {
-                            if (await canLaunch(info[info.keys.toList()[index]])) {
-                              await launch(info[info.keys.toList()[index]]);
+                            if (await canLaunch(info[info.keys.toList()[index]]!)) {
+                              await launch(info[info.keys.toList()[index]]!);
                             }
                           },
                           child: AutoSizeText(info.keys.toList()[index],
-                                  style: Theme.of(context).textTheme.bodyText2.copyWith(fontWeight: FontWeight.w400))
+                                  style: Theme.of(context).textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w400))
                               .paddingVertical(4),
                         )),
               ),
@@ -121,7 +121,7 @@ class EventOverviewFooter extends StatelessWidget {
             AutoSizeText(
                     '© 2021 appollo Group pty Ltd. Trademarks and brands are the property of their respective owners.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption.copyWith(color: MyTheme.appolloGrey))
+                    style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey))
                 .paddingBottom(MyTheme.elementSpacing)
           ],
         ).paddingLeft(MyTheme.elementSpacing).paddingRight(MyTheme.elementSpacing);

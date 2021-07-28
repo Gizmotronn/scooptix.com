@@ -12,8 +12,8 @@ import '../../../UI/theme.dart';
 
 class EventCustomInfo extends StatelessWidget {
   const EventCustomInfo({
-    Key key,
-    this.event,
+    Key? key,
+    required this.event,
   }) : super(key: key);
 
   final Event event;
@@ -36,7 +36,7 @@ class EventCustomInfo extends StatelessWidget {
                 AutoSizeText(
                   event.customEventInfo[index].headline,
                   style:
-                      MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+                      MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
                 ).paddingBottom(MyTheme.elementSpacing),
                 SizedBox(
                   width: MyTheme.maxWidth,

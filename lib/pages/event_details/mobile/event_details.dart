@@ -18,8 +18,8 @@ class EventDataMobile extends StatefulWidget {
   final Organizer organizer;
   final ScrollController scrollController;
   final EventsOverviewBloc bloc;
-  final Function physics;
-  EventDataMobile({Key key, this.event, this.organizer, this.scrollController, this.bloc, this.physics})
+  EventDataMobile(
+      {Key? key, required this.event, required this.organizer, required this.scrollController, required this.bloc})
       : super(key: key);
 
   @override

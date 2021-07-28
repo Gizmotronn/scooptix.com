@@ -4,9 +4,9 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 
 class EventDetailBackground extends StatelessWidget {
-  final String coverImageURL;
+  final String? coverImageURL;
   const EventDetailBackground({
-    Key key,
+    Key? key,
     this.coverImageURL,
   }) : super(key: key);
 
@@ -25,7 +25,7 @@ class EventDetailBackground extends StatelessWidget {
               decoration: BoxDecoration(
                 image: DecorationImage(
                     image: ExtendedImage.network(
-                      coverImageURL,
+                      coverImageURL!,
                       cache: true,
                     ).image,
                     fit: BoxFit.cover,
@@ -36,7 +36,7 @@ class EventDetailBackground extends StatelessWidget {
                 child: Container(
                   width: screenSize.width,
                   height: screenSize.height,
-                  decoration: BoxDecoration(color: Colors.grey[900].withOpacity(0.2)),
+                  decoration: BoxDecoration(color: Colors.grey[900]!.withOpacity(0.2)),
                 ),
               ),
             ),

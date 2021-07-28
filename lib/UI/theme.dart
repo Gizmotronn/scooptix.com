@@ -42,7 +42,7 @@ extension WidgetPaddingX on Widget {
 }
 
 extension AppolloCards on Container {
-  Container appolloBlurCard({Color color, BorderRadiusGeometry borderRadius, Clip clip}) {
+  Container appolloBlurCard({Color? color, BorderRadius? borderRadius, Clip? clip}) {
     return Container(
       child: ClipRRect(
         clipBehavior: clip ?? Clip.antiAlias,
@@ -61,7 +61,7 @@ extension AppolloCards on Container {
     );
   }
 
-  Container appolloCard({Color color, BorderRadius borderRadius}) {
+  Container appolloCard({Color? color, BorderRadius? borderRadius}) {
     return Container(
       decoration: ShapeDecoration(
           color: color ?? MyTheme.appolloCardColor,
@@ -395,7 +395,7 @@ class MyTheme {
       splashColor: MyTheme.appolloGreen,
       canvasColor: Color(0xff2c2c2c),
       inputDecorationTheme: InputDecorationTheme(
-          fillColor: Colors.grey[800].withAlpha(50),
+          fillColor: Colors.grey[800]!.withAlpha(50),
           filled: true,
           border: OutlineInputBorder(),
           enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Color(0xFF707070).withAlpha(80)))),

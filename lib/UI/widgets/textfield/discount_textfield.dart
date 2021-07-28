@@ -9,12 +9,12 @@ enum DiscountTextfieldState { initial, hover, typing, filled, invalid, applied, 
 
 class DiscountTextField extends StatefulWidget {
   const DiscountTextField({
-    Key key,
-    @required TextEditingController discountController,
-    @required this.bloc,
-    @required this.state,
-    @required this.width,
-    @required this.event,
+    Key? key,
+    required TextEditingController discountController,
+    required this.bloc,
+    required this.state,
+    required this.width,
+    required this.event,
   })  : _discountController = discountController,
         super(key: key);
 
@@ -31,7 +31,7 @@ class DiscountTextField extends StatefulWidget {
 class _DiscountTextFieldState extends State<DiscountTextField> {
   DiscountTextfieldState textFieldState = DiscountTextfieldState.initial;
   String _text = '';
-  FocusNode _focusNode;
+  late FocusNode _focusNode;
 
   @override
   void initState() {

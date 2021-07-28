@@ -7,7 +7,7 @@ import 'package:ticketapp/UI/theme.dart';
 class WhyAreYouHereWidget extends StatelessWidget {
   final String text;
 
-  const WhyAreYouHereWidget(this.text, {Key key}) : super(key: key);
+  const WhyAreYouHereWidget(this.text, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

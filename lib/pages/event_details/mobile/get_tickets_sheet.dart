@@ -10,7 +10,9 @@ class QuickAccessSheet extends StatelessWidget {
   final String buttonText;
   final double position;
 
-  const QuickAccessSheet({Key key, this.mainText, this.controller, this.position, this.buttonText}) : super(key: key);
+  const QuickAccessSheet(
+      {Key? key, required this.mainText, required this.controller, required this.position, required this.buttonText})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class QuickAccessSheet extends StatelessWidget {
               minFontSize: 11,
               overflow: TextOverflow.clip,
               maxLines: 1,
-              style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
             ).paddingHorizontal(MyTheme.elementSpacing),
           ),
           Container(
@@ -49,7 +51,7 @@ class QuickAccessSheet extends StatelessWidget {
               child: Center(
                   child: Text(
                 buttonText,
-                style: MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
               )),
             ),
           ),

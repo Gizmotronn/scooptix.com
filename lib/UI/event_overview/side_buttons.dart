@@ -4,13 +4,13 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
 
 class SideButton extends StatelessWidget {
-  final String title;
+  final String? title;
   final bool isTap;
-  final Function onTap;
-  final Widget icon;
+  final Function()? onTap;
+  final Widget? icon;
 
   const SideButton({
-    Key key,
+    Key? key,
     this.title,
     this.isTap = false,
     this.onTap,
@@ -29,7 +29,7 @@ class SideButton extends StatelessWidget {
               icon ?? SizedBox(),
               AutoSizeText(
                 title ?? '',
-                style: Theme.of(context).textTheme.button.copyWith(
+                style: Theme.of(context).textTheme.button!.copyWith(
                     fontSize: 10.5,
                     fontWeight: isTap
                         ? FontWeight.w500

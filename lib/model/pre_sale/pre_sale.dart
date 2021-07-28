@@ -7,7 +7,7 @@ class PreSale {
   DateTime registrationEndDate;
   List<PreSalePrize> prizes = [];
 
-  PreSale({this.enabled, this.registrationStartDate, this.registrationEndDate});
+  PreSale({required this.enabled, required this.registrationStartDate, required this.registrationEndDate});
 
   bool get hasPrizes => prizes.isNotEmpty;
 }

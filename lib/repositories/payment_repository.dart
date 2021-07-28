@@ -11,7 +11,7 @@ import 'package:ticketapp/repositories/user_repository.dart';
 enum PaymentType { FashionItemSale, DesignerSubscription }
 
 class PaymentRepository {
-  static PaymentRepository _instance;
+  static PaymentRepository? _instance;
 
   static PaymentRepository get instance {
     if (_instance == null) {
@@ -20,7 +20,7 @@ class PaymentRepository {
           "pk_test_51HFJF6CE1hbokQY3T40M55NEswDQti67gfDeSVUTvymGQI5TnDeesnK0n0R1lYLn0B09at5jPgeHebh65bMCtGwL00RipFf2qB",
           returnUrlForSca: "https://appollo.io/success");
     }
-    return _instance;
+    return _instance!;
   }
 
   clear() {
@@ -37,9 +37,9 @@ class PaymentRepository {
 
   PaymentRepository._();
 
-  String clientSecret;
-  String paymentMethodId;
-  String last4;
+  String? clientSecret;
+  String? paymentMethodId;
+  String? last4;
   bool saveCreditCard = false;
 
   StreamController<bool> releaseDataUpdatedStream = StreamController.broadcast();
@@ -50,18 +50,17 @@ class PaymentRepository {
     return await Stripe.instance.confirmPayment(clientSecret, paymentMethodId: paymentId);
   }
 
-  Future<http.Response> createPaymentIntent(
-      Event event, Map<TicketRelease, int> selectedTickets, Discount discount) async {
-    print(discount);
+  Future<http.Response?> createPaymentIntent(
+      Event event, Map<TicketRelease, int> selectedTickets, Discount? discount) async {
     try {
       http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/createPITicketSale"), body: {
         "event": event.docID,
-        "manager": json.encode(selectedTickets.keys.map((e) => event.getReleaseManager(e).docId).toList()),
+        "manager": json.encode(selectedTickets.keys.map((e) => event.getReleaseManager(e)!.docId).toList()),
         "ticketRelease": json.encode(selectedTickets.keys.map((e) => e.docId).toList()),
         "quantity": json.encode(selectedTickets.values.toList()),
         "discount": discount == null ? "" : discount.docId,
         "pmId": !PaymentRepository.instance.saveCreditCard ? PaymentRepository.instance.paymentMethodId : "",
-        "user": UserRepository.instance.currentUser().firebaseUserID
+        "user": UserRepository.instance.currentUser()!.firebaseUserID
       });
       return response;
     } on Exception catch (ex) {
@@ -73,10 +72,12 @@ class PaymentRepository {
   /// Retrieves the users Stripe customer account or creates one if none exists.
   /// Retrieves a SetupIntent from an existing Payment Method, or if none exists a SetupIntent that requires confirmation with a PaymentMethod
   /// Setting [forceNewPaymentMethod] to true ignores any stored payment methods.
-  Future<http.Response> getSetupIntent(bool forceNewPaymentMethod) async {
+  Future<http.Response?> getSetupIntent(bool forceNewPaymentMethod) async {
+    print(UserRepository.instance.currentUser()!.firebaseUserID);
+    print(forceNewPaymentMethod.toString());
     try {
       http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/getSetupIntent"), body: {
-        "user": UserRepository.instance.currentUser().firebaseUserID,
+        "user": UserRepository.instance.currentUser()!.firebaseUserID,
         "forceNewPaymentMethod": forceNewPaymentMethod.toString()
       });
       return response;
@@ -86,7 +87,7 @@ class PaymentRepository {
     }
   }
 
-  Future<http.Response> confirmSetupIntent(String paymentId, String setupIntentId) async {
+  Future<http.Response?> confirmSetupIntent(String paymentId, String setupIntentId) async {
     try {
       http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/confirmSetupIntent"),
           body: {"paymentId": paymentId, "setupIntentId": setupIntentId});

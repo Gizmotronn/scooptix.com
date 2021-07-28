@@ -4,7 +4,7 @@ import '../../theme.dart';
 
 class PoweredByAppollo extends StatelessWidget {
   const PoweredByAppollo({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -17,13 +17,13 @@ class PoweredByAppollo extends StatelessWidget {
         ),
         Text(
           "Powered by",
-          style: MyTheme.textTheme.caption.copyWith(
+          style: MyTheme.textTheme.caption!.copyWith(
               color: Colors.grey[200],
               fontWeight: FontWeight.w300,
               shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]),
         ),
         Text("appollo",
-            style: MyTheme.textTheme.subtitle1.copyWith(
+            style: MyTheme.textTheme.subtitle1!.copyWith(
                 fontFamily: "cocon",
                 color: Colors.white,
                 fontSize: 20,

@@ -20,22 +20,21 @@ import 'package:ticketapp/utilities/platform_detector.dart';
 class BirthdayDrawer extends StatefulWidget {
   final Event event;
 
-  const BirthdayDrawer({Key key, @required this.event}) : super(key: key);
+  const BirthdayDrawer({Key? key, required this.event}) : super(key: key);
 
   @override
   _BirthdayDrawerState createState() => _BirthdayDrawerState();
 }
 
 class _BirthdayDrawerState extends State<BirthdayDrawer> {
-  BirthdayListBloc bloc;
-  FormGroup form;
-  TextEditingController guestController = TextEditingController();
+  late BirthdayListBloc bloc;
+  late FormGroup form;
   List<DatatableHeader> _headers = [];
 
   @override
   void initState() {
     form = FormGroup({
-      'numGuests': FormControl(validators: [Validators.required, Validators.number]),
+      'numGuests': FormControl<int>(validators: [Validators.required, Validators.number]),
     });
     _headers = [
       DatatableHeader(
@@ -96,7 +95,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     BlocBuilder<BirthdayListBloc, BirthdayListState>(
-                        cubit: bloc,
+                        bloc: bloc,
                         builder: (c, state) {
                           if (state is StateExistingList) {
                             return Container(
@@ -111,7 +110,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     AutoSizeText("Birthday list created.", style: MyTheme.textTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invite your friends",
-                                            style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                             "Below you will find your invitation link. Copy the link and give it to anyone you wish to invite")
@@ -120,7 +119,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                             "Guests need to open the link and accept your invite by following the instructions.")
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invitation Link",
-                                            style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloOrange))
+                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     OnTapAnimationButton(
                                       fill: true,
@@ -149,7 +148,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       ),
                                     ).paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("RSVP's",
-                                            style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloOrange))
+                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     ClipRRect(
                                       borderRadius: BorderRadius.only(
@@ -174,7 +173,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                               color: MyTheme.appolloGreen,
                                               child: Text(
                                                 "Back",
-                                                style: MyTheme.textTheme.button
+                                                style: MyTheme.textTheme.button!
                                                     .copyWith(color: MyTheme.appolloBackgroundColor),
                                               ),
                                               onTap: () {
@@ -194,11 +193,11 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         maxLines: 2, style: MyTheme.textTheme.headline2)
                                     .paddingBottom(MyTheme.elementSpacing),
                                 AutoSizeText("Celebrate in style!",
-                                        style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+                                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ListView.builder(
                                   shrinkWrap: true,
-                                  itemCount: widget.event.birthdayEventData.benefits.length,
+                                  itemCount: widget.event.birthdayEventData!.benefits.length,
                                   itemBuilder: (context, index) {
                                     return Row(
                                       children: [
@@ -212,7 +211,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         ),
                                         Center(
                                             child: Text(
-                                          widget.event.birthdayEventData.benefits[index],
+                                          widget.event.birthdayEventData!.benefits[index],
                                           style: MyTheme.textTheme.bodyText1,
                                         )),
                                       ],
@@ -220,18 +219,18 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                   },
                                 ).paddingBottom(MyTheme.elementSpacing),
                                 AutoSizeText("How many guests are you inviting?",
-                                        style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloOrange))
+                                        style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ReactiveForm(
                                   formGroup: form,
-                                  child: AppolloTextField(
-                                          controller: guestController,
-                                          formControlName: "numGuests",
-                                          validator: (v) =>
-                                              v.isEmpty ? "Please enter an estimate of the number of guests" : null,
-                                          labelText: "Guests",
-                                          textFieldType: TextFieldType.reactive)
-                                      .paddingBottom(MyTheme.elementSpacing),
+                                  child: AppolloTextField.reactive(
+                                    formControl: form.controls["numGuests"],
+                                    validationMessages: (control) => {
+                                      ValidationMessage.required: 'Please provide an estimate',
+                                      ValidationMessage.number: 'Please provide an estimate',
+                                    },
+                                    labelText: "Guests",
+                                  ).paddingBottom(MyTheme.elementSpacing),
                                 ),
                                 _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
                                 Align(
@@ -242,11 +241,11 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         child: Text(
                                           "Create",
                                           style:
-                                              MyTheme.textTheme.button.copyWith(color: MyTheme.appolloBackgroundColor),
+                                              MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
                                         ),
                                         onTap: () {
                                           if (form.valid) {
-                                            bloc.add(EventCreateList(widget.event, int.tryParse(guestController.text)));
+                                            bloc.add(EventCreateList(widget.event, form.value["numGuests"] as int));
                                           } else {
                                             form.markAllAsTouched();
                                           }
@@ -266,7 +265,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                             maxLines: 2, style: MyTheme.textTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Your birthday is too far away!",
-                                            style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                         "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
@@ -278,7 +277,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                               color: MyTheme.appolloGreen,
                                               child: Text(
                                                 "Back",
-                                                style: MyTheme.textTheme.button
+                                                style: MyTheme.textTheme.button!
                                                     .copyWith(color: MyTheme.appolloBackgroundColor),
                                               ),
                                               onTap: () {
@@ -313,10 +312,10 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text("Events Powered By", style: MyTheme.textTheme.bodyText2.copyWith(color: Colors.grey))
+                        Text("Events Powered By", style: MyTheme.textTheme.bodyText2!.copyWith(color: Colors.grey))
                             .paddingRight(4),
                         Text("appollo",
-                            style: MyTheme.textTheme.subtitle1.copyWith(
+                            style: MyTheme.textTheme.subtitle1!.copyWith(
                               fontFamily: "cocon",
                               color: MyTheme.appolloPurple,
                               fontSize: 18,
@@ -334,7 +333,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
   }
 
   Widget _buildOrderSummary() {
-    if (widget.event.birthdayEventData.price == 0) {
+    if (widget.event.birthdayEventData!.price == 0) {
       return AutoSizeText(
         "You can create this birhtday list free of charge!",
         style: MyTheme.textTheme.bodyText1,
@@ -354,7 +353,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
   List<Map<String, dynamic>> _buildAttendeeTable(List<AttendeeTicket> attendees) {
     List<Map<String, dynamic>> tableData = [];
     attendees.forEach((element) {
-      tableData.add({"name": element.name, "date": DateFormat("MMM dd.").format(element.dateAccepted)});
+      tableData.add({"name": element.name, "date": DateFormat("MMM dd.").format(element.dateAccepted!)});
     });
     return tableData;
   }

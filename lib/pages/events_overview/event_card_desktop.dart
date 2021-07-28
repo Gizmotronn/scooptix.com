@@ -18,9 +18,9 @@ import '../../UI/theme.dart';
 
 class EventCardDesktop extends StatefulWidget {
   final Event event;
-  final double width;
+  final double? width;
 
-  const EventCardDesktop({Key key, this.event, this.width}) : super(key: key);
+  const EventCardDesktop({Key? key, required this.event, this.width}) : super(key: key);
 
   @override
   _EventCardDesktopState createState() => _EventCardDesktopState();
@@ -43,14 +43,14 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
       onTap: () {
         Navigator.of(context).push(MaterialWithModalsPageRoute(
             builder: (_) => EventDetailPage(
-                  id: widget.event.docID,
+                  id: widget.event.docID!,
                 )));
       },
       child: Stack(
         children: [
           Container(
             width: widget.width != null
-                ? widget.width - 24
+                ? widget.width! - 24
                 : screenSize.width > 324 * 4
                     ? screenSize.width / 4 - 24
                     : screenSize.width / 3 - 24,
@@ -87,8 +87,8 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
     bool isSoldOut = widget.event.soldOut();
 
     for (var i = 0; i < widget.event.getAllReleases().length; i++) {
-      final release = widget.event?.getAllReleases()[i];
-      prices.add(release?.price == null ? 0 : release.price);
+      final release = widget.event.getAllReleases()[i];
+      prices.add(release.price == null ? 0 : release.price!);
     }
     if (prices.length > 1) {
       prices.sort((a, b) => a.compareTo(b));
@@ -109,7 +109,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
     );
   }
 
-  Widget _buildTag(BuildContext context, {String tag, bool isSoldOut = false, bool preSale = false}) {
+  Widget _buildTag(BuildContext context, {required String tag, bool isSoldOut = false, bool preSale = false}) {
     Color buildColor() {
       if (tag == 'Free') {
         return MyTheme.appolloGreen;
@@ -163,13 +163,13 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                       children: [
                         Expanded(
                           child: AutoSizeText(
-                            fullDateWithDay(widget.event.date) ?? '',
+                            fullDateWithDay(widget.event.date),
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: MyTheme.textTheme.subtitle1.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloRed),
                           ).paddingBottom(8),
                         ),
-                        ValueListenableBuilder<User>(
+                        ValueListenableBuilder<User?>(
                             valueListenable: UserRepository.instance.currentUserNotifier,
                             builder: (context, user, child) {
                               return FavoriteHeartButton(
@@ -177,11 +177,11 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                                   if (!v) {
                                     if (user == null) {
                                       WrapperPage.endDrawer.value = AuthenticationDrawer();
-                                      WrapperPage.mainScaffold.currentState.openEndDrawer();
+                                      WrapperPage.mainScaffold.currentState!.openEndDrawer();
                                     } else {
                                       ///TODO Add event as favorite to user
                                       print('Event added to favorite');
-                                      user.toggleFavourite(widget.event.docID);
+                                      user.toggleFavourite(widget.event.docID!);
                                     }
                                   }
                                 },
@@ -193,10 +193,10 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                       ],
                     ),
                     AutoSizeText(
-                      widget.event.name ?? '',
+                      widget.event.name,
                       textAlign: TextAlign.start,
                       maxLines: 2,
-                      style: Theme.of(context).textTheme.headline6.copyWith(fontWeight: FontWeight.w500),
+                      style: Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.w500),
                     ),
                   ],
                 ).paddingHorizontal(14).paddingTop(8),
@@ -212,7 +212,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                       activeColorText: MyTheme.appolloWhite,
                       onTap: () {
                         NavigationService.navigateTo(EventDetailPage.routeName,
-                            arg: widget.event.docID, queryParams: {'id': widget.event.docID});
+                            arg: widget.event.docID, queryParams: {'id': widget.event.docID!});
                       },
                     ),
                   ),
@@ -235,19 +235,19 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
               children: [
                 Expanded(
                   child: AutoSizeText(
-                    fullDateWithDay(widget.event.date) ?? '',
+                    fullDateWithDay(widget.event.date),
                     textAlign: TextAlign.start,
                     maxLines: 2,
-                    style: MyTheme.textTheme.headline6.copyWith(color: MyTheme.appolloRed),
+                    style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloRed),
                   ).paddingBottom(8),
                 ),
               ],
             ),
             AutoSizeText(
-              widget.event.name ?? '',
+              widget.event.name,
               textAlign: TextAlign.start,
               maxLines: 2,
-              style: Theme.of(context).textTheme.headline4.copyWith(fontWeight: FontWeight.w500),
+              style: Theme.of(context).textTheme.headline4!.copyWith(fontWeight: FontWeight.w500),
             ).paddingBottom(4),
           ],
         ).paddingAll(MyTheme.elementSpacing),
@@ -259,7 +259,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
     return Flexible(
       child: ClipRRect(
         borderRadius: BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
-        child: widget.event.coverImageURL == null
+        child: widget.event.coverImageURL == ""
             ? SizedBox()
             : Container(
                 decoration: BoxDecoration(
@@ -288,9 +288,9 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
     );
   }
 
-  bool _checkFavorite(User user) {
+  bool _checkFavorite(User? user) {
     if (user != null) {
-      return user.favourites.contains(widget.event.docID) ?? false;
+      return user.favourites.contains(widget.event.docID);
     } else {
       return false;
     }
@@ -301,8 +301,8 @@ class EventCard2 extends StatelessWidget {
   final Event event;
 
   const EventCard2({
-    Key key,
-    this.event,
+    Key? key,
+    required this.event,
   }) : super(key: key);
 
   @override
@@ -353,21 +353,21 @@ class EventCard2 extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      fullDateWithDay(event.date) ?? '',
+                      fullDateWithDay(event.date),
                       textAlign: TextAlign.start,
                       maxLines: 2,
                       style: Theme.of(context)
                           .textTheme
-                          .headline6
+                          .headline6!
                           .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
                     ).paddingBottom(8),
                     AutoSizeText(
-                      event.name ?? '',
+                      event.name,
                       textAlign: TextAlign.start,
                       maxLines: 1,
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
+                          .headline5!
                           .copyWith(color: MyTheme.appolloGrey, fontSize: sizes.isDesktop ? null : 14),
                     ).paddingBottom(4),
                   ],
@@ -391,7 +391,7 @@ class EventCard2 extends StatelessWidget {
                           onTap: () {
                             Navigator.of(context).push(MaterialWithModalsPageRoute(
                                 builder: (_) => EventDetailPage(
-                                      id: event.docID,
+                                      id: event.docID!,
                                     )));
                           },
                           borderRadius: BorderRadius.only(bottomRight: Radius.circular(12)),
@@ -417,7 +417,7 @@ class EventCard2 extends StatelessWidget {
             image: DecorationImage(
               image: ExtendedImage.network(
                 //TODO remove the default image url [It's use for testing]
-                event.coverImageURL ?? 'https://designshack.net/wp-content/uploads/party-club-flyer-templates.jpg',
+                event.coverImageURL,
                 cache: true,
               ).image,
               fit: BoxFit.cover,

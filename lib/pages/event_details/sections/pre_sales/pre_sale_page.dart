@@ -20,12 +20,12 @@ class PreSalePage extends StatelessWidget {
   final PreSaleBloc bloc;
   final Event event;
 
-  const PreSalePage({Key key, this.bloc, @required this.event}) : super(key: key);
+  const PreSalePage({Key? key, required this.bloc, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PreSaleBloc, PreSaleState>(
-      cubit: bloc,
+      bloc: bloc,
       builder: (c, state) {
         if (state is StateRegistered) {
           return Column(
@@ -34,17 +34,17 @@ class PreSalePage extends StatelessWidget {
               if (getValueForScreenType(context: context, watch: false, mobile: false, tablet: true, desktop: true))
                 AutoSizeText("You're Registered", style: MyTheme.textTheme.headline2)
                     .paddingBottom(MyTheme.elementSpacing),
-              AutoSizeText("Hi ${UserRepository.instance.currentUser().firstname},",
-                      style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloGreen))
+              AutoSizeText("Hi ${UserRepository.instance.currentUser()!.firstname},",
+                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
                   .paddingBottom(MyTheme.elementSpacing / 2),
               AutoSizeText(
                       "You have registered for pre-sale. You will be notified once ticket sales start and may also receive special pre-sale offers from the event organiser.")
                   .paddingBottom(MyTheme.elementSpacing),
-              if (event.preSale.hasPrizes)
+              if (event.preSale!.hasPrizes)
                 AutoSizeText(
                         "Increase your chance of winning by simply sharing your referral code with your friends, family or followers.")
                     .paddingBottom(MyTheme.elementSpacing),
-              if (event.preSale.hasPrizes)
+              if (event.preSale!.hasPrizes)
                 Container(
                   width: MyTheme.drawerSize,
                   decoration: ShapeDecoration(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5))),
@@ -53,13 +53,13 @@ class PreSalePage extends StatelessWidget {
                     children: [
                       AutoSizeText(
                         "Current Points",
-                        style: MyTheme.textTheme.headline5.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
                       ),
                       AutoSizeText(state.preSale.points.toString())
                     ],
                   ).paddingAll(MyTheme.elementSpacing / 2 + 4),
                 ).appolloCard().paddingBottom(MyTheme.elementSpacing * 2),
-              AutoSizeText("Referral Link", style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange))
+              AutoSizeText("Referral Link", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange))
                   .paddingBottom(MyTheme.elementSpacing),
               OnTapAnimationButton(
                 fill: true,
@@ -87,15 +87,15 @@ class PreSalePage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
                     "appollo.io/?id=${state.preSale.uuid}",
-                    style: MyTheme.textTheme.bodyText2.copyWith(color: MyTheme.appolloGrey),
+                    style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.appolloGrey),
                   ),
                 ),
               ).paddingBottom(MyTheme.elementSpacing * 2),
-              if (event.preSale.hasPrizes)
-                AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4.copyWith(color: MyTheme.appolloOrange))
+              if (event.preSale!.hasPrizes)
+                AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange))
                     .paddingBottom(MyTheme.elementSpacing),
-              if (event.preSale.hasPrizes) PreSalePrizesWidget(prizes: event.preSale.prizes),
-              if (event.preSale.hasPrizes)
+              if (event.preSale!.hasPrizes) PreSalePrizesWidget(prizes: event.preSale!.prizes),
+              if (event.preSale!.hasPrizes)
                 AutoSizeText(
                         "Winners are drawn at random once pre sale closes, and will be notified by email. Each referral point you earn rewards you with another entry, increasing your odds of winning.")
                     .paddingBottom(MyTheme.elementSpacing),
