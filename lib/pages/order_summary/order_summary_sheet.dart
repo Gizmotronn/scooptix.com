@@ -171,63 +171,66 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                   ),
                 ),
               ),
-              body: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    "Order Summary",
-                    style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
-                  ).paddingBottom(MyTheme.elementSpacing),
-                  _buildMainContent().paddingBottom(MyTheme.elementSpacing),
-                  _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: AppolloButton.regularButton(
-                        width: MediaQuery.of(context).size.width,
-                        onTap: () {
-                          if (!UserRepository.instance.isLoggedIn) {
-                            showAppolloModalBottomSheet(
-                                context: context,
-                                backgroundColor: MyTheme.appolloBackgroundColor,
-                                expand: true,
-                                builder: (c) => AuthenticationPageWrapper(
-                                      onAutoAuthenticated: (autoLoggedIn) {
-                                        Navigator.pop(context);
-                                        Navigator.push(
-                                            sheetContext,
-                                            MaterialPageRoute(
-                                                builder: (c) => PaymentSheetWrapper(
-                                                      event: widget.event,
-                                                      discount: discount,
-                                                      selectedTickets: widget.selectedTickets,
-                                                      maxHeight: MediaQuery.of(context).size.height,
-                                                      parentContext: context,
-                                                    )));
-                                      },
-                                    ));
-                          } else if (widget.selectedTickets.isNotEmpty) {
-                            Navigator.push(
-                                sheetContext,
-                                MaterialPageRoute(
-                                    builder: (c) => PaymentSheetWrapper(
-                                          event: widget.event,
-                                          discount: discount,
-                                          selectedTickets: widget.selectedTickets,
-                                          maxHeight: MediaQuery.of(context).size.height,
-                                          parentContext: context,
-                                        )));
-                          }
-                        },
-                        child: Text(
-                          "PROCEED TO CHECKOUT",
-                          style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
-                        ),
-                      ),
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    AutoSizeText(
+                      "Order Summary",
+                      style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
                     ).paddingBottom(MyTheme.elementSpacing),
-                  ),
-                ],
-              ).paddingAll(MyTheme.elementSpacing),
+                    _buildMainContent().paddingBottom(MyTheme.elementSpacing),
+                    _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
+                    Flexible(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: AppolloButton.regularButton(
+                          width: MediaQuery.of(context).size.width,
+                          onTap: () {
+                            if (!UserRepository.instance.isLoggedIn) {
+                              showAppolloModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: MyTheme.appolloBackgroundColor,
+                                  expand: true,
+                                  builder: (c) => AuthenticationPageWrapper(
+                                        onAutoAuthenticated: (autoLoggedIn) {
+                                          Navigator.pop(context);
+                                          Navigator.push(
+                                              sheetContext,
+                                              MaterialPageRoute(
+                                                  builder: (c) => PaymentSheetWrapper(
+                                                        event: widget.event,
+                                                        discount: discount,
+                                                        selectedTickets: widget.selectedTickets,
+                                                        maxHeight: MediaQuery.of(context).size.height,
+                                                        parentContext: context,
+                                                      )));
+                                        },
+                                      ));
+                            } else if (widget.selectedTickets.isNotEmpty) {
+                              Navigator.push(
+                                  sheetContext,
+                                  MaterialPageRoute(
+                                      builder: (c) => PaymentSheetWrapper(
+                                            event: widget.event,
+                                            discount: discount,
+                                            selectedTickets: widget.selectedTickets,
+                                            maxHeight: MediaQuery.of(context).size.height,
+                                            parentContext: context,
+                                          )));
+                            }
+                          },
+                          child: Text(
+                            "PROCEED TO CHECKOUT",
+                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                          ),
+                        ),
+                      ).paddingBottom(MyTheme.elementSpacing),
+                    ),
+                  ],
+                ).paddingAll(MyTheme.elementSpacing),
+              ),
             );
           });
         },
