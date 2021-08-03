@@ -450,10 +450,12 @@ class TicketRepository {
     for (int i = 0; i < ticketReleases.length; i++) {
       try {
         if (ticketReleases[i].get("max_tickets") <
-            ticketReleases[i].get("tickets_bought") + paidReleases[ticketReleases[i].id]) {
+            ticketReleases[i].get("tickets_bought") +
+                paidReleases[paidReleases.keys.firstWhere((element) => element.docId == ticketReleases[i].id)]) {
           return false;
         }
       } catch (e, s) {
+        print(e);
         BugsnagNotifier.instance.notify("Couldn't check available tickets. $e", s);
         return false;
       }
