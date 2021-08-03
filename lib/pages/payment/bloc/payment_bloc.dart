@@ -62,6 +62,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             yield* _confirmPayment(
                 freeReleases: freeReleases,
                 event: event,
+                discount: discount,
                 ticketQuantity: paidReleases.values.fold(0, (int a, int b) => a + b) +
                     freeReleases.values.fold(0, (a, b) => a + b));
           } else {
@@ -78,7 +79,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Stream<PaymentState> _confirmPayment(
-      {Map<TicketRelease, int>? freeReleases, Event? event, int ticketQuantity = 1}) async* {
+      {Map<TicketRelease, int>? freeReleases, Event? event, int ticketQuantity = 1, Discount? discount}) async* {
     assert(freeReleases == null || event != null);
 
     try {
@@ -86,6 +87,9 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           .confirmPayment(PaymentRepository.instance.clientSecret!, PaymentRepository.instance.paymentMethodId!);
       if (result["status"] == "succeeded") {
         TicketRepository.instance.incrementLinkTicketsBoughtCounter(event!, ticketQuantity);
+        if (discount != null) {
+          TicketRepository.instance.incrementDiscountCounter(event, discount, ticketQuantity);
+        }
         PaymentRepository.instance.releaseDataUpdatedStream.add(true);
         // If there were free tickets to process as well, do this here.
         // This assures that free tickets are only issued if the paid tickets were issued successfully.
