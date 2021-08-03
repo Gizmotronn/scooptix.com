@@ -50,21 +50,26 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           freeReleases[key] = value;
         }
       });
-      http.Response? response = await PaymentRepository.instance.createPaymentIntent(event, paidReleases, discount);
+      bool stillAvailable = await TicketRepository.instance.checkTicketsStillAvailable(event, paidReleases);
+      if (!stillAvailable) {
+        yield StatePaymentError("The selected tickets are no longer available");
+      } else {
+        http.Response? response = await PaymentRepository.instance.createPaymentIntent(event, paidReleases, discount);
 
-      if (response != null) {
-        if (response.statusCode == 200) {
-          PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-          yield* _confirmPayment(
-              freeReleases: freeReleases,
-              event: event,
-              ticketQuantity:
-                  paidReleases.values.fold(0, (int a, int b) => a + b) + freeReleases.values.fold(0, (a, b) => a + b));
+        if (response != null) {
+          if (response.statusCode == 200) {
+            PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
+            yield* _confirmPayment(
+                freeReleases: freeReleases,
+                event: event,
+                ticketQuantity: paidReleases.values.fold(0, (int a, int b) => a + b) +
+                    freeReleases.values.fold(0, (a, b) => a + b));
+          } else {
+            yield StatePaymentError("An unknown error occurred. Please try again.");
+          }
         } else {
           yield StatePaymentError("An unknown error occurred. Please try again.");
         }
-      } else {
-        yield StatePaymentError("An unknown error occurred. Please try again.");
       }
     } catch (e, _) {
       print(e);

@@ -110,7 +110,21 @@ class EventInfo extends StatelessWidget {
           aspectRatio: 1.9,
           child: FittedBox(
             fit: BoxFit.cover,
-            child: ExtendedImage.network(event.coverImageURL, cache: true),
+            child:
+                ExtendedImage.network(event.coverImageURL, cache: true, loadStateChanged: (ExtendedImageState state) {
+              switch (state.extendedImageLoadState) {
+                case LoadState.loading:
+                  return Container(
+                    color: Colors.white,
+                  );
+                case LoadState.completed:
+                  return state.completedWidget;
+                default:
+                  return Container(
+                    color: Colors.white,
+                  );
+              }
+            }),
           ),
         ),
       ),

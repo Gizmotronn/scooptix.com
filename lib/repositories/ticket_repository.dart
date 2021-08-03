@@ -428,4 +428,37 @@ class TicketRepository {
           .notify("Error incrementing tickets bought counter \n $e", s, severity: ErrorSeverity.error);
     }
   }
+
+  Future<bool> checkTicketsStillAvailable(Event event, Map<TicketRelease, int> paidReleases) async {
+    List<Future<DocumentSnapshot>> responses = [];
+    try {
+      paidReleases.forEach((key, value) {
+        responses.add(FirebaseFirestore.instance
+            .collection("ticketevents")
+            .doc(event.docID)
+            .collection("release_managers")
+            .doc(event.getReleaseManager(key)!.docId)
+            .collection("ticket_releases")
+            .doc(key.docId)
+            .get());
+      });
+    } catch (e, s) {
+      BugsnagNotifier.instance.notify("Couldn't check available tickets. $e", s);
+      return false;
+    }
+    List<DocumentSnapshot> ticketReleases = await Future.wait(responses);
+    for (int i = 0; i < ticketReleases.length; i++) {
+      try {
+        if (ticketReleases[i].get("max_tickets") <
+            ticketReleases[i].get("tickets_bought") + paidReleases[ticketReleases[i].id]) {
+          return false;
+        }
+      } catch (e, s) {
+        BugsnagNotifier.instance.notify("Couldn't check available tickets. $e", s);
+        return false;
+      }
+    }
+
+    return true;
+  }
 }

@@ -18,6 +18,7 @@ class TicketCard extends StatefulWidget {
 
 class _TicketCardState extends State<TicketCard> {
   int quantity = 0;
+  bool showAvailableTickets = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class _TicketCardState extends State<TicketCard> {
         children: [
           _header(context, text: widget.release.name ?? '', color: widget.color),
           _content(context),
+          if (showAvailableTickets) _buildTicketsLeft(),
           if (widget.release.getActiveRelease() != null) _incrementPurchaseQuantity(),
         ],
       ),
@@ -102,11 +104,16 @@ class _TicketCardState extends State<TicketCard> {
         ),
       );
     } else if (widget.release.getNextRelease() != null) {
-      return AutoSizeText(
-              "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.getNextRelease()!.releaseStart!)}",
-              style: MyTheme.textTheme.subtitle1,
-              textAlign: TextAlign.center)
-          .paddingAll(MyTheme.elementSpacing);
+      if (widget.release.getNextRelease()!.releaseStart!.isAfter(DateTime.now())) {
+        return AutoSizeText(
+                "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.getNextRelease()!.releaseStart!)}",
+                style: MyTheme.textTheme.subtitle1,
+                textAlign: TextAlign.center)
+            .paddingAll(MyTheme.elementSpacing);
+      } else {
+        return AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
+            .paddingAll(MyTheme.elementSpacing);
+      }
     } else {
       return AutoSizeText("There are currently no tickets of this type available.",
               style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
@@ -185,10 +192,19 @@ class _TicketCardState extends State<TicketCard> {
               SizedBox(width: 50, child: Center(child: Text("${quantity.toString()}"))),
               InkWell(
                 onTap: () {
-                  if (widget.release.getActiveRelease()!.price != 0 || quantity == 0) {
+                  if ((widget.release.getActiveRelease()!.price != 0 || quantity == 0) &&
+                      widget.release.getActiveRelease()!.ticketsBought + quantity <
+                          widget.release.getActiveRelease()!.maxTickets) {
                     setState(() {
                       quantity++;
                     });
+                    if (!showAvailableTickets &&
+                        widget.release.getActiveRelease()!.ticketsBought + quantity ==
+                            widget.release.getActiveRelease()!.maxTickets) {
+                      setState(() {
+                        showAvailableTickets = true;
+                      });
+                    }
                     widget.onQuantityChanged(quantity);
                   }
                 },
@@ -204,4 +220,15 @@ class _TicketCardState extends State<TicketCard> {
           ),
         ],
       ).paddingBottom(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing).paddingTop(8);
+
+  _buildTicketsLeft() {
+    if (widget.release.getActiveRelease() == null) {
+      return SizedBox.shrink();
+    } else {
+      return Text(
+        "There are only ${widget.release.getActiveRelease()!.maxTickets - widget.release.getActiveRelease()!.ticketsBought} tickets left of this release",
+        style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.appolloRed),
+      ).paddingLeft(MyTheme.elementSpacing);
+    }
+  }
 }

@@ -48,7 +48,7 @@ class BugsnagNotifier {
   }
 
   /// Get the manufactuer, model, osName and osVersion of the device
-  Future<Map<String, String>> get _deviceInfo async {
+  Future<Map<String, String>?> get _deviceInfo async {
     if (this._innerDeviceInfo != null) {
       return this._innerDeviceInfo!;
     }
@@ -73,7 +73,7 @@ class BugsnagNotifier {
       }
     }
 
-    return this._innerDeviceInfo!;
+    return this._innerDeviceInfo;
   }
 
   static BugsnagNotifier? _instance;
@@ -171,7 +171,7 @@ class BugsnagNotifier {
   ) async {
     try {
       Map<String, String> packageInfo = await this._packageInfo;
-      Map<String, String> deviceInfo = await this._deviceInfo;
+      Map<String, String>? deviceInfo = await this._deviceInfo;
 
       Map<String, String> headers = {
         'Content-Type': 'application/json',
