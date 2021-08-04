@@ -429,6 +429,7 @@ class TicketRepository {
     }
   }
 
+  /// Local data can be old, therefore check if the tickets are actually still available before purchase
   Future<bool> checkTicketsStillAvailable(Event event, Map<TicketRelease, int> paidReleases) async {
     List<Future<DocumentSnapshot>> responses = [];
     try {
@@ -440,7 +441,7 @@ class TicketRepository {
             .doc(event.getReleaseManager(key)!.docId)
             .collection("ticket_releases")
             .doc(key.docId)
-            .get());
+            .get(GetOptions(source: Source.server)));
       });
     } catch (e, s) {
       BugsnagNotifier.instance.notify("Couldn't check available tickets. $e", s);
@@ -449,6 +450,9 @@ class TicketRepository {
     List<DocumentSnapshot> ticketReleases = await Future.wait(responses);
     for (int i = 0; i < ticketReleases.length; i++) {
       try {
+        // Update the local data on bought tickets to reflect the data we just got.
+        event.getRelease(ticketReleases[i].id)!.ticketsBought = ticketReleases[i].get("tickets_bought");
+
         if (ticketReleases[i].get("max_tickets") <
             ticketReleases[i].get("tickets_bought") +
                 paidReleases[paidReleases.keys.firstWhere((element) => element.docId == ticketReleases[i].id)]) {
@@ -462,5 +466,25 @@ class TicketRepository {
     }
 
     return true;
+  }
+
+  /// Local data can be old, therefore check if the discounts are actually still available before purchase
+  Future<bool> checkDiscountsStillAvailable(Event event, Discount discount, int numTickets) async {
+    DocumentSnapshot<Map<String, dynamic>> discountSnap = await FirebaseFirestore.instance
+        .collection("ticketevents")
+        .doc(event.docID)
+        .collection("discounts")
+        .doc(discount.docId)
+        .get();
+    try {
+      if (discountSnap.exists && discountSnap.get("max_uses") >= discountSnap.get("times_used") + numTickets) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e, s) {
+      BugsnagNotifier.instance.notify("Couldn't check discount availability $e", s);
+      return false;
+    }
   }
 }

@@ -178,6 +178,13 @@ class _TicketCardState extends State<TicketCard> {
                     setState(() {
                       quantity--;
                     });
+                    if (!showAvailableTickets &&
+                        widget.release.getActiveRelease()!.ticketsBought + quantity >=
+                            widget.release.getActiveRelease()!.maxTickets) {
+                      setState(() {
+                        showAvailableTickets = true;
+                      });
+                    }
                     widget.onQuantityChanged(quantity);
                   }
                 },
@@ -199,7 +206,7 @@ class _TicketCardState extends State<TicketCard> {
                       quantity++;
                     });
                     if (!showAvailableTickets &&
-                        widget.release.getActiveRelease()!.ticketsBought + quantity ==
+                        widget.release.getActiveRelease()!.ticketsBought + quantity >=
                             widget.release.getActiveRelease()!.maxTickets) {
                       setState(() {
                         showAvailableTickets = true;

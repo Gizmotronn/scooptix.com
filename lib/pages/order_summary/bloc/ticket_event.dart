@@ -10,8 +10,9 @@ abstract class TicketEvent extends Equatable {
 class EventApplyDiscount extends TicketEvent {
   final Event event;
   final String code;
+  final int quantity;
 
-  const EventApplyDiscount(this.event, this.code);
+  const EventApplyDiscount(this.event, this.code, this.quantity);
 }
 
 class EventRemoveDiscount extends TicketEvent {}

@@ -17,16 +17,16 @@ class TicketBloc extends Bloc<TicketEvent, TicketState> {
     TicketEvent event,
   ) async* {
     if (event is EventApplyDiscount) {
-      yield* _applyDiscount(event.event, event.code);
+      yield* _applyDiscount(event.event, event.code, event.quantity);
     } else if (event is EventRemoveDiscount) {
       yield StateDiscountCodeRemoved();
     }
   }
 
-  Stream<TicketState> _applyDiscount(Event event, String code) async* {
+  Stream<TicketState> _applyDiscount(Event event, String code, int quantity) async* {
     yield StateDiscountCodeLoading();
     Discount? discount = await TicketRepository.instance.loadDiscount(event, code);
-    if (discount == null) {
+    if (discount == null || discount.maxUses < discount.timesUsed + quantity) {
       yield StateDiscountCodeInvalid();
     } else {
       yield StateDiscountApplied(discount);

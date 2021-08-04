@@ -51,7 +51,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
       subtotal += release.price! * quantity;
     });
     if (widget.selectedTickets.isNotEmpty) {
-      totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
+      totalTicketQuantity = widget.selectedTickets.values.fold(0, (a, b) => a + b);
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -284,6 +284,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                   state: state,
                   width: widget.maxWidth,
                   event: widget.event,
+                  ticketQuantity: totalTicketQuantity,
                 ).paddingBottom(8),
                 if (state is StateDiscountApplied)
                   Align(

@@ -15,6 +15,7 @@ class DiscountTextField extends StatefulWidget {
     required this.state,
     required this.width,
     required this.event,
+    required this.ticketQuantity,
   })  : _discountController = discountController,
         super(key: key);
 
@@ -23,6 +24,7 @@ class DiscountTextField extends StatefulWidget {
   final TicketState state;
   final Event event;
   final double width;
+  final int ticketQuantity;
 
   @override
   _DiscountTextFieldState createState() => _DiscountTextFieldState();
@@ -141,7 +143,8 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                     if (widget._discountController.text != "") {
                       setState(() => textFieldState = DiscountTextfieldState.loading);
                       _listenToStateChanges();
-                      widget.bloc.add(EventApplyDiscount(widget.event, widget._discountController.text));
+                      widget.bloc.add(
+                          EventApplyDiscount(widget.event, widget._discountController.text, widget.ticketQuantity));
                       widget._discountController.text = "";
                     }
                   },
@@ -173,7 +176,8 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
                     if (widget._discountController.text != "") {
                       setState(() => textFieldState = DiscountTextfieldState.loading);
                       _listenToStateChanges();
-                      widget.bloc.add(EventApplyDiscount(widget.event, widget._discountController.text));
+                      widget.bloc.add(
+                          EventApplyDiscount(widget.event, widget._discountController.text, widget.ticketQuantity));
                       widget._discountController.text = "";
                     }
                   },

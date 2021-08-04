@@ -418,6 +418,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 state: state,
                 width: MediaQuery.of(context).size.width,
                 event: widget.event,
+                ticketQuantity: totalTicketQuantity,
               ).paddingBottom(8),
               if (state is StateDiscountApplied)
                 Align(

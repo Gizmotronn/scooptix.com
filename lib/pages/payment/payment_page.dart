@@ -119,7 +119,7 @@ class _PaymentPageState extends State<PaymentPage> {
             if (state is StatePaymentError) {
               return Column(
                 children: [
-                  Text(state.message, style: MyTheme.textTheme.bodyText2).paddingBottom(MyTheme.elementSpacing),
+                  Text(state.message, style: MyTheme.textTheme.headline6).paddingBottom(MyTheme.elementSpacing),
                   SizedBox(
                     height: 34,
                     width: MyTheme.drawerSize,

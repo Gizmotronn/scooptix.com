@@ -50,9 +50,16 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           freeReleases[key] = value;
         }
       });
-      bool stillAvailable = await TicketRepository.instance.checkTicketsStillAvailable(event, paidReleases);
-      if (!stillAvailable) {
+      bool ticketsStillAvailable = await TicketRepository.instance.checkTicketsStillAvailable(event, paidReleases);
+      bool discountsStillAvailable = discount == null ||
+          await TicketRepository.instance.checkDiscountsStillAvailable(event, discount,
+              paidReleases.values.fold(0, (int previousValue, int element) => previousValue + element));
+      if (!ticketsStillAvailable) {
         yield StatePaymentError("The selected tickets are no longer available");
+        PaymentRepository.instance.releaseDataUpdatedStream.add(true);
+      } else if (!discountsStillAvailable) {
+        yield StatePaymentError("The selected discount is no longer available");
+        PaymentRepository.instance.releaseDataUpdatedStream.add(true);
       } else {
         http.Response? response = await PaymentRepository.instance.createPaymentIntent(event, paidReleases, discount);
 
