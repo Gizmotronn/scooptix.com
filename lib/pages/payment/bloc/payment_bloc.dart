@@ -8,6 +8,7 @@ import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
+import 'package:ticketapp/repositories/customer_repository.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
 import 'package:ticketapp/repositories/ticket_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -94,6 +95,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           .confirmPayment(PaymentRepository.instance.clientSecret!, PaymentRepository.instance.paymentMethodId!);
       if (result["status"] == "succeeded") {
         TicketRepository.instance.incrementLinkTicketsBoughtCounter(event!, ticketQuantity);
+        CustomerRepository.instance.addCustomerAttendingAction(event);
+
         if (discount != null) {
           TicketRepository.instance.incrementDiscountCounter(event, discount, ticketQuantity);
         }

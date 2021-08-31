@@ -8,6 +8,7 @@ import 'package:ticketapp/model/link_type/invitation.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/repositories/customer_repository.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -323,6 +324,7 @@ class TicketRepository {
 
       ticket.docId = ticketDoc.id;
       ticket.release = release;
+      CustomerRepository.instance.addCustomerAttendingAction(event);
       return ticket;
     } catch (e, s) {
       BugsnagNotifier.instance.notify("Error accepting invitation \n" + e.toString(), s, severity: ErrorSeverity.error);

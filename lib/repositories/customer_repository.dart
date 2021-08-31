@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
 import 'package:ticketapp/model/link_type/birthdayList.dart';
+import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -23,11 +24,11 @@ class CustomerRepository {
     _instance = null;
   }
 
-  Future<DocumentReference?> createCustomer(String organizerId) async {
+  Future<DocumentReference?> createCustomer(Event event) async {
     try {
       DocumentReference userRef = FirebaseFirestore.instance
           .collection("organizers")
-          .doc(organizerId)
+          .doc(event.organizer)
           .collection("customers")
           .doc(UserRepository.instance.currentUser()!.firebaseUserID);
       await userRef.set({
@@ -36,7 +37,9 @@ class CustomerRepository {
         "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
         "dob": UserRepository.instance.currentUser()!.dob,
         "email": UserRepository.instance.currentUser()!.email,
-        "last_action": DateTime.now()
+        "last_action": DateTime.now(),
+        "first_action": DateTime.now(),
+        "first_event": event.docID
       });
 
       return userRef;
@@ -47,6 +50,7 @@ class CustomerRepository {
     }
   }
 
+  /// Adds an action based on the Link Type to an existing customer or creates a new customer if it's the users first interaction with this organizer.
   Future<void> addCustomerAttendingAction(Event event) async {
     try {
       DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
@@ -57,19 +61,21 @@ class CustomerRepository {
           .get();
       DocumentReference? userRef;
       if (!userSnapshot.exists) {
-        userRef = await createCustomer(event.organizer!);
+        userRef = await createCustomer(event);
       } else {
         userRef = userSnapshot.reference;
       }
 
       String action;
 
-      if (event is Booking) {
-        action = "bday_invite_accepted";
-      } else if (event is AdvertisementLink) {
+      if (LinkRepository.instance.linkType is Booking) {
+        action = "booking_invite_accepted";
+      } else if (LinkRepository.instance.linkType is AdvertisementLink) {
         action = "advertisement_invite_accepted";
+      } else if (LinkRepository.instance.linkType is MemberInvite) {
+        action = "member_invite_accepted";
       } else {
-        action = "promoter_invite_accepted";
+        action = "ticket_bought";
       }
 
       userRef!.collection("actions").add({

@@ -36,9 +36,8 @@ class EventsRepository {
     try {
       return events.firstWhere((element) => element.docID == id);
     } catch (_) {
-      print("could not find event with id $id");
+      // Could not find event in previously loaded events
     }
-    print(id);
     DocumentSnapshot<Map<String, dynamic>> eventSnapshot =
         await FirebaseFirestore.instance.collection("events").doc(id).get();
     DocumentSnapshot<Map<String, dynamic>> ticketEventSnapshot =
