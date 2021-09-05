@@ -31,8 +31,13 @@ class ReleaseManager {
 
   TicketRelease? getActiveRelease() {
     // Sort by earliest release start first
-    releases.sort((a, b) => a.releaseStart!.isBefore(b.releaseStart!) ? -1 : 1);
+    releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
     for (int i = 0; i < releases.length; i++) {
+      // Autorelease should only start after the first release has sold out
+      if (autoRelease && releases[i].releaseStart!.isAfter(DateTime.now())) {
+        return null;
+      }
+
       // If autorelease is true, we can ignore the release start time if the first release is already sold out
       // This is why we sort the releases first
       if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
@@ -47,8 +52,13 @@ class ReleaseManager {
   /// Returns the next release that will be active, which might not be active right now
   TicketRelease? getNextRelease() {
     // Sort by earliest release start first
-    releases.sort((a, b) => a.releaseStart!.isBefore(b.releaseStart!) ? -1 : 1);
+    releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
     for (int i = 0; i < releases.length; i++) {
+      // Autorelease should only start after the first release has sold out
+      if (autoRelease && i == 0 && releases[i].releaseStart!.isAfter(DateTime.now())) {
+        return releases[0];
+      }
+
       // If autorelease is true, we can ignore the release start time if the first release is already sold out
       // This is why we sort the releases first
       if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
