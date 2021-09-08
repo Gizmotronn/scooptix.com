@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../UI/widgets/appollo/appolloDivider.dart';
+import '../../../UI/widgets/appollo/appollo_divider.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
 

@@ -21,6 +21,7 @@ class PreSaleRepository {
   PreSaleRepository._();
 
   dispose() {
+    _registered = {};
     _instance = null;
   }
 

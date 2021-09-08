@@ -18,7 +18,7 @@ import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_sheet.
 import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../../../UI/theme.dart';
-import '../../../../UI/widgets/appollo/appolloDivider.dart';
+import '../../../../UI/widgets/appollo/appollo_divider.dart';
 import '../../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../../UI/widgets/cards/level_card_desktop.dart';
 import '../../../../utilities/svg/icon.dart';

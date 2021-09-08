@@ -2,7 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import '../theme.dart';
-import 'DatatableHeader.dart';
+import 'datatable_header.dart';
 
 class ResponsiveDatatable extends StatefulWidget {
   final bool showSelect;
