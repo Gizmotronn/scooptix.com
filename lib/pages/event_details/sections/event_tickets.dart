@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/cards/tickets_card.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/order_summary/order_summary_overlay.dart';

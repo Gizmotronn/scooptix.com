@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';

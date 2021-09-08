@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
-import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/buttons/card_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/model/organizer.dart';

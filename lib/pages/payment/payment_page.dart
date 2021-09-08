@@ -7,7 +7,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
-import 'package:ticketapp/UI/widgets/appollo/appolloDivider.dart';
+import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';

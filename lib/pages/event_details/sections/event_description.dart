@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-import '../../../UI/widgets/appollo/appolloDivider.dart';
+import '../../../UI/widgets/appollo/appollo_divider.dart';
 import '../../../model/event.dart';
 import '../../../UI/theme.dart';
 
