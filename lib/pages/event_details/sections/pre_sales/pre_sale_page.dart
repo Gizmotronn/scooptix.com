@@ -12,7 +12,7 @@ import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_prizes_widget.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import 'bloc/pre_sale_bloc.dart';
 
@@ -67,7 +67,7 @@ class PreSalePage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 onTapColor: MyTheme.appolloGreen,
                 suffixIcon: SvgPicture.asset(
-                  AppolloSvgIcon.copy,
+                  AppolloIcons.copy,
                   width: 24,
                   height: 24,
                 ),

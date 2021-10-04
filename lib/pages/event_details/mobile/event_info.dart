@@ -7,7 +7,7 @@ import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
-import '../../../utilities/svg/icon.dart';
+import '../../../UI/icons.dart';
 
 class EventInfoMobile extends StatefulWidget {
   const EventInfoMobile({Key? key, required this.event, required this.organizer}) : super(key: key);
@@ -65,18 +65,18 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
               'Event Details',
               style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(MyTheme.elementSpacing),
-            IconText(text: DateFormat("MMMM dd. yyy").format(widget.event.date), icon: AppolloSvgIcon.calenderOutline)
+            IconText(text: DateFormat("MMMM dd. yyy").format(widget.event.date), icon: AppolloIcons.calenderOutline)
                 .paddingBottom(8),
-            IconText(text: widget.event.address.trimLeft(), icon: AppolloSvgIcon.pin).paddingBottom(8),
+            IconText(text: widget.event.address.trimLeft(), icon: AppolloIcons.pin).paddingBottom(8),
             IconText(
                     text:
                         '${time(widget.event.date)} - ${widget.event.endTime != null ? time(widget.event.endTime!) : ""}',
-                    icon: AppolloSvgIcon.clock)
+                    icon: AppolloIcons.clock)
                 .paddingBottom(8),
             IconText(
                 text:
                     'Ticket Price: ${money(widget.event.getAllReleases().isEmpty ? 0 : widget.event.getAllReleases().first.price! / 100)} + BF',
-                icon: AppolloSvgIcon.ticket),
+                icon: AppolloIcons.ticket),
           ],
         )
       ],

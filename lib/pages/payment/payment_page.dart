@@ -15,7 +15,7 @@ import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
@@ -351,7 +351,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset(AppolloSvgIcon.creditCard, color: MyTheme.appolloWhite, height: 26)
+                                  SvgPicture.asset(AppolloIcons.creditCard, color: MyTheme.appolloWhite, height: 26)
                                       .paddingLeft(8),
                                   Text("Credit Card").paddingLeft(8),
                                 ],

@@ -8,7 +8,7 @@ import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/card_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
-import '../../../utilities/svg/icon.dart';
+import '../../../UI/icons.dart';
 
 class EventInfo extends StatelessWidget {
   const EventInfo({Key? key, required this.event, required this.buttons, required this.organizer}) : super(key: key);
@@ -82,17 +82,17 @@ class EventInfo extends StatelessWidget {
                     style:
                         MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
                   ).paddingBottom(MyTheme.elementSpacing / 2),
-                  IconText(text: event.address.trimLeft(), icon: AppolloSvgIcon.pin).paddingBottom(8),
-                  IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloSvgIcon.calenderOutline)
+                  IconText(text: event.address.trimLeft(), icon: AppolloIcons.pin).paddingBottom(8),
+                  IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloIcons.calenderOutline)
                       .paddingBottom(8),
                   IconText(
                           text: '${time(event.date)} - ${event.endTime != null ? time(event.endTime!) : ""}',
-                          icon: AppolloSvgIcon.clock)
+                          icon: AppolloIcons.clock)
                       .paddingBottom(8),
                   IconText(
                       text:
                           'Ticket Price: ${money(event.getAllReleases().isEmpty ? 0 : event.getAllReleases().first.price! / 100)} + BF',
-                      icon: AppolloSvgIcon.ticket),
+                      icon: AppolloIcons.ticket),
                 ],
               ),
             )

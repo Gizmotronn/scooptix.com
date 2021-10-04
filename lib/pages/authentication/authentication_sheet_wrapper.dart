@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import 'authentication_page.dart';
 import 'bloc/authentication_bloc.dart';
@@ -49,7 +49,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                   bloc.add(EventChangeEmail());
                 },
                 child: SvgPicture.asset(
-                  AppolloSvgIcon.arrowBackOutline,
+                  AppolloIcons.arrowBackOutline,
                   color: MyTheme.appolloWhite,
                   height: 36,
                   width: 36,
@@ -62,7 +62,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                   bloc.add(EventChangeEmail());
                 },
                 child: SvgPicture.asset(
-                  AppolloSvgIcon.arrowBackOutline,
+                  AppolloIcons.arrowBackOutline,
                   color: MyTheme.appolloWhite,
                   height: 36,
                   width: 36,
@@ -75,7 +75,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                   bloc.add(EventChangeEmail());
                 },
                 child: SvgPicture.asset(
-                  AppolloSvgIcon.arrowBackOutline,
+                  AppolloIcons.arrowBackOutline,
                   color: MyTheme.appolloWhite,
                   height: 36,
                   width: 36,

@@ -6,6 +6,7 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ticketapp/UI/event_overview/side_buttons.dart';
+import 'package:ticketapp/UI/widgets/scooptix_logo.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/pages/my_ticktes/my_tickets_drawer.dart';
@@ -16,12 +17,12 @@ import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
-import '../../utilities/svg/icon.dart';
+import '../icons.dart';
 import '../theme.dart';
 import '../widgets/popups/appollo_popup.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import 'event_overview_home.dart';
 
@@ -54,19 +55,15 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         height: kToolbarHeight,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(
-              children: [
-                InkWell(
-                    onTap: () {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                      Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                          arguments: EventsRepository.instance.upcomingPublicEvents);
-                    },
-                    child: _appolloLogo().paddingHorizontal(50)),
-                //TODO: _appolloSearchBar(context, screenSize),
-              ],
-            ).paddingVertical(4),
+            InkWell(
+                onTap: () {
+                  Navigator.popUntil(context, (route) => route.isFirst);
+                  Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
+                      arguments: EventsRepository.instance.upcomingPublicEvents);
+                },
+                child: ScooptixLogo().paddingHorizontal(MyTheme.elementSpacing * 2)),
             ValueListenableBuilder<User?>(
                 valueListenable: UserRepository.instance.currentUserNotifier,
                 builder: (context, user, child) {
@@ -154,7 +151,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        height: 22, child: SvgPicture.asset(AppolloSvgIcon.searchOutline, color: MyTheme.appolloWhite)),
+                        height: 22, child: SvgPicture.asset(AppolloIcons.searchOutline, color: MyTheme.appolloWhite)),
                     Container(
                       child: Expanded(
                         child: TextField(
@@ -197,7 +194,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                 color: MyTheme.appolloWhite.withAlpha(120),
                 child: Row(
                   children: [
-                    Container(height: 16, child: SvgPicture.asset(AppolloSvgIcon.perthGps, color: MyTheme.appolloWhite))
+                    Container(height: 16, child: SvgPicture.asset(AppolloIcons.perthGps, color: MyTheme.appolloWhite))
                         .paddingRight(4),
                     AutoSizeText('Perth, Australia', style: Theme.of(context).textTheme.button!.copyWith(fontSize: 12)),
                   ],
@@ -220,11 +217,6 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
       ),
     );
   }
-
-  Widget _appolloLogo() => Text("appollo",
-      style: MyTheme.textTheme.subtitle1!.copyWith(fontFamily: "cocon", color: Colors.white, fontSize: 34, shadows: [
-        BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1),
-      ]));
 
   Widget _appolloCreateEventDropDown(BuildContext context) {
     return Container(

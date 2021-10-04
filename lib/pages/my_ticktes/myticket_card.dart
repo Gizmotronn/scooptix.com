@@ -6,7 +6,7 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/pages/my_ticktes/ticket_event_page.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 class MyTicketCard extends StatelessWidget {
   final Ticket ticket;
@@ -126,7 +126,7 @@ class MyTicketCard extends StatelessWidget {
           style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloWhite),
         ),
         Expanded(
-          child: SvgPicture.asset(AppolloSvgIcon.qrScan).paddingAll(4),
+          child: SvgPicture.asset(AppolloIcons.qrScan).paddingAll(4),
         ),
         Text(
           subTitle,

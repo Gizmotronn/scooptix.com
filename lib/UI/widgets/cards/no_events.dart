@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 import '../../theme.dart';
 
 class NoEvents extends StatelessWidget {
@@ -14,7 +14,7 @@ class NoEvents extends StatelessWidget {
                   style: Theme.of(context).textTheme.headline4!.copyWith(color: MyTheme.appolloDimGrey))
               .paddingBottom(16),
           SvgPicture.asset(
-            AppolloSvgIcon.noEvent,
+            AppolloIcons.noEvent,
             height: 300,
             width: 300,
           ),

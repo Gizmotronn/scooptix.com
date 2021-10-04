@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
+import 'package:ticketapp/UI/widgets/scooptix_logo.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 import 'authentication/authentication_sheet_wrapper.dart';
 import 'events_overview/events_overview_page.dart';
 
@@ -44,7 +45,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                       arguments: EventsRepository.instance.upcomingPublicEvents);
                 },
                 child: SvgPicture.asset(
-                  AppolloSvgIcon.menuIcon,
+                  AppolloIcons.menuIcon,
                   height: 48,
                 )),
             InkWell(
@@ -53,12 +54,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                 Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
                     arguments: EventsRepository.instance.upcomingPublicEvents);
               },
-              child: Text("appollo",
-                  style: MyTheme.textTheme.subtitle1!.copyWith(
-                    fontFamily: "cocon",
-                    color: Colors.white,
-                    fontSize: 26,
-                  )),
+              child: ScooptixLogo(),
             ),
             ValueListenableBuilder(
                 valueListenable: UserRepository.instance.currentUserNotifier,

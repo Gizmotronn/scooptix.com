@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../theme.dart';
 
-class PoweredByAppollo extends StatelessWidget {
-  const PoweredByAppollo({
+class PoweredByScoopTix extends StatelessWidget {
+  const PoweredByScoopTix({
     Key? key,
   }) : super(key: key);
 
@@ -22,9 +22,8 @@ class PoweredByAppollo extends StatelessWidget {
               fontWeight: FontWeight.w300,
               shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)]),
         ),
-        Text("appollo",
+        Text("ScoopTix",
             style: MyTheme.textTheme.subtitle1!.copyWith(
-                fontFamily: "cocon",
                 color: Colors.white,
                 fontSize: 20,
                 shadows: [BoxShadow(color: Colors.black, blurRadius: 1, spreadRadius: 1)])),

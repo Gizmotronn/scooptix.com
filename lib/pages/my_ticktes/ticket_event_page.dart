@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/UI/widgets/scooptix_logo.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 
@@ -124,12 +125,7 @@ class TicketEventPage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("appollo",
-            style: MyTheme.textTheme.subtitle1!.copyWith(
-              fontFamily: "cocon",
-              color: Colors.white,
-              fontSize: 24,
-            )),
+        ScooptixLogo(),
         Text(
           "${time(ticket.event!.date)} - ${ticket.event!.endTime != null ? time(ticket.event!.endTime!) : ""}\n${date(ticket.event!.date)}",
         )

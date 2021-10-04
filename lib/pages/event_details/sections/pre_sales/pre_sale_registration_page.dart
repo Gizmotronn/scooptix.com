@@ -21,7 +21,7 @@ import '../../../../UI/theme.dart';
 import '../../../../UI/widgets/appollo/appollo_divider.dart';
 import '../../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../../UI/widgets/cards/level_card_desktop.dart';
-import '../../../../utilities/svg/icon.dart';
+import '../../../../UI/icons.dart';
 
 class PreSaleRegistrationPage extends StatefulWidget {
   final Event event;
@@ -308,10 +308,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         itemBuilder: (context, index) {
           return LevelCardDesktop(
             icon: index == 0
-                ? AppolloSvgIcon.level1
+                ? AppolloIcons.level1
                 : index == 1
-                    ? AppolloSvgIcon.level2
-                    : AppolloSvgIcon.level3,
+                    ? AppolloIcons.level2
+                    : AppolloIcons.level3,
             children: [
               AutoSizeText('Level ${index.toString()}',
                       style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500))
@@ -341,10 +341,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         itemBuilder: (context, index) {
           return LevelCardMobile(
             icon: index == 0
-                ? AppolloSvgIcon.level1
+                ? AppolloIcons.level1
                 : index == 1
-                    ? AppolloSvgIcon.level2
-                    : AppolloSvgIcon.level3,
+                    ? AppolloIcons.level2
+                    : AppolloIcons.level3,
             children: [
               AutoSizeText('Level ${index.toString()}',
                   style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500)),
@@ -373,10 +373,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           itemBuilder: (context, index) {
             return LevelCardDesktop(
               icon: index == 0
-                  ? AppolloSvgIcon.trophy1
+                  ? AppolloIcons.trophy1
                   : index == 1
-                      ? AppolloSvgIcon.trophy2
-                      : AppolloSvgIcon.trophy3,
+                      ? AppolloIcons.trophy2
+                      : AppolloIcons.trophy3,
               children: [
                 AutoSizeText('${(index + 1).toString()}. Place',
                         style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600))
@@ -405,10 +405,10 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           itemBuilder: (context, index) {
             return LevelCardMobile(
               icon: index == 0
-                  ? AppolloSvgIcon.trophy1
+                  ? AppolloIcons.trophy1
                   : index == 1
-                      ? AppolloSvgIcon.trophy2
-                      : AppolloSvgIcon.trophy3,
+                      ? AppolloIcons.trophy2
+                      : AppolloIcons.trophy3,
               children: [
                 AutoSizeText('${(index + 1).toString()}. Place',
                         style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600))

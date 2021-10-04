@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_home.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import '../../theme.dart';
 
@@ -139,7 +139,7 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
               const SizedBox(width: 10),
               Container(
                 height: 20,
-                child: SvgPicture.asset(_isExpanded ? AppolloSvgIcon.arrowup : AppolloSvgIcon.arrowdown,
+                child: SvgPicture.asset(_isExpanded ? AppolloIcons.arrowup : AppolloIcons.arrowdown,
                     color: MyTheme.appolloWhite),
               ),
             ],
@@ -200,7 +200,7 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
                   const SizedBox(width: 10),
                   Container(
                     height: 20,
-                    child: SvgPicture.asset(widget.isExpanded ? AppolloSvgIcon.arrowup : AppolloSvgIcon.arrowdown,
+                    child: SvgPicture.asset(widget.isExpanded ? AppolloIcons.arrowup : AppolloIcons.arrowdown,
                         color: MyTheme.appolloWhite),
                   ),
                 ],

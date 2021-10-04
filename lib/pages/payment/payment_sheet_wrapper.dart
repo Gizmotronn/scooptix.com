@@ -5,7 +5,7 @@ import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/payment/payment_page.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 class PaymentSheetWrapper extends StatefulWidget {
   final Event event;
@@ -39,7 +39,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
             Navigator.pop(context);
           },
           child: SvgPicture.asset(
-            AppolloSvgIcon.arrowBackOutline,
+            AppolloIcons.arrowBackOutline,
             color: MyTheme.appolloWhite,
             height: 36,
             width: 36,

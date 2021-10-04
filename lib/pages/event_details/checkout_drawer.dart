@@ -172,9 +172,8 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                     children: [
                       Text("Events Powered By", style: MyTheme.textTheme.bodyText2!.copyWith(color: Colors.grey))
                           .paddingRight(4),
-                      Text("appollo",
+                      Text("ScoopTix",
                           style: MyTheme.textTheme.subtitle1!.copyWith(
-                            fontFamily: "cocon",
                             color: MyTheme.appolloPurple,
                             fontSize: 18,
                           ))

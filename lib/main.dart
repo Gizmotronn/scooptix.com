@@ -16,7 +16,7 @@ import 'package:ticketapp/utilities/route/onGeneratedRoute.dart';
 import 'UI/event_overview/tabs/for_me.dart';
 import 'pages/reward_center/reward_center_sheet.dart';
 import 'services/bugsnag_wrapper.dart';
-import 'utilities/svg/icon.dart';
+import 'UI/icons.dart';
 import 'dart:html' as js;
 
 void main() {
@@ -59,7 +59,13 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'appollo - Patron Engagement Technologies',
+      scrollBehavior: MaterialScrollBehavior().copyWith(
+        dragDevices: {
+          PointerDeviceKind.touch,
+          PointerDeviceKind.mouse,
+        },
+      ),
+      title: 'ScoopTix - Patron Engagement Technologies',
       theme: MyTheme.theme,
       home: WrapperPage(),
     );
@@ -219,20 +225,20 @@ class _WrapperPageState extends State<WrapperPage> {
   List<BottomNavigationBarItem> _navBarsItems() {
     return [
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.home, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.home, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloIcons.home, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloIcons.home, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "Home"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.heartOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.heartOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "For Me"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.ticket, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.ticket, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "My Tickets"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloSvgIcon.reward, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloSvgIcon.reward, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: SvgPicture.asset(AppolloIcons.reward, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: SvgPicture.asset(AppolloIcons.reward, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "Rewards"),
     ];
   }

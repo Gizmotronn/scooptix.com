@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import '../../theme.dart';
 
@@ -17,7 +17,7 @@ class DotPoint extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SvgPicture.asset(
-          AppolloSvgIcon.dot,
+          AppolloIcons.dot,
           height: 8,
           width: 8,
           color: isActive ? MyTheme.appolloGreen : MyTheme.appolloGrey.withOpacity(.3),

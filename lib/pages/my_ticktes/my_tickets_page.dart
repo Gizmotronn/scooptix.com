@@ -5,7 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/ticket.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import 'bloc/my_tickets_bloc.dart';
 import 'myticket_card.dart';
@@ -110,7 +110,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
           Align(
               alignment: Alignment.center,
               child: SvgPicture.asset(
-                AppolloSvgIcon.tickets,
+                AppolloIcons.tickets,
                 width: MediaQuery.of(context).size.height * 0.3,
               )).paddingAll(MyTheme.elementSpacing),
           SizedBox.shrink(),

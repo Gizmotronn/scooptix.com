@@ -6,8 +6,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/utilities/images/images.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/images.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import 'event_card_desktop.dart';
 
@@ -104,7 +104,7 @@ class EventSearchFliter extends StatelessWidget {
         FliterTextField(
           title: 'Perth, Australie',
           prefixIcon: SvgPicture.asset(
-            AppolloSvgIcon.perthGps,
+            AppolloIcons.perthGps,
             height: 16,
             width: 16,
             color: MyTheme.appolloGrey,
@@ -125,7 +125,7 @@ class EventSearchFliter extends StatelessWidget {
                 child: FliterTextField(
               title: 'From',
               suffixIcon: SvgPicture.asset(
-                AppolloSvgIcon.calenderOutline,
+                AppolloIcons.calenderOutline,
                 height: 16,
                 width: 16,
                 color: MyTheme.appolloGrey,
@@ -135,7 +135,7 @@ class EventSearchFliter extends StatelessWidget {
                 child: FliterTextField(
                     title: 'To',
                     suffixIcon: SvgPicture.asset(
-                      AppolloSvgIcon.calenderOutline,
+                      AppolloIcons.calenderOutline,
                       height: 16,
                       width: 16,
                       color: MyTheme.appolloGrey,
@@ -281,7 +281,7 @@ class MoreEventSearch extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                      height: 22, child: SvgPicture.asset(AppolloSvgIcon.searchOutline, color: MyTheme.appolloBlack)),
+                      height: 22, child: SvgPicture.asset(AppolloIcons.searchOutline, color: MyTheme.appolloBlack)),
                   Container(
                     child: Expanded(
                       child: TextField(

@@ -13,7 +13,7 @@ import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart
 import '../../../pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/utilities/svg/icon.dart';
+import 'package:ticketapp/UI/icons.dart';
 
 import '../../../main.dart';
 import '../event_overview_home.dart';
@@ -30,9 +30,9 @@ class EventsForMe extends StatefulWidget {
 
 class _EventsForMeState extends State<EventsForMe> {
   List<Menu> _forMe = [
-    Menu('Events you may like', false, id: 0, svgIcon: AppolloSvgIcon.calender),
-    Menu('Favourite Organisers', false, id: 1, svgIcon: AppolloSvgIcon.people),
-    Menu('Events you liked', false, id: 2, svgIcon: AppolloSvgIcon.heart),
+    Menu('Events you may like', false, id: 0, svgIcon: AppolloIcons.calender),
+    Menu('Favourite Organisers', false, id: 1, svgIcon: AppolloIcons.people),
+    Menu('Events you liked', false, id: 2, svgIcon: AppolloIcons.heart),
   ];
 
   List<double> positions = [0, 0, 0];
@@ -69,7 +69,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         color: MyTheme.appolloGreen,
                         subTitle:
                             'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
-                        svgIcon: AppolloSvgIcon.calender,
+                        svgIcon: AppolloIcons.calender,
                       ),
                     ).paddingRight(MyTheme.elementSpacing),
                     SizedBox(
@@ -80,7 +80,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         subTitle:
                             'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
                         color: MyTheme.appolloOrange,
-                        svgIcon: AppolloSvgIcon.people,
+                        svgIcon: AppolloIcons.people,
                       ),
                     ).paddingRight(MyTheme.elementSpacing),
                     SizedBox(
@@ -91,7 +91,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         subTitle:
                             'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
                         color: MyTheme.appolloRed,
-                        svgIcon: AppolloSvgIcon.heart,
+                        svgIcon: AppolloIcons.heart,
                       ),
                     ),
                   ],
@@ -102,7 +102,7 @@ class _EventsForMeState extends State<EventsForMe> {
                     title: 'Create an account and discover the best event based on your preferences',
                     subTitle:
                         'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
-                    svgIcon: AppolloSvgIcon.person,
+                    svgIcon: AppolloIcons.person,
                     color: MyTheme.appolloPurple,
                     child: HoverAppolloButton(
                       onTap: () {
@@ -134,27 +134,27 @@ class _EventsForMeState extends State<EventsForMe> {
                       color: MyTheme.appolloGreen,
                       subTitle:
                           'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
-                      svgIcon: AppolloSvgIcon.calender,
+                      svgIcon: AppolloIcons.calender,
                     ).paddingBottom(MyTheme.elementSpacing),
                     ForMeCard(
                       title: 'Follow your favourite organisers',
                       subTitle:
                           'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
                       color: MyTheme.appolloOrange,
-                      svgIcon: AppolloSvgIcon.people,
+                      svgIcon: AppolloIcons.people,
                     ).paddingBottom(MyTheme.elementSpacing),
                     ForMeCard(
                       title: 'Like an event',
                       subTitle:
                           'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
                       color: MyTheme.appolloRed,
-                      svgIcon: AppolloSvgIcon.heart,
+                      svgIcon: AppolloIcons.heart,
                     ).paddingBottom(MyTheme.elementSpacing),
                     ForMeCard(
                       title: 'Create an account and discover the best event based on your preferences',
                       subTitle:
                           'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
-                      svgIcon: AppolloSvgIcon.person,
+                      svgIcon: AppolloIcons.person,
                       color: MyTheme.appolloPurple,
                       child: Padding(
                         padding: EdgeInsets.only(top: 4.0, left: MyTheme.elementSpacing, right: MyTheme.elementSpacing),
@@ -235,7 +235,7 @@ class _EventsForMeState extends State<EventsForMe> {
                 child: AppolloBackgroundCard(
                   child: Column(
                     children: [
-                      _forMeTags(context, tag: 'Events you may like', icon: AppolloSvgIcon.calender),
+                      _forMeTags(context, tag: 'Events you may like', icon: AppolloIcons.calender),
                       const SizedBox(height: 300),
                     ],
                   ),
@@ -247,7 +247,7 @@ class _EventsForMeState extends State<EventsForMe> {
                 child: AppolloBackgroundCard(
                   child: Column(
                     children: [
-                      _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloSvgIcon.people),
+                      _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloIcons.people),
                       const SizedBox(height: 300),
                     ],
                   ),
@@ -259,7 +259,7 @@ class _EventsForMeState extends State<EventsForMe> {
                 child: AppolloBackgroundCard(
                   child: Column(
                     children: [
-                      _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
+                      _forMeTags(context, tag: 'Events you liked', icon: AppolloIcons.heart),
                       AppolloEvents(
                           events: EventsRepository.instance.events
                               .where((element) =>
@@ -283,7 +283,7 @@ class _EventsForMeState extends State<EventsForMe> {
                   Container(
                     child: Column(
                       children: [
-                        _forMeTags(context, tag: 'Events you may like', icon: AppolloSvgIcon.calender),
+                        _forMeTags(context, tag: 'Events you may like', icon: AppolloIcons.calender),
                         AppolloEvents(events: EventsRepository.instance.upcomingPublicEvents.take(5).toList()),
                       ],
                     ),
@@ -291,7 +291,7 @@ class _EventsForMeState extends State<EventsForMe> {
                   Container(
                     child: Column(
                       children: [
-                        _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloSvgIcon.people),
+                        _forMeTags(context, tag: 'Favourite Organisers', icon: AppolloIcons.people),
                         AppolloEvents(events: EventsRepository.instance.upcomingPublicEvents.take(5).toList()),
                       ],
                     ),
@@ -299,7 +299,7 @@ class _EventsForMeState extends State<EventsForMe> {
                   Container(
                     child: Column(
                       children: [
-                        _forMeTags(context, tag: 'Events you liked', icon: AppolloSvgIcon.heart),
+                        _forMeTags(context, tag: 'Events you liked', icon: AppolloIcons.heart),
                         AppolloEvents(
                             events: EventsRepository.instance.events
                                 .where((element) =>

@@ -14,7 +14,7 @@ import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
-import '../../../utilities/svg/icon.dart';
+import '../../../UI/icons.dart';
 
 class MakeBooking extends StatefulWidget {
   const MakeBooking({
@@ -90,12 +90,12 @@ class _MakeBookingState extends State<MakeBooking> {
               textIcons: [
                 IconText(
                   text: 'VIP Tickets for all Guests',
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                   iconSize: 8,
                 ),
                 IconText(
                   text: 'Private Room & Bar',
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                   iconSize: 8,
                 ),
               ],
@@ -107,11 +107,11 @@ class _MakeBookingState extends State<MakeBooking> {
                 IconText(
                   text: 'VIP Tickets for all Guests',
                   iconSize: 8,
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                 ),
                 IconText(
                   text: 'Private Room & Bar',
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                   iconSize: 8,
                 ),
               ],
@@ -123,12 +123,12 @@ class _MakeBookingState extends State<MakeBooking> {
                 IconText(
                   text: 'VIP Tickets for all Guests',
                   iconSize: 8,
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                 ),
                 IconText(
                   text: 'Private Room & Bar',
                   iconSize: 8,
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                 ),
               ],
             ),
@@ -157,7 +157,7 @@ class _MakeBookingState extends State<MakeBooking> {
                 5,
                 (index) => IconText(
                   text: 'Private Room & Bar',
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                   iconSize: 8,
                 ),
               ),
@@ -170,7 +170,7 @@ class _MakeBookingState extends State<MakeBooking> {
                 (index) => IconText(
                   text: 'VIP Tickets for all Guests',
                   iconSize: 8,
-                  icon: AppolloSvgIcon.dot,
+                  icon: AppolloIcons.dot,
                 ),
               ),
             ),
@@ -223,7 +223,7 @@ class _MakeBookingState extends State<MakeBooking> {
                         return IconText(
                           text: booking.benefits[index],
                           iconSize: 8,
-                          icon: AppolloSvgIcon.dot,
+                          icon: AppolloIcons.dot,
                         );
                       },
                       itemCount: booking.benefits.length)
