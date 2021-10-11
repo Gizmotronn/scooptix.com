@@ -93,6 +93,7 @@ class _EventTicketsState extends State<EventTickets> {
                                     return TicketCard(
                                         release: widget.event.getLinkTypeValidReleaseManagers()[index],
                                         color: color,
+                                        event: widget.event,
                                         onQuantityChanged: (q) {
                                           if (q == 0 &&
                                               selectedTickets.containsKey(widget.event

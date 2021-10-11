@@ -160,7 +160,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                                   Text("You can't invite yourself to this event", style: MyTheme.textTheme.bodyText2))
                           : PaymentPage(
                               widget.event,
-                              maxHeight: screenSize.height - 296,
+                              maxHeight: screenSize.height - 302,
                               selectedTickets: widget.selectedTickets,
                               discount: widget.discount,
                             ),
@@ -171,7 +171,8 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("Events Powered By", style: MyTheme.textTheme.bodyText2!.copyWith(color: Colors.grey))
-                          .paddingRight(4),
+                          .paddingRight(4)
+                          .paddingBottom(4),
                       Text("ScoopTix",
                           style: MyTheme.textTheme.subtitle1!.copyWith(
                             color: MyTheme.appolloPurple,

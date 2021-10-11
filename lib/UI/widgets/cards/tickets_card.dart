@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ticketapp/UI/event_details/widget/dotpoin.dart';
+import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/release_manager.dart';
 import '../../../UI/theme.dart';
 
@@ -9,7 +10,9 @@ class TicketCard extends StatefulWidget {
   final ReleaseManager release;
   final Color color;
   final Function onQuantityChanged;
-  const TicketCard({Key? key, required this.release, required this.color, required this.onQuantityChanged})
+  final Event event;
+  const TicketCard(
+      {Key? key, required this.release, required this.color, required this.onQuantityChanged, required this.event})
       : super(key: key);
 
   @override
@@ -81,7 +84,7 @@ class _TicketCardState extends State<TicketCard> {
                             lineThrough: true),
                     ],
                   ),
-                ).paddingBottom(16),
+                ).paddingBottom(MyTheme.elementSpacing),
                 if (widget.release.getFullPrice()! > widget.release.getActiveRelease()!.price!)
                   _saveUp(context,
                           savePrice:
@@ -89,24 +92,18 @@ class _TicketCardState extends State<TicketCard> {
                                   .toStringAsFixed(2),
                           countdown:
                               "${widget.release.getActiveRelease()!.releaseEnd!.difference(DateTime.now()).inHours} HOURS")
-                      .paddingBottom(16),
-                Column(
-                  children: List.generate(widget.release.includedPerks.length,
-                      (index) => DotPoint(text: widget.release.includedPerks[index], isActive: true)),
-                ),
-                Column(
-                  children: List.generate(widget.release.includedPerks.length,
-                      (index) => DotPoint(text: widget.release.excludedPerks[index], isActive: false)),
-                ),
+                      .paddingBottom(MyTheme.elementSpacing),
+                ..._buildPerks()
               ],
             ),
           ).paddingTop(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing),
         ),
       );
     } else if (widget.release.getNextRelease() != null) {
-      if (widget.release.getNextRelease()!.releaseStart!.isAfter(DateTime.now())) {
+      int index = widget.release.releases.indexWhere((element) => element.releaseStart!.isAfter(DateTime.now()));
+      if (index != -1) {
         return AutoSizeText(
-                "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.getNextRelease()!.releaseStart!)}",
+                "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.releases[index].releaseStart!)}",
                 style: MyTheme.textTheme.subtitle1,
                 textAlign: TextAlign.center)
             .paddingAll(MyTheme.elementSpacing);
@@ -119,6 +116,33 @@ class _TicketCardState extends State<TicketCard> {
               style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
           .paddingAll(MyTheme.elementSpacing);
     }
+  }
+
+  List<Widget> _buildPerks() {
+    List<Widget> active = [];
+    List<Widget> inActive = [];
+    print(widget.release.availablePerks);
+    for (int i = 0; i < widget.event.availablePerks.length; i++) {
+      if (widget.release.availablePerks.contains(i)) {
+        active.add(DotPoint(
+          text: widget.event.availablePerks[i].short,
+          isActive: true,
+        ));
+      } else {
+        inActive.add(DotPoint(
+          text: widget.event.availablePerks[i].short,
+          isActive: false,
+        ));
+      }
+    }
+    return [
+      Column(
+        children: active,
+      ),
+      Column(
+        children: inActive,
+      ).paddingBottom(MyTheme.elementSpacing)
+    ];
   }
 
   Widget _priceTag(BuildContext context, {required String tagName, required String price, bool lineThrough = false}) =>

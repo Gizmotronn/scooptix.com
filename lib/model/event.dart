@@ -1,5 +1,6 @@
 import 'package:ticketapp/model/custom_event_info.dart';
 import 'package:ticketapp/model/link_type/invitation.dart';
+import 'package:ticketapp/model/perk.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
@@ -55,7 +56,8 @@ class Event {
   BirthdayEventData? birthdayEventData;
   PreSale? preSale;
   List<CustomEventInfo> customEventInfo = [];
-  // We use this as an indicator that event tickets are still loading asynchronously
+  List<Perk> availablePerks = [];
+// We use this as an indicator that event tickets are still loading asynchronously
   // This means we don't have to wait on
   bool ticketsStillLoading = false;
 
@@ -307,6 +309,12 @@ class Event {
             CustomEventInfo eventInfo = CustomEventInfo.fromMap(info);
             event.customEventInfo.add(eventInfo);
           } catch (_) {}
+        });
+      }
+
+      if (data.containsKey("available_perks")) {
+        data["available_perks"].forEach((p) {
+          event.availablePerks.add(Perk(p["short"], p["description"]));
         });
       }
 

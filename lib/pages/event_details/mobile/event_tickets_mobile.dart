@@ -78,7 +78,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
           ).paddingBottom(MyTheme.elementSpacing),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 500,
+            height: 440,
             child: buildTickets(context),
           ),
           AppolloDivider(),
@@ -93,6 +93,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
         child: TicketCard(
             release: widget.event.getLinkTypeValidReleaseManagers()[0],
             color: ticketColor[0],
+            event: widget.event,
             onQuantityChanged: (q) {
               if (q == 0 &&
                   selectedTickets.containsKey(widget.event.getLinkTypeValidReleaseManagers()[0].getActiveRelease())) {
@@ -146,6 +147,7 @@ class _EventTicketsMobileState extends State<EventTicketsMobile> {
                 return TicketCard(
                     release: widget.event.getLinkTypeValidReleaseManagers()[index],
                     color: color,
+                    event: widget.event,
                     onQuantityChanged: (q) {
                       if (q == 0 &&
                           selectedTickets

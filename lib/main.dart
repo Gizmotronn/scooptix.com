@@ -120,6 +120,7 @@ class _WrapperPageState extends State<WrapperPage> {
             WrapperPage.drawerOpen = d;
           });
         },
+        endDrawerEnableOpenDragGesture: false,
         endDrawer: ValueListenableBuilder(
             valueListenable: WrapperPage.endDrawer,
             builder: (context, value, child) {

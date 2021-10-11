@@ -19,9 +19,9 @@ import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../icons.dart';
 import '../theme.dart';
-import '../widgets/popups/appollo_popup.dart';
+import '../widgets/popups/appollo_dropdown.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/popups/appollo_popup.dart';
+import 'package:ticketapp/UI/widgets/popups/appollo_dropdown.dart';
 import 'package:ticketapp/UI/icons.dart';
 
 import 'event_overview_home.dart';
