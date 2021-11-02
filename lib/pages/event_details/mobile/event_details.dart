@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../bookings/make_booking.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/app_bar.dart';
+import 'package:ticketapp/pages/event_details/birthday_list/make_booking.dart';
 import 'package:ticketapp/pages/event_details/mobile/event_info.dart';
 import 'package:ticketapp/pages/event_details/sections/event_description.dart';
 import 'package:ticketapp/pages/event_details/sections/event_gallery.dart';

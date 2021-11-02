@@ -10,37 +10,16 @@ import 'package:ticketapp/UI/responsive_table/responsive_table.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
-import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
-import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/bloc/birthday_list_bloc.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class BirthdayDrawer extends StatefulWidget {
   final Event event;
-  final BookingData booking;
 
-  const BirthdayDrawer({Key? key, required this.event, required this.booking}) : super(key: key);
-
-  static openBookingsDrawer(Event event, BookingData booking) {
-    if (!UserRepository.instance.isLoggedIn) {
-      WrapperPage.endDrawer.value = AuthenticationDrawer(
-        onAutoAuthenticated: () {
-          WrapperPage.endDrawer.value = BirthdayDrawer(event: event, booking: booking);
-          WrapperPage.mainScaffold.currentState!.openEndDrawer();
-        },
-      );
-      WrapperPage.mainScaffold.currentState!.openEndDrawer();
-    } else {
-      WrapperPage.endDrawer.value = BirthdayDrawer(event: event, booking: booking);
-      WrapperPage.mainScaffold.currentState!.openEndDrawer();
-    }
-  }
+  const BirthdayDrawer({Key? key, required this.event}) : super(key: key);
 
   @override
   _BirthdayDrawerState createState() => _BirthdayDrawerState();
@@ -104,7 +83,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                 color: MyTheme.appolloRed,
               ),
             ),
-          ).paddingRight(16).paddingTop(8),
+          ).paddingTop(16).paddingRight(16).paddingTop(8),
           Container(
             padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),
             height: screenSize.height - 58,
@@ -203,75 +182,6 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                   ],
                                 ),
                               ),
-                            );
-                          } else if (state is StateNoList) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                AutoSizeText("Create your birthday list.",
-                                        maxLines: 2, style: MyTheme.textTheme.headline2)
-                                    .paddingBottom(MyTheme.elementSpacing),
-                                AutoSizeText("Celebrate in style!",
-                                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
-                                    .paddingBottom(MyTheme.elementSpacing),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: widget.event.birthdayEventData!.benefits.length,
-                                  itemBuilder: (context, index) {
-                                    return Row(
-                                      children: [
-                                        Center(
-                                          child: Container(
-                                            decoration:
-                                                ShapeDecoration(shape: CircleBorder(), color: MyTheme.appolloGreen),
-                                            height: 12,
-                                            width: 12,
-                                          ).paddingRight(MyTheme.elementSpacing),
-                                        ),
-                                        Center(
-                                            child: Text(
-                                          widget.event.birthdayEventData!.benefits[index],
-                                          style: MyTheme.textTheme.bodyText1,
-                                        )),
-                                      ],
-                                    ).paddingBottom(8);
-                                  },
-                                ).paddingBottom(MyTheme.elementSpacing),
-                                AutoSizeText("How many guests are you inviting?",
-                                        style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
-                                    .paddingBottom(MyTheme.elementSpacing),
-                                ReactiveForm(
-                                  formGroup: form,
-                                  child: AppolloTextField.reactive(
-                                    formControl: form.controls["numGuests"],
-                                    validationMessages: (control) => {
-                                      ValidationMessage.required: 'Please provide an estimate',
-                                      ValidationMessage.number: 'Please provide an estimate',
-                                    },
-                                    labelText: "Guests",
-                                  ).paddingBottom(MyTheme.elementSpacing),
-                                ),
-                                _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
-                                Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: AppolloButton.regularButton(
-                                        fill: true,
-                                        color: MyTheme.appolloGreen,
-                                        child: Text(
-                                          "Create",
-                                          style:
-                                              MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
-                                        ),
-                                        onTap: () {
-                                          if (form.valid) {
-                                            bloc.add(EventCreateList(
-                                                widget.event, form.value["numGuests"] as int, widget.booking));
-                                          } else {
-                                            form.markAllAsTouched();
-                                          }
-                                        })),
-                              ],
                             );
                           } else if (state is StateTooFarAway) {
                             return Container(

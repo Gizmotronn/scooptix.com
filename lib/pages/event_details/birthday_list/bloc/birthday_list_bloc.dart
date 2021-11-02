@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
+import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/birthdaylist_repository.dart';
 import 'package:ticketapp/repositories/ticket_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -22,7 +24,20 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
     if (event is EventLoadExistingList) {
       yield* _loadExistingList(event.event);
     } else if (event is EventCreateList) {
-      yield* _createList(event.event, event.numGuests);
+      yield* _createList(event.event, event.booking, event.numGuests);
+    } else if (event is EventLoadBookingData) {
+      yield* _loadBookingData(event.event);
+    }
+  }
+
+  Stream<BirthdayListState> _loadBookingData(Event event) async* {
+    yield StateLoading();
+    BookingData? booking = await BirthdayListRepository.instance.loadBookingData(event);
+    print(booking);
+    if (booking != null) {
+      yield StateBookingData(booking);
+    } else {
+      yield StateNoBookingsAvailable();
     }
   }
 
@@ -43,21 +58,24 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
     }
   }
 
-  Stream<BirthdayListState> _createList(Event event, int numGuests) async* {
+  Stream<BirthdayListState> _createList(Event event, BookingData booking, int numGuests) async* {
     yield StateCreatingList();
-    String uuid = await BirthdayListRepository.instance
-        .createOrLoadUUIDMap(event, UserRepository.instance.currentUser()!.firebaseUserID, "", numGuests);
+    String? uuid = await BirthdayListRepository.instance.makeBooking(event, booking, numGuests);
     // Issue ticket for list creator
-    // TODO: select correct ticket release
-    TicketRepository.instance.acceptInvitation(event, event.getManagersWithActiveReleases()[0].getActiveRelease()!);
-    yield StateExistingList(BirthdayList()
-      ..uuid = uuid
-      ..estGuests = numGuests
-      ..attendees = [
-        AttendeeTicket()
-          ..dateAccepted = DateTime.now()
-          ..name =
-              "${UserRepository.instance.currentUser()!.firstname} ${UserRepository.instance.currentUser()!.lastname}"
-      ]);
+    TicketRelease? bookingTicket = event.getReleaseForBooking();
+    if (uuid == null || bookingTicket == null) {
+      yield StateError("Bookings are currently not available. Sorry for any inconvenience.");
+    } else {
+      //TicketRepository.instance.acceptInvitation(event, bookingTicket);
+      yield StateExistingList(BirthdayList()
+        ..uuid = uuid
+        ..estGuests = numGuests
+        ..attendees = [
+          AttendeeTicket()
+            ..dateAccepted = DateTime.now()
+            ..name =
+                "${UserRepository.instance.currentUser()!.firstname} ${UserRepository.instance.currentUser()!.lastname}"
+        ]);
+    }
   }
 }

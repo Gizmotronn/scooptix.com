@@ -188,6 +188,16 @@ class Event {
     return releases;
   }
 
+  TicketRelease? getReleaseForBooking() {
+    for (int i = 0; i < releaseManagers.length; i++) {
+      if (releaseManagers[i].isAvailableFor("booking")) {
+        TicketRelease? tr = releaseManagers[i].releases[0];
+        return tr;
+      }
+    }
+    return null;
+  }
+
   factory Event.fromMap(String docId, Map<String, dynamic> data) {
     try {
       Event event = Event._internal();

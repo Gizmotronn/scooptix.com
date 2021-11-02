@@ -11,9 +11,7 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
-import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -24,18 +22,17 @@ import 'bloc/birthday_list_bloc.dart';
 
 class BirthdaySheet extends StatefulWidget {
   final Event event;
-  final BookingData booking;
-  BirthdaySheet._(this.event, this.booking);
+  BirthdaySheet._(this.event);
 
   /// Makes sure the user is logged in before opening the My Ticket Sheet
-  static openBirthdaySheet(Event event, BookingData booking) {
+  static openBirthdaySheet(Event event) {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
           backgroundColor: MyTheme.appolloBackgroundColorLight,
           expand: true,
           settings: RouteSettings(name: "birthday_sheet"),
-          builder: (context) => BirthdaySheet._(event, booking));
+          builder: (context) => BirthdaySheet._(event));
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
@@ -49,7 +46,7 @@ class BirthdaySheet extends StatefulWidget {
                       backgroundColor: MyTheme.appolloBackgroundColorLight,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
-                      builder: (context) => BirthdaySheet._(event, booking));
+                      builder: (context) => BirthdaySheet._(event));
                 },
               ));
     }
@@ -220,74 +217,6 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                         ),
                       ],
                     ),
-                  );
-                } else if (state is StateNoList) {
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText("Celebrate in style!",
-                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen))
-                          .paddingBottom(MyTheme.elementSpacing * 2)
-                          .paddingTop(MyTheme.elementSpacing),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: widget.event.birthdayEventData!.benefits.length,
-                        itemBuilder: (context, index) {
-                          return Row(
-                            children: [
-                              Center(
-                                child: Container(
-                                  decoration: ShapeDecoration(shape: CircleBorder(), color: MyTheme.appolloGreen),
-                                  height: 12,
-                                  width: 12,
-                                ).paddingRight(MyTheme.elementSpacing),
-                              ),
-                              Center(
-                                  child: Text(
-                                widget.event.birthdayEventData!.benefits[index],
-                                style: MyTheme.textTheme.bodyText1,
-                              )),
-                            ],
-                          ).paddingBottom(8);
-                        },
-                      ).paddingBottom(MyTheme.elementSpacing),
-                      AutoSizeText("How many guests are you inviting?",
-                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
-                          .paddingBottom(MyTheme.elementSpacing),
-                      ReactiveForm(
-                        formGroup: form,
-                        child: AppolloTextField.reactive(
-                          formControl: form.controls["numGuests"],
-                          validationMessages: (control) => {
-                            ValidationMessage.required: 'Please provide an estimate',
-                            ValidationMessage.number: 'Please provide an estimate',
-                          },
-                          labelText: "Guests",
-                        ).paddingBottom(MyTheme.elementSpacing),
-                      ),
-                      _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
-                      Expanded(
-                        child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: AppolloButton.regularButton(
-                                width: screenSize.width,
-                                fill: true,
-                                color: MyTheme.appolloGreen,
-                                child: Text(
-                                  "Create",
-                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
-                                ),
-                                onTap: () {
-                                  if (form.valid) {
-                                    bloc.add(
-                                        EventCreateList(widget.event, form.value["numGuests"] as int, widget.booking));
-                                  } else {
-                                    form.markAllAsTouched();
-                                  }
-                                })).paddingBottom(MyTheme.elementSpacing * 2),
-                      ),
-                    ],
                   );
                 } else if (state is StateTooFarAway) {
                   return Container(

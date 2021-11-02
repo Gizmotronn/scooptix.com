@@ -342,10 +342,12 @@ class TicketRepository {
         .where("promoter", isEqualTo: promoterId)
         .get();
     await Future.wait(passSnaphot.docs.map((e) async {
-      attendees.add(AttendeeTicket()
-        ..docId = e.id
-        ..name = e.get("firstname") + " " + e.get("lastname")
-        ..dateAccepted = DateTime.fromMillisecondsSinceEpoch(e.get("requesttime").millisecondsSinceEpoch));
+      if (!attendees.any((element) => element.docId == e.id)) {
+        attendees.add(AttendeeTicket()
+          ..docId = e.id
+          ..name = e.get("firstname") + " " + e.get("lastname")
+          ..dateAccepted = DateTime.fromMillisecondsSinceEpoch(e.get("requesttime").millisecondsSinceEpoch));
+      }
     }));
     return attendees;
   }

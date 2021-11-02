@@ -1,6 +1,18 @@
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
+enum TicketType { Fixed, Free, Staged }
+
+extension TicketTypeExtension on TicketType {
+  String toDBString() {
+    return this.toString().split(".")[1].toLowerCase();
+  }
+
+  String toDisplayString() {
+    return this.toString().split(".")[1];
+  }
+}
+
 class ReleaseManager {
   String? docId;
   String? name;
@@ -14,6 +26,7 @@ class ReleaseManager {
   bool singleTicketRestriction = false;
   List<int> availablePerks = [];
   String? recurringUUID;
+  TicketType ticketType = TicketType.Fixed;
 
   /// Stores the link types this release is available for
   List<String>? availableFor;
@@ -29,23 +42,31 @@ class ReleaseManager {
   }
 
   TicketRelease? getActiveRelease() {
-    // Sort by earliest release start first
-    releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
-    for (int i = 0; i < releases.length; i++) {
-      // Autorelease should only start after the first release has sold out
-      if (autoRelease && releases[i].releaseStart!.isAfter(DateTime.now())) {
+    if (ticketType == TicketType.Staged) {
+      // Sort by earliest release start first
+      releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
+      for (int i = 0; i < releases.length; i++) {
+        // Autorelease should only start after the first release has sold out
+        if (autoRelease && releases[i].releaseStart!.isAfter(DateTime.now())) {
+          return null;
+        }
+
+        // If autorelease is true, we can ignore the release start time if the first release is already sold out
+        // This is why we sort the releases first
+        if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+            releases[i].releaseEnd!.isAfter(DateTime.now()) &&
+            releases[i].maxTickets > releases[i].ticketsBought) {
+          return releases[i];
+        }
+      }
+      return null;
+    } else {
+      if (releases.isNotEmpty) {
+        return releases[0];
+      } else {
         return null;
       }
-
-      // If autorelease is true, we can ignore the release start time if the first release is already sold out
-      // This is why we sort the releases first
-      if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
-          releases[i].releaseEnd!.isAfter(DateTime.now()) &&
-          releases[i].maxTickets > releases[i].ticketsBought) {
-        return releases[i];
-      }
     }
-    return null;
   }
 
   /// Returns the next release that will be active, which might not be active right now
@@ -114,6 +135,10 @@ class ReleaseManager {
       }
       if (data.containsKey("recurring_uuid")) {
         rm.recurringUUID = data["recurring_uuid"];
+      }
+      if (data.containsKey("ticket_type")) {
+        rm.ticketType = TicketType.values
+            .firstWhere((element) => element.toDBString() == data["ticket_type"], orElse: () => TicketType.Fixed);
       }
       if (data.containsKey("available_for")) {
         rm.availableFor = [];

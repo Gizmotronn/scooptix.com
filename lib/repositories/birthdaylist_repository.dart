@@ -1,9 +1,13 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
 import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/services/uuid_generator.dart';
+import 'package:ticketapp/services/bugsnag_wrapper.dart';
+import 'package:http/http.dart' as http;
 
 enum BirthdayListStatus { Pending, Declined, Accepted }
 
@@ -57,28 +61,27 @@ class BirthdayListRepository {
     }
   }
 
-  Future<String> createOrLoadUUIDMap(Event event, String creatorId, String message, int numGuests) async {
-    QuerySnapshot uuidSnapshot = await FirebaseFirestore.instance
-        .collection("uuidmap")
-        .where("event", isEqualTo: event.docID)
-        .where("promoter", isEqualTo: creatorId)
-        .where("type", isEqualTo: "birthdaylist")
-        .get();
-    if (uuidSnapshot.docs.length != 0) {
-      return uuidSnapshot.docs[0].get("uuid");
-    } else {
-      String uuid = await UUIDGenerator.createNewUUID();
-      await FirebaseFirestore.instance.collection("uuidmap").add({
-        'uuid': uuid,
-        'type': "birthdaylist",
-        'event': event.docID,
-        'eventdate': event.date,
-        'promoter': creatorId,
-        'message': message,
-        "num_guests": numGuests,
-        'status': BirthdayListStatus.Pending.getDBString()
+  Future<String?> makeBooking(Event event, BookingData booking, int numGuests) async {
+    http.Response? response;
+    try {
+      response = await http.post(Uri.parse("https://appollo-devops.web.app/acceptBirthdaylist"), body: {
+        "uid": UserRepository.instance.currentUser()!.firebaseUserID,
+        "eventid": event.docID,
+        "booking": booking.docId,
+        "guests": numGuests.toString()
       });
-      return uuid;
+      print(response.statusCode);
+      print(response.body);
+    } on SocketException catch (ex) {
+      print(ex);
+      BugsnagNotifier.instance.notify("Error making booking\n $ex", StackTrace.empty, severity: ErrorSeverity.error);
+    }
+    if (response != null && response.statusCode == 200) {
+      return json.decode(response.body)["uuid"];
+    } else {
+      BugsnagNotifier.instance
+          .notify("Error making booking\n $response", StackTrace.empty, severity: ErrorSeverity.error);
+      return null;
     }
   }
 

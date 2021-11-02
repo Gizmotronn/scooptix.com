@@ -3,13 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
-import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/bookings/booking_data.dart';
-import 'package:ticketapp/pages/event_details/bookings/bloc/bookings_bloc.dart';
-import '../../authentication/authentication_drawer.dart';
+import 'package:ticketapp/pages/event_details/birthday_list/bloc/birthday_list_bloc.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_sheet.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
 import '../../../UI/theme.dart';
 import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
@@ -29,11 +26,11 @@ class MakeBooking extends StatefulWidget {
 }
 
 class _MakeBookingState extends State<MakeBooking> {
-  late BookingsBloc bloc;
+  late BirthdayListBloc bloc;
 
   @override
   void initState() {
-    bloc = BookingsBloc();
+    bloc = BirthdayListBloc();
     bloc.add(EventLoadBookingData(widget.event));
     super.initState();
   }
@@ -46,7 +43,7 @@ class _MakeBookingState extends State<MakeBooking> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BookingsBloc, BookingsState>(
+    return BlocBuilder<BirthdayListBloc, BirthdayListState>(
       bloc: bloc,
       builder: (context, state) {
         if (state is StateBookingData) {
@@ -258,18 +255,12 @@ class _MakeBookingState extends State<MakeBooking> {
                     onTap: () {
                       if (getValueForScreenType(
                           context: context, watch: false, mobile: false, tablet: true, desktop: true)) {
-                        if (UserRepository.instance.isLoggedIn) {
-                          WrapperPage.endDrawer.value = BirthdayDrawer(
-                            event: widget.event,
-                          );
-                          WrapperPage.mainScaffold.currentState!.openEndDrawer();
-                        } else {
-                          WrapperPage.endDrawer.value = AuthenticationDrawer();
-                          WrapperPage.mainScaffold.currentState!.openEndDrawer();
-                          UserRepository.instance.currentUserNotifier.addListener(_tryOpenBirthdayDrawer());
-                        }
+                        BirthdayDrawer.openBookingsDrawer(
+                          widget.event,
+                          booking,
+                        );
                       } else {
-                        BirthdaySheet.openBirthdaySheet(widget.event);
+                        BirthdaySheet.openBirthdaySheet(widget.event, booking);
                       }
                     },
                   ),
@@ -281,16 +272,4 @@ class _MakeBookingState extends State<MakeBooking> {
             .appolloCard(color: MyTheme.appolloCardColor, borderRadius: BorderRadius.circular(16))
             .paddingHorizontal(MyTheme.elementSpacing),
       );
-
-  VoidCallback _tryOpenBirthdayDrawer() {
-    return () {
-      if (UserRepository.instance.isLoggedIn) {
-        WrapperPage.endDrawer.value = BirthdayDrawer(
-          event: widget.event,
-        );
-        WrapperPage.mainScaffold.currentState!.openEndDrawer();
-      }
-      UserRepository.instance.currentUserNotifier.removeListener(_tryOpenBirthdayDrawer());
-    };
-  }
 }

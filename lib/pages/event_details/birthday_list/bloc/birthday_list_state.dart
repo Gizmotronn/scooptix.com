@@ -20,3 +20,17 @@ class StateExistingList extends BirthdayListState {
 class StateNoList extends BirthdayListState {}
 
 class StateTooFarAway extends BirthdayListState {}
+
+class StateError extends BirthdayListState {
+  final String message;
+
+  const StateError(this.message);
+}
+
+class StateBookingData extends BirthdayListState {
+  final BookingData booking;
+
+  const StateBookingData(this.booking);
+}
+
+class StateNoBookingsAvailable extends BirthdayListState {}

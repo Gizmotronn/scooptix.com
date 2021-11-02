@@ -113,15 +113,9 @@ class UserRepository {
   }
 
   Future<Promoter> loadPromoter(String uid) async {
-    DocumentSnapshot<Map<String, dynamic>> promoterSnapshot =
-        await FirebaseFirestore.instance.collection('promoters').doc(uid).get();
-    if (promoterSnapshot.exists) {
-      return Promoter.fromMap(promoterSnapshot.id, promoterSnapshot.data()!);
-    } else {
-      DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      return Promoter.fromMap(userSnapshot.id, userSnapshot.data()!);
-    }
+    DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    return Promoter.fromMap(userSnapshot.id, userSnapshot.data()!);
   }
 
   Future<void> updateUserProfileImage(Uint8List image) async {
