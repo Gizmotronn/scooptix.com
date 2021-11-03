@@ -7,6 +7,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/theme.dart';
+import 'package:ticketapp/pages/bookings/bookings_sheet.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/pages/landing_page/landing_page.dart';
@@ -196,9 +197,16 @@ class _WrapperPageState extends State<WrapperPage> {
                                 route.settings.name == EventOverviewPage.routeName ||
                                 route.settings.name == null ||
                                 route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
-                            MyTicketsSheet.openMyTicketsSheet();
+                            BookingsSheet.openBookingsSheet();
                             break;
                           case 3:
+                            Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
+                                route.settings.name == EventOverviewPage.routeName ||
+                                route.settings.name == null ||
+                                route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
+                            MyTicketsSheet.openMyTicketsSheet();
+                            break;
+                          case 4:
                             Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
                                 route.settings.name == EventOverviewPage.routeName ||
                                 route.settings.name == null ||
@@ -233,6 +241,11 @@ class _WrapperPageState extends State<WrapperPage> {
           icon: SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
           activeIcon: SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "For Me"),
+      BottomNavigationBarItem(
+          icon: SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon:
+              SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
+          label: "My Bookings"),
       BottomNavigationBarItem(
           icon: SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloWhite, width: 24, height: 24),
           activeIcon: SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloGreen, width: 24, height: 24),

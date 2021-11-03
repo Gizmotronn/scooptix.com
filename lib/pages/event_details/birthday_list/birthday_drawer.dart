@@ -153,16 +153,16 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       color: MyTheme.appolloBackgroundColorLight,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
-                                          Share.share("appollo.io/?id=${state.birthdayList.uuid}",
-                                              subject: 'Appollo Event Invitation');
+                                          Share.share("scooptix.com/?id=${state.birthdayList.uuid}",
+                                              subject: 'ScoopTix Event Invitation');
                                         } else {
-                                          FlutterClipboard.copy("appollo.io/?id=${state.birthdayList.uuid}");
+                                          FlutterClipboard.copy("scooptix.com/?id=${state.birthdayList.uuid}");
                                         }
                                       },
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: AutoSizeText(
-                                          "appollo.io/?id=${state.birthdayList.uuid}",
+                                          "scooptix.com/?id=${state.birthdayList.uuid}",
                                           style: MyTheme.textTheme.bodyText2,
                                         ),
                                       ),
@@ -176,7 +176,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       child: ResponsiveDatatable(
                                         headers: _headers,
                                         source: _buildAttendeeTable(state.birthdayList.attendees),
-                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor),
+                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
                                         itemPaddingVertical: 8,
                                         headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                         headerDecoration: BoxDecoration(
@@ -310,26 +310,32 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                               ),
                             );
                           } else if (state is StateCreatingList) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                AppolloProgressIndicator().paddingBottom(8),
-                                Text("Creating your birthday list ...")
-                              ],
+                            return SizedBox(
+                              height: screenSize.height,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  AppolloProgressIndicator().paddingBottom(8),
+                                  Text("Creating your birthday list ...")
+                                ],
+                              ),
                             );
                           } else if (state is StateError) {
                             return Center(
                               child: Text(state.message),
                             );
                           } else {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                AppolloProgressIndicator().paddingBottom(8),
-                                Text("Loading Birthday List Data ...")
-                              ],
+                            return SizedBox(
+                              height: screenSize.height,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  AppolloProgressIndicator().paddingBottom(8),
+                                  Text("Loading Birthday List Data ...")
+                                ],
+                              ),
                             );
                           }
                         }),

@@ -3,5 +3,6 @@ class BookingData {
   String? docId;
   int price = 0;
   List<String> benefits = [];
-  int maxGuests = 0;
+
+  BookingData();
 }

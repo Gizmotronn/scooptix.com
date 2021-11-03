@@ -4,7 +4,7 @@ class AppolloIcons {
   static const String arrowdown = 'assets/icons/arrow-ios-downward-outline.svg';
   static const String arrowup = 'assets/icons/arrow-ios-upward-outline.svg';
   static const String cake = 'assets/icons/cake.svg';
-  static const String calender = 'assets/icons/calender.svg';
+  static const String calender = 'assets/icons/calendar.svg';
   static const String calenderOutline = 'assets/icons/calender_outline.svg';
   static const String clipboard = 'assets/icons/clipboard-outline.svg';
   static const String clock = 'assets/icons/clock.svg';

@@ -3,8 +3,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
+import 'package:ticketapp/model/bookings/booking.dart';
 import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/repositories/ticket_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 import 'package:http/http.dart' as http;
@@ -49,7 +51,7 @@ class BirthdayListRepository {
     _instance = null;
   }
 
-  Future<BookingData?> loadBookingData(Event event) async {
+  Future<BookingData?> loadBookingDataForEvent(Event event) async {
     QuerySnapshot bookingsSnapshot =
         await FirebaseFirestore.instance.collection("ticketevents").doc(event.docID).collection("bookings").get();
     if (bookingsSnapshot.size > 0) {
@@ -61,12 +63,42 @@ class BirthdayListRepository {
     }
   }
 
+  Future<List<Booking>> loadBookingData() async {
+    QuerySnapshot bookingsSnapshot = await FirebaseFirestore.instance
+        .collection("uuidmap")
+        .where("uid", isEqualTo: UserRepository.instance.currentUser()!.firebaseUserID)
+        .where("eventdate", isGreaterThan: DateTime.now().subtract(Duration(hours: 12)))
+        .get();
+    List<Booking> bookings = [];
+
+    await Future.wait(bookingsSnapshot.docs.map((element) async {
+      DocumentSnapshot bSnapshot = await FirebaseFirestore.instance
+          .collection("ticketevents")
+          .doc(element.get("event"))
+          .collection("bookings")
+          .doc(element.get("booking_type"))
+          .get();
+      bookings.add(Booking(
+          docId: element.id,
+          attendees: await TicketRepository.instance
+              .loadBookingAttendees(element.get("event"), UserRepository.instance.currentUser()!.firebaseUserID),
+          maxGuests: element.get("num_guests"),
+          uuid: element.get("uuid"),
+          data: BookingData()
+            ..docId = bSnapshot.id
+            ..benefits = bSnapshot.get("benefits").cast<String>().toList()));
+    }));
+
+    return bookings;
+  }
+
   Future<String?> makeBooking(Event event, BookingData booking, int numGuests) async {
     http.Response? response;
     try {
       response = await http.post(Uri.parse("https://appollo-devops.web.app/acceptBirthdaylist"), body: {
         "uid": UserRepository.instance.currentUser()!.firebaseUserID,
         "eventid": event.docID,
+        "event_date": event.date.toString(),
         "booking": booking.docId,
         "guests": numGuests.toString()
       });

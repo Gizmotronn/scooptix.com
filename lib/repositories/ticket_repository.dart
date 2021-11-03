@@ -333,11 +333,11 @@ class TicketRepository {
     }
   }
 
-  Future<List<AttendeeTicket>> loadBookingAttendees(Event event, String promoterId) async {
+  Future<List<AttendeeTicket>> loadBookingAttendees(String eventId, String promoterId) async {
     List<AttendeeTicket> attendees = [];
     QuerySnapshot passSnaphot = await FirebaseFirestore.instance
         .collection("ticketevents")
-        .doc(event.docID)
+        .doc(eventId)
         .collection("tickets")
         .where("promoter", isEqualTo: promoterId)
         .get();

@@ -32,7 +32,7 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
 
   Stream<BirthdayListState> _loadBookingData(Event event) async* {
     yield StateLoading();
-    BookingData? booking = await BirthdayListRepository.instance.loadBookingData(event);
+    BookingData? booking = await BirthdayListRepository.instance.loadBookingDataForEvent(event);
     print(booking);
     if (booking != null) {
       yield StateBookingData(booking);
@@ -53,7 +53,7 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
       }
     } else {
       bDayList.attendees = await TicketRepository.instance
-          .loadBookingAttendees(event, UserRepository.instance.currentUser()!.firebaseUserID);
+          .loadBookingAttendees(event.docID!, UserRepository.instance.currentUser()!.firebaseUserID);
       yield StateExistingList(bDayList);
     }
   }

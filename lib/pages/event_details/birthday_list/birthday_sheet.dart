@@ -185,16 +185,16 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           color: MyTheme.appolloBackgroundColor,
                           onTap: () {
                             if (PlatformDetector.isMobile()) {
-                              Share.share("appollo.io/?id=${state.birthdayList.uuid}",
-                                  subject: 'Appollo Event Invitation');
+                              Share.share("scooptix.com/?id=${state.birthdayList.uuid}",
+                                  subject: 'ScoopTix Event Invitation');
                             } else {
-                              FlutterClipboard.copy("appollo.io/?id=${state.birthdayList.uuid}");
+                              FlutterClipboard.copy("scooptix.com/?id=${state.birthdayList.uuid}");
                             }
                           },
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: AutoSizeText(
-                              "appollo.io/?id=${state.birthdayList.uuid}",
+                              "scooptix.com/?id=${state.birthdayList.uuid}",
                               style: MyTheme.textTheme.bodyText2,
                             ),
                           ),

@@ -9,6 +9,7 @@ import 'package:ticketapp/UI/event_overview/side_buttons.dart';
 import 'package:ticketapp/UI/widgets/scooptix_logo.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
+import 'package:ticketapp/pages/bookings/bookings_drawer.dart';
 import 'package:ticketapp/pages/my_ticktes/my_tickets_drawer.dart';
 import 'package:ticketapp/pages/reward_center/reward_center_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -101,6 +102,16 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                                 title: 'My Tickets',
                                 onTap: () {
                                   MyTicketsDrawer.openMyTicketsDrawer();
+                                }).paddingRight(8)),
+                        Badge(
+                            badgeContent: Text('0'),
+                            showBadge: false,
+                            alignment: Alignment.topRight,
+                            position: BadgePosition.topEnd(end: 5),
+                            child: SideButton(
+                                title: 'My Bookings',
+                                onTap: () {
+                                  BookingsDrawer.openBookingsDrawer();
                                 }).paddingRight(8)),
                         //_appolloHelpDropDown(context).paddingRight(8),
                         _appolloCreateEventDropDown(context).paddingRight(16),

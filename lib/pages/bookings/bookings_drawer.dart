@@ -11,22 +11,37 @@ import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
-import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/pages/event_details/birthday_list/bloc/birthday_list_bloc.dart';
+import 'package:ticketapp/pages/authentication/authentication_drawer.dart';
+import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import '../../main.dart';
+import 'bloc/bookings_bloc.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
-class BirthdayDrawer extends StatefulWidget {
-  final Event event;
+class BookingsDrawer extends StatefulWidget {
+  const BookingsDrawer({Key? key}) : super(key: key);
 
-  const BirthdayDrawer({Key? key, required this.event}) : super(key: key);
+  static openBookingsDrawer() {
+    if (!UserRepository.instance.isLoggedIn) {
+      WrapperPage.endDrawer.value = AuthenticationDrawer(
+        onAutoAuthenticated: () {
+          WrapperPage.endDrawer.value = BookingsDrawer();
+          WrapperPage.mainScaffold.currentState!.openEndDrawer();
+        },
+      );
+      WrapperPage.mainScaffold.currentState!.openEndDrawer();
+    } else {
+      WrapperPage.endDrawer.value = BookingsDrawer();
+      WrapperPage.mainScaffold.currentState!.openEndDrawer();
+    }
+  }
 
   @override
-  _BirthdayDrawerState createState() => _BirthdayDrawerState();
+  _BookingsDrawerState createState() => _BookingsDrawerState();
 }
 
-class _BirthdayDrawerState extends State<BirthdayDrawer> {
-  late BirthdayListBloc bloc;
+class _BookingsDrawerState extends State<BookingsDrawer> {
+  late BookingsBloc bloc;
   late FormGroup form;
   List<DatatableHeader> _headers = [];
 
@@ -54,8 +69,8 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
       DatatableHeader(
           text: "Date Accepted", value: "date", show: true, sortable: true, flex: 3, textAlign: TextAlign.left),
     ];
-    bloc = BirthdayListBloc();
-    bloc.add(EventLoadExistingList(widget.event));
+    bloc = BookingsBloc();
+    bloc.add(EventLoadBookings());
     super.initState();
   }
 
@@ -83,7 +98,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                 color: MyTheme.appolloRed,
               ),
             ),
-          ).paddingTop(16).paddingRight(16).paddingTop(8),
+          ).paddingRight(16).paddingTop(8),
           Container(
             padding: EdgeInsets.symmetric(horizontal: MyTheme.cardPadding),
             height: screenSize.height - 58,
@@ -93,10 +108,10 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BlocBuilder<BirthdayListBloc, BirthdayListState>(
+                    BlocBuilder<BookingsBloc, BookingsState>(
                         bloc: bloc,
                         builder: (c, state) {
-                          if (state is StateExistingList) {
+                          if (state is StateBookings) {
                             return Container(
                               height: screenSize.height - 120,
                               child: ConstrainedBox(
@@ -106,7 +121,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    AutoSizeText("Birthday list created.", style: MyTheme.textTheme.headline2)
+                                    AutoSizeText("Booking Created", style: MyTheme.textTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invite your friends",
                                             style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
@@ -132,16 +147,16 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       color: MyTheme.appolloBackgroundColorLight,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
-                                          Share.share("appollo.io/?id=${state.birthdayList.uuid}",
+                                          Share.share("scooptix.com/?id=${state.bookings[0].uuid}",
                                               subject: 'Appollo Event Invitation');
                                         } else {
-                                          FlutterClipboard.copy("appollo.io/?id=${state.birthdayList.uuid}");
+                                          FlutterClipboard.copy("scooptix.com/?id=${state.bookings[0].uuid}");
                                         }
                                       },
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: AutoSizeText(
-                                          "appollo.io/?id=${state.birthdayList.uuid}",
+                                          "scooptix.com/?id=${state.bookings[0].uuid}",
                                           style: MyTheme.textTheme.bodyText2,
                                         ),
                                       ),
@@ -154,8 +169,8 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                           bottomLeft: Radius.circular(8), bottomRight: Radius.circular(8)),
                                       child: ResponsiveDatatable(
                                         headers: _headers,
-                                        source: _buildAttendeeTable(state.birthdayList.attendees),
-                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor),
+                                        source: _buildAttendeeTable(state.bookings[0].attendees),
+                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
                                         itemPaddingVertical: 8,
                                         headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                         headerDecoration: BoxDecoration(
@@ -183,63 +198,18 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                 ),
                               ),
                             );
-                          } else if (state is StateTooFarAway) {
-                            return Container(
-                              height: screenSize.height - 120,
-                              child: ConstrainedBox(
-                                constraints:
-                                    BoxConstraints(minHeight: screenSize.height - 120, maxHeight: double.infinity),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    AutoSizeText("Unable to create your birthday list.",
-                                            maxLines: 2, style: MyTheme.textTheme.headline2)
-                                        .paddingBottom(MyTheme.elementSpacing),
-                                    AutoSizeText("Your birthday is too far away!",
-                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
-                                        .paddingBottom(MyTheme.elementSpacing),
-                                    AutoSizeText(
-                                        "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
-                                    Expanded(
-                                      child: Align(
-                                          alignment: Alignment.bottomRight,
-                                          child: AppolloButton.regularButton(
-                                              fill: true,
-                                              color: MyTheme.appolloGreen,
-                                              child: Text(
-                                                "Back",
-                                                style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.appolloBackgroundColor),
-                                              ),
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              })),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
-                          } else if (state is StateCreatingList) {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                AppolloProgressIndicator().paddingBottom(8),
-                                Text("Creating your birthday list ...")
-                              ],
-                            );
-                          } else if (state is StateError) {
+                          } else if (state is StateNoBookings) {
                             return Center(
-                              child: Text(state.message),
+                              child: Text("You don't have any upcoming bookings"),
                             );
                           } else {
-                            return Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                AppolloProgressIndicator().paddingBottom(8),
-                                Text("Loading Birthday List Data ...")
-                              ],
+                            return SizedBox(
+                              height: screenSize.height,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [AppolloProgressIndicator().paddingBottom(8), Text("Loading Bookings ...")],
+                              ),
                             );
                           }
                         }),
@@ -264,24 +234,6 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
         ],
       ),
     );
-  }
-
-  Widget _buildOrderSummary() {
-    if (widget.event.birthdayEventData!.price == 0) {
-      return AutoSizeText(
-        "You can create this birhtday list free of charge!",
-        style: MyTheme.textTheme.bodyText1,
-      );
-    } else {
-      return Column(
-        children: [
-          AutoSizeText(
-            "Order Summary",
-            style: MyTheme.textTheme.headline4,
-          ),
-        ],
-      );
-    }
   }
 
   List<Map<String, dynamic>> _buildAttendeeTable(List<AttendeeTicket> attendees) {
