@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -474,7 +473,7 @@ class _PaymentPageState extends State<PaymentPage> {
                         buttonText2: "Cancel")
                     .then((value) async {
                   if (value != null && value) {
-                    const url = 'https://appollo.io/terms-of-service.html';
+                    const url = 'https://scooptix.com/terms-of-service.html';
                     if (await canLaunch(url)) {
                       await launch(url);
                     } else {

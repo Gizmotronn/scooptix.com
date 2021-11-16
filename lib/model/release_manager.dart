@@ -27,6 +27,8 @@ class ReleaseManager {
   List<int> availablePerks = [];
   String? recurringUUID;
   TicketType ticketType = TicketType.Fixed;
+  // Organizers can manually mark tickets as sold out
+  bool markedSoldOut = false;
 
   /// Stores the link types this release is available for
   List<String>? availableFor;
@@ -41,6 +43,8 @@ class ReleaseManager {
     }
   }
 
+  /// Returns the currently active (on sale) release.
+  /// Tickets that are sold out are not considered active, event if the release hasn't ended yet.
   TicketRelease? getActiveRelease() {
     if (ticketType == TicketType.Staged) {
       // Sort by earliest release start first
@@ -62,7 +66,11 @@ class ReleaseManager {
       return null;
     } else {
       if (releases.isNotEmpty) {
-        return releases[0];
+        if (releases[0].maxTickets > releases[0].ticketsBought) {
+          return releases[0];
+        } else {
+          return null;
+        }
       } else {
         return null;
       }
@@ -71,26 +79,30 @@ class ReleaseManager {
 
   /// Returns the next release that will be active, which might not be active right now
   TicketRelease? getNextRelease() {
-    // Sort by earliest release start first
-    releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
-    for (int i = 0; i < releases.length; i++) {
-      // Autorelease should only start after the first release has sold out
-      if (autoRelease && i == 0 && releases[i].releaseStart!.isAfter(DateTime.now())) {
-        return releases[0];
-      }
+    if (ticketType == TicketType.Staged) {
+      // Sort by earliest release start first
+      releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
+      for (int i = 0; i < releases.length; i++) {
+        // Autorelease should only start after the first release has sold out
+        if (autoRelease && i == 0 && releases[i].releaseStart!.isAfter(DateTime.now())) {
+          return releases[0];
+        }
 
-      // If autorelease is true, we can ignore the release start time if the first release is already sold out
-      // This is why we sort the releases first
-      if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
-          releases[i].releaseEnd!.isAfter(DateTime.now()) &&
-          releases[i].maxTickets > releases[i].ticketsBought) {
-        return releases[i];
+        // If autorelease is true, we can ignore the release start time if the first release is already sold out
+        // This is why we sort the releases first
+        if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+            releases[i].releaseEnd!.isAfter(DateTime.now()) &&
+            releases[i].maxTickets > releases[i].ticketsBought) {
+          return releases[i];
+        }
       }
+      if (releases.any((element) => element.releaseEnd!.isAfter(DateTime.now()))) {
+        return releases.firstWhere((element) => element.releaseEnd!.isAfter(DateTime.now()));
+      }
+      return null;
+    } else {
+      return releases[0];
     }
-    if (releases.any((element) => element.releaseEnd!.isAfter(DateTime.now()))) {
-      return releases.firstWhere((element) => element.releaseEnd!.isAfter(DateTime.now()));
-    }
-    return null;
   }
 
   int? getFullPrice() {
@@ -145,6 +157,9 @@ class ReleaseManager {
         data["available_for"].forEach((e) {
           rm.availableFor!.add(e);
         });
+      }
+      if (data.containsKey("mark_sold_out")) {
+        rm.markedSoldOut = data["mark_sold_out"];
       }
     } catch (e, s) {
       BugsnagNotifier.instance.notify("Error loading release manager \n $e", s, severity: ErrorSeverity.error);

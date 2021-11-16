@@ -216,7 +216,7 @@ class _SignUpFormState extends State<SignUpForm> {
                                 buttonText2: "Cancel")
                             .then((value) async {
                           if (value != null && value) {
-                            const url = 'https://appollo.io/terms-of-service.html';
+                            const url = 'https://scooptix.com/terms-of-service.html';
                             if (await canLaunch(url)) {
                               await launch(url);
                             } else {

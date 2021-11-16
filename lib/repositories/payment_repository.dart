@@ -18,7 +18,7 @@ class PaymentRepository {
       _instance = new PaymentRepository._();
       Stripe.init(
           "pk_test_51HFJF6CE1hbokQY3T40M55NEswDQti67gfDeSVUTvymGQI5TnDeesnK0n0R1lYLn0B09at5jPgeHebh65bMCtGwL00RipFf2qB",
-          returnUrlForSca: "https://appollo.io/success");
+          returnUrlForSca: "https://scooptix.com/success");
     }
     return _instance!;
   }

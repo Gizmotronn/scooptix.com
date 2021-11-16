@@ -1,8 +1,6 @@
-import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/event_overview_bottom_info.dart';

@@ -37,7 +37,7 @@ class _TicketCardState extends State<TicketCard> {
           _header(context, text: widget.release.name ?? '', color: widget.color),
           _content(context),
           if (showAvailableTickets) _buildTicketsLeft(),
-          if (widget.release.getActiveRelease() != null) _incrementPurchaseQuantity(),
+          if (widget.release.getActiveRelease() != null && !widget.release.markedSoldOut) _incrementPurchaseQuantity(),
         ],
       ),
     ).paddingVertical(16).paddingLeft(10);
@@ -61,7 +61,9 @@ class _TicketCardState extends State<TicketCard> {
   }
 
   Widget _content(BuildContext context) {
-    if (widget.release.getActiveRelease() != null) {
+    if (!widget.release.markedSoldOut &&
+        widget.release.getActiveRelease() != null &&
+        widget.release.getActiveRelease()!.maxTickets > widget.release.getActiveRelease()!.ticketsBought) {
       return Expanded(
         child: SingleChildScrollView(
           child: Container(
@@ -100,16 +102,40 @@ class _TicketCardState extends State<TicketCard> {
         ),
       );
     } else if (widget.release.getNextRelease() != null) {
-      int index = widget.release.releases.indexWhere((element) => element.releaseStart!.isAfter(DateTime.now()));
-      if (index != -1) {
-        return AutoSizeText(
-                "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.releases[index].releaseStart!)}",
-                style: MyTheme.textTheme.subtitle1,
-                textAlign: TextAlign.center)
-            .paddingAll(MyTheme.elementSpacing);
+      if (widget.release.markedSoldOut) {
+        return SizedBox(
+          height: 508,
+          child: Center(
+            child: AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
+                .paddingAll(MyTheme.elementSpacing),
+          ),
+        );
+      }
+      if (widget.release.ticketType == TicketType.Staged) {
+        int index = widget.release.releases.indexWhere((element) => element.releaseStart!.isAfter(DateTime.now()));
+        if (index != -1) {
+          return AutoSizeText(
+                  "There are currently no tickets of this type available.\n\nThe next release starts on ${DateFormat("dd/MM/yy hh:mm aa").format(widget.release.releases[index].releaseStart!)}",
+                  style: MyTheme.textTheme.subtitle1,
+                  textAlign: TextAlign.center)
+              .paddingAll(MyTheme.elementSpacing);
+        } else {
+          return SizedBox(
+            height: 508,
+            child: Center(
+              child: AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
+                  .paddingAll(MyTheme.elementSpacing),
+            ),
+          );
+        }
       } else {
-        return AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
-            .paddingAll(MyTheme.elementSpacing);
+        return SizedBox(
+          height: 508,
+          child: Center(
+            child: AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
+                .paddingAll(MyTheme.elementSpacing),
+          ),
+        );
       }
     } else {
       return AutoSizeText("There are currently no tickets of this type available.",

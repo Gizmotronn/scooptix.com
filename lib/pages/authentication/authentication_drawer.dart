@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/main.dart';

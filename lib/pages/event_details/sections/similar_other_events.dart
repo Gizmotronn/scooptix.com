@@ -1,6 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/pages/events_overview/event_card_mobile.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
