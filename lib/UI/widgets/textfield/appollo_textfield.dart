@@ -85,6 +85,7 @@ class AppolloTextField extends StatefulWidget {
       onChanged: onChanged,
       hintText: hintText,
       maxWidth: maxWidth,
+      keyboardType: keyboardType,
     );
 
     return tf;
@@ -119,6 +120,7 @@ class AppolloTextField extends StatefulWidget {
       onChanged: onChanged,
       hintText: hintText,
       maxWidth: maxWidth,
+      keyboardType: keyboardType,
     );
 
     return tf;

@@ -18,7 +18,6 @@ import 'UI/event_overview/tabs/for_me.dart';
 import 'pages/reward_center/reward_center_sheet.dart';
 import 'services/bugsnag_wrapper.dart';
 import 'UI/icons.dart';
-import 'dart:html' as js;
 
 void main() {
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
@@ -155,7 +154,6 @@ class _WrapperPageState extends State<WrapperPage> {
         if (size.isDesktop || size.isTablet) {
           return SizedBox.shrink();
         } else {
-          MyTheme.bottomNavBarHeight = js.window.navigator.userAgent.contains("iPhone") ? 80 : 64;
           return Container(
             color: MyTheme.appolloBottomBarColor,
             height: MyTheme.bottomNavBarHeight,
