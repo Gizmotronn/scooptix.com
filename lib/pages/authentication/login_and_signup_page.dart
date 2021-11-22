@@ -106,7 +106,6 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                         desktop: 0),
                   ),
                   _buildMainButtons(state, screenSize),
-                  _buildSSO(state, screenSize),
                 ],
               );
             }
@@ -593,51 +592,6 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
   }
 
   bool showSSOInfo = false;
-
-  Widget _buildSSO(AuthenticationState state, Size screenSize) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        AnimatedSwitcher(
-          duration: MyTheme.animationDuration,
-          child: showSSOInfo
-              ? Text(
-                  "SSO logins are unfortunately no longer available. Please create a new account using the same email address to access your old account, or create a new one with a different email address. Sorry for any inconvenience.",
-                  textAlign: TextAlign.center,
-                )
-              : InkWell(
-                  onTap: () {
-                    setState(() {
-                      showSSOInfo = true;
-                    });
-                  },
-                  child: Text("Looking for SSO logins?")),
-        )
-      ],
-    ).paddingAll(MyTheme.elementSpacing);
-  }
-
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: MyTheme.appolloPurple, thickness: 0.5)),
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: MyTheme.appolloPurple,
-          ),
-          child: Center(
-            child: AutoSizeText(
-              "OR",
-              style: MyTheme.textTheme.bodyText1!.copyWith(color: Colors.white),
-            ).paddingAll(8),
-          ),
-        ).paddingHorizontal(16),
-        Expanded(child: Divider(color: MyTheme.appolloPurple, thickness: 0.5)),
-      ],
-    );
-  }
 
   /// Builds TextInputFields for the initial email fields as well as email and password confirmation
   _buildEmailAndPWFields(AuthenticationState state, Size screenSize) {

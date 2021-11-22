@@ -32,6 +32,12 @@ class AppolloIcons {
   static const String level3 = 'assets/icons/level3.svg';
   static const String logoText = "assets/icons/logo_text.svg";
   static const String logoIcon = "assets/icons/logo_icon.svg";
+  static const String taskEventDetails = 'assets/icons/task_event_details.svg';
+  static const String taskMarketing = 'assets/icons/task_marketing.svg';
+  static const String taskPreSale = 'assets/icons/task_pre_sale.svg';
+  static const String taskPromoCodes = 'assets/icons/task_promo_codes.svg';
+  static const String taskPublish = 'assets/icons/task_publish.svg';
+  static const String taskTickets = 'assets/icons/task_tickets.svg';
   static const String trophy1 = 'assets/icons/trophy1.svg';
   static const String trophy2 = 'assets/icons/trophy2.svg';
   static const String trophy3 = 'assets/icons/trophy3.svg';

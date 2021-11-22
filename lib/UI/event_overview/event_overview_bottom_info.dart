@@ -11,32 +11,34 @@ class EventOverviewFooter extends StatelessWidget {
   }) : super(key: key);
 
   final Map<String, String> info = {
-    'How it works': "",
+   /* 'How it works': "",
     'Pricing': "",
     'Sell Tickets': "",
     'FAQ': "",
-    'Sitemap': "",
+    'Sitemap': "",*/
     'Loyalty Member App': "https://scooptix.com/member",
     'Scanner App': "https://scooptix.com/scanner",
     'For Organisers': "https://scooptix.com/dashboard",
-    'For large events': "",
+    /*'For large events': "",
     'Event Management': "",
     'Event Planning': "",
     'Why choose appollo': "",
-    'Blog': "",
+    'Blog': "",*/
     'Privacy Policy': "https://scooptix.com/privacy-policy.html",
     'Terms of Service': "https://scooptix.com/terms-of-service.html",
     'About': "https://scooptix.com",
-    'Help': "",
+    /*'Help': "",
     'Careers': "",
     'Prices': "",
-    'Investors': "",
+    'Investors': "",*/
     'Contact Support': "contact@scooptix.com",
     'Facebook': "https://www.facebook.com/appolloapps/",
     'Instagram': "https://www.instagram.com/appollo.io/",
-    'Twitter': "",
-    'LinkedIn': ""
+    /*'Twitter': "",
+    'LinkedIn': ""*/
   };
+
+  final double height = 250;
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +48,12 @@ class EventOverviewFooter extends StatelessWidget {
       if (size.isTablet || size.isDesktop) {
         return Container(
           width: screenSize.width,
-          height: 300,
+          height: height,
           color: MyTheme.appolloBlack,
           child: Center(
             child: SizedBox(
                 width: screenSize.width * 0.8,
-                height: 250,
+                height: height - 50,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -59,7 +61,7 @@ class EventOverviewFooter extends StatelessWidget {
                         .paddingBottom(16)
                         .paddingTop(8),
                     SizedBox(
-                      height: 140,
+                      height: height - 160,
                       width: screenSize.width * 0.8,
                       child: Wrap(
                         runSpacing: MyTheme.elementSpacing,
@@ -97,7 +99,7 @@ class EventOverviewFooter extends StatelessWidget {
           children: [
             AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6).paddingBottom(16).paddingTop(8),
             SizedBox(
-              height: 300,
+              height: height,
               width: screenSize.width,
               child: Wrap(
                 runSpacing: MyTheme.elementSpacing,
