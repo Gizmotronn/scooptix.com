@@ -195,6 +195,11 @@ class _BookingsSheetState extends State<BookingsSheet> {
                       ],
                     ),
                   );
+                } else if (state is StateNoBookings) {
+                  return SizedBox(
+                    width: screenSize.width,
+                    child: Text("You do not have any upcoming bookings"),
+                  );
                 } else {
                   return SizedBox(
                     width: screenSize.width,

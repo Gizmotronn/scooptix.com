@@ -216,6 +216,7 @@ class _MakeBookingState extends State<MakeBooking> {
                       .paddingBottom(MyTheme.elementSpacing),
                   ListView.builder(
                       shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (c, index) {
                         return IconText(
                           text: booking.benefits[index],

@@ -11,7 +11,7 @@ class EventOverviewFooter extends StatelessWidget {
   }) : super(key: key);
 
   final Map<String, String> info = {
-   /* 'How it works': "",
+    /* 'How it works': "",
     'Pricing': "",
     'Sell Tickets': "",
     'FAQ': "",
