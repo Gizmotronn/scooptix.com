@@ -97,7 +97,9 @@ class EventOverviewFooter extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AutoSizeText('Using Appollo', style: Theme.of(context).textTheme.headline6).paddingBottom(16).paddingTop(8),
+            AutoSizeText('Using ScoopTix', style: Theme.of(context).textTheme.headline6)
+                .paddingBottom(16)
+                .paddingTop(8),
             SizedBox(
               height: height,
               width: screenSize.width,
@@ -120,8 +122,7 @@ class EventOverviewFooter extends StatelessWidget {
                         )),
               ),
             ).paddingBottom(MyTheme.elementSpacing),
-            AutoSizeText(
-                    '© 2021 appollo Group pty Ltd. Trademarks and brands are the property of their respective owners.',
+            AutoSizeText('© 2021 ScoopTix pty Ltd. Trademarks and brands are the property of their respective owners.',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey))
                 .paddingBottom(MyTheme.elementSpacing)
