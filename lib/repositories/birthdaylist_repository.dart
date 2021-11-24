@@ -95,7 +95,7 @@ class BirthdayListRepository {
   Future<String?> makeBooking(Event event, BookingData booking, int numGuests) async {
     http.Response? response;
     try {
-      response = await http.post(Uri.parse("https://appollo-devops.web.app/acceptBirthdaylist"), body: {
+      response = await http.post(Uri.parse("https://appollo-devops.web.app/processBooking"), body: {
         "uid": UserRepository.instance.currentUser()!.firebaseUserID,
         "eventid": event.docID,
         "event_date": event.date.toString(),

@@ -89,6 +89,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   _buildMainButtons(state, screenSize),
                 ],
               );
+            } else if (state is StateLoadingCreateUser) {
+              return SizedBox(
+                  height: screenSize.height,
+                  width: MyTheme.drawerSize,
+                  child: Center(child: AppolloProgressIndicator()));
             } else {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -293,6 +298,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               onTap: () {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
+                  setState(() {
+                    confirmEmailForm.controls["email"]!.value = initialEmailForm.value["email"];
+                  });
                   widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]! as String));
                 }
               },
@@ -317,6 +325,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               onTap: () {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
+                  setState(() {
+                    confirmEmailForm.controls["email"]!.value = initialEmailForm.value["email"];
+                  });
                   widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"] as String));
                 }
               },
