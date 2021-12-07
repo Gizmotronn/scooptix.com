@@ -5,7 +5,6 @@ import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/pages/event_details/mobile_view.dart';
-
 import '../../UI/event_overview/event_top_nav.dart';
 import '../../UI/theme.dart';
 import '../../UI/widgets/backgrounds/events_details_background.dart';

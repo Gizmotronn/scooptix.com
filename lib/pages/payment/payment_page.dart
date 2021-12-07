@@ -15,6 +15,7 @@ import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/UI/icons.dart';
+import 'package:ticketapp/services/facebook_pixel.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
@@ -99,6 +100,10 @@ class _PaymentPageState extends State<PaymentPage> {
           bloc: bloc,
           listener: (c, state) {
             if (state is StatePaymentCompleted) {
+              if (widget.event.pixelId != null) {
+                FBPixelService.instance
+                    .sendPurchaseEvent(widget.event.pixelId!, subtotal, totalTicketQuantity ?? 0, widget.event.name);
+              }
               AlertGenerator.showAlert(
                       context: WrapperPage.mainScaffold.currentContext!,
                       title: "Order successful",

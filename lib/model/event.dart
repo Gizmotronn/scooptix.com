@@ -39,6 +39,7 @@ class Event {
   String? organizer;
   String? contactEmail;
   String? recurringEventId;
+  String? pixelId;
 
   late DateTime date;
   DateTime? endTime;
@@ -308,7 +309,8 @@ class Event {
               }
             });
           }
-        } catch (_) {
+        } catch (e) {
+          print(e);
           event.preSale = null;
         }
       }
@@ -326,6 +328,10 @@ class Event {
         data["available_perks"].forEach((p) {
           event.availablePerks.add(Perk(p["short"], p["description"]));
         });
+      }
+
+      if (data.containsKey("pixel_id")) {
+        event.pixelId = data["pixel_id"];
       }
 
       event.docID = docId;

@@ -64,11 +64,47 @@
       transform: translate(-50%, -50%)
   }
   </style>
+  <!-- Facebook Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+
+</script>
+  <noscript><img height="1" width="1" style="display:none"
+                 src="https://www.facebook.com/tr?id=991354868113203&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Facebook Pixel Code -->
 </head>
 <body style="background-color:#21223B;">
   <div class="loadingio-spinner-rolling-qmvlmpvnih center"><div class="ldio-tv26wapkp2">
   <div></div>
   </div></div>
+
+  <script>
+    function initPixel(id) {
+      fbq('init', id);
+    }
+
+    function pageView(id) {
+      fbq('trackSingle', id, 'PageView');
+    }
+
+    function purchase(id, value, quantity, name) {
+    fbq('trackSingle', id, 'Purchase', {
+      content_name: name,
+      num_items: quantity,
+      value: value,
+      currency: 'AUD'
+     });
+    }
+  </script>
+
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
