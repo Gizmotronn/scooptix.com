@@ -58,7 +58,7 @@ class _EventDataState extends State<EventData> {
     if (widget.event.preSaleAvailable) {
       _tabButtons.add(Menu('Pre-Sale', false, id: 2));
     }
-    if (widget.event.releaseManagers.isNotEmpty) {
+    if (widget.event.releaseManagers.isNotEmpty && !widget.event.preSaleAvailable) {
       _tabButtons.add(Menu('Tickets', false, id: 3));
     }
     if (widget.event.allowsBirthdaySignUps) {

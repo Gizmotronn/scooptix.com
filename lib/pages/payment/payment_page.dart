@@ -445,14 +445,21 @@ class _PaymentPageState extends State<PaymentPage> {
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                          "\$${(subtotal / 100 - _calculateDiscount() + _calculateAppolloFees()).toStringAsFixed(2)}",
+                      child: Text("\$${(calculateTotalPrize()).toStringAsFixed(2)}",
                           style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
       ],
     );
+  }
+
+  double calculateTotalPrize() {
+    double total = subtotal / 100 - _calculateDiscount() + _calculateAppolloFees();
+    if (total < _calculateAppolloFees()) {
+      total = _calculateAppolloFees();
+    }
+    return total;
   }
 
   Widget _buildTAndC() {

@@ -237,8 +237,8 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
       onChange: (s, v) async {
         print(v);
         if (v == 0) {
-          if (await canLaunch("https://form.jotform.com/211938070826054")) {
-            launch("https://form.jotform.com/211938070826054");
+          if (await canLaunch("https://scooptix.com/organisers")) {
+            launch("https://scooptix.com/organisers");
           }
         }
       },

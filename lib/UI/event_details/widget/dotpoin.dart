@@ -25,10 +25,9 @@ class DotPoint extends StatelessWidget {
         Expanded(
           child: AutoSizeText(
             '$text',
-            style: Theme.of(context)
-                .textTheme
-                .caption!
-                .copyWith(decoration: isActive ? TextDecoration.none : TextDecoration.lineThrough),
+            style: MyTheme.textTheme.caption!.copyWith(
+                decoration: isActive ? TextDecoration.none : TextDecoration.lineThrough,
+                color: isActive ? MyTheme.textTheme.caption!.color : MyTheme.appolloDimGrey),
           ),
         ),
       ],

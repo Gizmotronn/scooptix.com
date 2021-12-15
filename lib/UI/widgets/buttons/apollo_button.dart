@@ -135,7 +135,8 @@ class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with Single
                 child: widget.child,
               ),
             ),
-            if (widget.suffixIcon != null) Positioned(top: 8, bottom: 8, right: 8, child: widget.suffixIcon!),
+            if (widget.suffixIcon != null)
+              Positioned(top: 8, bottom: 8, right: 8, child: IgnorePointer(child: widget.suffixIcon!)),
             Positioned(
               top: 0,
               height: widget.height == null

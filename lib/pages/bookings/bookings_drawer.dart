@@ -147,7 +147,7 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
                                           Share.share("scooptix.com/?id=${state.bookings[0].uuid}",
-                                              subject: 'Appollo Event Invitation');
+                                              subject: 'ScoopTix Event Invitation');
                                         } else {
                                           FlutterClipboard.copy("scooptix.com/?id=${state.bookings[0].uuid}");
                                         }

@@ -52,6 +52,8 @@ class PreSaleRepository {
 
   Future<PreSaleRegistration> registerForPreSale(Event event) async {
     PreSaleRegistration? preSale = await isRegisteredForPreSale(event);
+    print(event.docID);
+    print(UserRepository.instance.currentUser()!.firebaseUserID);
     if (preSale == null) {
       String uuid = await UUIDGenerator.createNewUUID();
       await FirebaseFirestore.instance
@@ -70,7 +72,6 @@ class PreSaleRepository {
         if (LinkRepository.instance.linkType is PreSaleInvite)
           "referred_by": (LinkRepository.instance.linkType as PreSaleInvite).promoter!.docId
       });
-      print("ticket");
 
       await FirebaseFirestore.instance.collection("uuidmap").add({
         "uuid": uuid,
@@ -81,12 +82,18 @@ class PreSaleRepository {
         "date": DateTime.now(),
         "promoter": UserRepository.instance.currentUser()!.firebaseUserID,
         "points": 1,
+        "firstName": UserRepository.instance.currentUser()!.firstname,
+        "lastName": UserRepository.instance.currentUser()!.lastname,
+        "email": UserRepository.instance.currentUser()!.email,
+        "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
+        "dob": UserRepository.instance.currentUser()!.dob,
+        if (LinkRepository.instance.linkType is PreSaleInvite)
+          "referred_by": (LinkRepository.instance.linkType as PreSaleInvite).promoter!.docId
       });
       preSale = PreSaleRegistration()
         ..uuid = uuid
         ..docId = UserRepository.instance.currentUser()!.firebaseUserID
         ..points = 1;
-      print("map");
       return preSale;
     } else {
       return preSale;

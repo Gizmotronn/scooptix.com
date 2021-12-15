@@ -75,10 +75,10 @@ class PreSalePage extends StatelessWidget {
                   "LINK COPIED",
                   style: MyTheme.textTheme.headline5,
                 ),
-                color: MyTheme.appolloBottomBarColor.withAlpha(150),
+                color: MyTheme.appolloBackgroundColor,
                 onTap: () {
                   if (PlatformDetector.isMobile()) {
-                    Share.share("scooptix.com/?id=${state.preSale.uuid}", subject: 'Appollo Event Invitation');
+                    Share.share("scooptix.com/?id=${state.preSale.uuid}", subject: 'ScoopTix Event Invitation');
                   } else {
                     FlutterClipboard.copy("scooptix.com/?id=${state.preSale.uuid}");
                   }
@@ -87,14 +87,14 @@ class PreSalePage extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: AutoSizeText(
                     "scooptix.com/?id=${state.preSale.uuid}",
-                    style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.appolloGrey),
+                    style: MyTheme.textTheme.bodyText2,
                   ),
                 ),
               ).paddingBottom(MyTheme.elementSpacing * 2),
               if (event.preSale!.hasPrizes)
                 AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange))
                     .paddingBottom(MyTheme.elementSpacing),
-              if (event.preSale!.hasPrizes) PreSalePrizesWidget(prizes: event.preSale!.prizes),
+              if (event.preSale!.hasPrizes) PreSalePrizesWidget(preSale: event.preSale!),
               if (event.preSale!.hasPrizes)
                 AutoSizeText(
                         "Winners are drawn at random once pre sale closes, and will be notified by email. Each referral point you earn rewards you with another entry, increasing your odds of winning.")

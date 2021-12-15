@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:ticketapp/UI/event_details/widget/dotpoin.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
+import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 
 class PreSalePrizesWidget extends StatefulWidget {
-  final List<PreSalePrize> prizes;
+  final PreSale preSale;
 
-  const PreSalePrizesWidget({Key? key, required this.prizes}) : super(key: key);
+  const PreSalePrizesWidget({Key? key, required this.preSale}) : super(key: key);
   @override
   _PreSalePrizesWidgetState createState() => _PreSalePrizesWidgetState();
 }
@@ -17,7 +17,7 @@ class _PreSalePrizesWidgetState extends State<PreSalePrizesWidget> {
 
   @override
   void initState() {
-    preSaleIsExpanded = List.filled(widget.prizes.length, false);
+    preSaleIsExpanded = List.filled(widget.preSale.numPrizes, false);
     super.initState();
   }
 
@@ -50,9 +50,8 @@ class _PreSalePrizesWidgetState extends State<PreSalePrizesWidget> {
               });
             }
           },
-          title: widget.prizes[index].name!,
-          item:
-              List.generate(widget.prizes[index].prizes.length, (i) => DotPoint(text: widget.prizes[index].prizes[i])),
+          title: "Prize ${(index + 1).toString()}",
+          item: List.generate(1, (i) => DotPoint(text: widget.preSale.activePrizes[index].prizeDescription())),
         ),
       ),
     ).paddingBottom(MyTheme.elementSpacing);

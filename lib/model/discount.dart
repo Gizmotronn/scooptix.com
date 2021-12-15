@@ -1,5 +1,11 @@
 enum DiscountType { value, percent }
 
+extension DiscountTypeExtension on DiscountType {
+  String toDBString() {
+    return this.toString().split(".")[1].toLowerCase();
+  }
+}
+
 class Discount {
   late String docId;
   late int amount;

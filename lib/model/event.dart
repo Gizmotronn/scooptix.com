@@ -6,6 +6,7 @@ import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 import 'birthday_lists/birthday_event_data.dart';
+import 'discount.dart';
 import 'release_manager.dart';
 import 'ticket_release.dart';
 import 'package:ticketapp/model/release_manager.dart';
@@ -287,7 +288,7 @@ class Event {
       if (data.containsKey("enddate")) {
         event.endTime = DateTime.fromMillisecondsSinceEpoch(data["enddate"].millisecondsSinceEpoch);
       }
-      if (data.containsKey("presale_data")) {
+      if (data.containsKey("presale_data") && data["presale_data"] != null) {
         try {
           event.preSale = PreSale(
               enabled: data["presale_data"]["enabled"] ?? false,
@@ -296,16 +297,26 @@ class Event {
               registrationEndDate: DateTime.fromMillisecondsSinceEpoch(
                   data["presale_data"]["registration_end_date"].millisecondsSinceEpoch));
           if (data["presale_data"].containsKey("prizes")) {
-            data["presale_data"]["prizes"].forEach((prizeData) {
-              if (prizeData["type"] == "ranked") {
-                event.preSale!.prizes.add(PreSaleRankedPrize()
-                  ..name = prizeData["name"]
-                  ..rank = prizeData["rank"]
-                  ..prizes = (prizeData["prizes"] as List<dynamic>).cast<String>().toList());
-              } else {
-                event.preSale!.prizes.add(PreSaleRafflePrize()
-                  ..name = prizeData["name"]
-                  ..prizes = (prizeData["prizes"] as List<dynamic>).cast<String>().toList());
+            data["presale_data"]["prizes"].forEach((prize) {
+              if (prize["prize_type"] == PreSaleDiscountPrize.dbTypeName) {
+                event.preSale!.discountPrizes.add(PreSaleDiscountPrize(
+                    discountType:
+                        DiscountType.values.firstWhere((element) => element.toDBString() == prize["discount_type"]),
+                    discountValue: prize["discount_value"],
+                    rank: prize["rank"],
+                    type: PreSaleType.values.firstWhere((element) => element.toDBString() == prize["raffle_type"])));
+              } else if (prize["prize_type"] == PreSaleTicketPrize.dbTypeName) {
+                event.preSale!.ticketPrizes.add(PreSaleTicketPrize(
+                    quantity: prize["quantity"],
+                    managerDocID: prize["manager"],
+                    rank: prize["rank"],
+                    type: PreSaleType.values.firstWhere((element) => element.toDBString() == prize["raffle_type"])));
+              } else if (prize["prize_type"] == PreSaleCustomPrize.dbTypeName) {
+                event.preSale!.customPrizes.add(PreSaleCustomPrize(
+                    prize: prize["prize"],
+                    description: prize["description"],
+                    rank: prize["rank"],
+                    type: PreSaleType.values.firstWhere((element) => element.toDBString() == prize["raffle_type"])));
               }
             });
           }
