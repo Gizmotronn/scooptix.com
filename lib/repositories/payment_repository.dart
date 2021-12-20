@@ -58,6 +58,7 @@ class PaymentRepository {
       http.Response response = await http.post(Uri.parse("https://appollo-devops.web.app/createPITicketSale"), body: {
         "event": event.docID,
         "manager": json.encode(selectedTickets.keys.map((e) => event.getReleaseManager(e)!.docId).toList()),
+        "ticketName": json.encode(selectedTickets.keys.map((e) => event.getReleaseManager(e)!.name).toList()),
         "ticketRelease": json.encode(selectedTickets.keys.map((e) => e.docId).toList()),
         "quantity": json.encode(selectedTickets.values.toList()),
         "discount": discount == null ? "" : discount.docId,

@@ -82,16 +82,20 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
   }
 
   Widget _tickets(BuildContext sheetContext, {required List<Ticket> tickets, required bool isPastTicket}) =>
-      ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: tickets.length,
-        itemBuilder: (c, index) => MyTicketCard(
-          sheetContext: sheetContext,
-          ticket: tickets[index],
-          isPastTicket: isPastTicket,
-        ).paddingBottom(MyTheme.elementSpacing),
-      );
+      tickets.length == 0
+          ? Center(
+              child: Text("No Tickets for upcoming events"),
+            )
+          : ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: tickets.length,
+              itemBuilder: (c, index) => MyTicketCard(
+                sheetContext: sheetContext,
+                ticket: tickets[index],
+                isPastTicket: isPastTicket,
+              ).paddingBottom(MyTheme.elementSpacing),
+            );
 
   Widget _noTicket(BuildContext context) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,

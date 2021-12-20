@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/icons.dart';
+import 'package:ticketapp/UI/images.dart';
 
 class ScooptixLogo extends StatelessWidget {
   const ScooptixLogo({Key? key}) : super(key: key);
@@ -12,15 +10,10 @@ class ScooptixLogo extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SvgPicture.asset(
-          AppolloIcons.logoText,
-          height: 22,
-        ).paddingTop(10),
-        SvgPicture.asset(
-          AppolloIcons.logoIcon,
-          height: 20,
-          width: 20,
-        ),
+        Image.asset(
+          AppolloImages.logo,
+          height: 32,
+        )
       ],
     );
   }

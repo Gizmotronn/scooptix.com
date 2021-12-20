@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -56,8 +58,18 @@ class _EventDetailPageState extends State<EventDetailPage> with TickerProviderSt
               return SizedBox.shrink();
             }
           }),
-      body: BlocBuilder<EventsOverviewBloc, EventsOverviewState>(
+      body: BlocConsumer<EventsOverviewBloc, EventsOverviewState>(
         bloc: bloc,
+        listener: (c, state) {
+          if (state is EventDetailState) {
+            // When the pre sale runs out while a user is on the event page, reload the page.
+            if (state.event.preSaleAvailable) {
+              Timer(state.event.preSale!.registrationEndDate.difference(DateTime.now()), () {
+                bloc.add(LoadEventDetailEvent(widget.id));
+              });
+            }
+          }
+        },
         builder: (context, state) {
           if (state is ErrorEventDetailState) {
             return ErrorPage(state.message);

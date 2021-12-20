@@ -31,7 +31,9 @@ class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
   }
 
   Stream<PreSaleState> _checkStatus(Event event) async* {
-    if (!UserRepository.instance.isLoggedIn) {
+    if (!event.preSaleAvailable) {
+      yield StatePreSaleNotAvailable();
+    } else if (!UserRepository.instance.isLoggedIn) {
       yield StateNotLoggedIn();
     } else {
       yield StateLoading();

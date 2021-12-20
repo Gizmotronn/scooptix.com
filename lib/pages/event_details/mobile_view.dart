@@ -23,23 +23,30 @@ class EventDetailsMobilePage extends StatefulWidget {
 class _EventDetailsMobilePageState extends State<EventDetailsMobilePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          EventDetailBackground(coverImageURL: widget.event.coverImageURL),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: EventDataMobile(
-                event: widget.event,
-                organizer: widget.organizer,
-                scrollController: widget.scrollController,
-                bloc: widget.bloc,
+    return WillPopScope(
+      onWillPop: () async {
+        // Needs an extra pop, otherwise only the bottom sheet is hidden
+        Navigator.pop(context);
+        return true;
+      },
+      child: Scaffold(
+        body: Stack(
+          children: [
+            EventDetailBackground(coverImageURL: widget.event.coverImageURL),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: EventDataMobile(
+                  event: widget.event,
+                  organizer: widget.organizer,
+                  scrollController: widget.scrollController,
+                  bloc: widget.bloc,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

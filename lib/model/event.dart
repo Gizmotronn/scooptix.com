@@ -64,7 +64,10 @@ class Event {
   bool ticketsStillLoading = false;
 
   bool get preSaleEnabled => preSale != null && preSale!.enabled;
-  bool get preSaleAvailable => preSaleEnabled && preSale!.registrationEndDate.isAfter(DateTime.now());
+  bool get preSaleAvailable =>
+      preSaleEnabled &&
+      preSale!.registrationStartDate.isBefore(DateTime.now()) &&
+      preSale!.registrationEndDate.isAfter(DateTime.now());
 
   /// Returns a list of release managers only including managers that are valid for the current link type
   /// For example: Tickets for Loyalty Member invites should not be shown to regular page visitors.

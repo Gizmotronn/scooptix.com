@@ -23,7 +23,6 @@ class UserRepository {
 
   dispose() {
     currentUserNotifier.value = null;
-    _instance = null;
   }
 
   ValueNotifier<User?> currentUserNotifier = ValueNotifier<User?>(null);

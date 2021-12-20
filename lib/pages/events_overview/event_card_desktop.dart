@@ -206,9 +206,9 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                     child: CardButton(
                       title: 'View Event',
                       width: null,
-                      deactiveColor: MyTheme.appolloGreen,
+                      disabledColor: MyTheme.appolloGreen,
                       activeColor: MyTheme.appolloGreen.withOpacity(.9),
-                      deactiveColorText: MyTheme.appolloBackgroundColor,
+                      disabledColorText: MyTheme.appolloBackgroundColor,
                       activeColorText: MyTheme.appolloWhite,
                       onTap: () {
                         NavigationService.navigateTo(EventDetailPage.routeName,

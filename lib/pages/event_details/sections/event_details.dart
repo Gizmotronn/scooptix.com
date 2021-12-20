@@ -51,8 +51,12 @@ class _EventDataState extends State<EventData> {
   @override
   void initState() {
     super.initState();
+    initialize();
+  }
+
+  initialize() {
     _tabButtons = [
-      Menu('Detail', false, id: 1),
+      Menu('Details', false, id: 1),
     ];
 
     if (widget.event.preSaleAvailable) {
@@ -122,21 +126,6 @@ class _EventDataState extends State<EventData> {
           ),
         );
       }
-      /* if (widget.scrollController.offset < positions[0] - 90) {
-        scrolling = true;
-        WidgetsBinding.instance.addPostFrameCallback((_) async {
-          print(widget.scrollController.offset);
-          if (previousScrollPosition > widget.scrollController.offset) {
-            await widget.scrollController.animateTo(0, duration: MyTheme.animationDuration, curve: Curves.easeIn);
-            previousScrollPosition = widget.scrollController.offset;
-          } else {
-            await widget.scrollController
-                .animateTo(positions[0] - 90, duration: MyTheme.animationDuration, curve: Curves.easeIn);
-            previousScrollPosition = widget.scrollController.offset;
-          }
-          scrolling = false;
-        });
-      }*/
       if (!scrolling) {
         previousScrollPosition = widget.scrollController.offset;
       }
@@ -144,9 +133,7 @@ class _EventDataState extends State<EventData> {
   }
 
   Widget _buildNavBar(Event event) {
-    if (event.preSaleEnabled &&
-        event.preSale!.registrationStartDate.isBefore(DateTime.now()) &&
-        event.preSale!.registrationEndDate.isAfter(DateTime.now())) {
+    if (event.preSaleAvailable) {
       return EventDetailNavbar(
         imageURL: event.coverImageURL,
         mainText: "Register for Pre-Sale",
@@ -248,9 +235,9 @@ class _EventDataState extends State<EventData> {
                 height: 44,
                 borderRadius: BorderRadius.circular(8),
                 activeColor: MyTheme.appolloGreen,
-                deactiveColor: MyTheme.appolloGrey.withAlpha(140),
+                disabledColor: MyTheme.appolloGrey.withAlpha(140),
                 activeColorText: MyTheme.appolloWhite,
-                deactiveColorText: MyTheme.appolloGreen,
+                disabledColorText: MyTheme.appolloGreen,
                 onTap: () async {
                   await widget.scrollController.animateTo(positions[_tabButtons[index].id]! - 100,
                       curve: Curves.linear, duration: MyTheme.animationDuration);

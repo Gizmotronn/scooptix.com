@@ -13,6 +13,8 @@ class StateNotLoggedIn extends PreSaleState {}
 
 class StateNotRegistered extends PreSaleState {}
 
+class StatePreSaleNotAvailable extends PreSaleState {}
+
 class StateRegistered extends PreSaleState {
   final PreSaleRegistration preSale;
 

@@ -96,9 +96,10 @@ class EventCardMobile extends StatelessWidget {
                 child: AutoSizeText(
                   fullDate(event.date),
                   textAlign: TextAlign.start,
-                  maxLines: 2,
+                  maxLines: 1,
+                  minFontSize: 7,
                   style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloRed),
-                ).paddingBottom(8),
+                ).paddingBottom(5),
               ),
             ],
           ),

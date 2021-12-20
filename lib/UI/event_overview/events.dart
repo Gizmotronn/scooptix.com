@@ -42,7 +42,7 @@ class AppolloEvents extends StatelessWidget {
               shrinkWrap: true,
               itemCount: events.length,
               itemBuilder: (context, index) =>
-                  EventCardMobile(event: events[index]).paddingBottom(MyTheme.elementSpacing * 3),
+                  EventCardMobile(event: events[index]).paddingBottom(MyTheme.elementSpacing * 2),
             ).paddingHorizontal(MyTheme.elementSpacing / 2),
           );
         }

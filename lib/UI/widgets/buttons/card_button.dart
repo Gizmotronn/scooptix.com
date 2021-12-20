@@ -8,9 +8,9 @@ class CardButton extends StatefulWidget {
 
   final String title;
   final Color? activeColor;
-  final Color? deactiveColor;
+  final Color? disabledColor;
   final Color? activeColorText;
-  final Color? deactiveColorText;
+  final Color? disabledColorText;
   final BorderRadius? borderRadius;
 
   final double? width;
@@ -22,9 +22,9 @@ class CardButton extends StatefulWidget {
       required this.title,
       this.borderRadius,
       this.activeColor,
-      this.deactiveColor,
+      this.disabledColor,
       this.activeColorText,
-      this.deactiveColorText,
+      this.disabledColorText,
       this.width,
       this.height})
       : super(key: key);
@@ -38,9 +38,9 @@ class _CardButtonState extends State<CardButton> {
   @override
   Widget build(BuildContext context) {
     final activeColor = widget.activeColor ?? MyTheme.appolloGreen.withOpacity(.9);
-    final deactiveColor = widget.deactiveColor ?? MyTheme.appolloGreen;
+    final disabledColor = widget.disabledColor ?? MyTheme.appolloGreen;
     final activeColorText = widget.activeColorText ?? MyTheme.appolloWhite;
-    final deactiveColorText = widget.deactiveColorText ?? MyTheme.appolloBackgroundColor;
+    final disabledColorText = widget.disabledColorText ?? MyTheme.appolloBackgroundColor;
 
     return InkWell(
       onTap: widget.onTap,
@@ -51,14 +51,14 @@ class _CardButtonState extends State<CardButton> {
         height: widget.height ?? 34,
         width: widget.width,
         decoration: BoxDecoration(
-          color: isHover ? activeColor : deactiveColor,
+          color: isHover ? activeColor : disabledColor,
           borderRadius: widget.borderRadius ??
               BorderRadius.only(bottomLeft: Radius.circular(12), bottomRight: Radius.circular(12)),
         ),
         child: Center(
             child: AutoSizeText(
           widget.title,
-          style: MyTheme.textTheme.button!.copyWith(color: isHover ? activeColorText : deactiveColorText),
+          style: MyTheme.textTheme.button!.copyWith(color: isHover ? activeColorText : disabledColorText),
         )),
       ),
     );

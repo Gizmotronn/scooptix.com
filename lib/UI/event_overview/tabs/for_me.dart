@@ -279,7 +279,6 @@ class _EventsForMeState extends State<EventsForMe> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  AppolloAppBar(),
                   Container(
                     child: Column(
                       children: [

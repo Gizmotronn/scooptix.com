@@ -27,7 +27,11 @@ class PreSalePage extends StatelessWidget {
     return BlocBuilder<PreSaleBloc, PreSaleState>(
       bloc: bloc,
       builder: (c, state) {
-        if (state is StateRegistered) {
+        if (state is StatePreSaleNotAvailable) {
+          return Center(
+            child: Text("Sorry, the Pre-Sale is no longer available"),
+          );
+        } else if (state is StateRegistered) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
