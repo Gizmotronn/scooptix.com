@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -12,87 +11,64 @@ part 'authentication_event.dart';
 part 'authentication_state.dart';
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
-  AuthenticationBloc() : super(StateInitial());
-
-  @override
-  Stream<AuthenticationState> mapEventToState(
-    AuthenticationEvent event,
-  ) async* {
-    if (event is EventEmailProvided) {
-      yield* _checkUserStatus(event.email);
-    } else if (event is EventLoginPressed) {
-      yield* _loginExistingUser(event.email, event.pw);
-    } else if (event is EventCreateNewUser) {
-      yield* _createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, event.uid);
-    } else if (event is EventChangeEmail) {
-      yield StateInitial();
-    } /*else if (event is EventGoogleSignIn) {
-      yield* _signInWithGoogle();
-    } else if (event is EventFacebookSignIn) {
-      yield* _signInWithFacebook();
-    } else if (event is EventAppleSignIn) {
-      yield* _signInWithApple();
-    }*/
-    else if (event is EventPageLoad) {
-      yield* _signInCurrentUser();
-    } else if (event is EventLogout) {
-      yield* _logout();
-    } else if (event is EventEmailsConfirmed) {
-      yield StateNewUserEmailsConfirmed();
-    } else if (event is EventPasswordsConfirmed) {
-      yield StatePasswordsConfirmed(null);
-    } else if (event is EventSSOEmailsConfirmed) {
-      // SSO doesn't require a password so go straight to the PWConfirmed state
-      yield StatePasswordsConfirmed(event.uid);
-    }
+  AuthenticationBloc() : super(StateInitial()) {
+    on<EventEmailProvided>(_checkUserStatus);
+    on<EventLoginPressed>(_loginExistingUser);
+    on<EventCreateNewUser>(_createUser);
+    on<EventChangeEmail>((event, emit) => emit(StateInitial()));
+    on<EventPageLoad>((event, emit) => _signInCurrentUser(emit));
+    on<EventLogout>((event, emit) => _logout(emit));
+    on<EventEmailsConfirmed>((event, emit) => emit(StateNewUserEmailsConfirmed()));
+    on<EventPasswordsConfirmed>((event, emit) => emit(StatePasswordsConfirmed(null)));
+    on<EventSSOEmailsConfirmed>((event, emit) => emit(StatePasswordsConfirmed(event.uid)));
   }
 
   /// Checks whether the entered email address is new or from an existing user
-  Stream<AuthenticationState> _checkUserStatus(String email) async* {
+  _checkUserStatus(EventEmailProvided event, emit) async {
     print("checking user status");
-    yield StateLoadingUserData();
-    bool? isInUse = await FBServices.instance.isEmailInUse(email);
+    emit(StateLoadingUserData());
+    bool? isInUse = await FBServices.instance.isEmailInUse(event.email);
     if (isInUse == null) {
-      yield StateInvalidEmail();
+      emit(StateInvalidEmail());
     } else if (isInUse) {
-      yield StateExistingUserEmail();
+        emit(StateExistingUserEmail());
     } else {
-      yield StateNewUserEmail();
+        emit(StateNewUserEmail());
     }
   }
 
-  Stream<AuthenticationState> _loginExistingUser(String email, String pw) async* {
-    yield StateLoadingLogin();
-    auth.User? fbUser = await FBServices.instance.logIn(email, pw);
+  _loginExistingUser(EventLoginPressed event, emit) async {
+    emit(StateLoadingLogin());
+    auth.User? fbUser = await FBServices.instance.logIn(event.email, event.pw);
     if (fbUser == null) {
-      yield StateLoginFailed();
+      emit(StateLoginFailed());
     } else {
       await UserRepository.instance.getUser(fbUser.uid);
 
-      yield StateLoggedIn(
-          email, UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!);
+      emit(StateLoggedIn(
+          event.email, UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!));
     }
   }
 
   /// Creates a new user, used by email / password as well as SSO signups.
   /// For email / password uid should be null
   /// For SSO password should be empty and uid should be the uid returned by the SSO
-  Stream<AuthenticationState> _createUser(
-      String email, String pw, String firstName, String lastName, DateTime dob, Gender gender, String? uid) async* {
-    if (uid == null && pw.length < 8) {
+  _createUser(
+      EventCreateNewUser event, emit) async {
+    if (event.uid == null && event.pw.length < 8) {
       // Notify UI about error and revert to previous state
-      yield StateErrorSignUp(SignUpError.Password);
-      yield StateNewUserEmail();
+      emit(StateErrorSignUp(SignUpError.Password));
+      emit(StateNewUserEmail());
     } else {
-      yield StateLoadingCreateUser();
-      await UserRepository.instance.createUser(email, pw, firstName, lastName, dob, gender, uid: uid);
+      emit(StateLoadingCreateUser());
+      await UserRepository.instance.createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, uid: event.uid);
       if (UserRepository.instance.currentUserNotifier.value == null) {
         // Notify UI about error and revert to previous state
-        yield StateErrorSignUp(SignUpError.Unknown);
-        yield StatePasswordsConfirmed(uid);
+        emit(StateErrorSignUp(SignUpError.Unknown));
+        emit(StatePasswordsConfirmed(event.uid));
       } else {
-        yield StateLoggedIn(UserRepository.instance.currentUser()!.email!,
-            UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!);
+        emit(StateLoggedIn(UserRepository.instance.currentUser()!.email!,
+            UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!));
       }
     }
   }
@@ -214,7 +190,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }*/
 
   /// Tries to login a previously logged in user.
-  Stream<AuthenticationState> _signInCurrentUser() async* {
+  _signInCurrentUser(emit) async {
     if (UserRepository.instance.currentUser() == null) {
       auth.User? fbUser = auth.FirebaseAuth.instance.currentUser;
       if (fbUser == null) {
@@ -223,7 +199,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       }
       if (fbUser == null) {
         print("no state change user");
-        yield StateInitial();
+        emit(StateInitial());
       } else {
         /*await UserRepository.instance.getUser(fbUser.uid);
 
@@ -235,21 +211,21 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
               : "";
           yield StateNewSSOUser(fbUser.email!, fbUser.uid, firstName, lastName);
         } else {*/
-        yield StateAutoLoggedIn(fbUser.email, UserRepository.instance.currentUser()!.firstname,
-            UserRepository.instance.currentUser()!.lastname);
+        emit(StateAutoLoggedIn(fbUser.email, UserRepository.instance.currentUser()!.firstname,
+            UserRepository.instance.currentUser()!.lastname));
         // }
       }
     } else {
-      yield StateLoggedIn(UserRepository.instance.currentUser()!.email!,
-          UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!);
+      emit(StateLoggedIn(UserRepository.instance.currentUser()!.email!,
+          UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!));
     }
   }
 
-  Stream<AuthenticationState> _logout() async* {
+  _logout(emit) async* {
     await auth.FirebaseAuth.instance.signOut();
     UserRepository.instance.dispose();
     PaymentRepository.instance.dispose();
     PreSaleRepository.instance.dispose();
-    yield StateInitial();
+    emit(StateInitial());
   }
 }

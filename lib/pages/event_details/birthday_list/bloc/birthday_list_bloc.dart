@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
@@ -15,67 +13,58 @@ part 'birthday_list_event.dart';
 part 'birthday_list_state.dart';
 
 class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
-  BirthdayListBloc() : super(StateLoading());
-
-  @override
-  Stream<BirthdayListState> mapEventToState(
-    BirthdayListEvent event,
-  ) async* {
-    if (event is EventLoadExistingList) {
-      yield* _loadExistingList(event.event);
-    } else if (event is EventCreateList) {
-      yield* _createList(event.event, event.booking, event.numGuests);
-    } else if (event is EventLoadBookingData) {
-      yield* _loadBookingData(event.event);
-    }
+  BirthdayListBloc() : super(StateLoading()){
+    on<EventLoadExistingList>(_loadExistingList);
+    on<EventCreateList>(_createList);
+    on<EventLoadBookingData>(_loadBookingData);
   }
 
-  Stream<BirthdayListState> _loadBookingData(Event event) async* {
-    yield StateLoading();
-    BookingData? booking = await BirthdayListRepository.instance.loadBookingDataForEvent(event);
+  _loadBookingData(EventLoadBookingData event, emit) async {
+    emit(StateLoading());
+    BookingData? booking = await BirthdayListRepository.instance.loadBookingDataForEvent(event.event);
     print(booking);
     if (booking != null) {
-      yield StateBookingData(booking);
+      emit(StateBookingData(booking));
     } else {
-      yield StateNoBookingsAvailable();
+      emit(StateNoBookingsAvailable());
     }
   }
 
-  Stream<BirthdayListState> _loadExistingList(Event event) async* {
-    yield StateLoading();
-    BirthdayList? bDayList = await BirthdayListRepository.instance.loadExistingList(event.docID!);
+  _loadExistingList(EventLoadExistingList event, emit) async {
+    emit(StateLoading());
+    BirthdayList? bDayList = await BirthdayListRepository.instance.loadExistingList(event.event.docID!);
     if (bDayList == null) {
-      if (UserRepository.instance.currentUser()!.dob!.difference(event.date).inDays.abs() % 365.25 > 14 &&
-          UserRepository.instance.currentUser()!.dob!.difference(event.date).inDays.abs() % 365.25 - 365.25 < -14) {
-        yield StateTooFarAway();
+      if (UserRepository.instance.currentUser()!.dob!.difference(event.event.date).inDays.abs() % 365.25 > 14 &&
+          UserRepository.instance.currentUser()!.dob!.difference(event.event.date).inDays.abs() % 365.25 - 365.25 < -14) {
+        emit(StateTooFarAway());
       } else {
-        yield StateNoList();
+        emit(StateNoList());
       }
     } else {
       bDayList.attendees = await TicketRepository.instance
-          .loadBookingAttendees(event.docID!, UserRepository.instance.currentUser()!.firebaseUserID);
-      yield StateExistingList(bDayList);
+          .loadBookingAttendees(event.event.docID!, UserRepository.instance.currentUser()!.firebaseUserID);
+        emit(StateExistingList(bDayList));
     }
   }
 
-  Stream<BirthdayListState> _createList(Event event, BookingData booking, int numGuests) async* {
-    yield StateCreatingList();
-    String? uuid = await BirthdayListRepository.instance.makeBooking(event, booking, numGuests);
+  _createList(EventCreateList event, emit) async {
+    emit(StateCreatingList());
+    String? uuid = await BirthdayListRepository.instance.makeBooking(event.event, event.booking, event.numGuests);
     // Issue ticket for list creator
-    TicketRelease? bookingTicket = event.getReleaseForBooking();
+    TicketRelease? bookingTicket = event.event.getReleaseForBooking();
     if (uuid == null || bookingTicket == null) {
-      yield StateError("Bookings are currently not available. Sorry for any inconvenience.");
+      emit(StateError("Bookings are currently not available. Sorry for any inconvenience."));
     } else {
       //TicketRepository.instance.acceptInvitation(event, bookingTicket);
-      yield StateExistingList(BirthdayList()
+      emit(StateExistingList(BirthdayList()
         ..uuid = uuid
-        ..estGuests = numGuests
+        ..estGuests = event.numGuests
         ..attendees = [
           AttendeeTicket()
             ..dateAccepted = DateTime.now()
             ..name =
                 "${UserRepository.instance.currentUser()!.firstname} ${UserRepository.instance.currentUser()!.lastname}"
-        ]);
+        ]));
     }
   }
 }

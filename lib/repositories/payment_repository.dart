@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:ticketapp/model/discount.dart';
@@ -18,8 +19,7 @@ class PaymentRepository {
       _instance = new PaymentRepository._();
       _instance!.releaseDataUpdatedStream = StreamController.broadcast();
       Stripe.init(
-          "pk_test_51HFJF6CE1hbokQY3T40M55NEswDQti67gfDeSVUTvymGQI5TnDeesnK0n0R1lYLn0B09at5jPgeHebh65bMCtGwL00RipFf2qB",
-          returnUrlForSca: "https://scooptix.com/success");
+          "pk_test_51HFJF6CE1hbokQY3T40M55NEswDQti67gfDeSVUTvymGQI5TnDeesnK0n0R1lYLn0B09at5jPgeHebh65bMCtGwL00RipFf2qB");
     }
     return _instance!;
   }
@@ -48,8 +48,8 @@ class PaymentRepository {
 
   /// Checks if the payment is valid an confirms the payment with stripe.
   /// Ticket creation and final validity check are handled by the stripe webhook CF
-  Future<Map<String, dynamic>> confirmPayment(String clientSecret, String paymentId) async {
-    return await Stripe.instance.confirmPayment(clientSecret, paymentMethodId: paymentId);
+  Future<Map<String, dynamic>> confirmPayment(String clientSecret, String paymentId, BuildContext context) async {
+    return await Stripe.instance.confirmPayment(clientSecret, context, paymentMethodId: paymentId);
   }
 
   Future<http.Response?> createPaymentIntent(
@@ -66,7 +66,7 @@ class PaymentRepository {
         "user": UserRepository.instance.currentUser()!.firebaseUserID
       });
       return response;
-    } on Exception catch (ex) {
+    } on Exception catch (ex, s) {
       print(ex);
       return null;
     }

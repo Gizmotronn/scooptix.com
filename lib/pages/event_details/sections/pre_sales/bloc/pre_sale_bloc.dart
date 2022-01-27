@@ -11,37 +11,29 @@ part 'pre_sale_event.dart';
 part 'pre_sale_state.dart';
 
 class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
-  PreSaleBloc() : super(StateLoading());
-
-  @override
-  Stream<PreSaleState> mapEventToState(
-    PreSaleEvent event,
-  ) async* {
-    if (event is EventRegister) {
-      yield* _registerForPreSale(event.event);
-    } else if (event is EventCheckStatus) {
-      yield* _checkStatus(event.event);
-    }
+  PreSaleBloc() : super(StateLoading()){
+    on<EventRegister>(_registerForPreSale);
+    on<EventCheckStatus>(_checkStatus);
   }
 
-  Stream<PreSaleState> _registerForPreSale(Event event) async* {
-    yield StateLoading();
-    PreSaleRegistration preSale = await PreSaleRepository.instance.registerForPreSale(event);
-    yield StateRegistered(preSale);
+  _registerForPreSale(EventRegister data, emit) async {
+    emit(StateLoading());
+    PreSaleRegistration preSale = await PreSaleRepository.instance.registerForPreSale(data.event);
+    emit(StateRegistered(preSale));
   }
 
-  Stream<PreSaleState> _checkStatus(Event event) async* {
-    if (!event.preSaleAvailable) {
-      yield StatePreSaleNotAvailable();
+  _checkStatus(EventCheckStatus data, emit) async {
+    if (!data.event.preSaleAvailable) {
+      emit(StatePreSaleNotAvailable());
     } else if (!UserRepository.instance.isLoggedIn) {
-      yield StateNotLoggedIn();
+        emit(StateNotLoggedIn());
     } else {
-      yield StateLoading();
-      PreSaleRegistration? preSale = await PreSaleRepository.instance.isRegisteredForPreSale(event);
+        emit(StateLoading());
+      PreSaleRegistration? preSale = await PreSaleRepository.instance.isRegisteredForPreSale(data.event);
       if (preSale != null) {
-        yield StateRegistered(preSale);
+        emit(StateRegistered(preSale));
       } else {
-        yield StateNotRegistered();
+        emit(StateNotRegistered());
       }
     }
   }

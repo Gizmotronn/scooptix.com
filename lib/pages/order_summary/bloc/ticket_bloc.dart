@@ -10,26 +10,18 @@ part 'ticket_event.dart';
 part 'ticket_state.dart';
 
 class TicketBloc extends Bloc<TicketEvent, TicketState> {
-  TicketBloc() : super(StateLoading(message: "Fetching your invitation data, this won't take long ..."));
-
-  @override
-  Stream<TicketState> mapEventToState(
-    TicketEvent event,
-  ) async* {
-    if (event is EventApplyDiscount) {
-      yield* _applyDiscount(event.event, event.code, event.quantity);
-    } else if (event is EventRemoveDiscount) {
-      yield StateDiscountCodeRemoved();
-    }
+  TicketBloc() : super(StateLoading(message: "Fetching your invitation data, this won't take long ...")){
+    on<EventApplyDiscount>(_applyDiscount);
+    on<EventRemoveDiscount>((event, emit) => emit(StateDiscountCodeRemoved()));
   }
 
-  Stream<TicketState> _applyDiscount(Event event, String code, int quantity) async* {
-    yield StateDiscountCodeLoading();
-    Discount? discount = await TicketRepository.instance.loadDiscount(event, code);
-    if (discount == null || discount.maxUses < discount.timesUsed + quantity) {
-      yield StateDiscountCodeInvalid();
+  _applyDiscount(EventApplyDiscount event, emit) async {
+    emit(StateDiscountCodeLoading());
+    Discount? discount = await TicketRepository.instance.loadDiscount(event.event, event.code);
+    if (discount == null || discount.maxUses < discount.timesUsed + event.quantity) {
+      emit(StateDiscountCodeInvalid());
     } else {
-      yield StateDiscountApplied(discount);
+      emit(StateDiscountApplied(discount));
     }
   }
 }

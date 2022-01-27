@@ -10,21 +10,14 @@ part 'my_tickets_event.dart';
 part 'my_tickets_state.dart';
 
 class MyTicketsBloc extends Bloc<MyTicketsEvent, MyTicketsState> {
-  MyTicketsBloc() : super(StateLoading());
-
-  @override
-  Stream<MyTicketsState> mapEventToState(
-    MyTicketsEvent event,
-  ) async* {
-    if (event is EventLoadMyTickets) {
-      yield* loadMyTickets();
-    }
+  MyTicketsBloc() : super(StateLoading()) {
+   on<EventLoadMyTickets>(loadMyTickets);
   }
 
-  Stream<MyTicketsState> loadMyTickets() async* {
-    yield StateLoading();
+  loadMyTickets(event, emit) async {
+    emit(StateLoading());
     List<Ticket> tickets =
         await TicketRepository.instance.loadMyTickets(UserRepository.instance.currentUser()!.firebaseUserID);
-    yield StateTicketOverview(tickets);
+    emit(StateTicketOverview(tickets));
   }
 }

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/bookings/booking.dart';
@@ -9,24 +7,17 @@ part 'bookings_event.dart';
 part 'bookings_state.dart';
 
 class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
-  BookingsBloc() : super(StateLoading());
-
-  @override
-  Stream<BookingsState> mapEventToState(
-    BookingsEvent event,
-  ) async* {
-    if (event is EventLoadBookings) {
-      yield* _loadBookings();
-    }
+  BookingsBloc() : super(StateLoading()){
+   on<EventLoadBookings>(_loadBookings);
   }
 
-  Stream<BookingsState> _loadBookings() async* {
-    yield StateLoading();
+  _loadBookings(event, emit) async {
+    emit(StateLoading());
     List<Booking> bookings = await BirthdayListRepository.instance.loadBookingData();
     if (bookings.isEmpty) {
-      yield StateNoBookings();
+      emit(StateNoBookings());
     } else {
-      yield StateBookings(bookings);
+      emit(StateBookings(bookings));
     }
   }
 }

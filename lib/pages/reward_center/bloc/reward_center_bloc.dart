@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_registration.dart';
@@ -10,21 +8,14 @@ part 'reward_center_event.dart';
 part 'reward_center_state.dart';
 
 class RewardCenterBloc extends Bloc<RewardCenterEvent, RewardCenterState> {
-  RewardCenterBloc() : super(StateLoading());
-
-  @override
-  Stream<RewardCenterState> mapEventToState(
-    RewardCenterEvent event,
-  ) async* {
-    if (event is EventLoadRewardCenter) {
-      yield* loadRewardCenterData();
-    }
+  RewardCenterBloc() : super(StateLoading()){
+   on<EventLoadRewardCenter>(loadRewardCenterData);
   }
 
-  Stream<RewardCenterState> loadRewardCenterData() async* {
-    yield StateLoading();
+  loadRewardCenterData(data, emit) async {
+    emit(StateLoading());
     List<PreSaleRegistration> preSales = await PreSaleRepository.instance
         .loadPreSaleRegistrations(UserRepository.instance.currentUser()!.firebaseUserID);
-    yield StateRewards(preSales);
+    emit(StateRewards(preSales));
   }
 }

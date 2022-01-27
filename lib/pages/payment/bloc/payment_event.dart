@@ -24,8 +24,9 @@ class EventRequestPI extends PaymentEvent {
   final Map<TicketRelease, int> selectedRelease;
   final Discount? discount;
   final Event event;
+  final BuildContext context;
 
-  const EventRequestPI(this.selectedRelease, this.discount, this.event);
+  const EventRequestPI(this.selectedRelease, this.discount, this.event, this.context);
 }
 
 class EventRequestFreeTickets extends PaymentEvent {

@@ -1,4 +1,4 @@
-import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
@@ -17,82 +17,75 @@ part 'payment_event.dart';
 part 'payment_state.dart';
 
 class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
-  PaymentBloc() : super(StateInitial());
+  PaymentBloc() : super(StateInitial()) {
+    on<EventLoadAvailableReleases>((event, emit) async {
+      PaymentRepository.instance.clear();
+      await _loadReleases(event.selectedTickets, event.event, emit);
+    });
+    on<EventConfirmSetupIntent>(_savePaymentMethod);
+    on<EventRequestPI>(_createPaymentIntent);
+    on<EventRequestFreeTickets>(_issueFreeTickets);
+  }
 
   Map<TicketRelease, int>? selectedTickets;
 
-  @override
-  Stream<PaymentState> mapEventToState(
-    PaymentEvent event,
-  ) async* {
-    if (event is EventLoadAvailableReleases) {
-      PaymentRepository.instance.clear();
-      yield* _loadReleases(event.selectedTickets, event.event);
-    } else if (event is EventConfirmSetupIntent) {
-      yield* _savePaymentMethod(event.paymentMethod, event.saveCreditCard, event.event);
-    } else if (event is EventRequestPI) {
-      yield* _createPaymentIntent(event.selectedRelease, event.discount, event.event);
-    } else if (event is EventRequestFreeTickets) {
-      yield* _issueFreeTickets(event.selectedRelease, event.event);
-    }
-  }
-
-  Stream<PaymentState> _createPaymentIntent(
-      Map<TicketRelease, int> selectedReleases, Discount? discount, Event event) async* {
-    yield StateLoadingPaymentIntent();
+  _createPaymentIntent(
+      EventRequestPI event, emit) async {
+    emit(StateLoadingPaymentIntent());
     try {
       // It's possible there are free tickets selected as well, we only want to process paid ones here
       Map<TicketRelease, int> paidReleases = {};
       Map<TicketRelease, int> freeReleases = {};
-      selectedReleases.forEach((key, value) {
+      event.selectedRelease.forEach((key, value) {
         if (key.price != 0) {
           paidReleases[key] = value;
         } else {
           freeReleases[key] = value;
         }
       });
-      bool ticketsStillAvailable = await TicketRepository.instance.checkTicketsStillAvailable(event, paidReleases);
-      bool discountsStillAvailable = discount == null ||
-          await TicketRepository.instance.checkDiscountsStillAvailable(event, discount,
+      bool ticketsStillAvailable = await TicketRepository.instance.checkTicketsStillAvailable(event.event, paidReleases);
+      bool discountsStillAvailable = event.discount == null ||
+          await TicketRepository.instance.checkDiscountsStillAvailable(event.event, event.discount!,
               paidReleases.values.fold(0, (int previousValue, int element) => previousValue + element));
       if (!ticketsStillAvailable) {
-        yield StatePaymentError("The selected tickets are no longer available");
+        emit(StatePaymentError("The selected tickets are no longer available"));
         PaymentRepository.instance.releaseDataUpdatedStream.add(true);
       } else if (!discountsStillAvailable) {
-        yield StatePaymentError("The selected discount is no longer available");
+        emit(StatePaymentError("The selected discount is no longer available"));
         PaymentRepository.instance.releaseDataUpdatedStream.add(true);
       } else {
-        http.Response? response = await PaymentRepository.instance.createPaymentIntent(event, paidReleases, discount);
+        http.Response? response = await PaymentRepository.instance.createPaymentIntent(event.event, paidReleases, event.discount);
 
         if (response != null) {
           if (response.statusCode == 200) {
             PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-            yield* _confirmPayment(
-                freeReleases: freeReleases,
-                event: event,
-                discount: discount,
+            await _confirmPayment(
+              emit, freeReleases: freeReleases,
+                event: event.event,
+                discount: event.discount,
                 ticketQuantity: paidReleases.values.fold(0, (int a, int b) => a + b) +
-                    freeReleases.values.fold(0, (a, b) => a + b));
+                    freeReleases.values.fold(0, (a, b) => a + b),
+            context: event.context);
           } else {
-            yield StatePaymentError("An unknown error occurred. Please try again.");
+            emit(StatePaymentError("An unknown error occurred. Please try again."));
           }
         } else {
-          yield StatePaymentError("An unknown error occurred. Please try again.");
+            emit(StatePaymentError("An unknown error occurred. Please try again."));
         }
       }
     } catch (e, _) {
       print(e);
-      yield StatePaymentError("An unknown error occurred. Please try again.");
+      emit(StatePaymentError("An unknown error occurred. Please try again."));
     }
   }
 
-  Stream<PaymentState> _confirmPayment(
-      {Map<TicketRelease, int>? freeReleases, Event? event, int ticketQuantity = 1, Discount? discount}) async* {
+  _confirmPayment(emit,
+      {Map<TicketRelease, int>? freeReleases, Event? event, int ticketQuantity = 1, Discount? discount, required BuildContext context}) async {
     assert(freeReleases == null || event != null);
 
     try {
       Map<String, dynamic> result = await PaymentRepository.instance
-          .confirmPayment(PaymentRepository.instance.clientSecret!, PaymentRepository.instance.paymentMethodId!);
+          .confirmPayment(PaymentRepository.instance.clientSecret!, PaymentRepository.instance.paymentMethodId!, context);
       if (result["status"] == "succeeded") {
         TicketRepository.instance.incrementLinkTicketsBoughtCounter(event!, ticketQuantity);
         CustomerRepository.instance.addCustomerAttendingAction(event);
@@ -109,48 +102,48 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             await TicketRepository.instance.acceptInvitation(event, element);
           });
         }
-        yield StatePaymentCompleted(
-            "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.");
+        emit(StatePaymentCompleted(
+            "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes."));
         PaymentRepository.instance.clear();
       } else {
-        yield StatePaymentError(result.toString());
+        emit(StatePaymentError(result.toString()));
       }
     } catch (e) {
       print(e);
-      yield StatePaymentError(e.toString());
+      emit(StatePaymentError(e.toString()));
     }
   }
 
-  Stream<PaymentState> _savePaymentMethod(PaymentMethod payment, bool saveCreditCard, Event event) async* {
-    yield StateCardUpdated();
-    PaymentRepository.instance.saveCreditCard = saveCreditCard;
-    if (saveCreditCard) {
+  _savePaymentMethod(EventConfirmSetupIntent event, emit) async {
+    emit(StateCardUpdated());
+    PaymentRepository.instance.saveCreditCard = event.saveCreditCard;
+    if (event.saveCreditCard) {
       http.Response? response = await PaymentRepository.instance.getSetupIntent(true);
       if (response != null && response.statusCode == 200) {
         response = await PaymentRepository.instance
-            .confirmSetupIntent(payment.id, json.decode(response.body)["setupIntentId"]);
+            .confirmSetupIntent(event.paymentMethod.id, json.decode(response.body)["setupIntentId"]);
 
         if (response != null) {
           if (response.statusCode == 200) {
-            PaymentRepository.instance.paymentMethodId = payment.id;
-            PaymentRepository.instance.last4 = payment.last4;
-            yield* _loadReleases(this.selectedTickets!, event);
+            PaymentRepository.instance.paymentMethodId = event.paymentMethod.id;
+            PaymentRepository.instance.last4 = event.paymentMethod.last4;
+            emit(_loadReleases(selectedTickets!, event.event, emit));
           } else {
-            yield StatePaymentError(response.toString());
+            emit(StatePaymentError(response.toString()));
           }
         } else {
-          yield StatePaymentError("An unknown error occurred. Please try again.");
+            emit(StatePaymentError("An unknown error occurred. Please try again."));
         }
       }
     } else {
-      PaymentRepository.instance.paymentMethodId = payment.id;
-      PaymentRepository.instance.last4 = payment.last4;
-      yield StatePaidTickets();
+      PaymentRepository.instance.paymentMethodId = event.paymentMethod.id;
+      PaymentRepository.instance.last4 = event.paymentMethod.last4;
+            emit(StatePaidTickets());
     }
   }
 
-  Stream<PaymentState> _loadReleases(Map<TicketRelease, int> selectedTickets, Event event) async* {
-    yield StateLoading();
+  _loadReleases(Map<TicketRelease, int> selectedTickets, Event event, emit) async {
+    emit(StateLoading());
     this.selectedTickets = selectedTickets;
     if (selectedTickets.keys.any((element) => element.price! > 0)) {
       if (PaymentRepository.instance.paymentMethodId == null || PaymentRepository.instance.last4 == null) {
@@ -162,16 +155,16 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
               PaymentRepository.instance.paymentMethodId = json.decode(response.body)["paymentMethod"];
               PaymentRepository.instance.last4 = json.decode(response.body)["last4"];
             }
-            yield StatePaidTickets();
+            emit(StatePaidTickets());
           } else {
-            yield StatePaymentError("An unknown error occurred. Please try again.");
+            emit(StatePaymentError("An unknown error occurred. Please try again."));
           }
         } catch (e) {
           print(e);
-          yield StatePaymentError("An unknown error occurred. Please try again.");
+          emit(StatePaymentError("An unknown error occurred. Please try again."));
         }
       } else {
-        yield StatePaidTickets();
+          emit(StatePaidTickets());
       }
     } else {
       List<Future<List<Ticket>>> ownedTicketsFutures = [];
@@ -181,19 +174,19 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       });
       List<List<Ticket>> ownedTickets = await Future.wait(ownedTicketsFutures);
       if (ownedTickets.any((element) => element.isNotEmpty)) {
-        yield StateFreeTicketAlreadyOwned();
+        emit(StateFreeTicketAlreadyOwned());
       } else {
-        yield StateFreeTicketSelected();
+        emit(StateFreeTicketSelected());
       }
     }
   }
 
-  Stream<PaymentState> _issueFreeTickets(Map<TicketRelease, int> selectedRelease, Event event) async* {
-    yield StateLoading();
-    selectedRelease.keys.forEach((element) async {
-      await TicketRepository.instance.acceptInvitation(event, element);
+  _issueFreeTickets(EventRequestFreeTickets event, emit) async {
+    emit(StateLoading());
+    event.selectedRelease.keys.forEach((element) async {
+      await TicketRepository.instance.acceptInvitation(event.event, element);
     });
-    yield StatePaymentCompleted(
-        "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes.");
+    emit(StatePaymentCompleted(
+        "We are processing your order and will send you an email as soon as your tickets are ready. This should not take more than a few minutes."));
   }
 }

@@ -171,7 +171,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     if (state is StateFreeTicketSelected) {
                                       bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
                                     } else {
-                                      bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event));
+                                      bloc.add(EventRequestPI(widget.selectedTickets, widget.discount, widget.event, context));
                                     }
                                   } else {
                                     AlertGenerator.showAlert(
@@ -714,7 +714,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                           Map<String, dynamic> data =
                                               await Stripe.instance.api.createPaymentMethodFromCard(card);
                                           PaymentMethod pm =
-                                              PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                              PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"], DateTime(form.value["year"] as int, form.value["month"] as int));
                                           bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
                                         } catch (e) {
                                           print(e);
@@ -760,7 +760,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                     Map<String, dynamic> data =
                                         await Stripe.instance.api.createPaymentMethodFromCard(card);
                                     PaymentMethod pm =
-                                        PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"]);
+                                        PaymentMethod(data["id"], data["card"]["last4"], data["card"]["brand"], DateTime(form.value["year"] as int, form.value["month"] as int));
                                     print(pm.id);
                                     bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
                                   } catch (e) {

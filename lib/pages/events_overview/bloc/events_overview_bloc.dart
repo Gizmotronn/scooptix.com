@@ -18,25 +18,19 @@ part 'events_overview_state.dart';
 class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> {
   Event? selectedEvent;
 
-  EventsOverviewBloc() : super(LoadingEventsState());
-
-  @override
-  Stream<EventsOverviewState> mapEventToState(EventsOverviewEvent event) async* {
-    if (event is TabberNavEvent) {
-      yield* _handleSelectedTabEvent(event);
-    } else if (event is LoadEventDetailEvent) {
-      yield* _handleLoadEventDetail(event);
-    }
+  EventsOverviewBloc() : super(LoadingEventsState()) {
+    on<TabberNavEvent>(_handleSelectedTabEvent);
+    on<LoadEventDetailEvent>(_handleLoadEventDetail);
   }
 
-  Stream<EventsOverviewState> _handleSelectedTabEvent(TabberNavEvent event) async* {
+  _handleSelectedTabEvent(TabberNavEvent event, emit) async {
     if (event.index == 0) {
-      yield LoadingEventsState();
+      emit(LoadingEventsState());
       final allEvents = EventsRepository.instance.upcomingPublicEvents;
 
-      yield AllEventsState(allEvents);
+      emit(AllEventsState(allEvents));
     } else if (event.index == 1) {
-      yield LoadingEventsState();
+        emit(LoadingEventsState());
       List<Event> events = [];
 
       EventsRepository.instance.upcomingPublicEvents.forEach((event) {
@@ -48,43 +42,43 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
         });
       });
 
-      yield FreeEventsState(events);
+      emit(FreeEventsState(events));
     } else if (event.index == 2) {
-      yield LoadingEventsState();
+      emit(LoadingEventsState());
 
-      yield ForMeEventsState();
+      emit(ForMeEventsState());
     } else if (event.index == 3) {
-      yield LoadingEventsState();
+      emit(LoadingEventsState());
       final events = EventsRepository.instance.upcomingPublicEvents;
       final todayEvent = events
           .where((event) => event.date.day == DateTime.now().day && event.date.month == DateTime.now().month)
           .toList();
 
-      yield TodayEventsState(todayEvent);
+      emit(TodayEventsState(todayEvent));
     } else if (event.index == 4) {
-      yield LoadingEventsState();
+      emit(LoadingEventsState());
       final events = EventsRepository.instance.upcomingPublicEvents;
       final thisWeekEndEvents =
           events.where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 7)))).toList();
 
-      yield ThisWeekendEventsState(thisWeekEndEvents);
+      emit(ThisWeekendEventsState(thisWeekEndEvents));
     } else if (event.index == 5) {
-      yield LoadingEventsState();
+      emit(LoadingEventsState());
       final events = EventsRepository.instance.upcomingPublicEvents;
       final thisWeekEvent =
           events.where((event) => event.date.isBefore(DateTime.now().add(Duration(days: 7)))).toList();
 
-      yield ThisWeekEventsState(thisWeekEvent);
+      emit(ThisWeekEventsState(thisWeekEvent));
     } else if (event.index == 6) {
-      yield LoadingEventsState();
+      emit(LoadingEventsState());
 
       List<Event> events = EventsRepository.instance.upcomingPublicEvents;
-      yield UpcomingEventsState(events);
+      emit(UpcomingEventsState(events));
     }
   }
 
-  Stream<EventsOverviewState> _handleLoadEventDetail(LoadEventDetailEvent e) async* {
-    yield LoadingEventsState();
+  _handleLoadEventDetail(LoadEventDetailEvent e, emit) async {
+    emit(LoadingEventsState());
     try {
       final event = await EventsRepository.instance.loadEventById(e.id);
       final organizer = await UserRepository.instance.loadOrganizer(event!.organizer!);
@@ -93,9 +87,9 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
         FBPixelService.instance.sendPageViewEvent(event.pixelId!);
       }
 
-      yield EventDetailState(event, organizer);
+      emit(EventDetailState(event, organizer));
     } catch (e) {
-      yield ErrorEventDetailState('404: Page Not Found');
+        emit(ErrorEventDetailState('404: Page Not Found'));
     }
   }
 }
