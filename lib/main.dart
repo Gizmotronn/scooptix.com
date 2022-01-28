@@ -18,6 +18,7 @@ import 'UI/event_overview/tabs/for_me.dart';
 import 'pages/reward_center/reward_center_sheet.dart';
 import 'services/bugsnag_wrapper.dart';
 import 'UI/icons.dart';
+import 'dart:js' as js;
 
 void main() {
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
@@ -230,27 +231,52 @@ class _WrapperPageState extends State<WrapperPage> {
   }
 
   List<BottomNavigationBarItem> _navBarsItems() {
+    bool isCanvas = js.context['flutterCanvasKit'] != null;
+    print(isCanvas);
     return [
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloIcons.home, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloIcons.home, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.home, color: MyTheme.appolloWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.home, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.home, color: MyTheme.appolloGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.home, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "Home"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.heartOutline,
+                  color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.appolloGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.heartOutline,
+                  color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "For Me"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon:
-              SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.appolloWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.calenderOutline,
+                  color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.appolloGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.calenderOutline,
+                  color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "My Bookings"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.ticket, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.appolloGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.ticket, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "My Tickets"),
       BottomNavigationBarItem(
-          icon: SvgPicture.asset(AppolloIcons.reward, color: MyTheme.appolloWhite, width: 24, height: 24),
-          activeIcon: SvgPicture.asset(AppolloIcons.reward, color: MyTheme.appolloGreen, width: 24, height: 24),
+          icon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.reward, color: MyTheme.appolloWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.reward, color: MyTheme.appolloWhite, width: 24, height: 24),
+          activeIcon: isCanvas
+              ? SvgPicture.asset(AppolloIcons.reward, color: MyTheme.appolloGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.reward, color: MyTheme.appolloGreen, width: 24, height: 24),
           label: "Rewards"),
     ];
   }

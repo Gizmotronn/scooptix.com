@@ -29,8 +29,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
 
   Map<TicketRelease, int>? selectedTickets;
 
-  _createPaymentIntent(
-      EventRequestPI event, emit) async {
+  _createPaymentIntent(EventRequestPI event, emit) async {
     emit(StateLoadingPaymentIntent());
     try {
       // It's possible there are free tickets selected as well, we only want to process paid ones here
@@ -43,7 +42,8 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           freeReleases[key] = value;
         }
       });
-      bool ticketsStillAvailable = await TicketRepository.instance.checkTicketsStillAvailable(event.event, paidReleases);
+      bool ticketsStillAvailable =
+          await TicketRepository.instance.checkTicketsStillAvailable(event.event, paidReleases);
       bool discountsStillAvailable = event.discount == null ||
           await TicketRepository.instance.checkDiscountsStillAvailable(event.event, event.discount!,
               paidReleases.values.fold(0, (int previousValue, int element) => previousValue + element));
@@ -54,23 +54,24 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
         emit(StatePaymentError("The selected discount is no longer available"));
         PaymentRepository.instance.releaseDataUpdatedStream.add(true);
       } else {
-        http.Response? response = await PaymentRepository.instance.createPaymentIntent(event.event, paidReleases, event.discount);
+        http.Response? response =
+            await PaymentRepository.instance.createPaymentIntent(event.event, paidReleases, event.discount);
 
         if (response != null) {
           if (response.statusCode == 200) {
             PaymentRepository.instance.clientSecret = json.decode(response.body)["clientSecret"];
-            await _confirmPayment(
-              emit, freeReleases: freeReleases,
+            await _confirmPayment(emit,
+                freeReleases: freeReleases,
                 event: event.event,
                 discount: event.discount,
-                ticketQuantity: paidReleases.values.fold(0, (int a, int b) => a + b) +
-                    freeReleases.values.fold(0, (a, b) => a + b),
-            context: event.context);
+                ticketQuantity:
+                    paidReleases.values.fold(0, (int a, int b) => a + b) + freeReleases.values.fold(0, (a, b) => a + b),
+                context: event.context);
           } else {
             emit(StatePaymentError("An unknown error occurred. Please try again."));
           }
         } else {
-            emit(StatePaymentError("An unknown error occurred. Please try again."));
+          emit(StatePaymentError("An unknown error occurred. Please try again."));
         }
       }
     } catch (e, _) {
@@ -80,12 +81,16 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   _confirmPayment(emit,
-      {Map<TicketRelease, int>? freeReleases, Event? event, int ticketQuantity = 1, Discount? discount, required BuildContext context}) async {
+      {Map<TicketRelease, int>? freeReleases,
+      Event? event,
+      int ticketQuantity = 1,
+      Discount? discount,
+      required BuildContext context}) async {
     assert(freeReleases == null || event != null);
 
     try {
-      Map<String, dynamic> result = await PaymentRepository.instance
-          .confirmPayment(PaymentRepository.instance.clientSecret!, PaymentRepository.instance.paymentMethodId!, context);
+      Map<String, dynamic> result = await PaymentRepository.instance.confirmPayment(
+          PaymentRepository.instance.clientSecret!, PaymentRepository.instance.paymentMethodId!, context);
       if (result["status"] == "succeeded") {
         TicketRepository.instance.incrementLinkTicketsBoughtCounter(event!, ticketQuantity);
         CustomerRepository.instance.addCustomerAttendingAction(event);
@@ -132,13 +137,13 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
             emit(StatePaymentError(response.toString()));
           }
         } else {
-            emit(StatePaymentError("An unknown error occurred. Please try again."));
+          emit(StatePaymentError("An unknown error occurred. Please try again."));
         }
       }
     } else {
       PaymentRepository.instance.paymentMethodId = event.paymentMethod.id;
       PaymentRepository.instance.last4 = event.paymentMethod.last4;
-            emit(StatePaidTickets());
+      emit(StatePaidTickets());
     }
   }
 
@@ -164,7 +169,7 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
           emit(StatePaymentError("An unknown error occurred. Please try again."));
         }
       } else {
-          emit(StatePaidTickets());
+        emit(StatePaidTickets());
       }
     } else {
       List<Future<List<Ticket>>> ownedTicketsFutures = [];

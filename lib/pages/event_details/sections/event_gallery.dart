@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -45,7 +46,11 @@ class EventGallary extends StatelessWidget {
                               color: Colors.white,
                             );
                           case LoadState.completed:
-                            return state.completedWidget;
+                            return InkWell(
+                                onTap: () {
+                                  showImageViewer(context, state.imageProvider, onViewerDismissed: () {});
+                                },
+                                child: state.completedWidget);
                           default:
                             return Container(
                               color: Colors.white,

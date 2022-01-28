@@ -7,7 +7,7 @@ part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(StateInitial()){
+  ProfileBloc() : super(StateInitial()) {
     on<EventUploadProfileImage>(_uploadProfileImage);
   }
 

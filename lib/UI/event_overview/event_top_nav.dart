@@ -14,8 +14,6 @@ import 'package:ticketapp/pages/my_ticktes/my_tickets_drawer.dart';
 import 'package:ticketapp/pages/reward_center/reward_center_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../pages/authentication/authentication_drawer.dart';
-import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
-import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../icons.dart';
@@ -58,13 +56,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            InkWell(
-                onTap: () {
-                  Navigator.popUntil(context, (route) => route.isFirst);
-                  Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
-                      arguments: EventsRepository.instance.upcomingPublicEvents);
-                },
-                child: ScooptixLogo().paddingHorizontal(MyTheme.elementSpacing * 2)),
+            ScooptixLogo().paddingHorizontal(MyTheme.elementSpacing * 2),
             ValueListenableBuilder<User?>(
                 valueListenable: UserRepository.instance.currentUserNotifier,
                 builder: (context, user, child) {

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/model/ticket.dart';
@@ -11,7 +9,7 @@ part 'my_tickets_state.dart';
 
 class MyTicketsBloc extends Bloc<MyTicketsEvent, MyTicketsState> {
   MyTicketsBloc() : super(StateLoading()) {
-   on<EventLoadMyTickets>(loadMyTickets);
+    on<EventLoadMyTickets>(loadMyTickets);
   }
 
   loadMyTickets(event, emit) async {

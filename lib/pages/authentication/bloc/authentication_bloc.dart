@@ -31,9 +31,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (isInUse == null) {
       emit(StateInvalidEmail());
     } else if (isInUse) {
-        emit(StateExistingUserEmail());
+      emit(StateExistingUserEmail());
     } else {
-        emit(StateNewUserEmail());
+      emit(StateNewUserEmail());
     }
   }
 
@@ -45,23 +45,23 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else {
       await UserRepository.instance.getUser(fbUser.uid);
 
-      emit(StateLoggedIn(
-          event.email, UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!));
+      emit(StateLoggedIn(event.email, UserRepository.instance.currentUser()!.firstname!,
+          UserRepository.instance.currentUser()!.lastname!));
     }
   }
 
   /// Creates a new user, used by email / password as well as SSO signups.
   /// For email / password uid should be null
   /// For SSO password should be empty and uid should be the uid returned by the SSO
-  _createUser(
-      EventCreateNewUser event, emit) async {
+  _createUser(EventCreateNewUser event, emit) async {
     if (event.uid == null && event.pw.length < 8) {
       // Notify UI about error and revert to previous state
       emit(StateErrorSignUp(SignUpError.Password));
       emit(StateNewUserEmail());
     } else {
       emit(StateLoadingCreateUser());
-      await UserRepository.instance.createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, uid: event.uid);
+      await UserRepository.instance
+          .createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, uid: event.uid);
       if (UserRepository.instance.currentUserNotifier.value == null) {
         // Notify UI about error and revert to previous state
         emit(StateErrorSignUp(SignUpError.Unknown));

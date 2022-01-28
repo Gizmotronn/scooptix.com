@@ -7,8 +7,8 @@ part 'bookings_event.dart';
 part 'bookings_state.dart';
 
 class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
-  BookingsBloc() : super(StateLoading()){
-   on<EventLoadBookings>(_loadBookings);
+  BookingsBloc() : super(StateLoading()) {
+    on<EventLoadBookings>(_loadBookings);
   }
 
   _loadBookings(event, emit) async {

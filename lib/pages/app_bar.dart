@@ -47,14 +47,15 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
                   AppolloIcons.menuIcon,
                   height: 48,
                 )),
-            InkWell(
+            /*InkWell(
               onTap: () {
                 Navigator.popUntil(context, (route) => route.isFirst);
                 Navigator.popAndPushNamed(context, EventOverviewPage.routeName,
                     arguments: EventsRepository.instance.upcomingPublicEvents);
               },
-              child: ScooptixLogo(),
-            ),
+              child:*/
+            ScooptixLogo(),
+            // ),
             ValueListenableBuilder(
                 valueListenable: UserRepository.instance.currentUserNotifier,
                 builder: (context, value, child) {

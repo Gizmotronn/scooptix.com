@@ -11,7 +11,7 @@ part 'pre_sale_event.dart';
 part 'pre_sale_state.dart';
 
 class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
-  PreSaleBloc() : super(StateLoading()){
+  PreSaleBloc() : super(StateLoading()) {
     on<EventRegister>(_registerForPreSale);
     on<EventCheckStatus>(_checkStatus);
   }
@@ -26,9 +26,9 @@ class PreSaleBloc extends Bloc<PreSaleEvent, PreSaleState> {
     if (!data.event.preSaleAvailable) {
       emit(StatePreSaleNotAvailable());
     } else if (!UserRepository.instance.isLoggedIn) {
-        emit(StateNotLoggedIn());
+      emit(StateNotLoggedIn());
     } else {
-        emit(StateLoading());
+      emit(StateLoading());
       PreSaleRegistration? preSale = await PreSaleRepository.instance.isRegisteredForPreSale(data.event);
       if (preSale != null) {
         emit(StateRegistered(preSale));

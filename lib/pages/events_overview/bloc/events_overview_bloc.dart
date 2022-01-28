@@ -30,7 +30,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
 
       emit(AllEventsState(allEvents));
     } else if (event.index == 1) {
-        emit(LoadingEventsState());
+      emit(LoadingEventsState());
       List<Event> events = [];
 
       EventsRepository.instance.upcomingPublicEvents.forEach((event) {
@@ -89,7 +89,7 @@ class EventsOverviewBloc extends Bloc<EventsOverviewEvent, EventsOverviewState> 
 
       emit(EventDetailState(event, organizer));
     } catch (e) {
-        emit(ErrorEventDetailState('404: Page Not Found'));
+      emit(ErrorEventDetailState('404: Page Not Found'));
     }
   }
 }

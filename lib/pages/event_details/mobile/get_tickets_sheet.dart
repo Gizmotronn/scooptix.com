@@ -37,7 +37,7 @@ class QuickAccessSheet extends StatelessWidget {
           ),
           Container(
             decoration: ShapeDecoration(
-                color: MyTheme.appolloOrange,
+                color: MyTheme.appolloYellow,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(6)))),
             height: 50,
             width: MediaQuery.of(context).size.width / 3 < 140 ? 140 : MediaQuery.of(context).size.width / 3,

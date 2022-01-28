@@ -70,7 +70,7 @@ class EventDetailNavbar extends StatelessWidget {
                     height: bottomBarHeight,
                     constraints: BoxConstraints(minWidth: 150),
                     decoration: BoxDecoration(
-                        color: MyTheme.appolloGreen, borderRadius: BorderRadius.only(topRight: Radius.circular(5))),
+                        color: MyTheme.appolloYellow, borderRadius: BorderRadius.only(topRight: Radius.circular(5))),
                     child: Center(
                       child: Text(buttonText,
                               style: MyTheme.textTheme.button!.copyWith(

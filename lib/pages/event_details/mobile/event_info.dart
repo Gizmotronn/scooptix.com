@@ -65,9 +65,9 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
               'Event Details',
               style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(MyTheme.elementSpacing),
+            IconText(text: widget.event.address.trimLeft(), icon: AppolloIcons.pin).paddingBottom(8),
             IconText(text: DateFormat("MMMM dd. yyy").format(widget.event.date), icon: AppolloIcons.calenderOutline)
                 .paddingBottom(8),
-            IconText(text: widget.event.address.trimLeft(), icon: AppolloIcons.pin).paddingBottom(8),
             IconText(
                     text:
                         '${time(widget.event.date)} - ${widget.event.endTime != null ? time(widget.event.endTime!) : ""}',

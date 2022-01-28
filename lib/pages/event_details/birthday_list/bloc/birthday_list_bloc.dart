@@ -13,7 +13,7 @@ part 'birthday_list_event.dart';
 part 'birthday_list_state.dart';
 
 class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
-  BirthdayListBloc() : super(StateLoading()){
+  BirthdayListBloc() : super(StateLoading()) {
     on<EventLoadExistingList>(_loadExistingList);
     on<EventCreateList>(_createList);
     on<EventLoadBookingData>(_loadBookingData);
@@ -35,7 +35,8 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
     BirthdayList? bDayList = await BirthdayListRepository.instance.loadExistingList(event.event.docID!);
     if (bDayList == null) {
       if (UserRepository.instance.currentUser()!.dob!.difference(event.event.date).inDays.abs() % 365.25 > 14 &&
-          UserRepository.instance.currentUser()!.dob!.difference(event.event.date).inDays.abs() % 365.25 - 365.25 < -14) {
+          UserRepository.instance.currentUser()!.dob!.difference(event.event.date).inDays.abs() % 365.25 - 365.25 <
+              -14) {
         emit(StateTooFarAway());
       } else {
         emit(StateNoList());
@@ -43,7 +44,7 @@ class BirthdayListBloc extends Bloc<BirthdayListEvent, BirthdayListState> {
     } else {
       bDayList.attendees = await TicketRepository.instance
           .loadBookingAttendees(event.event.docID!, UserRepository.instance.currentUser()!.firebaseUserID);
-        emit(StateExistingList(bDayList));
+      emit(StateExistingList(bDayList));
     }
   }
 

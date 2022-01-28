@@ -41,7 +41,10 @@ dependencies:
   device_info: ^2.0.3
   package_info: ^2.0.2
   qr_flutter: ^4.0.0
-  stripe_sdk: ^5.0.0-nullsafety.1
+  stripe_sdk:
+    git:
+      url: https://github.com/AllNamesRTakn/stripe-sdk.git
+      ref: master
   url_launcher: ^6.0.3
   scroll_to_index: ^2.1.1
   visibility_detector: ^0.2.2
@@ -49,8 +52,12 @@ dependencies:
   share_plus: ^3.0.4
   file_picker: ^4.3.2
   modal_bottom_sheet: 2.0.0
+  easy_image_viewer: ^1.0.3
+
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
 

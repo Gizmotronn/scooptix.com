@@ -8,8 +8,8 @@ part 'reward_center_event.dart';
 part 'reward_center_state.dart';
 
 class RewardCenterBloc extends Bloc<RewardCenterEvent, RewardCenterState> {
-  RewardCenterBloc() : super(StateLoading()){
-   on<EventLoadRewardCenter>(loadRewardCenterData);
+  RewardCenterBloc() : super(StateLoading()) {
+    on<EventLoadRewardCenter>(loadRewardCenterData);
   }
 
   loadRewardCenterData(data, emit) async {

@@ -104,7 +104,7 @@ class _TicketCardState extends State<TicketCard> {
     } else if (widget.release.getNextRelease() != null) {
       if (widget.release.markedSoldOut) {
         return SizedBox(
-          height: 508,
+          height: 372,
           child: Center(
             child: AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
                 .paddingAll(MyTheme.elementSpacing),
@@ -121,7 +121,7 @@ class _TicketCardState extends State<TicketCard> {
               .paddingAll(MyTheme.elementSpacing);
         } else {
           return SizedBox(
-            height: 508,
+            height: 372,
             child: Center(
               child: AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
                   .paddingAll(MyTheme.elementSpacing),
@@ -130,7 +130,7 @@ class _TicketCardState extends State<TicketCard> {
         }
       } else {
         return SizedBox(
-          height: 508,
+          height: 372,
           child: Center(
             child: AutoSizeText("Sold Out", style: MyTheme.textTheme.subtitle1, textAlign: TextAlign.center)
                 .paddingAll(MyTheme.elementSpacing),
@@ -146,7 +146,6 @@ class _TicketCardState extends State<TicketCard> {
 
   List<Widget> _buildPerks() {
     List<Widget> active = [];
-    List<Widget> inActive = [];
     print(widget.release.availablePerks);
     for (int i = 0; i < widget.event.availablePerks.length; i++) {
       if (widget.release.availablePerks.contains(i)) {
@@ -155,7 +154,7 @@ class _TicketCardState extends State<TicketCard> {
           isActive: true,
         ));
       } else {
-        inActive.add(DotPoint(
+        active.add(DotPoint(
           text: widget.event.availablePerks[i].short,
           isActive: false,
         ));
@@ -164,9 +163,6 @@ class _TicketCardState extends State<TicketCard> {
     return [
       Column(
         children: active,
-      ),
-      Column(
-        children: inActive,
       ).paddingBottom(MyTheme.elementSpacing)
     ];
   }
