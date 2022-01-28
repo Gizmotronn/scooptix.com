@@ -106,7 +106,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                                   BookingsDrawer.openBookingsDrawer();
                                 }).paddingRight(8)),
                         //_appolloHelpDropDown(context).paddingRight(8),
-                        _appolloCreateEventDropDown(context).paddingRight(16),
+                        //_appolloCreateEventDropDown(context).paddingRight(16),
                         _showUserAvatar(context, user).paddingRight(50),
                       ],
                     ).paddingVertical(4);
@@ -114,7 +114,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
                   return Row(
                     children: [
                       // _appolloHelpDropDown(context).paddingRight(16).paddingVertical(4),
-                      _appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
+                      //_appolloCreateEventDropDown(context).paddingRight(16).paddingVertical(4),
                       _signInButton(context),
                     ],
                   );
