@@ -67,14 +67,19 @@ class _SignUpFormState extends State<SignUpForm> {
                   // decoration: InputDecoration(labelText: "Last Name"),
                 ),
               ],
-            ).paddingBottom(MyTheme.elementSpacing),
+            ).paddingBottom(MyTheme.elementSpacing * 2),
 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                AutoSizeText(
+                  "Date of Birth",
+                  style:
+                      MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                ).paddingBottom(MyTheme.elementSpacing),
                 SizedBox(
-                  width: (MyTheme.maxWidth - MyTheme.cardPadding * 4) + 8,
+                  width: (MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -83,8 +88,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: MediaQuery.of(context).size.width / 3 - 8,
-                            watch: MediaQuery.of(context).size.width / 3 - 8),
+                            mobile: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3,
+                            watch: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3),
                         child: AppolloTextField.reactive(
                           labelText: 'Day',
                           formControl: widget.form.controls["dobDay"],
@@ -109,8 +114,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: MediaQuery.of(context).size.width / 3 - 30,
-                            watch: MediaQuery.of(context).size.width / 3 - 30),
+                            mobile: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3,
+                            watch: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3),
                         child: AppolloTextField.reactive(
                           labelText: 'Month',
                           formControl: widget.form.controls["dobMonth"],
@@ -134,8 +139,8 @@ class _SignUpFormState extends State<SignUpForm> {
                             context: context,
                             desktop: MyTheme.drawerSize / 3 - 30,
                             tablet: MyTheme.drawerSize / 3 - 30,
-                            mobile: MediaQuery.of(context).size.width / 3 - 30,
-                            watch: MediaQuery.of(context).size.width / 3 - 30),
+                            mobile: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3,
+                            watch: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3),
                         child: AppolloTextField.reactive(
                           labelText: 'Year',
                           formControl: widget.form.controls["dobYear"],
@@ -162,7 +167,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   height: MyTheme.elementSpacing,
                 ),
                 SizedBox(
-                  width: (MyTheme.maxWidth - MyTheme.cardPadding * 4) + 8,
+                  width: (MyTheme.maxWidth - MyTheme.elementSpacing * 2) + 8,
                   child: ReactiveDropdownField(
                     isDense: true,
                     formControlName: 'gender',
