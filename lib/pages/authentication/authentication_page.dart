@@ -8,6 +8,7 @@ import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/image_util.dart';
+import 'package:ticketapp/utilities/platform_detector.dart';
 import 'login_and_signup_page.dart';
 import 'bloc/authentication_bloc.dart';
 import 'package:ticketapp/pages/authentication/profile/bloc/profile_bloc.dart' as profile;
@@ -31,6 +32,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
 
   @override
   void initState() {
+    print("init");
+
     if (widget.bloc != null) {
       signUpBloc = widget.bloc!;
     } else {
@@ -199,7 +202,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                   );
                 } else {
                   return SizedBox(
-                    width: MyTheme.drawerSize,
+                    width: PlatformDetector.isMobile() ? MyTheme.maxWidth : MyTheme.drawerSize,
                     child: LoginAndSignupPage(
                       bloc: signUpBloc,
                     ),

@@ -182,6 +182,7 @@ class CupertinoModalBottomSheetRoute<T> extends ModalBottomSheetRoute<T> {
       builder: (context, child) => Transform.translate(
         offset: Offset(0, offsetY + 10),
         child: Transform.scale(
+          filterQuality: FilterQuality.none, // Flutter 2.8 performance hack
           scale: scale,
           child: child,
           alignment: Alignment.topCenter,
@@ -251,6 +252,7 @@ class _CupertinoModalTransition extends StatelessWidget {
             children: <Widget>[
               Container(color: backgroundColor),
               Transform.scale(
+                filterQuality: FilterQuality.none, // Flutter 2.8 performance hack
                 scale: scale,
                 alignment: Alignment.topCenter,
                 child: Transform.translate(
