@@ -1,14 +1,15 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
+import 'package:ticketapp/model/bookings/booking.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
 import 'package:ticketapp/model/link_type/invitation.dart';
+import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/repositories/customer_repository.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -312,7 +313,8 @@ class TicketRepository {
         response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
           "uid": UserRepository.instance.currentUser()!.firebaseUserID,
           "eventId": event.docID,
-          "ticketId": ticketDoc.id
+          "ticketId": ticketDoc.id,
+          "action": LinkRepository.instance.getCurrentLinkAction()
         });
         print(response.statusCode);
         print(response.body);
@@ -324,7 +326,6 @@ class TicketRepository {
 
       ticket.docId = ticketDoc.id;
       ticket.release = release;
-      CustomerRepository.instance.addCustomerAttendingAction(event);
       return ticket;
     } catch (e, s) {
       BugsnagNotifier.instance.notify("Error accepting invitation \n" + e.toString(), s, severity: ErrorSeverity.error);
