@@ -4,10 +4,15 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:stripe_sdk/stripe_sdk.dart';
+import 'package:ticketapp/model/bookings/booking.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
+import 'package:ticketapp/model/link_type/advertisementInvite.dart';
+import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
+
+import 'link_repository.dart';
 
 enum PaymentType { FashionItemSale, DesignerSubscription }
 
@@ -63,7 +68,8 @@ class PaymentRepository {
         "quantity": json.encode(selectedTickets.values.toList()),
         "discount": discount == null ? "" : discount.docId,
         "pmId": !PaymentRepository.instance.saveCreditCard ? PaymentRepository.instance.paymentMethodId : "",
-        "user": UserRepository.instance.currentUser()!.firebaseUserID
+        "user": UserRepository.instance.currentUser()!.firebaseUserID,
+        "action": LinkRepository.instance.getCurrentLinkAction()
       });
       return response;
     } on Exception catch (ex, s) {

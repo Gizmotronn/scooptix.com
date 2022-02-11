@@ -28,6 +28,23 @@ class LinkRepository {
 
   LinkType linkType = OverviewLinkType();
 
+  /// Returns a string representation of the current link type, used for customer actions.
+  String getCurrentLinkAction() {
+    String action;
+
+    if (LinkRepository.instance.linkType is Booking) {
+      action = "booking_invite_accepted";
+    } else if (LinkRepository.instance.linkType is AdvertisementLink) {
+      action = "advertisement_invite_accepted";
+    } else if (LinkRepository.instance.linkType is MemberInvite) {
+      action = "member_invite_accepted";
+    } else {
+      action = "ticket_bought";
+    }
+
+    return action;
+  }
+
   Future<LinkType?> loadLinkType(String uuid) async {
     try {
       QuerySnapshot uuidMapSnapshot =
