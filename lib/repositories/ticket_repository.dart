@@ -1,19 +1,13 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
-import 'package:ticketapp/model/bookings/booking.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/advertisementInvite.dart';
-import 'package:ticketapp/model/link_type/invitation.dart';
-import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
-import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:http/http.dart' as http;
 import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 class TicketRepository {
@@ -153,102 +147,6 @@ class TicketRepository {
     }
   }
 
-  /// Paid ticket processing
-  /// Creates tickets for the user and stores it in the user's 'ticket' subcollection and in the ticketevent's 'tickets' subcollection
-  /// Calls a cloud function to handle the confirmation email.
-  Future<List<Ticket>> issueTickets(Event event, TicketRelease release, int quantity, Discount? discount) async {
-    try {
-      List<String> ticketDocIds = [];
-      List<Ticket> tickets = [];
-      for (int i = 0; i < quantity; i++) {
-        Ticket ticket = Ticket()
-          ..dateIssued = DateTime.now()
-          ..event = event;
-
-        DocumentReference ticketDoc =
-            await FirebaseFirestore.instance.collection("ticketevents").doc(event.docID).collection("tickets").add({
-          "eventref": event.docID,
-          "venueref": event.venue,
-          "eventdate": event.date,
-          "eventname": event.name,
-          "imageURL": event.coverImageURL,
-          "type": LinkRepository.instance.linkType.dbString,
-          "ticketnumber": i,
-          "valid": true,
-          "requestee": UserRepository.instance.currentUser()!.firebaseUserID,
-          "requesttime": ticket.dateIssued,
-          "useremail": UserRepository.instance.currentUser()!.email,
-          "firstname": UserRepository.instance.currentUser()!.firstname,
-          "lastname": UserRepository.instance.currentUser()!.lastname,
-          "dob": UserRepository.instance.currentUser()!.dob,
-          "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
-          if (LinkRepository.instance.linkType is Invitation)
-            "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
-          if (LinkRepository.instance.linkType is AdvertisementLink)
-            "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
-          if (discount != null) "discount_id": discount.docId,
-          "onWaitList": false,
-          "venuename": event.venueName,
-          "ticket_release_id": release.docId
-        });
-
-        FirebaseFirestore.instance
-            .collection("users")
-            .doc(UserRepository.instance.currentUser()!.firebaseUserID)
-            .collection("tickets")
-            .doc(ticketDoc.id)
-            .set({
-          "eventref": event.docID,
-          "eventdate": event.date,
-          "eventname": event.name,
-          "imageURL": event.coverImageURL,
-          "type": LinkRepository.instance.linkType.dbString,
-          "ticketnumber": i,
-          "valid": true,
-          "requesttime": ticket.dateIssued,
-          if (LinkRepository.instance.linkType is Invitation)
-            "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
-          if (LinkRepository.instance.linkType is AdvertisementLink)
-            "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
-          "onWaitList": false,
-          "venuename": event.venueName,
-          "ticket_release_id": release.docId
-        });
-        ticketDocIds.add(ticketDoc.id);
-        ticket.docId = ticketDoc.id;
-        ticket.release = release;
-        tickets.add(ticket);
-      }
-      incrementLinkTicketsBoughtCounter(event, quantity);
-      incrementTicketCounter(event, release, quantity);
-
-      if (discount != null) {
-        incrementDiscountCounter(event, discount, quantity);
-      }
-
-      http.Response response;
-      try {
-        response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
-          "uid": UserRepository.instance.currentUser()!.firebaseUserID,
-          "eventId": event.docID,
-          "ticketId": ticketDocIds[0]
-        });
-        print(response.statusCode);
-        print(response.body);
-      } on SocketException catch (ex) {
-        print(ex);
-        BugsnagNotifier.instance
-            .notify("Error confirming ticket \n $ex", StackTrace.empty, severity: ErrorSeverity.error);
-      }
-
-      return tickets;
-    } catch (e, s) {
-      BugsnagNotifier.instance.notify("Error during issue tickets \n $e", s, severity: ErrorSeverity.error);
-      print(e);
-      return [];
-    }
-  }
-
   /// Free single ticket (invitation) processing
   /// Creates a ticket for the user and stores it in the user's 'ticket' subcollection and in the ticketevent's 'tickets' subcollection
   /// Calls a cloud function to handle the confirmation email.
@@ -258,75 +156,25 @@ class TicketRepository {
         ..dateIssued = DateTime.now()
         ..event = event;
 
-      DocumentReference ticketDoc =
-          await FirebaseFirestore.instance.collection("ticketevents").doc(event.docID).collection("tickets").add({
-        "eventref": event.docID,
-        "venueref": event.venue,
-        "eventdate": event.date,
-        "eventname": event.name,
-        "imageURL": event.coverImageURL,
-        "type": LinkRepository.instance.linkType.dbString,
-        "valid": true,
-        "requestee": UserRepository.instance.currentUser()!.firebaseUserID,
-        "requesttime": ticket.dateIssued,
-        "useremail": UserRepository.instance.currentUser()!.email,
-        "firstname": UserRepository.instance.currentUser()!.firstname,
-        "lastname": UserRepository.instance.currentUser()!.lastname,
-        "dob": UserRepository.instance.currentUser()!.dob,
-        "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
-        if (LinkRepository.instance.linkType is Invitation)
-          "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
-        if (LinkRepository.instance.linkType is AdvertisementLink)
-          "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
-        "onWaitList": false,
-        "venuename": event.venueName,
-        "ticket_release_id": release.docId
-      });
-
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(UserRepository.instance.currentUser()!.firebaseUserID)
-          .collection("tickets")
-          .doc(ticketDoc.id)
-          .set({
-        "eventref": event.docID,
-        "eventdate": event.date,
-        "eventname": event.name,
-        "imageURL": event.coverImageURL,
-        "type": LinkRepository.instance.linkType.dbString,
-        "valid": true,
-        "requesttime": ticket.dateIssued,
-        if (LinkRepository.instance.linkType is Invitation)
-          "promoter": (LinkRepository.instance.linkType as Invitation).promoter!.docId,
-        if (LinkRepository.instance.linkType is AdvertisementLink)
-          "advertisement_id": (LinkRepository.instance.linkType as AdvertisementLink).advertisementId,
-        "onWaitList": false,
-        "venuename": event.venueName,
-        "ticket_release_id": release.docId
-      });
-
       incrementLinkAcceptedCounter(event);
-      incrementTicketCounter(event, release, 1);
 
-      http.Response response;
-      try {
-        response = await http.post(Uri.parse("https://appollo-devops.web.app/ticketConfirmation"), body: {
-          "uid": UserRepository.instance.currentUser()!.firebaseUserID,
-          "eventId": event.docID,
-          "ticketId": ticketDoc.id,
-          "action": LinkRepository.instance.getCurrentLinkAction()
-        });
-        print(response.statusCode);
-        print(response.body);
-      } on SocketException catch (ex) {
-        print(ex);
-        BugsnagNotifier.instance
-            .notify("Error confirming ticket \n $ex", StackTrace.empty, severity: ErrorSeverity.error);
+      HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+          'issueTickets', options: HttpsCallableOptions(timeout: Duration(seconds: 15)));
+      final results = await callable({
+        "eventId": event.docID,
+        "quantity": 1,
+        "releaseId": release.docId,
+        "managerId": event.getReleaseManager(release)!.docId,
+        "action": LinkRepository.instance.getCurrentLinkAction()
+      });
+
+      if(results.data["valid"] == true && results.data["ticketIds"].length > 0) {
+        ticket.docId = results.data["ticketIds"][0];
+        ticket.release = release;
+        return ticket;
+      } else {
+        return null;
       }
-
-      ticket.docId = ticketDoc.id;
-      ticket.release = release;
-      return ticket;
     } catch (e, s) {
       BugsnagNotifier.instance.notify("Error accepting invitation \n" + e.toString(), s, severity: ErrorSeverity.error);
       print(e);
@@ -353,34 +201,6 @@ class TicketRepository {
     return attendees;
   }
 
-  /// Increments the bought_ticket counter for releases
-  Future<void> incrementTicketCounter(Event event, TicketRelease release, int quantity) async {
-    DocumentSnapshot releaseSnapshot = await FirebaseFirestore.instance
-        .collection("ticketevents")
-        .doc(event.docID)
-        .collection("release_managers")
-        .doc(event.releaseManagers.firstWhere((element) => element.releases.contains(release)).docId)
-        .collection("ticket_releases")
-        .doc(release.docId)
-        .get();
-    if (releaseSnapshot.exists) {
-      releaseSnapshot.reference.set({"tickets_bought": FieldValue.increment(quantity)}, SetOptions(merge: true));
-    }
-  }
-
-  /// Increments the used counter for discounts
-  Future<void> incrementDiscountCounter(Event event, Discount discount, int quantity) async {
-    DocumentSnapshot releaseSnapshot = await FirebaseFirestore.instance
-        .collection("ticketevents")
-        .doc(event.docID)
-        .collection("discounts")
-        .doc(discount.docId)
-        .get();
-    // If this event offers unlimited free tickets, there won't be a ticket_release
-    if (releaseSnapshot.exists) {
-      releaseSnapshot.reference.set({"times_used": FieldValue.increment(quantity)}, SetOptions(merge: true));
-    }
-  }
 
   incrementLinkOpenedCounter(Event event) async {
     try {

@@ -93,9 +93,6 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
       if (result["status"] == "succeeded") {
         TicketRepository.instance.incrementLinkTicketsBoughtCounter(event!, ticketQuantity);
 
-        if (discount != null) {
-          TicketRepository.instance.incrementDiscountCounter(event, discount, ticketQuantity);
-        }
         PaymentRepository.instance.releaseDataUpdatedStream.add(true);
         // If there were free tickets to process as well, do this here.
         // This assures that free tickets are only issued if the paid tickets were issued successfully.
