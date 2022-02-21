@@ -14,21 +14,21 @@ class RewardCenterSheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColorLight,
           expand: true,
           settings: RouteSettings(name: "reward_center_sheet"),
           builder: (context) => RewardCenterSheet._());
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColorLight,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.appolloBackgroundColorLight,
+                      backgroundColor: MyTheme.scoopBackgroundColorLight,
                       expand: true,
                       settings: RouteSettings(name: "reward_center_sheet"),
                       builder: (context) => RewardCenterSheet._());
@@ -48,7 +48,7 @@ class _RewardCenterSheetState extends State<RewardCenterSheet> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: MyTheme.appolloCardColorLight,
+          backgroundColor: MyTheme.scoopCardColorLight,
           automaticallyImplyLeading: false,
           title: InkWell(
             onTap: () {
@@ -68,7 +68,7 @@ class _RewardCenterSheetState extends State<RewardCenterSheet> {
                     ),
                     Text(
                       "Done",
-                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                     )
                   ],
                 ),

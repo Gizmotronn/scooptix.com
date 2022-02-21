@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/authentication/signUpForm.dart';
+import 'package:ticketapp/pages/authentication/sign_up_form.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
@@ -11,7 +11,7 @@ import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
-import 'package:ticketapp/utilities/alertGenerator.dart';
+import 'package:ticketapp/utilities/alert_generator.dart';
 import 'bloc/authentication_bloc.dart';
 
 class LoginAndSignupPage extends StatefulWidget {
@@ -173,8 +173,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                color: MyTheme.appolloBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
+                color: MyTheme.scoopBackgroundColorLight,
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
@@ -203,7 +203,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               SizedBox(
                 width: screenSize.width,
                 child: AppolloButton.regularButton(
-                  child: Text("Next", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor)),
+                  child: Text("Next", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor)),
                   onTap: () {
                     passwordsForm.markAllAsTouched();
                     if (!passwordsForm.hasErrors) {
@@ -221,15 +221,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                color: MyTheme.appolloBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
+                color: MyTheme.scoopBackgroundColorLight,
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
               AppolloButton.regularButton(
                 fill: true,
-                color: MyTheme.appolloGreen,
+                color: MyTheme.scoopGreen,
                 child: Text("Next", style: MyTheme.textTheme.button),
                 onTap: () {
                   passwordsForm.markAllAsTouched();
@@ -270,7 +270,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
@@ -310,7 +310,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Align(
             alignment: Alignment.centerRight,
             child: AppolloButton.regularButton(
-              color: MyTheme.appolloGreen,
+              color: MyTheme.scoopGreen,
               fill: true,
               child: state is StateLoadingUserData
                   ? SizedBox(
@@ -387,15 +387,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               AppolloButton.regularButton(
                 fill: false,
-                color: MyTheme.appolloBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
+                color: MyTheme.scoopBackgroundColorLight,
+                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
               AppolloButton.regularButton(
                 fill: true,
-                color: MyTheme.appolloGreen,
+                color: MyTheme.scoopGreen,
                 child: Text(
                   "Register",
                   style: MyTheme.textTheme.button,
@@ -462,7 +462,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 return AutoSizeText(
                   "Let's start with your email.",
                   maxLines: 1,
-                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
                 ).paddingBottom(MyTheme.elementSpacing);
               } else {
                 return Column(
@@ -470,11 +470,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   children: [
                     AutoSizeText(
                       "Sign up or sign in",
-                      style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloWhite),
+                      style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopWhite),
                     ).paddingBottom(MyTheme.elementSpacing * 2),
                     AutoSizeText(
                       "Let's start with your email.",
-                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen),
                     ),
                   ],
                 ).paddingBottom(MyTheme.elementSpacing * 0.5);
@@ -483,7 +483,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             AutoSizeText(
               "Welcome, please enter your email to continue.",
               style: MyTheme.textTheme.bodyText2!.copyWith(
-                color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloWhite,
+                color: state is StateLoginFailed ? MyTheme.scoopRed : MyTheme.scoopWhite,
               ),
               minFontSize: 12,
             ),
@@ -507,7 +507,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           text,
           textAlign: TextAlign.left,
           style: MyTheme.textTheme.headline5!
-              .copyWith(color: state is StateLoginFailed ? MyTheme.appolloRed : MyTheme.appolloGreen),
+              .copyWith(color: state is StateLoginFailed ? MyTheme.scoopRed : MyTheme.scoopGreen),
           minFontSize: 12,
         ),
       ),
@@ -771,10 +771,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             width: screenSize.width,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: MyTheme.appolloBackgroundColorLight,
+                primary: MyTheme.scoopBackgroundColorLight,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
               ),
-              child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloGreen)),
+              child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
               onPressed: () {
                 widget.bloc.add(EventChangeEmail());
               },

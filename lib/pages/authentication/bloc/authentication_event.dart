@@ -19,12 +19,6 @@ class EventSSOEmailsConfirmed extends AuthenticationEvent {
 
 class EventPasswordsConfirmed extends AuthenticationEvent {}
 
-/*class EventGoogleSignIn extends AuthenticationEvent {}
-
-class EventFacebookSignIn extends AuthenticationEvent {}
-
-class EventAppleSignIn extends AuthenticationEvent {}*/
-
 class EventPageLoad extends AuthenticationEvent {}
 
 class EventLogout extends AuthenticationEvent {}

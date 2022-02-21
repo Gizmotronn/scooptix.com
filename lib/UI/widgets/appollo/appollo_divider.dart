@@ -11,7 +11,7 @@ class AppolloDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return Divider(
       thickness: 0.8,
-      color: MyTheme.appolloGrey.withAlpha(60),
+      color: MyTheme.scoopGrey.withAlpha(60),
     ).paddingVertical(verticalPadding ??
         getValueForScreenType(
             context: context,

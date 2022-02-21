@@ -30,10 +30,10 @@ class AppolloButton {
               maxWidth: width ?? double.infinity),
           child: TextButton(
             style: TextButton.styleFrom(
-              backgroundColor: fill ? color ?? MyTheme.appolloGreen : MyTheme.appolloGreen.withOpacity(0.1),
+              backgroundColor: fill ? color ?? MyTheme.scoopGreen : MyTheme.scoopGreen.withOpacity(0.1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                side: BorderSide(color: color ?? MyTheme.appolloGreen, width: border ? 1.3 : 0),
+                side: BorderSide(color: color ?? MyTheme.scoopGreen, width: border ? 1.3 : 0),
               ),
             ),
             onPressed: onTap,
@@ -113,11 +113,10 @@ class _OnTapAnimationButtonState extends State<OnTapAnimationButton> with Single
           children: [
             TextButton(
               style: TextButton.styleFrom(
-                backgroundColor:
-                    widget.fill ? widget.color ?? MyTheme.appolloGreen : MyTheme.appolloGreen.withOpacity(0.1),
+                backgroundColor: widget.fill ? widget.color ?? MyTheme.scoopGreen : MyTheme.scoopGreen.withOpacity(0.1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
-                  side: BorderSide(color: widget.color ?? MyTheme.appolloGreen, width: widget.border ? 1.3 : 0),
+                  side: BorderSide(color: widget.color ?? MyTheme.scoopGreen, width: widget.border ? 1.3 : 0),
                 ),
               ),
               onPressed: () async {
@@ -220,7 +219,7 @@ class _HoverAppolloButtonState extends State<HoverAppolloButton> {
             child: AutoSizeText(
               widget.title,
               style: MyTheme.textTheme.button!.copyWith(
-                color: isHover ? MyTheme.appolloWhite : MyTheme.textTheme.button!.color,
+                color: isHover ? MyTheme.scoopWhite : MyTheme.textTheme.button!.color,
               ),
             ),
           ),

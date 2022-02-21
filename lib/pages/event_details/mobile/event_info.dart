@@ -43,7 +43,7 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
           children: [
             AutoSizeText(
               widget.event.name,
-              style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(8),
             AutoSizeText.rich(
                 TextSpan(
@@ -52,10 +52,10 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
                     TextSpan(
                         text: ' ${widget.organizer.organizationName}',
                         style: MyTheme.textTheme.subtitle1!
-                            .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
+                            .copyWith(color: MyTheme.scoopWhite, fontWeight: FontWeight.w500))
                   ],
                 ),
-                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
+                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopWhite, fontWeight: FontWeight.w400)),
           ],
         ).paddingBottom(MyTheme.elementSpacing),
         Column(
@@ -63,7 +63,7 @@ class _EventInfoMobileState extends State<EventInfoMobile> {
           children: [
             AutoSizeText(
               'Event Details',
-              style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(MyTheme.elementSpacing),
             IconText(text: widget.event.address.trimLeft(), icon: AppolloIcons.pin).paddingBottom(8),
             IconText(text: DateFormat("MMMM dd. yyy").format(widget.event.date), icon: AppolloIcons.calenderOutline)

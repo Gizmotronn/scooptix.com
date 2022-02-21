@@ -223,7 +223,7 @@ class FeaturedEventText extends StatelessWidget {
           height: 225,
           width: 400,
           decoration: BoxDecoration(
-            color: MyTheme.appolloCardColor.withOpacity(.7),
+            color: MyTheme.scoopCardColor.withOpacity(.7),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Container(
@@ -253,7 +253,7 @@ class FeaturedEventText extends StatelessWidget {
           style: MyTheme.textTheme.bodyText1,
         ).paddingBottom(8),
         AppolloButton.regularButton(
-            color: MyTheme.appolloGreen,
+            color: MyTheme.scoopGreen,
             child: AutoSizeText('View Event', maxLines: 2, style: Theme.of(context).textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
@@ -272,13 +272,13 @@ class FeaturedEventText extends StatelessWidget {
           fullDateWithDay(event.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5),
+          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopRed, letterSpacing: 1.5),
         ).paddingBottom(8),
         AutoSizeText(
           event.name,
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopWhite),
         ).paddingBottom(4),
       ],
     );

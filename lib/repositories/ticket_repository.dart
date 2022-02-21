@@ -3,7 +3,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
-import 'package:ticketapp/model/link_type/advertisementInvite.dart';
+import 'package:ticketapp/model/link_type/advertisement_invite.dart';
 import 'package:ticketapp/model/ticket.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
@@ -158,8 +158,8 @@ class TicketRepository {
 
       incrementLinkAcceptedCounter(event);
 
-      HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
-          'issueTickets', options: HttpsCallableOptions(timeout: Duration(seconds: 15)));
+      HttpsCallable callable = FirebaseFunctions.instance
+          .httpsCallable('issueTickets', options: HttpsCallableOptions(timeout: Duration(seconds: 15)));
       final results = await callable({
         "eventId": event.docID,
         "quantity": 1,
@@ -168,7 +168,7 @@ class TicketRepository {
         "action": LinkRepository.instance.getCurrentLinkAction()
       });
 
-      if(results.data["valid"] == true && results.data["ticketIds"].length > 0) {
+      if (results.data["valid"] == true && results.data["ticketIds"].length > 0) {
         ticket.docId = results.data["ticketIds"][0];
         ticket.release = release;
         return ticket;
@@ -200,7 +200,6 @@ class TicketRepository {
     }));
     return attendees;
   }
-
 
   incrementLinkOpenedCounter(Event event) async {
     try {

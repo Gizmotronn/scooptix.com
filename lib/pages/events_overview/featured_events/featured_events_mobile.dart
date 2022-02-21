@@ -142,7 +142,7 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AppolloButton.regularButton(
-            color: MyTheme.appolloGreen,
+            color: MyTheme.scoopGreen,
             child: AutoSizeText('View Event', maxLines: 2, style: MyTheme.textTheme.button),
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
@@ -209,13 +209,13 @@ class FeaturedEventTextMobile extends StatelessWidget {
           fullDateWithDay(event.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloRed),
+          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.scoopRed),
         ).paddingBottom(8),
         AutoSizeText(
           event.name,
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
         ).paddingBottom(8),
         AutoSizeText(
           "${event.summary}",

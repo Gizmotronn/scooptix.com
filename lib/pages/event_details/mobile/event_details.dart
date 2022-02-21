@@ -40,7 +40,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
         child: Column(
           children: [
             AppolloAppBar(
-              backgroundColor: MyTheme.appolloBackgroundColorLight,
+              backgroundColor: MyTheme.scoopBackgroundColorLight,
             ).paddingBottom(MyTheme.elementSpacing),
             _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
             EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),
@@ -63,7 +63,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
           ],
         ).paddingBottom(MyTheme.elementSpacing),
       ),
-    ).appolloBlurCard(color: MyTheme.appolloBackgroundColorLight, borderRadius: BorderRadius.circular(0));
+    ).appolloBlurCard(color: MyTheme.scoopBackgroundColorLight, borderRadius: BorderRadius.circular(0));
   }
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {

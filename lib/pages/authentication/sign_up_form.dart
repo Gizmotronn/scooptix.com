@@ -6,9 +6,9 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/utilities/alertGenerator.dart';
+import 'package:ticketapp/utilities/alert_generator.dart';
 
-import '../theme.dart';
+import '../../UI/theme.dart';
 
 class SignUpForm extends StatefulWidget {
   final FormGroup form;
@@ -32,20 +32,20 @@ class _SignUpFormState extends State<SignUpForm> {
               textAlign: TextAlign.center,
               style: getValueForScreenType(
                   context: context,
-                  watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
-                  mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
-                  tablet: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
-                  desktop: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen)),
+                  watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+                  mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+                  tablet: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen),
+                  desktop: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen)),
             ).paddingBottom(MyTheme.elementSpacing),
             AutoSizeText(
               "Tell us about yourself",
               textAlign: TextAlign.center,
               style: getValueForScreenType(
                   context: context,
-                  watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
-                  mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
-                  tablet: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
-                  desktop: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen)),
+                  watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+                  mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+                  tablet: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen),
+                  desktop: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen)),
             ).paddingBottom(MyTheme.elementSpacing),
 
             Column(
@@ -75,8 +75,7 @@ class _SignUpFormState extends State<SignUpForm> {
               children: [
                 AutoSizeText(
                   "Date of Birth",
-                  style:
-                      MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w500),
                 ).paddingBottom(MyTheme.elementSpacing),
                 SizedBox(
                   width: (MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8,
@@ -191,7 +190,7 @@ class _SignUpFormState extends State<SignUpForm> {
             ),
             AutoSizeText(
               "Terms & Conditions",
-              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w500),
             ),
             SizedBox(
               height: MyTheme.elementSpacing,

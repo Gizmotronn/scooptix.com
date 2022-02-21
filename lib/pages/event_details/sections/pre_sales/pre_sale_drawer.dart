@@ -45,7 +45,7 @@ class _PreSaleDrawerState extends State<PreSaleDrawer> {
       width: MyTheme.drawerSize,
       height: screenSize.height,
       decoration: ShapeDecoration(
-          color: MyTheme.appolloBackgroundColorLight,
+          color: MyTheme.scoopBackgroundColorLight,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
       child: Column(
@@ -60,7 +60,7 @@ class _PreSaleDrawerState extends State<PreSaleDrawer> {
               child: Icon(
                 Icons.close,
                 size: 34,
-                color: MyTheme.appolloRed,
+                color: MyTheme.scoopRed,
               ),
             ),
           ).paddingTop(8),

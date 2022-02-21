@@ -35,8 +35,7 @@ class EventCustomInfo extends StatelessWidget {
               children: [
                 AutoSizeText(
                   event.customEventInfo[index].headline,
-                  style:
-                      MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+                  style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w600),
                 ).paddingBottom(MyTheme.elementSpacing),
                 SizedBox(
                   width: MyTheme.maxWidth,

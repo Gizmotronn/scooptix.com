@@ -51,7 +51,6 @@ class _EventsForMeState extends State<EventsForMe> {
   }
 
   Widget _buildForMeNotLoggedIn() {
-    Size screenSize = MediaQuery.of(context).size;
     return ResponsiveBuilder(
       builder: (context, size) {
         if (size.isDesktop || size.isTablet) {
@@ -66,7 +65,7 @@ class _EventsForMeState extends State<EventsForMe> {
                       width: MyTheme.maxWidth / 3 - MyTheme.elementSpacing * 2 / 3,
                       child: ForMeCard(
                         title: 'Curated Events',
-                        color: MyTheme.appolloGreen,
+                        color: MyTheme.scoopGreen,
                         subTitle:
                             'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
                         svgIcon: AppolloIcons.calender,
@@ -79,7 +78,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         title: 'Follow your favourite organisers',
                         subTitle:
                             'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
-                        color: MyTheme.appolloOrange,
+                        color: MyTheme.scoopOrange,
                         svgIcon: AppolloIcons.people,
                       ),
                     ).paddingRight(MyTheme.elementSpacing),
@@ -90,7 +89,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         title: 'Like an event',
                         subTitle:
                             'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
-                        color: MyTheme.appolloRed,
+                        color: MyTheme.scoopRed,
                         svgIcon: AppolloIcons.heart,
                       ),
                     ),
@@ -103,15 +102,15 @@ class _EventsForMeState extends State<EventsForMe> {
                     subTitle:
                         'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
                     svgIcon: AppolloIcons.person,
-                    color: MyTheme.appolloPurple,
+                    color: MyTheme.scoopPurple,
                     child: HoverAppolloButton(
                       onTap: () {
                         WrapperPage.endDrawer.value = AuthenticationDrawer();
                         WrapperPage.mainScaffold.currentState!.openEndDrawer();
                       },
                       title: 'Create An Account',
-                      color: MyTheme.appolloGreen,
-                      hoverColor: MyTheme.appolloGreen,
+                      color: MyTheme.scoopGreen,
+                      hoverColor: MyTheme.scoopGreen,
                       maxWidth: 210,
                       minWidth: 210,
                       fill: true,
@@ -131,7 +130,7 @@ class _EventsForMeState extends State<EventsForMe> {
                     AppolloAppBar(),
                     ForMeCard(
                       title: 'Curated Events',
-                      color: MyTheme.appolloGreen,
+                      color: MyTheme.scoopGreen,
                       subTitle:
                           'We find events your might be interested in based on your preferences. Making it easier then ever to find something to do.',
                       svgIcon: AppolloIcons.calender,
@@ -140,14 +139,14 @@ class _EventsForMeState extends State<EventsForMe> {
                       title: 'Follow your favourite organisers',
                       subTitle:
                           'Be the first to see new events from your favourite organisers, simply follow them and we will keep you up to date.',
-                      color: MyTheme.appolloOrange,
+                      color: MyTheme.scoopOrange,
                       svgIcon: AppolloIcons.people,
                     ).paddingBottom(MyTheme.elementSpacing),
                     ForMeCard(
                       title: 'Like an event',
                       subTitle:
                           'Liked events will be shown here. Its the easiest way to get back to an event your are interested in.',
-                      color: MyTheme.appolloRed,
+                      color: MyTheme.scoopRed,
                       svgIcon: AppolloIcons.heart,
                     ).paddingBottom(MyTheme.elementSpacing),
                     ForMeCard(
@@ -155,21 +154,21 @@ class _EventsForMeState extends State<EventsForMe> {
                       subTitle:
                           'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
                       svgIcon: AppolloIcons.person,
-                      color: MyTheme.appolloPurple,
+                      color: MyTheme.scoopPurple,
                       child: Padding(
                         padding: EdgeInsets.only(top: 4.0, left: MyTheme.elementSpacing, right: MyTheme.elementSpacing),
                         child: HoverAppolloButton(
                           onTap: () {
                             showAppolloModalBottomSheet(
                                 context: context,
-                                backgroundColor: MyTheme.appolloBackgroundColor,
+                                backgroundColor: MyTheme.scoopBackgroundColor,
                                 expand: true,
                                 settings: RouteSettings(name: "authentication_sheet"),
                                 builder: (context) => AuthenticationPageWrapper());
                           },
                           title: 'Create An Account',
-                          color: MyTheme.appolloGreen,
-                          hoverColor: MyTheme.appolloGreen,
+                          color: MyTheme.scoopGreen,
+                          hoverColor: MyTheme.scoopGreen,
                           maxWidth: 400,
                           minWidth: 400,
                           fill: true,
@@ -180,7 +179,7 @@ class _EventsForMeState extends State<EventsForMe> {
                 ).paddingHorizontal(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing),
               ),
             ),
-          ).appolloCard(color: MyTheme.appolloBackgroundColor, borderRadius: BorderRadius.circular(5));
+          ).appolloCard(color: MyTheme.scoopBackgroundColor, borderRadius: BorderRadius.circular(5));
         }
       },
     );
@@ -191,7 +190,7 @@ class _EventsForMeState extends State<EventsForMe> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(icon, height: 24, width: 24).paddingRight(8),
-            AutoSizeText(tag, style: Theme.of(context).textTheme.headline3!.copyWith(color: MyTheme.appolloWhite))
+            AutoSizeText(tag, style: Theme.of(context).textTheme.headline3!.copyWith(color: MyTheme.scoopWhite))
                 .paddingBottom(4),
           ],
         ),
@@ -275,7 +274,7 @@ class _EventsForMeState extends State<EventsForMe> {
         } else {
           return Container(
             padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing / 2),
-            color: MyTheme.appolloBackgroundColor,
+            color: MyTheme.scoopBackgroundColor,
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -286,7 +285,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         AppolloEvents(events: EventsRepository.instance.upcomingPublicEvents.take(5).toList()),
                       ],
                     ),
-                  ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
+                  ).appolloCard(color: MyTheme.scoopBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
                   Container(
                     child: Column(
                       children: [
@@ -294,7 +293,7 @@ class _EventsForMeState extends State<EventsForMe> {
                         AppolloEvents(events: EventsRepository.instance.upcomingPublicEvents.take(5).toList()),
                       ],
                     ),
-                  ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
+                  ).appolloCard(color: MyTheme.scoopBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
                   Container(
                     child: Column(
                       children: [
@@ -306,7 +305,7 @@ class _EventsForMeState extends State<EventsForMe> {
                                 .toList()),
                       ],
                     ),
-                  ).appolloCard(color: MyTheme.appolloBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
+                  ).appolloCard(color: MyTheme.scoopBackgroundColorLight).paddingBottom(MyTheme.elementSpacing),
                 ],
               ),
             ),

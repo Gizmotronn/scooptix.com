@@ -28,7 +28,7 @@ class BookingCard extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .headline2!
-                            .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloGreen))
+                            .copyWith(fontWeight: FontWeight.w500, color: MyTheme.scoopGreen))
                     .paddingBottom(16),
                 AutoSizeText.rich(
                         TextSpan(
@@ -43,12 +43,12 @@ class BookingCard extends StatelessWidget {
               child: Center(
                 child: Text(
                   'Make A Booking',
-                  style: Theme.of(context).textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                  style: Theme.of(context).textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                 ),
               ),
               onTap: () {},
               fill: true,
-              color: MyTheme.appolloGreen,
+              color: MyTheme.scoopGreen,
             ),
           ],
         ).paddingAll(MyTheme.cardPadding),

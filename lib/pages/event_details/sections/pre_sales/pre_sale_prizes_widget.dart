@@ -87,7 +87,7 @@ class _PreSalePoolCardState extends State<PreSalePoolCard> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: widget.radius,
-        color: widget.isExpanded ? MyTheme.appolloLightCardColor : MyTheme.appolloCardColorLight,
+        color: widget.isExpanded ? MyTheme.scoopLightCardColor : MyTheme.scoopCardColorLight,
       ),
       child: Column(
         children: [
@@ -100,7 +100,7 @@ class _PreSalePoolCardState extends State<PreSalePoolCard> {
                 Icon(
                   widget.isExpanded ? Icons.remove : Icons.add,
                   size: 18,
-                  color: widget.isExpanded ? MyTheme.appolloOrange : MyTheme.appolloGreen,
+                  color: widget.isExpanded ? MyTheme.scoopOrange : MyTheme.scoopGreen,
                 )
               ],
             ).paddingTop(8).paddingBottom(4),

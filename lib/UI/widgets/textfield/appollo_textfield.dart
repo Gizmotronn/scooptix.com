@@ -204,10 +204,10 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
               color: textFieldState == AppolloTextFieldState.hover || textFieldState == AppolloTextFieldState.typing
-                  ? MyTheme.appolloBackgroundColor
+                  ? MyTheme.scoopBackgroundColor
                   : textFieldState == AppolloTextFieldState.error
-                      ? MyTheme.appolloBackgroundColor
-                      : MyTheme.appolloTextFieldColor,
+                      ? MyTheme.scoopBackgroundColor
+                      : MyTheme.scoopTextFieldColor,
               border: Border.all(
                 width: 1.8,
                 color: _buildOutlineColor(),
@@ -265,12 +265,12 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                           contentPadding: const EdgeInsets.only(left: 8),
                           errorBorder: InputBorder.none,
                           isDense: true,
-                          errorStyle: MyTheme.mobileTextTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
+                          errorStyle: MyTheme.mobileTextTheme.caption!.copyWith(color: MyTheme.scoopDarkRed),
                           focusedBorder: InputBorder.none,
                           hintStyle: MyTheme.mobileTextTheme.button!.copyWith(
                               color: textFieldState == AppolloTextFieldState.initial
-                                  ? MyTheme.appolloGrey
-                                  : MyTheme.appolloGreen),
+                                  ? MyTheme.scoopGrey
+                                  : MyTheme.scoopGreen),
                           enabledBorder: InputBorder.none,
                           focusedErrorBorder: InputBorder.none,
                           labelText: widget.labelText,
@@ -319,12 +319,12 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                         hoverColor: Colors.transparent,
                         contentPadding: const EdgeInsets.only(left: 8, bottom: 4),
                         errorBorder: InputBorder.none,
-                        errorStyle: MyTheme.mobileTextTheme.caption!.copyWith(color: MyTheme.appolloDarkRed),
+                        errorStyle: MyTheme.mobileTextTheme.caption!.copyWith(color: MyTheme.scoopDarkRed),
                         focusedBorder: InputBorder.none,
                         hintStyle: MyTheme.mobileTextTheme.button!.copyWith(
                             color: textFieldState == AppolloTextFieldState.initial
-                                ? MyTheme.appolloBlack
-                                : MyTheme.appolloGrey),
+                                ? MyTheme.scoopBlack
+                                : MyTheme.scoopGrey),
                         enabledBorder: InputBorder.none,
                         focusedErrorBorder: InputBorder.none,
                         labelText: widget.labelText,
@@ -356,7 +356,7 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
                       },
                       child: Icon(
                         Icons.close,
-                        color: MyTheme.appolloGrey,
+                        color: MyTheme.scoopGrey,
                       ).paddingRight(8))
               ],
             ),
@@ -368,24 +368,24 @@ class _AppolloTextFieldState extends State<AppolloTextField> {
 
   Color _buildLabelColor() {
     if (textFieldState == AppolloTextFieldState.filled) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else if (textFieldState == AppolloTextFieldState.error) {
-      return MyTheme.appolloWhite;
+      return MyTheme.scoopWhite;
     } else if (textFieldState == AppolloTextFieldState.initial) {
-      return MyTheme.appolloWhite;
+      return MyTheme.scoopWhite;
     }
-    return MyTheme.appolloWhite;
+    return MyTheme.scoopWhite;
   }
 
   Color _buildOutlineColor() {
     if (textFieldState == AppolloTextFieldState.typing) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else if (textFieldState == AppolloTextFieldState.hover) {
-      return MyTheme.appolloOrange;
+      return MyTheme.scoopOrange;
     } else if (textFieldState == AppolloTextFieldState.error) {
-      return MyTheme.appolloDarkRed;
+      return MyTheme.scoopDarkRed;
     } else if (textFieldState == AppolloTextFieldState.filled) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else {
       return Colors.transparent;
     }

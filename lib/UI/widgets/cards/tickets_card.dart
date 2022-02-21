@@ -29,7 +29,7 @@ class _TicketCardState extends State<TicketCard> {
       width: 305,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(16)),
-        color: MyTheme.appolloCardColor,
+        color: MyTheme.scoopCardColor,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -54,7 +54,7 @@ class _TicketCardState extends State<TicketCard> {
         child: Text(
           text,
           style:
-              MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloBackgroundColor, fontWeight: FontWeight.w600),
+              MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopBackgroundColor, fontWeight: FontWeight.w600),
         ),
       ),
     );
@@ -78,7 +78,7 @@ class _TicketCardState extends State<TicketCard> {
                           tagName: 'Current Price',
                           price: '${(widget.release.getActiveRelease()!.price! / 100).toStringAsFixed(2)}'),
                       if (widget.release.getFullPrice()! > widget.release.getActiveRelease()!.price!)
-                        VerticalDivider(color: MyTheme.appolloWhite),
+                        VerticalDivider(color: MyTheme.scoopWhite),
                       if (widget.release.getFullPrice()! > widget.release.getActiveRelease()!.price!)
                         _priceTag(context,
                             tagName: 'Full Price',
@@ -185,7 +185,7 @@ class _TicketCardState extends State<TicketCard> {
   Widget _saveUp(BuildContext context, {required String savePrice, required String countdown}) => Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
-          border: Border.all(width: 0.5, color: MyTheme.appolloDarkRed),
+          border: Border.all(width: 0.5, color: MyTheme.scoopDarkRed),
         ),
         height: 36,
         child: Row(
@@ -193,11 +193,11 @@ class _TicketCardState extends State<TicketCard> {
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(5), bottomLeft: Radius.circular(5)),
-                color: MyTheme.appolloDarkRed,
+                color: MyTheme.scoopDarkRed,
               ),
               child: Center(
                   child: Text('Save \$$savePrice',
-                          style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloBackgroundColor))
+                          style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopBackgroundColor))
                       .paddingHorizontal(4)),
             ),
             Expanded(
@@ -205,7 +205,7 @@ class _TicketCardState extends State<TicketCard> {
                   child: AutoSizeText('PRICE INCREASE IN $countdown',
                           maxLines: 1,
                           minFontSize: 5,
-                          style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.appolloDarkRed))
+                          style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.scoopDarkRed))
                       .paddingHorizontal(4)),
             ),
           ],
@@ -236,10 +236,10 @@ class _TicketCardState extends State<TicketCard> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: MyTheme.appolloGrey.withOpacity(.45),
+                    color: MyTheme.scoopGrey.withOpacity(.45),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.remove, size: 15, color: MyTheme.appolloWhite).paddingAll(4),
+                  child: Icon(Icons.remove, size: 15, color: MyTheme.scoopWhite).paddingAll(4),
                 ),
               ),
               SizedBox(width: 50, child: Center(child: Text("${quantity.toString()}"))),
@@ -263,10 +263,10 @@ class _TicketCardState extends State<TicketCard> {
                 },
                 child: Container(
                   decoration: BoxDecoration(
-                    color: MyTheme.appolloGrey.withOpacity(.45),
+                    color: MyTheme.scoopGrey.withOpacity(.45),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(Icons.add, size: 15, color: MyTheme.appolloWhite).paddingAll(4),
+                  child: Icon(Icons.add, size: 15, color: MyTheme.scoopWhite).paddingAll(4),
                 ),
               ),
             ],
@@ -280,7 +280,7 @@ class _TicketCardState extends State<TicketCard> {
     } else {
       return Text(
         "There are only ${widget.release.getActiveRelease()!.maxTickets - widget.release.getActiveRelease()!.ticketsBought} tickets left of this release",
-        style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.appolloRed),
+        style: MyTheme.textTheme.bodyText2!.copyWith(color: MyTheme.scoopRed),
       ).paddingLeft(MyTheme.elementSpacing);
     }
   }

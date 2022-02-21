@@ -17,18 +17,7 @@ class StateLoadingUserData extends StateInitial {}
 
 class StateLoadingLogin extends StateExistingUserEmail {}
 
-/*class StateLoadingSSO extends AuthenticationState {}*/
-
 class StateLoadingCreateUser extends AuthenticationState {}
-
-/*class StateNewSSOUser extends AuthenticationState {
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String uid;
-
-  StateNewSSOUser(this.email, this.uid, this.firstName, this.lastName);
-}*/
 
 class StateExistingUserEmail extends AuthenticationState {}
 

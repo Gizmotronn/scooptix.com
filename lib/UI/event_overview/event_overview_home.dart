@@ -69,7 +69,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
                       style: Theme.of(context)
                           .textTheme
                           .headline4!
-                          .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                          .copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w500),
                     ),
                   ]),
             ),
@@ -87,7 +87,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
                         style: Theme.of(context)
                             .textTheme
                             .headline4!
-                            .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                            .copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w500),
                       ),
                     ]),
               ));
@@ -106,7 +106,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
                         style: Theme.of(context)
                             .textTheme
                             .headline4!
-                            .copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w500),
+                            .copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w500),
                       ),
                       TextSpan(
                         text: ' Today',
@@ -132,7 +132,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   }
 
   Widget _eventOverview(Size screenSize) => Container(
-        color: MyTheme.appolloBackgroundColorLight,
+        color: MyTheme.scoopBackgroundColorLight,
         width: screenSize.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +146,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   Widget _buildAppBar() {
     if (getValueForScreenType(context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
       return AppolloAppBar(
-        backgroundColor: MyTheme.appolloBackgroundColorLight,
+        backgroundColor: MyTheme.scoopBackgroundColorLight,
       );
     } else {
       return SizedBox.shrink();

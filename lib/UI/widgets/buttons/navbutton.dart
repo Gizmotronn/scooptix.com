@@ -19,13 +19,13 @@ class NavbarButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AutoSizeText(title,
-                    style: MyTheme.textTheme.bodyText1!
-                        .copyWith(color: isTap ? MyTheme.appolloGreen : MyTheme.appolloWhite))
+                    style:
+                        MyTheme.textTheme.bodyText1!.copyWith(color: isTap ? MyTheme.scoopGreen : MyTheme.scoopWhite))
                 .paddingBottom(4),
             Container(
               height: 1.5,
               width: 20,
-              color: isTap ? MyTheme.appolloGreen : Colors.transparent,
+              color: isTap ? MyTheme.scoopGreen : Colors.transparent,
             )
           ],
         ),

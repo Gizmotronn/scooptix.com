@@ -20,14 +20,14 @@ class DotPoint extends StatelessWidget {
           AppolloIcons.dot,
           height: 8,
           width: 8,
-          color: isActive ? MyTheme.appolloGreen : MyTheme.appolloGrey.withOpacity(.3),
+          color: isActive ? MyTheme.scoopGreen : MyTheme.scoopGrey.withOpacity(.3),
         ).paddingRight(16),
         Expanded(
           child: AutoSizeText(
             '$text',
             style: MyTheme.textTheme.caption!.copyWith(
                 decoration: isActive ? TextDecoration.none : TextDecoration.lineThrough,
-                color: isActive ? MyTheme.textTheme.caption!.color : MyTheme.appolloDimGrey),
+                color: isActive ? MyTheme.textTheme.caption!.color : MyTheme.scoopDimGrey),
           ),
         ),
       ],

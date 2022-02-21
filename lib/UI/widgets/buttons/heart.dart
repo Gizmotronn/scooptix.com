@@ -25,7 +25,7 @@ class _FavoriteHeartButtonState extends State<FavoriteHeartButton> with SingleTi
     super.initState();
 
     _animationController = AnimationController(vsync: this, duration: MyTheme.animationDuration);
-    _colorAnimation = ColorTween(begin: MyTheme.appolloWhite, end: MyTheme.appolloRed).animate(_animationController);
+    _colorAnimation = ColorTween(begin: MyTheme.scoopWhite, end: MyTheme.scoopRed).animate(_animationController);
     _sizeAnimation = TweenSequence(<TweenSequenceItem<double>>[
       TweenSequenceItem<double>(tween: Tween(begin: 22, end: 17), weight: 15),
       TweenSequenceItem<double>(tween: Tween(begin: 17, end: 22), weight: 15)

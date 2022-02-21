@@ -32,21 +32,21 @@ class BirthdaySheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColorLight,
           expand: true,
           settings: RouteSettings(name: "birthday_sheet"),
           builder: (context) => BirthdaySheet._(event, booking));
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColorLight,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.appolloBackgroundColorLight,
+                      backgroundColor: MyTheme.scoopBackgroundColorLight,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => BirthdaySheet._(event, booking));
@@ -99,7 +99,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: MyTheme.appolloCardColorLight,
+          backgroundColor: MyTheme.scoopCardColorLight,
           automaticallyImplyLeading: false,
           title: InkWell(
             onTap: () {
@@ -140,7 +140,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                         }),
                     Text(
                       "Done",
-                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                     )
                   ],
                 ),
@@ -161,7 +161,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText("Invite your friends",
-                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen))
                             .paddingBottom(MyTheme.elementSpacing * 2)
                             .paddingTop(MyTheme.elementSpacing),
                         AutoSizeText(
@@ -171,18 +171,18 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 "Guests need to open the link and accept your invite by following the instructions.")
                             .paddingBottom(MyTheme.elementSpacing),
                         AutoSizeText("Invitation Link",
-                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange))
                             .paddingBottom(MyTheme.elementSpacing * 0.5),
                         OnTapAnimationButton(
                           fill: true,
                           border: true,
                           width: screenSize.width,
-                          onTapColor: MyTheme.appolloGreen,
+                          onTapColor: MyTheme.scoopGreen,
                           onTapContent: Text(
                             "LINK COPIED",
                             style: MyTheme.textTheme.headline6,
                           ),
-                          color: MyTheme.appolloBackgroundColor,
+                          color: MyTheme.scoopBackgroundColor,
                           onTap: () {
                             if (PlatformDetector.isMobile()) {
                               Share.share("scooptix.com/?id=${state.birthdayList.uuid}",
@@ -199,8 +199,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                             ),
                           ),
                         ).paddingBottom(MyTheme.elementSpacing),
-                        AutoSizeText("RSVP's",
-                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
+                        AutoSizeText("RSVP's", style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange))
                             .paddingBottom(MyTheme.elementSpacing * 0.5),
                         ClipRRect(
                           borderRadius:
@@ -209,11 +208,11 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                             headers: _headers,
                             useDesktopView: true,
                             source: _buildAttendeeTable(state.birthdayList.attendees),
-                            listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor),
+                            listDecoration: BoxDecoration(color: MyTheme.scoopBackgroundColor),
                             itemPaddingVertical: 8,
                             headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             headerDecoration: BoxDecoration(
-                                color: MyTheme.appolloPurple,
+                                color: MyTheme.scoopPurple,
                                 borderRadius:
                                     BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))),
                           ),
@@ -227,7 +226,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       AutoSizeText("Celebrate in style!",
-                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen))
+                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen))
                           .paddingBottom(MyTheme.elementSpacing * 2)
                           .paddingTop(MyTheme.elementSpacing),
                       ListView.builder(
@@ -238,7 +237,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                             children: [
                               Center(
                                 child: Container(
-                                  decoration: ShapeDecoration(shape: CircleBorder(), color: MyTheme.appolloGreen),
+                                  decoration: ShapeDecoration(shape: CircleBorder(), color: MyTheme.scoopGreen),
                                   height: 12,
                                   width: 12,
                                 ).paddingRight(MyTheme.elementSpacing),
@@ -253,7 +252,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                         },
                       ).paddingBottom(MyTheme.elementSpacing),
                       AutoSizeText("How many guests are you inviting?",
-                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
+                              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange))
                           .paddingBottom(MyTheme.elementSpacing),
                       ReactiveForm(
                         formGroup: form,
@@ -273,10 +272,10 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                             child: AppolloButton.regularButton(
                                 width: screenSize.width,
                                 fill: true,
-                                color: MyTheme.appolloGreen,
+                                color: MyTheme.scoopGreen,
                                 child: Text(
                                   "Create",
-                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                                 ),
                                 onTap: () {
                                   if (form.valid) {
@@ -298,7 +297,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                                 maxLines: 2, style: MyTheme.textTheme.headline2)
                             .paddingBottom(MyTheme.elementSpacing * 2),
                         AutoSizeText("Your birthday is too far away!",
-                                style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
+                                style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen))
                             .paddingBottom(MyTheme.elementSpacing),
                         AutoSizeText(
                             "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),

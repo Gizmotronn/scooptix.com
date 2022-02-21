@@ -28,7 +28,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
 
   Widget _buildAppBar() {
     return Container(
-      color: widget.backgroundColor ?? MyTheme.appolloBackgroundColor,
+      color: widget.backgroundColor ?? MyTheme.scoopBackgroundColor,
       padding: EdgeInsets.symmetric(horizontal: 15),
       width: MyTheme.maxWidth,
       height: widget.preferredSize.height,
@@ -73,7 +73,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
         onTap: () {
           showAppolloModalBottomSheet(
               context: context,
-              backgroundColor: MyTheme.appolloBackgroundColor,
+              backgroundColor: MyTheme.scoopBackgroundColor,
               expand: true,
               settings: RouteSettings(name: "authentication_sheet"),
               builder: (context) => AuthenticationPageWrapper());
@@ -102,14 +102,14 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
           onTap: () {
             showAppolloModalBottomSheet(
                 context: context,
-                backgroundColor: MyTheme.appolloBackgroundColorLight,
+                backgroundColor: MyTheme.scoopBackgroundColorLight,
                 expand: true,
                 settings: RouteSettings(name: "authentication_sheet"),
                 builder: (context) => AuthenticationPageWrapper());
           },
           child: Text(
             "Sign In",
-            style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+            style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
           ));
     }
   }

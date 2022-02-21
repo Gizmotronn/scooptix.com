@@ -57,8 +57,8 @@ class EventDetailNavbar extends StatelessWidget {
                     AutoSizeText(
                       mainText,
                       maxLines: 1,
-                      style: MyTheme.textTheme.headline2!
-                          .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                      style:
+                          MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ).paddingLeft(8).paddingVertical(8),
@@ -70,11 +70,11 @@ class EventDetailNavbar extends StatelessWidget {
                     height: bottomBarHeight,
                     constraints: BoxConstraints(minWidth: 150),
                     decoration: BoxDecoration(
-                        color: MyTheme.appolloYellow, borderRadius: BorderRadius.only(topRight: Radius.circular(5))),
+                        color: MyTheme.scoopYellow, borderRadius: BorderRadius.only(topRight: Radius.circular(5))),
                     child: Center(
                       child: Text(buttonText,
                               style: MyTheme.textTheme.button!.copyWith(
-                                  fontWeight: FontWeight.w500, fontSize: 18, color: MyTheme.appolloBackgroundColor))
+                                  fontWeight: FontWeight.w500, fontSize: 18, color: MyTheme.scoopBackgroundColor))
                           .paddingHorizontal(16),
                     ),
                   ),
@@ -86,7 +86,7 @@ class EventDetailNavbar extends StatelessWidget {
               topLeft: Radius.circular(8),
               topRight: Radius.circular(8),
             ),
-            color: MyTheme.appolloCardColor,
+            color: MyTheme.scoopCardColor,
           ),
         ),
       ),

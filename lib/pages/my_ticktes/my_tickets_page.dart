@@ -47,7 +47,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _headerText('Tickets', color: MyTheme.appolloGreen)
+                        _headerText('Tickets', color: MyTheme.scoopGreen)
                             .paddingBottom(MyTheme.cardPadding)
                             .paddingTop(MyTheme.elementSpacing),
                         _tickets(widget.parentContext,
@@ -57,7 +57,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                     .toList(),
                                 isPastTicket: false)
                             .paddingBottom(MyTheme.elementSpacing * 2),
-                        _headerText('Past Event Tickets', color: MyTheme.appolloOrange)
+                        _headerText('Past Event Tickets', color: MyTheme.scoopOrange)
                             .paddingBottom(MyTheme.cardPadding),
                         _tickets(widget.parentContext,
                             tickets: state.tickets
@@ -104,7 +104,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _headerText('Tickets', color: MyTheme.appolloGreen).paddingBottom(MyTheme.cardPadding).paddingTop(16),
+              _headerText('Tickets', color: MyTheme.scoopGreen).paddingBottom(MyTheme.cardPadding).paddingTop(16),
               AutoSizeText(
                 "You do not currently have a ticket to an event.\n\nOnce you purchase a ticket it will be displayed here so it's always easy to find.",
                 style: Theme.of(context).textTheme.subtitle1!.copyWith(fontWeight: FontWeight.w300),

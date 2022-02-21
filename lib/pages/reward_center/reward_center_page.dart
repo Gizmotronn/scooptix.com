@@ -60,8 +60,8 @@ class _RewardCenterState extends State<RewardCenterPage> {
                   "Open Competitions",
                   style: getValueForScreenType(
                       context: context,
-                      watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
-                      mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                      watch: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+                      mobile: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
                       tablet: MyTheme.textTheme.headline4,
                       desktop: MyTheme.textTheme.headline4),
                 ).paddingTop(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing * 2),
@@ -76,25 +76,25 @@ class _RewardCenterState extends State<RewardCenterPage> {
                         children: [
                           Text(
                             "Competition Closes ${date(state.preSales[index].event!.preSale!.registrationEndDate)}",
-                            style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.scoopRed),
                           ).paddingBottom(MyTheme.elementSpacing / 2),
                           Text(
                             state.preSales[index].event!.name,
                             style: MyTheme.textTheme.headline5,
                           ).paddingBottom(MyTheme.elementSpacing * 2),
                           Text("Invitation Link",
-                                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
+                                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange))
                               .paddingBottom(MyTheme.elementSpacing),
                           OnTapAnimationButton(
                             fill: true,
                             border: true,
                             width: screenSize.width,
-                            onTapColor: MyTheme.appolloGreen,
+                            onTapColor: MyTheme.scoopGreen,
                             onTapContent: Text(
                               "LINK COPIED",
                               style: MyTheme.textTheme.headline6,
                             ),
-                            color: MyTheme.appolloBackgroundColorLight,
+                            color: MyTheme.scoopBackgroundColorLight,
                             onTap: () {
                               if (PlatformDetector.isMobile()) {
                                 Share.share("scooptix.com/?id=${state.preSales[index].uuid}",
@@ -114,7 +114,7 @@ class _RewardCenterState extends State<RewardCenterPage> {
                           AppolloButton.regularButton(
                               fill: true,
                               width: MediaQuery.of(context).size.width,
-                              color: MyTheme.appolloGreen,
+                              color: MyTheme.scoopGreen,
                               child: Text(
                                 "View Competition Details",
                                 style: MyTheme.textTheme.button,

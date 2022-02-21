@@ -133,7 +133,7 @@ class _ThisWeekState extends State<ThisWeek> {
                         style: Theme.of(context)
                             .textTheme
                             .headline4!
-                            .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
+                            .copyWith(color: MyTheme.scoopRed, fontWeight: FontWeight.w500),
                       ),
                   ],
                 ),

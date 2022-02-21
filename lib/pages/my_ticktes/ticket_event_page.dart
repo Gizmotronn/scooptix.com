@@ -45,7 +45,7 @@ class TicketEventPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               elevation: 0,
-              backgroundColor: MyTheme.appolloCardColorLight,
+              backgroundColor: MyTheme.scoopCardColorLight,
               automaticallyImplyLeading: true,
               title: InkWell(
                 onTap: () {
@@ -65,7 +65,7 @@ class TicketEventPage extends StatelessWidget {
                         ),
                         Text(
                           "Done",
-                          style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                          style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                         )
                       ],
                     ),
@@ -86,7 +86,7 @@ class TicketEventPage extends StatelessWidget {
                         children: [
                           Container(
                             height: 64,
-                            color: MyTheme.appolloGreen,
+                            color: MyTheme.scoopGreen,
                             width: size.screenSize.width,
                             child: Center(
                                 child: Text(
@@ -104,8 +104,8 @@ class TicketEventPage extends StatelessWidget {
                         height: 64,
                         width: size.screenSize.width,
                         color: !isTicketPass
-                            ? MyTheme.appolloGreen
-                            : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
+                            ? MyTheme.scoopGreen
+                            : (ticket.wasUsed ? MyTheme.scoopGreen : MyTheme.scoopRed),
                         child: Center(
                             child: Text(
                           !isTicketPass ? "Admit One" : (ticket.wasUsed ? 'Attended' : 'Did Not Attend'),
@@ -168,7 +168,7 @@ class TicketEventPage extends StatelessWidget {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
       child: SizedBox(
         child: QrImage(
-          backgroundColor: MyTheme.appolloWhite,
+          backgroundColor: MyTheme.scoopWhite,
           data: '${ticket.event!.docID} ${ticket.docId}',
           version: QrVersions.auto,
         ),
@@ -190,7 +190,7 @@ class TicketEventPage extends StatelessWidget {
                 padding: EdgeInsets.only(top: 4),
                 height: 40,
                 decoration: ShapeDecoration(
-                    color: MyTheme.appolloGreen,
+                    color: MyTheme.scoopGreen,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)))),
                 width: MyTheme.drawerSize * 0.8,
@@ -209,9 +209,8 @@ class TicketEventPage extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.only(bottom: 4),
                 decoration: ShapeDecoration(
-                    color: !isTicketPass
-                        ? MyTheme.appolloGreen
-                        : (ticket.wasUsed ? MyTheme.appolloGreen : MyTheme.appolloRed),
+                    color:
+                        !isTicketPass ? MyTheme.scoopGreen : (ticket.wasUsed ? MyTheme.scoopGreen : MyTheme.scoopRed),
                     shape: RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.only(bottomRight: Radius.circular(8), bottomLeft: Radius.circular(8)))),
@@ -234,7 +233,7 @@ class TicketEventPage extends StatelessWidget {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: Colors.white),
                 child: SizedBox(
                   child: QrImage(
-                    backgroundColor: MyTheme.appolloWhite,
+                    backgroundColor: MyTheme.scoopWhite,
                     data: '${ticket.event!.docID} ${ticket.docId}',
                     version: QrVersions.auto,
                   ),
@@ -249,7 +248,6 @@ class TicketEventPage extends StatelessWidget {
 
   Widget _header(BuildContext context, {required String title}) => Text(
         title,
-        style:
-            Theme.of(context).textTheme.headline5!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+        style: Theme.of(context).textTheme.headline5!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
       ).paddingVertical(8);
 }

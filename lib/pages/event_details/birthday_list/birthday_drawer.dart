@@ -86,7 +86,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
       width: MyTheme.drawerSize,
       height: screenSize.height,
       decoration: ShapeDecoration(
-          color: MyTheme.appolloBackgroundColor,
+          color: MyTheme.scoopBackgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
       child: Column(
@@ -100,7 +100,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
               child: Icon(
                 Icons.close,
                 size: 34,
-                color: MyTheme.appolloRed,
+                color: MyTheme.scoopRed,
               ),
             ),
           ).paddingRight(16).paddingTop(8),
@@ -129,7 +129,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     AutoSizeText("Birthday list created.", style: MyTheme.textTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invite your friends",
-                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
+                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                             "Below you will find your invitation link. Copy the link and give it to anyone you wish to invite")
@@ -138,18 +138,18 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                             "Guests need to open the link and accept your invite by following the instructions.")
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invitation Link",
-                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
+                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     OnTapAnimationButton(
                                       fill: true,
                                       border: true,
                                       width: screenSize.width,
-                                      onTapColor: MyTheme.appolloGreen,
+                                      onTapColor: MyTheme.scoopGreen,
                                       onTapContent: Text(
                                         "LINK COPIED",
                                         style: MyTheme.textTheme.headline6,
                                       ),
-                                      color: MyTheme.appolloBackgroundColorLight,
+                                      color: MyTheme.scoopBackgroundColorLight,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
                                           Share.share("scooptix.com/?id=${state.birthdayList.uuid}",
@@ -167,7 +167,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       ),
                                     ).paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("RSVP's",
-                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
+                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     ClipRRect(
                                       borderRadius: BorderRadius.only(
@@ -175,11 +175,11 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                       child: ResponsiveDatatable(
                                         headers: _headers,
                                         source: _buildAttendeeTable(state.birthdayList.attendees),
-                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
+                                        listDecoration: BoxDecoration(color: MyTheme.scoopBackgroundColorLight),
                                         itemPaddingVertical: 8,
                                         headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                         headerDecoration: BoxDecoration(
-                                            color: MyTheme.appolloPurple,
+                                            color: MyTheme.scoopPurple,
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(8), topRight: Radius.circular(8))),
                                       ),
@@ -189,11 +189,11 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                           alignment: Alignment.bottomRight,
                                           child: AppolloButton.regularButton(
                                               fill: true,
-                                              color: MyTheme.appolloGreen,
+                                              color: MyTheme.scoopGreen,
                                               child: Text(
                                                 "Back",
                                                 style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.appolloBackgroundColor),
+                                                    .copyWith(color: MyTheme.scoopBackgroundColor),
                                               ),
                                               onTap: () {
                                                 Navigator.pop(context);
@@ -212,7 +212,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         maxLines: 2, style: MyTheme.textTheme.headline2)
                                     .paddingBottom(MyTheme.elementSpacing),
                                 AutoSizeText("Celebrate in style!",
-                                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
+                                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen))
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ListView.builder(
                                   shrinkWrap: true,
@@ -223,7 +223,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                         Center(
                                           child: Container(
                                             decoration:
-                                                ShapeDecoration(shape: CircleBorder(), color: MyTheme.appolloGreen),
+                                                ShapeDecoration(shape: CircleBorder(), color: MyTheme.scoopGreen),
                                             height: 12,
                                             width: 12,
                                           ).paddingRight(MyTheme.elementSpacing),
@@ -238,7 +238,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                   },
                                 ).paddingBottom(MyTheme.elementSpacing),
                                 AutoSizeText("How many guests are you inviting?",
-                                        style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
+                                        style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopOrange))
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ReactiveForm(
                                   formGroup: form,
@@ -256,11 +256,11 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     alignment: Alignment.bottomRight,
                                     child: AppolloButton.regularButton(
                                         fill: true,
-                                        color: MyTheme.appolloGreen,
+                                        color: MyTheme.scoopGreen,
                                         child: Text(
                                           "Create",
                                           style:
-                                              MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                                              MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                                         ),
                                         onTap: () {
                                           if (form.valid) {
@@ -285,7 +285,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                             maxLines: 2, style: MyTheme.textTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Your birthday is too far away!",
-                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
+                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                         "To qualify for a birthday list your birthday must fall within two weeks either side of the event date.\nPlease choose an event or date closer to your birthday."),
@@ -294,11 +294,11 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                           alignment: Alignment.bottomRight,
                                           child: AppolloButton.regularButton(
                                               fill: true,
-                                              color: MyTheme.appolloGreen,
+                                              color: MyTheme.scoopGreen,
                                               child: Text(
                                                 "Back",
                                                 style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.appolloBackgroundColor),
+                                                    .copyWith(color: MyTheme.scoopBackgroundColor),
                                               ),
                                               onTap: () {
                                                 Navigator.pop(context);
@@ -346,7 +346,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                             .paddingRight(4),
                         Text("ScoopTix",
                             style: MyTheme.textTheme.subtitle1!.copyWith(
-                              color: MyTheme.appolloPurple,
+                              color: MyTheme.scoopPurple,
                               fontSize: 18,
                             ))
                       ],

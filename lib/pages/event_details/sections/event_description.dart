@@ -22,7 +22,7 @@ class EventDescription extends StatelessWidget {
             children: [
               AutoSizeText(
                 'Event Details',
-                style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: MyTheme.elementSpacing * 2),
               AutoSizeText("${event.description}", textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1),

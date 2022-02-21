@@ -1,8 +1,8 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/model/link_type/advertisementInvite.dart';
-import 'package:ticketapp/model/link_type/birthdayList.dart';
+import 'package:ticketapp/model/link_type/advertisement_invite.dart';
+import 'package:ticketapp/model/link_type/birthday_list.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/link_type/pre_sale_invite.dart';

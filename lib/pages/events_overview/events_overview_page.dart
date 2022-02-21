@@ -43,11 +43,11 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
       child: ResponsiveBuilder(builder: (context, size) {
         if (size.isDesktop || size.isTablet) {
           return Scaffold(
-            backgroundColor: MyTheme.appolloWhite,
+            backgroundColor: MyTheme.scoopWhite,
             body: BlocProvider(
               create: (_) => bloc,
               child: Container(
-                color: MyTheme.appolloBackgroundColor,
+                color: MyTheme.scoopBackgroundColor,
                 width: screenSize.width,
                 height: screenSize.height,
                 child: Stack(
@@ -67,11 +67,11 @@ class _EventOverviewPageState extends State<EventOverviewPage> {
           );
         } else {
           return Scaffold(
-            backgroundColor: MyTheme.appolloWhite,
+            backgroundColor: MyTheme.scoopWhite,
             body: BlocProvider(
               create: (_) => bloc,
               child: Container(
-                color: MyTheme.appolloBackgroundColor,
+                color: MyTheme.scoopBackgroundColor,
                 width: screenSize.width,
                 height: screenSize.height,
                 child: BlocProvider.value(

@@ -17,10 +17,10 @@ class WhyAreYouHereWidget extends StatelessWidget {
         decoration: ShapeDecoration(
             color: getValueForScreenType(
                 context: context,
-                watch: MyTheme.appolloGreen,
-                mobile: MyTheme.appolloGreen,
-                tablet: MyTheme.appolloPurple,
-                desktop: MyTheme.appolloPurple),
+                watch: MyTheme.scoopGreen,
+                mobile: MyTheme.scoopGreen,
+                tablet: MyTheme.scoopPurple,
+                desktop: MyTheme.scoopPurple),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4)))),
         child: Padding(
           padding:

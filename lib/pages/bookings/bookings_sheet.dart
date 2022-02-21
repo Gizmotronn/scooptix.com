@@ -27,21 +27,21 @@ class BookingsSheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColorLight,
           expand: true,
           settings: RouteSettings(name: "bookings_sheet"),
           builder: (context) => BookingsSheet._());
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColorLight,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.appolloBackgroundColorLight,
+                      backgroundColor: MyTheme.scoopBackgroundColorLight,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => BookingsSheet._());
@@ -94,7 +94,7 @@ class _BookingsSheetState extends State<BookingsSheet> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: MyTheme.appolloCardColorLight,
+          backgroundColor: MyTheme.scoopCardColorLight,
           automaticallyImplyLeading: false,
           title: InkWell(
             onTap: () {
@@ -114,7 +114,7 @@ class _BookingsSheetState extends State<BookingsSheet> {
                     ),
                     Text(
                       "Done",
-                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                     )
                   ],
                 ),
@@ -135,7 +135,7 @@ class _BookingsSheetState extends State<BookingsSheet> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AutoSizeText("Invite your friends",
-                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen))
                             .paddingBottom(MyTheme.elementSpacing * 2)
                             .paddingTop(MyTheme.elementSpacing),
                         AutoSizeText(
@@ -145,18 +145,18 @@ class _BookingsSheetState extends State<BookingsSheet> {
                                 "Guests need to open the link and accept your invite by following the instructions.")
                             .paddingBottom(MyTheme.elementSpacing),
                         AutoSizeText("Invitation Link",
-                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
+                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange))
                             .paddingBottom(MyTheme.elementSpacing * 0.5),
                         OnTapAnimationButton(
                           fill: true,
                           border: true,
                           width: screenSize.width,
-                          onTapColor: MyTheme.appolloGreen,
+                          onTapColor: MyTheme.scoopGreen,
                           onTapContent: Text(
                             "LINK COPIED",
                             style: MyTheme.textTheme.headline6,
                           ),
-                          color: MyTheme.appolloBackgroundColor,
+                          color: MyTheme.scoopBackgroundColor,
                           onTap: () {
                             if (PlatformDetector.isMobile()) {
                               Share.share("scooptix.com/?id=${state.bookings[0].uuid}",
@@ -173,8 +173,7 @@ class _BookingsSheetState extends State<BookingsSheet> {
                             ),
                           ),
                         ).paddingBottom(MyTheme.elementSpacing),
-                        AutoSizeText("RSVP's",
-                                style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloOrange))
+                        AutoSizeText("RSVP's", style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopOrange))
                             .paddingBottom(MyTheme.elementSpacing * 0.5),
                         ClipRRect(
                           borderRadius:
@@ -183,11 +182,11 @@ class _BookingsSheetState extends State<BookingsSheet> {
                             headers: _headers,
                             useDesktopView: true,
                             source: _buildAttendeeTable(state.bookings[0].attendees),
-                            listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColor),
+                            listDecoration: BoxDecoration(color: MyTheme.scoopBackgroundColor),
                             itemPaddingVertical: 8,
                             headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                             headerDecoration: BoxDecoration(
-                                color: MyTheme.appolloPurple,
+                                color: MyTheme.scoopPurple,
                                 borderRadius:
                                     BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8))),
                           ),

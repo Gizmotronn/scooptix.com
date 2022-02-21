@@ -14,21 +14,21 @@ class MyTicketsSheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColor,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           settings: RouteSettings(name: "tickets_sheet"),
           builder: (context) => MyTicketsSheet._());
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.appolloBackgroundColor,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.appolloBackgroundColor,
+                      backgroundColor: MyTheme.scoopBackgroundColor,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => MyTicketsSheet._());
@@ -49,7 +49,7 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: MyTheme.appolloCardColorLight,
+            backgroundColor: MyTheme.scoopCardColorLight,
             automaticallyImplyLeading: false,
             title: InkWell(
               onTap: () {
@@ -69,7 +69,7 @@ class _MyTicketsSheetState extends State<MyTicketsSheet> {
                       ),
                       Text(
                         "Done",
-                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                       )
                     ],
                   ),

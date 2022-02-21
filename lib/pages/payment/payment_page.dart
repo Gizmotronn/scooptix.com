@@ -21,7 +21,7 @@ import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
-import 'package:ticketapp/utilities/alertGenerator.dart';
+import 'package:ticketapp/utilities/alert_generator.dart';
 
 class PaymentPage extends StatefulWidget {
   final Event event;
@@ -129,7 +129,7 @@ class _PaymentPageState extends State<PaymentPage> {
                     width: MyTheme.drawerSize,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: MyTheme.appolloGreen,
+                        primary: MyTheme.scoopGreen,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -186,7 +186,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 },
                           child: Text(
                             "PURCHASE",
-                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                           ),
                         ),
                       ),
@@ -343,11 +343,11 @@ class _PaymentPageState extends State<PaymentPage> {
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
                 "Selected Payment Method",
-                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloOrange),
+                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopOrange),
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
-                      color: MyTheme.appolloBackgroundColor,
+                      color: MyTheme.scoopBackgroundColor,
                       child: SizedBox(
                           width: MyTheme.drawerSize,
                           height: 38,
@@ -356,7 +356,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset(AppolloIcons.creditCard, color: MyTheme.appolloWhite, height: 26)
+                                  SvgPicture.asset(AppolloIcons.creditCard, color: MyTheme.scoopWhite, height: 26)
                                       .paddingLeft(8),
                                   Text("Credit Card").paddingLeft(8),
                                 ],
@@ -383,7 +383,7 @@ class _PaymentPageState extends State<PaymentPage> {
       children: [
         Text(
           "Order Confirmation",
-          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloGreen),
+          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopGreen),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildSelectedTickets(),
         AppolloDivider(verticalPadding: MyTheme.elementSpacing),
@@ -569,7 +569,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                 alignment: Alignment.topRight,
                                 child: Text(
                                   "close",
-                                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloRed),
+                                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopRed),
                                 )),
                           ),
                         ],
@@ -697,7 +697,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                   height: 38,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: MyTheme.appolloGreen,
+                                      primary: MyTheme.scoopGreen,
                                     ),
                                     onPressed: () async {
                                       form.markAllAsTouched();
@@ -746,7 +746,7 @@ class _PaymentPageState extends State<PaymentPage> {
                             height: 38,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                  primary: MyTheme.appolloGreen,
+                                  primary: MyTheme.scoopGreen,
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                               onPressed: () async {
                                 form.markAllAsTouched();
@@ -781,7 +781,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               },
                               child: Text(
                                 "Add Card",
-                                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                               ),
                             ),
                           );
@@ -789,15 +789,15 @@ class _PaymentPageState extends State<PaymentPage> {
                       }),
                     ],
                   ).paddingAll(MyTheme.elementSpacing),
-                ).appolloCard(color: MyTheme.appolloBackgroundColor).paddingBottom(MyTheme.elementSpacing),
+                ).appolloCard(color: MyTheme.scoopBackgroundColor).paddingBottom(MyTheme.elementSpacing),
               )
             : Container(
                     child: Center(
                         child: Text(
                 "Change Payment Method",
-                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloGreen),
+                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopGreen),
               ).paddingAll(8)))
-                .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120)),
+                .appolloCard(color: MyTheme.scoopBackgroundColorLight.withAlpha(120)),
       ),
     ).paddingBottom(MyTheme.elementSpacing);
   }

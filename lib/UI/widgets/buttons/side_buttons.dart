@@ -16,8 +16,8 @@ class SideButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final active = activeColor ?? MyTheme.appolloGreen;
-    final deactive = disableColor ?? MyTheme.appolloGreen;
+    final active = activeColor ?? MyTheme.scoopGreen;
+    final deactive = disableColor ?? MyTheme.scoopGreen;
 
     return InkWell(
       onTap: onTap,
@@ -33,7 +33,7 @@ class SideButton extends StatelessWidget {
                   color: highlight
                       ? active
                       : onTap == null
-                          ? MyTheme.appolloDimGrey
+                          ? MyTheme.scoopDimGrey
                           : deactive),
             ).paddingHorizontal(8),
           ),

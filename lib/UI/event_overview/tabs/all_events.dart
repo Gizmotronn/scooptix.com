@@ -52,7 +52,7 @@ class AllEvents extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .headline4!
-                    .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500)),
+                    .copyWith(color: MyTheme.scoopWhite, fontWeight: FontWeight.w500)),
           ],
         ),
       ).paddingHorizontal(16).paddingTop(16);

@@ -25,7 +25,7 @@ class OrderSummarySheet extends StatefulWidget {
       {required BuildContext context, required Event event, required Map<TicketRelease, int> selectedTickets}) {
     showBottomSheet(
         context: context,
-        backgroundColor: MyTheme.appolloBackgroundColor,
+        backgroundColor: MyTheme.scoopBackgroundColor,
         builder: (context) => OrderSummarySheet._(
               collapsed: true,
               event: event,
@@ -39,7 +39,7 @@ class OrderSummarySheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: context,
-          backgroundColor: MyTheme.appolloBackgroundColor,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           settings: RouteSettings(name: "order_summary_sheet"),
           builder: (context) => OrderSummarySheet._(
@@ -50,14 +50,14 @@ class OrderSummarySheet extends StatefulWidget {
     } else {
       showAppolloModalBottomSheet(
           context: context,
-          backgroundColor: MyTheme.appolloBackgroundColor,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(context);
                   showAppolloModalBottomSheet(
                       context: context,
-                      backgroundColor: MyTheme.appolloBackgroundColor,
+                      backgroundColor: MyTheme.scoopBackgroundColor,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) =>
@@ -110,7 +110,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
         },
         child: Container(
           decoration: ShapeDecoration(
-              color: MyTheme.appolloCardColorLight,
+              color: MyTheme.scoopCardColorLight,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)))),
           width: MediaQuery.of(context).size.width,
@@ -127,7 +127,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 ),
                 Text(
                   "Open",
-                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                 )
               ],
             ),
@@ -142,7 +142,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
             return Scaffold(
               appBar: AppBar(
                 elevation: 0,
-                backgroundColor: MyTheme.appolloCardColorLight,
+                backgroundColor: MyTheme.scoopCardColorLight,
                 automaticallyImplyLeading: false,
                 title: InkWell(
                   onTap: () {
@@ -162,7 +162,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                           ),
                           Text(
                             "Close",
-                            style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                            style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                           )
                         ],
                       ),
@@ -177,7 +177,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                   children: [
                     AutoSizeText(
                       "Order Summary",
-                      style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                      style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
                     ).paddingBottom(MyTheme.elementSpacing),
                     _buildMainContent().paddingBottom(MyTheme.elementSpacing),
                     _buildDiscountCode().paddingBottom(MyTheme.elementSpacing),
@@ -190,7 +190,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                             if (!UserRepository.instance.isLoggedIn) {
                               showAppolloModalBottomSheet(
                                   context: context,
-                                  backgroundColor: MyTheme.appolloBackgroundColor,
+                                  backgroundColor: MyTheme.scoopBackgroundColor,
                                   expand: true,
                                   builder: (c) => AuthenticationPageWrapper(
                                         onAutoAuthenticated: (autoLoggedIn) {
@@ -222,7 +222,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                           },
                           child: Text(
                             "PROCEED TO CHECKOUT",
-                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                           ),
                         ),
                       ).paddingBottom(MyTheme.elementSpacing),
@@ -430,7 +430,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: AppolloCard(
-                      color: MyTheme.appolloGreen.withAlpha(90),
+                      color: MyTheme.scoopGreen.withAlpha(90),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -440,7 +440,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                             child: AutoSizeText(
                               state.discount.code,
                               style: MyTheme.textTheme.caption!
-                                  .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
+                                  .copyWith(color: MyTheme.scoopTeal, fontWeight: FontWeight.w400),
                             ),
                           ),
                           InkWell(
@@ -452,7 +452,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                             },
                             child: Icon(
                               Icons.close,
-                              color: MyTheme.appolloLightBlue,
+                              color: MyTheme.scoopLightBlue,
                               size: 14,
                             ).paddingLeft(4).paddingRight(8),
                           )
@@ -463,7 +463,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: AppolloCard(
-                      color: MyTheme.appolloRed.withAlpha(90),
+                      color: MyTheme.scoopRed.withAlpha(90),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,

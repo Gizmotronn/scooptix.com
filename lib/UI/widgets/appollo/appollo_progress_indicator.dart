@@ -6,7 +6,7 @@ class AppolloProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation(MyTheme.appolloGreen),
+      valueColor: AlwaysStoppedAnimation(MyTheme.scoopGreen),
     );
   }
 }
@@ -15,7 +15,7 @@ class AppolloButtonProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CircularProgressIndicator(
-      valueColor: AlwaysStoppedAnimation(MyTheme.appolloWhite),
+      valueColor: AlwaysStoppedAnimation(MyTheme.scoopWhite),
     );
   }
 }

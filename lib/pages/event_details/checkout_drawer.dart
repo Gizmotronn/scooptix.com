@@ -61,7 +61,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
       width: MyTheme.drawerSize,
       height: screenSize.height,
       decoration: ShapeDecoration(
-          color: MyTheme.appolloBackgroundColor,
+          color: MyTheme.scoopBackgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
       child: Column(
@@ -75,7 +75,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
               child: Icon(
                 Icons.close,
                 size: 34,
-                color: MyTheme.appolloRed,
+                color: MyTheme.scoopRed,
               ),
             ),
           ).paddingRight(16).paddingTop(8),
@@ -94,7 +94,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                           .paddingBottom(MyTheme.elementSpacing),
                       Text(
                         widget.event.name,
-                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen),
                       ).paddingBottom(MyTheme.elementSpacing),
                       SizedBox(
                         width: MyTheme.drawerSize,
@@ -174,7 +174,7 @@ class _CheckoutDrawerState extends State<CheckoutDrawer> {
                           .paddingBottom(4),
                       Text("ScoopTix",
                           style: MyTheme.textTheme.subtitle1!.copyWith(
-                            color: MyTheme.appolloPurple,
+                            color: MyTheme.scoopPurple,
                             fontSize: 18,
                           ))
                     ],

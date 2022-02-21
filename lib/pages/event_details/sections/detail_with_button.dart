@@ -55,8 +55,7 @@ class EventInfo extends StatelessWidget {
               children: [
                 AutoSizeText(
                   event.name,
-                  style:
-                      MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                  style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
                 ).paddingBottom(8),
                 AutoSizeText.rich(
                     TextSpan(
@@ -65,11 +64,11 @@ class EventInfo extends StatelessWidget {
                         TextSpan(
                             text: ' ${organizer.organizationName}',
                             style: MyTheme.textTheme.subtitle1!
-                                .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w500))
+                                .copyWith(color: MyTheme.scoopWhite, fontWeight: FontWeight.w500))
                       ],
                     ),
-                    style: MyTheme.textTheme.subtitle1!
-                        .copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w400)),
+                    style:
+                        MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopWhite, fontWeight: FontWeight.w400)),
               ],
             ).paddingBottom(MyTheme.elementSpacing),
             Expanded(
@@ -80,7 +79,7 @@ class EventInfo extends StatelessWidget {
                   AutoSizeText(
                     'Event Details',
                     style:
-                        MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+                        MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
                   ).paddingBottom(MyTheme.elementSpacing / 2),
                   IconText(text: event.address.trimLeft(), icon: AppolloIcons.pin).paddingBottom(8),
                   IconText(text: DateFormat("MMMM dd. yyy").format(event.date), icon: AppolloIcons.calenderOutline)

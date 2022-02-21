@@ -93,7 +93,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                           children: [
                             Text(
                               "Welcome Back",
-                              style: Theme.of(context).textTheme.headline2!.copyWith(color: MyTheme.appolloGreen),
+                              style: Theme.of(context).textTheme.headline2!.copyWith(color: MyTheme.scoopGreen),
                             ).paddingBottom(MyTheme.elementSpacing),
                             /*  InkWell(
                                         onTap: () {
@@ -191,7 +191,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                 fill: true,
                                 child: Text(
                                   "Logout",
-                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                                 ),
                               ),
                             ),

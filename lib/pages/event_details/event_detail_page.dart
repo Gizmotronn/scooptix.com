@@ -134,7 +134,7 @@ class EventPageDesktopView extends StatelessWidget {
             ),
           ),
         ),
-        EventOverviewAppbar(color: MyTheme.appolloBackgroundColor),
+        EventOverviewAppbar(color: MyTheme.scoopBackgroundColor),
       ],
     );
   }

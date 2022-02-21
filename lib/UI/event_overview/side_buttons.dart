@@ -37,10 +37,10 @@ class SideButton extends StatelessWidget {
                             ? FontWeight.w300
                             : FontWeight.w400,
                     color: isTap
-                        ? MyTheme.appolloGreen
+                        ? MyTheme.scoopGreen
                         : onTap == null
-                            ? MyTheme.appolloDimGrey
-                            : MyTheme.appolloWhite),
+                            ? MyTheme.scoopDimGrey
+                            : MyTheme.scoopWhite),
               ).paddingHorizontal(8),
             ],
           ),

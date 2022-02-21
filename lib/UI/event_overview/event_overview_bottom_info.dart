@@ -49,7 +49,7 @@ class EventOverviewFooter extends StatelessWidget {
         return Container(
           width: screenSize.width,
           height: height,
-          color: MyTheme.appolloBlack,
+          color: MyTheme.scoopBlack,
           child: Center(
             child: SizedBox(
                 width: screenSize.width * 0.8,
@@ -88,7 +88,7 @@ class EventOverviewFooter extends StatelessWidget {
                     AutoSizeText(
                         '© 2021 ScoopTix Pty Ltd. Trademarks and brands are the property of their respective owners.',
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey))
+                        style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.scoopGrey))
                   ],
                 ).paddingVertical(8)),
           ),
@@ -124,7 +124,7 @@ class EventOverviewFooter extends StatelessWidget {
             ).paddingBottom(MyTheme.elementSpacing),
             AutoSizeText('© 2021 ScoopTix pty Ltd. Trademarks and brands are the property of their respective owners.',
                     textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.appolloGrey))
+                    style: Theme.of(context).textTheme.caption!.copyWith(color: MyTheme.scoopGrey))
                 .paddingBottom(MyTheme.elementSpacing)
           ],
         ).paddingLeft(MyTheme.elementSpacing).paddingRight(MyTheme.elementSpacing);

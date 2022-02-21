@@ -13,7 +13,7 @@ class AlertGenerator {
     await showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        backgroundColor: MyTheme.appolloBackgroundColor,
+        backgroundColor: MyTheme.scoopBackgroundColor,
         title: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(title, style: MyTheme.textTheme.headline5)),
         content: SizedBox(width: MyTheme.maxWidth * 0.8, child: Text(content, style: MyTheme.textTheme.bodyText2)),
         actions: <Widget>[

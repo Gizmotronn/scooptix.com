@@ -19,7 +19,7 @@ class QuickAccessSheet extends StatelessWidget {
     return Container(
       height: 50,
       decoration: ShapeDecoration(
-          color: MyTheme.appolloCardColorLight,
+          color: MyTheme.scoopCardColorLight,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topRight: Radius.circular(8), topLeft: Radius.circular(8)))),
       width: MediaQuery.of(context).size.width,
@@ -32,12 +32,12 @@ class QuickAccessSheet extends StatelessWidget {
               minFontSize: 11,
               overflow: TextOverflow.clip,
               maxLines: 1,
-              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+              style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
             ).paddingHorizontal(MyTheme.elementSpacing),
           ),
           Container(
             decoration: ShapeDecoration(
-                color: MyTheme.appolloYellow,
+                color: MyTheme.scoopYellow,
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(topRight: Radius.circular(6)))),
             height: 50,
             width: MediaQuery.of(context).size.width / 3 < 140 ? 140 : MediaQuery.of(context).size.width / 3,
@@ -51,7 +51,7 @@ class QuickAccessSheet extends StatelessWidget {
               child: Center(
                   child: Text(
                 buttonText,
-                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
               )),
             ),
           ),

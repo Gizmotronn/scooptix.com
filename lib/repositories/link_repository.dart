@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ticketapp/model/birthday_lists/birthdaylist.dart';
-import 'package:ticketapp/model/link_type/advertisementInvite.dart';
-import 'package:ticketapp/model/link_type/birthdayList.dart';
+import 'package:ticketapp/model/link_type/advertisement_invite.dart';
+import 'package:ticketapp/model/link_type/birthday_list.dart';
 import 'package:ticketapp/model/link_type/link_type.dart';
 import 'package:ticketapp/model/link_type/memberInvite.dart';
 import 'package:ticketapp/model/link_type/overview.dart';

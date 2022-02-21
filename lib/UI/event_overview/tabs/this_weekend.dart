@@ -51,7 +51,6 @@ class _ThisWeekendState extends State<ThisWeekend> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     if (widget.events.isEmpty) {
       return NoEvents();
     }
@@ -167,7 +166,7 @@ class _ThisWeekendState extends State<ThisWeekend> {
                         style: Theme.of(context)
                             .textTheme
                             .headline4!
-                            .copyWith(color: MyTheme.appolloRed, fontWeight: FontWeight.w500),
+                            .copyWith(color: MyTheme.scoopRed, fontWeight: FontWeight.w500),
                       ),
                   ],
                 ),

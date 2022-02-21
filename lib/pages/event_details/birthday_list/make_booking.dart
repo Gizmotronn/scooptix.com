@@ -192,7 +192,7 @@ class _MakeBookingState extends State<MakeBooking> {
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w600),
     );
   }
 
@@ -207,7 +207,7 @@ class _MakeBookingState extends State<MakeBooking> {
                 children: [
                   AutoSizeText('Create A Birthday List',
                           style: MyTheme.textTheme.headline4!
-                              .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w500))
+                              .copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w500))
                       .paddingBottom(MyTheme.elementSpacing * 2),
                   AutoSizeText(
                           "Celebrate your birthday in style by creating a Birthday List for you and your closest friends and get the VIP experience.",
@@ -248,7 +248,7 @@ class _MakeBookingState extends State<MakeBooking> {
                     ),
                   AppolloButton.regularButton(
                     width: 400,
-                    color: MyTheme.appolloGreen,
+                    color: MyTheme.scoopGreen,
                     child: AutoSizeText(
                       'CREATE BIRTHDAY LIST',
                       style: MyTheme.textTheme.button,
@@ -270,7 +270,7 @@ class _MakeBookingState extends State<MakeBooking> {
             ],
           ).paddingAll(MyTheme.elementSpacing),
         )
-            .appolloCard(color: MyTheme.appolloCardColor, borderRadius: BorderRadius.circular(16))
+            .appolloCard(color: MyTheme.scoopCardColor, borderRadius: BorderRadius.circular(16))
             .paddingHorizontal(MyTheme.elementSpacing),
       );
 }

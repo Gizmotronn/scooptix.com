@@ -70,7 +70,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
               height: 38,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: MyTheme.appolloGreen,
+                  primary: MyTheme.scoopGreen,
                 ),
                 onPressed: () {
                   if (widget.selectedTickets.isNotEmpty) {
@@ -84,7 +84,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                 },
                 child: Text(
                   "CHECKOUT",
-                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                 ),
               ),
             ),
@@ -297,7 +297,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: AppolloCard(
-                        color: MyTheme.appolloGreen.withAlpha(90),
+                        color: MyTheme.scoopGreen.withAlpha(90),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
@@ -307,7 +307,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                               child: AutoSizeText(
                                 state.discount.code,
                                 style: MyTheme.textTheme.caption!
-                                    .copyWith(color: MyTheme.appolloTeal, fontWeight: FontWeight.w400),
+                                    .copyWith(color: MyTheme.scoopTeal, fontWeight: FontWeight.w400),
                               ),
                             ),
                             InkWell(
@@ -319,7 +319,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                               },
                               child: Icon(
                                 Icons.close,
-                                color: MyTheme.appolloLightBlue,
+                                color: MyTheme.scoopLightBlue,
                                 size: 14,
                               ).paddingLeft(4).paddingRight(8),
                             )
@@ -330,7 +330,7 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: AppolloCard(
-                        color: MyTheme.appolloRed.withAlpha(90),
+                        color: MyTheme.scoopRed.withAlpha(90),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,

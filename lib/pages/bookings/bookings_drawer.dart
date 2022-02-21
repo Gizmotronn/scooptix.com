@@ -80,7 +80,7 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
       width: MyTheme.drawerSize,
       height: screenSize.height,
       decoration: ShapeDecoration(
-          color: MyTheme.appolloBackgroundColor,
+          color: MyTheme.scoopBackgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
       child: Column(
@@ -94,7 +94,7 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
               child: Icon(
                 Icons.close,
                 size: 34,
-                color: MyTheme.appolloRed,
+                color: MyTheme.scoopRed,
               ),
             ),
           ).paddingRight(16).paddingTop(8),
@@ -123,7 +123,7 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                     AutoSizeText("Booking Created", style: MyTheme.textTheme.headline2)
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invite your friends",
-                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
+                                            style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen))
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText(
                                             "Below you will find your invitation link. Copy the link and give it to anyone you wish to invite")
@@ -132,18 +132,18 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                             "Guests need to open the link and accept your invite by following the instructions.")
                                         .paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("Invitation Link",
-                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
+                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     OnTapAnimationButton(
                                       fill: true,
                                       border: true,
                                       width: screenSize.width,
-                                      onTapColor: MyTheme.appolloGreen,
+                                      onTapColor: MyTheme.scoopGreen,
                                       onTapContent: Text(
                                         "LINK COPIED",
                                         style: MyTheme.textTheme.headline6,
                                       ),
-                                      color: MyTheme.appolloBackgroundColorLight,
+                                      color: MyTheme.scoopBackgroundColorLight,
                                       onTap: () {
                                         if (PlatformDetector.isMobile()) {
                                           Share.share("scooptix.com/?id=${state.bookings[0].uuid}",
@@ -161,7 +161,7 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                       ),
                                     ).paddingBottom(MyTheme.elementSpacing),
                                     AutoSizeText("RSVP's",
-                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloOrange))
+                                            style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopOrange))
                                         .paddingBottom(MyTheme.elementSpacing * 0.5),
                                     ClipRRect(
                                       borderRadius: BorderRadius.only(
@@ -169,11 +169,11 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                       child: ResponsiveDatatable(
                                         headers: _headers,
                                         source: _buildAttendeeTable(state.bookings[0].attendees),
-                                        listDecoration: BoxDecoration(color: MyTheme.appolloBackgroundColorLight),
+                                        listDecoration: BoxDecoration(color: MyTheme.scoopBackgroundColorLight),
                                         itemPaddingVertical: 8,
                                         headerPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                         headerDecoration: BoxDecoration(
-                                            color: MyTheme.appolloPurple,
+                                            color: MyTheme.scoopPurple,
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(8), topRight: Radius.circular(8))),
                                       ),
@@ -183,11 +183,11 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                           alignment: Alignment.bottomRight,
                                           child: AppolloButton.regularButton(
                                               fill: true,
-                                              color: MyTheme.appolloGreen,
+                                              color: MyTheme.scoopGreen,
                                               child: Text(
                                                 "Back",
                                                 style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.appolloBackgroundColor),
+                                                    .copyWith(color: MyTheme.scoopBackgroundColor),
                                               ),
                                               onTap: () {
                                                 Navigator.pop(context);
@@ -220,7 +220,7 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                             .paddingRight(4),
                         Text("ScoopTix",
                             style: MyTheme.textTheme.subtitle1!.copyWith(
-                              color: MyTheme.appolloPurple,
+                              color: MyTheme.scoopPurple,
                               fontSize: 18,
                             ))
                       ],

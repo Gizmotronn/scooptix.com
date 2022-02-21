@@ -49,7 +49,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
     final screenSize = MediaQuery.of(context).size;
 
     return Container(
-        color: widget.color ?? MyTheme.appolloBackgroundColor,
+        color: widget.color ?? MyTheme.scoopBackgroundColor,
         width: screenSize.width,
         height: kToolbarHeight,
         child: Row(
@@ -143,18 +143,18 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
             decoration: ShapeDecoration(
                 shape: RoundedRectangleBorder(
                     side: BorderSide(
-                      color: isHoverSearchBar ? MyTheme.appolloWhite.withOpacity(.8) : Colors.transparent,
+                      color: isHoverSearchBar ? MyTheme.scoopWhite.withOpacity(.8) : Colors.transparent,
                       width: 1,
                     ),
                     borderRadius: BorderRadius.circular(4)),
-                color: isHoverSearchBar ? MyTheme.appolloGrey.withOpacity(.5) : MyTheme.appolloBackgroundColor),
+                color: isHoverSearchBar ? MyTheme.scoopGrey.withOpacity(.5) : MyTheme.scoopBackgroundColor),
             child: Stack(
               children: [
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                        height: 22, child: SvgPicture.asset(AppolloIcons.searchOutline, color: MyTheme.appolloWhite)),
+                        height: 22, child: SvgPicture.asset(AppolloIcons.searchOutline, color: MyTheme.scoopWhite)),
                     Container(
                       child: Expanded(
                         child: TextField(
@@ -194,10 +194,10 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
               flex: 6,
               child: Container(
                 height: 25,
-                color: MyTheme.appolloWhite.withAlpha(120),
+                color: MyTheme.scoopWhite.withAlpha(120),
                 child: Row(
                   children: [
-                    Container(height: 16, child: SvgPicture.asset(AppolloIcons.perthGps, color: MyTheme.appolloWhite))
+                    Container(height: 16, child: SvgPicture.asset(AppolloIcons.perthGps, color: MyTheme.scoopWhite))
                         .paddingRight(4),
                     AutoSizeText('Perth, Australia', style: Theme.of(context).textTheme.button!.copyWith(fontSize: 12)),
                   ],
@@ -208,7 +208,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
               flex: 4,
               child: Container(
                 height: 25,
-                color: MyTheme.appolloGreen,
+                color: MyTheme.scoopGreen,
                 child: Center(
                   child: AutoSizeText('Search', style: Theme.of(context).textTheme.button!.copyWith(fontSize: 12))
                       .paddingHorizontal(8),
@@ -253,11 +253,11 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
         },
         child: Container(
           height: kToolbarHeight,
-          color: MyTheme.appolloGreen,
+          color: MyTheme.scoopGreen,
           child: Center(
             child: Text('Login Or Sign Up',
                     style: MyTheme.textTheme.button!
-                        .copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor))
+                        .copyWith(fontWeight: FontWeight.w500, color: MyTheme.scoopBackgroundColor))
                 .paddingHorizontal(16),
           ),
         ),
@@ -275,7 +275,7 @@ class _EventOverviewAppbarState extends State<EventOverviewAppbar> {
             SizedBox(
               width: 50,
               child: CircleAvatar(
-                backgroundColor: MyTheme.appolloGreen,
+                backgroundColor: MyTheme.scoopGreen,
                 radius: 50,
                 backgroundImage: ExtendedImage.network(UserRepository.instance.currentUser()!.profileImageURL,
                     cache: true, fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {

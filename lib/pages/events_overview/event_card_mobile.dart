@@ -29,10 +29,10 @@ class EventCardMobile extends StatelessWidget {
           width: MediaQuery.of(context).size.width - MyTheme.elementSpacing * 2,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: MyTheme.appolloCardColor,
+            color: MyTheme.scoopCardColor,
             boxShadow: [
               BoxShadow(
-                color: MyTheme.appolloBackgroundColorLight.withOpacity(.2),
+                color: MyTheme.scoopBackgroundColorLight.withOpacity(.2),
                 spreadRadius: 5,
                 blurRadius: 10,
               ),
@@ -66,7 +66,7 @@ class EventCardMobile extends StatelessWidget {
                   if (user == null) {
                     showAppolloModalBottomSheet(
                         context: context,
-                        backgroundColor: MyTheme.appolloBackgroundColor,
+                        backgroundColor: MyTheme.scoopBackgroundColor,
                         expand: true,
                         settings: RouteSettings(name: "authentication_sheet"),
                         builder: (context) => AuthenticationPageWrapper());
@@ -98,7 +98,7 @@ class EventCardMobile extends StatelessWidget {
                   textAlign: TextAlign.start,
                   maxLines: 1,
                   minFontSize: 7,
-                  style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloRed),
+                  style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.scoopRed),
                 ).paddingBottom(5),
               ),
             ],

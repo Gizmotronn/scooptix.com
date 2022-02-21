@@ -27,9 +27,9 @@ class _EventTicketsState extends State<EventTickets> {
   final double checkoutWidth = 315;
 
   final List<Color> ticketColor = [
-    MyTheme.appolloGreen,
-    MyTheme.appolloOrange,
-    MyTheme.appolloYellow,
+    MyTheme.scoopGreen,
+    MyTheme.scoopOrange,
+    MyTheme.scoopYellow,
   ];
 
   @override
@@ -51,7 +51,7 @@ class _EventTicketsState extends State<EventTickets> {
       children: [
         AutoSizeText(
           'Tickets',
-          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing * 2),
         ClipRRect(
           borderRadius: BorderRadius.circular(5),
@@ -64,7 +64,7 @@ class _EventTicketsState extends State<EventTickets> {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(16), bottomLeft: Radius.circular(16)),
-                    color: MyTheme.appolloBackgroundColor,
+                    color: MyTheme.scoopBackgroundColor,
                   ),
                   child: Column(
                     children: [
@@ -122,7 +122,7 @@ class _EventTicketsState extends State<EventTickets> {
                 child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(topRight: Radius.circular(16), bottomRight: Radius.circular(16)),
-                      color: MyTheme.appolloCardColorLight,
+                      color: MyTheme.scoopCardColorLight,
                     ),
                     child: OrderSummaryOverlay(
                       widget.event,
@@ -143,13 +143,13 @@ class _EventTicketsState extends State<EventTickets> {
       height: 45,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(16)),
-        color: MyTheme.appolloPurple,
+        color: MyTheme.scoopPurple,
       ),
       child: Center(
         child: Text(
           text,
           style:
-              MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500, color: MyTheme.appolloBackgroundColor),
+              MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w500, color: MyTheme.scoopBackgroundColor),
         ).paddingVertical(8),
       ),
     );
@@ -159,8 +159,7 @@ class _EventTicketsState extends State<EventTickets> {
     return Center(
       child: Text(
         text,
-        style:
-            Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.w400, color: MyTheme.appolloWhite),
+        style: Theme.of(context).textTheme.headline6!.copyWith(fontWeight: FontWeight.w400, color: MyTheme.scoopWhite),
       ).paddingBottom(MyTheme.elementSpacing).paddingTop(8),
     );
   }

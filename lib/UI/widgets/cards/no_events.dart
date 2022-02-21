@@ -11,7 +11,7 @@ class NoEvents extends StatelessWidget {
       child: Column(
         children: [
           AutoSizeText('No Events Found',
-                  style: Theme.of(context).textTheme.headline4!.copyWith(color: MyTheme.appolloDimGrey))
+                  style: Theme.of(context).textTheme.headline4!.copyWith(color: MyTheme.scoopDimGrey))
               .paddingBottom(16),
           SvgPicture.asset(
             AppolloIcons.noEvent,

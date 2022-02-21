@@ -35,7 +35,7 @@ class MyTicketCard extends StatelessWidget {
             child: ClipPath(
               clipper: TicketClipper(clipClockwise: true),
               child: Container(
-                color: MyTheme.appolloCardColorLight,
+                color: MyTheme.scoopCardColorLight,
                 height: getValueForScreenType(
                     context: context,
                     watch: MediaQuery.of(context).size.width / 1.9 / 2,
@@ -52,7 +52,7 @@ class MyTicketCard extends StatelessWidget {
                             fullDateWithDay(ticket.event!.date),
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.scoopRed),
                           ).paddingBottom(8),
                         ),
                       ],
@@ -72,7 +72,7 @@ class MyTicketCard extends StatelessWidget {
                             ticket.event!.address,
                             textAlign: TextAlign.start,
                             maxLines: 2,
-                            style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.appolloWhite),
+                            style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.scoopWhite),
                           ),
                         ),
                       ],
@@ -91,7 +91,7 @@ class MyTicketCard extends StatelessWidget {
                   mobile: MediaQuery.of(context).size.width / 1.9 / 2,
                   tablet: 120,
                   desktop: 120),
-              color: isPastTicket ? MyTheme.appolloRed : MyTheme.appolloGreen,
+              color: isPastTicket ? MyTheme.scoopRed : MyTheme.scoopGreen,
               width: getValueForScreenType(
                   context: context,
                   watch: MediaQuery.of(context).size.width * 0.25,
@@ -123,14 +123,14 @@ class MyTicketCard extends StatelessWidget {
           title,
           maxLines: 1,
           minFontSize: 5,
-          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloWhite),
+          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.scoopWhite),
         ),
         Expanded(
           child: SvgPicture.asset(AppolloIcons.qrScan).paddingAll(4),
         ),
         Text(
           subTitle,
-          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.appolloWhite, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.caption!.copyWith(color: MyTheme.scoopWhite, fontWeight: FontWeight.w600),
         ),
       ],
     );

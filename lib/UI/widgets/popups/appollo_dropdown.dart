@@ -122,8 +122,8 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
       },
       child: Container(
           decoration: BoxDecoration(
-            color: _isExpanded ? MyTheme.appolloBackgroundColorLight : null,
-            border: Border.all(color: _isHover ? MyTheme.appolloGreen : Colors.transparent, width: 0.8),
+            color: _isExpanded ? MyTheme.scoopBackgroundColorLight : null,
+            border: Border.all(color: _isHover ? MyTheme.scoopGreen : Colors.transparent, width: 0.8),
             borderRadius: BorderRadius.circular(5),
           ),
           child: Row(
@@ -134,13 +134,13 @@ class _AppolloDropdownState extends State<AppolloDropdown> {
                 '${widget.title}',
                 style: MyTheme.textTheme.bodyText1!.copyWith(
                     fontWeight: FontWeight.w400,
-                    color: _isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
+                    color: _isExpanded || _isHover ? MyTheme.scoopGreen : MyTheme.scoopWhite),
               ),
               const SizedBox(width: 10),
               Container(
                 height: 20,
                 child: SvgPicture.asset(_isExpanded ? AppolloIcons.arrowup : AppolloIcons.arrowdown,
-                    color: MyTheme.appolloWhite),
+                    color: MyTheme.scoopWhite),
               ),
             ],
           ).paddingAll(13)),
@@ -178,8 +178,8 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
       onTap: () {},
       child: Container(
         decoration: BoxDecoration(
-          color: widget.isExpanded ? MyTheme.appolloBackgroundColor : null,
-          border: Border.all(color: _isHover ? MyTheme.appolloGreen : Colors.transparent, width: 0.8),
+          color: widget.isExpanded ? MyTheme.scoopBackgroundColor : null,
+          border: Border.all(color: _isHover ? MyTheme.scoopGreen : Colors.transparent, width: 0.8),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
@@ -195,13 +195,13 @@ class _AppolloDropdownContentState extends State<AppolloDropdownContent> {
                     '${widget.title}',
                     style: MyTheme.textTheme.bodyText1!.copyWith(
                         fontWeight: FontWeight.w400,
-                        color: widget.isExpanded || _isHover ? MyTheme.appolloGreen : MyTheme.appolloWhite),
+                        color: widget.isExpanded || _isHover ? MyTheme.scoopGreen : MyTheme.scoopWhite),
                   ),
                   const SizedBox(width: 10),
                   Container(
                     height: 20,
                     child: SvgPicture.asset(widget.isExpanded ? AppolloIcons.arrowup : AppolloIcons.arrowdown,
-                        color: MyTheme.appolloWhite),
+                        color: MyTheme.scoopWhite),
                   ),
                 ],
               ).paddingBottom(8),

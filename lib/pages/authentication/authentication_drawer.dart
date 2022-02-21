@@ -20,7 +20,7 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
       width: MyTheme.drawerSize,
       height: screenSize.height,
       decoration: ShapeDecoration(
-          color: MyTheme.appolloBackgroundColor,
+          color: MyTheme.scoopBackgroundColor,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10), bottomLeft: Radius.circular(10)))),
       child: Column(
@@ -34,7 +34,7 @@ class _AuthenticationDrawerState extends State<AuthenticationDrawer> {
               child: Icon(
                 Icons.close,
                 size: 34,
-                color: MyTheme.appolloRed,
+                color: MyTheme.scoopRed,
               ),
             ),
           ),

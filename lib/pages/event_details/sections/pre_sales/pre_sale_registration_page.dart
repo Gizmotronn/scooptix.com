@@ -103,7 +103,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           children: [
             AutoSizeText(
               'Pre-Sale Registration',
-              style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+              style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
             ).paddingBottom(MyTheme.elementSpacing * 2),
             AutoSizeText(
                     "Sign up for pre-sale alerts and get the chance to purchase tickets before they go on sale to the general public. We will send you a notification when pre-sale tickets go on sale, so you don’t have to worry about missing out.",
@@ -125,7 +125,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                     children: [
                       TextSpan(
                           text: ' Prize Pool ',
-                          style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloOrange)),
+                          style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopOrange)),
                       TextSpan(
                           text: 'to see what you could win by sharing your link with friends.',
                           style: MyTheme.textTheme.subtitle1),
@@ -143,7 +143,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         ).paddingBottom(MyTheme.elementSpacing).paddingHorizontal(MyTheme.elementSpacing),
         state is StateLoading
             ? Container(child: Center(child: AppolloProgressIndicator()).paddingAll(8))
-                .appolloCard(color: MyTheme.appolloBackgroundColorLight.withAlpha(120))
+                .appolloCard(color: MyTheme.scoopBackgroundColorLight.withAlpha(120))
             : state is StateRegistered
                 ? InkWell(
                     onTap: () {
@@ -152,7 +152,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                         if (state is StateNotLoggedIn) {
                           showAppolloModalBottomSheet(
                               context: WrapperPage.navigatorKey.currentContext!,
-                              backgroundColor: MyTheme.appolloBackgroundColorLight,
+                              backgroundColor: MyTheme.scoopBackgroundColorLight,
                               expand: true,
                               builder: (context) => AuthenticationPageWrapper(
                                     onAutoAuthenticated: (autoLoggedIn) {
@@ -195,7 +195,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       textAlign: TextAlign.center,
                     ).paddingAll(12))
                         .appolloCard(
-                            color: MyTheme.appolloCardColor.withAlpha(120), borderRadius: BorderRadius.circular(16))
+                            color: MyTheme.scoopCardColor.withAlpha(120), borderRadius: BorderRadius.circular(16))
                         .paddingHorizontal(MyTheme.elementSpacing),
                   )
                 : Padding(
@@ -205,7 +205,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       child: Center(
                         child: Text(
                           'REGISTER FOR PRE-SALE',
-                          style: MyTheme.textTheme.button!.copyWith(color: MyTheme.appolloBackgroundColor),
+                          style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
                         ),
                       ),
                       onTap: () {
@@ -214,7 +214,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                           if (state is StateNotLoggedIn) {
                             showAppolloModalBottomSheet(
                                 context: WrapperPage.navigatorKey.currentContext!,
-                                backgroundColor: MyTheme.appolloBackgroundColorLight,
+                                backgroundColor: MyTheme.scoopBackgroundColorLight,
                                 expand: true,
                                 builder: (context) => AuthenticationPageWrapper(
                                       onAutoAuthenticated: (autoLoggedIn) {
@@ -250,7 +250,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                           }
                         }
                       },
-                      color: MyTheme.appolloGreen,
+                      color: MyTheme.scoopGreen,
                     )),
         _buildPrizes(),
         AppolloDivider(),
@@ -264,7 +264,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
         AutoSizeText(
           'Countdown to Pre-Sale Registration',
           textAlign: TextAlign.center,
-          style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600),
+          style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildCountdown().paddingBottom(MyTheme.elementSpacing),
         /* TODO AppolloButton.wideButton(
@@ -294,7 +294,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
   Widget _subtitle(BuildContext context, String title) {
     return AutoSizeText(
       title,
-      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange, fontWeight: FontWeight.w600),
+      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopOrange, fontWeight: FontWeight.w600),
     );
   }
 
@@ -321,7 +321,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                       .paddingBottom(MyTheme.elementSpacing / 2),
                   AutoSizeText('Prize Draw',
                           style: MyTheme.textTheme.headline4!
-                              .copyWith(color: MyTheme.appolloGreen, fontWeight: FontWeight.w600))
+                              .copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600))
                       .paddingBottom(MyTheme.elementSpacing),
                   AutoSizeText(preSale.activePrizes[index].prizeDescription(),
                           textAlign: TextAlign.center, style: MyTheme.textTheme.subtitle1)

@@ -87,10 +87,10 @@ class _EventDataState extends State<EventData> {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: MyTheme.appolloGrey.withAlpha(80),
+            color: MyTheme.scoopGrey.withAlpha(80),
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.arrow_downward, color: MyTheme.appolloGreen, size: 34).paddingAll(6),
+          child: Icon(Icons.arrow_downward, color: MyTheme.scoopGreen, size: 34).paddingAll(6),
         ),
       );
     });
@@ -119,10 +119,10 @@ class _EventDataState extends State<EventData> {
           },
           child: Container(
             decoration: BoxDecoration(
-              color: MyTheme.appolloGrey.withAlpha(80),
+              color: MyTheme.scoopGrey.withAlpha(80),
               shape: BoxShape.circle,
             ),
-            child: Icon(Icons.arrow_downward, color: MyTheme.appolloGreen, size: 34).paddingAll(6),
+            child: Icon(Icons.arrow_downward, color: MyTheme.scoopGreen, size: 34).paddingAll(6),
           ),
         );
       }
@@ -217,7 +217,7 @@ class _EventDataState extends State<EventData> {
             ),
         ],
       ).paddingAll(MyTheme.cardPadding),
-    ).appolloBlurCard(color: MyTheme.appolloBackgroundColorLight);
+    ).appolloBlurCard(color: MyTheme.scoopBackgroundColorLight);
   }
 
   Widget _buildEventDetailWithCountdown(BuildContext context) {
@@ -234,10 +234,10 @@ class _EventDataState extends State<EventData> {
                 width: 175,
                 height: 44,
                 borderRadius: BorderRadius.circular(8),
-                activeColor: MyTheme.appolloGreen,
-                disabledColor: MyTheme.appolloGrey.withAlpha(140),
-                activeColorText: MyTheme.appolloWhite,
-                disabledColorText: MyTheme.appolloGreen,
+                activeColor: MyTheme.scoopGreen,
+                disabledColor: MyTheme.scoopGrey.withAlpha(140),
+                activeColorText: MyTheme.scoopWhite,
+                disabledColorText: MyTheme.scoopGreen,
                 onTap: () async {
                   await widget.scrollController.animateTo(positions[_tabButtons[index].id]! - 100,
                       curve: Curves.linear, duration: MyTheme.animationDuration);
@@ -297,8 +297,8 @@ class _EventDataState extends State<EventData> {
           children: List.generate(
             recurringEvents.length,
             (index) => SideButton(
-              activeColor: MyTheme.appolloRed,
-              disableColor: MyTheme.appolloWhite,
+              activeColor: MyTheme.scoopRed,
+              disableColor: MyTheme.scoopWhite,
               title: DateFormat('EEE dd. MMM').format(recurringEvents[index].date),
               highlight: recurringEvents[index].docID == widget.event.docID,
               onTap: () {
@@ -307,7 +307,7 @@ class _EventDataState extends State<EventData> {
             ),
           ),
         ).paddingAll(8),
-      ).appolloBlurCard(color: MyTheme.appolloBackgroundColor.withAlpha(190)).paddingBottom(MyTheme.cardPadding);
+      ).appolloBlurCard(color: MyTheme.scoopBackgroundColor.withAlpha(190)).paddingBottom(MyTheme.cardPadding);
     }
   }
 }

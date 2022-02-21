@@ -39,7 +39,7 @@ class PreSalePage extends StatelessWidget {
                 AutoSizeText("You're Registered", style: MyTheme.textTheme.headline2)
                     .paddingBottom(MyTheme.elementSpacing),
               AutoSizeText("Hi ${UserRepository.instance.currentUser()!.firstname},",
-                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloGreen))
+                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen))
                   .paddingBottom(MyTheme.elementSpacing / 2),
               AutoSizeText(
                       "You have registered for pre-sale. You will be notified once ticket sales start and may also receive special pre-sale offers from the event organiser.")
@@ -57,19 +57,19 @@ class PreSalePage extends StatelessWidget {
                     children: [
                       AutoSizeText(
                         "Current Points",
-                        style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
                       ),
                       AutoSizeText(state.preSale.points.toString())
                     ],
                   ).paddingAll(MyTheme.elementSpacing / 2 + 4),
                 ).appolloCard().paddingBottom(MyTheme.elementSpacing * 2),
-              AutoSizeText("Referral Link", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange))
+              AutoSizeText("Referral Link", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopOrange))
                   .paddingBottom(MyTheme.elementSpacing),
               OnTapAnimationButton(
                 fill: true,
                 border: true,
                 width: MediaQuery.of(context).size.width,
-                onTapColor: MyTheme.appolloGreen,
+                onTapColor: MyTheme.scoopGreen,
                 suffixIcon: SvgPicture.asset(
                   AppolloIcons.copy,
                   width: 24,
@@ -79,7 +79,7 @@ class PreSalePage extends StatelessWidget {
                   "LINK COPIED",
                   style: MyTheme.textTheme.headline5,
                 ),
-                color: MyTheme.appolloBackgroundColor,
+                color: MyTheme.scoopBackgroundColor,
                 onTap: () {
                   if (PlatformDetector.isMobile()) {
                     Share.share("scooptix.com/?id=${state.preSale.uuid}", subject: 'ScoopTix Event Invitation');
@@ -96,7 +96,7 @@ class PreSalePage extends StatelessWidget {
                 ),
               ).paddingBottom(MyTheme.elementSpacing * 2),
               if (event.preSale!.hasPrizes)
-                AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.appolloOrange))
+                AutoSizeText("Prize Pool", style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopOrange))
                     .paddingBottom(MyTheme.elementSpacing),
               if (event.preSale!.hasPrizes) PreSalePrizesWidget(preSale: event.preSale!),
               if (event.preSale!.hasPrizes)

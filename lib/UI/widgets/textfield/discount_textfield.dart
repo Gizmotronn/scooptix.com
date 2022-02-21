@@ -195,11 +195,11 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
     if (textFieldState == DiscountTextfieldState.hover ||
         textFieldState == DiscountTextfieldState.loading ||
         textFieldState == DiscountTextfieldState.typing) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else if (textFieldState == DiscountTextfieldState.error) {
-      return MyTheme.appolloRed;
+      return MyTheme.scoopRed;
     } else if (textFieldState == DiscountTextfieldState.applied) {
-      return MyTheme.appolloWhite;
+      return MyTheme.scoopWhite;
     } else {
       return Colors.transparent;
     }
@@ -212,11 +212,11 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
         child: AppolloButtonProgressIndicator(),
       );
     } else if (textFieldState == DiscountTextfieldState.applied || textFieldState == DiscountTextfieldState.invalid) {
-      return Icon(Icons.close, color: MyTheme.appolloWhite, size: 24);
+      return Icon(Icons.close, color: MyTheme.scoopWhite, size: 24);
     } else if (textFieldState == DiscountTextfieldState.typing ||
         textFieldState == DiscountTextfieldState.error ||
         textFieldState == DiscountTextfieldState.filled) {
-      return Icon(Icons.add, color: MyTheme.appolloWhite, size: 24);
+      return Icon(Icons.add, color: MyTheme.scoopWhite, size: 24);
     } else {
       return SizedBox.shrink();
     }
@@ -226,35 +226,35 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
     if (textFieldState == DiscountTextfieldState.typing ||
         textFieldState == DiscountTextfieldState.loading ||
         textFieldState == DiscountTextfieldState.applied) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else if (textFieldState == DiscountTextfieldState.error || textFieldState == DiscountTextfieldState.invalid) {
-      return MyTheme.appolloRed;
+      return MyTheme.scoopRed;
     } else if (textFieldState == DiscountTextfieldState.loading) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else {
-      return MyTheme.appolloLightCardColor;
+      return MyTheme.scoopLightCardColor;
     }
   }
 
   Color _buildInputLabelColor() {
     if (textFieldState == DiscountTextfieldState.applied) {
-      return MyTheme.appolloGreen;
+      return MyTheme.scoopGreen;
     } else if (textFieldState == DiscountTextfieldState.invalid) {
-      return MyTheme.appolloRed;
+      return MyTheme.scoopRed;
     } else if (textFieldState == DiscountTextfieldState.hover ||
         textFieldState == DiscountTextfieldState.initial ||
         textFieldState == DiscountTextfieldState.filled ||
         textFieldState == DiscountTextfieldState.loading ||
         textFieldState == DiscountTextfieldState.loading) {
       if (textFieldState == DiscountTextfieldState.applied) {
-        return MyTheme.appolloGreen;
+        return MyTheme.scoopGreen;
       } else if (textFieldState == DiscountTextfieldState.invalid) {
-        return MyTheme.appolloRed;
+        return MyTheme.scoopRed;
       } else {
-        return MyTheme.appolloLightCardColor;
+        return MyTheme.scoopLightCardColor;
       }
     } else {
-      return MyTheme.appolloLightCardColor;
+      return MyTheme.scoopLightCardColor;
     }
   }
 }

@@ -33,14 +33,14 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: MyTheme.appolloCardColorLight,
+        backgroundColor: MyTheme.scoopCardColorLight,
         leading: InkWell(
           onTap: () {
             Navigator.pop(context);
           },
           child: SvgPicture.asset(
             AppolloIcons.arrowBackOutline,
-            color: MyTheme.appolloWhite,
+            color: MyTheme.scoopWhite,
             height: 36,
             width: 36,
             fit: BoxFit.scaleDown,
@@ -73,7 +73,7 @@ class _PaymentSheetWrapperState extends State<PaymentSheetWrapper> {
                       },
                       child: Text(
                         "Close",
-                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                       ),
                     ),
                   )

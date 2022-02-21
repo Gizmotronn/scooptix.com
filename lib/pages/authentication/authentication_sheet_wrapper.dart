@@ -37,7 +37,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: MyTheme.appolloBottomBarColor,
+        backgroundColor: MyTheme.scoopBottomBarColor,
         centerTitle: true,
         leading: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           bloc: bloc,
@@ -50,7 +50,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                 },
                 child: SvgPicture.asset(
                   AppolloIcons.arrowBackOutline,
-                  color: MyTheme.appolloWhite,
+                  color: MyTheme.scoopWhite,
                   height: 36,
                   width: 36,
                   fit: BoxFit.scaleDown,
@@ -63,7 +63,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                 },
                 child: SvgPicture.asset(
                   AppolloIcons.arrowBackOutline,
-                  color: MyTheme.appolloWhite,
+                  color: MyTheme.scoopWhite,
                   height: 36,
                   width: 36,
                   fit: BoxFit.scaleDown,
@@ -76,7 +76,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                 },
                 child: SvgPicture.asset(
                   AppolloIcons.arrowBackOutline,
-                  color: MyTheme.appolloWhite,
+                  color: MyTheme.scoopWhite,
                   height: 36,
                   width: 36,
                   fit: BoxFit.scaleDown,
@@ -113,7 +113,7 @@ class _AuthenticationPageWrapperState extends State<AuthenticationPageWrapper> {
                       },
                       child: Text(
                         "Done",
-                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.appolloGreen),
+                        style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopGreen),
                       ),
                     ),
                   )

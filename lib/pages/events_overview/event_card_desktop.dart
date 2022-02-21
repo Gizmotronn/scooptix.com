@@ -58,7 +58,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: MyTheme.appolloBackgroundColorLight.withOpacity(.2),
+                  color: MyTheme.scoopBackgroundColorLight.withOpacity(.2),
                   spreadRadius: 5,
                   blurRadius: 10,
                 ),
@@ -112,13 +112,13 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
   Widget _buildTag(BuildContext context, {required String tag, bool isSoldOut = false, bool preSale = false}) {
     Color buildColor() {
       if (tag == 'Free') {
-        return MyTheme.appolloGreen;
+        return MyTheme.scoopGreen;
       } else if (isSoldOut) {
-        return MyTheme.appolloRed;
+        return MyTheme.scoopRed;
       } else if (preSale) {
-        return MyTheme.appolloGrey;
+        return MyTheme.scoopGrey;
       } else {
-        return MyTheme.appolloOrange;
+        return MyTheme.scoopOrange;
       }
     }
 
@@ -150,7 +150,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
       child: ClipRRect(
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), bottomLeft: Radius.circular(12)),
         child: Container(
-          decoration: BoxDecoration(color: MyTheme.appolloCardColor),
+          decoration: BoxDecoration(color: MyTheme.scoopCardColor),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -166,7 +166,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                             fullDateWithDay(widget.event.date),
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.appolloRed),
+                            style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopRed),
                           ).paddingBottom(8),
                         ),
                         ValueListenableBuilder<User?>(
@@ -206,10 +206,10 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                     child: CardButton(
                       title: 'View Event',
                       width: null,
-                      disabledColor: MyTheme.appolloGreen,
-                      activeColor: MyTheme.appolloGreen.withOpacity(.9),
-                      disabledColorText: MyTheme.appolloBackgroundColor,
-                      activeColorText: MyTheme.appolloWhite,
+                      disabledColor: MyTheme.scoopGreen,
+                      activeColor: MyTheme.scoopGreen.withOpacity(.9),
+                      disabledColorText: MyTheme.scoopBackgroundColor,
+                      activeColorText: MyTheme.scoopWhite,
                       onTap: () {
                         NavigationService.navigateTo(EventDetailPage.routeName,
                             arg: widget.event.docID, queryParams: {'id': widget.event.docID!});
@@ -227,7 +227,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
   Widget _cardContentMobile(BuildContext context) {
     return Flexible(
       child: Container(
-        decoration: BoxDecoration(color: MyTheme.appolloCardColor),
+        decoration: BoxDecoration(color: MyTheme.scoopCardColor),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -238,7 +238,7 @@ class _EventCardDesktopState extends State<EventCardDesktop> {
                     fullDateWithDay(widget.event.date),
                     textAlign: TextAlign.start,
                     maxLines: 2,
-                    style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.appolloRed),
+                    style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopRed),
                   ).paddingBottom(8),
                 ),
               ],
@@ -311,11 +311,11 @@ class EventCard2 extends StatelessWidget {
       return Container(
         width: sizes.isDesktop ? 500 : 400,
         decoration: BoxDecoration(
-          color: MyTheme.appolloWhite,
+          color: MyTheme.scoopWhite,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: MyTheme.appolloGrey.withAlpha(20),
+              color: MyTheme.scoopGrey.withAlpha(20),
               spreadRadius: 5,
               blurRadius: 10,
             ),
@@ -328,7 +328,7 @@ class EventCard2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 _cardImage(),
-                VerticalDivider(color: MyTheme.appolloGrey.withOpacity(.4), width: 0.4),
+                VerticalDivider(color: MyTheme.scoopGrey.withOpacity(.4), width: 0.4),
                 _cardContent(context, sizes),
               ],
             ),
@@ -343,7 +343,7 @@ class EventCard2 extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.only(bottomRight: Radius.circular(12), topRight: Radius.circular(12)),
         child: Container(
-          decoration: BoxDecoration(color: MyTheme.appolloWhite),
+          decoration: BoxDecoration(color: MyTheme.scoopWhite),
           child: Container(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -359,7 +359,7 @@ class EventCard2 extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .headline6!
-                          .copyWith(color: MyTheme.appolloRed, letterSpacing: 1.5, fontSize: 12),
+                          .copyWith(color: MyTheme.scoopRed, letterSpacing: 1.5, fontSize: 12),
                     ).paddingBottom(8),
                     AutoSizeText(
                       event.name,
@@ -368,7 +368,7 @@ class EventCard2 extends StatelessWidget {
                       style: Theme.of(context)
                           .textTheme
                           .headline5!
-                          .copyWith(color: MyTheme.appolloGrey, fontSize: sizes.isDesktop ? null : 14),
+                          .copyWith(color: MyTheme.scoopGrey, fontSize: sizes.isDesktop ? null : 14),
                     ).paddingBottom(4),
                   ],
                 ).paddingAll(14),
@@ -380,8 +380,8 @@ class EventCard2 extends StatelessWidget {
                         flex: 4,
                         child: ColorCard(
                           title: '\$200',
-                          color: MyTheme.appolloGreen.withAlpha(40),
-                          textColor: MyTheme.appolloGreen,
+                          color: MyTheme.scoopGreen.withAlpha(40),
+                          textColor: MyTheme.scoopGreen,
                         ),
                       ),
                       Expanded(
