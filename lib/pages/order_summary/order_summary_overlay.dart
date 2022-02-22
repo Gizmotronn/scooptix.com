@@ -10,6 +10,7 @@ import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/event_details/checkout_drawer.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 import 'bloc/ticket_bloc.dart';
 
@@ -65,28 +66,19 @@ class _OrderSummaryOverlayState extends State<OrderSummaryOverlay> {
         Expanded(
           child: Align(
             alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              width: widget.maxWidth,
-              height: 38,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: MyTheme.scoopGreen,
-                ),
-                onPressed: () {
-                  if (widget.selectedTickets.isNotEmpty) {
-                    WrapperPage.endDrawer.value = CheckoutDrawer(
-                      event: widget.event,
-                      discount: discount,
-                      selectedTickets: widget.selectedTickets,
-                    );
-                    WrapperPage.mainScaffold.currentState!.openEndDrawer();
-                  }
-                },
-                child: Text(
-                  "CHECKOUT",
-                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                ),
-              ),
+            child: ScoopButton(
+              onTap: () {
+                if (widget.selectedTickets.isNotEmpty) {
+                  WrapperPage.endDrawer.value = CheckoutDrawer(
+                    event: widget.event,
+                    discount: discount,
+                    selectedTickets: widget.selectedTickets,
+                  );
+                  WrapperPage.mainScaffold.currentState!.openEndDrawer();
+                }
+              },
+              title: "CHECKOUT",
+              buttonTheme: ScoopButtonTheme.secondary,
             ),
           ),
         ),

@@ -146,7 +146,7 @@ class _EventOverviewHomeState extends State<EventOverviewHome> {
   Widget _buildAppBar() {
     if (getValueForScreenType(context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
       return AppolloAppBar(
-        backgroundColor: MyTheme.scoopBackgroundColorLight,
+        backgroundColor: MyTheme.scoopBackgroundColor,
       );
     } else {
       return SizedBox.shrink();

@@ -209,7 +209,7 @@ class _DiscountTextFieldState extends State<DiscountTextField> {
     if (textFieldState == DiscountTextfieldState.loading) {
       return Transform.scale(
         scale: 0.5,
-        child: AppolloButtonProgressIndicator(),
+        child: ScoopButtonProgressIndicator(),
       );
     } else if (textFieldState == DiscountTextfieldState.applied || textFieldState == DiscountTextfieldState.invalid) {
       return Icon(Icons.close, color: MyTheme.scoopWhite, size: 24);

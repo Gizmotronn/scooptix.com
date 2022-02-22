@@ -6,12 +6,11 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/pages/authentication/sign_up_form.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/services/firebase.dart';
 import 'package:ticketapp/utilities/alert_generator.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'bloc/authentication_bloc.dart';
 
 class LoginAndSignupPage extends StatefulWidget {
@@ -126,10 +125,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             constraints.deviceScreenType == DeviceScreenType.watch) {
           return SizedBox(
             width: screenSize.width,
-            child: AppolloButton.regularButton(
-              child: FittedBox(
+            child: ScoopButton(
+              leadingOnly: true,
+              buttonTheme: ScoopButtonTheme.secondary,
+              fill: ButtonFill.filled,
+              minWidth: 130,
+              maxWidth: 130,
+              leading: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: AppolloButtonProgressIndicator(),
+                child: ScoopButtonProgressIndicator(),
               ),
               onTap: () {},
             ),
@@ -137,10 +141,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         } else {
           return Align(
             alignment: Alignment.centerRight,
-            child: AppolloButton.regularButton(
-              child: FittedBox(
+            child: ScoopButton(
+              leadingOnly: true,
+              buttonTheme: ScoopButtonTheme.secondary,
+              fill: ButtonFill.filled,
+              minWidth: 130,
+              maxWidth: 130,
+              leading: FittedBox(
                 fit: BoxFit.scaleDown,
-                child: AppolloButtonProgressIndicator(),
+                child: ScoopButtonProgressIndicator(),
               ),
               onTap: () {},
             ),
@@ -157,8 +166,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: AppolloButton.regularButton(
-                  child: Text("Login", style: MyTheme.textTheme.button),
+                child: ScoopButton(
+                  buttonTheme: ScoopButtonTheme.secondary,
+                  title: "Login",
                   onTap: () {
                     widget.bloc.add(EventLoginPressed(
                         initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
@@ -171,16 +181,21 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppolloButton.regularButton(
-                fill: false,
-                color: MyTheme.scoopBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
+              ScoopButton(
+                fill: ButtonFill.outlined,
+                buttonTheme: ScoopButtonTheme.secondary,
+                title: "Back",
+                minWidth: 130,
+                maxWidth: 130,
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              AppolloButton.regularButton(
-                child: Text("Login", style: MyTheme.textTheme.button),
+              ScoopButton(
+                title: "Login",
+                minWidth: 130,
+                maxWidth: 130,
+                buttonTheme: ScoopButtonTheme.secondary,
                 onTap: () {
                   widget.bloc.add(EventLoginPressed(
                       initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
@@ -202,8 +217,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               ),
               SizedBox(
                 width: screenSize.width,
-                child: AppolloButton.regularButton(
-                  child: Text("Next", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor)),
+                child: ScoopButton(
+                  title: "Next",
+                  minWidth: 130,
+                  maxWidth: 130,
                   onTap: () {
                     passwordsForm.markAllAsTouched();
                     if (!passwordsForm.hasErrors) {
@@ -219,18 +236,20 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppolloButton.regularButton(
-                fill: false,
-                color: MyTheme.scoopBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
+              ScoopButton(
+                fill: ButtonFill.outlined,
+                buttonTheme: ScoopButtonTheme.secondary,
+                minWidth: 130,
+                maxWidth: 130,
+                title: "Back",
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              AppolloButton.regularButton(
-                fill: true,
-                color: MyTheme.scoopGreen,
-                child: Text("Next", style: MyTheme.textTheme.button),
+              ScoopButton(
+                fill: ButtonFill.filled,
+                buttonTheme: ScoopButtonTheme.secondary,
+                title: "Next",
                 onTap: () {
                   passwordsForm.markAllAsTouched();
                   if (!passwordsForm.hasErrors) {
@@ -253,8 +272,12 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: AppolloButton.regularButton(
-                  child: Text("Next", style: MyTheme.textTheme.button),
+                child: ScoopButton(
+                  title: "Next",
+                  buttonTheme: ScoopButtonTheme.secondary,
+                  fill: ButtonFill.filled,
+                  minWidth: 130,
+                  maxWidth: 130,
                   onTap: () {
                     if (!confirmEmailForm.hasErrors) {
                       widget.bloc.add(EventEmailsConfirmed());
@@ -268,15 +291,18 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppolloButton.regularButton(
-                fill: false,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
+              ScoopButton(
+                fill: ButtonFill.outlined,
+                title: "Back",
+                buttonTheme: ScoopButtonTheme.secondary,
+                minWidth: 130,
+                maxWidth: 130,
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              AppolloButton.regularButton(
-                child: Text("Next", style: MyTheme.textTheme.button),
+              ScoopButton(
+                title: "Next",
                 onTap: () {
                   if (!confirmEmailForm.hasErrors) {
                     widget.bloc.add(EventEmailsConfirmed());
@@ -293,8 +319,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             constraints.deviceScreenType == DeviceScreenType.watch) {
           return SizedBox(
             width: screenSize.width,
-            child: AppolloButton.regularButton(
-              child: Text("Next", style: MyTheme.textTheme.button),
+            child: ScoopButton(
+              buttonTheme: ScoopButtonTheme.secondary,
+              title: "Next",
               onTap: () {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
@@ -309,19 +336,23 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         } else {
           return Align(
             alignment: Alignment.centerRight,
-            child: AppolloButton.regularButton(
-              color: MyTheme.scoopGreen,
-              fill: true,
-              child: state is StateLoadingUserData
+            child: ScoopButton(
+              buttonTheme: ScoopButtonTheme.secondary,
+              fill: ButtonFill.filled,
+              minWidth: 130,
+              maxWidth: 130,
+              leadingOnly: state is StateLoadingUserData,
+              leading: state is StateLoadingUserData
                   ? SizedBox(
                       height: 18,
                       width: 34,
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
-                        child: AppolloButtonProgressIndicator(),
+                        child: ScoopButtonProgressIndicator(),
                       ),
                     )
-                  : Text("Next", style: MyTheme.textTheme.button),
+                  : null,
+              title: "Next",
               onTap: () {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
@@ -344,11 +375,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             children: [
               SizedBox(
                 width: screenSize.width,
-                child: AppolloButton.regularButton(
-                  child: Text(
-                    "Register",
-                    style: MyTheme.textTheme.button,
-                  ),
+                child: ScoopButton(
+                  buttonTheme: ScoopButtonTheme.secondary,
+                  title: "Register",
                   onTap: () {
                     if (form.valid) {
                       try {
@@ -385,21 +414,22 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              AppolloButton.regularButton(
-                fill: false,
-                color: MyTheme.scoopBackgroundColorLight,
-                child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
+              ScoopButton(
+                fill: ButtonFill.outlined,
+                buttonTheme: ScoopButtonTheme.secondary,
+                minWidth: 130,
+                maxWidth: 130,
+                title: "Back",
                 onTap: () {
                   widget.bloc.add(EventChangeEmail());
                 },
               ),
-              AppolloButton.regularButton(
-                fill: true,
-                color: MyTheme.scoopGreen,
-                child: Text(
-                  "Register",
-                  style: MyTheme.textTheme.button,
-                ),
+              ScoopButton(
+                fill: ButtonFill.filled,
+                buttonTheme: ScoopButtonTheme.secondary,
+                title: "Register",
+                minWidth: 130,
+                maxWidth: 130,
                 onTap: () {
                   if (form.valid) {
                     try {
@@ -522,7 +552,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         formGroup: initialEmailForm,
         child: Container(
           constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-          child: AppolloTextField.reactive(
+          child: ScoopTextField.reactive(
             formControl: initialEmailForm.controls["email"],
             keyboardType: TextInputType.emailAddress,
             autofillHints: [AutofillHints.email, AutofillHints.username],
@@ -552,7 +582,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
               child: Focus(
-                child: AppolloTextField.reactive(
+                child: ScoopTextField.reactive(
                   formControl: confirmEmailForm.controls["email"],
                   labelText: "Email",
                   keyboardType: TextInputType.emailAddress,
@@ -575,7 +605,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
               child: Focus(
-                child: AppolloTextField.reactive(
+                child: ScoopTextField.reactive(
                   labelText: "Confirm Email",
                   keyboardType: TextInputType.emailAddress,
                   validationMessages: (control) => {
@@ -650,7 +680,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             ),
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-              child: AppolloTextField.reactive(
+              child: ScoopTextField.reactive(
                 formControl: passwordsForm.controls['password'],
                 autofillHints: [AutofillHints.newPassword],
                 validationMessages: (control) => {
@@ -673,7 +703,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             ),
             Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-              child: AppolloTextField.reactive(
+              child: ScoopTextField.reactive(
                 formControl: passwordsForm.controls['repeat'],
                 autofillHints: [AutofillHints.newPassword],
                 validationMessages: (control) => {
@@ -706,7 +736,7 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             formGroup: loginForm,
             child: Container(
               constraints: BoxConstraints(maxWidth: MyTheme.maxWidth),
-              child: AppolloTextField.reactive(
+              child: ScoopTextField.reactive(
                 formControl: loginForm.controls["password"],
                 autofillHints: [AutofillHints.password],
                 obscureText: true,
@@ -769,13 +799,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         if (size.isDesktop || size.isTablet) {
           return SizedBox(
             width: screenSize.width,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: MyTheme.scoopBackgroundColorLight,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(4))),
-              ),
-              child: Text("Back", style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopGreen)),
-              onPressed: () {
+            child: ScoopButton(
+              buttonTheme: ScoopButtonTheme.secondary,
+              fill: ButtonFill.outlined,
+              title: "Back",
+              onTap: () {
                 widget.bloc.add(EventChangeEmail());
               },
             ),

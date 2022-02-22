@@ -8,14 +8,13 @@ import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/UI/icons.dart';
 import 'package:ticketapp/services/facebook_pixel.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
 import 'package:ticketapp/pages/payment/bloc/payment_bloc.dart';
@@ -156,7 +155,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       _buildTAndC().paddingBottom(MyTheme.elementSpacing),
                       SizedBox(
                         width: MyTheme.drawerSize,
-                        child: AppolloButton.regularButton(
+                        child: ScoopButton(
                           onTap: state is! StateFreeTicketSelected && PaymentRepository.instance.paymentMethodId == null
                               ? () {
                                   AlertGenerator.showAlert(
@@ -184,10 +183,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                         popTwice: false);
                                   }
                                 },
-                          child: Text(
-                            "PURCHASE",
-                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                          ),
+                          title: "PURCHASE",
                         ),
                       ),
                     ],
@@ -579,7 +575,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       ),
                       SizedBox(
                         width: MyTheme.drawerSize,
-                        child: AppolloTextField.reactive(
+                        child: ScoopTextField.reactive(
                           labelText: "Credit Card Number",
                           keyboardType: TextInputType.number,
                           inputFormatters: [
@@ -607,7 +603,7 @@ class _PaymentPageState extends State<PaymentPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Expanded(
-                              child: AppolloTextField.reactive(
+                              child: ScoopTextField.reactive(
                                 formControl: form.controls["month"],
                                 labelText: "MM",
                                 keyboardType: TextInputType.number,
@@ -628,7 +624,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ).paddingRight(MyTheme.elementSpacing),
                             ),
                             Expanded(
-                              child: AppolloTextField.reactive(
+                              child: ScoopTextField.reactive(
                                 formControl: form.controls["year"],
                                 labelText: "YY",
                                 keyboardType: TextInputType.number,
@@ -649,7 +645,7 @@ class _PaymentPageState extends State<PaymentPage> {
                               ).paddingRight(MyTheme.elementSpacing),
                             ),
                             Expanded(
-                              child: AppolloTextField.reactive(
+                              child: ScoopTextField.reactive(
                                 formControl: form.controls["cvc"],
                                 labelText: "CVC",
                                 keyboardType: TextInputType.number,
@@ -730,7 +726,7 @@ class _PaymentPageState extends State<PaymentPage> {
                                       }
                                     },
                                     child: state is StateLoadingPaymentMethod || cardLoading
-                                        ? AppolloButtonProgressIndicator()
+                                        ? ScoopButtonProgressIndicator()
                                         : Text(
                                             "Add Card",
                                             style: MyTheme.textTheme.button,

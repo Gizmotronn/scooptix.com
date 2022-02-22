@@ -54,6 +54,12 @@ dependencies:
   file_picker: ^4.4.0
   modal_bottom_sheet: 2.0.0
   easy_image_viewer: ^1.0.3
+  ui_basics:
+    git:
+      url: git@github.com:scooptix/ui-basics.git
+  ui_dropdown:
+    git:
+      url: git@github.com:scooptix/ui-dropdown.git
 
 
 dev_dependencies:

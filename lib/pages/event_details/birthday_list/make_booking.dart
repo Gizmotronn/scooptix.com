@@ -7,8 +7,8 @@ import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/bloc/birthday_list_bloc.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/birthday_sheet.dart';
+import 'package:ui_basics/ui_basics.dart';
 import '../../../UI/theme.dart';
-import '../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../UI/widgets/cards/booking_card.dart';
 import '../../../model/event.dart';
 import '../../../UI/icons.dart';
@@ -246,13 +246,11 @@ class _MakeBookingState extends State<MakeBooking> {
                               style: MyTheme.textTheme.headline4!.copyWith(fontWeight: FontWeight.w600))
                           .paddingBottom(MyTheme.elementSpacing),
                     ),
-                  AppolloButton.regularButton(
-                    width: 400,
+                  ScoopButton(
+                    minWidth: 400,
+                    maxWidth: 400,
                     color: MyTheme.scoopGreen,
-                    child: AutoSizeText(
-                      'CREATE BIRTHDAY LIST',
-                      style: MyTheme.textTheme.button,
-                    ),
+                    title: 'CREATE BIRTHDAY LIST',
                     onTap: () {
                       if (getValueForScreenType(
                           context: context, watch: false, mobile: false, tablet: true, desktop: true)) {

@@ -3,12 +3,12 @@ import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEventsDesktop extends StatefulWidget {
@@ -252,9 +252,9 @@ class FeaturedEventText extends StatelessWidget {
           maxLines: 2,
           style: MyTheme.textTheme.bodyText1,
         ).paddingBottom(8),
-        AppolloButton.regularButton(
-            color: MyTheme.scoopGreen,
-            child: AutoSizeText('View Event', maxLines: 2, style: Theme.of(context).textTheme.button),
+        ScoopButton(
+            buttonTheme: ScoopButtonTheme.secondary,
+            title: 'View Event',
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
                   arg: event.docID, queryParams: {'id': event.docID!});

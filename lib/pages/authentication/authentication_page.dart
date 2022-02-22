@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/services/image_util.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'login_and_signup_page.dart';
 import 'bloc/authentication_bloc.dart';
 import 'package:ticketapp/pages/authentication/profile/bloc/profile_bloc.dart' as profile;
@@ -181,18 +181,16 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                             ).paddingBottom(MyTheme.elementSpacing * 2),
                             Align(
                               alignment: Alignment.bottomRight,
-                              child: AppolloButton.regularButton(
+                              child: ScoopButton(
+                                buttonTheme: ScoopButtonTheme.secondary,
                                 onTap: () async {
                                   await auth.FirebaseAuth.instance.signOut();
                                   UserRepository.instance.dispose();
                                   signUpBloc.add(EventLogout());
                                   Navigator.pop(context);
                                 },
-                                fill: true,
-                                child: Text(
-                                  "Logout",
-                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                                ),
+                                fill: ButtonFill.filled,
+                                title: "Logout",
                               ),
                             ),
                           ],

@@ -40,7 +40,7 @@ class _EventDataMobileState extends State<EventDataMobile> {
         child: Column(
           children: [
             AppolloAppBar(
-              backgroundColor: MyTheme.scoopBackgroundColorLight,
+              backgroundColor: MyTheme.scoopBackgroundColor,
             ).paddingBottom(MyTheme.elementSpacing),
             _buildEventDetailWithCountdown(context).paddingHorizontal(MyTheme.elementSpacing),
             EventDescription(event: widget.event).paddingHorizontal(MyTheme.elementSpacing),

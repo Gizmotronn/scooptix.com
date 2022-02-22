@@ -8,8 +8,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/responsive_table/responsive_table.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/bookings/booking_data.dart';
@@ -18,6 +16,7 @@ import 'package:ticketapp/pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/birthday_list/bloc/birthday_list_bloc.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 /// In the desktop view, most of the functionality is displayed in the end drawer.
 class BirthdayDrawer extends StatefulWidget {
@@ -187,14 +186,10 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     Expanded(
                                       child: Align(
                                           alignment: Alignment.bottomRight,
-                                          child: AppolloButton.regularButton(
-                                              fill: true,
+                                          child: ScoopButton(
+                                              fill: ButtonFill.filled,
                                               color: MyTheme.scoopGreen,
-                                              child: Text(
-                                                "Back",
-                                                style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.scoopBackgroundColor),
-                                              ),
+                                              title: "Back",
                                               onTap: () {
                                                 Navigator.pop(context);
                                               })),
@@ -242,7 +237,7 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     .paddingBottom(MyTheme.elementSpacing),
                                 ReactiveForm(
                                   formGroup: form,
-                                  child: AppolloTextField.reactive(
+                                  child: ScoopTextField.reactive(
                                     formControl: form.controls["numGuests"],
                                     validationMessages: (control) => {
                                       ValidationMessage.required: 'Please provide an estimate',
@@ -254,14 +249,10 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                 _buildOrderSummary().paddingBottom(MyTheme.elementSpacing),
                                 Align(
                                     alignment: Alignment.bottomRight,
-                                    child: AppolloButton.regularButton(
-                                        fill: true,
+                                    child: ScoopButton(
+                                        fill: ButtonFill.filled,
                                         color: MyTheme.scoopGreen,
-                                        child: Text(
-                                          "Create",
-                                          style:
-                                              MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                                        ),
+                                        title: "Create",
                                         onTap: () {
                                           if (form.valid) {
                                             bloc.add(EventCreateList(
@@ -292,14 +283,10 @@ class _BirthdayDrawerState extends State<BirthdayDrawer> {
                                     Expanded(
                                       child: Align(
                                           alignment: Alignment.bottomRight,
-                                          child: AppolloButton.regularButton(
-                                              fill: true,
+                                          child: ScoopButton(
+                                              fill: ButtonFill.filled,
                                               color: MyTheme.scoopGreen,
-                                              child: Text(
-                                                "Back",
-                                                style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.scoopBackgroundColor),
-                                              ),
+                                              title: "Back",
                                               onTap: () {
                                                 Navigator.pop(context);
                                               })),

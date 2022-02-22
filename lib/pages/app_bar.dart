@@ -102,7 +102,7 @@ class _AppolloAppBarState extends State<AppolloAppBar> {
           onTap: () {
             showAppolloModalBottomSheet(
                 context: context,
-                backgroundColor: MyTheme.scoopBackgroundColorLight,
+                backgroundColor: MyTheme.scoopBackgroundColor,
                 expand: true,
                 settings: RouteSettings(name: "authentication_sheet"),
                 builder: (context) => AuthenticationPageWrapper());

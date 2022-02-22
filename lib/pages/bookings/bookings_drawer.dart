@@ -8,11 +8,11 @@ import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/responsive_table/responsive_table.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import 'package:ui_basics/ui_basics.dart';
 import '../../main.dart';
 import 'bloc/bookings_bloc.dart';
 
@@ -181,14 +181,10 @@ class _BookingsDrawerState extends State<BookingsDrawer> {
                                     Expanded(
                                       child: Align(
                                           alignment: Alignment.bottomRight,
-                                          child: AppolloButton.regularButton(
-                                              fill: true,
+                                          child: ScoopButton(
+                                              fill: ButtonFill.filled,
                                               color: MyTheme.scoopGreen,
-                                              child: Text(
-                                                "Back",
-                                                style: MyTheme.textTheme.button!
-                                                    .copyWith(color: MyTheme.scoopBackgroundColor),
-                                              ),
+                                              title: "Back",
                                               onTap: () {
                                                 Navigator.pop(context);
                                               })),

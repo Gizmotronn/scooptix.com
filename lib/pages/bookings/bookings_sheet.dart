@@ -10,11 +10,11 @@ import 'package:ticketapp/UI/responsive_table/responsive_datatable.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 import '../../main.dart';
 import 'bloc/bookings_bloc.dart';
@@ -27,21 +27,21 @@ class BookingsSheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.scoopBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           settings: RouteSettings(name: "bookings_sheet"),
           builder: (context) => BookingsSheet._());
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.scoopBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.scoopBackgroundColorLight,
+                      backgroundColor: MyTheme.scoopBackgroundColor,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => BookingsSheet._());

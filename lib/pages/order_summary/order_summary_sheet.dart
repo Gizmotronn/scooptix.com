@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/textfield/discount_textfield.dart';
 import 'package:ticketapp/model/discount.dart';
@@ -13,6 +12,7 @@ import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/pages/payment/payment_sheet_wrapper.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'bloc/ticket_bloc.dart';
 
 class OrderSummarySheet extends StatefulWidget {
@@ -184,8 +184,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                     Flexible(
                       child: Align(
                         alignment: Alignment.bottomCenter,
-                        child: AppolloButton.regularButton(
-                          width: MediaQuery.of(context).size.width,
+                        child: ScoopButton(
                           onTap: () {
                             if (!UserRepository.instance.isLoggedIn) {
                               showAppolloModalBottomSheet(
@@ -220,10 +219,7 @@ class _OrderSummarySheetState extends State<OrderSummarySheet> {
                                           )));
                             }
                           },
-                          child: Text(
-                            "PROCEED TO CHECKOUT",
-                            style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                          ),
+                          title: "PROCEED TO CHECKOUT",
                         ),
                       ).paddingBottom(MyTheme.elementSpacing),
                     ),
