@@ -40,12 +40,12 @@ void main() {
     // Replace with actual values
     options: FirebaseOptions(
         apiKey: "AIzaSyBZZn5-LUOhdjgXWWffhiV_zyT9Pt8X6TU",
-        appId: "1:523486869687:web:080d4231f7206f439f3532",
-        messagingSenderId: "523486869687",
-        projectId: "appollo-live-244701",
-        authDomain: "appollo-live-244701.firebaseapp.com",
-        storageBucket: "appollo-live-244701.appspot.com"
-    ),
+        appId: "1:325355278765:web:070f1fcb14372231db9124",
+        databaseURL: "https://appollo-devops.firebaseio.com",
+        messagingSenderId: "325355278765",
+        projectId: "appollo-devops",
+        authDomain: "appollo-devops.firebaseapp.com",
+        storageBucket: "appollo-devops.appspot.com"),
   ).then((_) {
     runZonedGuarded(() {
       runApp(MyApp());
