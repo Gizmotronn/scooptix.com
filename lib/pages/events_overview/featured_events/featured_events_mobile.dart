@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEventsMobile extends StatefulWidget {
@@ -141,9 +141,9 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        AppolloButton.regularButton(
-            color: MyTheme.scoopGreen,
-            child: AutoSizeText('View Event', maxLines: 2, style: MyTheme.textTheme.button),
+        ScoopButton(
+            buttonTheme: ScoopButtonTheme.secondary,
+            title: 'View Event',
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
                   arg: heroEvent!.docID, queryParams: {'id': heroEvent!.docID!});

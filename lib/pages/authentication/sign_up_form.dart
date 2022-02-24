@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
+import 'package:ui_basics/ui_basics.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/utilities/alert_generator.dart';
@@ -50,7 +50,7 @@ class _SignUpFormState extends State<SignUpForm> {
 
             Column(
               children: [
-                AppolloTextField.reactive(
+                ScoopTextField.reactive(
                   labelText: "First Name",
                   formControl: widget.form.controls['fname'],
                   validationMessages: (control) => {
@@ -58,7 +58,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   },
                   // decoration: InputDecoration(labelText: "First Name"),
                 ).paddingBottom(MyTheme.elementSpacing),
-                AppolloTextField.reactive(
+                ScoopTextField.reactive(
                   labelText: "Last Name",
                   formControl: widget.form.controls['lname'],
                   validationMessages: (control) => {
@@ -89,7 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3,
                             watch: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3),
-                        child: AppolloTextField.reactive(
+                        child: ScoopTextField.reactive(
                           labelText: 'Day',
                           formControl: widget.form.controls["dobDay"],
                           keyboardType: TextInputType.number,
@@ -115,7 +115,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3,
                             watch: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3),
-                        child: AppolloTextField.reactive(
+                        child: ScoopTextField.reactive(
                           labelText: 'Month',
                           formControl: widget.form.controls["dobMonth"],
                           validationMessages: (control) => {
@@ -140,7 +140,7 @@ class _SignUpFormState extends State<SignUpForm> {
                             tablet: MyTheme.drawerSize / 3 - 30,
                             mobile: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3,
                             watch: ((MyTheme.maxWidth - MyTheme.elementSpacing * 4) + 8) / 3),
-                        child: AppolloTextField.reactive(
+                        child: ScoopTextField.reactive(
                           labelText: 'Year',
                           formControl: widget.form.controls["dobYear"],
                           validationMessages: (control) => {

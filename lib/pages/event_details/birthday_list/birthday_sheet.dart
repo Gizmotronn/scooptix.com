@@ -10,14 +10,13 @@ import 'package:ticketapp/UI/responsive_table/responsive_datatable.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
-import 'package:ticketapp/UI/widgets/textfield/appollo_textfield.dart';
 import 'package:ticketapp/model/birthday_lists/attendee.dart';
 import 'package:ticketapp/model/bookings/booking_data.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 import '../../../main.dart';
 import 'bloc/birthday_list_bloc.dart';
@@ -32,21 +31,21 @@ class BirthdaySheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.scoopBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           settings: RouteSettings(name: "birthday_sheet"),
           builder: (context) => BirthdaySheet._(event, booking));
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.scoopBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.scoopBackgroundColorLight,
+                      backgroundColor: MyTheme.scoopBackgroundColor,
                       expand: true,
                       settings: RouteSettings(name: "authentication_sheet"),
                       builder: (context) => BirthdaySheet._(event, booking));
@@ -256,7 +255,7 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                           .paddingBottom(MyTheme.elementSpacing),
                       ReactiveForm(
                         formGroup: form,
-                        child: AppolloTextField.reactive(
+                        child: ScoopTextField.reactive(
                           formControl: form.controls["numGuests"],
                           validationMessages: (control) => {
                             ValidationMessage.required: 'Please provide an estimate',
@@ -269,14 +268,10 @@ class _BirthdaySheetState extends State<BirthdaySheet> {
                       Expanded(
                         child: Align(
                             alignment: Alignment.bottomRight,
-                            child: AppolloButton.regularButton(
-                                width: screenSize.width,
-                                fill: true,
+                            child: ScoopButton(
+                                fill: ButtonFill.filled,
                                 color: MyTheme.scoopGreen,
-                                child: Text(
-                                  "Create",
-                                  style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                                ),
+                                title: "Create",
                                 onTap: () {
                                   if (form.valid) {
                                     bloc.add(

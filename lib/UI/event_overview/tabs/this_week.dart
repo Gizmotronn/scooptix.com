@@ -90,11 +90,11 @@ class _ThisWeekState extends State<ThisWeek> {
                                     .where((event) => fullDateWithDay(event.date).contains(_daysMenu[index].title))
                                     .toList(),
                               ),
-                              /* HoverAppolloButton(
+                              /* HoverScoopButton(
                                 title: 'See More Events',
                                 color: MyTheme.appolloGreen,
                                 hoverColor: MyTheme.appolloGreen,
-                                fill: false,
+                                fill: ButtonFill.outlined,
                               ).paddingBottom(16),*/
                             ],
                           ),

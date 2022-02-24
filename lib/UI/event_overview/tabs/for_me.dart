@@ -5,11 +5,11 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:ticketapp/UI/event_overview/events.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
 import 'package:ticketapp/UI/widgets/cards/forme_card.dart';
 import 'package:ticketapp/pages/app_bar.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
+import 'package:ui_basics/ui_basics.dart';
 import '../../../pages/authentication/authentication_drawer.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
@@ -103,17 +103,16 @@ class _EventsForMeState extends State<EventsForMe> {
                         'Keep up to date with the latest events from your favourite organisers and find new events based on your preferences when you sign in.',
                     svgIcon: AppolloIcons.person,
                     color: MyTheme.scoopPurple,
-                    child: HoverAppolloButton(
+                    child: ScoopButton(
                       onTap: () {
                         WrapperPage.endDrawer.value = AuthenticationDrawer();
                         WrapperPage.mainScaffold.currentState!.openEndDrawer();
                       },
                       title: 'Create An Account',
-                      color: MyTheme.scoopGreen,
-                      hoverColor: MyTheme.scoopGreen,
+                      buttonTheme: ScoopButtonTheme.secondary,
                       maxWidth: 210,
                       minWidth: 210,
-                      fill: true,
+                      fill: ButtonFill.filled,
                     ).paddingTop(MyTheme.elementSpacing).paddingBottom(MyTheme.elementSpacing),
                   ),
                 ),
@@ -157,7 +156,7 @@ class _EventsForMeState extends State<EventsForMe> {
                       color: MyTheme.scoopPurple,
                       child: Padding(
                         padding: EdgeInsets.only(top: 4.0, left: MyTheme.elementSpacing, right: MyTheme.elementSpacing),
-                        child: HoverAppolloButton(
+                        child: ScoopButton(
                           onTap: () {
                             showAppolloModalBottomSheet(
                                 context: context,
@@ -167,11 +166,10 @@ class _EventsForMeState extends State<EventsForMe> {
                                 builder: (context) => AuthenticationPageWrapper());
                           },
                           title: 'Create An Account',
-                          color: MyTheme.scoopGreen,
-                          hoverColor: MyTheme.scoopGreen,
+                          buttonTheme: ScoopButtonTheme.secondary,
                           maxWidth: 400,
                           minWidth: 400,
-                          fill: true,
+                          fill: ButtonFill.filled,
                         ),
                       ),
                     ),

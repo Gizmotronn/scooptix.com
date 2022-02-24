@@ -6,11 +6,11 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_drawer.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_sheet.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 import '../../main.dart';
 import 'bloc/reward_center_bloc.dart';
@@ -111,14 +111,10 @@ class _RewardCenterState extends State<RewardCenterPage> {
                               ),
                             ),
                           ).paddingBottom(MyTheme.elementSpacing),
-                          AppolloButton.regularButton(
-                              fill: true,
-                              width: MediaQuery.of(context).size.width,
+                          ScoopButton(
+                              fill: ButtonFill.filled,
                               color: MyTheme.scoopGreen,
-                              child: Text(
-                                "View Competition Details",
-                                style: MyTheme.textTheme.button,
-                              ),
+                              title: "View Competition Details",
                               onTap: () {
                                 if (getValueForScreenType(
                                     context: context, watch: true, mobile: true, tablet: false, desktop: false)) {

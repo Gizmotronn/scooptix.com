@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 import '../../theme.dart';
-import '../buttons/apollo_button.dart';
 
 class BookingCard extends StatelessWidget {
   final String type;
@@ -39,15 +39,10 @@ class BookingCard extends StatelessWidget {
                 Column(children: textIcons)
               ],
             ),
-            AppolloButton.regularButton(
-              child: Center(
-                child: Text(
-                  'Make A Booking',
-                  style: Theme.of(context).textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                ),
-              ),
+            ScoopButton(
+              title: 'Make A Booking',
               onTap: () {},
-              fill: true,
+              fill: ButtonFill.filled,
               color: MyTheme.scoopGreen,
             ),
           ],

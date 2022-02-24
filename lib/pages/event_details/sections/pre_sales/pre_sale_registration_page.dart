@@ -11,6 +11,7 @@ import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/pages/event_details/mobile/get_tickets_sheet.dart';
+import 'package:ui_basics/ui_basics.dart';
 import '../../../authentication/authentication_drawer.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/bloc/pre_sale_bloc.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_drawer.dart';
@@ -19,7 +20,6 @@ import 'package:ticketapp/repositories/user_repository.dart';
 
 import '../../../../UI/theme.dart';
 import '../../../../UI/widgets/appollo/appollo_divider.dart';
-import '../../../../UI/widgets/buttons/apollo_button.dart';
 import '../../../../UI/widgets/cards/level_card_desktop.dart';
 import '../../../../UI/icons.dart';
 
@@ -152,7 +152,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                         if (state is StateNotLoggedIn) {
                           showAppolloModalBottomSheet(
                               context: WrapperPage.navigatorKey.currentContext!,
-                              backgroundColor: MyTheme.scoopBackgroundColorLight,
+                              backgroundColor: MyTheme.scoopBackgroundColor,
                               expand: true,
                               builder: (context) => AuthenticationPageWrapper(
                                     onAutoAuthenticated: (autoLoggedIn) {
@@ -200,21 +200,17 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
                   )
                 : Padding(
                     padding: EdgeInsets.symmetric(horizontal: MyTheme.elementSpacing),
-                    child: AppolloButton.regularButton(
-                      width: 416,
-                      child: Center(
-                        child: Text(
-                          'REGISTER FOR PRE-SALE',
-                          style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
-                        ),
-                      ),
+                    child: ScoopButton(
+                      maxWidth: 416,
+                      minWidth: 416,
+                      title: 'REGISTER FOR PRE-SALE',
                       onTap: () {
                         if (getValueForScreenType(
                             context: context, watch: true, mobile: true, tablet: false, desktop: false)) {
                           if (state is StateNotLoggedIn) {
                             showAppolloModalBottomSheet(
                                 context: WrapperPage.navigatorKey.currentContext!,
-                                backgroundColor: MyTheme.scoopBackgroundColorLight,
+                                backgroundColor: MyTheme.scoopBackgroundColor,
                                 expand: true,
                                 builder: (context) => AuthenticationPageWrapper(
                                       onAutoAuthenticated: (autoLoggedIn) {
@@ -267,7 +263,7 @@ class _PreSaleRegistrationPageState extends State<PreSaleRegistrationPage> {
           style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen, fontWeight: FontWeight.w600),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildCountdown().paddingBottom(MyTheme.elementSpacing),
-        /* TODO AppolloButton.wideButton(
+        /* TODO ScoopButton.wideButton(
           heightMax: 40,
           heightMin: 40,
           child: Center(

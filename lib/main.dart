@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -35,12 +36,24 @@ void main() {
     BugsnagNotifier.instance.notify("Additional error output: ${details.summary}", StackTrace.empty);*/
   };
 
-  runZonedGuarded(() {
-    runApp(MyApp());
-  }, (error, stackTrace) {
-    print(error);
-    print(stackTrace);
-    /*BugsnagNotifier.instance.notify(error, stackTrace);*/
+  Firebase.initializeApp(
+    // Replace with actual values
+    options: FirebaseOptions(
+        apiKey: "AIzaSyBZZn5-LUOhdjgXWWffhiV_zyT9Pt8X6TU",
+        appId: "1:325355278765:web:070f1fcb14372231db9124",
+        databaseURL: "https://appollo-devops.firebaseio.com",
+        messagingSenderId: "325355278765",
+        projectId: "appollo-devops",
+        authDomain: "appollo-devops.firebaseapp.com",
+        storageBucket: "appollo-devops.appspot.com"),
+  ).then((_) {
+    runZonedGuarded(() {
+      runApp(MyApp());
+    }, (error, stackTrace) {
+      print(error);
+      print(stackTrace);
+      /*BugsnagNotifier.instance.notify(error, stackTrace);*/
+    });
   });
 }
 

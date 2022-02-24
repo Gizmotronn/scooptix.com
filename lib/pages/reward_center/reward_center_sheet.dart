@@ -14,21 +14,21 @@ class RewardCenterSheet extends StatefulWidget {
     if (UserRepository.instance.isLoggedIn) {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.scoopBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           settings: RouteSettings(name: "reward_center_sheet"),
           builder: (context) => RewardCenterSheet._());
     } else {
       showAppolloModalBottomSheet(
           context: WrapperPage.navigatorKey.currentContext!,
-          backgroundColor: MyTheme.scoopBackgroundColorLight,
+          backgroundColor: MyTheme.scoopBackgroundColor,
           expand: true,
           builder: (context) => AuthenticationPageWrapper(
                 onAutoAuthenticated: (autoLoggedIn) {
                   Navigator.pop(WrapperPage.navigatorKey.currentContext!);
                   showAppolloModalBottomSheet(
                       context: WrapperPage.navigatorKey.currentContext!,
-                      backgroundColor: MyTheme.scoopBackgroundColorLight,
+                      backgroundColor: MyTheme.scoopBackgroundColor,
                       expand: true,
                       settings: RouteSettings(name: "reward_center_sheet"),
                       builder: (context) => RewardCenterSheet._());

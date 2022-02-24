@@ -7,12 +7,12 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
-import 'package:ticketapp/UI/widgets/buttons/apollo_button.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/sections/pre_sales/pre_sale_prizes_widget.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
 import 'package:ticketapp/UI/icons.dart';
+import 'package:ui_basics/ui_basics.dart';
 
 import 'bloc/pre_sale_bloc.dart';
 
