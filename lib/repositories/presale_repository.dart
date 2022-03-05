@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ticketapp/UI/services/uuid_generator.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/link_type/pre_sale_invite.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_registration.dart';
@@ -6,7 +7,6 @@ import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/services/uuid_generator.dart';
 
 class PreSaleRepository {
   static PreSaleRepository? _instance;
@@ -33,7 +33,8 @@ class PreSaleRepository {
     } else {
       QuerySnapshot mapSnapshot = await FirebaseFirestore.instance
           .collection("uuidmap")
-          .where("promoter", isEqualTo: UserRepository.instance.currentUser()!.firebaseUserID)
+          .where("promoter",
+              isEqualTo: UserRepository.instance.currentUser()!.firebaseUserID)
           .where("type", isEqualTo: PreSaleInvite.toDBString())
           .where("event", isEqualTo: event.docID)
           .limit(1)
@@ -70,7 +71,9 @@ class PreSaleRepository {
         "dob": UserRepository.instance.currentUser()!.dob,
         "uuid": uuid,
         if (LinkRepository.instance.linkType is PreSaleInvite)
-          "referred_by": (LinkRepository.instance.linkType as PreSaleInvite).promoter!.docId
+          "referred_by": (LinkRepository.instance.linkType as PreSaleInvite)
+              .promoter!
+              .docId
       });
 
       await FirebaseFirestore.instance.collection("uuidmap").add({
@@ -88,7 +91,9 @@ class PreSaleRepository {
         "gender": UserRepository.instance.currentUser()!.gender!.toDBString(),
         "dob": UserRepository.instance.currentUser()!.dob,
         if (LinkRepository.instance.linkType is PreSaleInvite)
-          "referred_by": (LinkRepository.instance.linkType as PreSaleInvite).promoter!.docId
+          "referred_by": (LinkRepository.instance.linkType as PreSaleInvite)
+              .promoter!
+              .docId
       });
       preSale = PreSaleRegistration()
         ..uuid = uuid
@@ -100,8 +105,10 @@ class PreSaleRepository {
     }
   }
 
-  Future<List<PreSaleRegistration>> loadPreSaleRegistrations(String userId) async {
-    QuerySnapshot<Map<String, dynamic>> mapSnapshot = await FirebaseFirestore.instance
+  Future<List<PreSaleRegistration>> loadPreSaleRegistrations(
+      String userId) async {
+    QuerySnapshot<Map<String, dynamic>> mapSnapshot = await FirebaseFirestore
+        .instance
         .collection("uuidmap")
         .where("promoter", isEqualTo: userId)
         .where("type", isEqualTo: PreSaleInvite.toDBString())
@@ -110,12 +117,14 @@ class PreSaleRepository {
 
     List<PreSaleRegistration> preSales = [];
 
-    await Future.forEach(mapSnapshot.docs, (DocumentSnapshot<Map<String, dynamic>> doc) async {
+    await Future.forEach(mapSnapshot.docs,
+        (DocumentSnapshot<Map<String, dynamic>> doc) async {
       preSales.add(PreSaleRegistration()
         ..docId = doc.id
         ..uuid = doc.get("uuid")
         ..points = doc.get("points")
-        ..event = await EventsRepository.instance.loadEventById(doc.get("event")));
+        ..event =
+            await EventsRepository.instance.loadEventById(doc.get("event")));
     });
 
     return preSales;

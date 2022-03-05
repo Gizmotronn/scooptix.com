@@ -1,16 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:ticketapp/UI/services/firebase.dart';
 import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/repositories/payment_repository.dart';
 import 'package:ticketapp/repositories/presale_repository.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/services/firebase.dart';
-
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
+class AuthenticationBloc
+    extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc() : super(StateInitial()) {
     on<EventEmailProvided>(_checkUserStatus);
     on<EventLoginPressed>(_loginExistingUser);
@@ -18,9 +18,12 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     on<EventChangeEmail>((event, emit) => emit(StateInitial()));
     on<EventPageLoad>((event, emit) => _signInCurrentUser(emit));
     on<EventLogout>((event, emit) => _logout(emit));
-    on<EventEmailsConfirmed>((event, emit) => emit(StateNewUserEmailsConfirmed()));
-    on<EventPasswordsConfirmed>((event, emit) => emit(StatePasswordsConfirmed(null)));
-    on<EventSSOEmailsConfirmed>((event, emit) => emit(StatePasswordsConfirmed(event.uid)));
+    on<EventEmailsConfirmed>(
+        (event, emit) => emit(StateNewUserEmailsConfirmed()));
+    on<EventPasswordsConfirmed>(
+        (event, emit) => emit(StatePasswordsConfirmed(null)));
+    on<EventSSOEmailsConfirmed>(
+        (event, emit) => emit(StatePasswordsConfirmed(event.uid)));
   }
 
   /// Checks whether the entered email address is new or from an existing user
@@ -45,7 +48,9 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     } else {
       await UserRepository.instance.getUser(fbUser.uid);
 
-      emit(StateLoggedIn(event.email, UserRepository.instance.currentUser()!.firstname!,
+      emit(StateLoggedIn(
+          event.email,
+          UserRepository.instance.currentUser()!.firstname!,
           UserRepository.instance.currentUser()!.lastname!));
     }
   }
@@ -60,15 +65,18 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       emit(StateNewUserEmail());
     } else {
       emit(StateLoadingCreateUser());
-      await UserRepository.instance
-          .createUser(event.email, event.pw, event.firstName, event.lastName, event.dob, event.gender, uid: event.uid);
+      await UserRepository.instance.createUser(event.email, event.pw,
+          event.firstName, event.lastName, event.dob, event.gender,
+          uid: event.uid);
       if (UserRepository.instance.currentUserNotifier.value == null) {
         // Notify UI about error and revert to previous state
         emit(StateErrorSignUp(SignUpError.Unknown));
         emit(StatePasswordsConfirmed(event.uid));
       } else {
-        emit(StateLoggedIn(UserRepository.instance.currentUser()!.email!,
-            UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!));
+        emit(StateLoggedIn(
+            UserRepository.instance.currentUser()!.email!,
+            UserRepository.instance.currentUser()!.firstname!,
+            UserRepository.instance.currentUser()!.lastname!));
       }
     }
   }
@@ -85,12 +93,16 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
         print("no state change user");
         emit(StateInitial());
       } else {
-        emit(StateAutoLoggedIn(fbUser.email, UserRepository.instance.currentUser()!.firstname,
+        emit(StateAutoLoggedIn(
+            fbUser.email,
+            UserRepository.instance.currentUser()!.firstname,
             UserRepository.instance.currentUser()!.lastname));
       }
     } else {
-      emit(StateLoggedIn(UserRepository.instance.currentUser()!.email!,
-          UserRepository.instance.currentUser()!.firstname!, UserRepository.instance.currentUser()!.lastname!));
+      emit(StateLoggedIn(
+          UserRepository.instance.currentUser()!.email!,
+          UserRepository.instance.currentUser()!.firstname!,
+          UserRepository.instance.currentUser()!.lastname!));
     }
   }
 

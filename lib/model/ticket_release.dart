@@ -1,4 +1,4 @@
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/UI/services/bugsnag_wrapper.dart';
 
 class TicketRelease {
   String docId = "";
@@ -19,7 +19,8 @@ class TicketRelease {
 
   TicketRelease._();
 
-  factory TicketRelease.fromMap(String id, Map<String, dynamic> data, String releaseManagerName) {
+  factory TicketRelease.fromMap(
+      String id, Map<String, dynamic> data, String releaseManagerName) {
     TicketRelease release = TicketRelease._();
 
     try {
@@ -31,16 +32,20 @@ class TicketRelease {
         release.description = data["description"];
       }
       if (data.containsKey("entry_start")) {
-        release.entryStart = DateTime.fromMillisecondsSinceEpoch(data["entry_start"].millisecondsSinceEpoch);
+        release.entryStart = DateTime.fromMillisecondsSinceEpoch(
+            data["entry_start"].millisecondsSinceEpoch);
       }
       if (data.containsKey("entry_end")) {
-        release.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
+        release.entryEnd = DateTime.fromMillisecondsSinceEpoch(
+            data["entry_end"].millisecondsSinceEpoch);
       }
       if (data.containsKey("release_start")) {
-        release.releaseStart = DateTime.fromMillisecondsSinceEpoch(data["release_start"].millisecondsSinceEpoch);
+        release.releaseStart = DateTime.fromMillisecondsSinceEpoch(
+            data["release_start"].millisecondsSinceEpoch);
       }
       if (data.containsKey("release_end")) {
-        release.releaseEnd = DateTime.fromMillisecondsSinceEpoch(data["release_end"].millisecondsSinceEpoch);
+        release.releaseEnd = DateTime.fromMillisecondsSinceEpoch(
+            data["release_end"].millisecondsSinceEpoch);
       }
       if (data.containsKey("max_tickets")) {
         release.maxTickets = data["max_tickets"];
@@ -54,7 +59,8 @@ class TicketRelease {
       release.ticketName = releaseManagerName;
     } catch (e, s) {
       print(e);
-      BugsnagNotifier.instance.notify("Error loading ticket release \n $e", s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error loading ticket release \n $e", s,
+          severity: ErrorSeverity.error);
       throw Exception("Error loading ticket release");
     }
 

@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/services/navigator_services.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_bottom_sheet.dart';
 import 'package:ticketapp/UI/widgets/buttons/heart.dart';
 import 'package:ticketapp/model/event.dart';
@@ -8,7 +9,6 @@ import 'package:ticketapp/model/user.dart';
 import 'package:ticketapp/pages/authentication/authentication_sheet_wrapper.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import '../../UI/theme.dart';
 
@@ -22,7 +22,8 @@ class EventCardMobile extends StatelessWidget {
     return InkWell(
       onTap: () {
         // NavigationService.navigateTo(EventDetail.routeName);
-        NavigationService.navigateTo(EventDetailPage.routeName, arg: event.docID, queryParams: {'id': event.docID!});
+        NavigationService.navigateTo(EventDetailPage.routeName,
+            arg: event.docID, queryParams: {'id': event.docID!});
       },
       child: Container(
           height: MediaQuery.of(context).size.width / 1.9 / 2,
@@ -98,7 +99,8 @@ class EventCardMobile extends StatelessWidget {
                   textAlign: TextAlign.start,
                   maxLines: 1,
                   minFontSize: 7,
-                  style: MyTheme.textTheme.subtitle2!.copyWith(color: MyTheme.scoopRed),
+                  style: MyTheme.textTheme.subtitle2!
+                      .copyWith(color: MyTheme.scoopRed),
                 ).paddingBottom(5),
               ),
             ],

@@ -3,28 +3,32 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ticketapp/UI/services/image_util.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
-import 'package:ticketapp/services/image_util.dart';
 import 'package:ticketapp/utilities/platform_detector.dart';
 import 'package:ui_basics/ui_basics.dart';
 import 'login_and_signup_page.dart';
 import 'bloc/authentication_bloc.dart';
-import 'package:ticketapp/pages/authentication/profile/bloc/profile_bloc.dart' as profile;
+import 'package:ticketapp/pages/authentication/profile/bloc/profile_bloc.dart'
+    as profile;
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 
 class AuthenticationPage extends StatefulWidget {
   static const String routeName = '/auth';
   final Function(bool)? onAutoAuthenticated;
-  final AuthenticationBloc? bloc; // HACK: Allows the auth sheet wrapper access to the bloc state
+  final AuthenticationBloc?
+      bloc; // HACK: Allows the auth sheet wrapper access to the bloc state
 
-  const AuthenticationPage({Key? key, this.onAutoAuthenticated, this.bloc}) : super(key: key);
+  const AuthenticationPage({Key? key, this.onAutoAuthenticated, this.bloc})
+      : super(key: key);
   @override
   _AuthenticationPageState createState() => _AuthenticationPageState();
 }
 
-class _AuthenticationPageState extends State<AuthenticationPage> with TickerProviderStateMixin {
+class _AuthenticationPageState extends State<AuthenticationPage>
+    with TickerProviderStateMixin {
   profile.ProfileBloc? profileBloc;
   late AuthenticationBloc signUpBloc;
 
@@ -93,7 +97,10 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                           children: [
                             Text(
                               "Welcome Back",
-                              style: Theme.of(context).textTheme.headline2!.copyWith(color: MyTheme.scoopGreen),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline2!
+                                  .copyWith(color: MyTheme.scoopGreen),
                             ).paddingBottom(MyTheme.elementSpacing),
                             /*  InkWell(
                                         onTap: () {
@@ -118,31 +125,43 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                               children: [
                                 InkWell(
                                   onTap: () async {
-                                    Uint8List? imageData = await ImageUtil.pickImage();
+                                    Uint8List? imageData =
+                                        await ImageUtil.pickImage();
                                     if (imageData != null) {
-                                      profileBloc!.add(profile.EventUploadProfileImage(imageData));
+                                      profileBloc!.add(
+                                          profile.EventUploadProfileImage(
+                                              imageData));
                                     }
                                   },
                                   child: SizedBox(
                                     width: 50,
                                     height: 50,
-                                    child: BlocBuilder<profile.ProfileBloc, profile.ProfileState>(
+                                    child: BlocBuilder<profile.ProfileBloc,
+                                            profile.ProfileState>(
                                         bloc: profileBloc,
                                         builder: (context, state) {
                                           if (state is profile.StateInitial) {
                                             return CircleAvatar(
                                               radius: 50,
-                                              backgroundImage: ExtendedImage.network(
-                                                  UserRepository.instance.currentUser()!.profileImageURL,
-                                                  cache: true,
-                                                  fit: BoxFit.cover, loadStateChanged: (ExtendedImageState state) {
-                                                switch (state.extendedImageLoadState) {
+                                              backgroundImage:
+                                                  ExtendedImage.network(
+                                                      UserRepository.instance
+                                                          .currentUser()!
+                                                          .profileImageURL,
+                                                      cache: true,
+                                                      fit: BoxFit.cover,
+                                                      loadStateChanged:
+                                                          (ExtendedImageState
+                                                              state) {
+                                                switch (state
+                                                    .extendedImageLoadState) {
                                                   case LoadState.loading:
                                                     return Container(
                                                       color: Colors.white,
                                                     );
                                                   case LoadState.completed:
-                                                    return state.completedWidget;
+                                                    return state
+                                                        .completedWidget;
                                                   default:
                                                     return Container(
                                                       color: Colors.white,
@@ -151,31 +170,40 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                                               }).image,
                                             );
                                           } else {
-                                            return Center(child: AppolloProgressIndicator());
+                                            return Center(
+                                                child:
+                                                    AppolloProgressIndicator());
                                           }
                                         }),
                                   ),
                                 ).paddingRight(MyTheme.elementSpacing),
                                 SizedBox(
                                   width: MyTheme.drawerSize / 1.7,
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                                    SizedBox(
-                                      width: MyTheme.drawerSize / 1.7,
-                                      child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser()!.firstname} ${UserRepository.instance.currentUser()!.lastname}",
-                                        maxLines: 1,
-                                        style: Theme.of(context).textTheme.headline6,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: MyTheme.drawerSize / 1.7,
-                                      child: AutoSizeText(
-                                        "${UserRepository.instance.currentUser()!.email}",
-                                        maxLines: 1,
-                                        style: Theme.of(context).textTheme.bodyText2,
-                                      ),
-                                    ),
-                                  ]),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          width: MyTheme.drawerSize / 1.7,
+                                          child: AutoSizeText(
+                                            "${UserRepository.instance.currentUser()!.firstname} ${UserRepository.instance.currentUser()!.lastname}",
+                                            maxLines: 1,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headline6,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: MyTheme.drawerSize / 1.7,
+                                          child: AutoSizeText(
+                                            "${UserRepository.instance.currentUser()!.email}",
+                                            maxLines: 1,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyText2,
+                                          ),
+                                        ),
+                                      ]),
                                 ),
                               ],
                             ).paddingBottom(MyTheme.elementSpacing * 2),
@@ -200,7 +228,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> with TickerProv
                   );
                 } else {
                   return SizedBox(
-                    width: PlatformDetector.isMobile() ? MyTheme.maxWidth : MyTheme.drawerSize,
+                    width: PlatformDetector.isMobile()
+                        ? MyTheme.maxWidth
+                        : MyTheme.drawerSize,
                     child: LoginAndSignupPage(
                       bloc: signUpBloc,
                     ),

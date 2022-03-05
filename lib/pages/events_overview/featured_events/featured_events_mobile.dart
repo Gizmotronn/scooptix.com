@@ -2,23 +2,25 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:ticketapp/UI/services/navigator_services.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
-import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import 'package:ui_basics/ui_basics.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEventsMobile extends StatefulWidget {
   final List<Event> events;
-  const FeaturedEventsMobile({Key? key, required this.events}) : super(key: key);
+  const FeaturedEventsMobile({Key? key, required this.events})
+      : super(key: key);
   @override
   _FeaturedEventsMobileState createState() => _FeaturedEventsMobileState();
 }
 
-class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with TickerProviderStateMixin {
+class _FeaturedEventsMobileState extends State<FeaturedEventsMobile>
+    with TickerProviderStateMixin {
   GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
 
   Duration _animationDuration = Duration(milliseconds: 300);
@@ -37,7 +39,8 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
 
   @override
   void initState() {
-    _animationController = AnimationController(vsync: this, duration: _animationDuration);
+    _animationController =
+        AnimationController(vsync: this, duration: _animationDuration);
     for (int i = 0; i < 5 && i < widget.events.length; i++) {
       events.add(widget.events[i]);
     }
@@ -106,7 +109,9 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
                 ? SizedBox()
                 : SlideTransition(
                     position: Tween<Offset>(begin: beginOffset, end: endOffset)
-                        .animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut)),
+                        .animate(CurvedAnimation(
+                            parent: _animationController,
+                            curve: Curves.easeInOut)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -114,20 +119,27 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
                             aspectRatio: 1.9,
                             child: InkWell(
                               onTap: () {
-                                NavigationService.navigateTo(EventDetailPage.routeName,
-                                    arg: heroEvent!.docID, queryParams: {'id': heroEvent!.docID!});
+                                NavigationService.navigateTo(
+                                    EventDetailPage.routeName,
+                                    arg: heroEvent!.docID,
+                                    queryParams: {'id': heroEvent!.docID!});
                               },
                               child: ExpandImageCard(
                                 imageUrl: heroEvent!.coverImageURL,
                                 borderRadius: BorderRadius.zero,
                               ),
                             )).paddingBottom(16),
-                        heroEvent == null ? SizedBox() : FeaturedEventTextMobile(event: heroEvent!).paddingBottom(16),
+                        heroEvent == null
+                            ? SizedBox()
+                            : FeaturedEventTextMobile(event: heroEvent!)
+                                .paddingBottom(16),
                       ],
                     ),
                   ),
             _buildButton(),
-            SizedBox(height: MediaQuery.of(context).size.width / 4 / 1.9, child: _inComingEvents(context))
+            SizedBox(
+                    height: MediaQuery.of(context).size.width / 4 / 1.9,
+                    child: _inComingEvents(context))
                 .paddingBottom(16)
                 .paddingHorizontal(16),
           ]),
@@ -146,7 +158,8 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
             title: 'View Event',
             onTap: () {
               NavigationService.navigateTo(EventDetailPage.routeName,
-                  arg: heroEvent!.docID, queryParams: {'id': heroEvent!.docID!});
+                  arg: heroEvent!.docID,
+                  queryParams: {'id': heroEvent!.docID!});
               // Navigator.of(context).push(MaterialPageRoute(builder: (_) => AuthenticationPage(overviewLinkType)));
             }),
       ],
@@ -161,18 +174,26 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
         scrollDirection: Axis.horizontal,
         physics: NeverScrollableScrollPhysics(),
         initialItemCount: events.length,
-        itemBuilder: (context, index, animation) => _buildItem(context, index, animation),
+        itemBuilder: (context, index, animation) =>
+            _buildItem(context, index, animation),
       ),
     );
   }
 
-  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
     final size = MediaQuery.of(context).size;
 
     return SlideTransition(
       position: Tween<Offset>(
-              begin: _animationController.status == AnimationStatus.forward && index == 3 ? Offset(5, 0) : Offset(0, 0),
-              end: _animationController.status == AnimationStatus.forward && index == 0 ? Offset(-5, 0) : Offset(0, 0))
+              begin: _animationController.status == AnimationStatus.forward &&
+                      index == 3
+                  ? Offset(5, 0)
+                  : Offset(0, 0),
+              end: _animationController.status == AnimationStatus.forward &&
+                      index == 0
+                  ? Offset(-5, 0)
+                  : Offset(0, 0))
           .animate(_animationController),
       child: SizedBox(
         width: size.width * 0.25 - 8,
@@ -190,7 +211,8 @@ class _FeaturedEventsMobileState extends State<FeaturedEventsMobile> with Ticker
 class FeaturedEventTextMobile extends StatelessWidget {
   final Event event;
 
-  const FeaturedEventTextMobile({Key? key, required this.event}) : super(key: key);
+  const FeaturedEventTextMobile({Key? key, required this.event})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -215,13 +237,15 @@ class FeaturedEventTextMobile extends StatelessWidget {
           event.name,
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+          style:
+              MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
         ).paddingBottom(8),
         AutoSizeText(
           "${event.summary}",
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.bodyText1!.copyWith(fontWeight: FontWeight.w400),
+          style: MyTheme.textTheme.bodyText1!
+              .copyWith(fontWeight: FontWeight.w400),
         ).paddingBottom(8)
       ],
     );

@@ -1,10 +1,10 @@
+import 'package:ticketapp/UI/services/bugsnag_wrapper.dart';
 import 'package:ticketapp/model/custom_event_info.dart';
 import 'package:ticketapp/model/link_type/invitation.dart';
 import 'package:ticketapp/model/perk.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale.dart';
 import 'package:ticketapp/model/pre_sale/pre_sale_prize.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
 import 'birthday_lists/birthday_event_data.dart';
 import 'discount.dart';
 import 'release_manager.dart';
@@ -79,12 +79,14 @@ class Event {
       } else {
         if (LinkRepository.instance.linkType is Invitation) {
           if (LinkRepository.instance.linkType.event!.docID == this.docID) {
-            if (element.isAvailableFor(LinkRepository.instance.linkType.dbString)) {
+            if (element
+                .isAvailableFor(LinkRepository.instance.linkType.dbString)) {
               validManagers.add(element);
             }
           }
         } else {
-          if (element.isAvailableFor(LinkRepository.instance.linkType.dbString)) {
+          if (element
+              .isAvailableFor(LinkRepository.instance.linkType.dbString)) {
             validManagers.add(element);
           }
         }
@@ -134,7 +136,9 @@ class Event {
   TicketRelease? getRelease(String releaseId) {
     for (int i = 0; i < releaseManagers.length; i++) {
       try {
-        TicketRelease tr = releaseManagers[i].releases.firstWhere((element) => element.docId == releaseId);
+        TicketRelease tr = releaseManagers[i]
+            .releases
+            .firstWhere((element) => element.docId == releaseId);
         return tr;
       } catch (_) {}
     }
@@ -248,11 +252,14 @@ class Event {
         if (event.allowsBirthdaySignUps) {
           event.birthdayEventData = BirthdayEventData();
           if (data.containsKey("birthday_data")) {
-            event.birthdayEventData!.price = data["birthday_data"]["price"] ?? 0;
-            event.birthdayEventData!.maxGuests = data["birthday_data"]["max_guests"] ?? 0;
+            event.birthdayEventData!.price =
+                data["birthday_data"]["price"] ?? 0;
+            event.birthdayEventData!.maxGuests =
+                data["birthday_data"]["max_guests"] ?? 0;
             if (data["birthday_data"].containsKey("benefits")) {
               {
-                event.birthdayEventData!.benefits.addAll(data["birthday_data"]["benefits"].cast<String>());
+                event.birthdayEventData!.benefits
+                    .addAll(data["birthday_data"]["benefits"].cast<String>());
               }
             }
           }
@@ -286,40 +293,47 @@ class Event {
           event.images.add(s.toString());
         });
       }
-      event.date = DateTime.fromMillisecondsSinceEpoch(data["date"].millisecondsSinceEpoch);
+      event.date = DateTime.fromMillisecondsSinceEpoch(
+          data["date"].millisecondsSinceEpoch);
 
       if (data.containsKey("enddate")) {
-        event.endTime = DateTime.fromMillisecondsSinceEpoch(data["enddate"].millisecondsSinceEpoch);
+        event.endTime = DateTime.fromMillisecondsSinceEpoch(
+            data["enddate"].millisecondsSinceEpoch);
       }
       if (data.containsKey("presale_data") && data["presale_data"] != null) {
         try {
           event.preSale = PreSale(
               enabled: data["presale_data"]["enabled"] ?? false,
               registrationStartDate: DateTime.fromMillisecondsSinceEpoch(
-                  data["presale_data"]["registration_start_date"].millisecondsSinceEpoch),
+                  data["presale_data"]["registration_start_date"]
+                      .millisecondsSinceEpoch),
               registrationEndDate: DateTime.fromMillisecondsSinceEpoch(
-                  data["presale_data"]["registration_end_date"].millisecondsSinceEpoch));
+                  data["presale_data"]["registration_end_date"]
+                      .millisecondsSinceEpoch));
           if (data["presale_data"].containsKey("prizes")) {
             data["presale_data"]["prizes"].forEach((prize) {
               if (prize["prize_type"] == PreSaleDiscountPrize.dbTypeName) {
                 event.preSale!.discountPrizes.add(PreSaleDiscountPrize(
-                    discountType:
-                        DiscountType.values.firstWhere((element) => element.toDBString() == prize["discount_type"]),
+                    discountType: DiscountType.values.firstWhere((element) =>
+                        element.toDBString() == prize["discount_type"]),
                     discountValue: prize["discount_value"],
                     rank: prize["rank"],
-                    type: PreSaleType.values.firstWhere((element) => element.toDBString() == prize["raffle_type"])));
+                    type: PreSaleType.values.firstWhere((element) =>
+                        element.toDBString() == prize["raffle_type"])));
               } else if (prize["prize_type"] == PreSaleTicketPrize.dbTypeName) {
                 event.preSale!.ticketPrizes.add(PreSaleTicketPrize(
                     quantity: prize["quantity"],
                     managerDocID: prize["manager"],
                     rank: prize["rank"],
-                    type: PreSaleType.values.firstWhere((element) => element.toDBString() == prize["raffle_type"])));
+                    type: PreSaleType.values.firstWhere((element) =>
+                        element.toDBString() == prize["raffle_type"])));
               } else if (prize["prize_type"] == PreSaleCustomPrize.dbTypeName) {
                 event.preSale!.customPrizes.add(PreSaleCustomPrize(
                     prize: prize["prize"],
                     description: prize["description"],
                     rank: prize["rank"],
-                    type: PreSaleType.values.firstWhere((element) => element.toDBString() == prize["raffle_type"])));
+                    type: PreSaleType.values.firstWhere((element) =>
+                        element.toDBString() == prize["raffle_type"])));
               }
             });
           }
@@ -354,7 +368,8 @@ class Event {
     } catch (e, s) {
       print(e);
       print(s);
-      BugsnagNotifier.instance.notify("Error loading Event $data $e", s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error loading Event $data $e", s,
+          severity: ErrorSeverity.error);
       throw Exception("Error loading Event");
     }
   }

@@ -2,24 +2,26 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/services/navigator_services.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/cards/image_card.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/pages/event_details/event_detail_page.dart';
-import 'package:ticketapp/services/navigator_services.dart';
 import 'package:ticketapp/utilities/format_date/full_date_time.dart';
 import 'package:ui_basics/ui_basics.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 class FeaturedEventsDesktop extends StatefulWidget {
   final List<Event> events;
-  const FeaturedEventsDesktop({Key? key, required this.events}) : super(key: key);
+  const FeaturedEventsDesktop({Key? key, required this.events})
+      : super(key: key);
 
   @override
   _FeaturedEventsDesktopState createState() => _FeaturedEventsDesktopState();
 }
 
-class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with SingleTickerProviderStateMixin {
+class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop>
+    with SingleTickerProviderStateMixin {
   GlobalKey<AnimatedListState> _list = GlobalKey<AnimatedListState>();
 
   late AnimationController _controller;
@@ -45,9 +47,11 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
     });
     if (events.length != 0) {
       event = events.first;
-      _controller = AnimationController(vsync: this, duration: MyTheme.animationDuration);
+      _controller =
+          AnimationController(vsync: this, duration: MyTheme.animationDuration);
       _fadeAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
-      _scaleAnimation = Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
+      _scaleAnimation =
+          Tween<double>(begin: 1.0, end: 0.9).animate(_controller);
       Future.delayed(Duration(milliseconds: 1000), () {
         setState(() => position = 0);
         _animatedCard();
@@ -74,7 +78,8 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
         count++;
         event = events[count];
       });
-      _list.currentState!.removeItem(count, (_, animation) => _buildItem(context, count, animation),
+      _list.currentState!.removeItem(
+          count, (_, animation) => _buildItem(context, count, animation),
           duration: MyTheme.animationDuration);
       events.removeAt(count);
       events.insert(0, event);
@@ -131,8 +136,12 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
                   // width: width,
                   child: Row(
                     children: [
-                      SizedBox(height: 380, width: 190, child: _inComingEvents()),
-                      SizedBox(height: 380, child: AspectRatio(aspectRatio: 1.9, child: _heroEvent())),
+                      SizedBox(
+                          height: 380, width: 190, child: _inComingEvents()),
+                      SizedBox(
+                          height: 380,
+                          child: AspectRatio(
+                              aspectRatio: 1.9, child: _heroEvent())),
                     ],
                   ),
                 ).paddingAll(16),
@@ -162,7 +171,8 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           initialItemCount: events.length,
-          itemBuilder: (context, index, animation) => _buildItem(context, index, animation),
+          itemBuilder: (context, index, animation) =>
+              _buildItem(context, index, animation),
         ),
       ).paddingRight(4);
 
@@ -181,7 +191,9 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
                 child: Container(
                   height: featureEventCardHeight,
                   child: AspectRatio(
-                      aspectRatio: 1.9, child: ExpandImageCard(imageUrl: event.coverImageURL).paddingAll(2.5)),
+                      aspectRatio: 1.9,
+                      child: ExpandImageCard(imageUrl: event.coverImageURL)
+                          .paddingAll(2.5)),
                 ),
               ),
             ),
@@ -189,7 +201,8 @@ class _FeaturedEventsDesktopState extends State<FeaturedEventsDesktop> with Sing
         },
       );
 
-  Widget _buildItem(BuildContext context, int index, Animation<double> animation) {
+  Widget _buildItem(
+      BuildContext context, int index, Animation<double> animation) {
     final featureEventCardHeight = 380;
     return FadeTransition(
       opacity: animation,
@@ -272,13 +285,15 @@ class FeaturedEventText extends StatelessWidget {
           fullDateWithDay(event.date),
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopRed, letterSpacing: 1.5),
+          style: MyTheme.textTheme.headline6!
+              .copyWith(color: MyTheme.scoopRed, letterSpacing: 1.5),
         ).paddingBottom(8),
         AutoSizeText(
           event.name,
           textAlign: TextAlign.start,
           maxLines: 2,
-          style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopWhite),
+          style:
+              MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopWhite),
         ).paddingBottom(4),
       ],
     );

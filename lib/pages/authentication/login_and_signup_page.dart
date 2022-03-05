@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:ticketapp/UI/services/firebase.dart';
 import 'package:ticketapp/pages/authentication/sign_up_form.dart';
 import 'package:ticketapp/UI/theme.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/services/firebase.dart';
 import 'package:ticketapp/utilities/alert_generator.dart';
 import 'package:ui_basics/ui_basics.dart';
 import 'bloc/authentication_bloc.dart';
@@ -40,31 +40,45 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
     form = FormGroup({
       'fname': FormControl<String>(validators: [Validators.required]),
       'lname': FormControl<String>(validators: [Validators.required]),
-      'dobDay': FormControl<int>(validators: [Validators.required, Validators.max(31)]),
-      'dobMonth': FormControl<int>(validators: [Validators.required, Validators.max(12)]),
-      'dobYear': FormControl<int>(validators: [Validators.required, Validators.max(2009), Validators.min(1900)]),
-      'gender': FormControl<Gender>(validators: [Validators.required], value: Gender.Female),
-      'terms': FormControl<bool>(validators: [Validators.equals(true)], value: _termsAccepted),
+      'dobDay': FormControl<int>(
+          validators: [Validators.required, Validators.max(31)]),
+      'dobMonth': FormControl<int>(
+          validators: [Validators.required, Validators.max(12)]),
+      'dobYear': FormControl<int>(validators: [
+        Validators.required,
+        Validators.max(2009),
+        Validators.min(1900)
+      ]),
+      'gender': FormControl<Gender>(
+          validators: [Validators.required], value: Gender.Female),
+      'terms': FormControl<bool>(
+          validators: [Validators.equals(true)], value: _termsAccepted),
     });
 
     passwordsForm = FormGroup({
-      'password': FormControl<String>(validators: [Validators.required, Validators.minLength(8)]),
-      'repeat': FormControl<String>(validators: [Validators.required, Validators.minLength(8)]),
+      'password': FormControl<String>(
+          validators: [Validators.required, Validators.minLength(8)]),
+      'repeat': FormControl<String>(
+          validators: [Validators.required, Validators.minLength(8)]),
     }, validators: [
       Validators.mustMatch("password", "repeat")
     ]);
 
     initialEmailForm = FormGroup({
-      'email': FormControl<String>(validators: [Validators.required, Validators.email]),
+      'email': FormControl<String>(
+          validators: [Validators.required, Validators.email]),
     });
 
     loginForm = FormGroup({
-      'password': FormControl<String>(validators: [Validators.required, Validators.minLength(8)]),
+      'password': FormControl<String>(
+          validators: [Validators.required, Validators.minLength(8)]),
     });
 
     confirmEmailForm = FormGroup({
-      'email': FormControl<String>(validators: [Validators.required, Validators.email]),
-      'repeat': FormControl<String>(validators: [Validators.required, Validators.email]),
+      'email': FormControl<String>(
+          validators: [Validators.required, Validators.email]),
+      'repeat': FormControl<String>(
+          validators: [Validators.required, Validators.email]),
     }, validators: [
       Validators.mustMatch("email", "repeat")
     ]);
@@ -171,7 +185,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   title: "Login",
                   onTap: () {
                     widget.bloc.add(EventLoginPressed(
-                        initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
+                        initialEmailForm.value["email"] as String,
+                        loginForm.value["password"] as String));
                   },
                 ),
               ).paddingBottom(8),
@@ -198,7 +213,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 buttonTheme: ScoopButtonTheme.secondary,
                 onTap: () {
                   widget.bloc.add(EventLoginPressed(
-                      initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
+                      initialEmailForm.value["email"] as String,
+                      loginForm.value["password"] as String));
                 },
               ),
             ],
@@ -326,9 +342,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
                   setState(() {
-                    confirmEmailForm.controls["email"]!.value = initialEmailForm.value["email"];
+                    confirmEmailForm.controls["email"]!.value =
+                        initialEmailForm.value["email"];
                   });
-                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"]! as String));
+                  widget.bloc.add(EventEmailProvided(
+                      initialEmailForm.value["email"]! as String));
                 }
               },
             ),
@@ -357,9 +375,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 initialEmailForm.markAllAsTouched();
                 if (!initialEmailForm.hasErrors) {
                   setState(() {
-                    confirmEmailForm.controls["email"]!.value = initialEmailForm.value["email"];
+                    confirmEmailForm.controls["email"]!.value =
+                        initialEmailForm.value["email"];
                   });
-                  widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"] as String));
+                  widget.bloc.add(EventEmailProvided(
+                      initialEmailForm.value["email"] as String));
                 }
               },
             ),
@@ -381,8 +401,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   onTap: () {
                     if (form.valid) {
                       try {
-                        DateTime dob = DateTime(form.controls["dobYear"]!.value as int,
-                            form.controls["dobMonth"]!.value as int, form.controls["dobDay"]!.value as int);
+                        DateTime dob = DateTime(
+                            form.controls["dobYear"]!.value as int,
+                            form.controls["dobMonth"]!.value as int,
+                            form.controls["dobDay"]!.value as int);
                         widget.bloc.add(EventCreateNewUser(
                             confirmEmailForm.value["email"] as String,
                             passwordsForm.value["password"] as String,
@@ -399,7 +421,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                         AlertGenerator.showAlert(
                             context: WrapperPage.mainScaffold.currentContext!,
                             title: "Missing info",
-                            content: "Please accept our terms & conditions to sign up",
+                            content:
+                                "Please accept our terms & conditions to sign up",
                             buttonText: "Ok",
                             popTwice: false);
                       }
@@ -433,8 +456,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 onTap: () {
                   if (form.valid) {
                     try {
-                      DateTime dob = DateTime(form.controls["dobYear"]!.value as int,
-                          form.controls["dobMonth"]!.value as int, form.controls["dobDay"]!.value as int);
+                      DateTime dob = DateTime(
+                          form.controls["dobYear"]!.value as int,
+                          form.controls["dobMonth"]!.value as int,
+                          form.controls["dobDay"]!.value as int);
                       widget.bloc.add(EventCreateNewUser(
                           confirmEmailForm.value["email"] as String,
                           passwordsForm.value["password"] as String,
@@ -451,7 +476,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                       AlertGenerator.showAlert(
                           context: context,
                           title: "Missing info",
-                          content: "Please accept our terms & conditions to sign up",
+                          content:
+                              "Please accept our terms & conditions to sign up",
                           buttonText: "Ok",
                           popTwice: false);
                     }
@@ -492,7 +518,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 return AutoSizeText(
                   "Let's start with your email.",
                   maxLines: 1,
-                  style: MyTheme.textTheme.headline5!.copyWith(color: MyTheme.scoopGreen),
+                  style: MyTheme.textTheme.headline5!
+                      .copyWith(color: MyTheme.scoopGreen),
                 ).paddingBottom(MyTheme.elementSpacing);
               } else {
                 return Column(
@@ -500,11 +527,13 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                   children: [
                     AutoSizeText(
                       "Sign up or sign in",
-                      style: MyTheme.textTheme.headline2!.copyWith(color: MyTheme.scoopWhite),
+                      style: MyTheme.textTheme.headline2!
+                          .copyWith(color: MyTheme.scoopWhite),
                     ).paddingBottom(MyTheme.elementSpacing * 2),
                     AutoSizeText(
                       "Let's start with your email.",
-                      style: MyTheme.textTheme.headline4!.copyWith(color: MyTheme.scoopGreen),
+                      style: MyTheme.textTheme.headline4!
+                          .copyWith(color: MyTheme.scoopGreen),
                     ),
                   ],
                 ).paddingBottom(MyTheme.elementSpacing * 0.5);
@@ -513,7 +542,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
             AutoSizeText(
               "Welcome, please enter your email to continue.",
               style: MyTheme.textTheme.bodyText2!.copyWith(
-                color: state is StateLoginFailed ? MyTheme.scoopRed : MyTheme.scoopWhite,
+                color: state is StateLoginFailed
+                    ? MyTheme.scoopRed
+                    : MyTheme.scoopWhite,
               ),
               minFontSize: 12,
             ),
@@ -536,8 +567,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
         child: AutoSizeText(
           text,
           textAlign: TextAlign.left,
-          style: MyTheme.textTheme.headline5!
-              .copyWith(color: state is StateLoginFailed ? MyTheme.scoopRed : MyTheme.scoopGreen),
+          style: MyTheme.textTheme.headline5!.copyWith(
+              color: state is StateLoginFailed
+                  ? MyTheme.scoopRed
+                  : MyTheme.scoopGreen),
           minFontSize: 12,
         ),
       ),
@@ -564,9 +597,11 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
               initialEmailForm.markAllAsTouched();
               if (!initialEmailForm.hasErrors) {
                 setState(() {
-                  confirmEmailForm.controls["email"]!.value = initialEmailForm.value["email"];
+                  confirmEmailForm.controls["email"]!.value =
+                      initialEmailForm.value["email"];
                 });
-                widget.bloc.add(EventEmailProvided(initialEmailForm.value["email"] as String));
+                widget.bloc.add(EventEmailProvided(
+                    initialEmailForm.value["email"] as String));
               }
             },
             labelText: "Email",
@@ -590,7 +625,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     ValidationMessage.required: 'Please provide an email',
                     ValidationMessage.email: 'Please provide a valid email',
                   },
-                  autofillHints: [AutofillHints.email, AutofillHints.newUsername],
+                  autofillHints: [
+                    AutofillHints.email,
+                    AutofillHints.newUsername
+                  ],
                   onFieldSubmitted: () {
                     if (!confirmEmailForm.hasErrors) {
                       widget.bloc.add(EventEmailsConfirmed());
@@ -614,7 +652,10 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                     ValidationMessage.mustMatch: "Emails must match"
                   },
                   formControl: confirmEmailForm.controls["repeat"],
-                  autofillHints: [AutofillHints.email, AutofillHints.newUsername],
+                  autofillHints: [
+                    AutofillHints.email,
+                    AutofillHints.newUsername
+                  ],
                   autofocus: true,
                   onFieldSubmitted: () {
                     if (!confirmEmailForm.hasErrors) {
@@ -684,7 +725,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 formControl: passwordsForm.controls['password'],
                 autofillHints: [AutofillHints.newPassword],
                 validationMessages: (control) => {
-                  ValidationMessage.minLength: 'Your password must be at least 8 characters long',
+                  ValidationMessage.minLength:
+                      'Your password must be at least 8 characters long',
                 },
                 autofocus: true,
                 obscureText: true,
@@ -707,7 +749,8 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 formControl: passwordsForm.controls['repeat'],
                 autofillHints: [AutofillHints.newPassword],
                 validationMessages: (control) => {
-                  ValidationMessage.minLength: 'Your password must be at least 8 characters long',
+                  ValidationMessage.minLength:
+                      'Your password must be at least 8 characters long',
                   ValidationMessage.mustMatch: 'Your passwords must match',
                 },
                 obscureText: true,
@@ -742,13 +785,15 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                 obscureText: true,
                 labelText: "Password",
                 validationMessages: (control) => {
-                  ValidationMessage.minLength: 'Your password is at least 8 characters long',
+                  ValidationMessage.minLength:
+                      'Your password is at least 8 characters long',
                 },
                 autofocus: true,
                 onFieldSubmitted: () {
                   if (state is StateExistingUserEmail) {
                     widget.bloc.add(EventLoginPressed(
-                        initialEmailForm.value["email"] as String, loginForm.value["password"] as String));
+                        initialEmailForm.value["email"] as String,
+                        loginForm.value["password"] as String));
                   }
                 },
               ),
@@ -775,7 +820,9 @@ class _LoginAndSignupPageState extends State<LoginAndSignupPage> {
                                       buttonText2: "Cancel")
                                   .then((value) {
                                 if (value != null && value) {
-                                  FBServices.instance.resetPassword(initialEmailForm.value["email"] as String);
+                                  FBServices.instance.resetPassword(
+                                      initialEmailForm.value["email"]
+                                          as String);
                                 }
                               });
                             }

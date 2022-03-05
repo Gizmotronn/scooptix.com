@@ -1,5 +1,5 @@
+import 'package:ticketapp/UI/services/bugsnag_wrapper.dart';
 import 'package:ticketapp/model/ticket_release.dart';
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
 
 enum TicketType { Fixed, Free, Staged }
 
@@ -57,7 +57,8 @@ class ReleaseManager {
 
         // If autorelease is true, we can ignore the release start time if the first release is already sold out
         // This is why we sort the releases first
-        if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+        if ((releases[i].releaseStart!.isBefore(DateTime.now()) ||
+                (i != 0 && autoRelease)) &&
             releases[i].releaseEnd!.isAfter(DateTime.now()) &&
             releases[i].maxTickets > releases[i].ticketsBought) {
           return releases[i];
@@ -84,20 +85,25 @@ class ReleaseManager {
       releases.sort((a, b) => a.releaseStart!.compareTo(b.releaseStart!));
       for (int i = 0; i < releases.length; i++) {
         // Autorelease should only start after the first release has sold out
-        if (autoRelease && i == 0 && releases[i].releaseStart!.isAfter(DateTime.now())) {
+        if (autoRelease &&
+            i == 0 &&
+            releases[i].releaseStart!.isAfter(DateTime.now())) {
           return releases[0];
         }
 
         // If autorelease is true, we can ignore the release start time if the first release is already sold out
         // This is why we sort the releases first
-        if ((releases[i].releaseStart!.isBefore(DateTime.now()) || (i != 0 && autoRelease)) &&
+        if ((releases[i].releaseStart!.isBefore(DateTime.now()) ||
+                (i != 0 && autoRelease)) &&
             releases[i].releaseEnd!.isAfter(DateTime.now()) &&
             releases[i].maxTickets > releases[i].ticketsBought) {
           return releases[i];
         }
       }
-      if (releases.any((element) => element.releaseEnd!.isAfter(DateTime.now()))) {
-        return releases.firstWhere((element) => element.releaseEnd!.isAfter(DateTime.now()));
+      if (releases
+          .any((element) => element.releaseEnd!.isAfter(DateTime.now()))) {
+        return releases.firstWhere(
+            (element) => element.releaseEnd!.isAfter(DateTime.now()));
       }
       return null;
     } else {
@@ -110,7 +116,8 @@ class ReleaseManager {
   }
 
   bool isSoldOut() {
-    return !releases.any((element) => element.maxTickets > element.ticketsBought);
+    return !releases
+        .any((element) => element.maxTickets > element.ticketsBought);
   }
 
   factory ReleaseManager.fromMap(String id, Map<String, dynamic> data) {
@@ -137,10 +144,12 @@ class ReleaseManager {
         rm.availablePerks = data["available_perks"].cast<int>().toList();
       }
       if (data.containsKey("entry_start")) {
-        rm.entryStart = DateTime.fromMillisecondsSinceEpoch(data["entry_start"].millisecondsSinceEpoch);
+        rm.entryStart = DateTime.fromMillisecondsSinceEpoch(
+            data["entry_start"].millisecondsSinceEpoch);
       }
       if (data.containsKey("entry_end")) {
-        rm.entryEnd = DateTime.fromMillisecondsSinceEpoch(data["entry_end"].millisecondsSinceEpoch);
+        rm.entryEnd = DateTime.fromMillisecondsSinceEpoch(
+            data["entry_end"].millisecondsSinceEpoch);
       }
       if (data.containsKey("single_ticket_restriction")) {
         rm.singleTicketRestriction = data["single_ticket_restriction"];
@@ -149,8 +158,9 @@ class ReleaseManager {
         rm.recurringUUID = data["recurring_uuid"];
       }
       if (data.containsKey("ticket_type")) {
-        rm.ticketType = TicketType.values
-            .firstWhere((element) => element.toDBString() == data["ticket_type"], orElse: () => TicketType.Fixed);
+        rm.ticketType = TicketType.values.firstWhere(
+            (element) => element.toDBString() == data["ticket_type"],
+            orElse: () => TicketType.Fixed);
       }
       if (data.containsKey("available_for")) {
         rm.availableFor = [];
@@ -162,7 +172,8 @@ class ReleaseManager {
         rm.markedSoldOut = data["mark_sold_out"];
       }
     } catch (e, s) {
-      BugsnagNotifier.instance.notify("Error loading release manager \n $e", s, severity: ErrorSeverity.error);
+      BugsnagNotifier.instance.notify("Error loading release manager \n $e", s,
+          severity: ErrorSeverity.error);
     }
     return rm;
   }

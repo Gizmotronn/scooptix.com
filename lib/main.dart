@@ -16,8 +16,8 @@ import 'package:ticketapp/pages/my_ticktes/my_tickets_sheet.dart';
 import 'package:ticketapp/repositories/user_repository.dart';
 import 'package:ticketapp/utilities/route/on_generated_route.dart';
 import 'UI/event_overview/tabs/for_me.dart';
+import 'UI/services/bugsnag_wrapper.dart';
 import 'pages/reward_center/reward_center_sheet.dart';
-import 'services/bugsnag_wrapper.dart';
 import 'UI/icons.dart';
 import 'dart:js' as js;
 
@@ -118,8 +118,10 @@ class _WrapperPageState extends State<WrapperPage> {
         context: context,
         watch: screenSize.width,
         mobile: screenSize.width,
-        desktop: screenSize.width * 0.625 < 1150 ? 1150 : screenSize.width * 0.625,
-        tablet: screenSize.width * 0.625 < 1150 ? 1150 : screenSize.width * 0.625);
+        desktop:
+            screenSize.width * 0.625 < 1150 ? 1150 : screenSize.width * 0.625,
+        tablet:
+            screenSize.width * 0.625 < 1150 ? 1150 : screenSize.width * 0.625);
     MyTheme.textTheme = getValueForScreenType(
         context: context,
         watch: MyTheme.mobileTextTheme,
@@ -197,32 +199,49 @@ class _WrapperPageState extends State<WrapperPage> {
                         });
                         switch (selectedIndex) {
                           case 0:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext!)
-                                .popUntil((route) => route.settings.name == EventOverviewPage.routeName);
+                            Navigator.of(
+                                    WrapperPage.navigatorKey.currentContext!)
+                                .popUntil((route) =>
+                                    route.settings.name ==
+                                    EventOverviewPage.routeName);
                             break;
                           case 1:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext!)
-                                .push(MaterialPageRoute(builder: (context) => EventsForMe()));
+                            Navigator.of(
+                                    WrapperPage.navigatorKey.currentContext!)
+                                .push(MaterialPageRoute(
+                                    builder: (context) => EventsForMe()));
                             break;
                           case 2:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
-                                route.settings.name == EventOverviewPage.routeName ||
-                                route.settings.name == null ||
-                                route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
+                            Navigator.of(
+                                    WrapperPage.navigatorKey.currentContext!)
+                                .popUntil((route) =>
+                                    route.settings.name ==
+                                        EventOverviewPage.routeName ||
+                                    route.settings.name == null ||
+                                    route.settings.name!.startsWith(
+                                        EventDetailPage.routeName + "?"));
                             BookingsSheet.openBookingsSheet();
                             break;
                           case 3:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
-                                route.settings.name == EventOverviewPage.routeName ||
-                                route.settings.name == null ||
-                                route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
+                            Navigator.of(
+                                    WrapperPage.navigatorKey.currentContext!)
+                                .popUntil((route) =>
+                                    route.settings.name ==
+                                        EventOverviewPage.routeName ||
+                                    route.settings.name == null ||
+                                    route.settings.name!.startsWith(
+                                        EventDetailPage.routeName + "?"));
                             MyTicketsSheet.openMyTicketsSheet();
                             break;
                           case 4:
-                            Navigator.of(WrapperPage.navigatorKey.currentContext!).popUntil((route) =>
-                                route.settings.name == EventOverviewPage.routeName ||
-                                route.settings.name == null ||
-                                route.settings.name!.startsWith(EventDetailPage.routeName + "?"));
+                            Navigator.of(
+                                    WrapperPage.navigatorKey.currentContext!)
+                                .popUntil((route) =>
+                                    route.settings.name ==
+                                        EventOverviewPage.routeName ||
+                                    route.settings.name == null ||
+                                    route.settings.name!.startsWith(
+                                        EventDetailPage.routeName + "?"));
                             RewardCenterSheet.openRewardCenterSheet();
                             break;
                         }
@@ -249,45 +268,63 @@ class _WrapperPageState extends State<WrapperPage> {
     return [
       BottomNavigationBarItem(
           icon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.home, color: MyTheme.scoopWhite, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.home, color: MyTheme.scoopWhite, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.home,
+                  color: MyTheme.scoopWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.home,
+                  color: MyTheme.scoopWhite, width: 24, height: 24),
           activeIcon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.home, color: MyTheme.scoopGreen, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.home, color: MyTheme.scoopGreen, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.home,
+                  color: MyTheme.scoopGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.home,
+                  color: MyTheme.scoopGreen, width: 24, height: 24),
           label: "Home"),
       BottomNavigationBarItem(
           icon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.scoopWhite, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.heartOutline, color: MyTheme.scoopWhite, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.heartOutline,
+                  color: MyTheme.scoopWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.heartOutline,
+                  color: MyTheme.scoopWhite, width: 24, height: 24),
           activeIcon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.heartOutline, color: MyTheme.scoopGreen, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.heartOutline, color: MyTheme.scoopGreen, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.heartOutline,
+                  color: MyTheme.scoopGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.heartOutline,
+                  color: MyTheme.scoopGreen, width: 24, height: 24),
           label: "For Me"),
       BottomNavigationBarItem(
           icon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.scoopWhite, width: 24, height: 24)
+              ? SvgPicture.asset(AppolloIcons.calenderOutline,
+                  color: MyTheme.scoopWhite, width: 24, height: 24)
               : Image.network("assets/" + AppolloIcons.calenderOutline,
                   color: MyTheme.scoopWhite, width: 24, height: 24),
           activeIcon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.calenderOutline, color: MyTheme.scoopGreen, width: 24, height: 24)
+              ? SvgPicture.asset(AppolloIcons.calenderOutline,
+                  color: MyTheme.scoopGreen, width: 24, height: 24)
               : Image.network("assets/" + AppolloIcons.calenderOutline,
                   color: MyTheme.scoopGreen, width: 24, height: 24),
           label: "My Bookings"),
       BottomNavigationBarItem(
           icon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.scoopWhite, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.ticket, color: MyTheme.scoopWhite, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.ticket,
+                  color: MyTheme.scoopWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.ticket,
+                  color: MyTheme.scoopWhite, width: 24, height: 24),
           activeIcon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.ticket, color: MyTheme.scoopGreen, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.ticket, color: MyTheme.scoopGreen, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.ticket,
+                  color: MyTheme.scoopGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.ticket,
+                  color: MyTheme.scoopGreen, width: 24, height: 24),
           label: "My Tickets"),
       BottomNavigationBarItem(
           icon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.reward, color: MyTheme.scoopWhite, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.reward, color: MyTheme.scoopWhite, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.reward,
+                  color: MyTheme.scoopWhite, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.reward,
+                  color: MyTheme.scoopWhite, width: 24, height: 24),
           activeIcon: isCanvas
-              ? SvgPicture.asset(AppolloIcons.reward, color: MyTheme.scoopGreen, width: 24, height: 24)
-              : Image.network("assets/" + AppolloIcons.reward, color: MyTheme.scoopGreen, width: 24, height: 24),
+              ? SvgPicture.asset(AppolloIcons.reward,
+                  color: MyTheme.scoopGreen, width: 24, height: 24)
+              : Image.network("assets/" + AppolloIcons.reward,
+                  color: MyTheme.scoopGreen, width: 24, height: 24),
           label: "Rewards"),
     ];
   }

@@ -2,12 +2,12 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/services/firebase.dart';
+import 'package:ticketapp/UI/services/image_util.dart';
 import 'package:ticketapp/model/organizer.dart';
 import 'package:ticketapp/model/promoter.dart';
 import 'package:ticketapp/model/user.dart';
-import 'package:ticketapp/services/firebase.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
-import 'package:ticketapp/services/image_util.dart';
 
 class UserRepository {
   static UserRepository? _instance;
@@ -33,10 +33,11 @@ class UserRepository {
 
   bool get isLoggedIn => currentUser() != null;
 
-  Future<User?> createUser(
-      String email, String password, String firstName, String lastName, DateTime dob, Gender gender,
+  Future<User?> createUser(String email, String password, String firstName,
+      String lastName, DateTime dob, Gender gender,
       {String? uid}) async {
-    String? id = await FBServices.instance.createNewUser(email, password, firstName, lastName, dob, gender, uid);
+    String? id = await FBServices.instance
+        .createNewUser(email, password, firstName, lastName, dob, gender, uid);
     if (id == null) {
       return null;
     } else {
@@ -66,17 +67,23 @@ class UserRepository {
         ..lastname = userSnapshot.get("lastname")
         ..email = userSnapshot.get("email")
         ..dob = userSnapshot.data()!.containsKey("dob")
-            ? DateTime.fromMillisecondsSinceEpoch(userSnapshot.get("dob").millisecondsSinceEpoch)
+            ? DateTime.fromMillisecondsSinceEpoch(
+                userSnapshot.get("dob").millisecondsSinceEpoch)
             : null
-        ..profileImageURL = userSnapshot.data()!.containsKey("profileimage") ? userSnapshot.get("profileimage") : ""
-        ..phone = userSnapshot.data()!.containsKey("phone") ? userSnapshot.get("phone") : ""
+        ..profileImageURL = userSnapshot.data()!.containsKey("profileimage")
+            ? userSnapshot.get("profileimage")
+            : ""
+        ..phone = userSnapshot.data()!.containsKey("phone")
+            ? userSnapshot.get("phone")
+            : ""
         ..role = userSnapshot.get("role");
       try {
-        currentUserNotifier.value!.gender =
-            Gender.values.firstWhere((element) => element.toDBString() == userSnapshot.get("gender"));
+        currentUserNotifier.value!.gender = Gender.values.firstWhere(
+            (element) => element.toDBString() == userSnapshot.get("gender"));
       } catch (_) {
         try {
-          currentUserNotifier.value!.gender = Gender.values[userSnapshot.get("gender")];
+          currentUserNotifier.value!.gender =
+              Gender.values[userSnapshot.get("gender")];
         } catch (_) {
           currentUserNotifier.value!.gender = Gender.Unknown;
         }
@@ -107,7 +114,10 @@ class UserRepository {
 
   Future<Organizer> loadOrganizer(String uid) async {
     DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-        await FirebaseFirestore.instance.collection('organizers').doc(uid).get();
+        await FirebaseFirestore.instance
+            .collection('organizers')
+            .doc(uid)
+            .get();
     return Organizer.fromMap(userSnapshot.id, userSnapshot.data()!);
   }
 
@@ -118,8 +128,8 @@ class UserRepository {
   }
 
   Future<void> updateUserProfileImage(Uint8List image) async {
-    String url = await ImageUtil.uploadImageToDefaultBucket(
-        image, "profiles/${this.currentUser()!.firebaseUserID}/profileimage.png");
+    String url = await ImageUtil.uploadImageToDefaultBucket(image,
+        "profiles/${this.currentUser()!.firebaseUserID}/profileimage.png");
     this.currentUser()!.profileImageURL = url;
     await FirebaseFirestore.instance
         .collection('users')

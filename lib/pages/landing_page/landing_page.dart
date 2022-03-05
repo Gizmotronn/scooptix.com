@@ -1,5 +1,6 @@
 import 'dart:html';
 import 'package:flutter/material.dart';
+import 'package:ticketapp/UI/services/navigator_services.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/model/link_type/advertisement_invite.dart';
 import 'package:ticketapp/model/link_type/birthday_list.dart';
@@ -12,7 +13,6 @@ import 'package:ticketapp/pages/events_overview/events_overview_page.dart';
 import 'package:ticketapp/repositories/events_repository.dart';
 import 'package:ticketapp/repositories/link_repository.dart';
 import 'package:ticketapp/UI/theme.dart';
-import 'package:ticketapp/services/navigator_services.dart';
 
 class LandingPage extends StatefulWidget {
   static const String routeName = '/landing';
@@ -59,16 +59,20 @@ class _LandingPageState extends State<LandingPage> {
     final events = await EventsRepository.instance.loadUpcomingEvents();
     NavigationService.navigateTo(EventOverviewPage.routeName, arg: events);
     if (link is MemberInvite) {
-      NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event!.docID!});
+      NavigationService.navigateTo(EventDetailPage.routeName,
+          queryParams: {"id": link.event!.docID!});
     } else if (link is AdvertisementLink) {
-      NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event!.docID!});
+      NavigationService.navigateTo(EventDetailPage.routeName,
+          queryParams: {"id": link.event!.docID!});
     } else if (link is RecurringEventLinkType) {
       if (link.event != null) {
-        NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event!.docID!});
+        NavigationService.navigateTo(EventDetailPage.routeName,
+            queryParams: {"id": link.event!.docID!});
       }
     } else if (link is PreSaleInvite || link is Booking) {
       if (link.event != null) {
-        NavigationService.navigateTo(EventDetailPage.routeName, queryParams: {"id": link.event!.docID!});
+        NavigationService.navigateTo(EventDetailPage.routeName,
+            queryParams: {"id": link.event!.docID!});
       }
     }
   }
@@ -79,7 +83,10 @@ class _LandingPageState extends State<LandingPage> {
       alignment: Alignment.center,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [AppolloProgressIndicator().paddingBottom(8), Text("Loading Events ...")],
+        children: [
+          AppolloProgressIndicator().paddingBottom(8),
+          Text("Loading Events ...")
+        ],
       ),
     );
   }

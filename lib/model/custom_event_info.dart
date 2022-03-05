@@ -1,4 +1,4 @@
-import 'package:ticketapp/services/bugsnag_wrapper.dart';
+import 'package:ticketapp/UI/services/bugsnag_wrapper.dart';
 
 /// Stores data displayed on the event details page
 /// Allows organizers to display custom data such as sponsors
@@ -20,7 +20,8 @@ class CustomEventInfo {
     } catch (e, s) {
       print(e);
       print(s);
-      BugsnagNotifier.instance.notify("Error loading Custom Event Info $data $e", s);
+      BugsnagNotifier.instance
+          .notify("Error loading Custom Event Info $data $e", s);
       throw Exception("Error loading Custom Event Info $data $e");
     }
   }

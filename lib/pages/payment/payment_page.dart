@@ -6,6 +6,7 @@ import 'package:reactive_forms/reactive_forms.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stripe_sdk/stripe_sdk.dart';
 import 'package:stripe_sdk/stripe_sdk_ui.dart';
+import 'package:ticketapp/UI/services/facebook_pixel.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_divider.dart';
 import 'package:ticketapp/UI/widgets/appollo/appollo_progress_indicator.dart';
 import 'package:ticketapp/UI/widgets/cards/appollo_bg_card.dart';
@@ -13,7 +14,6 @@ import 'package:ticketapp/main.dart';
 import 'package:ticketapp/model/event.dart';
 import 'package:ticketapp/model/ticket_release.dart';
 import 'package:ticketapp/UI/icons.dart';
-import 'package:ticketapp/services/facebook_pixel.dart';
 import 'package:ui_basics/ui_basics.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:ticketapp/model/discount.dart';
@@ -30,7 +30,11 @@ class PaymentPage extends StatefulWidget {
   final BuildContext? parentContext;
 
   const PaymentPage(this.event,
-      {Key? key, required this.selectedTickets, this.discount, required this.maxHeight, this.parentContext})
+      {Key? key,
+      required this.selectedTickets,
+      this.discount,
+      required this.maxHeight,
+      this.parentContext})
       : super(key: key);
 
   @override
@@ -56,11 +60,17 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   void initState() {
     form = FormGroup({
-      'ccnumber':
-          FormControl<String>(validators: [Validators.required, Validators.maxLength(16), Validators.minLength(16)]),
-      'month': FormControl<int>(validators: [Validators.max(12), Validators.min(1)]),
-      'year': FormControl<int>(validators: [Validators.max(50), Validators.min(21)]),
-      'cvc': FormControl<int>(validators: [Validators.min(0), Validators.max(9999)]),
+      'ccnumber': FormControl<String>(validators: [
+        Validators.required,
+        Validators.maxLength(16),
+        Validators.minLength(16)
+      ]),
+      'month':
+          FormControl<int>(validators: [Validators.max(12), Validators.min(1)]),
+      'year': FormControl<int>(
+          validators: [Validators.max(50), Validators.min(21)]),
+      'cvc': FormControl<int>(
+          validators: [Validators.min(0), Validators.max(9999)]),
     });
     bloc = PaymentBloc();
     bloc.add(EventLoadAvailableReleases(widget.selectedTickets, widget.event));
@@ -91,7 +101,8 @@ class _PaymentPageState extends State<PaymentPage> {
       subtotal += release.price! * quantity;
     });
     if (widget.selectedTickets.isNotEmpty) {
-      totalTicketQuantity = widget.selectedTickets.values.reduce((a, b) => a + b);
+      totalTicketQuantity =
+          widget.selectedTickets.values.reduce((a, b) => a + b);
     }
     Column data = Column(
       children: [
@@ -100,8 +111,8 @@ class _PaymentPageState extends State<PaymentPage> {
           listener: (c, state) {
             if (state is StatePaymentCompleted) {
               if (widget.event.pixelId != null) {
-                FBPixelService.instance
-                    .sendPurchaseEvent(widget.event.pixelId!, subtotal, totalTicketQuantity ?? 0, widget.event.name);
+                FBPixelService.instance.sendPurchaseEvent(widget.event.pixelId!,
+                    subtotal, totalTicketQuantity ?? 0, widget.event.name);
               }
               AlertGenerator.showAlert(
                       context: WrapperPage.mainScaffold.currentContext!,
@@ -122,7 +133,8 @@ class _PaymentPageState extends State<PaymentPage> {
             if (state is StatePaymentError) {
               return Column(
                 children: [
-                  Text(state.message, style: MyTheme.textTheme.headline6).paddingBottom(MyTheme.elementSpacing),
+                  Text(state.message, style: MyTheme.textTheme.headline6)
+                      .paddingBottom(MyTheme.elementSpacing),
                   SizedBox(
                     height: 34,
                     width: MyTheme.drawerSize,
@@ -149,33 +161,44 @@ class _PaymentPageState extends State<PaymentPage> {
               return Column(
                 children: [
                   _buildPaymentWidgets(state),
-                  if (state is! StateFreeTicketSelected) _buildAddPaymentWidget(state),
+                  if (state is! StateFreeTicketSelected)
+                    _buildAddPaymentWidget(state),
                   Column(
                     children: [
                       _buildTAndC().paddingBottom(MyTheme.elementSpacing),
                       SizedBox(
                         width: MyTheme.drawerSize,
                         child: ScoopButton(
-                          onTap: state is! StateFreeTicketSelected && PaymentRepository.instance.paymentMethodId == null
+                          onTap: state is! StateFreeTicketSelected &&
+                                  PaymentRepository.instance.paymentMethodId ==
+                                      null
                               ? () {
                                   AlertGenerator.showAlert(
-                                      context: WrapperPage.mainScaffold.currentContext!,
+                                      context: WrapperPage
+                                          .mainScaffold.currentContext!,
                                       title: "Missing Payment Method",
-                                      content: "Please add a payment method before proceeding",
+                                      content:
+                                          "Please add a payment method before proceeding",
                                       buttonText: "Ok",
                                       popTwice: false);
                                 }
                               : () {
                                   if (_termsConditions) {
                                     if (state is StateFreeTicketSelected) {
-                                      bloc.add(EventRequestFreeTickets(widget.selectedTickets, widget.event));
+                                      bloc.add(EventRequestFreeTickets(
+                                          widget.selectedTickets,
+                                          widget.event));
                                     } else {
                                       bloc.add(EventRequestPI(
-                                          widget.selectedTickets, widget.discount, widget.event, context));
+                                          widget.selectedTickets,
+                                          widget.discount,
+                                          widget.event,
+                                          context));
                                     }
                                   } else {
                                     AlertGenerator.showAlert(
-                                        context: WrapperPage.mainScaffold.currentContext!,
+                                        context: WrapperPage
+                                            .mainScaffold.currentContext!,
                                         title: "Please accept our T & C",
                                         content:
                                             "To proceed with your purchase, you have to agree to our terms and conditions",
@@ -191,11 +214,13 @@ class _PaymentPageState extends State<PaymentPage> {
                 ],
               );
             } else if (state is StateFreeTicketAlreadyOwned) {
-              return Text("You already own a free ticket for this event. Free Tickets are limited to 1 per customer.");
+              return Text(
+                  "You already own a free ticket for this event. Free Tickets are limited to 1 per customer.");
             } else if (state is StateLoadingPaymentMethod) {
               return Column(
                 children: [
-                  Text("Fetching payment methods", style: MyTheme.textTheme.bodyText2),
+                  Text("Fetching payment methods",
+                      style: MyTheme.textTheme.bodyText2),
                   SizedBox(
                     height: MyTheme.elementSpacing,
                   ),
@@ -284,7 +309,8 @@ class _PaymentPageState extends State<PaymentPage> {
     } else {
       double disc = 0.0;
       widget.selectedTickets.forEach((key, value) {
-        if (widget.discount!.appliesToReleases.contains(widget.event.getReleaseManager(key)!.docId)) {
+        if (widget.discount!.appliesToReleases
+            .contains(widget.event.getReleaseManager(key)!.docId)) {
           if (widget.discount!.type == DiscountType.value) {
             disc += widget.discount!.amount.toDouble() * value / 100;
           } else {
@@ -339,7 +365,8 @@ class _PaymentPageState extends State<PaymentPage> {
               _buildPriceBreakdown().paddingBottom(MyTheme.elementSpacing),
               Text(
                 "Selected Payment Method",
-                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopOrange),
+                style: MyTheme.textTheme.subtitle1!
+                    .copyWith(color: MyTheme.scoopOrange),
               ).paddingBottom(MyTheme.elementSpacing),
               PaymentRepository.instance.last4 != null
                   ? AppolloCard(
@@ -352,7 +379,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset(AppolloIcons.creditCard, color: MyTheme.scoopWhite, height: 26)
+                                  SvgPicture.asset(AppolloIcons.creditCard,
+                                          color: MyTheme.scoopWhite, height: 26)
                                       .paddingLeft(8),
                                   Text("Credit Card").paddingLeft(8),
                                 ],
@@ -360,7 +388,9 @@ class _PaymentPageState extends State<PaymentPage> {
                               Expanded(
                                   child: Align(
                                       alignment: Alignment.centerRight,
-                                      child: Text(PaymentRepository.instance.last4!).paddingRight(8)))
+                                      child: Text(
+                                              PaymentRepository.instance.last4!)
+                                          .paddingRight(8)))
                             ],
                           )),
                     ).paddingBottom(MyTheme.elementSpacing)
@@ -379,7 +409,8 @@ class _PaymentPageState extends State<PaymentPage> {
       children: [
         Text(
           "Order Confirmation",
-          style: MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopGreen),
+          style:
+              MyTheme.textTheme.headline6!.copyWith(color: MyTheme.scoopGreen),
         ).paddingBottom(MyTheme.elementSpacing),
         _buildSelectedTickets(),
         AppolloDivider(verticalPadding: MyTheme.elementSpacing),
@@ -388,17 +419,21 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Subtotal", style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600)),
+              Text("Subtotal",
+                  style: MyTheme.textTheme.bodyText2!
+                      .copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
                       child: Text("\$${(subtotal / 100).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
+                          style: MyTheme.textTheme.bodyText2!
+                              .copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(MyTheme.elementSpacing),
-        if (widget.discount != null && widget.discount!.enoughLeft(totalTicketQuantity!))
+        if (widget.discount != null &&
+            widget.discount!.enoughLeft(totalTicketQuantity!))
           SizedBox(
             width: MyTheme.drawerSize,
             child: Row(
@@ -406,10 +441,12 @@ class _PaymentPageState extends State<PaymentPage> {
               children: [
                 Text(
                   "Discount (${widget.discount!.type == DiscountType.value ? "\$" + (widget.discount!.amount / 100).toStringAsFixed(2) + " x ${_discountAppliesTo()}" : widget.discount!.amount.toString() + "%"})",
-                  style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600),
+                  style: MyTheme.textTheme.bodyText2!
+                      .copyWith(fontWeight: FontWeight.w600),
                 ),
                 Text("-\$${_calculateDiscount().toStringAsFixed(2)}",
-                    style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))
+                    style: MyTheme.textTheme.bodyText2!
+                        .copyWith(fontWeight: FontWeight.w600))
               ],
             ),
           ).paddingBottom(MyTheme.elementSpacing),
@@ -420,14 +457,17 @@ class _PaymentPageState extends State<PaymentPage> {
             children: [
               Text(
                 "Booking Fee",
-                style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600),
+                style: MyTheme.textTheme.bodyText2!
+                    .copyWith(fontWeight: FontWeight.w600),
               ),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${_calculateAppolloFees().toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
+                      child: Text(
+                          "\$${_calculateAppolloFees().toStringAsFixed(2)}",
+                          style: MyTheme.textTheme.bodyText2!
+                              .copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ),
@@ -437,13 +477,17 @@ class _PaymentPageState extends State<PaymentPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Total", style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600)),
+              Text("Total",
+                  style: MyTheme.textTheme.bodyText2!
+                      .copyWith(fontWeight: FontWeight.w600)),
               SizedBox(
                   width: 70,
                   child: Align(
                       alignment: Alignment.centerRight,
-                      child: Text("\$${(calculateTotalPrize()).toStringAsFixed(2)}",
-                          style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
+                      child: Text(
+                          "\$${(calculateTotalPrize()).toStringAsFixed(2)}",
+                          style: MyTheme.textTheme.bodyText2!
+                              .copyWith(fontWeight: FontWeight.w600))))
             ],
           ),
         ).paddingBottom(8),
@@ -452,7 +496,8 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 
   double calculateTotalPrize() {
-    double total = subtotal / 100 - _calculateDiscount() + _calculateAppolloFees();
+    double total =
+        subtotal / 100 - _calculateDiscount() + _calculateAppolloFees();
     if (total < _calculateAppolloFees()) {
       total = _calculateAppolloFees();
     }
@@ -477,7 +522,8 @@ class _PaymentPageState extends State<PaymentPage> {
                 AlertGenerator.showAlertWithChoice(
                         context: context,
                         title: "View Terms & Conditions",
-                        content: "The Terms & Conditions will be shown on a new page, do you want to continue?",
+                        content:
+                            "The Terms & Conditions will be shown on a new page, do you want to continue?",
                         buttonText1: "Show T&C",
                         buttonText2: "Cancel")
                     .then((value) async {
@@ -493,7 +539,8 @@ class _PaymentPageState extends State<PaymentPage> {
               },
               child: Text(
                 "I accept the terms & conditions",
-                style: MyTheme.textTheme.bodyText2!.copyWith(decoration: TextDecoration.underline),
+                style: MyTheme.textTheme.bodyText2!
+                    .copyWith(decoration: TextDecoration.underline),
               )),
         ],
       ),
@@ -510,13 +557,16 @@ class _PaymentPageState extends State<PaymentPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(key.ticketName + " x $value",
-                style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600)),
+                style: MyTheme.textTheme.bodyText2!
+                    .copyWith(fontWeight: FontWeight.w600)),
             SizedBox(
                 width: 70,
                 child: Align(
                     alignment: Alignment.centerRight,
-                    child: Text("\$${(key.price! * value / 100).toStringAsFixed(2)}",
-                        style: MyTheme.textTheme.bodyText2!.copyWith(fontWeight: FontWeight.w600))))
+                    child: Text(
+                        "\$${(key.price! * value / 100).toStringAsFixed(2)}",
+                        style: MyTheme.textTheme.bodyText2!
+                            .copyWith(fontWeight: FontWeight.w600))))
           ],
         ),
       ).paddingBottom(8));
@@ -565,7 +615,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                 alignment: Alignment.topRight,
                                 child: Text(
                                   "close",
-                                  style: MyTheme.textTheme.bodyText1!.copyWith(color: MyTheme.scoopRed),
+                                  style: MyTheme.textTheme.bodyText1!
+                                      .copyWith(color: MyTheme.scoopRed),
                                 )),
                           ),
                         ],
@@ -584,8 +635,10 @@ class _PaymentPageState extends State<PaymentPage> {
                           ],
                           formControl: form.controls["ccnumber"],
                           validationMessages: (control) => {
-                            ValidationMessage.minLength: 'Invalid Credit Card Number',
-                            ValidationMessage.maxLength: 'Invalid Credit Card Number',
+                            ValidationMessage.minLength:
+                                'Invalid Credit Card Number',
+                            ValidationMessage.maxLength:
+                                'Invalid Credit Card Number',
                           },
                           onChanged: (v) {
                             if (v.length == 16) {
@@ -651,8 +704,10 @@ class _PaymentPageState extends State<PaymentPage> {
                                 keyboardType: TextInputType.number,
                                 focusNode: focusCVC,
                                 validationMessages: (control) => {
-                                  ValidationMessage.minLength: 'Please provide a valid CVC code',
-                                  ValidationMessage.maxLength: 'Please provide a valid CVC code',
+                                  ValidationMessage.minLength:
+                                      'Please provide a valid CVC code',
+                                  ValidationMessage.maxLength:
+                                      'Please provide a valid CVC code',
                                 },
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
@@ -682,8 +737,10 @@ class _PaymentPageState extends State<PaymentPage> {
                         ),
                       ).paddingBottom(MyTheme.elementSpacing),
                       ResponsiveBuilder(builder: (context, constraints) {
-                        if (constraints.deviceScreenType == DeviceScreenType.mobile ||
-                            constraints.deviceScreenType == DeviceScreenType.watch) {
+                        if (constraints.deviceScreenType ==
+                                DeviceScreenType.mobile ||
+                            constraints.deviceScreenType ==
+                                DeviceScreenType.watch) {
                           return SizedBox(
                             width: MyTheme.drawerSize,
                             child: Column(
@@ -703,19 +760,30 @@ class _PaymentPageState extends State<PaymentPage> {
                                             cardLoading = true;
                                           });
                                           StripeCard card = StripeCard(
-                                              number: form.value["ccnumber"] as String,
-                                              cvc: (form.value["cvc"] as int).toString(),
-                                              last4: (form.value["ccnumber"] as String).substring(12),
-                                              expMonth: form.value["month"] as int,
-                                              expYear: form.value["year"] as int);
+                                              number: form.value["ccnumber"]
+                                                  as String,
+                                              cvc: (form.value["cvc"] as int)
+                                                  .toString(),
+                                              last4: (form.value["ccnumber"]
+                                                      as String)
+                                                  .substring(12),
+                                              expMonth:
+                                                  form.value["month"] as int,
+                                              expYear:
+                                                  form.value["year"] as int);
                                           Map<String, dynamic> data =
-                                              await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                              await Stripe.instance.api
+                                                  .createPaymentMethodFromCard(
+                                                      card);
                                           PaymentMethod pm = PaymentMethod(
                                               data["id"],
                                               data["card"]["last4"],
                                               data["card"]["brand"],
-                                              DateTime(form.value["year"] as int, form.value["month"] as int));
-                                          bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
+                                              DateTime(
+                                                  form.value["year"] as int,
+                                                  form.value["month"] as int));
+                                          bloc.add(EventConfirmSetupIntent(pm,
+                                              _saveCreditCard, widget.event));
                                         } catch (e) {
                                           print(e);
                                         } finally {
@@ -725,7 +793,8 @@ class _PaymentPageState extends State<PaymentPage> {
                                         }
                                       }
                                     },
-                                    child: state is StateLoadingPaymentMethod || cardLoading
+                                    child: state is StateLoadingPaymentMethod ||
+                                            cardLoading
                                         ? ScoopButtonProgressIndicator()
                                         : Text(
                                             "Add Card",
@@ -743,7 +812,8 @@ class _PaymentPageState extends State<PaymentPage> {
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                   primary: MyTheme.scoopGreen,
-                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8))),
                               onPressed: () async {
                                 form.markAllAsTouched();
                                 if (form.valid) {
@@ -752,20 +822,27 @@ class _PaymentPageState extends State<PaymentPage> {
                                       cardLoading = true;
                                     });
                                     StripeCard card = StripeCard(
-                                        number: form.value["ccnumber"] as String,
-                                        cvc: (form.value["cvc"] as int).toString(),
-                                        last4: (form.value["ccnumber"] as String).substring(12),
+                                        number:
+                                            form.value["ccnumber"] as String,
+                                        cvc: (form.value["cvc"] as int)
+                                            .toString(),
+                                        last4:
+                                            (form.value["ccnumber"] as String)
+                                                .substring(12),
                                         expMonth: form.value["month"] as int,
                                         expYear: form.value["year"] as int);
-                                    Map<String, dynamic> data =
-                                        await Stripe.instance.api.createPaymentMethodFromCard(card);
+                                    Map<String, dynamic> data = await Stripe
+                                        .instance.api
+                                        .createPaymentMethodFromCard(card);
                                     PaymentMethod pm = PaymentMethod(
                                         data["id"],
                                         data["card"]["last4"],
                                         data["card"]["brand"],
-                                        DateTime(form.value["year"] as int, form.value["month"] as int));
+                                        DateTime(form.value["year"] as int,
+                                            form.value["month"] as int));
                                     print(pm.id);
-                                    bloc.add(EventConfirmSetupIntent(pm, _saveCreditCard, widget.event));
+                                    bloc.add(EventConfirmSetupIntent(
+                                        pm, _saveCreditCard, widget.event));
                                   } catch (e) {
                                     print(e);
                                   } finally {
@@ -777,7 +854,8 @@ class _PaymentPageState extends State<PaymentPage> {
                               },
                               child: Text(
                                 "Add Card",
-                                style: MyTheme.textTheme.button!.copyWith(color: MyTheme.scoopBackgroundColor),
+                                style: MyTheme.textTheme.button!.copyWith(
+                                    color: MyTheme.scoopBackgroundColor),
                               ),
                             ),
                           );
@@ -785,15 +863,19 @@ class _PaymentPageState extends State<PaymentPage> {
                       }),
                     ],
                   ).paddingAll(MyTheme.elementSpacing),
-                ).appolloCard(color: MyTheme.scoopBackgroundColor).paddingBottom(MyTheme.elementSpacing),
+                )
+                    .appolloCard(color: MyTheme.scoopBackgroundColor)
+                    .paddingBottom(MyTheme.elementSpacing),
               )
             : Container(
                     child: Center(
                         child: Text(
                 "Change Payment Method",
-                style: MyTheme.textTheme.subtitle1!.copyWith(color: MyTheme.scoopGreen),
+                style: MyTheme.textTheme.subtitle1!
+                    .copyWith(color: MyTheme.scoopGreen),
               ).paddingAll(8)))
-                .appolloCard(color: MyTheme.scoopBackgroundColorLight.withAlpha(120)),
+                .appolloCard(
+                    color: MyTheme.scoopBackgroundColorLight.withAlpha(120)),
       ),
     ).paddingBottom(MyTheme.elementSpacing);
   }

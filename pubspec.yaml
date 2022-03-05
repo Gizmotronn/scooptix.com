@@ -56,11 +56,14 @@ dependencies:
   easy_image_viewer: ^1.0.3
   ui_basics:
     git:
-      url: git@github.com:scooptix/ui-basics.git
+      url: https://github.com/Aashrit-Garg/ui-basics.git
+      ref: main
   ui_dropdown:
     git:
-      url: git@github.com:scooptix/ui-dropdown.git
-
+      url: https://github.com/Aashrit-Garg/ui-dropdown.git
+      ref: main
+  firebase_storage_platform_interface: 4.0.14
+  cloud_firestore_platform_interface: 5.4.13
 
 dev_dependencies:
   integration_test:
